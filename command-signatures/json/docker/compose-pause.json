@@ -1,0 +1,10 @@
+{
+  "name": "pause",
+  "description": "Pause services",
+  "args": {
+    "generators": {
+      "script": "_NuFrRa_e => {\n    if (e.includes(\"-f\")) {\n      let s = e.indexOf(\"-f\");\n      return \"docker-compose -f \".concat(e[s + 1], \" config --services\");\n    }\n\n    return \"docker-compose config --services\";\n  }",
+      "splitOn": "\n"
+    }
+  }
+}

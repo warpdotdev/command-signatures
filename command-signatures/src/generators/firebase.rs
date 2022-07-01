@@ -1,0 +1,25 @@
+use regex::Regex;
+use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+
+use lazy_static::lazy_static;
+
+pub fn generator() -> CommandGenerators {
+    CommandGenerators::new("firebase").add_generator(
+        "project_aliases",
+        Generator::new("firebase projects:list", |output| {
+            RE.captures_iter(output)
+                // First element is the table header
+                .skip(1)
+                .filter_map(|capture| {
+                    capture.get(1).map(|project_name| {
+                        Suggestion::with_description(project_name.as_str().trim(), "ProjectAlias")
+                    })
+                })
+                .collect::<Vec<_>>()
+        }),
+    )
+}
+
+lazy_static! {
+    static ref RE: Regex = Regex::new(r"(?m)^│ (\w.*?)│").unwrap();
+}

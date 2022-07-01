@@ -1,0 +1,35 @@
+{
+  "name": "nrm",
+  "description": "Use the right package manage - remove",
+  "options": [
+    {
+      "name": "-g",
+      "description": "Operates in 'global' mode, so that packages are removed from the prefix folder instead of the current working directory"
+    },
+    {
+      "name": "-D",
+      "description": "Package will be removed from your `devDependencies`"
+    },
+    {
+      "name": "-P",
+      "description": "Remove package from your `peerDependencies`"
+    },
+    {
+      "name": "-O",
+      "description": "Remove package from your `optionalDependencies`"
+    },
+    {
+      "name": "--frozen",
+      "description": "Don't generate a lockfile and fail if an update is needed"
+    },
+    { "name": ["-h", "--help"], "description": "Output usage information" }
+  ],
+  "args": {
+    "name": "package",
+    "generators": {
+      "trigger": "_NuFrRa_e => e === \"-g\" || e === \"--global\"",
+      "custom": "_NuFrRa_async function (e, n) {\n    if (!e.includes(\"-g\") && !e.includes(\"--global\")) {\n      var _a$dependencies, _a$optionalDependenci;\n\n      let t = await n(\"until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json\"),\n          a = JSON.parse(t),\n          o = (_a$dependencies = a.dependencies) !== null && _a$dependencies !== void 0 ? _a$dependencies : {},\n          p = a.devDependencies,\n          d = (_a$optionalDependenci = a.optionalDependencies) !== null && _a$optionalDependenci !== void 0 ? _a$optionalDependenci : {};\n      return Object.assign(o, p, d), Object.keys(o).filter(s => !e.some(u => u === s)).map(s => ({\n        name: s,\n        icon: \"\\u{1F4E6}\",\n        description: o[s] ? \"dependency\" : d[s] ? \"optionalDependency\" : \"devDependency\"\n      }));\n    } else return (await n(\"ls -1 `npm root -g`\")).split(\"\\n\").map(a => ({\n      name: a,\n      icon: \"\\u{1F4E6}\",\n      description: \"Global dependency\"\n    }));\n  }"
+    },
+    "isVariadic": true
+  }
+}

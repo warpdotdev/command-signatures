@@ -1,0 +1,3768 @@
+{
+  "name": "deno",
+  "description": "A secure JavaScript and TypeScript runtime",
+  "subcommands": [
+    {
+      "name": "bundle",
+      "description": "Bundle module and dependencies into a single file",
+      "args": [
+        {
+          "name": "source",
+          "description": "The source file to bundle",
+          "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+          }
+        },
+        {
+          "name": "output",
+          "description": "The output file",
+          "template": "folders",
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        }
+      ]
+    },
+    {
+      "name": "cache",
+      "description": "Cache and compile remote dependencies, recursively",
+      "args": {
+        "name": "script",
+        "description": "The script(s) to cache",
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        },
+        "isVariadic": true
+      },
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        }
+      ]
+    },
+    {
+      "name": "compile",
+      "description": "UNSTABLE: Compile the script into a self-contained executable",
+      "args": [
+        {
+          "name": "script",
+          "description": "The source to be compiled",
+          "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+          }
+        },
+        {
+          "name": "arguments",
+          "description": "Arguments to be provided to the script",
+          "isOptional": true,
+          "isVariadic": true
+        }
+      ],
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-A", "--allow-all"],
+          "description": "Allow all permissions"
+        },
+        {
+          "name": "--allow-env",
+          "description": "Allow environment access",
+          "requiresEquals": true,
+          "args": {
+            "name": "variable",
+            "description": "Comma-separated list of environment variables to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-ffi",
+          "description": "Allow loading dynamic libraries",
+          "requiresEquals": true,
+          "args": {
+            "name": "library",
+            "description": "The path of the dynamic library to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-hrtime",
+          "description": "Allow high resolution time measurement"
+        },
+        {
+          "name": "--allow-net",
+          "description": "Allow network access",
+          "requiresEquals": true,
+          "args": { "name": "hosts", "isOptional": true }
+        },
+        {
+          "name": "--allow-read",
+          "description": "Allow file system read access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            },
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-run",
+          "description": "Allow running subprocesses",
+          "requiresEquals": true,
+          "args": { "name": "executables", "isOptional": true }
+        },
+        {
+          "name": "--allow-write",
+          "description": "Allow file system write access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "isOptional": true,
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            }
+          }
+        },
+        {
+          "name": "--prompt",
+          "description": "Fallback to prompt if required permission wasn't passed"
+        },
+        {
+          "name": "--unsafely-ignore-certificate-errors",
+          "description": "DANGER: Disables verification of TLS certificates",
+          "isDangerous": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "host names",
+            "description": "Scope ignoring certificate errors to these hosts",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": ["-o", "--output"],
+          "description": "Location of the output binary (default: ./<inferred-name>)",
+          "args": { "name": "destination", "template": "folders" }
+        },
+        {
+          "name": "--target",
+          "description": "The target OS architecture",
+          "args": {
+            "name": "arch",
+            "suggestions": [
+              {
+                "name": "x86_64-unknown-linux-gnu",
+                "icon": "fig://icon?type=cpu"
+              },
+              {
+                "name": "x86_64-pc-windows-msvc",
+                "icon": "fig://icon?type=cpu"
+              },
+              { "name": "x86_64-apple-darwin", "icon": "fig://icon?type=cpu" },
+              { "name": "aarch64-apple-darwin", "icon": "fig://icon?type=cpu" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "completions",
+      "description": "Generate shell completions",
+      "args": {
+        "name": "shell",
+        "description": "Generate completions for this shell",
+        "suggestions": ["zsh", "bash", "fish", "powershell", "elvish"]
+      }
+    },
+    {
+      "name": "coverage",
+      "description": "Print coverage reports from coverage profiles",
+      "options": [
+        {
+          "name": "--ignore",
+          "insertValue": "--ignore=",
+          "description": "Ignore coverage files",
+          "requiresEquals": true,
+          "args": {
+            "name": "pattern",
+            "description": "Ignore files matching this regex pattern",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--include",
+          "insertValue": "--include=",
+          "description": "Include source files in the report",
+          "isRepeatable": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "pattern",
+            "description": "Include files matching this regex pattern",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--exclude",
+          "insertValue": "--exclude=",
+          "description": "Exclude source files from the report",
+          "isRepeatable": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "pattern",
+            "description": "Exclude files matching this regex pattern",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--lcov",
+          "description": "Output coverage in the lcov format"
+        }
+      ],
+      "args": {
+        "name": "coverage directory",
+        "isVariadic": true,
+        "template": "folders"
+      }
+    },
+    {
+      "name": "doc",
+      "description": "Show documentation for a module",
+      "args": [
+        {
+          "name": "scope",
+          "description": "The scope to get documentation for",
+          "suggestions": [
+            {
+              "name": "--builtin",
+              "description": "Get documentation for built-in symbols",
+              "icon": "fig://icon?type=option"
+            }
+          ],
+          "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+          },
+          "isOptional": true
+        },
+        {
+          "name": "filter",
+          "description": "The symbol to get documentation for (must exist in scope)",
+          "isOptional": true,
+          "generators": {
+            "script": "_NuFrRa_e => {\n        let t = e.slice(0, -1);\n        return t.includes(\"--json\") || t.push(\"--json\"), t.join(\" \");\n      }",
+            "trigger": "_NuFrRa_(e, t) => e.indexOf(\".\") !== t.indexOf(\".\")",
+            "getQueryTerm": "_NuFrRa_e => e.slice(e.indexOf(\".\") + 1)",
+            "postProcess": "_NuFrRa_(e, t) => {\n        let n;\n\n        try {\n          if (n = JSON.parse(e), !Array.isArray(n)) throw new Error(\"Output data was JSON, but was not an array\");\n        } catch (o) {\n          return console.error(\"Returning early due to error:\", o), [];\n        }\n\n        let a = !t.includes(\"--private\");\n        if (n.length === 0) return [];\n        let i = t[t.length - 1],\n            r = i.indexOf(\".\"),\n            x = r === -1,\n            p = [];\n        if (x) p.push(...n);else {\n          let o = i.slice(0, r),\n              N = n.filter(u => u.name === o);\n\n          for (let u of N) p.push(...M(u));\n\n          if (p.length === 0) return [];\n        }\n        let l = new Set();\n\n        for (let o of p) o.kind !== \"moduleDoc\" && (a && o.kind === \"import\" || l.add(o.name));\n\n        l.delete(\"<TODO>\"), l.delete(\"\");\n        let S = [];\n\n        for (let o of l) S.push(K(o));\n\n        return S;\n      }"
+          }
+        }
+      ],
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--json",
+          "description": "Output documentation in JSON format"
+        },
+        { "name": "--private", "description": "Output private documentation" }
+      ]
+    },
+    {
+      "name": "eval",
+      "insertValue": "eval '{cursor}'",
+      "description": "Evaluate JavaScript from the command line",
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--inspect",
+          "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect-brk",
+          "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": "--ext",
+          "description": "Set standard input (stdin) content type",
+          "args": {
+            "name": "extension",
+            "description": "Interpret stdin as this type of file",
+            "default": "ts",
+            "suggestions": ["ts", "tsx", "js", "jsx"]
+          }
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Print the result to stdout"
+        }
+      ],
+      "args": { "name": "code", "isVariadic": true }
+    },
+    {
+      "name": "fmt",
+      "description": "Auto-format JavaScript, TypeScript, Markdown, and JSON files",
+      "args": {
+        "name": "files",
+        "description": "Files to format",
+        "isOptional": true,
+        "isVariadic": true,
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        }
+      },
+      "options": [
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--check",
+          "description": "Check if the source files are formatted"
+        },
+        {
+          "name": "--ext",
+          "description": "Set standard input (stdin) content type",
+          "args": {
+            "name": "extension",
+            "description": "The extension to format input as",
+            "suggestions": ["ts", "tsx", "js", "jsx", "md", "json", "jsonc"]
+          }
+        },
+        {
+          "name": "--ignore",
+          "insertValue": "--ignore=",
+          "description": "Ignore formatting particular source files",
+          "requiresEquals": true,
+          "args": { "name": "Files to ignore", "template": "filepaths" }
+        },
+        {
+          "name": "--watch",
+          "description": "UNSTABLE: Watch for file changes and restart process automatically"
+        },
+        {
+          "name": "--options-use-tabs",
+          "description": "Use tabs instead of spaces"
+        },
+        {
+          "name": "--options-line-width",
+          "description": "Define the maximum line width",
+          "args": { "name": "width" }
+        },
+        {
+          "name": "--options-indent-width",
+          "description": "Set the number of spaces to use for indentation",
+          "args": { "name": "width" }
+        },
+        {
+          "name": "--options-single-quote",
+          "description": "Use single quotes"
+        },
+        {
+          "name": "--options-prose-wrap",
+          "description": "Define how markdown prose should be wrapped (default: always)",
+          "args": {
+            "default": "always",
+            "name": "wrap",
+            "suggestions": [
+              {
+                "name": "always",
+                "icon": "fig://icon?type=string",
+                "description": "Hard-wrap the entire file"
+              },
+              {
+                "name": "never",
+                "icon": "fig://icon?type=string",
+                "description": "Don't hard-wrap text"
+              },
+              {
+                "name": "preserve",
+                "icon": "fig://icon?type=string",
+                "description": "Hard-wrap text that's changed"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "info",
+      "description": "Show info about the cache or info related to a source file",
+      "options": [
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--location",
+          "description": "Show files used for origin-bound APIs (like Web Storage)",
+          "args": {
+            "name": "URL",
+            "description": "Show files used for this location"
+          }
+        },
+        {
+          "name": "--json",
+          "description": "UNSTABLE: Output information as JSON"
+        }
+      ],
+      "args": {
+        "name": "file",
+        "description": "The source file to show information for",
+        "isOptional": true,
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        }
+      }
+    },
+    {
+      "name": "install",
+      "description": "Install a script as an executable",
+      "args": [
+        {
+          "name": "source",
+          "description": "A local or remote JavaScript or TypeScript file",
+          "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+          }
+        },
+        {
+          "name": "args",
+          "description": "Arguments that will be provided automatically when run",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-A", "--allow-all"],
+          "description": "Allow all permissions"
+        },
+        {
+          "name": "--allow-env",
+          "description": "Allow environment access",
+          "requiresEquals": true,
+          "args": {
+            "name": "variable",
+            "description": "Comma-separated list of environment variables to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-ffi",
+          "description": "Allow loading dynamic libraries",
+          "requiresEquals": true,
+          "args": {
+            "name": "library",
+            "description": "The path of the dynamic library to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-hrtime",
+          "description": "Allow high resolution time measurement"
+        },
+        {
+          "name": "--allow-net",
+          "description": "Allow network access",
+          "requiresEquals": true,
+          "args": { "name": "hosts", "isOptional": true }
+        },
+        {
+          "name": "--allow-read",
+          "description": "Allow file system read access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            },
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-run",
+          "description": "Allow running subprocesses",
+          "requiresEquals": true,
+          "args": { "name": "executables", "isOptional": true }
+        },
+        {
+          "name": "--allow-write",
+          "description": "Allow file system write access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "isOptional": true,
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            }
+          }
+        },
+        {
+          "name": "--prompt",
+          "description": "Fallback to prompt if required permission wasn't passed"
+        },
+        {
+          "name": "--unsafely-ignore-certificate-errors",
+          "description": "DANGER: Disables verification of TLS certificates",
+          "isDangerous": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "host names",
+            "description": "Scope ignoring certificate errors to these hosts",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect",
+          "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect-brk",
+          "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": ["-n", "--name"],
+          "description": "Name of the executable",
+          "args": {
+            "name": "name",
+            "description": "The name the executable will have"
+          }
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Forcefully overwrite an existing installation"
+        },
+        {
+          "name": "--root",
+          "description": "The installation root",
+          "args": {
+            "name": "directory",
+            "description": "The directory that the script will be installed to",
+            "template": "folders"
+          }
+        }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "description": "Uninstalls an executable script in the installation root's bin directory",
+      "args": {
+        "name": "name",
+        "description": "Arguments that will be provided automatically when run",
+        "isVariadic": true
+      },
+      "options": [
+        {
+          "name": "--root",
+          "description": "The installation root",
+          "args": {
+            "name": "directory",
+            "description": "The directory that the script will be uninstalled from",
+            "template": "folders"
+          }
+        }
+      ]
+    },
+    {
+      "name": "lint",
+      "description": "Lint JavaScript and TypeScript source code",
+      "args": {
+        "name": "files",
+        "description": "Files to lint",
+        "isOptional": true,
+        "isVariadic": true,
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        }
+      },
+      "options": [
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--rules",
+          "description": "List available rules",
+          "exclusiveOn": ["--rules-tags", "--rules-include", "--rules-exclude"]
+        },
+        {
+          "name": "--ignore",
+          "description": "Ignore linting particular source files",
+          "requiresEquals": true,
+          "args": {
+            "name": "files",
+            "template": "filepaths",
+            "description": "The files to ignore",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--json",
+          "description": "Output lint result in JSON format"
+        },
+        {
+          "name": "--rules-tags",
+          "description": "Use a set of rules with a tag",
+          "exclusiveOn": ["--rules"],
+          "args": {
+            "name": "rules",
+            "generators": {
+              "script": "deno lint --rules --json",
+              "getQueryTerm": ",",
+              "cache": { "ttl": 86400000 },
+              "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+            }
+          }
+        },
+        {
+          "name": "--rules-include",
+          "description": "Include lint rules",
+          "exclusiveOn": ["--rules"],
+          "args": {
+            "name": "rules",
+            "generators": {
+              "script": "deno lint --rules --json",
+              "getQueryTerm": ",",
+              "cache": { "ttl": 86400000 },
+              "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+            }
+          }
+        },
+        {
+          "name": "--rules-exclude",
+          "description": "Exclude lint rules",
+          "exclusiveOn": ["--rules"],
+          "args": {
+            "name": "rules",
+            "generators": {
+              "script": "deno lint --rules --json",
+              "getQueryTerm": ",",
+              "cache": { "ttl": 86400000 },
+              "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+            }
+          }
+        },
+        {
+          "name": "--watch",
+          "description": "UNSTABLE: Watch for file changes and restart process automatically"
+        }
+      ]
+    },
+    { "name": "lsp", "description": "Start the language server" },
+    {
+      "name": "repl",
+      "description": "Open an interactive read-eval-print loop",
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--inspect",
+          "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect-brk",
+          "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": "--eval",
+          "insertValue": "--eval '{cursor}'",
+          "description": "Evaluate this code when the REPL starts",
+          "args": { "name": "code", "description": "The code to evaluate" }
+        }
+      ]
+    },
+    {
+      "name": "run",
+      "description": "Run a JavaScript or TypeScript program",
+      "args": {
+        "name": "script",
+        "description": "The JavaScript or TypeScript file to run",
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        }
+      },
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-A", "--allow-all"],
+          "description": "Allow all permissions"
+        },
+        {
+          "name": "--allow-env",
+          "description": "Allow environment access",
+          "requiresEquals": true,
+          "args": {
+            "name": "variable",
+            "description": "Comma-separated list of environment variables to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-ffi",
+          "description": "Allow loading dynamic libraries",
+          "requiresEquals": true,
+          "args": {
+            "name": "library",
+            "description": "The path of the dynamic library to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-hrtime",
+          "description": "Allow high resolution time measurement"
+        },
+        {
+          "name": "--allow-net",
+          "description": "Allow network access",
+          "requiresEquals": true,
+          "args": { "name": "hosts", "isOptional": true }
+        },
+        {
+          "name": "--allow-read",
+          "description": "Allow file system read access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            },
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-run",
+          "description": "Allow running subprocesses",
+          "requiresEquals": true,
+          "args": { "name": "executables", "isOptional": true }
+        },
+        {
+          "name": "--allow-write",
+          "description": "Allow file system write access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "isOptional": true,
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            }
+          }
+        },
+        {
+          "name": "--prompt",
+          "description": "Fallback to prompt if required permission wasn't passed"
+        },
+        {
+          "name": "--unsafely-ignore-certificate-errors",
+          "description": "DANGER: Disables verification of TLS certificates",
+          "isDangerous": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "host names",
+            "description": "Scope ignoring certificate errors to these hosts",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect",
+          "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          },
+          "exclusiveOn": ["--watch"]
+        },
+        {
+          "name": "--inspect-brk",
+          "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          },
+          "exclusiveOn": ["--watch"]
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": "--watch",
+          "description": "UNSTABLE: Watch for file changes and restart process automatically",
+          "exclusiveOn": ["--inspect", "--inspect-brk"]
+        }
+      ]
+    },
+    {
+      "name": "test",
+      "description": "Run tests using Deno's built-in test runner",
+      "args": {
+        "name": "paths",
+        "description": "The paths of tests to run",
+        "isOptional": true,
+        "isVariadic": true,
+        "generators": {
+          "template": "filepaths",
+          "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+        }
+      },
+      "options": [
+        {
+          "name": "--import-map",
+          "description": "Load an import map from a local file or remote URL",
+          "args": {
+            "name": "source",
+            "description": "The location of the import map (can be a URL)",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--no-remote",
+          "description": "Do not resolve remote modules"
+        },
+        {
+          "name": ["-c", "--config"],
+          "description": "Load a configuration file",
+          "args": {
+            "name": "config file",
+            "description": "The config file to load",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        { "name": "--no-check", "description": "Skip type checking modules" },
+        {
+          "name": ["-r", "--reload"],
+          "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+          "requiresEquals": true,
+          "args": {
+            "name": "cache blocklist",
+            "description": "A comma-separated list of URLs to block from the cache",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--lock",
+          "description": "Check the specified lock file",
+          "args": {
+            "name": "lock file",
+            "description": "The location of the JSON lock file",
+            "generators": {
+              "template": "filepaths",
+              "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+            }
+          }
+        },
+        {
+          "name": "--lock-write",
+          "description": "Write lock file",
+          "dependsOn": ["--lock"]
+        },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-A", "--allow-all"],
+          "description": "Allow all permissions"
+        },
+        {
+          "name": "--allow-env",
+          "description": "Allow environment access",
+          "requiresEquals": true,
+          "args": {
+            "name": "variable",
+            "description": "Comma-separated list of environment variables to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-ffi",
+          "description": "Allow loading dynamic libraries",
+          "requiresEquals": true,
+          "args": {
+            "name": "library",
+            "description": "The path of the dynamic library to allow",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-hrtime",
+          "description": "Allow high resolution time measurement"
+        },
+        {
+          "name": "--allow-net",
+          "description": "Allow network access",
+          "requiresEquals": true,
+          "args": { "name": "hosts", "isOptional": true }
+        },
+        {
+          "name": "--allow-read",
+          "description": "Allow file system read access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            },
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--allow-run",
+          "description": "Allow running subprocesses",
+          "requiresEquals": true,
+          "args": { "name": "executables", "isOptional": true }
+        },
+        {
+          "name": "--allow-write",
+          "description": "Allow file system write access",
+          "requiresEquals": true,
+          "args": {
+            "name": "paths",
+            "isOptional": true,
+            "generators": {
+              "getQueryTerm": ",",
+              "trigger": ",",
+              "template": "filepaths"
+            }
+          }
+        },
+        {
+          "name": "--prompt",
+          "description": "Fallback to prompt if required permission wasn't passed"
+        },
+        {
+          "name": "--unsafely-ignore-certificate-errors",
+          "description": "DANGER: Disables verification of TLS certificates",
+          "isDangerous": true,
+          "requiresEquals": true,
+          "args": {
+            "name": "host names",
+            "description": "Scope ignoring certificate errors to these hosts",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect",
+          "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--inspect-brk",
+          "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+          "requiresEquals": true,
+          "args": {
+            "name": "host:port",
+            "description": "The host:port to activate the inspector on",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--cached-only",
+          "description": "Require that remote dependencies are already cached"
+        },
+        {
+          "name": "--location",
+          "description": "Value of 'globalThis.location' used by some web APIs",
+          "args": { "name": "URL" }
+        },
+        {
+          "name": "--v8-flags",
+          "insertValue": "--v8-flags=",
+          "description": "Set V8 command line options (for help: --v8-flags=--help",
+          "requiresEquals": true,
+          "args": { "name": "V8 flags", "description": "Flags to pass to V8" }
+        },
+        {
+          "name": "--seed",
+          "description": "Seed Math.random()",
+          "args": {
+            "name": "number",
+            "description": "The number to use as the seed for Math.random()"
+          }
+        },
+        {
+          "name": "--compat",
+          "dependsOn": ["--unstable"],
+          "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+        },
+        {
+          "name": "--ignore",
+          "insertValue": "--ignore=",
+          "description": "Ignore files",
+          "requiresEquals": true,
+          "args": {
+            "name": "Files to ignore",
+            "description": "Files matching this pattern will be ignored",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": "--no-run",
+          "description": "Cache test modules, but don't run tests",
+          "exclusiveOn": ["--watch"]
+        },
+        {
+          "name": "--doc",
+          "description": "UNSTABLE: Type check code blocks in documentation"
+        },
+        {
+          "name": "--fail-fast",
+          "description": "Stop after N errors (defaults to stopping after the first error)",
+          "requiresEquals": true,
+          "args": { "name": "number", "isOptional": true }
+        },
+        {
+          "name": "--allow-none",
+          "description": "Don't return error code if no test files are found"
+        },
+        {
+          "name": "--filter",
+          "description": "Run tests with this string or pattern in the test name",
+          "args": {
+            "name": "pattern",
+            "description": "The pattern to match against"
+          }
+        },
+        {
+          "name": "--shuffle",
+          "description": "UNSTABLE: Shuffle the order in which tests are run",
+          "requiresEquals": true,
+          "args": { "name": "number", "isOptional": true }
+        },
+        {
+          "name": "--coverage",
+          "insertValue": "--coverage=",
+          "description": "UNSTABLE: Collect coverage profile data into the directory",
+          "requiresEquals": true,
+          "args": {
+            "name": "directory",
+            "description": "The directory to use for coverage data",
+            "template": "folders"
+          },
+          "exclusiveOn": ["--watch"]
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Set the number of parallel workers. With no value, the number of CPU cores. Defaults to 1 if omitted",
+          "args": {
+            "name": "number",
+            "description": "The number of parallel workers (defaults to number of CPU cores)",
+            "isOptional": true
+          }
+        },
+        {
+          "name": "--watch",
+          "description": "UNSTABLE: Watch for file changes and restart process automatically",
+          "exclusiveOn": ["--no-run", "--coverage"]
+        }
+      ]
+    },
+    {
+      "name": "types",
+      "description": "Print Deno's runtime TypeScript declarations"
+    },
+    {
+      "name": "upgrade",
+      "description": "Upgrade the deno executable",
+      "options": [
+        {
+          "name": "--version",
+          "description": "The version to upgrade to",
+          "args": {
+            "name": "version",
+            "generators": {
+              "script": "curl -sL 'https://cdn.deno.land/deno/meta/versions.json'",
+              "cache": { "ttl": 86400000 },
+              "postProcess": "_NuFrRa_e => JSON.parse(e).versions.map(n => ({\n          name: n.startsWith(\"v\") ? n.slice(1) : n\n        }))"
+            }
+          }
+        },
+        {
+          "name": "--output",
+          "description": "Output path of the downloaded binary",
+          "args": { "name": "path", "template": "filepaths" }
+        },
+        {
+          "name": "--dry-run",
+          "description": "Perform all checks without replacing the old version"
+        },
+        { "name": "--canary", "description": "Upgrade to a canary build" },
+        {
+          "name": "--cert",
+          "description": "Load certificate authority from a PEM encoded file",
+          "args": {
+            "name": "certificate file",
+            "description": "The certificate file to load",
+            "template": "filepaths"
+          }
+        }
+      ]
+    },
+    {
+      "name": "help",
+      "description": "Print help information for the CLI or a subcommand",
+      "args": {
+        "name": "subcommand",
+        "description": "The subcommand to get help with",
+        "isOptional": true,
+        "suggestions": [
+          {
+            "name": "bundle",
+            "description": "Bundle module and dependencies into a single file",
+            "args": [
+              {
+                "name": "source",
+                "description": "The source file to bundle",
+                "generators": {
+                  "template": "filepaths",
+                  "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+                }
+              },
+              {
+                "name": "output",
+                "description": "The output file",
+                "template": "folders",
+                "isOptional": true
+              }
+            ],
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              }
+            ]
+          },
+          {
+            "name": "cache",
+            "description": "Cache and compile remote dependencies, recursively",
+            "args": {
+              "name": "script",
+              "description": "The script(s) to cache",
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              },
+              "isVariadic": true
+            },
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              }
+            ]
+          },
+          {
+            "name": "compile",
+            "description": "UNSTABLE: Compile the script into a self-contained executable",
+            "args": [
+              {
+                "name": "script",
+                "description": "The source to be compiled",
+                "generators": {
+                  "template": "filepaths",
+                  "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+                }
+              },
+              {
+                "name": "arguments",
+                "description": "Arguments to be provided to the script",
+                "isOptional": true,
+                "isVariadic": true
+              }
+            ],
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": ["-A", "--allow-all"],
+                "description": "Allow all permissions"
+              },
+              {
+                "name": "--allow-env",
+                "description": "Allow environment access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "variable",
+                  "description": "Comma-separated list of environment variables to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-ffi",
+                "description": "Allow loading dynamic libraries",
+                "requiresEquals": true,
+                "args": {
+                  "name": "library",
+                  "description": "The path of the dynamic library to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-hrtime",
+                "description": "Allow high resolution time measurement"
+              },
+              {
+                "name": "--allow-net",
+                "description": "Allow network access",
+                "requiresEquals": true,
+                "args": { "name": "hosts", "isOptional": true }
+              },
+              {
+                "name": "--allow-read",
+                "description": "Allow file system read access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  },
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-run",
+                "description": "Allow running subprocesses",
+                "requiresEquals": true,
+                "args": { "name": "executables", "isOptional": true }
+              },
+              {
+                "name": "--allow-write",
+                "description": "Allow file system write access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "isOptional": true,
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  }
+                }
+              },
+              {
+                "name": "--prompt",
+                "description": "Fallback to prompt if required permission wasn't passed"
+              },
+              {
+                "name": "--unsafely-ignore-certificate-errors",
+                "description": "DANGER: Disables verification of TLS certificates",
+                "isDangerous": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "host names",
+                  "description": "Scope ignoring certificate errors to these hosts",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": ["-o", "--output"],
+                "description": "Location of the output binary (default: ./<inferred-name>)",
+                "args": { "name": "destination", "template": "folders" }
+              },
+              {
+                "name": "--target",
+                "description": "The target OS architecture",
+                "args": {
+                  "name": "arch",
+                  "suggestions": [
+                    {
+                      "name": "x86_64-unknown-linux-gnu",
+                      "icon": "fig://icon?type=cpu"
+                    },
+                    {
+                      "name": "x86_64-pc-windows-msvc",
+                      "icon": "fig://icon?type=cpu"
+                    },
+                    {
+                      "name": "x86_64-apple-darwin",
+                      "icon": "fig://icon?type=cpu"
+                    },
+                    {
+                      "name": "aarch64-apple-darwin",
+                      "icon": "fig://icon?type=cpu"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "completions",
+            "description": "Generate shell completions",
+            "args": {
+              "name": "shell",
+              "description": "Generate completions for this shell",
+              "suggestions": ["zsh", "bash", "fish", "powershell", "elvish"]
+            }
+          },
+          {
+            "name": "coverage",
+            "description": "Print coverage reports from coverage profiles",
+            "options": [
+              {
+                "name": "--ignore",
+                "insertValue": "--ignore=",
+                "description": "Ignore coverage files",
+                "requiresEquals": true,
+                "args": {
+                  "name": "pattern",
+                  "description": "Ignore files matching this regex pattern",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--include",
+                "insertValue": "--include=",
+                "description": "Include source files in the report",
+                "isRepeatable": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "pattern",
+                  "description": "Include files matching this regex pattern",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--exclude",
+                "insertValue": "--exclude=",
+                "description": "Exclude source files from the report",
+                "isRepeatable": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "pattern",
+                  "description": "Exclude files matching this regex pattern",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--lcov",
+                "description": "Output coverage in the lcov format"
+              }
+            ],
+            "args": {
+              "name": "coverage directory",
+              "isVariadic": true,
+              "template": "folders"
+            }
+          },
+          {
+            "name": "doc",
+            "description": "Show documentation for a module",
+            "args": [
+              {
+                "name": "scope",
+                "description": "The scope to get documentation for",
+                "suggestions": [
+                  {
+                    "name": "--builtin",
+                    "description": "Get documentation for built-in symbols",
+                    "icon": "fig://icon?type=option"
+                  }
+                ],
+                "generators": {
+                  "template": "filepaths",
+                  "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+                },
+                "isOptional": true
+              },
+              {
+                "name": "filter",
+                "description": "The symbol to get documentation for (must exist in scope)",
+                "isOptional": true,
+                "generators": {
+                  "script": "_NuFrRa_e => {\n        let t = e.slice(0, -1);\n        return t.includes(\"--json\") || t.push(\"--json\"), t.join(\" \");\n      }",
+                  "trigger": "_NuFrRa_(e, t) => e.indexOf(\".\") !== t.indexOf(\".\")",
+                  "getQueryTerm": "_NuFrRa_e => e.slice(e.indexOf(\".\") + 1)",
+                  "postProcess": "_NuFrRa_(e, t) => {\n        let n;\n\n        try {\n          if (n = JSON.parse(e), !Array.isArray(n)) throw new Error(\"Output data was JSON, but was not an array\");\n        } catch (o) {\n          return console.error(\"Returning early due to error:\", o), [];\n        }\n\n        let a = !t.includes(\"--private\");\n        if (n.length === 0) return [];\n        let i = t[t.length - 1],\n            r = i.indexOf(\".\"),\n            x = r === -1,\n            p = [];\n        if (x) p.push(...n);else {\n          let o = i.slice(0, r),\n              N = n.filter(u => u.name === o);\n\n          for (let u of N) p.push(...M(u));\n\n          if (p.length === 0) return [];\n        }\n        let l = new Set();\n\n        for (let o of p) o.kind !== \"moduleDoc\" && (a && o.kind === \"import\" || l.add(o.name));\n\n        l.delete(\"<TODO>\"), l.delete(\"\");\n        let S = [];\n\n        for (let o of l) S.push(K(o));\n\n        return S;\n      }"
+                }
+              }
+            ],
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--json",
+                "description": "Output documentation in JSON format"
+              },
+              {
+                "name": "--private",
+                "description": "Output private documentation"
+              }
+            ]
+          },
+          {
+            "name": "eval",
+            "insertValue": "eval '{cursor}'",
+            "description": "Evaluate JavaScript from the command line",
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--inspect",
+                "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect-brk",
+                "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": "--ext",
+                "description": "Set standard input (stdin) content type",
+                "args": {
+                  "name": "extension",
+                  "description": "Interpret stdin as this type of file",
+                  "default": "ts",
+                  "suggestions": ["ts", "tsx", "js", "jsx"]
+                }
+              },
+              {
+                "name": ["-p", "--print"],
+                "description": "Print the result to stdout"
+              }
+            ],
+            "args": { "name": "code", "isVariadic": true }
+          },
+          {
+            "name": "fmt",
+            "description": "Auto-format JavaScript, TypeScript, Markdown, and JSON files",
+            "args": {
+              "name": "files",
+              "description": "Files to format",
+              "isOptional": true,
+              "isVariadic": true,
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              }
+            },
+            "options": [
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--check",
+                "description": "Check if the source files are formatted"
+              },
+              {
+                "name": "--ext",
+                "description": "Set standard input (stdin) content type",
+                "args": {
+                  "name": "extension",
+                  "description": "The extension to format input as",
+                  "suggestions": [
+                    "ts",
+                    "tsx",
+                    "js",
+                    "jsx",
+                    "md",
+                    "json",
+                    "jsonc"
+                  ]
+                }
+              },
+              {
+                "name": "--ignore",
+                "insertValue": "--ignore=",
+                "description": "Ignore formatting particular source files",
+                "requiresEquals": true,
+                "args": { "name": "Files to ignore", "template": "filepaths" }
+              },
+              {
+                "name": "--watch",
+                "description": "UNSTABLE: Watch for file changes and restart process automatically"
+              },
+              {
+                "name": "--options-use-tabs",
+                "description": "Use tabs instead of spaces"
+              },
+              {
+                "name": "--options-line-width",
+                "description": "Define the maximum line width",
+                "args": { "name": "width" }
+              },
+              {
+                "name": "--options-indent-width",
+                "description": "Set the number of spaces to use for indentation",
+                "args": { "name": "width" }
+              },
+              {
+                "name": "--options-single-quote",
+                "description": "Use single quotes"
+              },
+              {
+                "name": "--options-prose-wrap",
+                "description": "Define how markdown prose should be wrapped (default: always)",
+                "args": {
+                  "default": "always",
+                  "name": "wrap",
+                  "suggestions": [
+                    {
+                      "name": "always",
+                      "icon": "fig://icon?type=string",
+                      "description": "Hard-wrap the entire file"
+                    },
+                    {
+                      "name": "never",
+                      "icon": "fig://icon?type=string",
+                      "description": "Don't hard-wrap text"
+                    },
+                    {
+                      "name": "preserve",
+                      "icon": "fig://icon?type=string",
+                      "description": "Hard-wrap text that's changed"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "name": "info",
+            "description": "Show info about the cache or info related to a source file",
+            "options": [
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--location",
+                "description": "Show files used for origin-bound APIs (like Web Storage)",
+                "args": {
+                  "name": "URL",
+                  "description": "Show files used for this location"
+                }
+              },
+              {
+                "name": "--json",
+                "description": "UNSTABLE: Output information as JSON"
+              }
+            ],
+            "args": {
+              "name": "file",
+              "description": "The source file to show information for",
+              "isOptional": true,
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              }
+            }
+          },
+          {
+            "name": "install",
+            "description": "Install a script as an executable",
+            "args": [
+              {
+                "name": "source",
+                "description": "A local or remote JavaScript or TypeScript file",
+                "generators": {
+                  "template": "filepaths",
+                  "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+                }
+              },
+              {
+                "name": "args",
+                "description": "Arguments that will be provided automatically when run",
+                "isVariadic": true,
+                "isOptional": true
+              }
+            ],
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": ["-A", "--allow-all"],
+                "description": "Allow all permissions"
+              },
+              {
+                "name": "--allow-env",
+                "description": "Allow environment access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "variable",
+                  "description": "Comma-separated list of environment variables to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-ffi",
+                "description": "Allow loading dynamic libraries",
+                "requiresEquals": true,
+                "args": {
+                  "name": "library",
+                  "description": "The path of the dynamic library to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-hrtime",
+                "description": "Allow high resolution time measurement"
+              },
+              {
+                "name": "--allow-net",
+                "description": "Allow network access",
+                "requiresEquals": true,
+                "args": { "name": "hosts", "isOptional": true }
+              },
+              {
+                "name": "--allow-read",
+                "description": "Allow file system read access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  },
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-run",
+                "description": "Allow running subprocesses",
+                "requiresEquals": true,
+                "args": { "name": "executables", "isOptional": true }
+              },
+              {
+                "name": "--allow-write",
+                "description": "Allow file system write access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "isOptional": true,
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  }
+                }
+              },
+              {
+                "name": "--prompt",
+                "description": "Fallback to prompt if required permission wasn't passed"
+              },
+              {
+                "name": "--unsafely-ignore-certificate-errors",
+                "description": "DANGER: Disables verification of TLS certificates",
+                "isDangerous": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "host names",
+                  "description": "Scope ignoring certificate errors to these hosts",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect",
+                "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect-brk",
+                "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": ["-n", "--name"],
+                "description": "Name of the executable",
+                "args": {
+                  "name": "name",
+                  "description": "The name the executable will have"
+                }
+              },
+              {
+                "name": ["-f", "--force"],
+                "description": "Forcefully overwrite an existing installation"
+              },
+              {
+                "name": "--root",
+                "description": "The installation root",
+                "args": {
+                  "name": "directory",
+                  "description": "The directory that the script will be installed to",
+                  "template": "folders"
+                }
+              }
+            ]
+          },
+          {
+            "name": "uninstall",
+            "description": "Uninstalls an executable script in the installation root's bin directory",
+            "args": {
+              "name": "name",
+              "description": "Arguments that will be provided automatically when run",
+              "isVariadic": true
+            },
+            "options": [
+              {
+                "name": "--root",
+                "description": "The installation root",
+                "args": {
+                  "name": "directory",
+                  "description": "The directory that the script will be uninstalled from",
+                  "template": "folders"
+                }
+              }
+            ]
+          },
+          {
+            "name": "lint",
+            "description": "Lint JavaScript and TypeScript source code",
+            "args": {
+              "name": "files",
+              "description": "Files to lint",
+              "isOptional": true,
+              "isVariadic": true,
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              }
+            },
+            "options": [
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--rules",
+                "description": "List available rules",
+                "exclusiveOn": [
+                  "--rules-tags",
+                  "--rules-include",
+                  "--rules-exclude"
+                ]
+              },
+              {
+                "name": "--ignore",
+                "description": "Ignore linting particular source files",
+                "requiresEquals": true,
+                "args": {
+                  "name": "files",
+                  "template": "filepaths",
+                  "description": "The files to ignore",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--json",
+                "description": "Output lint result in JSON format"
+              },
+              {
+                "name": "--rules-tags",
+                "description": "Use a set of rules with a tag",
+                "exclusiveOn": ["--rules"],
+                "args": {
+                  "name": "rules",
+                  "generators": {
+                    "script": "deno lint --rules --json",
+                    "getQueryTerm": ",",
+                    "cache": { "ttl": 86400000 },
+                    "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+                  }
+                }
+              },
+              {
+                "name": "--rules-include",
+                "description": "Include lint rules",
+                "exclusiveOn": ["--rules"],
+                "args": {
+                  "name": "rules",
+                  "generators": {
+                    "script": "deno lint --rules --json",
+                    "getQueryTerm": ",",
+                    "cache": { "ttl": 86400000 },
+                    "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+                  }
+                }
+              },
+              {
+                "name": "--rules-exclude",
+                "description": "Exclude lint rules",
+                "exclusiveOn": ["--rules"],
+                "args": {
+                  "name": "rules",
+                  "generators": {
+                    "script": "deno lint --rules --json",
+                    "getQueryTerm": ",",
+                    "cache": { "ttl": 86400000 },
+                    "postProcess": "_NuFrRa_e => JSON.parse(e).map(n => ({\n    name: n.code,\n    description: n.docs.slice(0, n.docs.indexOf(\"\\n\\n\")),\n    icon: \"fig://icon?type=string\"\n  }))"
+                  }
+                }
+              },
+              {
+                "name": "--watch",
+                "description": "UNSTABLE: Watch for file changes and restart process automatically"
+              }
+            ]
+          },
+          { "name": "lsp", "description": "Start the language server" },
+          {
+            "name": "repl",
+            "description": "Open an interactive read-eval-print loop",
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--inspect",
+                "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect-brk",
+                "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": "--eval",
+                "insertValue": "--eval '{cursor}'",
+                "description": "Evaluate this code when the REPL starts",
+                "args": {
+                  "name": "code",
+                  "description": "The code to evaluate"
+                }
+              }
+            ]
+          },
+          {
+            "name": "run",
+            "description": "Run a JavaScript or TypeScript program",
+            "args": {
+              "name": "script",
+              "description": "The JavaScript or TypeScript file to run",
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              }
+            },
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": ["-A", "--allow-all"],
+                "description": "Allow all permissions"
+              },
+              {
+                "name": "--allow-env",
+                "description": "Allow environment access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "variable",
+                  "description": "Comma-separated list of environment variables to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-ffi",
+                "description": "Allow loading dynamic libraries",
+                "requiresEquals": true,
+                "args": {
+                  "name": "library",
+                  "description": "The path of the dynamic library to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-hrtime",
+                "description": "Allow high resolution time measurement"
+              },
+              {
+                "name": "--allow-net",
+                "description": "Allow network access",
+                "requiresEquals": true,
+                "args": { "name": "hosts", "isOptional": true }
+              },
+              {
+                "name": "--allow-read",
+                "description": "Allow file system read access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  },
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-run",
+                "description": "Allow running subprocesses",
+                "requiresEquals": true,
+                "args": { "name": "executables", "isOptional": true }
+              },
+              {
+                "name": "--allow-write",
+                "description": "Allow file system write access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "isOptional": true,
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  }
+                }
+              },
+              {
+                "name": "--prompt",
+                "description": "Fallback to prompt if required permission wasn't passed"
+              },
+              {
+                "name": "--unsafely-ignore-certificate-errors",
+                "description": "DANGER: Disables verification of TLS certificates",
+                "isDangerous": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "host names",
+                  "description": "Scope ignoring certificate errors to these hosts",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect",
+                "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                },
+                "exclusiveOn": ["--watch"]
+              },
+              {
+                "name": "--inspect-brk",
+                "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                },
+                "exclusiveOn": ["--watch"]
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": "--watch",
+                "description": "UNSTABLE: Watch for file changes and restart process automatically",
+                "exclusiveOn": ["--inspect", "--inspect-brk"]
+              }
+            ]
+          },
+          {
+            "name": "test",
+            "description": "Run tests using Deno's built-in test runner",
+            "args": {
+              "name": "paths",
+              "description": "The paths of tests to run",
+              "isOptional": true,
+              "isVariadic": true,
+              "generators": {
+                "template": "filepaths",
+                "filterTemplateSuggestions": "_NuFrRa_a => {\n      let i = [];\n\n      for (let r of a) {\n        if (r.type === \"folder\") {\n          i.push(r);\n          continue;\n        }\n\n        t.test(r.name) && (r.priority = n, i.push(r));\n      }\n\n      return i;\n    }"
+              }
+            },
+            "options": [
+              {
+                "name": "--import-map",
+                "description": "Load an import map from a local file or remote URL",
+                "args": {
+                  "name": "source",
+                  "description": "The location of the import map (can be a URL)",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-remote",
+                "description": "Do not resolve remote modules"
+              },
+              {
+                "name": ["-c", "--config"],
+                "description": "Load a configuration file",
+                "args": {
+                  "name": "config file",
+                  "description": "The config file to load",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--no-check",
+                "description": "Skip type checking modules"
+              },
+              {
+                "name": ["-r", "--reload"],
+                "description": "Reload source code cache (recompile TypeScript, download dependencies)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "cache blocklist",
+                  "description": "A comma-separated list of URLs to block from the cache",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--lock",
+                "description": "Check the specified lock file",
+                "args": {
+                  "name": "lock file",
+                  "description": "The location of the JSON lock file",
+                  "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_a => {\n      for (let i of a) t.has(i.name) && (i.priority = n);\n\n      return a;\n    }"
+                  }
+                }
+              },
+              {
+                "name": "--lock-write",
+                "description": "Write lock file",
+                "dependsOn": ["--lock"]
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": ["-A", "--allow-all"],
+                "description": "Allow all permissions"
+              },
+              {
+                "name": "--allow-env",
+                "description": "Allow environment access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "variable",
+                  "description": "Comma-separated list of environment variables to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-ffi",
+                "description": "Allow loading dynamic libraries",
+                "requiresEquals": true,
+                "args": {
+                  "name": "library",
+                  "description": "The path of the dynamic library to allow",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-hrtime",
+                "description": "Allow high resolution time measurement"
+              },
+              {
+                "name": "--allow-net",
+                "description": "Allow network access",
+                "requiresEquals": true,
+                "args": { "name": "hosts", "isOptional": true }
+              },
+              {
+                "name": "--allow-read",
+                "description": "Allow file system read access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  },
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--allow-run",
+                "description": "Allow running subprocesses",
+                "requiresEquals": true,
+                "args": { "name": "executables", "isOptional": true }
+              },
+              {
+                "name": "--allow-write",
+                "description": "Allow file system write access",
+                "requiresEquals": true,
+                "args": {
+                  "name": "paths",
+                  "isOptional": true,
+                  "generators": {
+                    "getQueryTerm": ",",
+                    "trigger": ",",
+                    "template": "filepaths"
+                  }
+                }
+              },
+              {
+                "name": "--prompt",
+                "description": "Fallback to prompt if required permission wasn't passed"
+              },
+              {
+                "name": "--unsafely-ignore-certificate-errors",
+                "description": "DANGER: Disables verification of TLS certificates",
+                "isDangerous": true,
+                "requiresEquals": true,
+                "args": {
+                  "name": "host names",
+                  "description": "Scope ignoring certificate errors to these hosts",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect",
+                "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--inspect-brk",
+                "description": "Activate inspector on host:port and break at the start of user script (default: 127.0.0.1:9229)",
+                "requiresEquals": true,
+                "args": {
+                  "name": "host:port",
+                  "description": "The host:port to activate the inspector on",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--cached-only",
+                "description": "Require that remote dependencies are already cached"
+              },
+              {
+                "name": "--location",
+                "description": "Value of 'globalThis.location' used by some web APIs",
+                "args": { "name": "URL" }
+              },
+              {
+                "name": "--v8-flags",
+                "insertValue": "--v8-flags=",
+                "description": "Set V8 command line options (for help: --v8-flags=--help",
+                "requiresEquals": true,
+                "args": {
+                  "name": "V8 flags",
+                  "description": "Flags to pass to V8"
+                }
+              },
+              {
+                "name": "--seed",
+                "description": "Seed Math.random()",
+                "args": {
+                  "name": "number",
+                  "description": "The number to use as the seed for Math.random()"
+                }
+              },
+              {
+                "name": "--compat",
+                "dependsOn": ["--unstable"],
+                "description": "Node compatibility mode. Currently only enables builtin modules like 'fs'"
+              },
+              {
+                "name": "--ignore",
+                "insertValue": "--ignore=",
+                "description": "Ignore files",
+                "requiresEquals": true,
+                "args": {
+                  "name": "Files to ignore",
+                  "description": "Files matching this pattern will be ignored",
+                  "template": "filepaths"
+                }
+              },
+              {
+                "name": "--no-run",
+                "description": "Cache test modules, but don't run tests",
+                "exclusiveOn": ["--watch"]
+              },
+              {
+                "name": "--doc",
+                "description": "UNSTABLE: Type check code blocks in documentation"
+              },
+              {
+                "name": "--fail-fast",
+                "description": "Stop after N errors (defaults to stopping after the first error)",
+                "requiresEquals": true,
+                "args": { "name": "number", "isOptional": true }
+              },
+              {
+                "name": "--allow-none",
+                "description": "Don't return error code if no test files are found"
+              },
+              {
+                "name": "--filter",
+                "description": "Run tests with this string or pattern in the test name",
+                "args": {
+                  "name": "pattern",
+                  "description": "The pattern to match against"
+                }
+              },
+              {
+                "name": "--shuffle",
+                "description": "UNSTABLE: Shuffle the order in which tests are run",
+                "requiresEquals": true,
+                "args": { "name": "number", "isOptional": true }
+              },
+              {
+                "name": "--coverage",
+                "insertValue": "--coverage=",
+                "description": "UNSTABLE: Collect coverage profile data into the directory",
+                "requiresEquals": true,
+                "args": {
+                  "name": "directory",
+                  "description": "The directory to use for coverage data",
+                  "template": "folders"
+                },
+                "exclusiveOn": ["--watch"]
+              },
+              {
+                "name": ["-j", "--jobs"],
+                "description": "Set the number of parallel workers. With no value, the number of CPU cores. Defaults to 1 if omitted",
+                "args": {
+                  "name": "number",
+                  "description": "The number of parallel workers (defaults to number of CPU cores)",
+                  "isOptional": true
+                }
+              },
+              {
+                "name": "--watch",
+                "description": "UNSTABLE: Watch for file changes and restart process automatically",
+                "exclusiveOn": ["--no-run", "--coverage"]
+              }
+            ]
+          },
+          {
+            "name": "types",
+            "description": "Print Deno's runtime TypeScript declarations"
+          },
+          {
+            "name": "upgrade",
+            "description": "Upgrade the deno executable",
+            "options": [
+              {
+                "name": "--version",
+                "description": "The version to upgrade to",
+                "args": {
+                  "name": "version",
+                  "generators": {
+                    "script": "curl -sL 'https://cdn.deno.land/deno/meta/versions.json'",
+                    "cache": { "ttl": 86400000 },
+                    "postProcess": "_NuFrRa_e => JSON.parse(e).versions.map(n => ({\n          name: n.startsWith(\"v\") ? n.slice(1) : n\n        }))"
+                  }
+                }
+              },
+              {
+                "name": "--output",
+                "description": "Output path of the downloaded binary",
+                "args": { "name": "path", "template": "filepaths" }
+              },
+              {
+                "name": "--dry-run",
+                "description": "Perform all checks without replacing the old version"
+              },
+              {
+                "name": "--canary",
+                "description": "Upgrade to a canary build"
+              },
+              {
+                "name": "--cert",
+                "description": "Load certificate authority from a PEM encoded file",
+                "args": {
+                  "name": "certificate file",
+                  "description": "The certificate file to load",
+                  "template": "filepaths"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "options": [
+    {
+      "name": ["-h", "--help"],
+      "description": "Prints help information",
+      "isPersistent": true,
+      "priority": 40
+    },
+    {
+      "name": ["-L", "--log-level"],
+      "description": "Set log level",
+      "isPersistent": true,
+      "priority": 40,
+      "args": { "suggestions": ["info", "debug"] }
+    },
+    {
+      "name": ["-q", "--quiet"],
+      "description": "Suppress diagnostic output (restrict stderr messages to errors)",
+      "isPersistent": true
+    },
+    {
+      "name": "--unstable",
+      "description": "Enable unstable features and APIs",
+      "isPersistent": true
+    },
+    {
+      "name": "--version",
+      "description": "Prints version information, including TypeScript and V8",
+      "exclusiveOn": ["-V"]
+    },
+    {
+      "name": "-V",
+      "description": "Prints Deno's version",
+      "exclusiveOn": ["--version"],
+      "priority": 25
+    }
+  ]
+}

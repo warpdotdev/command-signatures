@@ -1,0 +1,12 @@
+{
+  "name": "rails",
+  "description": "Ruby on Rails CLI",
+  "generateSpec": "_NuFrRa_async (n, e) => (await d(e)) ? {\n    name: \"rails\",\n    subcommands: m\n  } : {\n    name: \"rails\",\n    subcommands: [c]\n  }",
+  "args": {
+    "generators": {
+      "custom": "_NuFrRa_async (n, e) => {\n    if (!(await d(e))) return [];\n    let i = [];\n\n    try {\n      let t = await e(\"rails --tasks\"),\n          a = m.map(r => r.name);\n      i = Array.from(t.matchAll(/rails ([^ ]+)/g)).map(r => ({\n        name: r[1]\n      })).filter(r => !a.includes(r.name));\n    } catch (t) {\n      console.log(\"ERROR\", t);\n    }\n\n    return i;\n  }",
+      "cache": { "ttl": 259200000, "cacheByDirectory": true }
+    },
+    "isOptional": true
+  }
+}

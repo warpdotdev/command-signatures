@@ -1,0 +1,45 @@
+{
+  "name": "kubectx",
+  "description": "Switch between Kubernetes-contexts",
+  "additionalSuggestions": [
+    {
+      "name": "-",
+      "priority": 85,
+      "description": "Switch to previous context",
+      "icon": "fig://icon?type=asterisk"
+    }
+  ],
+  "parserDirectives": { "flagsArePosixNoncompliant": true },
+  "options": [
+    { "name": ["--help", "-h"], "description": "Show help for kubectx" },
+    { "name": ["--current", "-c"], "description": "Show current context" },
+    { "name": ["--unset", "-u"], "description": "Unset the current context" },
+    {
+      "name": "-d",
+      "description": "Delete context",
+      "isDangerous": true,
+      "args": {
+        "name": "context",
+        "isVariadic": true,
+        "generators": {
+          "script": "kubectx",
+          "postProcess": "_NuFrRa_e => {\n          let t = e.split(\"\\n\").map(i => ({\n            name: i,\n            priority: 95,\n            icon: \"fig://icon?type=kubernetes\"\n          }));\n          return [{\n            name: \".\",\n            description: \"Delete current context\",\n            priority: 90,\n            icon: \"fig://icon?type=asterisk\"\n          }, ...t];\n        }"
+        }
+      }
+    }
+  ],
+  "args": {
+    "name": "context",
+    "generators": [
+      {
+        "script": "kubectx | grep -v $(kubectx -c)",
+        "postProcess": "_NuFrRa_e => e.split(\"\\n\").map(t => ({\n        name: t,\n        priority: 90,\n        icon: \"fig://icon?type=kubernetes\"\n      }))"
+      },
+      {
+        "script": "kubectx -c",
+        "postProcess": "_NuFrRa_e => e ? [{\n        name: e,\n        priority: 100,\n        icon: \"\\u2B50\\uFE0F\"\n      }] : []"
+      }
+    ],
+    "isOptional": true
+  }
+}

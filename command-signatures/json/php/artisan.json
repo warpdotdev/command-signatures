@@ -1,0 +1,5 @@
+{
+  "name": "artisan",
+  "description": "Laravel Artisan Command",
+  "generateSpec": "_NuFrRa_async (c, a) => {\n    var o = await a(\"php artisan list --format=json\");\n    let i = [];\n\n    try {\n      JSON.parse(o).commands.map(t => {\n        i.push({\n          name: t.name,\n          description: t.description,\n          icon: \"https://web.tinkerwell.app/img/laravel.3cab6a56.png\",\n          args: Object.keys(t.definition.arguments).map(e => {\n            let n = t.definition.arguments[e];\n            return {\n              name: n.name,\n              description: n.description,\n              isOptional: !n.is_required\n            };\n          }),\n          options: Object.keys(t.definition.options).map(e => {\n            let n = t.definition.options[e],\n                s = [n.name];\n            return n.shortcut !== \"\" && s.push(n.shortcut), {\n              name: s,\n              description: n.description\n            };\n          })\n        });\n      });\n    } catch (r) {}\n\n    return {\n      name: \"artisan\",\n      debounce: !0,\n      subcommands: i\n    };\n  }"
+}

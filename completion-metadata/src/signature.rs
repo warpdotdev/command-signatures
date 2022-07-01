@@ -1,0 +1,274 @@
+use super::Suggestion;
+use crate::Generators;
+use serde::{Deserialize, Serialize};
+use std::fmt::{Debug, Formatter};
+
+pub struct AnnotatedFlag<'a> {
+    pub name: &'a str,
+    pub description: Option<&'a str>,
+}
+
+/// A `Signature` defines a command or a subcommand.
+/// `Signature`s are recursive.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Signature {
+    pub name: String,
+    pub description: Option<String>,
+    pub arguments: Option<Vec<Argument>>,
+    pub subcommands: Option<Vec<Signature>>,
+    pub options: Option<Vec<Opt>>,
+}
+
+impl Signature {
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+
+    pub fn arguments(&self) -> &[Argument] {
+        self.arguments.as_deref().unwrap_or(&[])
+    }
+
+    pub fn subcommands(&self) -> &[Signature] {
+        self.subcommands.as_deref().unwrap_or(&[])
+    }
+
+    pub fn options(&self) -> &[Opt] {
+        self.options.as_deref().unwrap_or(&[])
+    }
+}
+
+impl Signature {
+    /// Returns a list of the short-hand flags.
+    // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
+    pub fn short_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag> + '_ {
+        self.options
+            .iter()
+            .flat_map(|options| options.iter())
+            .flat_map(|option| {
+                option.exact_string.iter().filter_map(|name| {
+                    (name.starts_with('-') && !name.starts_with("--")).then(|| AnnotatedFlag {
+                        name: &name[1..],
+                        description: option.description.as_deref(),
+                    })
+                })
+            })
+    }
+
+    /// Returns a list of long-hand flags.
+    // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
+    pub fn long_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag> + '_ {
+        self.options
+            .iter()
+            .flat_map(|options| options.iter())
+            .flat_map(|option| {
+                option.exact_string.iter().filter_map(|name| {
+                    (name.starts_with("--")).then(|| AnnotatedFlag {
+                        name: &name[2..],
+                        description: option.description.as_deref(),
+                    })
+                })
+            })
+    }
+}
+
+/// An `Opt` is an option. It adds information to a command.
+/// We use the shortname `Opt` here to avoid the conflict with std::Option
+/// It takes the forms of --name, -name, --name=arg, -name=arg, --name arg, -name arg.
+/// The ones that do not take an argument are called flags and are boolean.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct Opt {
+    // `--name`, `-n`, etc.
+    pub exact_string: Vec<String>,
+    pub description: Option<String>,
+    pub arguments: Option<Vec<Argument>>,
+    pub required: bool,
+}
+
+impl Opt {
+    pub fn names(&self) -> &[String] {
+        self.exact_string.as_slice()
+    }
+
+    pub fn arguments(&self) -> &[Argument] {
+        self.arguments.as_deref().unwrap_or_default()
+    }
+
+    pub fn is_switch(&self) -> bool {
+        match &self.arguments {
+            Some(args) => args.is_empty(),
+            None => true,
+        }
+    }
+
+    #[allow(dead_code)]
+    pub fn required(&self) -> bool {
+        self.required
+    }
+}
+
+impl Opt {
+    pub fn get_short_hand_flags(&self) -> Vec<String> {
+        self.exact_string
+            .iter()
+            .filter(|s| s.starts_with('-') && !s.starts_with("--"))
+            .map(|s| s[1..].to_string())
+            .collect()
+    }
+
+    pub fn get_long_hand_flags(&self) -> Vec<String> {
+        self.exact_string
+            .iter()
+            .filter(|s| s.starts_with("--"))
+            .map(|s| s[2..].to_string())
+            .collect()
+    }
+
+    // Whether the option has the given name.
+    pub fn has_name(&self, name: &str) -> bool {
+        self.exact_string.iter().any(|option_name| {
+            if let Some(rest) = option_name.strip_prefix("--") {
+                rest == name
+            } else if let Some(rest) = option_name.strip_prefix('-') {
+                rest == name
+            } else {
+                false
+            }
+        })
+    }
+}
+
+/// An `Argument` indicates when a Signature or an Opt takes a value as a parameter.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Argument {
+    pub display_name: Option<String>,
+    pub description: Option<String>,
+    // If the argument can be repeated a variable number of times (such as git add [file name...])
+    pub is_variadic: bool,
+    // `argument_types` is a vector because an argument can derive suggestions from multiple places.
+    // If empty, the  parser will accept any string.
+    pub argument_types: Vec<ArgumentType>,
+    pub optional: IsArgumentOptional,
+}
+
+impl Argument {
+    pub fn name(&self) -> Option<&str> {
+        self.display_name.as_deref()
+    }
+
+    pub fn is_variadic(&self) -> bool {
+        self.is_variadic
+    }
+
+    pub fn is_required(&self) -> bool {
+        matches!(self.optional, IsArgumentOptional::Required)
+    }
+
+    pub fn generator_by_name<'a>(
+        &self,
+        generators: Option<&'a Generators>,
+        generator_name: &GeneratorName,
+    ) -> Option<&'a Generator> {
+        let generators = match generators {
+            None => {
+                log::error!(
+                    "Argument {:?} specified generator {:?} but none are specified",
+                    &self.display_name,
+                    generator_name
+                );
+                return None;
+            }
+            Some(generators) => generators,
+        };
+
+        match generators.get(generator_name) {
+            None => {
+                log::error!(
+                    "Argument {:?} specified generator {:?} but it wasn't specified",
+                    &self.display_name,
+                    generator_name
+                );
+                None
+            }
+            Some(generator) => Some(generator),
+        }
+    }
+}
+
+type DefaultValue = String;
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub enum IsArgumentOptional {
+    Optional(Option<DefaultValue>),
+    Required,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub enum ArgumentType {
+    Suggestion(Suggestion),
+    Template(Template),
+    Generator(GeneratorName),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct GeneratorName(pub String);
+
+impl GeneratorName {
+    pub fn new(str: impl Into<String>) -> Self {
+        GeneratorName(str.into())
+    }
+}
+
+impl From<&'static str> for GeneratorName {
+    fn from(str: &'static str) -> Self {
+        Self(str.into())
+    }
+}
+
+/// A `Generator` runs a shell command and performs an action on the output to provide `Suggestion`s.
+#[derive(Clone)]
+pub struct Generator {
+    pub shell_command: String,
+    // For now, `on_complete` only processes stdout.
+    pub on_complete_callback: fn(&str) -> Vec<Suggestion>,
+}
+
+impl Generator {
+    pub fn new(
+        shell_command: impl Into<String>,
+        on_complete_callback: fn(&str) -> Vec<Suggestion>,
+    ) -> Self {
+        Generator {
+            shell_command: shell_command.into(),
+            on_complete_callback,
+        }
+    }
+}
+
+impl PartialEq for Generator {
+    fn eq(&self, other: &Self) -> bool {
+        // We don't factor in the callback for generator equality since it's impossible to compare
+        // two closures.
+        self.shell_command == other.shell_command
+    }
+}
+
+impl Generator {
+    pub fn on_complete(&self, input: &str) -> Vec<Suggestion> {
+        (self.on_complete_callback)(input)
+    }
+}
+
+impl Debug for Generator {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.shell_command.as_str())
+    }
+}
+
+/// Prebuilt `Generator`s
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub enum Template {
+    GitBranches,
+    Files,
+    Folders,
+    #[allow(dead_code)]
+    FilesAndFolders,
+}
