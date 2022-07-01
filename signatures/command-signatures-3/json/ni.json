@@ -1,0 +1,50 @@
+{
+  "name": "ni",
+  "description": "Use the right package manager - install",
+  "options": [
+    {
+      "name": "-g",
+      "description": "Operates in 'global' mode, so that packages are installed into the prefix folder instead of the current working directory"
+    },
+    {
+      "name": "-D",
+      "description": "Package will appear in your `devDependencies`"
+    },
+    { "name": "-P", "description": "Save package to your `peerDependencies`" },
+    {
+      "name": "-O",
+      "description": "Save package to your `optionalDependencies`"
+    },
+    {
+      "name": "--frozen",
+      "description": "Don't generate a lockfile and fail if an update is needed"
+    },
+    {
+      "name": "-C",
+      "description": "Change directory",
+      "args": [
+        {
+          "name": "directory",
+          "description": "The directory to move",
+          "template": "folders"
+        },
+        {
+          "name": "target",
+          "description": "The target directory",
+          "template": "folders"
+        }
+      ]
+    },
+    { "name": ["-h", "--help"], "description": "Output usage information" }
+  ],
+  "args": {
+    "name": "package",
+    "generators": {
+      "script": "function (e) {\n    return e[e.length - 1] === \"\" ? \"\" : \"curl -s -H \\\"Accept: application/json\\\" \\\"https://api.npms.io/v2/search?q=\".concat(e[e.length - 1], \"&size=20\\\"\");\n  }",
+      "cache": { "ttl": 25920000 },
+      "postProcess": "function (e) {\n    try {\n      return JSON.parse(e).results.map(n => ({\n        name: n.package.name,\n        description: n.package.description\n      }));\n    } catch (n) {\n      return [];\n    }\n  }"
+    },
+    "debounce": true,
+    "isVariadic": true
+  }
+}

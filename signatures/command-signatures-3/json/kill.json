@@ -1,0 +1,27 @@
+{
+  "name": "kill",
+  "description": "Terminate or signal a process",
+  "args": {
+    "name": "pid",
+    "isVariadic": true,
+    "generators": {
+      "script": "ps aux | sed 1d",
+      "postProcess": "_NuFrRa_e => e.split(\"\\n\").map(s => {\n        let [, i] = s.split(/\\s+/);\n        return {\n          name: i\n        };\n      })"
+    }
+  },
+  "options": [
+    {
+      "name": "-s",
+      "description": "A symbolic signal name specifying the signal to be sent",
+      "args": {
+        "name": "signal_name",
+        "generators": { "script": "kill -l", "splitOn": " " }
+      }
+    },
+    {
+      "name": "-l",
+      "description": "If no operand is given, list the signal names; otherwise, write the signal name corresponding to exit_status",
+      "args": { "name": "exit_status", "isOptional": true }
+    }
+  ]
+}

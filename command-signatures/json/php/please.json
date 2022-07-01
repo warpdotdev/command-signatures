@@ -1,0 +1,5 @@
+{
+  "name": "please",
+  "description": "Statamic Please command",
+  "generateSpec": "_NuFrRa_async (c, r) => {\n    let a = await r(\"php please list --format=json\"),\n        t = [];\n\n    try {\n      JSON.parse(a).commands.map(n => {\n        t.push({\n          name: n.name,\n          description: n.description,\n          args: Object.values(n.definition.arguments).map(e => ({\n            name: e.name,\n            description: e.description,\n            isOptional: !e.is_required\n          })),\n          options: Object.values(n.definition.options).map(e => {\n            let s = [e.name];\n            return e.shortcut !== \"\" && s.push(e.shortcut), {\n              name: s,\n              description: e.description\n            };\n          })\n        });\n      });\n    } catch (i) {\n      console.error(i);\n    }\n\n    return {\n      name: \"please\",\n      debounce: !0,\n      subcommands: t\n    };\n  }"
+}

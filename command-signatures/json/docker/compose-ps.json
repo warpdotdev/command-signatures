@@ -1,0 +1,23 @@
+{
+  "name": "ps",
+  "description": "List containers",
+  "args": {
+    "generators": {
+      "script": "_NuFrRa_e => {\n    if (e.includes(\"-f\")) {\n      let i = e.indexOf(\"-f\");\n      return \"docker-compose -f \".concat(e[i + 1], \" config --services\");\n    }\n\n    return \"docker-compose config --services\";\n  }",
+      "splitOn": "\n"
+    }
+  },
+  "options": [
+    { "name": ["-q", "--quiet"], "description": "Only display IDs" },
+    { "name": "--services", "description": "Display services" },
+    {
+      "name": "--filter",
+      "description": "Filter services by a property",
+      "args": { "name": "KEY=VAL" }
+    },
+    {
+      "name": ["-a", "--all"],
+      "description": "Show all stopped containers (including those created by the run command)"
+    }
+  ]
+}
