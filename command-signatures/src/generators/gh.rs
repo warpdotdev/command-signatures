@@ -1,7 +1,8 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
-
 use lazy_static::lazy_static;
 use regex::Regex;
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("gh")
@@ -27,7 +28,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -40,7 +41,7 @@ pub fn generator() -> CommandGenerators {
                         (split.len() >= 2)
                             .then(|| Suggestion::with_description(split[0].trim(), split[1].trim()))
                     })
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
 }

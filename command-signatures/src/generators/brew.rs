@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("brew").add_generator(
@@ -16,7 +18,7 @@ pub fn generator() -> CommandGenerators {
                             Some(Suggestion::new(line))
                         }
                     })
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             },
         ),
     ).add_generator(
@@ -32,7 +34,7 @@ pub fn generator() -> CommandGenerators {
 
                     Some(Suggestion::with_description(line, "Installed formula"))
                 })
-                .collect::<Vec<_>>()
+                .collect_from_unordered_suggestions()
         }),
     )
         .add_generator(
@@ -47,7 +49,7 @@ pub fn generator() -> CommandGenerators {
                         Suggestion::with_description(line.replace(".rb", ""), "formula")
 
                     })
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             }
         ),
     )
@@ -62,7 +64,7 @@ pub fn generator() -> CommandGenerators {
                         .map(|formula| {
                             Suggestion::with_description(formula, "Installed formula")
                         })
-                        .collect::<Vec<_>>()
+                        .collect_from_unordered_suggestions()
                 }
             ),
         )

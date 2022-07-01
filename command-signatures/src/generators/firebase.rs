@@ -1,5 +1,7 @@
 use regex::Regex;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 use lazy_static::lazy_static;
 
@@ -15,7 +17,7 @@ pub fn generator() -> CommandGenerators {
                         Suggestion::with_description(project_name.as_str().trim(), "ProjectAlias")
                     })
                 })
-                .collect::<Vec<_>>()
+                .collect_from_unordered_suggestions()
         }),
     )
 }

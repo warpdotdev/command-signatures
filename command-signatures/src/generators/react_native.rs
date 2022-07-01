@@ -2,7 +2,9 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use serde_json::Result;
 use std::collections::HashMap;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 lazy_static! {
     static ref LIST_RE: Regex = Regex::new(r"^(List)|\*").unwrap();
@@ -43,9 +45,9 @@ pub fn generator() -> CommandGenerators {
                 if let Ok(val) = output.parse::<usize>() {
                     (0..val)
                         .map(|val| Suggestion::new(val.to_string()))
-                        .collect::<Vec<_>>()
+                        .collect_from_unordered_suggestions()
                 } else {
-                    vec![]
+                    GeneratorResults::empty()
                 }
             }),
         )
@@ -61,10 +63,10 @@ pub fn generator() -> CommandGenerators {
                             .configurations
                             .into_iter()
                             .map(Suggestion::new)
-                            .collect::<Vec<_>>(),
+                            .collect_from_unordered_suggestions(),
                         Err(e) => {
                             log::info!("Unable to deserialize xcode build output: {:?}", e);
-                            vec![]
+                            GeneratorResults::empty()
                         }
                     }
                 },
@@ -82,10 +84,10 @@ pub fn generator() -> CommandGenerators {
                             .schemes
                             .into_iter()
                             .map(Suggestion::new)
-                            .collect::<Vec<_>>(),
+                            .collect_from_unordered_suggestions(),
                         Err(e) => {
                             log::info!("Unable to deserialize xcode build output: {:?}", e);
-                            vec![]
+                            GeneratorResults::empty()
                         }
                     }
                 },
@@ -109,7 +111,7 @@ pub fn generator() -> CommandGenerators {
 
                         None
                     })
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -122,10 +124,10 @@ pub fn generator() -> CommandGenerators {
                         .into_iter()
                         .flat_map(|(_, devices)| devices.into_iter())
                         .map(|device| Suggestion::new(device.name))
-                        .collect::<Vec<_>>(),
+                        .collect_from_unordered_suggestions(),
                     Err(e) => {
                         log::info!("Unable to deserialize xcrun output: {:?}", e);
-                        vec![]
+                        GeneratorResults::empty()
                     }
                 }
             }),
@@ -143,7 +145,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -162,7 +164,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -183,7 +185,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
 }
@@ -191,7 +193,7 @@ pub fn generator() -> CommandGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::react_native::generator;
-    use warp_completion_metadata::{GeneratorName, Suggestion};
+    use warp_completion_metadata::{GeneratorName, GeneratorResults, Suggestion};
 
     #[test]
     fn test_ios_devices_generator() {
@@ -209,11 +211,14 @@ Apple TV 4K (2nd generation) Simulator (15.0) (DF7E1802-6461-4A9A-BD1E-9C4AFE41F
             .on_complete(output);
         assert_eq!(
             output,
-            vec![
-                Suggestion::new("Aloke’s MacBook Pro"),
-                Suggestion::new("Apple TV Simulator (15.0)"),
-                Suggestion::new("Apple TV 4K (2nd generation) Simulator (15.0)")
-            ]
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion::new("Aloke’s MacBook Pro"),
+                    Suggestion::new("Apple TV Simulator (15.0)"),
+                    Suggestion::new("Apple TV 4K (2nd generation) Simulator (15.0)")
+                ],
+                is_ordered: false
+            }
         )
     }
 
@@ -253,10 +258,13 @@ Apple TV 4K (2nd generation) Simulator (15.0) (DF7E1802-6461-4A9A-BD1E-9C4AFE41F
             .on_complete(output);
         assert_eq!(
             output,
-            vec![
-                Suggestion::new("Apple TV"),
-                Suggestion::new("Apple TV 4K (2nd generation)"),
-            ]
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion::new("Apple TV"),
+                    Suggestion::new("Apple TV 4K (2nd generation)"),
+                ],
+                is_ordered: false
+            }
         )
     }
 }

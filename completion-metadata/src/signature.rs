@@ -223,18 +223,63 @@ impl From<&'static str> for GeneratorName {
     }
 }
 
-/// A `Generator` runs a shell command and performs an action on the output to provide `Suggestion`s.
+/// A Generator returns GeneratorResults. If is_ordered is true, then Warp
+/// will not reorder the suggestions. Otherwise, Warp will provide a default
+/// lexicographical sort over the suggestions.
+/// Note: any Suggestion in suggestions with priority other than Default
+/// will be treated separately and not sorted with the other suggestions.
+#[derive(Debug, PartialEq, Eq)]
+pub struct GeneratorResults {
+    pub suggestions: Vec<Suggestion>,
+    pub is_ordered: bool,
+}
+
+impl GeneratorResults {
+    pub fn empty() -> Self {
+        Self {
+            suggestions: vec![],
+            is_ordered: true, // vacuously true
+        }
+    }
+}
+
+/// Helper trait to transform an iterator over Suggestions into GeneratorResults.
+pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
+    fn collect_from_ordered_suggestions(self) -> GeneratorResults
+    where
+        Self: Sized,
+    {
+        GeneratorResults {
+            suggestions: self.collect(),
+            is_ordered: true,
+        }
+    }
+
+    fn collect_from_unordered_suggestions(self) -> GeneratorResults
+    where
+        Self: Sized,
+    {
+        GeneratorResults {
+            suggestions: self.collect(),
+            is_ordered: false,
+        }
+    }
+}
+
+impl<T> GeneratorResultsCollector for T where T: Iterator<Item = Suggestion> {}
+
+/// A `Generator` runs a shell command and performs an action on the output to provide GeneratorResults.
 #[derive(Clone)]
 pub struct Generator {
     pub shell_command: String,
     // For now, `on_complete` only processes stdout.
-    pub on_complete_callback: fn(&str) -> Vec<Suggestion>,
+    pub on_complete_callback: fn(&str) -> GeneratorResults,
 }
 
 impl Generator {
     pub fn new(
         shell_command: impl Into<String>,
-        on_complete_callback: fn(&str) -> Vec<Suggestion>,
+        on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
             shell_command: shell_command.into(),
@@ -252,7 +297,7 @@ impl PartialEq for Generator {
 }
 
 impl Generator {
-    pub fn on_complete(&self, input: &str) -> Vec<Suggestion> {
+    pub fn on_complete(&self, input: &str) -> GeneratorResults {
         (self.on_complete_callback)(input)
     }
 }

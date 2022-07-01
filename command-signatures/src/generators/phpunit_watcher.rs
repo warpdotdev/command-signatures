@@ -1,11 +1,13 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("phpunit").add_generator(
         "tests",
         Generator::new("phpunit --list-tests", |output| {
             if output.starts_with("fatal:") {
-                return vec![];
+                return GeneratorResults::empty();
             }
 
             output
@@ -18,7 +20,7 @@ pub fn generator() -> CommandGenerators {
                     }
                     None
                 })
-                .collect::<Vec<_>>()
+                .collect_from_unordered_suggestions()
         }),
     )
 }

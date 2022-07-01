@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("terraform")
@@ -14,14 +16,14 @@ pub fn generator() -> CommandGenerators {
                             "workspace",
                         )
                     })
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
             "address_list",
             Generator::new("terraform state list", |output| {
                 if output.contains("No state file was found!") || output.contains("Error") {
-                    return vec![];
+                    return GeneratorResults::empty();
                 }
 
                 output
@@ -29,7 +31,7 @@ pub fn generator() -> CommandGenerators {
                     .map(|address| {
                         Suggestion::with_description(address.replace("* ", "").trim(), "Address")
                     })
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
 }

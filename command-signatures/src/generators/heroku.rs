@@ -1,5 +1,7 @@
 use serde_json::Result;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 #[derive(serde::Deserialize)]
 struct HerokuAppOutput {
@@ -17,13 +19,13 @@ pub fn generator() -> CommandGenerators {
                 json_output
                     .into_iter()
                     .map(|heroku_output| Suggestion::new(heroku_output.name))
-                    .collect::<Vec<_>>()
+                    .collect_from_unordered_suggestions()
             } else {
                 log::info!(
                     "Unable to deserialize heroku output {:?}",
                     json_output.err().unwrap()
                 );
-                vec![]
+                GeneratorResults::empty()
             }
         }),
     )

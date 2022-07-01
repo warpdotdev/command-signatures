@@ -1,4 +1,7 @@
-use warp_completion_metadata::{CommandGenerators, Generator, GeneratorName, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
+    Suggestion,
+};
 
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -21,20 +24,20 @@ fn filter_messages(out: &str) -> &str {
     }
 }
 
-fn post_process_git_for_each_ref(output: &str) -> Vec<Suggestion> {
+fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .filter_map(|line| {
             (!line.is_empty()).then(|| Suggestion::with_description(line.trim(), "Branch"))
         })
-        .collect()
+        .collect_from_unordered_suggestions()
 }
 
-fn post_process_branches(out: &str) -> Vec<Suggestion> {
+fn post_process_branches(out: &str) -> GeneratorResults {
     let output = filter_messages(out);
 
     if output.starts_with("fatal:") {
-        vec![]
+        GeneratorResults::empty()
     } else {
         output
             .split('\n')
@@ -64,7 +67,7 @@ fn post_process_branches(out: &str) -> Vec<Suggestion> {
 
                 Some(Suggestion::with_description(name, "Branch"))
             })
-            .collect()
+            .collect_from_unordered_suggestions()
     }
 }
 
@@ -81,12 +84,12 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks log --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    vec![]
+                    GeneratorResults::empty()
                 } else {
                     output
                         .split('\n')
                         .filter_map(commit_line_to_suggestion)
-                        .collect()
+                        .collect_from_unordered_suggestions()
                 }
             }),
         )
@@ -109,7 +112,7 @@ pub fn generator() -> CommandGenerators {
                                 })
                             })
                         })
-                        .collect()
+                        .collect_from_unordered_suggestions()
                 },
             ),
         )
@@ -118,12 +121,12 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git rev-list --all --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    vec![]
+                    GeneratorResults::empty()
                 } else {
                     output
                         .split('\n')
                         .filter_map(commit_line_to_suggestion)
-                        .collect()
+                        .collect_from_unordered_suggestions()
                 }
             }),
         )
@@ -132,7 +135,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks stash list", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    vec![]
+                    GeneratorResults::empty()
                 } else {
                     output
                         .split('\n')
@@ -145,7 +148,7 @@ pub fn generator() -> CommandGenerators {
                                 description.trim(),
                             ))
                         })
-                        .collect()
+                        .collect_from_unordered_suggestions()
                 }
             }),
         )
@@ -156,13 +159,13 @@ pub fn generator() -> CommandGenerators {
                 |output| {
                     let output = filter_messages(output);
                     if output.starts_with("fatal:") {
-                        return vec![];
+                        return GeneratorResults::empty();
                     }
 
                     output
                         .split('\n')
                         .map(|file| Suggestion::with_description(file, "staged file"))
-                        .collect()
+                        .collect_from_unordered_suggestions()
                 },
             ),
         )
@@ -209,7 +212,7 @@ pub fn generator() -> CommandGenerators {
                 remote_urls
                     .drain()
                     .map(|(remote, _url)| Suggestion::with_description(remote, "remote"))
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -218,7 +221,7 @@ pub fn generator() -> CommandGenerators {
                 output
                     .split('\n')
                     .filter_map(|line| (!line.is_empty()).then(|| Suggestion::new(line)))
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
         .add_generator(
@@ -226,7 +229,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks status --short", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    return vec![];
+                    return GeneratorResults::empty();
                 }
 
                 output
@@ -243,7 +246,7 @@ pub fn generator() -> CommandGenerators {
                         }
                     })
                     .map(|(_working, file)| Suggestion::with_description(file, "Changed file"))
-                    .collect()
+                    .collect_from_unordered_suggestions()
             }),
         )
 }
@@ -251,7 +254,7 @@ pub fn generator() -> CommandGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::post_process_branches;
-    use warp_completion_metadata::Suggestion;
+    use warp_completion_metadata::{GeneratorResults, Suggestion};
 
     #[test]
     fn test_post_process_branches() {
@@ -263,13 +266,16 @@ mod tests {
 
         assert_eq!(
             post_process_branches(command_output),
-            vec![
-                Suggestion::with_description("_release/v0.2021.04.02.14.18._00", "Branch"),
-                Suggestion::with_description("aloke/add_new_generators", "Current branch"),
-                Suggestion::with_description("aloke/add_options", "Branch"),
-                Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
-                Suggestion::with_description("aloke/after_frame_hook", "Branch"),
-            ]
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion::with_description("_release/v0.2021.04.02.14.18._00", "Branch"),
+                    Suggestion::with_description("aloke/add_new_generators", "Current branch"),
+                    Suggestion::with_description("aloke/add_options", "Branch"),
+                    Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
+                    Suggestion::with_description("aloke/after_frame_hook", "Branch"),
+                ],
+                is_ordered: false,
+            }
         );
     }
 }
