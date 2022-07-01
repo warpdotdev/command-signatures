@@ -16,7 +16,7 @@ jobs:
       uses: actions-rs/cargo@v1
       with:
         command: fmt
-        args: --check
+        args: -p warp-command-signatures -p warp-completion-metadata
     - name: Run cargo clippy
       uses: actions-rs/cargo@v1
       with:
@@ -27,4 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run tests
-      run: cargo test --verbose
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose
