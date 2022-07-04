@@ -1,6 +1,6 @@
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
-    Suggestion,
+    Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -54,10 +54,11 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                             // We are in a detached HEAD state.
                             return None;
                         } else {
-                            return Some(Suggestion::with_description(
-                                elm.replace('*', "").trim(),
-                                "Current branch",
-                            ));
+                            return Some(Suggestion {
+                                exact_string: elm.replace('*', "").trim().to_owned(),
+                                description: Some("Current branch".to_owned()),
+                                priority: Priority::most_important(),
+                            });
                         }
                     } else if parts[0].as_str() == "+" {
                         let elm = elm.replace('+', "");
@@ -190,9 +191,10 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "local_branches",
-            Generator::new("git --no-optional-locks branch --no-color", |output| {
-                post_process_branches(output)
-            }),
+            Generator::new(
+                "git --no-optional-locks branch --no-color --sort=-committerdate",
+                post_process_branches,
+            ),
         )
         .add_generator(
             "remotes",
@@ -254,7 +256,7 @@ pub fn generator() -> CommandGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::post_process_branches;
-    use warp_completion_metadata::{GeneratorResults, Suggestion};
+    use warp_completion_metadata::{GeneratorResults, Priority, Suggestion};
 
     #[test]
     fn test_post_process_branches() {
@@ -269,7 +271,11 @@ mod tests {
             GeneratorResults {
                 suggestions: vec![
                     Suggestion::with_description("_release/v0.2021.04.02.14.18._00", "Branch"),
-                    Suggestion::with_description("aloke/add_new_generators", "Current branch"),
+                    Suggestion {
+                        exact_string: "aloke/add_new_generators".to_owned(),
+                        description: Some("Current branch".to_owned()),
+                        priority: Priority::most_important(),
+                    },
                     Suggestion::with_description("aloke/add_options", "Branch"),
                     Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
                     Suggestion::with_description("aloke/after_frame_hook", "Branch"),
