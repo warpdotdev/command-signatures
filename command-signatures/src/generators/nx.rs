@@ -1,6 +1,8 @@
 use serde_json::Result;
 use std::collections::HashMap;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -17,7 +19,7 @@ struct NxProject {
 fn process_workspace_json(
     output: &str,
     filter_fn: fn(project: &(String, NxProject)) -> bool,
-) -> Vec<Suggestion> {
+) -> GeneratorResults {
     let json_output: Result<NxOutput> = serde_json::from_str(output);
     match json_output {
         Ok(output) => output
@@ -25,19 +27,19 @@ fn process_workspace_json(
             .into_iter()
             .filter(filter_fn)
             .map(|(name, _)| Suggestion::new(name))
-            .collect::<Vec<_>>(),
+            .collect_unordered_results(),
         Err(e) => {
             log::info!("Unable to deserialize nx output: {:?}", e);
-            vec![]
+            GeneratorResults::default()
         }
     }
 }
 
-fn process_generators(output: &str) -> Vec<Suggestion> {
+fn process_generators(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .filter_map(|line| line.split(' ').next().map(Suggestion::new))
-        .collect::<Vec<_>>()
+        .collect_unordered_results()
 }
 
 pub fn generator() -> CommandGenerators {
@@ -87,12 +89,12 @@ pub fn generator() -> CommandGenerators {
                                     None
                                 }
                             })
-                            .collect::<Vec<_>>()
+                            .collect_unordered_results()
                     } else {
-                        vec![]
+                        GeneratorResults::default()
                     }
                 } else {
-                    vec![]
+                    GeneratorResults::default()
                 }
             }),
         )

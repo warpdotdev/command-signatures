@@ -1,6 +1,8 @@
 use lazy_static::lazy_static;
 use regex::Regex;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 lazy_static! {
     static ref RE: Regex = Regex::new(r"\s*\*").unwrap();
@@ -15,7 +17,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(1)
                     .filter_map(|line| (!line.is_empty()).then(|| Suggestion::new(line.trim())))
-                    .collect::<Vec<_>>()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -32,7 +34,7 @@ pub fn generator() -> CommandGenerators {
                             }
                         })
                     })
-                    .collect()
+                    .collect_unordered_results()
             }),
         )
 }

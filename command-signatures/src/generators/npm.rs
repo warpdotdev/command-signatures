@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 use serde_json::{Result, Value};
 use std::collections::HashMap;
@@ -33,7 +35,7 @@ fn get_scripts_generator() -> Generator {
         "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
         |output| {
             if output.trim().is_empty() {
-                return vec![];
+                return GeneratorResults::default();
             }
 
             let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
@@ -43,9 +45,9 @@ fn get_scripts_generator() -> Generator {
                     .scripts
                     .into_iter()
                     .map(|(key, value)| Suggestion::with_description(key, value))
-                    .collect::<Vec<_>>()
+                    .collect_unordered_results()
             } else {
-                vec![]
+                GeneratorResults::default()
             }
         },
     )
@@ -54,7 +56,7 @@ fn get_scripts_generator() -> Generator {
 fn config_list() -> Generator {
     Generator::new("yarn config list", |output| {
         if output.trim().is_empty() {
-            return vec![];
+            return GeneratorResults::default();
         }
 
         let start_index = output.find('{');
@@ -75,23 +77,23 @@ fn config_list() -> Generator {
                 return config_object
                     .into_iter()
                     .map(|(key, _)| Suggestion::new(key))
-                    .collect::<Vec<_>>();
+                    .collect_unordered_results();
             }
         }
-        vec![]
+        GeneratorResults::default()
     })
 }
 
 fn get_global_packages_generator() -> Generator {
     Generator::new(r#"cat "$(yarn global dir)/package.json""#, |output| {
         if output.trim().is_empty() {
-            return vec![];
+            return GeneratorResults::default();
         }
 
         let package_info: Option<PackageJsonInfo> = serde_json::from_str(output).ok();
 
         let package_info = match package_info {
-            None => return vec![],
+            None => return GeneratorResults::default(),
             Some(package_info) => package_info,
         };
 
@@ -100,7 +102,7 @@ fn get_global_packages_generator() -> Generator {
             .keys()
             .chain(package_info.dev_dependencies.keys())
             .map(Suggestion::new)
-            .collect()
+            .collect_unordered_results()
     })
 }
 
@@ -109,12 +111,12 @@ fn dependencies_generator() -> Generator {
         "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
         |output| {
             if output.trim().is_empty() {
-                return vec![];
+                return GeneratorResults::default();
             }
 
             let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
             let package_info = match package_info {
-                Err(_) => return vec![],
+                Err(_) => return GeneratorResults::default(),
                 Ok(package_info) => package_info,
             };
 
@@ -122,7 +124,7 @@ fn dependencies_generator() -> Generator {
                 .dependencies
                 .into_iter()
                 .map(|(key, _)| Suggestion::with_description(key, "dependency"))
-                .collect::<Vec<_>>();
+                .collect::<Vec<Suggestion>>();
 
             suggestions.extend(
                 package_info
@@ -137,7 +139,7 @@ fn dependencies_generator() -> Generator {
                     .into_iter()
                     .map(|(key, _)| Suggestion::with_description(key, "optionalDependency")),
             );
-            suggestions
+            suggestions.into_iter().collect_unordered_results()
         },
     )
 }
@@ -145,12 +147,12 @@ fn dependencies_generator() -> Generator {
 fn workspace_generator() -> Generator {
     Generator::new("cat package.json", |output| {
         if output.trim().is_empty() {
-            return vec![];
+            return GeneratorResults::default();
         }
 
         let package_info: Result<NpmPackageJsonInfo> = serde_json::from_str(output);
         let package_info = match package_info {
-            Err(_) => return vec![],
+            Err(_) => return GeneratorResults::default(),
             Ok(package_info) => package_info,
         };
 
@@ -158,7 +160,7 @@ fn workspace_generator() -> Generator {
             .workspaces
             .into_iter()
             .map(|name| Suggestion::with_description(name, "Workspaces"))
-            .collect()
+            .collect_unordered_results()
     })
 }
 
@@ -182,7 +184,7 @@ pub fn yarn_generators() -> CommandGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::npm::workspace_generator;
-    use warp_completion_metadata::Suggestion;
+    use warp_completion_metadata::{GeneratorResults, Suggestion};
 
     #[test]
     pub fn test_workspace_generator() {
@@ -211,7 +213,10 @@ mod tests {
         }"#;
         assert_eq!(
             workspace_generator().on_complete(output),
-            vec![Suggestion::with_description("packages/*", "Workspaces")]
+            GeneratorResults {
+                suggestions: vec![Suggestion::with_description("packages/*", "Workspaces")],
+                is_ordered: false
+            }
         );
     }
 }

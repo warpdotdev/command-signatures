@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 use serde_json::Result;
 
@@ -26,7 +28,7 @@ pub fn generator() -> CommandGenerators {
         "deployments",
         Generator::new("bosh-cli --json deployments", |output| {
             if output.starts_with("fatal:") {
-                return vec![];
+                return GeneratorResults::default();
             }
 
             let deployment: Result<BoshDeployment> = serde_json::from_str(output);
@@ -38,7 +40,7 @@ pub fn generator() -> CommandGenerators {
                         return rows
                             .into_iter()
                             .map(|row| Suggestion::with_description(row.name, "deployment"))
-                            .collect::<Vec<_>>();
+                            .collect_unordered_results();
                     }
                 }
             } else {
@@ -48,7 +50,7 @@ pub fn generator() -> CommandGenerators {
                 );
             }
 
-            vec![]
+            GeneratorResults::default()
         }),
     )
 }

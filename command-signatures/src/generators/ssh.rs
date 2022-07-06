@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh").add_generator(
@@ -15,7 +17,7 @@ pub fn generator() -> CommandGenerators {
                         None
                     }
                 })
-                .collect::<Vec<_>>()
+                .collect_unordered_results()
         }),
     )
 }

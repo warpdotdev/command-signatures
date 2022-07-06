@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("conda")
@@ -10,7 +12,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .map(Suggestion::new)
-                    .collect::<Vec<_>>()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -21,7 +23,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .filter_map(|line| line.split(' ').next().map(Suggestion::new))
-                    .collect::<Vec<_>>()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -32,7 +34,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .filter_map(|line| line.split(':').next().map(Suggestion::new))
-                    .collect::<Vec<_>>()
+                    .collect_unordered_results()
             }),
         )
 }

@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("tar").add_generator(
@@ -8,7 +10,7 @@ pub fn generator() -> CommandGenerators {
                 .trim()
                 .split('\n')
                 .map(Suggestion::new)
-                .collect::<Vec<_>>()
+                .collect_unordered_results()
         }),
     )
 }

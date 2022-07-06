@@ -1,6 +1,8 @@
 use serde_json::Result;
 use std::collections::HashMap;
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+};
 
 #[derive(serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -20,10 +22,10 @@ pub fn generator() -> CommandGenerators {
                     .map(|(project_name, config_output)| {
                         Suggestion::with_description(project_name, config_output.project_type)
                     })
-                    .collect::<Vec<_>>(),
+                    .collect_unordered_results(),
                 Err(e) => {
                     log::info!("Unable to deserialize angular output {:?}", e);
-                    vec![]
+                    GeneratorResults::default()
                 }
             }
         }),

@@ -1,4 +1,6 @@
-use warp_completion_metadata::{CommandGenerators, Generator, Suggestion};
+use warp_completion_metadata::{
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+};
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("man").add_generator(
@@ -12,7 +14,7 @@ pub fn generator() -> CommandGenerators {
                         (!line.is_empty() && !line.starts_with('/'))
                             .then(|| Suggestion::with_description(line.trim(), "Man page"))
                     })
-                    .collect::<Vec<_>>()
+                    .collect_ordered_results()
             },
         ),
     )
