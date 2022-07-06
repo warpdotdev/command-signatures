@@ -53,6 +53,12 @@ pub enum Priority {
     Default,
 }
 
+impl Priority {
+    pub fn is_global(&self) -> bool {
+        matches!(self, Priority::Global(_))
+    }
+}
+
 impl Ord for Priority {
     fn cmp(&self, other: &Self) -> Ordering {
         use Importance::*;
