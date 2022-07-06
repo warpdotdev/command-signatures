@@ -18,7 +18,7 @@ pub fn generator() -> CommandGenerators {
                             Some(Suggestion::new(line))
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             },
         ),
     ).add_generator(
@@ -34,7 +34,7 @@ pub fn generator() -> CommandGenerators {
 
                     Some(Suggestion::with_description(line, "Installed formula"))
                 })
-                .collect_from_unordered_suggestions()
+                .collect_unordered_results()
         }),
     )
         .add_generator(
@@ -49,7 +49,7 @@ pub fn generator() -> CommandGenerators {
                         Suggestion::with_description(line.replace(".rb", ""), "formula")
 
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }
         ),
     )
@@ -64,7 +64,7 @@ pub fn generator() -> CommandGenerators {
                         .map(|formula| {
                             Suggestion::with_description(formula, "Installed formula")
                         })
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 }
             ),
         )

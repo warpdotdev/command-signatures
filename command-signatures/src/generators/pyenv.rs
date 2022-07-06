@@ -17,7 +17,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(1)
                     .filter_map(|line| (!line.is_empty()).then(|| Suggestion::new(line.trim())))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -34,7 +34,7 @@ pub fn generator() -> CommandGenerators {
                             }
                         })
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

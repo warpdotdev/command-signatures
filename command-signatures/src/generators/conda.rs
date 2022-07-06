@@ -12,7 +12,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .map(Suggestion::new)
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -23,7 +23,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .filter_map(|line| line.split(' ').next().map(Suggestion::new))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -34,7 +34,7 @@ pub fn generator() -> CommandGenerators {
                     .split('\n')
                     .skip(2)
                     .filter_map(|line| line.split(':').next().map(Suggestion::new))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

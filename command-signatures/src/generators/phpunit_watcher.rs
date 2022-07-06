@@ -7,7 +7,7 @@ pub fn generator() -> CommandGenerators {
         "tests",
         Generator::new("phpunit --list-tests", |output| {
             if output.starts_with("fatal:") {
-                return GeneratorResults::empty();
+                return GeneratorResults::default();
             }
 
             output
@@ -20,7 +20,7 @@ pub fn generator() -> CommandGenerators {
                     }
                     None
                 })
-                .collect_from_unordered_suggestions()
+                .collect_unordered_results()
         }),
     )
 }

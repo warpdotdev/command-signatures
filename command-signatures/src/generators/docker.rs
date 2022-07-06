@@ -74,7 +74,7 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                 None
             }
         })
-        .collect_from_unordered_suggestions()
+        .collect_unordered_results()
 }
 
 fn shared_post_process(output: &str) -> GeneratorResults {
@@ -89,7 +89,7 @@ fn shared_post_process(output: &str) -> GeneratorResults {
                 _ => None,
             }
         })
-        .collect_from_unordered_suggestions()
+        .collect_unordered_results()
 }
 
 pub fn generator() -> CommandGenerators {
@@ -130,7 +130,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -152,7 +152,7 @@ pub fn generator() -> CommandGenerators {
                             _ => None,
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -177,7 +177,7 @@ pub fn generator() -> CommandGenerators {
                             _ => None,
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -209,7 +209,7 @@ pub fn generator() -> CommandGenerators {
                             _ => None,
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -227,7 +227,7 @@ pub fn generator() -> CommandGenerators {
                             _ => None,
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -239,7 +239,7 @@ pub fn generator() -> CommandGenerators {
                         let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
                         docker_output.name.map(Suggestion::new)
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -251,7 +251,7 @@ pub fn generator() -> CommandGenerators {
                         let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
                         docker_output.name.map(Suggestion::new)
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -272,7 +272,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -293,7 +293,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -314,7 +314,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -347,7 +347,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -369,7 +369,7 @@ pub fn generator() -> CommandGenerators {
                                 )
                             })
                         })
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 },
             ),
         )

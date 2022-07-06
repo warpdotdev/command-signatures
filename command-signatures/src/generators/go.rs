@@ -9,7 +9,7 @@ pub fn generator() -> CommandGenerators {
             output
                 .split('\n')
                 .map(Suggestion::new)
-                .collect_from_unordered_suggestions()
+                .collect_unordered_results()
         }),
     )
 }

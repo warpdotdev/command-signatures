@@ -27,7 +27,7 @@ pub fn generator() -> CommandGenerators {
                         None
                     }
                 })
-                .collect_from_unordered_suggestions()
+                .collect_unordered_results()
         }),
     )
 }

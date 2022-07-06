@@ -28,7 +28,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -41,7 +41,7 @@ pub fn generator() -> CommandGenerators {
                         (split.len() >= 2)
                             .then(|| Suggestion::with_description(split[0].trim(), split[1].trim()))
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

@@ -27,10 +27,10 @@ fn process_workspace_json(
             .into_iter()
             .filter(filter_fn)
             .map(|(name, _)| Suggestion::new(name))
-            .collect_from_unordered_suggestions(),
+            .collect_unordered_results(),
         Err(e) => {
             log::info!("Unable to deserialize nx output: {:?}", e);
-            GeneratorResults::empty()
+            GeneratorResults::default()
         }
     }
 }
@@ -39,7 +39,7 @@ fn process_generators(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .filter_map(|line| line.split(' ').next().map(Suggestion::new))
-        .collect_from_unordered_suggestions()
+        .collect_unordered_results()
 }
 
 pub fn generator() -> CommandGenerators {
@@ -89,12 +89,12 @@ pub fn generator() -> CommandGenerators {
                                     None
                                 }
                             })
-                            .collect_from_unordered_suggestions()
+                            .collect_unordered_results()
                     } else {
-                        GeneratorResults::empty()
+                        GeneratorResults::default()
                     }
                 } else {
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 }
             }),
         )

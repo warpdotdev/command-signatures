@@ -16,14 +16,14 @@ pub fn generator() -> CommandGenerators {
                             "workspace",
                         )
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
             "address_list",
             Generator::new("terraform state list", |output| {
                 if output.contains("No state file was found!") || output.contains("Error") {
-                    return GeneratorResults::empty();
+                    return GeneratorResults::default();
                 }
 
                 output
@@ -31,7 +31,7 @@ pub fn generator() -> CommandGenerators {
                     .map(|address| {
                         Suggestion::with_description(address.replace("* ", "").trim(), "Address")
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

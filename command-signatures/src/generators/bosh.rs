@@ -28,7 +28,7 @@ pub fn generator() -> CommandGenerators {
         "deployments",
         Generator::new("bosh-cli --json deployments", |output| {
             if output.starts_with("fatal:") {
-                return GeneratorResults::empty();
+                return GeneratorResults::default();
             }
 
             let deployment: Result<BoshDeployment> = serde_json::from_str(output);
@@ -40,7 +40,7 @@ pub fn generator() -> CommandGenerators {
                         return rows
                             .into_iter()
                             .map(|row| Suggestion::with_description(row.name, "deployment"))
-                            .collect_from_unordered_suggestions();
+                            .collect_unordered_results();
                     }
                 }
             } else {
@@ -50,7 +50,7 @@ pub fn generator() -> CommandGenerators {
                 );
             }
 
-            GeneratorResults::empty()
+            GeneratorResults::default()
         }),
     )
 }

@@ -19,13 +19,13 @@ pub fn generator() -> CommandGenerators {
                 json_output
                     .into_iter()
                     .map(|heroku_output| Suggestion::new(heroku_output.name))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             } else {
                 log::info!(
                     "Unable to deserialize heroku output {:?}",
                     json_output.err().unwrap()
                 );
-                GeneratorResults::empty()
+                GeneratorResults::default()
             }
         }),
     )

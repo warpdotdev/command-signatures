@@ -22,10 +22,10 @@ pub fn generator() -> CommandGenerators {
                     .map(|(project_name, config_output)| {
                         Suggestion::with_description(project_name, config_output.project_type)
                     })
-                    .collect_from_unordered_suggestions(),
+                    .collect_unordered_results(),
                 Err(e) => {
                     log::info!("Unable to deserialize angular output {:?}", e);
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 }
             }
         }),

@@ -234,8 +234,8 @@ pub struct GeneratorResults {
     pub is_ordered: bool,
 }
 
-impl GeneratorResults {
-    pub fn empty() -> Self {
+impl Default for GeneratorResults {
+    fn default() -> Self {
         Self {
             suggestions: vec![],
             is_ordered: true, // vacuously true
@@ -245,7 +245,7 @@ impl GeneratorResults {
 
 /// Helper trait to transform an iterator over Suggestions into GeneratorResults.
 pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
-    fn collect_from_ordered_suggestions(self) -> GeneratorResults
+    fn collect_ordered_results(self) -> GeneratorResults
     where
         Self: Sized,
     {
@@ -255,7 +255,7 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
         }
     }
 
-    fn collect_from_unordered_suggestions(self) -> GeneratorResults
+    fn collect_unordered_results(self) -> GeneratorResults
     where
         Self: Sized,
     {

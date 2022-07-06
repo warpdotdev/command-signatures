@@ -45,9 +45,9 @@ pub fn generator() -> CommandGenerators {
                 if let Ok(val) = output.parse::<usize>() {
                     (0..val)
                         .map(|val| Suggestion::new(val.to_string()))
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 } else {
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 }
             }),
         )
@@ -63,10 +63,10 @@ pub fn generator() -> CommandGenerators {
                             .configurations
                             .into_iter()
                             .map(Suggestion::new)
-                            .collect_from_unordered_suggestions(),
+                            .collect_unordered_results(),
                         Err(e) => {
                             log::info!("Unable to deserialize xcode build output: {:?}", e);
-                            GeneratorResults::empty()
+                            GeneratorResults::default()
                         }
                     }
                 },
@@ -84,10 +84,10 @@ pub fn generator() -> CommandGenerators {
                             .schemes
                             .into_iter()
                             .map(Suggestion::new)
-                            .collect_from_unordered_suggestions(),
+                            .collect_unordered_results(),
                         Err(e) => {
                             log::info!("Unable to deserialize xcode build output: {:?}", e);
-                            GeneratorResults::empty()
+                            GeneratorResults::default()
                         }
                     }
                 },
@@ -111,7 +111,7 @@ pub fn generator() -> CommandGenerators {
 
                         None
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -124,10 +124,10 @@ pub fn generator() -> CommandGenerators {
                         .into_iter()
                         .flat_map(|(_, devices)| devices.into_iter())
                         .map(|device| Suggestion::new(device.name))
-                        .collect_from_unordered_suggestions(),
+                        .collect_unordered_results(),
                     Err(e) => {
                         log::info!("Unable to deserialize xcrun output: {:?}", e);
-                        GeneratorResults::empty()
+                        GeneratorResults::default()
                     }
                 }
             }),
@@ -145,7 +145,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -164,7 +164,7 @@ pub fn generator() -> CommandGenerators {
                             None
                         }
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -185,7 +185,7 @@ pub fn generator() -> CommandGenerators {
                         }
                         None
                     })
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

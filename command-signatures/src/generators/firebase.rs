@@ -17,7 +17,7 @@ pub fn generator() -> CommandGenerators {
                         Suggestion::with_description(project_name.as_str().trim(), "ProjectAlias")
                     })
                 })
-                .collect_from_unordered_suggestions()
+                .collect_unordered_results()
         }),
     )
 }

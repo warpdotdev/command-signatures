@@ -30,14 +30,14 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
         .filter_map(|line| {
             (!line.is_empty()).then(|| Suggestion::with_description(line.trim(), "Branch"))
         })
-        .collect_from_unordered_suggestions()
+        .collect_unordered_results()
 }
 
 fn post_process_branches(out: &str) -> GeneratorResults {
     let output = filter_messages(out);
 
     if output.starts_with("fatal:") {
-        GeneratorResults::empty()
+        GeneratorResults::default()
     } else {
         output
             .split('\n')
@@ -67,7 +67,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
 
                 Some(Suggestion::with_description(name, "Branch"))
             })
-            .collect_from_unordered_suggestions()
+            .collect_unordered_results()
     }
 }
 
@@ -84,12 +84,12 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks log --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 } else {
                     output
                         .split('\n')
                         .filter_map(commit_line_to_suggestion)
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 }
             }),
         )
@@ -112,7 +112,7 @@ pub fn generator() -> CommandGenerators {
                                 })
                             })
                         })
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 },
             ),
         )
@@ -121,12 +121,12 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git rev-list --all --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 } else {
                     output
                         .split('\n')
                         .filter_map(commit_line_to_suggestion)
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 }
             }),
         )
@@ -135,7 +135,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks stash list", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    GeneratorResults::empty()
+                    GeneratorResults::default()
                 } else {
                     output
                         .split('\n')
@@ -148,7 +148,7 @@ pub fn generator() -> CommandGenerators {
                                 description.trim(),
                             ))
                         })
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 }
             }),
         )
@@ -159,13 +159,13 @@ pub fn generator() -> CommandGenerators {
                 |output| {
                     let output = filter_messages(output);
                     if output.starts_with("fatal:") {
-                        return GeneratorResults::empty();
+                        return GeneratorResults::default();
                     }
 
                     output
                         .split('\n')
                         .map(|file| Suggestion::with_description(file, "staged file"))
-                        .collect_from_unordered_suggestions()
+                        .collect_unordered_results()
                 },
             ),
         )
@@ -212,7 +212,7 @@ pub fn generator() -> CommandGenerators {
                 remote_urls
                     .drain()
                     .map(|(remote, _url)| Suggestion::with_description(remote, "remote"))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -221,7 +221,7 @@ pub fn generator() -> CommandGenerators {
                 output
                     .split('\n')
                     .filter_map(|line| (!line.is_empty()).then(|| Suggestion::new(line)))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
@@ -229,7 +229,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("git --no-optional-locks status --short", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
-                    return GeneratorResults::empty();
+                    return GeneratorResults::default();
                 }
 
                 output
@@ -246,7 +246,7 @@ pub fn generator() -> CommandGenerators {
                         }
                     })
                     .map(|(_working, file)| Suggestion::with_description(file, "Changed file"))
-                    .collect_from_unordered_suggestions()
+                    .collect_unordered_results()
             }),
         )
 }

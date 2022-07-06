@@ -14,7 +14,7 @@ pub fn generator() -> CommandGenerators {
                         (!line.is_empty() && !line.starts_with('/'))
                             .then(|| Suggestion::with_description(line.trim(), "Man page"))
                     })
-                    .collect_from_ordered_suggestions()
+                    .collect_ordered_results()
             },
         ),
     )
