@@ -8,6 +8,9 @@ use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
+const MIN_ORDER_VAL: u32 = 1;
+const MAX_ORDER_VAL: u32 = 100;
+
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
 pub struct Suggestion {
     pub exact_string: String,
@@ -62,6 +65,10 @@ impl Default for Priority {
 impl Priority {
     pub fn is_global(&self) -> bool {
         matches!(self, Priority::Global(_))
+    }
+    
+    pub fn most_important() -> Self {
+        Priority::Global(Importance::More(Order(MAX_ORDER_VAL)))
     }
 }
 
@@ -132,7 +139,7 @@ impl PartialOrd for Importance {
 pub struct Order(pub u32);
 impl Order {
     fn normalized(self) -> Self {
-        let bounded_weight: u32 = self.0.max(1).min(100);
+        let bounded_weight: u32 = self.0.max(MIN_ORDER_VAL).min(MAX_ORDER_VAL);
         Order(bounded_weight)
     }
 }
