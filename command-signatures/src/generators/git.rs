@@ -30,7 +30,7 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
         .filter_map(|line| {
             (!line.is_empty()).then(|| Suggestion::with_description(line.trim(), "Branch"))
         })
-        .collect_unordered_results()
+        .collect_ordered_results()
 }
 
 fn post_process_branches(out: &str) -> GeneratorResults {
