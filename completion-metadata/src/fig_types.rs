@@ -278,6 +278,7 @@ impl From<Command> for Signature {
             } else {
                 Some(command.options.into_iter().map(|o| o.into()).collect())
             },
+            priority: command.priority.into(),
         }
     }
 }
@@ -325,14 +326,19 @@ impl From<Arg> for Argument {
 
 /// https://fig.io/docs/reference/suggestion/indicating-priority
 /// 50 is default, so < 50 is Lower and > 50 is Higher
-impl From<FigPriority> for Priority {
-    fn from(priority: FigPriority) -> Self {
-        let order = Order(priority.0).normalized();
-        let default_order = Order(50);
-        match order.cmp(&default_order) {
-            Ordering::Less => Priority::Global(Importance::Less(order)),
-            Ordering::Greater => Priority::Global(Importance::More(order)),
-            Ordering::Equal => Priority::Default,
+impl From<Option<FigPriority>> for Priority {
+    fn from(priority: Option<FigPriority>) -> Self {
+        match priority {
+            None => Priority::Default,
+            Some(priority) => {
+                let order = Order(priority.0).normalized();
+                let default_order = Order(50);
+                match order.cmp(&default_order) {
+                    Ordering::Less => Priority::Global(Importance::Less(order)),
+                    Ordering::Greater => Priority::Global(Importance::More(order)),
+                    Ordering::Equal => Priority::Default,
+                }
+            }
         }
     }
 }
@@ -345,7 +351,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
             .map(|name| crate::Suggestion {
                 exact_string: name,
                 description: suggestion.description.clone(),
-                priority: suggestion.priority.map_or(Priority::Default, |p| p.into()),
+                priority: suggestion.priority.into(),
             })
             .collect()
     }
@@ -362,6 +368,7 @@ impl From<CommandOption> for Opt {
                 Some(option.args.into_iter().map(|a| a.into()).collect())
             },
             required: option.is_required,
+            priority: option.priority.into(),
         }
     }
 }
@@ -912,23 +919,25 @@ mod tests {
 
     #[test]
     fn test_from_fig_priority() {
-        assert_eq!(Priority::from(FigPriority(50)), Priority::Default);
+        assert_eq!(Priority::from(None), Priority::Default);
+
+        assert_eq!(Priority::from(Some(FigPriority(50))), Priority::Default);
 
         assert_eq!(
-            Priority::from(FigPriority(56)),
+            Priority::from(Some(FigPriority(56))),
             Priority::Global(Importance::More(Order(56)))
         );
         assert_eq!(
-            Priority::from(FigPriority(200)),
+            Priority::from(Some(FigPriority(200))),
             Priority::Global(Importance::More(Order(100)))
         );
 
         assert_eq!(
-            Priority::from(FigPriority(46)),
+            Priority::from(Some(FigPriority(46))),
             Priority::Global(Importance::Less(Order(46)))
         );
         assert_eq!(
-            Priority::from(FigPriority(0)),
+            Priority::from(Some(FigPriority(0))),
             Priority::Global(Importance::Less(Order(1)))
         );
     }
