@@ -1,4 +1,4 @@
-use super::Suggestion;
+use super::{Priority, Suggestion};
 use crate::Generators;
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
@@ -6,6 +6,7 @@ use std::fmt::{Debug, Formatter};
 pub struct AnnotatedFlag<'a> {
     pub name: &'a str,
     pub description: Option<&'a str>,
+    pub priority: Priority,
 }
 
 /// A `Signature` defines a command or a subcommand.
@@ -17,6 +18,7 @@ pub struct Signature {
     pub arguments: Option<Vec<Argument>>,
     pub subcommands: Option<Vec<Signature>>,
     pub options: Option<Vec<Opt>>,
+    pub priority: Priority,
 }
 
 impl Signature {
@@ -49,6 +51,7 @@ impl Signature {
                     (name.starts_with('-') && !name.starts_with("--")).then(|| AnnotatedFlag {
                         name: &name[1..],
                         description: option.description.as_deref(),
+                        priority: option.priority,
                     })
                 })
             })
@@ -65,6 +68,7 @@ impl Signature {
                     (name.starts_with("--")).then(|| AnnotatedFlag {
                         name: &name[2..],
                         description: option.description.as_deref(),
+                        priority: option.priority,
                     })
                 })
             })
@@ -82,6 +86,7 @@ pub struct Opt {
     pub description: Option<String>,
     pub arguments: Option<Vec<Argument>>,
     pub required: bool,
+    pub priority: Priority,
 }
 
 impl Opt {

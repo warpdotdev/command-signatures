@@ -278,6 +278,7 @@ impl From<Command> for Signature {
             } else {
                 Some(command.options.into_iter().map(|o| o.into()).collect())
             },
+            priority: command.priority.map_or_else(Priority::default, Into::into),
         }
     }
 }
@@ -345,7 +346,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
             .map(|name| crate::Suggestion {
                 exact_string: name,
                 description: suggestion.description.clone(),
-                priority: suggestion.priority.map_or(Priority::Default, |p| p.into()),
+                priority: suggestion.priority.map_or_else(Priority::default, Into::into),
             })
             .collect()
     }
@@ -362,6 +363,7 @@ impl From<CommandOption> for Opt {
                 Some(option.args.into_iter().map(|a| a.into()).collect())
             },
             required: option.is_required,
+            priority: option.priority.map_or_else(Priority::default, Into::into),
         }
     }
 }
