@@ -53,6 +53,12 @@ pub enum Priority {
     Default,
 }
 
+impl Default for Priority {
+    fn default() -> Self {
+        Self::Default
+    }
+}
+
 impl Priority {
     pub fn is_global(&self) -> bool {
         matches!(self, Priority::Global(_))
