@@ -68,7 +68,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
 
                 Some(Suggestion::with_description(name, "Branch"))
             })
-            .collect_unordered_results()
+            .collect_ordered_results()
     }
 }
 
@@ -280,7 +280,7 @@ mod tests {
                     Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
                     Suggestion::with_description("aloke/after_frame_hook", "Branch"),
                 ],
-                is_ordered: false,
+                is_ordered: true,
             }
         );
     }
