@@ -175,8 +175,8 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "refs_remote_branches",
             Generator::new(
-                r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3"
-                  "refs/remotes/**" | uniq -u"#,
+                r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" \
+                "refs/remotes/**" | uniq -u"#,
                 post_process_git_for_each_ref,
             ),
         )
