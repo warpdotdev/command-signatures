@@ -10,6 +10,8 @@ use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::{Display, Formatter};
 
+use itertools::Itertools;
+
 /// https://fig.io/docs/reference/suggestion/indicating-priority
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 struct FigPriority(pub u32);
@@ -287,10 +289,12 @@ impl From<Arg> for Argument {
     fn from(arg: Arg) -> Self {
         // The order of argument_types will dictate the order in which completions will be surfaced.
         // Currently, the order is Generators followed by Suggestions followed by Templates.
-        // If there are multiple of any of the three types, the order in which they
-        // are listed in the spec is the order in which they will be grouped.
-        // For example, if argument_types = vec![generator_a, generator_b], then generator_a
-        // completions will come before generator_b completions.
+        // - If there are multiple static Suggestions, they will be ordered lexicographically
+        //   (but `priority` can be used to reorder).
+        // - If there are multiple generators/templates for a given Argument, the order in which they
+        //   are listed in the spec is the order in which they will be grouped.
+        //   For example, if argument_types = vec![generator_a, generator_b], then generator_a
+        //   completions will come before generator_b completions.
         let argument_types = arg
             .generator_name
             .into_iter()
@@ -299,6 +303,7 @@ impl From<Arg> for Argument {
                 arg.suggestions
                     .into_iter()
                     .flat_map(Vec::from)
+                    .sorted()
                     .map(ArgumentType::Suggestion),
             )
             .chain(arg.template.into_iter().filter_map(|template| {
@@ -346,7 +351,9 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
             .map(|name| crate::Suggestion {
                 exact_string: name,
                 description: suggestion.description.clone(),
-                priority: suggestion.priority.map_or_else(Priority::default, Into::into),
+                priority: suggestion
+                    .priority
+                    .map_or_else(Priority::default, Into::into),
             })
             .collect()
     }
