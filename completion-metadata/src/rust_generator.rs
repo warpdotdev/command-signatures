@@ -26,7 +26,7 @@ pub fn generate_rust_completion_specs() -> Result<()> {
         let entry = entry?;
 
         if entry.file_type().is_file() {
-            println!("attempting to deserialize {:?}", entry.path());
+            println!("Attempting to deserialize {:?}", entry.path());
             let file = File::open(entry.path())?;
 
             let mmap = unsafe { memmap::Mmap::map(&file) }?;
