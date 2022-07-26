@@ -1,0 +1,443 @@
+{
+    "name": "vsce",
+    "description": "The Visual Studio Code Extension Manager",
+    "subcommands": [
+        {
+            "name": "ls",
+            "description": "Lists all the files that will be published",
+            "options": [
+                {
+                    "name": "--yarn",
+                    "description": "Use yarn instead of npm (default inferred from presence of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--no-yarn",
+                    "description": "Use npm instead of yarn (default inferred from lack of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--packagedDependencies",
+                    "description": "Select packages that should be published only (includes dependencies)",
+                    "args": {
+                        "name": "paths",
+                        "template": "filepaths",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--ignoreFile",
+                    "description": "Indicate alternative .vscodeignore",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-dependencies",
+                    "description": "Disable dependency detection via npm or yarn"
+                }
+            ]
+        },
+        {
+            "name": "package",
+            "description": "Packages an extension",
+            "icon": "📦",
+            "options": [
+                {
+                    "name": [
+                        "-o",
+                        "--out"
+                    ],
+                    "description": "Output .vsix extension file to <path> location (defaults to <name>-<version>.vsix)",
+                    "args": {
+                        "name": "path",
+                        "generators": {
+                            "template": "filepaths",
+                            "filterTemplateSuggestions": "_NuFrRa_(l=[])=>{let h=l.filter(({name:p=\"\",type:N})=>{if(n!==\"filter\"&&N===\"folder\")return n===\"always\";if(d.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...b]=p.split(\".\");if(b.length>=1){let w=b.length-1,x=b[w];do{if(c.has(x))return!0;w-=1,x=[b[w],x].join(\".\")}while(w>=0)}return!1});return!a&&!r?h:h.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?a:r)||{}))}"
+                        }
+                    }
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--target"
+                    ],
+                    "description": "Target architecture",
+                    "args": {
+                        "name": "target",
+                        "isVariadic": true,
+                        "suggestions": [
+                            "win32-x64",
+                            "win32-ia32",
+                            "win32-arm64",
+                            "linux-x64",
+                            "linux-arm64",
+                            "linux-armhf",
+                            "alpine-x64",
+                            "alpine-arm64",
+                            "darwin-x64",
+                            "darwin-arm64"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--message"
+                    ],
+                    "description": "Commit message used when calling `npm version`",
+                    "args": {
+                        "name": "commit message"
+                    }
+                },
+                {
+                    "name": "--no-git-tag-version",
+                    "description": "Do not create a version commit and tag when calling `npm version`. Valid only when [version] is provided"
+                },
+                {
+                    "name": "--no-update-package-json",
+                    "description": "Do not update `package.json`. Valid only when [version] is provided"
+                },
+                {
+                    "name": "--githubBranch",
+                    "description": "The GitHub branch used to infer relative links in README.md. Can be overridden by --baseContentUrl and --baseImagesUrl",
+                    "args": {
+                        "name": "branch",
+                        "generators": {
+                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
+                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=e,s=g(t);return s.startsWith(\"fatal:\")?[]:s.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let a=n.trim(),r=n.match(/\\S+/g);if(r.length>1){if(r[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};r[0]===\"+\"&&(a=n.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&a.startsWith(\"remotes/\")&&(a=a.slice(a.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:a,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                        }
+                    }
+                },
+                {
+                    "name": "--gitlabBranch",
+                    "description": "The GitLab branch used to infer relative links in README.md. Can be overridden by --baseContentUrl and --baseImagesUrl",
+                    "args": {
+                        "name": "branch",
+                        "generators": {
+                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
+                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=e,s=g(t);return s.startsWith(\"fatal:\")?[]:s.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let a=n.trim(),r=n.match(/\\S+/g);if(r.length>1){if(r[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};r[0]===\"+\"&&(a=n.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&a.startsWith(\"remotes/\")&&(a=a.slice(a.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:a,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                        }
+                    }
+                },
+                {
+                    "name": "--no-rewrite-relative-links",
+                    "description": "Skip rewriting relative links"
+                },
+                {
+                    "name": "--baseContentUrl",
+                    "description": "Prepend all relative links in README.md with this url",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "--baseImagesUrl",
+                    "description": "Prepend all relative image links in README.md with this url",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "--yarn",
+                    "description": "Use yarn instead of npm (default inferred from presence of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--no-yarn",
+                    "description": "Use npm instead of yarn (default inferred from lack of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--ignoreFile",
+                    "description": "Indicate alternative .vscodeignore",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-gitHubIssueLinking",
+                    "description": "Disable automatic expansion of GitHub-style issue syntax into links"
+                },
+                {
+                    "name": "--no-gitLabIssueLinking",
+                    "description": "Disable automatic expansion of GitLab-style issue syntax into links"
+                },
+                {
+                    "name": "--no-dependencies",
+                    "description": "Disable dependency detection via npm or yarn"
+                },
+                {
+                    "name": "--pre-release",
+                    "description": "Mark this package as a pre-release"
+                }
+            ]
+        },
+        {
+            "name": "publish",
+            "description": "Publishes an extension",
+            "options": [
+                {
+                    "name": [
+                        "-p",
+                        "--pat"
+                    ],
+                    "description": "Personal Access Token (defaults to VSCE_PAT environment variable)",
+                    "args": {
+                        "name": "token"
+                    }
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--target"
+                    ],
+                    "description": "Target architecture",
+                    "args": {
+                        "name": "target",
+                        "isVariadic": true,
+                        "suggestions": [
+                            "win32-x64",
+                            "win32-ia32",
+                            "win32-arm64",
+                            "linux-x64",
+                            "linux-arm64",
+                            "linux-armhf",
+                            "alpine-x64",
+                            "alpine-arm64",
+                            "darwin-x64",
+                            "darwin-arm64"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--message"
+                    ],
+                    "description": "Commit message used when calling `npm version`",
+                    "args": {
+                        "name": "commit message"
+                    }
+                },
+                {
+                    "name": "--no-git-tag-version",
+                    "description": "Do not create a version commit and tag when calling `npm version`. Valid only when [version] is provided"
+                },
+                {
+                    "name": "--no-update-package-json",
+                    "description": "Do not update `package.json`. Valid only when [version] is provided"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--packagePath"
+                    ],
+                    "description": "Publish the provided VSIX packages",
+                    "args": {
+                        "name": "paths",
+                        "isVariadic": true,
+                        "generators": {
+                            "template": "filepaths",
+                            "filterTemplateSuggestions": "_NuFrRa_(l=[])=>{let h=l.filter(({name:p=\"\",type:N})=>{if(n!==\"filter\"&&N===\"folder\")return n===\"always\";if(d.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...b]=p.split(\".\");if(b.length>=1){let w=b.length-1,x=b[w];do{if(c.has(x))return!0;w-=1,x=[b[w],x].join(\".\")}while(w>=0)}return!1});return!a&&!r?h:h.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?a:r)||{}))}"
+                        }
+                    }
+                },
+                {
+                    "name": "--githubBranch",
+                    "description": "The GitHub branch used to infer relative links in README.md. Can be overridden by --baseContentUrl and --baseImagesUrl",
+                    "args": {
+                        "name": "branch",
+                        "generators": {
+                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
+                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=e,s=g(t);return s.startsWith(\"fatal:\")?[]:s.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let a=n.trim(),r=n.match(/\\S+/g);if(r.length>1){if(r[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};r[0]===\"+\"&&(a=n.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&a.startsWith(\"remotes/\")&&(a=a.slice(a.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:a,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                        }
+                    }
+                },
+                {
+                    "name": "--gitlabBranch",
+                    "description": "The GitLab branch used to infer relative links in README.md. Can be overridden by --baseContentUrl and --baseImagesUrl",
+                    "args": {
+                        "name": "branch",
+                        "generators": {
+                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
+                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=e,s=g(t);return s.startsWith(\"fatal:\")?[]:s.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let a=n.trim(),r=n.match(/\\S+/g);if(r.length>1){if(r[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};r[0]===\"+\"&&(a=n.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&a.startsWith(\"remotes/\")&&(a=a.slice(a.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:a,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                        }
+                    }
+                },
+                {
+                    "name": "--baseContentUrl",
+                    "description": "Prepend all relative links in README.md with this url",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "--baseImagesUrl",
+                    "description": "Prepend all relative image links in README.md with this url",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "--yarn",
+                    "description": "Use yarn instead of npm (default inferred from presence of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--no-yarn",
+                    "description": "Use npm instead of yarn (default inferred from lack of yarn.lock or .yarnrc)"
+                },
+                {
+                    "name": "--noVerify"
+                },
+                {
+                    "name": "--ignoreFile",
+                    "description": "Indicate alternative .vscodeignore",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-dependencies",
+                    "description": "Disable dependency detection via npm or yarn"
+                },
+                {
+                    "name": "--pre-release",
+                    "description": "Mark this package as a pre-release"
+                }
+            ]
+        },
+        {
+            "name": "unpublish",
+            "description": "Unpublishes an extension. Example extension id: microsoft.csharp",
+            "options": [
+                {
+                    "name": [
+                        "-p",
+                        "--pat"
+                    ],
+                    "description": "Personal Access Token",
+                    "args": {
+                        "name": "token"
+                    }
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Forces Unpublished Extension"
+                }
+            ]
+        },
+        {
+            "name": "ls-publishers",
+            "description": "List all known publishers"
+        },
+        {
+            "name": "delete-publisher",
+            "description": "Deletes a publisher",
+            "args": {
+                "name": "publisher"
+            }
+        },
+        {
+            "name": "login",
+            "description": "Add a publisher to the known publishers list",
+            "icon": "🚪",
+            "args": {
+                "name": "publisher"
+            }
+        },
+        {
+            "name": "logout",
+            "description": "Remove a publisher from the known publishers list",
+            "args": {
+                "name": "publisher"
+            }
+        },
+        {
+            "name": "verify-pat",
+            "description": "Verify if the Personal Access Token has publish rights for the publisher",
+            "args": {
+                "name": "publisher"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-p",
+                        "--pat"
+                    ],
+                    "description": "Personal Access Token (defaults to VSCE_PAT environment variable)",
+                    "args": {
+                        "name": "token"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "show",
+            "description": "Show extension metadata",
+            "args": {
+                "name": "extensionid"
+            },
+            "options": [
+                {
+                    "name": "--json",
+                    "description": "Output data in json format (default: false)"
+                }
+            ]
+        },
+        {
+            "name": "search",
+            "description": "Search extension gallery",
+            "icon": "🔍",
+            "args": {
+                "name": "text"
+            },
+            "options": [
+                {
+                    "name": "--json",
+                    "description": "Output data in json format (default: false)"
+                }
+            ]
+        },
+        {
+            "name": "help",
+            "description": "Display help for command",
+            "icon": "❔",
+            "args": {
+                "name": "command",
+                "suggestions": [
+                    "ls",
+                    "package",
+                    "publish",
+                    "unpublish",
+                    "ls-publishers",
+                    "delete-publishers",
+                    "login",
+                    "logout",
+                    "verify-pat",
+                    "show",
+                    "search"
+                ]
+            }
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Display help for command",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Output the version number"
+        }
+    ]
+}

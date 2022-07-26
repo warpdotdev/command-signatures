@@ -1,0 +1,199 @@
+{
+    "name": "man",
+    "description": "Format and display the on-line manual pages",
+    "args": [
+        {
+            "generators": {
+                "script": "_NuFrRa_n=>{let e=n[n.length-2];return`ls -1 $(man -w | sed 's#:#/man${f.has(e)?e:\"[18]\"} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq`}",
+                "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>!(e.length==0||e.startsWith(\"/\"))).map(e=>({name:e,description:\"Manual page\",icon:\"fig://icon?type=string\"}))"
+            },
+            "suggestions": [
+                {
+                    "name": "1",
+                    "insertValue": "1 {cursor}",
+                    "description": "Section 1: General commands",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "2",
+                    "insertValue": "2 {cursor}",
+                    "description": "Section 2: System calls",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "3",
+                    "insertValue": "3 {cursor}",
+                    "description": "Section 3: C library functions",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "4",
+                    "insertValue": "4 {cursor}",
+                    "description": "Section 4: Devices and special files",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "5",
+                    "insertValue": "5 {cursor}",
+                    "description": "Section 5: File formats and conventions",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "6",
+                    "insertValue": "6 {cursor}",
+                    "description": "Section 6: Games, etc",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "7",
+                    "insertValue": "7 {cursor}",
+                    "description": "Section 7: Miscellanea",
+                    "priority": 49,
+                    "icon": "📑"
+                },
+                {
+                    "name": "8",
+                    "insertValue": "8 {cursor}",
+                    "description": "Section 8: System admin and daemons",
+                    "priority": 49,
+                    "icon": "📑"
+                }
+            ]
+        },
+        {
+            "generators": {
+                "script": "_NuFrRa_n=>{let e=n[n.length-2];return`ls -1 $(man -w | sed 's#:#/man${f.has(e)?e:\"[18]\"} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq`}",
+                "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>!(e.length==0||e.startsWith(\"/\"))).map(e=>({name:e,description:\"Manual page\",icon:\"fig://icon?type=string\"}))"
+            },
+            "isOptional": true
+        }
+    ],
+    "options": [
+        {
+            "name": "-C",
+            "description": "Specify the configuration file to use",
+            "args": {
+                "name": "config_file"
+            }
+        },
+        {
+            "name": "-M",
+            "description": "Specify the list of directories to search (colon separated)",
+            "args": {
+                "name": "path",
+                "generators": {
+                    "template": "folders",
+                    "getQueryTerm": ":"
+                }
+            }
+        },
+        {
+            "name": "-P",
+            "description": "Specify the pager program",
+            "args": {
+                "name": "pager"
+            }
+        },
+        {
+            "name": "-B",
+            "description": "Specify which browser to use for HTML files",
+            "args": {
+                "name": "browser",
+                "default": "/usr/bin/less -is"
+            }
+        },
+        {
+            "name": "-H",
+            "description": "Specify a command that renders HTML files as text",
+            "args": {
+                "name": "command",
+                "default": "/bin/cat"
+            }
+        },
+        {
+            "name": "-S",
+            "description": "Specify a colon-separated list of manual sections to search",
+            "args": {
+                "name": "sections",
+                "generators": {
+                    "getQueryTerm": ":",
+                    "custom": "_NuFrRa_n=>c(void 0,null,function*(){return Object.entries(o).filter(([e])=>!n[n.length-1].includes(e)).map(([e,t])=>({name:e,description:t,insertValue:e+\":\",icon:p}))})"
+                }
+            }
+        },
+        {
+            "name": "-a",
+            "description": "Open every matching page instead of just the first"
+        },
+        {
+            "name": "-c",
+            "description": "Reformat the source page, even when an up-to-date cat-page exists"
+        },
+        {
+            "name": "-d",
+            "description": "Don't actually display the pages (dry run)"
+        },
+        {
+            "name": "-D",
+            "description": "Both display and print debugging info"
+        },
+        {
+            "name": "-f",
+            "description": "Equivalent to `whatis`"
+        },
+        {
+            "name": [
+                "-F",
+                "--preformat"
+            ],
+            "description": "Format only, do not display"
+        },
+        {
+            "name": "-h",
+            "description": "Print a help message and exit"
+        },
+        {
+            "name": "-k",
+            "description": "Equivalent to apropos"
+        },
+        {
+            "name": "-K",
+            "description": "Search for a given string in all pages"
+        },
+        {
+            "name": "-m",
+            "description": "Specify an alternate set of pages to search based on the system name given",
+            "args": {
+                "name": "system"
+            }
+        },
+        {
+            "name": "-p",
+            "description": "Specify the sequence of preprocessors to run before nroff or troff",
+            "args": {
+                "name": "preprocessors"
+            }
+        },
+        {
+            "name": "-t",
+            "description": "Use `/usr/bin/groff -Tps -mandoc -c` to format the page"
+        },
+        {
+            "name": [
+                "-w",
+                "--path"
+            ],
+            "description": "Print the location of files that would be displayed"
+        },
+        {
+            "name": "-W",
+            "description": "Print file locations, one per line"
+        }
+    ]
+}

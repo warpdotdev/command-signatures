@@ -1,0 +1,204 @@
+{
+    "name": "ts-node",
+    "description": "Run the TypeScript interpreter for Node.JS",
+    "options": [
+        {
+            "name": [
+                "--help",
+                "-h"
+            ],
+            "description": "Show help for ts-node"
+        },
+        {
+            "name": [
+                "-v",
+                "--version"
+            ],
+            "description": "Print version information of the ts-node module"
+        },
+        {
+            "name": [
+                "-e",
+                "--eval"
+            ],
+            "insertValue": "-e '{cursor}'",
+            "description": "Evaluate script",
+            "args": {
+                "name": "script"
+            }
+        },
+        {
+            "name": [
+                "-p",
+                "--print"
+            ],
+            "description": "Evaluate script and print result"
+        },
+        {
+            "name": [
+                "-r",
+                "--require"
+            ],
+            "isRepeatable": true,
+            "description": "Require module before executing",
+            "args": {
+                "name": "module",
+                "generators": {
+                    "trigger": "_NuFrRa_e=>e===\"-g\"||e===\"--global\"",
+                    "custom": "function(e,n){return M(this,null,function*(){var t,a;if(!e.includes(\"-g\")&&!e.includes(\"--global\")){let i=yield n(\"cat $(npm prefix)/package.json\"),o=JSON.parse(i),p=(t=o.dependencies)!=null?t:{},c=o.devDependencies,s=(a=o.optionalDependencies)!=null?a:{};return Object.assign(p,c,s),Object.keys(p).filter(d=>!e.some(h=>h===d)).map(d=>({name:d,icon:\"\\u{1F4E6}\",description:p[d]?\"dependency\":s[d]?\"optionalDependency\":\"devDependency\"}))}else return(yield n(\"ls -1 `npm root -g`\")).split(`\n`).map(o=>({name:o,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
+                }
+            }
+        },
+        {
+            "name": [
+                "-i",
+                "--interactive"
+            ],
+            "description": "Always open interactive REPL"
+        },
+        {
+            "name": "--show-config",
+            "description": "Print resolved Typescript config to the terminal"
+        },
+        {
+            "name": "--cwd-mode",
+            "description": "Resolve Typescript config based on the current working directory"
+        },
+        {
+            "name": [
+                "-T",
+                "--transpile-only"
+            ],
+            "description": "Use the Typescript transpile module mode"
+        },
+        {
+            "name": [
+                "-H",
+                "--compiler-host"
+            ],
+            "description": "Use the Typescript compiler host API"
+        },
+        {
+            "name": [
+                "-I",
+                "--ignore"
+            ],
+            "description": "Ignore patterns from Typescript compilation",
+            "args": {
+                "name": "pattern"
+            }
+        },
+        {
+            "name": [
+                "-P",
+                "--project"
+            ],
+            "description": "Specify TypeScript project location",
+            "args": {
+                "name": "project",
+                "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "function(e){return e.filter(n=>n.name.match(/.*\\.json$/g)||n.name.endsWith(\"/\")).map(n=>{let t=n.name.match(/.*\\.json?$/g),a=n.name.match(/tsconfig.json$/g);return W(T({},n),{priority:a?100:t&&76})})}"
+                }
+            }
+        },
+        {
+            "name": [
+                "-C",
+                "--compiler"
+            ],
+            "description": "Use a custom compiler",
+            "args": {
+                "name": "compiler"
+            }
+        },
+        {
+            "name": "--transpiler",
+            "description": "Use a custom transpiler",
+            "args": {
+                "name": "transpiler"
+            }
+        },
+        {
+            "name": [
+                "-D",
+                "--ignore-diagnostics"
+            ],
+            "description": "Specify Typescript diagnostic code to ignore",
+            "args": {
+                "name": "code"
+            }
+        },
+        {
+            "name": [
+                "-O",
+                "--compiler-options"
+            ],
+            "insertValue": "-O '{cursor}'",
+            "description": "JSON object that will be merged with the compiler options",
+            "args": {
+                "name": "options"
+            }
+        },
+        {
+            "name": "--cwd",
+            "description": "Specify working directory",
+            "args": {
+                "name": "cwd",
+                "generators": {
+                    "template": "folders"
+                }
+            }
+        },
+        {
+            "name": "--files",
+            "description": "Load files, include and exclude from Typescript config on startup"
+        },
+        {
+            "name": "--pretty",
+            "description": "Use the pretty formatter for diagnostic errors"
+        },
+        {
+            "name": "--skip-project",
+            "description": "Skip reading Typescript config"
+        },
+        {
+            "name": "--scope",
+            "description": "Scope compilation to scope directory specified"
+        },
+        {
+            "name": "--scope-dir",
+            "description": "Directory for scope parameter",
+            "args": {
+                "name": "directory",
+                "generators": {
+                    "template": "folders"
+                }
+            }
+        },
+        {
+            "name": "--skip-ignore",
+            "description": "Skip --ignore checks"
+        },
+        {
+            "name": "--prefer-ts-exts",
+            "description": "Prefer Typescript files over JavaScript files when importing files"
+        },
+        {
+            "name": "--log-error",
+            "description": "Pipe Typescript errors to stderr instead of throwing exceptions"
+        },
+        {
+            "name": "--no-experimental-repl-await",
+            "description": "Disable the top-level await function in REPL"
+        }
+    ],
+    "args": {
+        "name": "script",
+        "isScript": true,
+        "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_(d=[])=>{let u=d.filter(({name:h=\"\",type:K})=>{if(i!==\"filter\"&&K===\"folder\")return i===\"always\";if(s.has(h)||a&&new RegExp(a.source,a.flags).test(h))return!0;let[,...j]=h.split(\".\");if(j.length>=1){let D=j.length-1,C=j[D];do{if(c.has(C))return!0;D-=1,C=[j[D],C].join(\".\")}while(D>=0)}return!1});return!o&&!p?u:u.map(h=>Object.assign(Object.assign({},h),(h.type===\"file\"?o:p)||{}))}"
+        }
+    }
+}

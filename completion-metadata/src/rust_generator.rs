@@ -1,6 +1,7 @@
 use crate::fig_types::Command;
 use crate::Signature;
 use anyhow::Result;
+use check_keyword::CheckKeyword;
 use convert_case::{Case, Casing};
 use std::fs::File;
 use std::io::Write;
@@ -25,6 +26,7 @@ pub fn generate_rust_completion_specs() -> Result<()> {
         let entry = entry?;
 
         if entry.file_type().is_file() {
+            println!("Attempting to deserialize {:?}", entry.path());
             let file = File::open(entry.path())?;
 
             let mmap = unsafe { memmap::Mmap::map(&file) }?;
@@ -40,12 +42,18 @@ pub fn generate_rust_completion_specs() -> Result<()> {
                 .to_case(Case::Snake);
 
             // Create a module for each signature within the parent commands file.
-
-            signatures_added.push(file_name.clone());
-
             write_completion(fig_command, file_name.as_str())?;
 
-            writeln!(&parent_module, "pub mod {};", file_name)?;
+            // Escape the file name if it is a Rust keyword.
+            let mod_name = if file_name.is_keyword() {
+                file_name.into_safe()
+            } else {
+                file_name
+            };
+
+            signatures_added.push(mod_name.clone());
+
+            writeln!(&parent_module, "pub mod {};", mod_name)?;
         }
     }
 

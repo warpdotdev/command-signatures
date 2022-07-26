@@ -1,0 +1,108 @@
+{
+    "name": "tldr",
+    "description": "A simpler man page than the existing man page",
+    "args": {
+        "generators": {
+            "script": "_NuFrRa_()=>`ls -Al ${i} ${l} ${t} ${a} ${o} ${c} 2>/dev/null`",
+            "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>r.test(e)).map(e=>({name:e.split(\" \").at(-1).slice(0,-3),description:\"Tldr page\",icon:\"fig://icon?type=string\"}))"
+        }
+    },
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Display help for command"
+        },
+        {
+            "name": [
+                "-s",
+                "--search"
+            ],
+            "description": "Search all pages for the query",
+            "args": {
+                "name": "query"
+            }
+        },
+        {
+            "name": "--linux",
+            "description": "Show command page for Linux",
+            "args": {
+                "generators": {
+                    "script": "_NuFrRa_()=>`ls -Al ${t} 2>/dev/null`",
+                    "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>r.test(e)).map(e=>({name:e.split(\" \").at(-1).slice(0,-3),description:\"Tldr page\",icon:\"fig://icon?type=string\"}))"
+                }
+            }
+        },
+        {
+            "name": "--osx",
+            "description": "Show command page for OSX",
+            "args": {
+                "generators": {
+                    "script": "_NuFrRa_()=>`ls -l ${a} 2>/dev/null`",
+                    "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>r.test(e)).map(e=>({name:e.split(\" \").at(-1).slice(0,-3),description:\"Tldr page\",icon:\"fig://icon?type=string\"}))"
+                }
+            }
+        },
+        {
+            "name": "--sunos",
+            "description": "Show command page for SunOS",
+            "args": {
+                "generators": {
+                    "script": "_NuFrRa_()=>`ls -l ${o} 2>/dev/null`",
+                    "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>r.test(e)).map(e=>({name:e.split(\" \").at(-1).slice(0,-3),description:\"Tldr page\",icon:\"fig://icon?type=string\"}))"
+                }
+            }
+        },
+        {
+            "name": [
+                "-l",
+                "--list"
+            ],
+            "description": "Show all pages for current platform"
+        },
+        {
+            "name": [
+                "-a",
+                "--list-all"
+            ],
+            "description": "Show all available pages"
+        },
+        {
+            "name": "--random",
+            "description": "Show a page at random"
+        },
+        {
+            "name": "--random-example",
+            "description": "Show a single random example"
+        },
+        {
+            "name": [
+                "-m",
+                "--markdown"
+            ],
+            "description": "Show the original markdown format page",
+            "args": {
+                "generators": {
+                    "script": "_NuFrRa_()=>`ls -Al ${i} ${l} ${t} ${a} ${o} ${c} 2>/dev/null`",
+                    "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>r.test(e)).map(e=>({name:e.split(\" \").at(-1).slice(0,-3),description:\"Tldr page\",icon:\"fig://icon?type=string\"}))"
+                }
+            }
+        },
+        {
+            "name": [
+                "-u",
+                "--update"
+            ],
+            "description": "Download the latest pages and generate search index"
+        },
+        {
+            "name": [
+                "-c",
+                "--clear-cache"
+            ],
+            "description": "Delete the entire local cache"
+        }
+    ]
+}

@@ -5,17 +5,28 @@ edition = "2021"
 
 [dependencies]
 warp-completion-metadata = {path = "../completion-metadata"}
-command-signatures-1 = {path = "../signatures/command-signatures-1"}
-command-signatures-2 = {path = "../signatures/command-signatures-2"}
-command-signatures-3 = {path = "../signatures/command-signatures-3"}
-command-signatures-4 = {path = "../signatures/command-signatures-4"}
-command-signatures-5 = {path = "../signatures/command-signatures-5"}
-command-signatures-6 = {path = "../signatures/command-signatures-6"}
+command-signatures-1 = {path = "../signatures/command-signatures-1", optional=true}
+command-signatures-2 = {path = "../signatures/command-signatures-2", optional=true}
+command-signatures-3 = {path = "../signatures/command-signatures-3", optional=true}
+command-signatures-4 = {path = "../signatures/command-signatures-4", optional=true}
+command-signatures-5 = {path = "../signatures/command-signatures-5", optional=true}
+command-signatures-6 = {path = "../signatures/command-signatures-6", optional=true}
+
+new-command-signatures-1 = {path = "../signatures/new/command-signatures-1", optional=true}
+new-command-signatures-2 = {path = "../signatures/new/command-signatures-2", optional=true}
+new-command-signatures-3 = {path = "../signatures/new/command-signatures-3", optional=true}
+new-command-signatures-4 = {path = "../signatures/new/command-signatures-4", optional=true}
+new-command-signatures-5 = {path = "../signatures/new/command-signatures-5", optional=true}
+new-command-signatures-6 = {path = "../signatures/new/command-signatures-6", optional=true}
 lazy_static = "1.4.0"
 log = "0.4"
 regex = "1.5.4"
 serde = {version = "1.0", features = ["derive"]}
 serde_json = "1.0"
 serde_with = "1.11.0"
+
+[features]
+default = ["command-signatures-1","command-signatures-2","command-signatures-3","command-signatures-4","command-signatures-5","command-signatures-6",]
+new_fig_specs = ["new-command-signatures-1","new-command-signatures-2","new-command-signatures-3","new-command-signatures-4","new-command-signatures-5","new-command-signatures-6",]
 
 

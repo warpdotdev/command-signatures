@@ -1,0 +1,5 @@
+{
+    "name": "drush",
+    "description": "Drush is a command line shell and Unix scripting interface for Drupal",
+    "generateSpec": "_NuFrRa_(c,u)=>d(void 0,null,function*(){let t=yield u(\"drush --format=json\"),o=[];try{let r=JSON.parse(t);for(let i of r.commands)o.push({name:i.name,description:i.description,args:Object.keys(i.definition.arguments).map(a=>{let n=i.definition.arguments[a],e=n.default?Array.isArray(n.default)?n.default[0]:n.default:void 0;return{name:n.name,description:n.description,isOptional:!n.is_required,default:e,isVariadic:n.is_array}}),options:Object.keys(i.definition.options).map(a=>{let n=i.definition.options[a],e=[n.name],s=n.shortcut;return s.trim().length>0&&e.push(s),{name:e,description:n.description,isRequired:n.is_value_required,args:n.accept_value?{}:void 0,isRepeatable:n.is_multiple}})})}catch(r){console.error(r)}return{name:\"drush\",subcommands:o}})"
+}

@@ -1,0 +1,33 @@
+{
+    "name": "nr",
+    "description": "Use the right package manager - run",
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Output usage information"
+        }
+    ],
+    "args": {
+        "name": "script",
+        "description": "The script to run",
+        "generators": {
+            "cache": {
+                "strategy": "stale-while-revalidate",
+                "cacheByDirectory": true
+            },
+            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+            "postProcess": "function(n,[a]){if(n.trim()==\"\")return[];try{let e=JSON.parse(n),d=e.scripts,m=e.fig||{};if(d)return Object.entries(d).map(([l,g])=>{let s=a===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",o=m[l];return F({name:l,icon:s,description:g},o)})}catch(e){console.error(e)}return[]}"
+        }
+    },
+    "additionalSuggestions": [
+        {
+            "name": "-",
+            "insertValue": "-\n",
+            "description": "Run the last command",
+            "type": "shortcut"
+        }
+    ]
+}

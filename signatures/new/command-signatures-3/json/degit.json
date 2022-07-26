@@ -1,0 +1,60 @@
+{
+    "name": "degit",
+    "description": "Straightforward project scaffolding",
+    "args": [
+        {
+            "name": "user/repo",
+            "generators": {
+                "trigger": "_NuFrRa_(e,i)=>e.indexOf(\"/\")!==i.indexOf(\"/\")",
+                "custom": "_NuFrRa_(e,i)=>u(void 0,null,function*(){let r=e[e.length-1];if(r.includes(\":\"))return[];let o=r.slice(0,r.indexOf(\"/\")),l=yield i(`curl -sL 'https://api.github.com/users/${o}/repos'`);return JSON.parse(l).map(n=>{var t;return{name:n.full_name,description:(t=n.description)!=null?t:\"Repository\",priority:n.is_template?51:50,displayName:n.name,icon:\"fig://icon?type=git\"}})})"
+            }
+        },
+        {
+            "name": "location",
+            "isOptional": true,
+            "template": "folders",
+            "suggestCurrentToken": true
+        }
+    ],
+    "options": [
+        {
+            "name": "--help",
+            "description": "Print help"
+        },
+        {
+            "name": [
+                "-f",
+                "--force"
+            ],
+            "description": "Overwrite existing files"
+        },
+        {
+            "name": [
+                "-c",
+                "--cache"
+            ],
+            "description": "Use a cache"
+        },
+        {
+            "name": [
+                "-v",
+                "--verbose"
+            ],
+            "description": "Be verbose?"
+        },
+        {
+            "name": [
+                "-m",
+                "--mode"
+            ],
+            "description": "Clone mode",
+            "args": {
+                "name": "mode",
+                "suggestions": [
+                    "git",
+                    "tar"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "name": "rushx",
+    "description": "Run arbitrary package scripts for rush project. analogous to npm run",
+    "args": {
+        "name": "Scripts",
+        "description": "Script to run from your package.json",
+        "generators": {
+            "cache": {
+                "strategy": "stale-while-revalidate",
+                "cacheByDirectory": true
+            },
+            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+            "postProcess": "function(e,[n]){if(e.trim()==\"\")return[];try{let a=JSON.parse(e),t=a.scripts,o=a.fig||{};if(t)return Object.entries(t).map(([p,i])=>{let s=n===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",r=o[p];return V({name:p,icon:s,description:i},r)})}catch(a){console.error(a)}return[]}"
+        },
+        "parserDirectives": {
+            "alias": "_NuFrRa_(e,n)=>h(void 0,null,function*(){var o;let a=yield n(\"cat $(npm prefix)/package.json\"),t=(o=JSON.parse(a).scripts)==null?void 0:o[e];if(!t)throw new Error(`Script not found: '${e}'`);return t})"
+        },
+        "isCommand": true
+    },
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show this help message and exit"
+        },
+        {
+            "name": [
+                "-q",
+                "--quiet"
+            ],
+            "description": "Hide rushx startup information"
+        }
+    ]
+}
