@@ -1,0 +1,96 @@
+{
+    "name": "subl",
+    "description": "Sublime Text",
+    "args": {
+        "name": "files|directories",
+        "isVariadic": true,
+        "isOptional": true,
+        "template": [
+            "folders",
+            "filepaths"
+        ]
+    },
+    "options": [
+        {
+            "name": "--project",
+            "description": "Load the given project",
+            "args": {
+                "name": "project",
+                "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_(p=[])=>{let a=p.filter(({name:u=\"\",type:M})=>{if(i!==\"filter\"&&M===\"folder\")return i===\"always\";if(l.has(u)||o&&new RegExp(o.source,o.flags).test(u))return!0;let[,...h]=u.split(\".\");if(h.length>=1){let g=h.length-1,y=h[g];do{if(c.has(y))return!0;g-=1,y=[h[g],y].join(\".\")}while(g>=0)}return!1});return!r&&!s?a:a.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?r:s)||{}))}"
+                }
+            }
+        },
+        {
+            "name": "--command",
+            "description": "Run the given command",
+            "args": {
+                "name": "command"
+            }
+        },
+        {
+            "name": [
+                "-n",
+                "--new-window"
+            ],
+            "description": "Open a new window",
+            "exclusiveOn": [
+                "-a"
+            ]
+        },
+        {
+            "name": [
+                "-a",
+                "--add"
+            ],
+            "description": "Add folders to the current window",
+            "exclusiveOn": [
+                "-n"
+            ]
+        },
+        {
+            "name": "--launch-or-new-window",
+            "description": "Only open a new window if the application is open"
+        },
+        {
+            "name": [
+                "-w",
+                "--wait"
+            ],
+            "description": "Wait for the files to be closed before returning"
+        },
+        {
+            "name": [
+                "-b",
+                "--background"
+            ],
+            "description": "Don't activate the application"
+        },
+        {
+            "name": [
+                "-s",
+                "--stay"
+            ],
+            "description": "Keep the application activated after closing the file"
+        },
+        {
+            "name": "--safe-mode",
+            "description": "Launch using a clean environment"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show a help message and exit"
+        },
+        {
+            "name": [
+                "-v",
+                "--version"
+            ],
+            "description": "Show the version and exit"
+        }
+    ]
+}

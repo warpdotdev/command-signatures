@@ -1,0 +1,82 @@
+{
+    "name": "vr",
+    "description": "The npm-style script runner for Deno",
+    "subcommands": [
+        {
+            "name": "run",
+            "description": "Run a script",
+            "args": {
+                "name": "script",
+                "generators": {
+                    "cache": {
+                        "strategy": "stale-while-revalidate"
+                    },
+                    "script": "NO_COLOR=1 vr",
+                    "postProcess": "_NuFrRa_t=>{let r=[];try{let e=t.split(`\n`).filter(Boolean);for(let o=0;o<e.length;o++){let i=e[o];!i.startsWith(p)||r.push(c({name:i.replace(p,\"\")},e[o+1]&&{description:e[o+1].trim()}))}}catch(e){console.error(e)}return r}"
+                }
+            }
+        },
+        {
+            "name": "export",
+            "description": "Export one or more scripts as standalone executable files",
+            "args": {
+                "name": "script",
+                "isVariadic": true,
+                "generators": {
+                    "cache": {
+                        "strategy": "stale-while-revalidate"
+                    },
+                    "script": "NO_COLOR=1 vr",
+                    "postProcess": "_NuFrRa_t=>{let r=[];try{let e=t.split(`\n`).filter(Boolean);for(let o=0;o<e.length;o++){let i=e[o];!i.startsWith(p)||r.push(c({name:i.replace(p,\"\")},e[o+1]&&{description:e[o+1].trim()}))}}catch(e){console.error(e)}return r}"
+                }
+            }
+        },
+        {
+            "name": "upgrade",
+            "description": "Upgrade Velociraptor to the latest version or to a specific one",
+            "args": {
+                "name": "version",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-o",
+                        "--out-dir"
+                    ],
+                    "description": "The folder where the scripts will be exported",
+                    "args": {
+                        "name": "dir"
+                    }
+                }
+            ]
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "--help",
+                "-h"
+            ],
+            "description": "Show help for Velociraptor",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Show the version number for Velociraptor"
+        }
+    ],
+    "args": {
+        "name": "script",
+        "generators": {
+            "cache": {
+                "strategy": "stale-while-revalidate"
+            },
+            "script": "NO_COLOR=1 vr",
+            "postProcess": "_NuFrRa_t=>{let r=[];try{let e=t.split(`\n`).filter(Boolean);for(let o=0;o<e.length;o++){let i=e[o];!i.startsWith(p)||r.push(c({name:i.replace(p,\"\")},e[o+1]&&{description:e[o+1].trim()}))}}catch(e){console.error(e)}return r}"
+        }
+    }
+}

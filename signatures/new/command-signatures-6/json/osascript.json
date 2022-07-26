@@ -1,0 +1,59 @@
+{
+    "name": "osascript",
+    "description": "Execute OSA scripts (AppleScript, JavaScript, etc.)",
+    "options": [
+        {
+            "name": "-e",
+            "description": "Enter one line of a script",
+            "args": {
+                "name": "statement"
+            }
+        },
+        {
+            "name": "-i",
+            "description": "Interactive mode"
+        },
+        {
+            "name": "-l",
+            "description": "Override the language for any plain text files",
+            "args": {
+                "name": "language"
+            }
+        },
+        {
+            "name": "-s",
+            "description": "Modify the output style",
+            "args": {
+                "name": "flags",
+                "isVariadic": true,
+                "suggestions": [
+                    {
+                        "name": "h",
+                        "description": "Print values in human-readable form (default)"
+                    },
+                    {
+                        "name": "s",
+                        "description": "Print values in recompilable source form"
+                    },
+                    {
+                        "name": "e",
+                        "description": "Print script errors to stderr (default)"
+                    },
+                    {
+                        "name": "o",
+                        "description": "Print script errors to stdout"
+                    }
+                ]
+            }
+        }
+    ],
+    "args": {
+        "name": "script",
+        "isScript": true,
+        "isOptional": true,
+        "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_(p=[])=>{let u=p.filter(({name:a=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(f.has(a)||r&&new RegExp(r.source,r.flags).test(a))return!0;let[,...g]=a.split(\".\");if(g.length>=1){let h=g.length-1,S=g[h];do{if(c.has(S))return!0;h-=1,S=[g[h],S].join(\".\")}while(h>=0)}return!1});return!s&&!o?u:u.map(a=>Object.assign(Object.assign({},a),(a.type===\"file\"?s:o)||{}))}"
+        }
+    }
+}

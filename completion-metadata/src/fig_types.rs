@@ -17,8 +17,8 @@ use itertools::Itertools;
 struct FigPriority(pub u32);
 
 /// Mapping to the exact types of Fig's completion specs at commit
-/// 3eb3450c5b54de3a2aa31737035e616361d59573.
-/// See https://github.com/withfig/autocomplete-tools/blob/3eb3450c5b54de3a2aa31737035e616361d59573/packages/autocomplete-types/index.d.ts
+/// 67b2515c5ea4ff4c70c672a5ccdf8a77547d1366.
+/// See https://github.com/withfig/autocomplete-tools/blob/67b2515c5ea4ff4c70c672a5ccdf8a77547d1366/packages/autocomplete-types/index.d.ts
 /// for the original type definition.
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum SuggestionType {
@@ -27,6 +27,7 @@ pub enum SuggestionType {
     #[serde(rename = "file")]
     File,
     #[serde(rename = "arg")]
+    #[serde(alias = "argument")]
     Arg,
     #[serde(rename = "subcommand")]
     Subcommand,
@@ -221,6 +222,9 @@ pub enum Template {
 
     #[serde(rename = "history")]
     History,
+
+    #[serde(rename = "help")]
+    Help,
 }
 
 impl From<String> for Suggestion {
@@ -382,7 +386,7 @@ impl TryFrom<Template> for crate::Template {
         match template {
             Template::FilePaths => Ok(crate::Template::Files),
             Template::Folders => Ok(crate::Template::Folders),
-            Template::History => Err(()),
+            Template::History | Template::Help => Err(()),
         }
     }
 }

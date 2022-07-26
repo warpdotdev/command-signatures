@@ -1,0 +1,71 @@
+{
+    "name": "java",
+    "description": "Launch a Java application",
+    "parserDirectives": {
+        "flagsArePosixNoncompliant": true
+    },
+    "args": {
+        "name": "mainclass",
+        "description": "To launch a class file",
+        "generators": {
+            "template": "filepaths",
+            "filterTemplateSuggestions": "_NuFrRa_(h=[])=>{let c=h.filter(({name:u=\"\",type:F})=>{if(i!==\"filter\"&&F===\"folder\")return i===\"always\";if(l.has(u)||r&&new RegExp(r.source,r.flags).test(u))return!0;let[,...p]=u.split(\".\");if(p.length>=1){let y=p.length-1,_=p[y];do{if(a.has(_))return!0;y-=1,_=[p[y],_].join(\".\")}while(y>=0)}return!1});return!o&&!s?c:c.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?o:s)||{}))}"
+        }
+    },
+    "options": [
+        {
+            "name": "-jar",
+            "priority": 99,
+            "description": "To launch the main class in a JAR file",
+            "args": {
+                "name": "JAR file",
+                "generators": {
+                    "template": "filepaths",
+                    "filterTemplateSuggestions": "_NuFrRa_(h=[])=>{let c=h.filter(({name:u=\"\",type:F})=>{if(i!==\"filter\"&&F===\"folder\")return i===\"always\";if(l.has(u)||r&&new RegExp(r.source,r.flags).test(u))return!0;let[,...p]=u.split(\".\");if(p.length>=1){let y=p.length-1,_=p[y];do{if(a.has(_))return!0;y-=1,_=[p[y],_].join(\".\")}while(y>=0)}return!1});return!o&&!s?c:c.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?o:s)||{}))}"
+                }
+            }
+        },
+        {
+            "name": "-D",
+            "priority": 98,
+            "description": "Set a system property, -D<NAME>=<VALUE>"
+        },
+        {
+            "name": [
+                "--help",
+                "-h",
+                "-?"
+            ],
+            "description": "Show help for java"
+        },
+        {
+            "name": [
+                "--version",
+                "-version"
+            ],
+            "description": "Print product version to the error stream and exit"
+        },
+        {
+            "name": [
+                "-showversion",
+                "--show-version"
+            ],
+            "description": "Print product version to the output stream and continue"
+        },
+        {
+            "name": "--dry-run",
+            "description": "Create VM and load main class but do not execute main method"
+        },
+        {
+            "name": [
+                "--classpath",
+                "-cp"
+            ],
+            "description": "Class search path of directories and zip/jar files",
+            "args": {
+                "name": "search files",
+                "template": "filepaths"
+            }
+        }
+    ]
+}

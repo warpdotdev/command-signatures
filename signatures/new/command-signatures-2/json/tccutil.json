@@ -1,0 +1,197 @@
+{
+    "name": "tccutil",
+    "description": "Manage the privacy database",
+    "args": [
+        {
+            "name": "command",
+            "suggestions": [
+                {
+                    "name": "reset",
+                    "description": "Reset permissions",
+                    "type": "subcommand"
+                }
+            ]
+        },
+        {
+            "name": "service",
+            "suggestions": [
+                {
+                    "name": "AppleEvents",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "BluetoothAlways",
+                    "description": "Use Bluetooth",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Calendar",
+                    "description": "Access your calendar",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Camera",
+                    "description": "Access the camera",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "ContactsFull",
+                    "description": "Access all of your contacts information",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "ContactsLimited",
+                    "description": "Access your contacts basic information",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "FileProviderDomain",
+                    "description": "Access files managed by indirect_object",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "FileProviderPresence",
+                    "description": "Allow the app to see when you are using files managed by it?",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Location",
+                    "description": "Use your current location",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "MediaLibrary",
+                    "description": "Access Apple Music, your music and video activity, and your media library",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Microphone",
+                    "description": "Access the microphone",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Motion",
+                    "description": "Access Your Motion & Fitness Activity",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Photos",
+                    "description": "Access Your Photo",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "PhotosAdd",
+                    "description": "Add to your Photo",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Prototype3Rights",
+                    "description": "Authorization to Test Service Proto3Right",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Prototype4Rights",
+                    "description": "Authorization to Test Service Proto4Right",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Reminders",
+                    "description": "Access your reminders",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "ScreenCapture",
+                    "description": "Capture the contents of the system display",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Siri",
+                    "description": "Use app with Siri",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SpeechRecognition",
+                    "description": "Access Speech Recognition",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyDesktopFolder",
+                    "description": "Access files in your Desktop folder",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyDeveloperFiles",
+                    "description": "Access a file used in Software Development",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyDocumentsFolder",
+                    "description": "Access files in your Documents folder",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyDownloadsFolder",
+                    "description": "Access files in your Downloads folder",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyNetworkVolumes",
+                    "description": "Access files on a network volume",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyRemovableVolumes",
+                    "description": "Access files on a removable volume",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicySysAdminFiles",
+                    "description": "Administer your computer",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Willow",
+                    "description": "Access your Home data",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "SystemPolicyAllFiles",
+                    "description": "Full Disk Acces",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "Accessibility",
+                    "description": "Allows app to control your compute",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "PostEvent",
+                    "description": "Allows to send keystroke",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "ListenEvent",
+                    "description": "Allow monitoring input from your keyboard",
+                    "icon": "⚙️"
+                },
+                {
+                    "name": "DeveloperTool",
+                    "description": "Allow app to run software that doesn't meet the system's security policy",
+                    "icon": "⚙️"
+                }
+            ]
+        },
+        {
+            "name": "bundle id",
+            "isOptional": true,
+            "generators": {
+                "scriptTimeout": 15000,
+                "cache": {
+                    "strategy": "stale-while-revalidate"
+                },
+                "script": "mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /Applications | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r \"$line\") $line; done",
+                "postProcess": "_NuFrRa_s=>{let e=new Map(s.split(`\n`).map(n=>{let o=n.indexOf(\" \");return[n.slice(0,o),n.slice(o+1)]}));e.delete(\"(null)\");let i=[];for(let[n,o]of e.entries())i.push({name:n,description:o,icon:`fig://${o}`});return i}"
+            }
+        }
+    ]
+}
