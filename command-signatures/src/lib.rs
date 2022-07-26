@@ -14,6 +14,19 @@ pub use warp_completion_metadata::{
     Signature, Suggestion, Template,
 };
 
+#[cfg(not(new_specs))]
+pub fn commands() -> Vec<Signature> {
+    command_signatures_1::commands::signatures()
+        .into_iter()
+        .chain(command_signatures_2::signatures().into_iter())
+        .chain(command_signatures_3::signatures().into_iter())
+        .chain(command_signatures_4::signatures().into_iter())
+        .chain(command_signatures_5::signatures().into_iter())
+        .chain(command_signatures_6::signatures().into_iter())
+        .collect()
+}
+
+#[cfg(new_specs)]
 pub fn commands() -> Vec<Signature> {
     command_signatures_1::commands::signatures()
         .into_iter()
