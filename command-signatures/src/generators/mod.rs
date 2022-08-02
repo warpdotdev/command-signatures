@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use std::iter::FromIterator;
 use warp_completion_metadata::Generators;
 
+mod bazel;
 mod bosh;
 mod brew;
 mod conda;
@@ -52,6 +53,7 @@ pub fn generators() -> HashMap<String, Generators> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        bazel::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))

@@ -7,10 +7,7 @@
             "description": "Runs the specified target",
             "args": {
                 "name": "BUILD file",
-                "generators": {
-                    "script": "FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo \"----$f\"; \\cat \"$f\"; done",
-                    "postProcess": "function(r){let n=r.split(`\n`),t=[],s=\"\";for(let e=0;e<n.length;e++){let o=n[e].match(\"----.(.*)/BUILD\"),a=n[e].match('name = \"(.*)\"');o?s=o[1]+\":\":a&&t.push({name:s+a[1],description:\"Bazel target\",icon:\"\\u{1F3AF}\",priority:80})}return t}"
-                }
+                "generatorName": "build_file"
             }
         },
         {
@@ -18,10 +15,7 @@
             "description": "Builds and runs the specified test targets",
             "args": {
                 "name": "BUILD file",
-                "generators": {
-                    "script": "FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo \"----$f\"; \\cat \"$f\"; done",
-                    "postProcess": "function(r){let n=r.split(`\n`),t=[],s=\"\";for(let e=0;e<n.length;e++){let o=n[e].match(\"----.(.*)/BUILD\"),a=n[e].match('name = \"(.*)\"');o?s=o[1]+\":\":a&&t.push({name:s+a[1],description:\"Bazel target\",icon:\"\\u{1F3AF}\",priority:80})}return t}"
-                }
+                "generatorName": "build_file"
             }
         },
         {
@@ -29,10 +23,7 @@
             "description": "Builds the specified targets",
             "args": {
                 "name": "BUILD file",
-                "generators": {
-                    "script": "FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo \"----$f\"; \\cat \"$f\"; done",
-                    "postProcess": "function(r){let n=r.split(`\n`),t=[],s=\"\";for(let e=0;e<n.length;e++){let o=n[e].match(\"----.(.*)/BUILD\"),a=n[e].match('name = \"(.*)\"');o?s=o[1]+\":\":a&&t.push({name:s+a[1],description:\"Bazel target\",icon:\"\\u{1F3AF}\",priority:80})}return t}"
-                }
+                "generatorName": "build_file"
             }
         }
     ],
