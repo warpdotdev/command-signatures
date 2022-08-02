@@ -23,6 +23,7 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "resource_type",
             Generator::new("kubectl api-resources -o name", |output| {
+                println!("Inside annotate generator");
                 match check_kubectl_post_process(output) {
                     KubectlPostProcess::ConnectedToCluster | KubectlPostProcess::GeneralError => {
                         GeneratorResults::default()

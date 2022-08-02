@@ -580,10 +580,7 @@
       "description": "Attach to a process that is already running inside an existing container",
       "args": {
         "name": "Running Pods",
-        "generators": {
-          "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-          "postProcess": "_NuFrRa_i => s.connectedToCluster(i) || s.generalError(i) ? [] : i.split(\"\\n\").map(n => ({\n  name: n,\n  icon: \"fig://icon?type=kubernetes\"\n}))"
-        }
+        "generatorName": "running_pods"
       },
       "options": [
         {

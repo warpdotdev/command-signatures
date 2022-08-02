@@ -76,14 +76,7 @@
             "args": [
                 {
                     "name": "Resource Type",
-                    "generators": {
-                        "script": "kubectl api-resources -o name",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        },
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                    }
+                    "generatorName": "resource_type"
                 },
                 {
                     "name": "Resource",
@@ -723,10 +716,7 @@
             "description": "Attach to a process that is already running inside an existing container",
             "args": {
                 "name": "Running Pods",
-                "generators": {
-                    "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                }
+                "generatorName": "running_pods"
             },
             "options": [
                 {
