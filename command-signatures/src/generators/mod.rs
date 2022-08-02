@@ -13,6 +13,8 @@ mod gh;
 mod git;
 mod go;
 mod heroku;
+mod kubectx;
+mod kubens;
 mod make;
 mod man;
 mod ng;
@@ -25,7 +27,6 @@ mod react_native;
 mod ssh;
 mod tar;
 mod terraform;
-mod kubectx;
 
 pub fn generators() -> HashMap<String, Generators> {
     let generators = [
@@ -54,6 +55,7 @@ pub fn generators() -> HashMap<String, Generators> {
         tar::generator(),
         terraform::generator(),
         kubectx::generator(),
+        kubens::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
