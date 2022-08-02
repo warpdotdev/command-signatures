@@ -30,6 +30,21 @@ struct NpmPackageJsonInfo {
     workspaces: Vec<String>,
 }
 
+#[derive(serde::Deserialize)]
+struct YarnListInfo {
+    data: YarnListInfoData,
+}
+
+#[derive(serde::Deserialize)]
+struct YarnListInfoData {
+    trees: Vec<YarnListInfoTree>,
+}
+
+#[derive(serde::Deserialize)]
+struct YarnListInfoTree {
+    name: String,
+}
+
 fn get_scripts_generator() -> Generator {
     Generator::new(
         "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
@@ -179,6 +194,35 @@ pub fn yarn_generators() -> CommandGenerators {
         .add_generator("config_list", config_list())
         .add_generator("dependencies_generator", dependencies_generator())
         .add_generator("get_scripts_generator", get_scripts_generator())
+        .add_generator(
+            "all_dependencies_generator",
+            Generator::new("yarn list --depth=0 --json", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
+                let yarn_list_info: YarnListInfo = match serde_json::from_str(output) {
+                    Ok(info) => info,
+                    Err(e) => {
+                        log::warn!(
+                            "Failed to deserialize all_dependencies_generator yarn output {:?}",
+                            e
+                        );
+                        return GeneratorResults::default();
+                    }
+                };
+
+                yarn_list_info
+                    .data
+                    .trees
+                    .into_iter()
+                    .filter_map(|tree| {
+                        let name = tree.name.split_once('@')?.0;
+                        Some(Suggestion::new(name))
+                    })
+                    .collect_ordered_results()
+            }),
+        )
 }
 
 #[cfg(test)]
