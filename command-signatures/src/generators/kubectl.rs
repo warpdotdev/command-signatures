@@ -30,8 +30,10 @@ pub fn generator() -> CommandGenerators {
                     }
                     KubectlPostProcess::Other => output
                         .trim()
-                        .split('\n')
-                        .map(|line| Suggestion::new(line.trim()))
+                        .lines()
+                        .map(str::trim)
+                        .filter(|line| !line.is_empty())
+                        .map(Suggestion::new)
                         .collect_unordered_results(),
                 }
             }),
@@ -45,9 +47,10 @@ pub fn generator() -> CommandGenerators {
                         GeneratorResults::default()
                     }
                     KubectlPostProcess::Other => output
-                        .trim()
-                        .split('\n')
-                        .map(|line| Suggestion::new(line.trim()))
+                        .lines()
+                        .map(str::trim)
+                        .filter(|line| !line.is_empty())
+                        .map(Suggestion::new)
                         .collect_unordered_results(),
                 },
             ),
