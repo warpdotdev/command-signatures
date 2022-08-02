@@ -30,6 +30,7 @@ struct NpmPackageJsonInfo {
     workspaces: Vec<String>,
 }
 
+/// Helper struct that matches the output of running `yarn list --depth=0 --json`.
 #[derive(serde::Deserialize)]
 struct YarnListInfo {
     data: YarnListInfoData,
