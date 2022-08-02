@@ -300,16 +300,12 @@ impl From<Arg> for Argument {
         //   For example, if argument_types = vec![generator_a, generator_b], then generator_a
         //   completions will come before generator_b completions.
         let argument_types = arg
-            .generator_name
+            .suggestions
             .into_iter()
-            .map(ArgumentType::Generator)
-            .chain(
-                arg.suggestions
-                    .into_iter()
-                    .flat_map(Vec::from)
-                    .sorted()
-                    .map(ArgumentType::Suggestion),
-            )
+            .flat_map(Vec::from)
+            .sorted()
+            .map(ArgumentType::Suggestion)
+            .chain(arg.generator_name.into_iter().map(ArgumentType::Generator))
             .chain(arg.template.into_iter().filter_map(|template| {
                 crate::Template::try_from(template)
                     .ok()

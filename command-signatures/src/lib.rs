@@ -9,8 +9,9 @@ pub use warp_completion_metadata::{
     Signature, Suggestion, Template,
 };
 
-#[cfg(not(new_fig_specs))]
+#[cfg(not(feature = "new_fig_specs"))]
 pub fn commands() -> Vec<Signature> {
+    println!("old specs");
     command_signatures_1::commands::signatures()
         .into_iter()
         .chain(command_signatures_2::signatures().into_iter())
@@ -21,7 +22,7 @@ pub fn commands() -> Vec<Signature> {
         .collect()
 }
 
-#[cfg(new_fig_specs)]
+#[cfg(feature = "new_fig_specs")]
 pub fn commands() -> Vec<Signature> {
     new_command_signatures_1::commands::signatures()
         .into_iter()
