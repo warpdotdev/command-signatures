@@ -66,11 +66,14 @@
     },
     {
       "name": "annotate",
-      "description": "Update the annotations on one or more resources DEBUG2",
+      "description": "Update the annotations on one or more resources",
       "args": [
         {
           "name": "Resource Type",
-          "generatorName": "resource_type"
+          "generators": {
+            "script": "kubectl api-resources -o name",
+            "postProcess": "_NuFrRa_i => s.connectedToCluster(i) || s.generalError(i) ? [] : i.split(\"\\n\").map(n => ({\n  name: n,\n  icon: \"fig://icon?type=kubernetes\"\n}))"
+          }
         },
         {
           "name": "Resource",
@@ -580,7 +583,10 @@
       "description": "Attach to a process that is already running inside an existing container",
       "args": {
         "name": "Running Pods",
-        "generatorName": "running_pods"
+        "generators": {
+          "script": "kubectl get pods --field-selector=status.phase=Running -o name",
+          "postProcess": "_NuFrRa_i => s.connectedToCluster(i) || s.generalError(i) ? [] : i.split(\"\\n\").map(n => ({\n  name: n,\n  icon: \"fig://icon?type=kubernetes\"\n}))"
+        }
       },
       "options": [
         {
