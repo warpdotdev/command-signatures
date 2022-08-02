@@ -11,7 +11,7 @@ pub fn generator() -> CommandGenerators {
                 |output| {
                     output
                         .trim()
-                        .split('\n')
+                        .lines()
                         .filter_map(|line| {
                             if line.contains("unbound") {
                                 None
@@ -28,7 +28,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("brew list -1", |output| {
                 output
                     .trim()
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         if line.contains('=') {
                             return None;
@@ -40,16 +40,6 @@ pub fn generator() -> CommandGenerators {
             }),
         )
         .add_generator(
-            "cask_generator",
-            Generator::new("brew list -1 --cask", |output| {
-                output
-                    .trim()
-                    .lines()
-                    .map(|item| Suggestion::with_description(item, "Installed cask"))
-                    .collect_unordered_results()
-            }),
-        )
-        .add_generator(
             "brew_info_generator",
             Generator::new(
                 "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/h\
@@ -57,7 +47,7 @@ pub fn generator() -> CommandGenerators {
                 |output| {
                     output
                         .trim()
-                        .split('\n')
+                        .lines()
                         .map(|line| {
                             Suggestion::with_description(line.replace(".rb", ""), "formula")
                         })
@@ -70,7 +60,7 @@ pub fn generator() -> CommandGenerators {
             Generator::new("brew list -1 --cask", |output| {
                 output
                     .trim()
-                    .split('\n')
+                    .lines()
                     .map(|formula| Suggestion::with_description(formula, "Installed formula"))
                     .collect_unordered_results()
             }),
