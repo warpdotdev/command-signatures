@@ -4,6 +4,7 @@ use warp_completion_metadata::Generators;
 
 mod bosh;
 mod brew;
+mod cargo;
 mod conda;
 mod defaults;
 mod docker;
@@ -52,6 +53,7 @@ pub fn generators() -> HashMap<String, Generators> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        cargo::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
