@@ -4,20 +4,8 @@
     "args": {
         "name": "user@hostname",
         "description": "Address of remote machine to log into",
-        "generators": [
-            {
-                "script": "cat ~/.ssh/known_hosts",
-                "postProcess": "function(o,e){return o.split(`\n`).map(t=>{let n=i.exec(t);if(n)return String(n)}).filter((t,n,a)=>t&&a.indexOf(t)===n).map(t=>({name:(e[1].endsWith(\"@\")?e[1]:\"\")+t,description:\"SSH host\"}))}",
-                "trigger": "@"
-            },
-            {
-                "script": "cat ~/.ssh/config",
-                "postProcess": "function(o){return o.split(`\n`).filter(e=>e.trim().startsWith(\"Host \")&&!e.includes(\"*\")).map(e=>({name:e.split(\" \")[1],description:\"SSH host\",priority:90}))}"
-            },
-            {
-                "template": "history"
-            }
-        ]
+        "template": "history",
+        "generatorName": ["known_hosts", "addresses"]
     },
     "options": [
         {
