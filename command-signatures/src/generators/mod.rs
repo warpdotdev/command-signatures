@@ -13,6 +13,7 @@ mod gh;
 mod git;
 mod go;
 mod heroku;
+mod kill;
 mod make;
 mod man;
 mod ng;
@@ -52,6 +53,7 @@ pub fn generators() -> HashMap<String, Generators> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        kill::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
