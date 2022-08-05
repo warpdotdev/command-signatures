@@ -8,15 +8,10 @@ fn tmux_post_process(output: &str) -> GeneratorResults {
         .filter_map(|line| {
             let mut result = line.split(':');
 
-            let name = result.next();
-            let description = result.next();
-
-            match (name, description) {
-                (Some(name), Some(description)) => {
-                    Some(Suggestion::with_description(name, description))
-                }
-                _ => None,
-            }
+            result
+                .next()
+                .zip(result.next())
+                .map(|(name, description)| Suggestion::with_description(name, description))
         })
         .collect_unordered_results()
 }
