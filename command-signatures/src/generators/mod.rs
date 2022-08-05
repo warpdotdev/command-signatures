@@ -25,6 +25,7 @@ mod react_native;
 mod ssh;
 mod tar;
 mod terraform;
+mod tmux;
 
 pub fn generators() -> HashMap<String, Generators> {
     let generators = [
@@ -52,6 +53,7 @@ pub fn generators() -> HashMap<String, Generators> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        tmux::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
