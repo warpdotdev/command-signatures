@@ -14,15 +14,10 @@ pub fn generator() -> CommandGenerators {
                     .filter_map(|line| {
                         let mut result = line.split_whitespace();
 
-                        let pid = result.next();
-                        let path = result.next();
-
-                        match (pid, path) {
-                            (Some(pid), Some(path)) => {
-                                Some(Suggestion::with_description(pid, path))
-                            }
-                            _ => None,
-                        }
+                        result
+                            .next()
+                            .zip(result.next())
+                            .map(|(pid, path)| Suggestion::with_description(pid, path))
                     })
                     .collect_unordered_results()
             }),
@@ -30,9 +25,8 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "signal_name",
             Generator::new("env kill -l", |output| {
-                RE.captures_iter(output)
-                    .into_iter()
-                    .map(|capture| Suggestion::new(&capture[1]))
+                RE.find_iter(output)
+                    .map(|capture| Suggestion::new(capture.as_str()))
                     .collect_unordered_results()
             }),
         )
