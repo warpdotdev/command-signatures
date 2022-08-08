@@ -49,7 +49,10 @@ pub fn generator() -> CommandGenerators {
                         .trim()
                         .lines()
                         .map(|line| {
-                            Suggestion::with_description(line.strip_suffix(".rb"), "formula")
+                            Suggestion::with_description(
+                                line.strip_suffix(".rb").unwrap_or_default(),
+                                "formula",
+                            )
                         })
                         .collect_unordered_results()
                 },
