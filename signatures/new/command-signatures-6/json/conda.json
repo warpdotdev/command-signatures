@@ -6,10 +6,7 @@
             "name": "activate",
             "description": "Activate an environment",
             "args": {
-                "generators": {
-                    "script": "conda env list",
-                    "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let o=2;o<e.length;o++){var a=e[o].split(\" \")[0];n.push({name:a,icon:\"\\u{1F40D}\"})}return n}"
-                }
+                "generatorName": "get_conda_environments"
             },
             "options": [
                 {
@@ -208,10 +205,7 @@
                         "name": "Configuration values",
                         "isOptional": true,
                         "isVariadic": true,
-                        "generators": {
-                            "script": "conda config --show",
-                            "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let o=2;o<e.length;o++){var a=e[o].split(\":\")[0];a.includes(\"-\")==!1&&n.push({name:a,icon:\"\\u{1F40D}\"})}return n}"
-                        }
+                        "generatorName": "get_conda_configs"
                     }
                 },
                 {
@@ -229,10 +223,7 @@
                         "name": "Configuration values",
                         "isOptional": true,
                         "isVariadic": true,
-                        "generators": {
-                            "script": "conda config --show",
-                            "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let o=2;o<e.length;o++){var a=e[o].split(\":\")[0];a.includes(\"-\")==!1&&n.push({name:a,icon:\"\\u{1F40D}\"})}return n}"
-                        }
+                        "generatorName": "get_conda_configs"
                     }
                 },
                 {
@@ -323,10 +314,7 @@
                     "name": "--clone",
                     "description": "Path to (or name of) existing local environment",
                     "args": {
-                        "generators": {
-                            "script": "conda env list",
-                            "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let o=2;o<e.length;o++){var a=e[o].split(\" \")[0];n.push({name:a,icon:\"\\u{1F40D}\"})}return n}"
-                        }
+                        "generatorName": "get_conda_environments"
                     }
                 },
                 {
@@ -872,10 +860,7 @@
             "args": {
                 "name": "package name",
                 "isVariadic": true,
-                "generators": {
-                    "script": "conda list",
-                    "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let a=2;a<e.length;a++)n.push({name:e[a],icon:\"\\u{1F40D}\"});return n}"
-                }
+                "generatorName": "get_installed_packages"
             },
             "options": [
                 {
@@ -999,10 +984,7 @@
             "args": {
                 "name": "package name",
                 "isVariadic": true,
-                "generators": {
-                    "script": "conda list",
-                    "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let a=2;a<e.length;a++)n.push({name:e[a],icon:\"\\u{1F40D}\"});return n}"
-                }
+                "generatorName": "get_installed_packages"
             },
             "options": [
                 {
@@ -1277,10 +1259,7 @@
                         "icon": "⭐️"
                     }
                 ],
-                "generators": {
-                    "script": "conda list",
-                    "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let a=2;a<e.length;a++)n.push({name:e[a],icon:\"\\u{1F40D}\"});return n}"
-                }
+                "generatorName": "get_installed_packages"
             },
             "options": [
                 {
@@ -1467,10 +1446,7 @@
                         "icon": "⭐️"
                     }
                 ],
-                "generators": {
-                    "script": "conda list",
-                    "postProcess": "function(t){let e=t.split(`\n`),n=[];for(let a=2;a<e.length;a++)n.push({name:e[a],icon:\"\\u{1F40D}\"});return n}"
-                }
+                "generatorName": "get_installed_packages"
             },
             "options": [
                 {
