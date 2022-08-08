@@ -648,10 +648,7 @@
             "name": "--deployment",
             "description": "Deployment name [$BOSH_DEPLOYMENT]",
             "args": {
-                "generators": {
-                    "script": "bosh --json deployments",
-                    "postProcess": "function(n){if(n.startsWith(\"fatal:\"))return[];try{return JSON.parse(n).Tables[0].Rows.forEach(a=>({name:a.name,description:\"Deployment\"}))}catch(e){return[]}}"
-                }
+                "generatorName": "deployments"
             }
         },
         {
