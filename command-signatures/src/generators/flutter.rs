@@ -1,4 +1,4 @@
-use regex::Regex;
+use regex::{Match, Regex};
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
@@ -36,7 +36,9 @@ pub fn generator() -> CommandGenerators {
                     .lines()
                     .filter(|line| ENDS_WITH_WORD.is_match(line))
                     .filter_map(|line| {
-                        WORD_RE.find_iter(line.trim()).next().map(|word| {
+                        let line = line.trim();
+
+                        WORD_RE.find(line).map(|word| {
                             let description = if line.starts_with('*') {
                                 "Active Channel"
                             } else {
