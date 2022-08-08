@@ -1,4 +1,4 @@
-use regex::{Match, Regex};
+use regex::Regex;
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
@@ -11,16 +11,14 @@ pub fn generator() -> CommandGenerators {
             "emulators",
             Generator::new("flutter emulators", |output| {
                 BULLET_RE
-                    .captures_iter(output)
-                    .filter_map(|info| info.get(0).map(|capture| capture.as_str()))
+                    .find_iter(output)
+                    .map(|regex_match| regex_match.as_str())
                     .map(|info| info.split('•').map(str::trim))
                     .filter_map(|mut device| {
                         match (device.next(), device.next(), device.next(), device.next()) {
                             (Some(id), Some(name), Some(manufacturer), Some(platform_type)) => {
-                                let description = format!(
-                                    "Available emulator:\n{} • {} • {}",
-                                    name, manufacturer, platform_type
-                                );
+                                let description =
+                                    format!("{} • {} • {}", name, manufacturer, platform_type);
                                 Some(Suggestion::with_description(id, description))
                             }
                             _ => None,
