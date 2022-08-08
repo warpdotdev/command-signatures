@@ -2,12 +2,13 @@ use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
+use serde::Deserialize;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
 
 /// Helper struct used for deserializing a npm/yarn package.json file into the necessary fields
 /// needed for generators.
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct PackageJsonInfo {
     #[serde(default)]
     dependencies: HashMap<String, String>,
@@ -24,24 +25,24 @@ struct PackageJsonInfo {
 
 /// Helper struct used for deserializing an npm package.json file. Useful for deserializing a field
 /// from a npm package.json file where the schema differs from the yarn package.json file.
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct NpmPackageJsonInfo {
     #[serde(default)]
     workspaces: Vec<String>,
 }
 
 /// Helper struct that matches the output of running `yarn list --depth=0 --json`.
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct YarnListInfo {
     data: YarnListInfoData,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct YarnListInfoData {
     trees: Vec<YarnListInfoTree>,
 }
 
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct YarnListInfoTree {
     name: String,
 }
@@ -218,7 +219,7 @@ pub fn yarn_generators() -> CommandGenerators {
                     .trees
                     .into_iter()
                     .filter_map(|tree| {
-                        let name = tree.name.split_once('@')?.0;
+                        let name = tree.name.rsplit_once('@')?.0;
                         Some(Suggestion::new(name))
                     })
                     .collect_ordered_results()
