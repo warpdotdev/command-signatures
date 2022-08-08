@@ -162,7 +162,7 @@ fn dependencies_generator() -> Generator {
 }
 
 fn workspace_generator() -> Generator {
-    Generator::new("cat package.json", |output| {
+    Generator::new("cat $(npm prefix)/package.json", |output| {
         if output.trim().is_empty() {
             return GeneratorResults::default();
         }
