@@ -17,18 +17,12 @@
                 {
                     "name": "source",
                     "description": "The source project name",
-                    "generators": {
-                        "script": "tmuxinator list -n",
-                        "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                    }
+                    "generatorName": "projects"
                 },
                 {
                     "name": "target",
                     "description": "The target project name",
-                    "generators": {
-                        "script": "tmuxinator list -n",
-                        "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                    }
+                    "generatorName": "projects"
                 }
             ]
         },
@@ -81,10 +75,7 @@
             "args": {
                 "name": "project",
                 "description": "The project name",
-                "generators": {
-                    "script": "tmuxinator list -n",
-                    "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                },
+                "generatorName": "projects",
                 "isVariadic": true
             }
         },
@@ -139,10 +130,7 @@
                 {
                     "name": "tmux-session",
                     "description": "The tmux session name",
-                    "generators": {
-                        "script": "tmux ls",
-                        "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(n=>({name:n.substring(0,n.indexOf(\":\")),description:\"Tmux Session - \"+n}))"
-                    },
+                    "generatorName": "session_names",
                     "isOptional": true
                 }
             ],
@@ -159,10 +147,7 @@
             "args": {
                 "name": "project",
                 "description": "The project name",
-                "generators": {
-                    "script": "tmuxinator list -n",
-                    "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                }
+                "generatorName": "projects"
             },
             "options": [
                 {
@@ -177,10 +162,7 @@
             "args": {
                 "name": "project",
                 "description": "The project name",
-                "generators": {
-                    "script": "tmuxinator list -n",
-                    "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                }
+                "generatorName": "projects"
             },
             "options": [
                 {
@@ -195,10 +177,7 @@
             "args": {
                 "name": "project",
                 "description": "The project name",
-                "generators": {
-                    "script": "tmuxinator list -n",
-                    "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                },
+                "generatorName": "projects",
                 "loadSpec": {
                     "name": "project",
                     "options": [
@@ -253,10 +232,7 @@
             "args": {
                 "name": "project",
                 "description": "The project name",
-                "generators": {
-                    "script": "tmuxinator list -n",
-                    "postProcess": "_NuFrRa_t=>t.startsWith(\"fatal:\")?[]:t.split(`\n`).splice(1).map(n=>({name:n,description:\"Project\"}))"
-                },
+                "generatorName": "projects",
                 "loadSpec": {
                     "name": "project",
                     "options": [
