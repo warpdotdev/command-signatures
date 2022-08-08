@@ -21,8 +21,7 @@ pub fn generator() -> CommandGenerators {
                     .trim()
                     .lines()
                     .filter_map(|path| {
-                        path.rfind('/').and_then(|index| {
-                            let name = &path[index + 1..];
+                        path.rsplit_once('/').and_then(|(_, name)| {
                             if !name.is_empty() {
                                 Some(Suggestion::with_description(name, path))
                             } else {
