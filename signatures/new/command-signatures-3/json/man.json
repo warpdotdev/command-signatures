@@ -3,10 +3,7 @@
     "description": "Format and display the on-line manual pages",
     "args": [
         {
-            "generators": {
-                "script": "_NuFrRa_n=>{let e=n[n.length-2];return`ls -1 $(man -w | sed 's#:#/man${f.has(e)?e:\"[18]\"} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq`}",
-                "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>!(e.length==0||e.startsWith(\"/\"))).map(e=>({name:e,description:\"Manual page\",icon:\"fig://icon?type=string\"}))"
-            },
+            "generatorName": "list_man_pages",
             "suggestions": [
                 {
                     "name": "1",
@@ -67,10 +64,7 @@
             ]
         },
         {
-            "generators": {
-                "script": "_NuFrRa_n=>{let e=n[n.length-2];return`ls -1 $(man -w | sed 's#:#/man${f.has(e)?e:\"[18]\"} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq`}",
-                "postProcess": "_NuFrRa_n=>n.split(`\n`).filter(e=>!(e.length==0||e.startsWith(\"/\"))).map(e=>({name:e,description:\"Manual page\",icon:\"fig://icon?type=string\"}))"
-            },
+            "generatorName": "list_man_pages",
             "isOptional": true
         }
     ],
