@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
@@ -6,18 +6,25 @@ use warp_completion_metadata::{
 
 use serde_json::Result;
 
+/// The output of cargo metadata. It should contain
+/// a list of resolved dependencies of a package.
 #[derive(serde::Deserialize)]
-struct MetaData {
+struct Metadata {
     #[serde(default)]
     packages: Vec<Package>,
 }
 
+/// The fields of a cargo package JSON.
 #[derive(serde::Deserialize)]
 struct Package {
     #[serde(default)]
+    /// List of feature flags.
     features: HashMap<String, Vec<String>>,
+    /// Name of the package.
     name: String,
+    /// Description of the package.
     description: Option<String>,
+    /// List of compilation targets.
     targets: Option<Vec<Target>>,
 }
 
@@ -33,21 +40,20 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "features_generators",
             Generator::new("cargo metadata --no-deps --format-version 1", |output| {
-                let metadata: Result<MetaData> = serde_json::from_str(output);
+                let metadata: Result<Metadata> = serde_json::from_str(output);
 
-                if let Ok(metadata) = metadata {
-                    let mut suggestions = Vec::new();
-                    for package in metadata.packages {
-                        suggestions.extend(
-                            package
-                                .features
-                                .keys()
-                                .map(|feature| Suggestion::with_description(feature, "Feature")),
-                        );
+                match metadata {
+                    Ok(metadata) => metadata
+                        .packages
+                        .into_iter()
+                        .flat_map(|package| package.features.into_keys())
+                        .map(|feature| Suggestion::with_description(feature, "Feature"))
+                        .collect_unordered_results(),
+                    Err(e) => {
+                        log::error!("Couldn't parse cargo metadata with error {}", e);
+                        GeneratorResults::default()
                     }
-                    return suggestions.into_iter().collect_unordered_results();
                 }
-                GeneratorResults::default()
             }),
         )
         .add_generator(
@@ -64,55 +70,64 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "dependencies",
             Generator::new("cargo metadata --format-version 1", |output| {
-                let metadata: Result<MetaData> = serde_json::from_str(output);
+                let metadata: Result<Metadata> = serde_json::from_str(output);
 
-                if let Ok(metadata) = metadata {
-                    let mut items = metadata
-                        .packages
-                        .iter()
-                        .map(|package| (package.name.clone(), package.description.clone()))
-                        .collect::<Vec<(String, Option<String>)>>();
+                match metadata {
+                    Ok(metadata) => {
+                        let items = metadata
+                            .packages
+                            .iter()
+                            .map(|package| (package.name.clone(), package.description.clone()))
+                            .collect::<HashSet<(String, Option<String>)>>();
 
-                    items.dedup();
-
-                    return items
-                        .into_iter()
-                        .map(|(name, description)| match description {
-                            Some(description) => Suggestion::with_description(name, description),
-                            None => Suggestion::new(name),
-                        })
-                        .collect_unordered_results();
+                        items
+                            .into_iter()
+                            .map(|(name, description)| match description {
+                                Some(description) => {
+                                    Suggestion::with_description(name, description)
+                                }
+                                None => Suggestion::new(name),
+                            })
+                            .collect_unordered_results()
+                    }
+                    Err(e) => {
+                        log::error!("Couldn't parse cargo metadata with error {}", e);
+                        GeneratorResults::default()
+                    }
                 }
-                GeneratorResults::default()
             }),
         )
         .add_generator(
             "bin_list",
             Generator::new("cargo metadata --no-deps --format-version 1", |output| {
-                let metadata: Result<MetaData> = serde_json::from_str(output);
+                let metadata: Result<Metadata> = serde_json::from_str(output);
 
-                if let Ok(metadata) = metadata {
-                    let mut suggestions = Vec::new();
-                    let binary_key = "bin".to_string();
-                    for package in metadata.packages {
-                        if let Some(targets) = package.targets {
-                            suggestions.extend(
-                                targets
-                                    .iter()
-                                    .filter(|target| target.kind.contains(&binary_key))
-                                    .map(|target| Suggestion::new(target.name.clone())),
-                            );
-                        }
+                match metadata {
+                    Ok(metadata) => {
+                        let binary_key = "bin".to_string();
+                        metadata
+                            .packages
+                            .into_iter()
+                            .flat_map(|package| package.targets.into_iter().flatten())
+                            .filter_map(|target| {
+                                target
+                                    .kind
+                                    .contains(&binary_key)
+                                    .then(|| Suggestion::new(target.name))
+                            })
+                            .collect_unordered_results()
                     }
-                    return suggestions.into_iter().collect_unordered_results();
+                    Err(e) => {
+                        log::error!("Couldn't parse cargo metadata with error {}", e);
+                        GeneratorResults::default()
+                    }
                 }
-                GeneratorResults::default()
             }),
         )
         .add_generator(
             "spec",
             Generator::new(
-                "cargo install --list | \\grep -E \"^[a-zA-Z\\-]+\\sv\" | cut -d ' ' -f 1",
+                r#"cargo install --list | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#,
                 |output| {
                     output
                         .lines()
