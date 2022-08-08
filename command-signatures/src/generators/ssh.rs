@@ -14,12 +14,12 @@ pub fn generator() -> CommandGenerators {
             "addresses",
             Generator::new("cat ~/.ssh/config", |output| {
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         if line.trim().starts_with("Host ") && !line.contains('*') {
                             line.split_whitespace()
                                 .next_back()
-                                .map(|name| Suggestion::with_description(name, "ssh host"))
+                                .map(|name| Suggestion::with_description(name, "SSH Host"))
                         } else {
                             None
                         }
@@ -32,8 +32,8 @@ pub fn generator() -> CommandGenerators {
             Generator::new("cat ~/.ssh/known_hosts", |output| {
                 output
                     .lines()
-                    .filter_map(|line| RE.find(line).map(|re_match| re_match.as_str()))
-                    .map(|known_host| Suggestion::with_description(known_host, "SSH Host"))
+                    .filter_map(|line| RE.find(line))
+                    .map(|known_host| Suggestion::with_description(known_host.as_str(), "SSH Host"))
                     .collect_unordered_results()
             }),
         )
