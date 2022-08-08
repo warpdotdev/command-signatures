@@ -31,10 +31,10 @@ pub fn generator() -> CommandGenerators {
                     .lines()
                     .filter_map(|line| {
                         if line.contains('=') {
-                            return None;
+                            None
+                        } else {
+                            Some(Suggestion::with_description(line, "Installed formula"))
                         }
-
-                        Some(Suggestion::with_description(line, "Installed formula"))
                     })
                     .collect_unordered_results()
             }),
@@ -49,7 +49,7 @@ pub fn generator() -> CommandGenerators {
                         .trim()
                         .lines()
                         .map(|line| {
-                            Suggestion::with_description(line.replace(".rb", ""), "formula")
+                            Suggestion::with_description(line.strip_suffix(".rb"), "formula")
                         })
                         .collect_unordered_results()
                 },
