@@ -26,9 +26,7 @@ pub fn generator() -> CommandGenerators {
                 output
                     .lines()
                     .filter_map(|line| {
-                        let mut result = line.split(':');
-
-                        result.next().zip(result.next()).map(|(name, description)| {
+                        line.split_once(':').map(|(name, description)| {
                             Suggestion::with_description(name, description)
                         })
                     })
