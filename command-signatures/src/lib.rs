@@ -1,7 +1,9 @@
 mod generators;
+mod template_filters;
 
 pub use all_commands::*;
 pub use generators::generators;
+pub use template_filters::template_filters;
 
 pub use warp_completion_metadata::{
     Argument, ArgumentType, CommandGenerators, Generator, GeneratorName, GeneratorResults,

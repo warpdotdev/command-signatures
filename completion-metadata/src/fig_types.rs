@@ -1,6 +1,6 @@
 use crate::{
-    Argument, ArgumentType, GeneratorName, Importance, IsArgumentOptional, Opt, Order, Priority,
-    Signature,
+    Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
+    IsArgumentOptional, Opt, Order, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
@@ -180,6 +180,10 @@ pub struct Arg {
     pub template: Vec<Template>,
 
     #[serde(default)]
+    #[serde(rename = "filterTemplateName")]
+    pub filter_template_suggestions: Option<FilterTemplateSuggestion>,
+
+    #[serde(default)]
     #[serde(rename = "isVariadic")]
     pub is_variadic: bool,
 
@@ -311,9 +315,14 @@ impl From<Arg> for Argument {
                     .map(ArgumentType::Suggestion),
             )
             .chain(arg.template.into_iter().filter_map(|template| {
-                crate::Template::try_from(template)
+                crate::TemplateType::try_from(template)
                     .ok()
-                    .map(ArgumentType::Template)
+                    .map(|template_type| {
+                        ArgumentType::Template(crate::Template {
+                            type_name: template_type,
+                            filter_name: arg.filter_template_suggestions.clone(),
+                        })
+                    })
             }))
             .collect();
 
@@ -379,13 +388,13 @@ impl From<CommandOption> for Opt {
     }
 }
 
-impl TryFrom<Template> for crate::Template {
+impl TryFrom<Template> for crate::TemplateType {
     type Error = ();
 
     fn try_from(template: Template) -> Result<Self, Self::Error> {
         match template {
-            Template::FilePaths => Ok(crate::Template::Files),
-            Template::Folders => Ok(crate::Template::Folders),
+            Template::FilePaths => Ok(crate::TemplateType::Files),
+            Template::Folders => Ok(crate::TemplateType::Folders),
             Template::History | Template::Help => Err(()),
         }
     }
@@ -556,6 +565,7 @@ mod tests {
                                 ],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -568,6 +578,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -611,6 +622,7 @@ mod tests {
                                 ],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -623,6 +635,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -635,6 +648,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -678,6 +692,7 @@ mod tests {
                                 ],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -690,6 +705,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -733,6 +749,7 @@ mod tests {
                                 ],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -745,6 +762,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
@@ -757,6 +775,7 @@ mod tests {
                                 suggestions: vec![],
                                 generator_name: vec![],
                                 template: vec![],
+                                filter_template_suggestions: None,
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
