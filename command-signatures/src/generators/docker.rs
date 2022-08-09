@@ -158,7 +158,7 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "list_docker_networks",
             Generator::new(
-                "`docker network list --format '{{ json . }}'",
+                "docker network list --format '{{ json . }}'",
                 shared_post_process,
             ),
         )
