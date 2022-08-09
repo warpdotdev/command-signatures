@@ -10,9 +10,9 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "emulators",
             Generator::new("flutter emulators", |output| {
-                BULLET_RE
-                    .find_iter(output)
-                    .map(|regex_match| regex_match.as_str())
+                output
+                    .lines()
+                    .filter(|line| line.contains('•'))
                     .map(|info| info.split('•').map(str::trim))
                     .filter_map(|mut device| {
                         match (device.next(), device.next(), device.next(), device.next()) {
@@ -35,15 +35,14 @@ pub fn generator() -> CommandGenerators {
                     .filter(|line| ENDS_WITH_WORD.is_match(line))
                     .filter_map(|line| {
                         let line = line.trim();
-
-                        WORD_RE.find(line).map(|word| {
+                        line.split_whitespace().next_back().map(|word| {
                             let description = if line.starts_with('*') {
                                 "Active Channel"
                             } else {
                                 "Available Channels"
                             };
 
-                            Suggestion::with_description(word.as_str(), description)
+                            Suggestion::with_description(word, description)
                         })
                     })
                     .collect_unordered_results()
@@ -52,7 +51,5 @@ pub fn generator() -> CommandGenerators {
 }
 
 lazy_static! {
-    static ref BULLET_RE: Regex = Regex::new(r"(?i).*•.*").unwrap();
     static ref ENDS_WITH_WORD: Regex = Regex::new(r"\w+$").unwrap();
-    static ref WORD_RE: Regex = Regex::new(r"\w+").unwrap();
 }
