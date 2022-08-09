@@ -128,10 +128,7 @@
                     "description": "Specifies the maximum number of workers the worker-pool will spawn for transforming files. This defaults to the number of the cores available on your machine",
                     "args": {
                         "name": "Number of workers",
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>Array.from({length:Number(t)},(n,e)=>({name:`${e}`}))"
-                        }
+                        "generatorName": "worker_generator"
                     }
                 },
                 {
@@ -346,10 +343,7 @@
                     "description": "Specifies the maximum number of workers the worker-pool will spawn for transforming files. This defaults to the number of the cores available on your machine",
                     "args": {
                         "name": "Number of workers",
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>Array.from({length:Number(t)},(n,e)=>({name:`${e}`}))"
-                        }
+                        "generatorName": "worker_generator"
                     }
                 },
                 {
@@ -532,10 +526,7 @@
                     "description": "Specifies the maximum number of workers the worker-pool will spawn for transforming files. This defaults to the number of the cores available on your machine",
                     "args": {
                         "name": "Number of workers",
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>Array.from({length:Number(t)},(n,e)=>({name:`${e}`}))"
-                        }
+                        "generatorName": "worker_generator"
                     }
                 },
                 {
@@ -864,10 +855,7 @@
                     "description": "Builds your app and starts it on a specific device/simulator with the given device id (listed by running \"adb devices\" on the command line)",
                     "args": {
                         "name": "deviceId",
-                        "generators": {
-                            "script": "adb devices",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).filter(e=>!e.match(/^(List)|\\*/)).filter(Boolean).filter(e=>e.match(/device$/)).map(e=>e.split(/device/)[0].trim()).map(e=>({name:e,icon:y}))"
-                        }
+                        "generatorName": "android_get_devices_generator"
                     }
                 },
                 {
@@ -894,10 +882,7 @@
                     "icon": "https://raw.githubusercontent.com/vscode-icons/vscode-icons/master/icons/file_type_gradle.svg",
                     "args": {
                         "name": "task list",
-                        "generators": {
-                            "script": "cd android/ && ./gradlew tasks",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).filter(e=>e.match(/^\\w+ \\- |\\*/)).map(e=>e.split(\" - \")).map(([e,i])=>({name:e,description:i}))"
-                        }
+                        "generatorName": "gradle_tasks_generator"
                     }
                 },
                 {
@@ -922,10 +907,7 @@
                     "description": "Explicitly set simulator to use. Optionally include iOS version between parenthesis at the end to match an exact version: \"iPhone 6 (10.0)\" (default: \"iPhone 12\")",
                     "args": {
                         "name": "simulator",
-                        "generators": {
-                            "script": "xcrun simctl list --json devices available",
-                            "postProcess": "_NuFrRa_t=>{let n=JSON.parse(t).devices;return Object.entries(n).map(([e,i])=>i).reduce((e,i)=>[...e,...i],[]).map(({name:e})=>({name:e,icon:j}))}"
-                        }
+                        "generatorName": "ios_get_devices_simulator_generator"
                     }
                 },
                 {
@@ -934,10 +916,7 @@
                     "description": "Explicitly set the scheme configuration to use (default: \"Debug\")",
                     "args": {
                         "name": "config scheme",
-                        "generators": {
-                            "script": "xcodebuild -project ios/*.xcodeproj  -list -json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).project.configurations.map(e=>({name:e}))"
-                        }
+                        "generatorName": "xcode_config_generator"
                     }
                 },
                 {
@@ -945,10 +924,7 @@
                     "description": "Explicitly set Xcode scheme to use",
                     "args": {
                         "name": "scheme",
-                        "generators": {
-                            "script": "xcodebuild -project ios/*.xcodeproj  -list -json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).project.schemes.map(e=>({name:e}))"
-                        }
+                        "generatorName": "xcode_scheme_generator"
                     }
                 },
                 {
@@ -965,10 +941,7 @@
                     "args": {
                         "name": "device name",
                         "isOptional": true,
-                        "generators": {
-                            "script": "xcrun xctrace list devices",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).filter(e=>!e.match(/^=/)).filter(Boolean).map(e=>e.split(/\\([\\w\\d\\-]+\\)$/)).map(([e])=>({name:e.trim()}))"
-                        }
+                        "generatorName": "ios_get_devices_generator"
                     }
                 },
                 {
@@ -976,10 +949,7 @@
                     "description": "Explicitly set device to use by udid",
                     "args": {
                         "name": "udid",
-                        "generators": {
-                            "script": "xcrun xctrace list devices",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).filter(e=>!e.match(/^=/)).filter(Boolean).map(e=>e.split(\" \")).map(e=>e[e.length-1].trim().replace(\"(\",\"\").replace(\")\",\"\")).map(e=>({name:e}))"
-                        }
+                        "generatorName": "ios_get_devices_udid_generator"
                     }
                 },
                 {
