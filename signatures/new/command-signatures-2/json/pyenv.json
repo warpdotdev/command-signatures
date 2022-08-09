@@ -34,10 +34,7 @@
             "description": "Sets the global version of Python to be used in all shells",
             "args": {
                 "name": "python version",
-                "generators": {
-                    "script": "pyenv versions",
-                    "postProcess": "function(n){return n.trim().split(`\n`).map(e=>{let i=e.match(/\\s*\\*/)!=null;return{name:i?e.replace(\"*\",\"\").trim():e.trim(),icon:i?\"\\u{1F31F}\":\"\\u{1F40D}\"}})}"
-                }
+                "generatorName": "pyenv versions"
             }
         },
         {
@@ -57,10 +54,7 @@
             "description": "Install a Python version",
             "args": {
                 "name": "python version",
-                "generators": {
-                    "script": "pyenv install -l",
-                    "postProcess": "function(n){return n.trim().split(`\n`).slice(1).map(e=>({name:e.trim(),icon:\"\\u{1F40D}\"}))}"
-                }
+                "generatorName": "version_list"
             },
             "options": [
                 {

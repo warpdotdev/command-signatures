@@ -50,6 +50,7 @@ pub fn generators() -> HashMap<String, Generators> {
         nx::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
+        pip::pip3_generator(),
         pyenv::generator(),
         react_native::generator(),
         ssh::generator(),
