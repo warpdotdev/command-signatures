@@ -13,6 +13,7 @@ mod gh;
 mod git;
 mod go;
 mod heroku;
+mod killall;
 mod make;
 mod man;
 mod ng;
@@ -49,11 +50,13 @@ pub fn generators() -> HashMap<String, Generators> {
         nx::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
+        pip::pip3_generator(),
         pyenv::generator(),
         react_native::generator(),
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        killall::generator(),
         tmuxinator::generator(),
         tmux::generator(),
     ];

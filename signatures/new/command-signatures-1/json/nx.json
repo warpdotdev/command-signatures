@@ -6,10 +6,7 @@
             "name": "build",
             "description": "Build an Nx app",
             "args": {
-                "generators": {
-                    "script": "cat workspace.json",
-                    "postProcess": "_NuFrRa_e=>{try{let a=JSON.parse(e),i=Object.entries(a.projects).filter(n).map(([t])=>t).map(t=>({name:t,type:\"option\"}));return i.length>0?i:Object.entries(a.projects).filter(t=>!!(t[1].startsWith(\"apps\")||t[1].startsWith(\"e2e\"))).map(([t])=>t).map(t=>({name:t,type:\"option\"}))}catch(a){return console.log(a),[]}}"
-                },
+                "generatorName": "apps_and_libs",
                 "name": "app"
             }
         },
@@ -17,10 +14,7 @@
             "name": "serve",
             "description": "Serve an Nx app",
             "args": {
-                "generators": {
-                    "script": "cat workspace.json",
-                    "postProcess": "_NuFrRa_e=>{try{let a=JSON.parse(e),i=Object.entries(a.projects).filter(n).map(([t])=>t).map(t=>({name:t,type:\"option\"}));return i.length>0?i:Object.entries(a.projects).filter(t=>!!(t[1].startsWith(\"apps\")||t[1].startsWith(\"e2e\"))).map(([t])=>t).map(t=>({name:t,type:\"option\"}))}catch(a){return console.log(a),[]}}"
-                },
+                "generatorName": "apps_and_libs",
                 "name": "app"
             },
             "options": [
@@ -127,10 +121,7 @@
             "name": "test",
             "description": "Test an Nx app or lib",
             "args": {
-                "generators": {
-                    "script": "cat workspace.json",
-                    "postProcess": "_NuFrRa_e=>{try{let a=JSON.parse(e),i=Object.entries(a.projects).filter(n).map(([t])=>t).map(t=>({name:t,type:\"option\"}));return i.length>0?i:Object.entries(a.projects).filter(t=>!!(t[1].startsWith(\"apps\")||t[1].startsWith(\"e2e\"))).map(([t])=>t).map(t=>({name:t,type:\"option\"}))}catch(a){return console.log(a),[]}}"
-                },
+                "generatorName": "apps_and_libs",
                 "name": "app/lib"
             },
             "options": [
@@ -148,10 +139,7 @@
             "name": "e2e",
             "description": "Run e2e tests for an Nx app",
             "args": {
-                "generators": {
-                    "script": "cat workspace.json",
-                    "postProcess": "_NuFrRa_e=>{try{let a=JSON.parse(e),i=Object.entries(a.projects).filter(n).map(([t])=>t).map(t=>({name:t,type:\"option\"}));return i.length>0?i:Object.entries(a.projects).filter(t=>!!(t[1].startsWith(\"apps\")||t[1].startsWith(\"e2e\"))).map(([t])=>t).map(t=>({name:t,type:\"option\"}))}catch(a){return console.log(a),[]}}"
-                },
+                "generatorName": "apps_and_libs",
                 "name": "app"
             },
             "options": [
@@ -169,10 +157,7 @@
             "name": "lint",
             "description": "Lint an Nx app or lib",
             "args": {
-                "generators": {
-                    "script": "cat workspace.json",
-                    "postProcess": "_NuFrRa_e=>{try{let a=JSON.parse(e),i=Object.entries(a.projects).filter(n).map(([t])=>t).map(t=>({name:t,type:\"option\"}));return i.length>0?i:Object.entries(a.projects).filter(t=>!!(t[1].startsWith(\"apps\")||t[1].startsWith(\"e2e\"))).map(([t])=>t).map(t=>({name:t,type:\"option\"}))}catch(a){return console.log(a),[]}}"
-                },
+                "generatorName": "apps_and_libs",
                 "name": "app/lib"
             },
             "options": [
@@ -190,13 +175,7 @@
             "name": "workspace-schematic",
             "description": "Run a workspace schematic",
             "args": {
-                "generators": {
-                    "script": "ls tools/schematics",
-                    "cache": {
-                        "ttl": 86400
-                    },
-                    "postProcess": "_NuFrRa_n=>n.split(`\n`).map(e=>e.split(\" \").pop()).map(e=>({name:e,type:\"option\"}))"
-                },
+                "generatorName": "local_schematics",
                 "name": "schematic"
             },
             "options": [
@@ -218,13 +197,7 @@
             "name": "workspace-generator",
             "description": "Run a workspace generator",
             "args": {
-                "generators": {
-                    "script": "ls tools/generators",
-                    "cache": {
-                        "ttl": 86400
-                    },
-                    "postProcess": "_NuFrRa_n=>n.split(`\n`).map(e=>e.split(\" \").pop()).map(e=>({name:e,type:\"option\"}))"
-                },
+                "generatorName": "local_generators",
                 "name": "generator"
             },
             "options": [
@@ -1218,13 +1191,7 @@
         {
             "name": "list",
             "args": {
-                "generators": {
-                    "script": "nx list",
-                    "cache": {
-                        "ttl": 86400
-                    },
-                    "postProcess": "_NuFrRa_n=>{if(n.indexOf(\"Installed plugins\")>-1){let a=n.split(\">\")[1].split(`\n`).filter(Boolean);return a.shift(),a.map(i=>i.trim().split(\" \")[0]).map(i=>({name:i,type:\"option\"}))}}"
-                },
+                "generatorName": "installed_plugins",
                 "description": "The name of an installed plugin to query"
             },
             "options": [

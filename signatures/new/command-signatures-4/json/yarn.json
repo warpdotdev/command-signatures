@@ -3,14 +3,7 @@
     "description": "Manage packages and run scripts",
     "generateSpec": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let{script:a,postProcess:t}=R,p=t(yield n(a),e).map(({name:i})=>i).filter(i=>W.includes(i)).map(i=>({name:i===\"@redwoodjs/core\"?[\"redwood\",\"rw\"]:i,loadSpec:i===\"@redwoodjs/core\"?\"redwood\":i,icon:\"fig://icon?type=package\"}));return{name:\"yarn\",subcommands:p}})",
     "args": {
-        "generators": {
-            "cache": {
-                "strategy": "stale-while-revalidate",
-                "cacheByDirectory": true
-            },
-            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-            "postProcess": "function(e,[n]){if(e.trim()==\"\")return[];try{let a=JSON.parse(e),t=a.scripts,o=a.fig||{};if(t)return Object.entries(t).map(([p,i])=>{let s=n===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",r=o[p];return U({name:p,icon:s,description:i},r)})}catch(a){console.error(a)}return[]}"
-        },
+        "generatorName": "get_scripts_generator",
         "parserDirectives": {
             "alias": "_NuFrRa_(e,n)=>h(void 0,null,function*(){var o;let a=yield n(\"cat $(npm prefix)/package.json\"),t=(o=JSON.parse(a).scripts)==null?void 0:o[e];if(!t)throw new Error(`Script not found: '${e}'`);return t})"
         },
@@ -1206,20 +1199,14 @@
                     "name": "get",
                     "description": "Print the value for a given key",
                     "args": {
-                        "generators": {
-                            "script": "yarn config list",
-                            "postProcess": "function(e){if(e.trim()==\"\")return[];try{let n=e.indexOf(\"{\"),a=e.indexOf(\"}\"),t=e.substring(n,a+1);t=t.replace(/\\'/gi,'\"').replace(\"lastUpdateCheck\",'\"lastUpdateCheck\"').replace(\"registry\",'\"lastUpdateCheck\"');let o=JSON.parse(t);if(o)return Object.keys(o).map(p=>({name:p}))}catch(n){}return[]}"
-                        }
+                        "generatorName": "config_list"
                     }
                 },
                 {
                     "name": "delete",
                     "description": "Deletes a given key from the config",
                     "args": {
-                        "generators": {
-                            "script": "yarn config list",
-                            "postProcess": "function(e){if(e.trim()==\"\")return[];try{let n=e.indexOf(\"{\"),a=e.indexOf(\"}\"),t=e.substring(n,a+1);t=t.replace(/\\'/gi,'\"').replace(\"lastUpdateCheck\",'\"lastUpdateCheck\"').replace(\"registry\",'\"lastUpdateCheck\"');let o=JSON.parse(t);if(o)return Object.keys(o).map(p=>({name:p}))}catch(n){}return[]}"
-                        }
+                        "generatorName": "config_list"
                     }
                 },
                 {
@@ -1568,10 +1555,7 @@
                     "description": "Remove globally installed packages",
                     "args": {
                         "name": "package",
-                        "generators": {
-                            "script": "cat \"$(yarn global dir)/package.json\"",
-                            "postProcess": "_NuFrRa_(e,n)=>{if(e.trim()==\"\")return[];try{let a=JSON.parse(e),t=a.dependencies||{},o=a.devDependencies||{};return[...Object.keys(t),...Object.keys(o)].filter(s=>!n.includes(s)).map(s=>({name:s,icon:\"\\u{1F4E6}\"}))}catch(a){}return[]}"
-                        },
+                        "generatorName": "get_global_packages_generator",
                         "isVariadic": true
                     },
                     "options": [
@@ -3829,10 +3813,7 @@
             "name": "remove",
             "description": "Remove installed package",
             "args": {
-                "generators": {
-                    "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                    "postProcess": "function(e,n=[]){var a,t;if(e.trim()===\"\")return[];try{let o=JSON.parse(e),p=(a=o.dependencies)!=null?a:{},i=o.devDependencies,s=(t=o.optionalDependencies)!=null?t:{};return Object.assign(p,i,s),Object.keys(p).filter(r=>!n.some(f=>f===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":s[r]?\"optionalDependency\":\"devDependency\"}))}catch(o){return console.error(o),[]}}"
-                },
+                "generatorName": "dependencies_generator",
                 "isVariadic": true
             },
             "options": [
@@ -4334,14 +4315,7 @@
                 {
                     "name": "script",
                     "description": "Script to run from your package.json",
-                    "generators": {
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "cacheByDirectory": true
-                        },
-                        "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                        "postProcess": "function(e,[n]){if(e.trim()==\"\")return[];try{let a=JSON.parse(e),t=a.scripts,o=a.fig||{};if(t)return Object.entries(t).map(([p,i])=>{let s=n===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",r=o[p];return U({name:p,icon:s,description:i},r)})}catch(a){console.error(a)}return[]}"
-                    },
+                    "generatorName": "get_scripts_generator",
                     "parserDirectives": {
                         "alias": "_NuFrRa_(e,n)=>h(void 0,null,function*(){var o;let a=yield n(\"cat $(npm prefix)/package.json\"),t=(o=JSON.parse(a).scripts)==null?void 0:o[e];if(!t)throw new Error(`Script not found: '${e}'`);return t})"
                     },
@@ -4378,10 +4352,7 @@
             "description": "Upgrades packages to their latest version based on the specified range",
             "args": {
                 "name": "package",
-                "generators": {
-                    "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                    "postProcess": "function(e,n=[]){var a,t;if(e.trim()===\"\")return[];try{let o=JSON.parse(e),p=(a=o.dependencies)!=null?a:{},i=o.devDependencies,s=(t=o.optionalDependencies)!=null?t:{};return Object.assign(p,i,s),Object.keys(p).filter(r=>!n.some(f=>f===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":s[r]?\"optionalDependency\":\"devDependency\"}))}catch(o){return console.error(o),[]}}"
-                },
+                "generatorName": "dependencies_generator",
                 "isVariadic": true,
                 "isOptional": true
             },
@@ -4726,10 +4697,7 @@
             "description": "Show information about why a package is installed",
             "args": {
                 "name": "package",
-                "generators": {
-                    "script": "yarn list --depth=0 --json",
-                    "postProcess": "_NuFrRa_e=>{if(e.trim()==\"\")return[];try{return JSON.parse(e).data.trees.map(t=>({name:t.name.split(\"@\")[0],icon:\"\\u{1F4E6}\"}))}catch(n){}return[]}"
-                }
+                "generatorName": "all_dependencies_generator"
             },
             "options": [
                 {
