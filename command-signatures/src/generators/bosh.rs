@@ -26,7 +26,7 @@ struct BoshDeployment {
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("bosh").add_generator(
         "deployments",
-        Generator::new("bosh --json deployments", |output| {
+        Generator::script("bosh --json deployments", |output| {
             if output.starts_with("fatal:") {
                 return GeneratorResults::default();
             }

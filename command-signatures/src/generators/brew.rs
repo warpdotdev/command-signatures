@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("brew")
         .add_generator(
             "services",
-            Generator::new(
+            Generator::script(
                 "brew services list | sed -e 's/ .*//' | tail -n +2",
                 |output| {
                     output
@@ -25,7 +25,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "formulae_generator",
-            Generator::new("brew list -1", |output| {
+            Generator::script("brew list -1", |output| {
                 output
                     .trim()
                     .lines()
@@ -41,7 +41,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "brew_info_generator",
-            Generator::new(
+            Generator::script(
                 "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/h\
             omebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
                 |output| {
@@ -60,7 +60,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "uninstall_cask",
-            Generator::new("brew list -1 --cask", |output| {
+            Generator::script("brew list -1 --cask", |output| {
                 output
                     .trim()
                     .lines()
@@ -70,11 +70,11 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "outdated_formula_generator",
-            Generator::new("brew outdated -q", post_process),
+            Generator::script("brew outdated -q", post_process),
         )
         .add_generator(
             "repositories_generator",
-            Generator::new("brew tap", post_process),
+            Generator::script("brew tap", post_process),
         )
 }
 

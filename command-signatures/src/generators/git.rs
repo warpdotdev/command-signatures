@@ -491,7 +491,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("git")
         .add_generator(
             "commits",
-            Generator::new("git --no-optional-locks log --oneline", |output| {
+            Generator::script("git --no-optional-locks log --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     GeneratorResults::default()
@@ -505,7 +505,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "aliases",
-            Generator::new(
+            Generator::script(
                 "git --no-optional-locks config --get-regexp '^alias.'",
                 |output| {
                     output
@@ -528,7 +528,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "revs",
-            Generator::new("git rev-list --all --oneline", |output| {
+            Generator::script("git rev-list --all --oneline", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     GeneratorResults::default()
@@ -542,7 +542,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "stashes",
-            Generator::new("git --no-optional-locks stash list", |output| {
+            Generator::script("git --no-optional-locks stash list", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     GeneratorResults::default()
@@ -564,7 +564,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             GeneratorName::new("treeish"),
-            Generator::new(
+            Generator::script(
                 "git --no-optional-locks diff --cached --name-only",
                 |output| {
                     let output = filter_messages(output);
@@ -583,7 +583,7 @@ pub fn generator() -> CommandGenerators {
         // functions. See https://github.com/git/git/blob/69a9c10c95e28df457e33b3c7400b16caf2e2962/contrib/completion/git-completion.bash#L670-L676.
         .add_generator(
             "refs_remote_branches",
-            Generator::new(
+            Generator::script(
                 r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" \
                 "refs/remotes/**" | uniq -u"#,
                 post_process_git_for_each_ref,
@@ -593,21 +593,21 @@ pub fn generator() -> CommandGenerators {
         // git native completion functions. See https://github.com/git/git/blob/69a9c10c95e28df457e33b3c7400b16caf2e2962/contrib/completion/git-completion.bash#L647-L658.
         .add_generator(
             "remote_branches",
-            Generator::new(
+            Generator::script(
                 r#"git for-each-ref --format="%(refname:strip=2)" "refs/remotes/**""#,
                 post_process_git_for_each_ref,
             ),
         )
         .add_generator(
             "local_branches",
-            Generator::new(
+            Generator::script(
                 "git --no-optional-locks branch --no-color --sort=-committerdate",
                 post_process_branches,
             ),
         )
         .add_generator(
             "remotes",
-            Generator::new("git --no-optional-locks remote -v", |output| {
+            Generator::script("git --no-optional-locks remote -v", |output| {
                 let mut remote_urls = output.split('\n').fold(HashMap::new(), |mut dict, line| {
                     let mut pair = line.split('\t');
 
@@ -628,7 +628,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "tags",
-            Generator::new(
+            Generator::script(
                 "git --no-optional-locks tag --list --sort=-committerdate",
                 |output| {
                     output
@@ -640,7 +640,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "files_for_staging",
-            Generator::new("git --no-optional-locks status --short", |output| {
+            Generator::script("git --no-optional-locks status --short", |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     return GeneratorResults::default();
@@ -665,7 +665,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "settings_generator",
-            Generator::new("git config --get-regexp '.*'", |output| {
+            Generator::script("git config --get-regexp '.*'", |output| {
                 output
                     .trim()
                     .lines()

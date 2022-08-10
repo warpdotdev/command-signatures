@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("defaults").add_generator(
         "domain_generator",
-        Generator::new("defaults domain", |output| {
+        Generator::script("defaults domain", |output| {
             output
                 .trim()
                 .split(',')

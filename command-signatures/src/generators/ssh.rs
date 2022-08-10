@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh").add_generator(
         "addresses",
-        Generator::new("cat ~/.ssh/config", |output| {
+        Generator::script("cat ~/.ssh/config", |output| {
             output
                 .split('\n')
                 .filter_map(|line| {

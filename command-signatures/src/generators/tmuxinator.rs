@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("tmuxinator")
         .add_generator(
             "projects",
-            Generator::new("tmuxinator list -n", |output| {
+            Generator::script("tmuxinator list -n", |output| {
                 if output.starts_with("fatal:") {
                     return GeneratorResults::default();
                 }
@@ -19,7 +19,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "session_names",
-            Generator::new("tmux ls", |output| {
+            Generator::script("tmux ls", |output| {
                 if output.starts_with("fatal:") {
                     return GeneratorResults::default();
                 }

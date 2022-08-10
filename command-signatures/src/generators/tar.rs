@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("tar").add_generator(
         "list_tar_files",
-        Generator::new("ls -1 | grep '.tar'", |output| {
+        Generator::script("ls -1 | grep '.tar'", |output| {
             output
                 .trim()
                 .split('\n')

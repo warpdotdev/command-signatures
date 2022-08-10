@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("killall")
         .add_generator(
             "user_name",
-            Generator::new("dscl . -list /Users | grep -v '^_'", |output| {
+            Generator::script("dscl . -list /Users | grep -v '^_'", |output| {
                 output
                     .trim()
                     .lines()
@@ -16,7 +16,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "process_name",
-            Generator::new("ps -A -o comm | sort -u", |output| {
+            Generator::script("ps -A -o comm | sort -u", |output| {
                 output
                     .trim()
                     .lines()

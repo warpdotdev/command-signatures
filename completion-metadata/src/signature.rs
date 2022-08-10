@@ -271,23 +271,48 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
     }
 }
 
+#[derive(Clone)]
+pub enum GeneratorProcess {
+    Context(fn(&str) -> &str),
+    ShellCommand(String),
+}
+
+impl Debug for GeneratorProcess {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Context(_) => write!(f, "Context Generator"),
+            Self::ShellCommand(s) => write!(f, "{}", s),
+        }
+    }
+}
+
 impl<T> GeneratorResultsCollector for T where T: Iterator<Item = Suggestion> {}
 
 /// A `Generator` runs a shell command and performs an action on the output to provide GeneratorResults.
 #[derive(Clone)]
 pub struct Generator {
-    pub shell_command: String,
+    pub process: GeneratorProcess,
     // For now, `on_complete` only processes stdout.
     pub on_complete_callback: fn(&str) -> GeneratorResults,
 }
 
 impl Generator {
-    pub fn new(
+    pub fn script(
         shell_command: impl Into<String>,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
-            shell_command: shell_command.into(),
+            process: GeneratorProcess::ShellCommand(shell_command.into()),
+            on_complete_callback,
+        }
+    }
+
+    pub fn context(
+        context: fn(&str) -> &str,
+        on_complete_callback: fn(&str) -> GeneratorResults,
+    ) -> Self {
+        Generator {
+            process: GeneratorProcess::Context(context),
             on_complete_callback,
         }
     }
@@ -297,7 +322,13 @@ impl PartialEq for Generator {
     fn eq(&self, other: &Self) -> bool {
         // We don't factor in the callback for generator equality since it's impossible to compare
         // two closures.
-        self.shell_command == other.shell_command
+        match (&self.process, &other.process) {
+            (GeneratorProcess::Context(_), GeneratorProcess::Context(_)) => true,
+            (GeneratorProcess::ShellCommand(a), GeneratorProcess::ShellCommand(b)) if a == b => {
+                true
+            }
+            _ => false,
+        }
     }
 }
 
@@ -309,7 +340,7 @@ impl Generator {
 
 impl Debug for Generator {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.shell_command.as_str())
+        write!(f, "{:?}", self.process)
     }
 }
 

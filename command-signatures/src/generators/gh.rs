@@ -8,7 +8,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("gh")
         .add_generator(
             "list_pr",
-            Generator::new("gh pr list", |output| {
+            Generator::script("gh pr list", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -33,7 +33,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_alias",
-            Generator::new("gh alias list", |output| {
+            Generator::script("gh alias list", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {

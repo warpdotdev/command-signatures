@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("phpunit").add_generator(
         "tests",
-        Generator::new("phpunit --list-tests", |output| {
+        Generator::script("phpunit --list-tests", |output| {
             if output.starts_with("fatal:") {
                 return GeneratorResults::default();
             }

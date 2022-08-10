@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("terraform")
         .add_generator(
             "workspace_list",
-            Generator::new("terraform workspace list", |output| {
+            Generator::script("terraform workspace list", |output| {
                 output
                     .trim()
                     .split('\n')
@@ -21,7 +21,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "address_list",
-            Generator::new("terraform state list", |output| {
+            Generator::script("terraform state list", |output| {
                 if output.contains("No state file was found!") || output.contains("Error") {
                     return GeneratorResults::default();
                 }

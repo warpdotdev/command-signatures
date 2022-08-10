@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("go").add_generator(
         "tool_generator",
-        Generator::new("go tool", |output| {
+        Generator::script("go tool", |output| {
             output
                 .split('\n')
                 .map(Suggestion::new)

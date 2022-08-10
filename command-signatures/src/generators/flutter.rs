@@ -9,7 +9,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("flutter")
         .add_generator(
             "emulators",
-            Generator::new("flutter emulators", |output| {
+            Generator::script("flutter emulators", |output| {
                 output
                     .lines()
                     .filter(|line| line.contains('•'))
@@ -29,7 +29,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "channels",
-            Generator::new("flutter channel", |output| {
+            Generator::script("flutter channel", |output| {
                 output
                     .lines()
                     .filter(|line| ENDS_WITH_WORD.is_match(line))
