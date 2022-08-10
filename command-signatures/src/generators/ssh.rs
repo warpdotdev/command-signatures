@@ -1,12 +1,6 @@
-use lazy_static::lazy_static;
-use regex::Regex;
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
-
-lazy_static! {
-    static ref RE: Regex = Regex::new(r"(?:[a-zA-Z0-9-]+\.)+[a-zA-Z0-9]+").unwrap();
-}
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh")
