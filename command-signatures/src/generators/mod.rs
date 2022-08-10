@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::iter::FromIterator;
-use warp_completion_metadata::Generators;
+use warp_completion_metadata::{Generators, Filters};
 
 mod bosh;
 mod brew;
@@ -29,7 +29,7 @@ mod terraform;
 mod tmux;
 mod tmuxinator;
 
-pub fn generators() -> HashMap<String, Generators> {
+pub fn generators() -> HashMap<String, (Generators, Filters)> {
     let generators = [
         bosh::generator(),
         brew::generator(),
