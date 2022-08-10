@@ -150,13 +150,14 @@ pub type Generators = HashMap<GeneratorName, Generator>;
 pub struct CommandGenerators {
     command_name: String,
     generators: Generators,
+    filters: Filters,
 }
 
-impl From<CommandGenerators> for (String, Generators) {
+impl From<CommandGenerators> for (String, (Generators, Filters)) {
     fn from(command_generators: CommandGenerators) -> Self {
         (
             command_generators.command_name,
-            command_generators.generators,
+            (command_generators.generators, command_generators.filters),
         )
     }
 }
@@ -166,6 +167,7 @@ impl CommandGenerators {
         Self {
             command_name: command_name.into(),
             generators: HashMap::new(),
+            filters: HashMap::new(),
         }
     }
 
@@ -175,6 +177,15 @@ impl CommandGenerators {
         generator: Generator,
     ) -> Self {
         self.generators.insert(generator_name.into(), generator);
+        self
+    }
+
+    pub fn add_filter(
+        mut self,
+        filter_name: impl Into<FilterTemplateSuggestion>,
+        filter: TemplateFilter,
+    ) -> Self {
+        self.filters.insert(filter_name.into(), filter);
         self
     }
 
@@ -193,10 +204,7 @@ pub struct TemplateFilters {
 
 impl From<TemplateFilters> for (String, Filters) {
     fn from(command_generators: TemplateFilters) -> Self {
-        (
-            command_generators.command_name,
-            command_generators.filters,
-        )
+        (command_generators.command_name, command_generators.filters)
     }
 }
 

@@ -364,15 +364,19 @@ pub enum TemplateType {
 
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Template {
+    // The type of the prebuilt generator template.
     pub type_name: TemplateType,
+    // Name of the filter. This is used to reference the filtering function.
     pub filter_name: Option<FilterTemplateSuggestion>,
 }
 
+/// A template filter function. This takes in a generated Suggestion and returned
+/// a modified suggestion or None if the suggestion is filtered out.
 #[derive(Clone)]
 pub struct TemplateFilter(pub fn(Suggestion) -> Option<Suggestion>);
 
 impl TemplateFilter {
-    pub fn on_filter(&self, input: Suggestion) -> Option<Suggestion> {
+    pub fn filter(&self, input: Suggestion) -> Option<Suggestion> {
         (self.0)(input)
     }
 }
