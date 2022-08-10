@@ -11,11 +11,12 @@ lazy_static! {
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh")
         .add_generator(
-            "addresses",
+            "hosts",
             Generator::new("cat ~/.ssh/config", |output| {
                 output
                     .lines()
                     .filter_map(|line| {
+                        l
                         if line.trim().starts_with("Host ") && !line.contains('*') {
                             line.split_whitespace()
                                 .next_back()

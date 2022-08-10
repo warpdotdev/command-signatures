@@ -1,12 +1,14 @@
 mod generators;
+mod template_filters;
 
 pub use all_commands::*;
 pub use generators::generators;
+pub use template_filters::template_filters;
 
 pub use warp_completion_metadata::{
     Argument, ArgumentType, CommandGenerators, Generator, GeneratorName, GeneratorResults,
     GeneratorResultsCollector, Generators, Importance, IsArgumentOptional, Opt, Order, Priority,
-    Signature, Suggestion, Template,
+    Signature, Suggestion, Template, TemplateType,
 };
 
 #[cfg(not(feature = "new_fig_specs"))]
