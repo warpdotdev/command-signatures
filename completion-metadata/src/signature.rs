@@ -206,7 +206,7 @@ impl Argument {
         let filters = match filters {
             None => {
                 log::error!(
-                    "Argument {:?} specified generator {:?} but none are specified",
+                    "Argument {:?} specified filter {:?} but none are specified",
                     &self.display_name,
                     filter_template_name
                 );
@@ -218,7 +218,7 @@ impl Argument {
         match filters.get(filter_template_name) {
             None => {
                 log::error!(
-                    "Argument {:?} specified generator {:?} but it wasn't specified",
+                    "Argument {:?} specified filter {:?} but it wasn't specified",
                     &self.display_name,
                     filter_template_name
                 );
