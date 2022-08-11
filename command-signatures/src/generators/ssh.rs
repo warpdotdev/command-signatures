@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh")
         .add_generator(
             "hosts",
-            Generator::new("cat ~/.ssh/config", |output| {
+            Generator::script("cat ~/.ssh/config", |output| {
                 output
                     .lines()
                     .filter_map(|line| {
@@ -23,7 +23,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "known_hosts",
-            Generator::new("cat ~/.ssh/known_hosts", |output| {
+            Generator::script("cat ~/.ssh/known_hosts", |output| {
                 output
                     .lines()
                     .filter_map(|line| line.split_once(' ').map(|(first, _)| first))

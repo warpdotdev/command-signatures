@@ -12,7 +12,7 @@ struct HerokuAppOutput {
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("heroku").add_generator(
         "get_app_generator",
-        Generator::new("heroku apps --all --json", |output| {
+        Generator::script("heroku apps --all --json", |output| {
             let json_output: Result<Vec<HerokuAppOutput>> = serde_json::from_str(output);
 
             if let Ok(json_output) = json_output {

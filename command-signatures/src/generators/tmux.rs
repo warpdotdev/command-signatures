@@ -20,13 +20,19 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("tmux")
         .add_generator(
             "target_session",
-            Generator::new("tmux ls", tmux_post_process),
+            Generator::script("tmux ls", tmux_post_process),
         )
         .add_generator(
             "target_client",
-            Generator::new("tmux lsc", tmux_post_process),
+            Generator::script("tmux lsc", tmux_post_process),
         )
-        .add_generator("src_pane", Generator::new("tmux lsp", tmux_post_process))
-        .add_generator("window_name", Generator::new("tmux lsw", tmux_post_process))
-        .add_generator("buffer_name", Generator::new("tmux lsb", tmux_post_process))
+        .add_generator("src_pane", Generator::script("tmux lsp", tmux_post_process))
+        .add_generator(
+            "window_name",
+            Generator::script("tmux lsw", tmux_post_process),
+        )
+        .add_generator(
+            "buffer_name",
+            Generator::script("tmux lsb", tmux_post_process),
+        )
 }

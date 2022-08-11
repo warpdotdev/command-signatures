@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("kubens")
         .add_generator(
             "kubens_context",
-            Generator::new("kubens | grep -v $(kubens -c)", |output| {
+            Generator::script("kubens | grep -v $(kubens -c)", |output| {
                 output
                     .lines()
                     .map(str::trim)
@@ -17,7 +17,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "context",
-            Generator::new("kubens -c", |output| {
+            Generator::script("kubens -c", |output| {
                 if output.is_empty() {
                     GeneratorResults::default()
                 } else {

@@ -6,7 +6,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("conda")
         .add_generator(
             "get_installed_packages",
-            Generator::new("conda list", |output| {
+            Generator::script("conda list", |output| {
                 output
                     .trim()
                     .split('\n')
@@ -17,7 +17,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "get_conda_environments",
-            Generator::new("conva env list", |output| {
+            Generator::script("conva env list", |output| {
                 output
                     .trim()
                     .split('\n')
@@ -28,7 +28,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "get_conda_configs",
-            Generator::new("conda config --show", |output| {
+            Generator::script("conda config --show", |output| {
                 output
                     .trim()
                     .split('\n')

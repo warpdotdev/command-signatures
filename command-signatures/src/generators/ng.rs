@@ -13,7 +13,7 @@ struct AngularConfigOutput {
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ng").add_generator(
         "list_projects",
-        Generator::new("ng config projects", |output| {
+        Generator::script("ng config projects", |output| {
             let json_output: Result<HashMap<String, AngularConfigOutput>> =
                 serde_json::from_str(output);
             match json_output {

@@ -19,7 +19,7 @@ pub fn generator() -> CommandGenerators {
         //     hdrs = ["hello-time.h"],
         //     visibility = ["//main:__pkg__"],
         // )
-        Generator::new(r#"FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#, |output| {
+        Generator::script(r#"FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#, |output| {
             let mut targets = Vec::new();
             let mut current_path = String::new();
             for line in output.lines() {

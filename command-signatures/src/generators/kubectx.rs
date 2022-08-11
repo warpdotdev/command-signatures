@@ -9,7 +9,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("kubectx")
         .add_generator(
             "delete_context",
-            Generator::new("kubectx", |output| {
+            Generator::script("kubectx", |output| {
                 let mut default = Suggestion::with_description(".", "Delete current context");
                 default.priority = Priority::Global(Importance::More(Order(90)));
 
@@ -30,7 +30,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "kubectx_context",
-            Generator::new("kubectx | grep -v $(kubectx -c)", |output| {
+            Generator::script("kubectx | grep -v $(kubectx -c)", |output| {
                 output
                     .lines()
                     .map(str::trim)
@@ -41,7 +41,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "context",
-            Generator::new("kubectx -c", |output| {
+            Generator::script("kubectx -c", |output| {
                 if output.is_empty() {
                     GeneratorResults::default()
                 } else {

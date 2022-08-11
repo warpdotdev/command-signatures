@@ -8,7 +8,7 @@ use lazy_static::lazy_static;
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("firebase").add_generator(
         "project_aliases",
-        Generator::new("firebase projects:list", |output| {
+        Generator::script("firebase projects:list", |output| {
             RE.captures_iter(output)
                 // First element is the table header
                 .skip(1)

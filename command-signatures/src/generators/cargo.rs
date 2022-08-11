@@ -39,7 +39,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("cargo")
         .add_generator(
             "features_generators",
-            Generator::new("cargo metadata --no-deps --format-version 1", |output| {
+            Generator::script("cargo metadata --no-deps --format-version 1", |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -58,7 +58,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "target_list",
-            Generator::new("rustc --print target-list", |output| {
+            Generator::script("rustc --print target-list", |output| {
                 output
                     .lines()
                     .map(str::trim)
@@ -69,7 +69,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "dependencies",
-            Generator::new("cargo metadata --format-version 1", |output| {
+            Generator::script("cargo metadata --format-version 1", |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -99,7 +99,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "bin_list",
-            Generator::new("cargo metadata --no-deps --format-version 1", |output| {
+            Generator::script("cargo metadata --no-deps --format-version 1", |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -124,7 +124,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "spec",
-            Generator::new(
+            Generator::script(
                 r#"cargo install --list | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#,
                 |output| {
                     output

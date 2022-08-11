@@ -48,7 +48,7 @@ struct YarnListInfoTree {
 }
 
 fn get_scripts_generator() -> Generator {
-    Generator::new(
+    Generator::script(
         "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
         |output| {
             if output.trim().is_empty() {
@@ -71,7 +71,7 @@ fn get_scripts_generator() -> Generator {
 }
 
 fn config_list() -> Generator {
-    Generator::new("yarn config list", |output| {
+    Generator::script("yarn config list", |output| {
         if output.trim().is_empty() {
             return GeneratorResults::default();
         }
@@ -102,7 +102,7 @@ fn config_list() -> Generator {
 }
 
 fn get_global_packages_generator() -> Generator {
-    Generator::new(r#"cat "$(yarn global dir)/package.json""#, |output| {
+    Generator::script(r#"cat "$(yarn global dir)/package.json""#, |output| {
         if output.trim().is_empty() {
             return GeneratorResults::default();
         }
@@ -124,7 +124,7 @@ fn get_global_packages_generator() -> Generator {
 }
 
 fn dependencies_generator() -> Generator {
-    Generator::new(
+    Generator::script(
         "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
         |output| {
             if output.trim().is_empty() {
@@ -162,7 +162,7 @@ fn dependencies_generator() -> Generator {
 }
 
 fn workspace_generator() -> Generator {
-    Generator::new("cat $(npm prefix)/package.json", |output| {
+    Generator::script("cat $(npm prefix)/package.json", |output| {
         if output.trim().is_empty() {
             return GeneratorResults::default();
         }
@@ -198,7 +198,7 @@ pub fn yarn_generators() -> CommandGenerators {
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator(
             "all_dependencies_generator",
-            Generator::new("yarn list --depth=0 --json", |output| {
+            Generator::script("yarn list --depth=0 --json", |output| {
                 if output.trim().is_empty() {
                     return GeneratorResults::default();
                 }

@@ -97,25 +97,25 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("docker")
         .add_generator(
             "running_docker_containers",
-            Generator::new("docker ps --format '{{ json . }}'", post_process_docker_ps),
+            Generator::script("docker ps --format '{{ json . }}'", post_process_docker_ps),
         )
         .add_generator(
             "all_docker_containers",
-            Generator::new(
+            Generator::script(
                 "docker ps -a --format '{{ json . }}'",
                 post_process_docker_ps,
             ),
         )
         .add_generator(
             "paused_docker_containers",
-            Generator::new(
+            Generator::script(
                 "docker ps --filter status=paused --format '{{ json . }}'",
                 post_process_docker_ps,
             ),
         )
         .add_generator(
             "all_local_images",
-            Generator::new("docker image ls --format '{{ json . }}'", |output| {
+            Generator::script("docker image ls --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -136,7 +136,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "all_docker_contexts",
-            Generator::new("docker context list --format '{{ json . }}'", |output| {
+            Generator::script("docker context list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -158,14 +158,14 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_docker_networks",
-            Generator::new(
+            Generator::script(
                 "docker network list --format '{{ json . }}'",
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_swarm_nodes",
-            Generator::new("docker node list --format '{{ json . }}'", |output| {
+            Generator::script("docker node list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -183,21 +183,21 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_docker_plugins",
-            Generator::new(
+            Generator::script(
                 "docker plugin list --format '{{ json . }}'",
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_secrets",
-            Generator::new(
+            Generator::script(
                 "docker secret list --format '{{ json . }}'",
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_services",
-            Generator::new("docker service list --format '{{ json . }}'", |output| {
+            Generator::script("docker service list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -215,7 +215,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_docker_service_replicas",
-            Generator::new("docker service list --format '{{ json . }}'", |output| {
+            Generator::script("docker service list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -233,7 +233,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_docker_stacks",
-            Generator::new("docker stack list --format '{{ json . }}'", |output| {
+            Generator::script("docker stack list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -245,7 +245,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "list_docker_volumes",
-            Generator::new("docker volume list --format '{{ json . }}'", |output| {
+            Generator::script("docker volume list --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -257,7 +257,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "docker_images",
-            Generator::new("docker images -a --format '{{ json . }}'", |output| {
+            Generator::script("docker images -a --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -278,7 +278,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "docker_volumes",
-            Generator::new("docker volume ls --format '{{ json . }}'", |output| {
+            Generator::script("docker volume ls --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -299,7 +299,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "remove_images",
-            Generator::new("docker images -aq --format '{{ json . }}'", |output| {
+            Generator::script("docker images -aq --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -320,7 +320,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "run_images",
-            Generator::new("docker images --format '{{ json . }}'", |output| {
+            Generator::script("docker images --format '{{ json . }}'", |output| {
                 output
                     .split('\n')
                     .filter_map(|image| {
@@ -353,7 +353,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "docker_image_with_tag_and_size",
-            Generator::new(
+            Generator::script(
                 "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
                 |output| {
                     output

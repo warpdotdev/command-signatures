@@ -41,7 +41,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("react-native")
         .add_generator(
             "worker_generator",
-            Generator::new("sysctl -n hw.ncpu", |output| {
+            Generator::script("sysctl -n hw.ncpu", |output| {
                 if let Ok(val) = output.parse::<usize>() {
                     (0..val)
                         .map(|val| Suggestion::new(val.to_string()))
@@ -53,7 +53,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "xcode_config_generator",
-            Generator::new(
+            Generator::script(
                 "xcodebuild -project ios/*.xcodeproj  -list -json",
                 |output| {
                     let json_output: Result<XcodeBuildOutput> = serde_json::from_str(output);
@@ -74,7 +74,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "xcode_scheme_generator",
-            Generator::new(
+            Generator::script(
                 "xcodebuild -project ios/*.xcodeproj  -list -json",
                 |output| {
                     let json_output: Result<XcodeBuildOutput> = serde_json::from_str(output);
@@ -95,7 +95,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "android_get_devices_generator",
-            Generator::new("adb devices", |output| {
+            Generator::script("adb devices", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -116,7 +116,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "ios_get_devices_simulator_generator",
-            Generator::new("xcrun simctl list --json devices available", |output| {
+            Generator::script("xcrun simctl list --json devices available", |output| {
                 let json_output: Result<XcRunOutput> = serde_json::from_str(output);
                 match json_output {
                     Ok(xc_run_output) => xc_run_output
@@ -134,7 +134,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "ios_get_devices_generator",
-            Generator::new("xcrun xctrace list devices", |output| {
+            Generator::script("xcrun xctrace list devices", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -150,7 +150,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "ios_get_devices_udid_generator",
-            Generator::new("xcrun xctrace list devices", |output| {
+            Generator::script("xcrun xctrace list devices", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -169,7 +169,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "gradle_tasks_generator",
-            Generator::new("cd android/ && ./gradlew tasks", |output| {
+            Generator::script("cd android/ && ./gradlew tasks", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {

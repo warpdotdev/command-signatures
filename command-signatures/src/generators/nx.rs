@@ -46,7 +46,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("nx")
         .add_generator(
             "apps",
-            Generator::new("cat workspace.json", |output| {
+            Generator::script("cat workspace.json", |output| {
                 process_workspace_json(output, |(name, project)| {
                     project.project_type == "application" && !name.ends_with("-e2e")
                 })
@@ -54,7 +54,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "e2e_apps",
-            Generator::new("cat workspace.json", |output| {
+            Generator::script("cat workspace.json", |output| {
                 process_workspace_json(output, |(name, project)| {
                     project.project_type == "application" && name.ends_with("-e2e")
                 })
@@ -62,21 +62,21 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "apps_and_libs",
-            Generator::new("cat workspace.json", |output| {
+            Generator::script("cat workspace.json", |output| {
                 process_workspace_json(output, |_| true)
             }),
         )
         .add_generator(
             "local_schematics",
-            Generator::new("ls tools/schematics", process_generators),
+            Generator::script("ls tools/schematics", process_generators),
         )
         .add_generator(
             "local_generators",
-            Generator::new("ls tools/generators", process_generators),
+            Generator::script("ls tools/generators", process_generators),
         )
         .add_generator(
             "installed_plugins",
-            Generator::new("nx list", |output| {
+            Generator::script("nx list", |output| {
                 if output.contains("Installed plugins") {
                     if let Some(installed_plugins) = output.split('>').nth(1) {
                         installed_plugins

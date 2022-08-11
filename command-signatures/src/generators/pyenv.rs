@@ -12,7 +12,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("pyenv")
         .add_generator(
             "version_list",
-            Generator::new("pyenv install -l", |output| {
+            Generator::script("pyenv install -l", |output| {
                 output
                     .split('\n')
                     .skip(1)
@@ -22,7 +22,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "global_list",
-            Generator::new("pyenv versions", |output| {
+            Generator::script("pyenv versions", |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {

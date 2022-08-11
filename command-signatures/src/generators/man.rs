@@ -5,7 +5,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("man").add_generator(
         "list_man_pages",
-        Generator::new(
+        Generator::script(
             "ls -1 $(man -w | sed 's#:#/man1 #g') | cut -f 1 -d . | sort | uniq",
             |output| {
                 output
