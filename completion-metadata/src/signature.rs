@@ -312,14 +312,14 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
 
 #[derive(Clone)]
 pub enum GeneratorProcess {
-    Context(fn(Vec<&str>) -> &str),
+    CommandFromTokens(fn(Vec<&str>) -> String),
     ShellCommand(String),
 }
 
 impl Debug for GeneratorProcess {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::Context(_) => write!(f, "Context Generator"),
+            Self::CommandFromTokens(_) => write!(f, "Context Generator"),
             Self::ShellCommand(s) => write!(f, "{}", s),
         }
     }
@@ -346,27 +346,13 @@ impl Generator {
         }
     }
 
-    pub fn context(
-        context: fn(Vec<&str>) -> &str,
+    pub fn command_from_tokens(
+        command_from_tokens: fn(Vec<&str>) -> String,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
-            process: GeneratorProcess::Context(context),
+            process: GeneratorProcess::CommandFromTokens(command_from_tokens),
             on_complete_callback,
-        }
-    }
-}
-
-impl PartialEq for Generator {
-    fn eq(&self, other: &Self) -> bool {
-        // We don't factor in the callback for generator equality since it's impossible to compare
-        // two closures.
-        match (&self.process, &other.process) {
-            (GeneratorProcess::Context(_), GeneratorProcess::Context(_)) => true,
-            (GeneratorProcess::ShellCommand(a), GeneratorProcess::ShellCommand(b)) if a == b => {
-                true
-            }
-            _ => false,
         }
     }
 }
