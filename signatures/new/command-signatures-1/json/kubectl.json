@@ -72,18 +72,11 @@
         },
         {
             "name": "annotate",
-            "description": "Update the annotations on one or more resources",
+            "description": "Update the annotations on one or more resources DEBUG",
             "args": [
                 {
                     "name": "Resource Type",
-                    "generators": {
-                        "script": "kubectl api-resources -o name",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        },
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                    }
+                    "generatorName": "resource_type"
                 },
                 {
                     "name": "Resource",
@@ -723,10 +716,7 @@
             "description": "Attach to a process that is already running inside an existing container",
             "args": {
                 "name": "Running Pods",
-                "generators": {
-                    "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                }
+                "generatorName": "running_pods"
             },
             "options": [
                 {
@@ -1791,14 +1781,7 @@
             "description": "Mark node as unschedulable",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -2023,14 +2006,7 @@
                             "description": "Resource that the rule applies to",
                             "args": {
                                 "name": "Resource Type",
-                                "generators": {
-                                    "script": "kubectl api-resources -o name",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    },
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "resource_type"
                             }
                         },
                         {
@@ -2124,14 +2100,7 @@
                             "description": "ClusterRole this ClusterRoleBinding should reference",
                             "args": {
                                 "name": "Cluster Role",
-                                "generators": {
-                                    "script": "kubectl get clusterroles -o custom-columns=:.metadata.name",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    }
-                                }
+                                "generatorName": "cluster_role"
                             }
                         },
                         {
@@ -2963,14 +2932,7 @@
                             "description": "Resource that the rule applies to",
                             "args": {
                                 "name": "Resource Type",
-                                "generators": {
-                                    "script": "kubectl api-resources -o name",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    },
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "resource_type"
                             }
                         },
                         {
@@ -3060,14 +3022,7 @@
                             "description": "ClusterRole this RoleBinding should reference",
                             "args": {
                                 "name": "Cluster Role",
-                                "generators": {
-                                    "script": "kubectl get clusterroles -o custom-columns=:.metadata.name",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    }
-                                }
+                                "generatorName": "cluster_role"
                             }
                         },
                         {
@@ -3082,10 +3037,7 @@
                             "description": "Role this RoleBinding should reference",
                             "args": {
                                 "name": "Role",
-                                "generators": {
-                                    "script": "_NuFrRa_()=>o.typeWithoutName(\"roles\")",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "role"
                             }
                         },
                         {
@@ -4065,14 +4017,7 @@
             "description": "Drain node in preparation for maintenance",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -4261,10 +4206,7 @@
             "args": [
                 {
                     "name": "Running Pods",
-                    "generators": {
-                        "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                    }
+                    "generatorName": "running_pods"
                 },
                 {
                     "name": "COMMAND",
@@ -4323,14 +4265,7 @@
             "description": "List the fields for supported resources",
             "args": {
                 "name": "Resource Type",
-                "generators": {
-                    "script": "kubectl api-resources -o name",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    },
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                }
+                "generatorName": "resource_type"
             },
             "options": [
                 {
@@ -5473,14 +5408,7 @@
                     "description": "View previous rollout revisions and configurations",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5556,14 +5484,7 @@
                     "description": "Mark the provided resource as paused",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5633,14 +5554,7 @@
                     "description": "Restart a resource",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5710,14 +5624,7 @@
                     "description": "Resume a paused resource",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5787,14 +5694,7 @@
                     "description": "Show the status of the rollout",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5852,14 +5752,7 @@
                     "description": "Rollback to a previous rollout",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -7150,14 +7043,7 @@
             "description": "Update the taints on one or more nodes",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -7235,14 +7121,7 @@
             "description": "Mark node as schedulable",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
