@@ -15,6 +15,7 @@ mod go;
 mod heroku;
 mod kill;
 mod killall;
+mod kubectl;
 mod make;
 mod man;
 mod ng;
@@ -57,6 +58,7 @@ pub fn generators() -> HashMap<String, (Generators, Filters)> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        kubectl::generator(),
         kill::generator(),
         killall::generator(),
         tmuxinator::generator(),
