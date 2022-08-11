@@ -103,20 +103,19 @@ pub fn generator() -> CommandGenerators {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
-                    Ok(metadata) => {
-                        let binary_key = "bin".to_string();
-                        metadata
-                            .packages
-                            .into_iter()
-                            .flat_map(|package| package.targets.into_iter().flatten())
-                            .filter_map(|target| {
-                                target
-                                    .kind
-                                    .contains(&binary_key)
-                                    .then(|| Suggestion::new(target.name))
-                            })
-                            .collect_unordered_results()
-                    }
+                    Ok(metadata) => metadata
+                        .packages
+                        .into_iter()
+                        .flat_map(|package| package.targets.into_iter().flatten())
+                        .filter_map(|target| {
+                            target
+                                .kind
+                                .into_iter()
+                                .find(|item| item == "bin")
+                                .is_some()
+                                .then(|| Suggestion::new(target.name))
+                        })
+                        .collect_unordered_results(),
                     Err(e) => {
                         log::error!("Couldn't parse cargo metadata with error {}", e);
                         GeneratorResults::default()
