@@ -625,10 +625,7 @@
                 }
             ],
             "args": {
-                "generators": {
-                    "script": "terraform state list",
-                    "postProcess": "function(t){return t.includes(\"No state file was found!\")||t.includes(\"Error\")?[]:t.split(`\n`).map(r=>({name:r.replace(\"* \",\"\").trim(),icon:\"https://www.terraform.io/favicon.ico\",description:\"Address\"}))}"
-                },
+                "generatorName": "address_list",
                 "name": "address"
             }
         },
@@ -777,10 +774,7 @@
                     "name": "delete",
                     "description": "Delete the specified workspace",
                     "args": {
-                        "generators": {
-                            "script": "terraform workspace list",
-                            "postProcess": "function(t){return t.split(`\n`).map(r=>({name:r.replace(\"* \",\"\").trim(),icon:\"https://www.terraform.io/favicon.ico\",description:\"Workspace\"}))}"
-                        },
+                        "generatorName": "workspace_list",
                         "name": "workspace name"
                     },
                     "options": [
@@ -838,10 +832,7 @@
                     "name": "select",
                     "description": "Change the current working workspace",
                     "args": {
-                        "generators": {
-                            "script": "terraform workspace list",
-                            "postProcess": "function(t){return t.split(`\n`).map(r=>({name:r.replace(\"* \",\"\").trim(),icon:\"https://www.terraform.io/favicon.ico\",description:\"Workspace\"}))}"
-                        }
+                        "generatorName": "workspace_list"
                     }
                 }
             ]

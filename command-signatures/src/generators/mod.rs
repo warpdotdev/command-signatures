@@ -1,9 +1,11 @@
 use std::collections::HashMap;
 use std::iter::FromIterator;
-use warp_completion_metadata::Generators;
+use warp_completion_metadata::{Filters, Generators};
 
+mod bazel;
 mod bosh;
 mod brew;
+mod cargo;
 mod conda;
 mod defaults;
 mod docker;
@@ -13,6 +15,9 @@ mod gh;
 mod git;
 mod go;
 mod heroku;
+mod kill;
+mod killall;
+mod kubectl;
 mod kubectx;
 mod kubens;
 mod make;
@@ -27,8 +32,10 @@ mod react_native;
 mod ssh;
 mod tar;
 mod terraform;
+mod tmux;
+mod tmuxinator;
 
-pub fn generators() -> HashMap<String, Generators> {
+pub fn generators() -> HashMap<String, (Generators, Filters)> {
     let generators = [
         bosh::generator(),
         brew::generator(),
@@ -49,6 +56,7 @@ pub fn generators() -> HashMap<String, Generators> {
         nx::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
+        pip::pip3_generator(),
         pyenv::generator(),
         react_native::generator(),
         ssh::generator(),
@@ -56,6 +64,13 @@ pub fn generators() -> HashMap<String, Generators> {
         terraform::generator(),
         kubectx::generator(),
         kubens::generator(),
+        bazel::generator(),
+        cargo::generator(),
+        kubectl::generator(),
+        kill::generator(),
+        killall::generator(),
+        tmuxinator::generator(),
+        tmux::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
