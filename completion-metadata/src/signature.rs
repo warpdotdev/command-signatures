@@ -273,7 +273,7 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
 
 #[derive(Clone)]
 pub enum GeneratorProcess {
-    Context(fn(&str) -> &str),
+    Context(fn(Vec<&str>) -> &str),
     ShellCommand(String),
 }
 
@@ -308,7 +308,7 @@ impl Generator {
     }
 
     pub fn context(
-        context: fn(&str) -> &str,
+        context: fn(Vec<&str>) -> &str,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
