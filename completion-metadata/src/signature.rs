@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::Generators;
+use crate::{Filters, Generators};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
@@ -197,6 +197,36 @@ impl Argument {
             Some(generator) => Some(generator),
         }
     }
+
+    pub fn filter_template_by_name<'a>(
+        &self,
+        filters: Option<&'a Filters>,
+        filter_template_name: &FilterTemplateSuggestion,
+    ) -> Option<&'a TemplateFilter> {
+        let filters = match filters {
+            None => {
+                log::error!(
+                    "Argument {:?} specified filter {:?} but none are specified",
+                    &self.display_name,
+                    filter_template_name
+                );
+                return None;
+            }
+            Some(filters) => filters,
+        };
+
+        match filters.get(filter_template_name) {
+            None => {
+                log::error!(
+                    "Argument {:?} specified filter {:?} but it wasn't specified",
+                    &self.display_name,
+                    filter_template_name
+                );
+                None
+            }
+            Some(filter) => Some(filter),
+        }
+    }
 }
 
 type DefaultValue = String;
@@ -223,6 +253,15 @@ impl GeneratorName {
 }
 
 impl From<&'static str> for GeneratorName {
+    fn from(str: &'static str) -> Self {
+        Self(str.into())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct FilterTemplateSuggestion(pub String);
+
+impl From<&'static str> for FilterTemplateSuggestion {
     fn from(str: &'static str) -> Self {
         Self(str.into())
     }
@@ -315,10 +354,29 @@ impl Debug for Generator {
 
 /// Prebuilt `Generator`s
 #[derive(Debug, Clone, PartialEq, Serialize)]
-pub enum Template {
+pub enum TemplateType {
     GitBranches,
     Files,
     Folders,
     #[allow(dead_code)]
     FilesAndFolders,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct Template {
+    // The type of the prebuilt generator template.
+    pub type_name: TemplateType,
+    // Name of the filter. This is used to reference the filtering function.
+    pub filter_name: Option<FilterTemplateSuggestion>,
+}
+
+/// A template filter function. This takes in a generated Suggestion and returned
+/// a modified suggestion or None if the suggestion is filtered out.
+#[derive(Clone)]
+pub struct TemplateFilter(pub fn(Suggestion) -> Option<Suggestion>);
+
+impl TemplateFilter {
+    pub fn filter(&self, input: Suggestion) -> Option<Suggestion> {
+        (self.0)(input)
+    }
 }
