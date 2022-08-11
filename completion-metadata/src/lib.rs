@@ -66,7 +66,7 @@ impl Priority {
     pub fn is_global(&self) -> bool {
         matches!(self, Priority::Global(_))
     }
-    
+
     pub fn most_important() -> Self {
         Priority::Global(Importance::More(Order(MAX_ORDER_VAL)))
     }
@@ -150,13 +150,14 @@ pub type Generators = HashMap<GeneratorName, Generator>;
 pub struct CommandGenerators {
     command_name: String,
     generators: Generators,
+    filters: Filters,
 }
 
-impl From<CommandGenerators> for (String, Generators) {
+impl From<CommandGenerators> for (String, (Generators, Filters)) {
     fn from(command_generators: CommandGenerators) -> Self {
         (
             command_generators.command_name,
-            command_generators.generators,
+            (command_generators.generators, command_generators.filters),
         )
     }
 }
@@ -166,6 +167,7 @@ impl CommandGenerators {
         Self {
             command_name: command_name.into(),
             generators: HashMap::new(),
+            filters: HashMap::new(),
         }
     }
 
@@ -178,8 +180,53 @@ impl CommandGenerators {
         self
     }
 
+    pub fn add_filter(
+        mut self,
+        filter_name: impl Into<FilterTemplateSuggestion>,
+        filter: TemplateFilter,
+    ) -> Self {
+        self.filters.insert(filter_name.into(), filter);
+        self
+    }
+
     pub fn generators(&self) -> &Generators {
         &self.generators
+    }
+}
+
+pub type Filters = HashMap<FilterTemplateSuggestion, TemplateFilter>;
+
+#[derive(Clone)]
+pub struct TemplateFilters {
+    command_name: String,
+    filters: Filters,
+}
+
+impl From<TemplateFilters> for (String, Filters) {
+    fn from(command_generators: TemplateFilters) -> Self {
+        (command_generators.command_name, command_generators.filters)
+    }
+}
+
+impl TemplateFilters {
+    pub fn new(command_name: impl Into<String>) -> Self {
+        Self {
+            command_name: command_name.into(),
+            filters: HashMap::new(),
+        }
+    }
+
+    pub fn add_filter(
+        mut self,
+        filter_name: impl Into<FilterTemplateSuggestion>,
+        filter: TemplateFilter,
+    ) -> Self {
+        self.filters.insert(filter_name.into(), filter);
+        self
+    }
+
+    pub fn filters(&self) -> &Filters {
+        &self.filters
     }
 }
 
