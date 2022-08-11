@@ -18,6 +18,8 @@ mod heroku;
 mod kill;
 mod killall;
 mod kubectl;
+mod kubectx;
+mod kubens;
 mod make;
 mod man;
 mod ng;
@@ -60,6 +62,8 @@ pub fn generators() -> HashMap<String, (Generators, Filters)> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        kubectx::generator(),
+        kubens::generator(),
         bazel::generator(),
         cargo::generator(),
         kubectl::generator(),

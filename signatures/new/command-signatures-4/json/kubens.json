@@ -30,16 +30,7 @@
     ],
     "args": {
         "name": "namespace",
-        "generators": [
-            {
-                "script": "kubens | grep -v $(kubens -c)",
-                "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,priority:90,icon:\"fig://icon?type=kubernetes\"}))"
-            },
-            {
-                "script": "kubens -c",
-                "postProcess": "_NuFrRa_e=>e?[{name:e,priority:100,icon:\"\\u2B50\\uFE0F\"}]:[]"
-            }
-        ],
+        "generatorName": ["kubens_context", "context"],
         "isOptional": true
     }
 }
