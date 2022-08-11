@@ -28,9 +28,7 @@
             "description": "Build an image from a Dockerfile",
             "args": {
                 "name": "path",
-                "generators": {
-                    "template": "folders"
-                }
+                "template": "folders"
             },
             "options": [
                 {
@@ -66,9 +64,7 @@
                     "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                     "args": {
                         "name": "string",
-                        "generators": {
-                            "template": "filepaths"
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -194,10 +190,7 @@
             "args": [
                 {
                     "name": "container",
-                    "generators": {
-                        "script": "docker ps --format '{{ json . }}'",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                    }
+                    "generatorName": "running_docker_containers"
                 },
                 {
                     "name": "[REPOSITORY[:TAG]]"
@@ -272,10 +265,7 @@
             "args": [
                 {
                     "name": "container",
-                    "generators": {
-                        "script": "docker image ls --format '{{ json . }}'",
-                        "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                    }
+                    "generatorName": "all_local_images"
                 },
                 {
                     "name": "command",
@@ -947,10 +937,7 @@
             "description": "Inspect changes to files or directories on a container's filesystem",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             }
         },
         {
@@ -1072,10 +1059,7 @@
             "args": [
                 {
                     "name": "container",
-                    "generators": {
-                        "script": "docker ps --format '{{ json . }}'",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                    }
+                    "generatorName": "running_docker_containers"
                 },
                 {
                     "name": "command",
@@ -1088,10 +1072,7 @@
             "description": "Export a container's filesystem as a tar archive",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -1111,10 +1092,7 @@
             "description": "Show the history of an image",
             "args": {
                 "name": "image",
-                "generators": {
-                    "script": "docker image ls --format '{{ json . }}'",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                }
+                "generatorName": "all_local_images"
             },
             "options": [
                 {
@@ -1249,19 +1227,10 @@
             "description": "Return low-level information on Docker objects",
             "args": {
                 "name": "Name or ID",
-                "generators": [
-                    {
-                        "script": "docker ps -a --format '{{ json . }}'",
-                        "postProcess": "function(t){return t.split(`\n`).map(a=>JSON.parse(a)).map(a=>({name:a.ID,displayName:`[con] ${a.ID} (${a.Image})`}))}"
-                    },
-                    {
-                        "script": "docker images -a --format '{{ json . }}'",
-                        "postProcess": "function(t){return t.split(`\n`).map(a=>JSON.parse(a)).map(a=>{let s;return a.Repository===\"<none>\"?s=a.ID:(s=a.Repository,a.Tag!==\"<none>\"&&(s+=`:${a.Tag}`)),{name:a.ID,displayName:`[img] ${s}`}})}"
-                    },
-                    {
-                        "script": "docker volume ls --format '{{ json . }}'",
-                        "postProcess": "function(t){return t.split(`\n`).map(a=>JSON.parse(a)).map(a=>({name:a.Name,displayName:`[vol] ${a.Name}`}))}"
-                    }
+                "generatorName": [
+                    "all_docker_containers",
+                    "docker_images",
+                    "docker_volumes"
                 ]
             },
             "options": [
@@ -1296,10 +1265,7 @@
             "description": "Kill one or more running containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                },
+                "generatorName": "running_docker_containers",
                 "isVariadic": true
             },
             "options": [
@@ -1380,10 +1346,7 @@
             "description": "Fetch the logs of a container",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -1435,10 +1398,7 @@
             "description": "Pause all processes within one or more containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             }
         },
         {
@@ -1447,10 +1407,7 @@
             "args": [
                 {
                     "name": "container",
-                    "generators": {
-                        "script": "docker ps --format '{{ json . }}'",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                    }
+                    "generatorName": "running_docker_containers"
                 },
                 {
                     "name": "[PRIVATE_PORT[/PROTO]]"
@@ -1595,10 +1552,7 @@
             "args": [
                 {
                     "name": "container",
-                    "generators": {
-                        "script": "docker ps --format '{{ json . }}'",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                    }
+                    "generatorName": "running_docker_containers"
                 },
                 {
                     "name": "NEW_NAME"
@@ -1610,10 +1564,7 @@
             "description": "Restart one or more containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -1634,10 +1585,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "containers",
-                "generators": {
-                    "script": "docker ps -a --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "all_docker_containers"
             },
             "options": [
                 {
@@ -1668,10 +1616,7 @@
             "description": "Remove one or more images",
             "args": {
                 "name": "image",
-                "generators": {
-                    "script": "docker image ls --format '{{ json . }}'",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                },
+                "generatorName": "all_local_images",
                 "isVariadic": true
             },
             "options": [
@@ -2389,10 +2334,7 @@
                 {
                     "name": "image",
                     "description": "The Docker image to use",
-                    "generators": {
-                        "script": "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
-                        "postProcess": "function(t){return t.split(`\n`).map(e=>{let[a,s,f,h]=e.split(\" \");return{name:a,description:`${h}@${f} - ${s}`,icon:\"fig://icon?type=docker\"}})}"
-                    }
+                    "generatorName": "docker_image_with_tag_and_size"
                 },
                 {
                     "name": "command"
@@ -2404,10 +2346,7 @@
             "description": "Save one or more images to a tar archive (streamed to STDOUT by default)",
             "args": {
                 "name": "image",
-                "generators": {
-                    "script": "docker image ls --format '{{ json . }}'",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                }
+                "generatorName": "all_local_images"
             },
             "options": [
                 {
@@ -2465,10 +2404,7 @@
             "description": "View the packaged-based Software Bill Of Materials (SBOM) for an image",
             "args": {
                 "name": "image",
-                "generators": {
-                    "script": "docker image ls --format '{{ json . }}'",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Repository,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                }
+                "generatorName": "all_local_images"
             },
             "options": [
                 {
@@ -2554,10 +2490,7 @@
             "description": "Start one or more stopped containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps -a --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "all_docker_containers"
             },
             "options": [
                 {
@@ -2588,10 +2521,7 @@
             "description": "Display a live stream of container(s) resource usage statistics",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -2623,10 +2553,7 @@
             "description": "Stop one or more running containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -2653,10 +2580,7 @@
             "description": "Display the running processes of a container",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             }
         },
         {
@@ -2664,10 +2588,7 @@
             "description": "Unpause all processes within one or more containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --filter status=paused --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "paused_docker_containers"
             }
         },
         {
@@ -2675,10 +2596,7 @@
             "description": "Update configuration of one or more containers",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             },
             "options": [
                 {
@@ -2826,10 +2744,7 @@
             "description": "Block until one or more containers stop, then print their exit codes",
             "args": {
                 "name": "container",
-                "generators": {
-                    "script": "docker ps --format '{{ json . }}'",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                }
+                "generatorName": "running_docker_containers"
             }
         },
         {
@@ -2841,9 +2756,7 @@
                     "description": "Build an image from a Dockerfile",
                     "args": {
                         "name": "path",
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     },
                     "options": [
                         {
@@ -2879,9 +2792,7 @@
                             "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                             "args": {
                                 "name": "string",
-                                "generators": {
-                                    "template": "filepaths"
-                                }
+                                "template": "filepaths"
                             }
                         },
                         {
@@ -3171,10 +3082,7 @@
                     "args": [
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker image ls --format '{{ json . }}'",
-                                "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                            }
+                            "generatorName": "all_local_images"
                         },
                         {
                             "name": "command",
@@ -3846,10 +3754,7 @@
                     "description": "Inspect changes to files or directories on a container's filesystem",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     }
                 },
                 {
@@ -3934,10 +3839,7 @@
                     "args": [
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker ps --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                            }
+                            "generatorName": "running_docker_containers"
                         },
                         {
                             "name": "command",
@@ -3950,10 +3852,7 @@
                     "description": "Export a container's filesystem as a tar archive",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -3973,10 +3872,7 @@
                     "description": "Return low-level information on Docker objects",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -4003,10 +3899,7 @@
                     "description": "Kill one or more running containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        },
+                        "generatorName": "running_docker_containers",
                         "isVariadic": true
                     },
                     "options": [
@@ -4027,10 +3920,7 @@
                     "description": "Fetch the logs of a container",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -4147,10 +4037,7 @@
                     "description": "Pause all processes within one or more containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     }
                 },
                 {
@@ -4159,10 +4046,7 @@
                     "args": [
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker ps --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                            }
+                            "generatorName": "running_docker_containers"
                         },
                         {
                             "name": "[PRIVATE_PORT[/PROTO]]"
@@ -4195,10 +4079,7 @@
                     "args": [
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker ps --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                            }
+                            "generatorName": "running_docker_containers"
                         },
                         {
                             "name": "NEW_NAME"
@@ -4210,10 +4091,7 @@
                     "description": "Restart one or more containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -4234,10 +4112,7 @@
                     "args": {
                         "isVariadic": true,
                         "name": "containers",
-                        "generators": {
-                            "script": "docker ps -a --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "all_docker_containers"
                     },
                     "options": [
                         {
@@ -4964,10 +4839,7 @@
                         {
                             "name": "image",
                             "description": "The Docker image to use",
-                            "generators": {
-                                "script": "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
-                                "postProcess": "function(t){return t.split(`\n`).map(e=>{let[a,s,f,h]=e.split(\" \");return{name:a,description:`${h}@${f} - ${s}`,icon:\"fig://icon?type=docker\"}})}"
-                            }
+                            "generatorName": "docker_image_with_tag_and_size"
                         },
                         {
                             "name": "command"
@@ -4979,10 +4851,7 @@
                     "description": "Start one or more stopped containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps -a --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "all_docker_containers"
                     },
                     "options": [
                         {
@@ -5013,10 +4882,7 @@
                     "description": "Display a live stream of container(s) resource usage statistics",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -5048,10 +4914,7 @@
                     "description": "Stop one or more running containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -5071,10 +4934,7 @@
                     "description": "Display the running processes of a container",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     }
                 },
                 {
@@ -5082,10 +4942,7 @@
                     "description": "Unpause all processes within one or more containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --filter status=paused --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "paused_docker_containers"
                     }
                 },
                 {
@@ -5093,10 +4950,7 @@
                     "description": "Update configuration of one or more containers",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     },
                     "options": [
                         {
@@ -5217,10 +5071,7 @@
                     "description": "Block until one or more containers stop, then print their exit codes",
                     "args": {
                         "name": "container",
-                        "generators": {
-                            "script": "docker ps --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                        }
+                        "generatorName": "running_docker_containers"
                     }
                 }
             ]
@@ -5376,10 +5227,7 @@
                     "args": [
                         {
                             "name": "CONTEXT",
-                            "generators": {
-                                "script": "docker context list --format '{{ json . }}'",
-                                "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Description,icon:\"fig://icon?type=docker\"}))}"
-                            }
+                            "generatorName": "all_docker_contexts"
                         },
                         {
                             "name": "FILE",
@@ -5427,10 +5275,7 @@
                     "description": "Display detailed information on one or more contexts",
                     "args": {
                         "name": "CONTEXT",
-                        "generators": {
-                            "script": "docker context list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Description,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "all_docker_contexts",
                         "isVariadic": true
                     },
                     "options": [
@@ -5486,10 +5331,7 @@
                     "description": "Remove one or more contexts",
                     "args": {
                         "name": "CONTEXT",
-                        "generators": {
-                            "script": "docker context list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Description,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "all_docker_contexts",
                         "isVariadic": true
                     },
                     "options": [
@@ -5527,10 +5369,7 @@
                     "description": "Update a context",
                     "args": {
                         "name": "CONTEXT",
-                        "generators": {
-                            "script": "docker context list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Description,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_docker_contexts"
                     },
                     "options": [
                         {
@@ -5580,10 +5419,7 @@
                     "description": "Set the default context",
                     "args": {
                         "name": "CONTEXT",
-                        "generators": {
-                            "script": "docker context list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Description,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_docker_contexts"
                     },
                     "options": [
                         {
@@ -5615,9 +5451,7 @@
                     "description": "Build an image from a Dockerfile",
                     "args": {
                         "name": "path",
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     },
                     "options": [
                         {
@@ -5653,9 +5487,7 @@
                             "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                             "args": {
                                 "name": "string",
-                                "generators": {
-                                    "template": "filepaths"
-                                }
+                                "template": "filepaths"
                             }
                         },
                         {
@@ -5780,10 +5612,7 @@
                     "description": "Show the history of an image",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_local_images"
                     },
                     "options": [
                         {
@@ -5854,10 +5683,7 @@
                     "description": "Display detailed information on one or more images",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "all_local_images",
                         "isVariadic": true
                     },
                     "options": [
@@ -6037,10 +5863,7 @@
                     "description": "Remove one or more images",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "all_local_images",
                         "isVariadic": true
                     },
                     "options": [
@@ -6062,10 +5885,7 @@
                     "description": "Save one or more images to a tar archive (streamed to STDOUT by default)",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_local_images"
                     },
                     "options": [
                         {
@@ -6099,17 +5919,11 @@
                     "args": [
                         {
                             "name": "NETWORK",
-                            "generators": {
-                                "script": "docker network list --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                            }
+                            "generatorName": "list_docker_networks"
                         },
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker ps --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                            }
+                            "generatorName": "running_docker_containers"
                         }
                     ],
                     "options": [
@@ -6275,17 +6089,11 @@
                     "args": [
                         {
                             "name": "NETWORK",
-                            "generators": {
-                                "script": "docker network list --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                            }
+                            "generatorName": "list_docker_networks"
                         },
                         {
                             "name": "container",
-                            "generators": {
-                                "script": "docker ps --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>{try{let a=JSON.parse(e);return{name:a.Names,displayName:`${a.Names} (${a.Image})`,icon:\"fig://icon?type=docker\"}}catch(a){console.error(a)}})"
-                            }
+                            "generatorName": "running_docker_containers"
                         }
                     ],
                     "options": [
@@ -6303,10 +6111,7 @@
                     "description": "Display detailed information on one or more networks",
                     "args": {
                         "name": "NETWORK",
-                        "generators": {
-                            "script": "docker network list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_networks",
                         "isVariadic": true
                     },
                     "options": [
@@ -6388,10 +6193,7 @@
                     "description": "Remove one or more networks",
                     "args": {
                         "name": "NETWORK",
-                        "generators": {
-                            "script": "docker network list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_networks",
                         "isVariadic": true
                     }
                 }
@@ -6406,10 +6208,7 @@
                     "description": "Demote one or more nodes from manager in the swarm",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     }
                 },
@@ -6418,10 +6217,7 @@
                     "description": "Display detailed information on one or more nodes",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     },
                     "options": [
@@ -6476,10 +6272,7 @@
                     "description": "Promote one or more nodes to manager in the swarm",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     }
                 },
@@ -6488,10 +6281,7 @@
                     "description": "List tasks running on one or more nodes, defaults to current node",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     },
                     "options": [
@@ -6534,10 +6324,7 @@
                     "description": "Remove one or more nodes from the swarm",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     },
                     "options": [
@@ -6555,10 +6342,7 @@
                     "description": "Update a node",
                     "args": {
                         "name": "NODE",
-                        "generators": {
-                            "script": "docker node list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.ID,displayName:`${e.ID} - ${e.Hostname}`,description:e.Status,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_swarm_nodes",
                         "isVariadic": true
                     },
                     "options": [
@@ -6622,10 +6406,7 @@
                     "description": "Disable a plugin",
                     "args": {
                         "name": "PLUGIN",
-                        "generators": {
-                            "script": "docker plugin list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        }
+                        "generatorName": "list_docker_plugins"
                     },
                     "options": [
                         {
@@ -6642,10 +6423,7 @@
                     "description": "Enable a plugin",
                     "args": {
                         "name": "PLUGIN",
-                        "generators": {
-                            "script": "docker plugin list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        }
+                        "generatorName": "list_docker_plugins"
                     },
                     "options": [
                         {
@@ -6662,10 +6440,7 @@
                     "description": "Display detailed information on one or more plugins",
                     "args": {
                         "name": "PLUGIN",
-                        "generators": {
-                            "script": "docker plugin list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_plugins",
                         "isVariadic": true
                     },
                     "options": [
@@ -6767,10 +6542,7 @@
                     "description": "Remove one or more plugins",
                     "args": {
                         "name": "PLUGIN",
-                        "generators": {
-                            "script": "docker plugin list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_plugins",
                         "isVariadic": true
                     },
                     "options": [
@@ -6789,10 +6561,7 @@
                     "args": [
                         {
                             "name": "PLUGIN",
-                            "generators": {
-                                "script": "docker plugin list --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                            }
+                            "generatorName": "list_docker_plugins"
                         },
                         {
                             "name": "KEY=VALUE",
@@ -6806,10 +6575,7 @@
                     "args": [
                         {
                             "name": "PLUGIN",
-                            "generators": {
-                                "script": "docker plugin list --format '{{ json . }}'",
-                                "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                            }
+                            "generatorName": "list_docker_plugins"
                         },
                         {
                             "name": "REMOTE"
@@ -6883,10 +6649,7 @@
                     "description": "Display detailed information on one or more secrets",
                     "args": {
                         "name": "SECRET",
-                        "generators": {
-                            "script": "docker secret list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_secrets",
                         "isVariadic": true
                     },
                     "options": [
@@ -6941,10 +6704,7 @@
                     "description": "Remove one or more secrets",
                     "args": {
                         "name": "SECRET",
-                        "generators": {
-                            "script": "docker secret list --format '{{ json . }}'",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.ID,icon:\"fig://icon?type=docker\"}))"
-                        },
+                        "generatorName": "list_docker_secrets",
                         "isVariadic": true
                     }
                 }
@@ -6960,10 +6720,7 @@
                     "args": [
                         {
                             "name": "image",
-                            "generators": {
-                                "script": "docker image ls --format '{{ json . }}'",
-                                "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                            }
+                            "generatorName": "all_local_images"
                         },
                         {
                             "name": "COMMAND",
@@ -7479,10 +7236,7 @@
                     "description": "Display detailed information on one or more services",
                     "args": {
                         "name": "SERVICE",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_services",
                         "isVariadic": true
                     },
                     "options": [
@@ -7507,10 +7261,7 @@
                     "description": "Fetch the logs of a service or task",
                     "args": {
                         "name": "SERVICE OR TASK",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "list_docker_services"
                     },
                     "options": [
                         {
@@ -7601,10 +7352,7 @@
                     "description": "List the tasks of one or more services",
                     "args": {
                         "name": "SERVICE",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_services",
                         "isVariadic": true
                     },
                     "options": [
@@ -7647,10 +7395,7 @@
                     "description": "Remove one or more services",
                     "args": {
                         "name": "SERVICE",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_services",
                         "isVariadic": true
                     }
                 },
@@ -7659,10 +7404,7 @@
                     "description": "Revert changes to a service's configuration",
                     "args": {
                         "name": "SERVICE",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "list_docker_services"
                     },
                     "options": [
                         {
@@ -7686,10 +7428,7 @@
                     "description": "Scale one or multiple replicated services",
                     "args": {
                         "name": "SERVICE=REPLICAS",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.Name}=`,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_service_replicas",
                         "isVariadic": true
                     },
                     "options": [
@@ -7707,10 +7446,7 @@
                     "description": "Update a service",
                     "args": {
                         "name": "SERVICE",
-                        "generators": {
-                            "script": "docker service list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,description:e.Image,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "list_docker_services"
                     },
                     "options": [
                         {
@@ -8400,10 +8136,7 @@
                     "description": "List the tasks in the stack",
                     "args": {
                         "name": "STACK",
-                        "generators": {
-                            "script": "docker stack list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "list_docker_stacks"
                     },
                     "options": [
                         {
@@ -8452,10 +8185,7 @@
                     "description": "Remove one or more stacks",
                     "args": {
                         "name": "STACK",
-                        "generators": {
-                            "script": "docker stack list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_stacks",
                         "isVariadic": true
                     },
                     "options": [
@@ -8473,10 +8203,7 @@
                     "description": "List the services in the stack",
                     "args": {
                         "name": "STACK",
-                        "generators": {
-                            "script": "docker stack list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "list_docker_stacks"
                     },
                     "options": [
                         {
@@ -8972,10 +8699,7 @@
                     "description": "Remove trust for an image",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_local_images"
                     },
                     "options": [
                         {
@@ -8992,10 +8716,7 @@
                     "description": "Sign an image",
                     "args": {
                         "name": "image",
-                        "generators": {
-                            "script": "docker image ls --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.ID}`,displayName:`${e.Repository} - ${e.ID}`,icon:\"fig://icon?type=docker\"}))}"
-                        }
+                        "generatorName": "all_local_images"
                     },
                     "options": [
                         {
@@ -9051,10 +8772,7 @@
                     "description": "Display detailed information on one or more volumes",
                     "args": {
                         "name": "VOLUME",
-                        "generators": {
-                            "script": "docker volume list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_volumes",
                         "isVariadic": true
                     },
                     "options": [
@@ -9125,10 +8843,7 @@
                     "description": "Remove one or more volumes",
                     "args": {
                         "name": "VOLUME",
-                        "generators": {
-                            "script": "docker volume list --format '{{ json . }}'",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:e.Name,icon:\"fig://icon?type=docker\"}))}"
-                        },
+                        "generatorName": "list_docker_volumes",
                         "isVariadic": true
                     },
                     "options": [

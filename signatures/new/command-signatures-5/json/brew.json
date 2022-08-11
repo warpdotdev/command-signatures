@@ -93,10 +93,7 @@
                 "isOptional": true,
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -184,10 +181,7 @@
                 "isOptional": true,
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -263,10 +257,7 @@
                 "isOptional": true,
                 "name": "formula",
                 "description": "Formula or cask to summarize",
-                "generators": {
-                    "script": "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/homebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
-                    "postProcess": "_NuFrRa_e=>[...new Set(e.split(`\n`))].map(a=>({name:a.replace(\".rb\",\"\"),description:\"Formula\",icon:\"\\u{1F37A}\",priority:a[0]>=\"0\"&&a[0]<=\"9\"||a[0]==\"/\"?0:51}))"
-                }
+                "generatorName": "brew_info_generator"
             },
             "options": [
                 {
@@ -369,10 +360,7 @@
                 "isOptional": true,
                 "name": "formula",
                 "description": "Formula or cask to summarize",
-                "generators": {
-                    "script": "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/homebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
-                    "postProcess": "_NuFrRa_e=>[...new Set(e.split(`\n`))].map(a=>({name:a.replace(\".rb\",\"\"),description:\"Formula\",icon:\"\\u{1F37A}\",priority:a[0]>=\"0\"&&a[0]<=\"9\"||a[0]==\"/\"?0:51}))"
-                }
+                "generatorName": "brew_info_generator"
             },
             "options": [
                 {
@@ -607,10 +595,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -649,10 +634,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -969,10 +951,7 @@
                 "isVariadic": true,
                 "isOptional": true,
                 "name": "outdated_formula|outdated_cask",
-                "generators": {
-                    "script": "brew outdated -q",
-                    "postProcess": "function(i){return i.split(`\n`).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Outdated formula\"}))}"
-                }
+                "generatorName": "outdated_formula_generator"
             }
         },
         {
@@ -1098,10 +1077,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -1366,10 +1342,7 @@
                 "isVariadic": true,
                 "name": "formula",
                 "description": "Formula or cask to install",
-                "generators": {
-                    "script": "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/homebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
-                    "postProcess": "function(i){return i.split(`\n`).map(e=>({name:e.replace(\".rb\",\"\"),description:\"Formula\",icon:\"\\u{1F37A}\",priority:e[0]>=\"0\"&&e[0]<=\"9\"||e[0]==\"/\"?0:51}))}"
-                }
+                "generatorName": "brew_info_generator"
             }
         },
         {
@@ -1478,10 +1451,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -1490,10 +1460,7 @@
             "args": {
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             }
         },
         {
@@ -1559,10 +1526,7 @@
                     ],
                     "args": {
                         "isVariadic": true,
-                        "generators": {
-                            "script": "brew list -1 --cask",
-                            "postProcess": "function(i){return i.split(`\n`).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                        }
+                        "generatorName": "uninstall_cask"
                     }
                 }
             ]
@@ -1625,10 +1589,7 @@
             "args": {
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": {
-                    "script": "brew services list | sed -e 's/ .*//' | tail -n +2",
-                    "postProcess": "function(e){return e.split(`\n`).filter(a=>!a.includes(\"unbound\")).map(a=>({name:a,icon:\"fig://icon?type=package\",description:`${i} ${a}`}))}"
-                }
+                "generatorName": "services"
             }
         },
         {
@@ -1706,10 +1667,7 @@
                     ],
                     "args": {
                         "isVariadic": true,
-                        "generators": {
-                            "script": "brew services list | sed -e 's/ .*//' | tail -n +2",
-                            "postProcess": "function(e){return e.split(`\n`).filter(a=>!a.includes(\"unbound\")).map(a=>({name:a,icon:\"fig://icon?type=package\",description:`${i} ${a}`}))}"
-                        }
+                        "generatorName": "services"
                     }
                 },
                 {
@@ -1723,10 +1681,7 @@
                     ],
                     "args": {
                         "isVariadic": true,
-                        "generators": {
-                            "script": "brew services list | sed -e 's/ .*//' | tail -n +2",
-                            "postProcess": "function(e){return e.split(`\n`).filter(a=>!a.includes(\"unbound\")).map(a=>({name:a,icon:\"fig://icon?type=package\",description:`${i} ${a}`}))}"
-                        }
+                        "generatorName": "services"
                     }
                 },
                 {
@@ -1740,10 +1695,7 @@
                     ],
                     "args": {
                         "isVariadic": true,
-                        "generators": {
-                            "script": "brew services list | sed -e 's/ .*//' | tail -n +2",
-                            "postProcess": "function(e){return e.split(`\n`).filter(a=>!a.includes(\"unbound\")).map(a=>({name:a,icon:\"fig://icon?type=package\",description:`${i} ${a}`}))}"
-                        }
+                        "generatorName": "services"
                     }
                 },
                 {
@@ -1757,10 +1709,7 @@
                     ],
                     "args": {
                         "isVariadic": true,
-                        "generators": {
-                            "script": "brew services list | sed -e 's/ .*//' | tail -n +2",
-                            "postProcess": "function(e){return e.split(`\n`).filter(a=>!a.includes(\"unbound\")).map(a=>({name:a,icon:\"fig://icon?type=package\",description:`${i} ${a}`}))}"
-                        }
+                        "generatorName": "services"
                     }
                 }
             ]
@@ -1858,10 +1807,7 @@
             "description": "Remove a tapped formula repository",
             "args": {
                 "name": "repository",
-                "generators": {
-                    "script": "brew tap",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>({name:e}))"
-                }
+                "generatorName": "repositories_generator"
             },
             "options": [
                 {
@@ -1908,10 +1854,7 @@
                 "isOptional": true,
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             },
             "options": [
                 {
@@ -1945,10 +1888,7 @@
                 "isOptional": true,
                 "isVariadic": true,
                 "name": "formula",
-                "generators": {
-                    "script": "brew list -1",
-                    "postProcess": "function(i){return i.split(`\n`).filter(e=>!e.includes(\"=\")).map(e=>({name:e,icon:\"\\u{1F37A}\",description:\"Installed formula\"}))}"
-                }
+                "generatorName": "formulae_generator"
             },
             "options": [
                 {
@@ -1968,10 +1908,7 @@
                 "isOptional": true,
                 "name": "formula",
                 "description": "Formula or cask to install",
-                "generators": {
-                    "script": "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/homebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
-                    "postProcess": "function(i){return i.split(`\n`).map(e=>({name:e.replace(\".rb\",\"\"),description:\"Formula\",icon:\"\\u{1F37A}\",priority:e[0]>=\"0\"&&e[0]<=\"9\"||e[0]==\"/\"?0:51}))}"
-                }
+                "generatorName": "brew_info_generator"
             },
             "options": [
                 {
