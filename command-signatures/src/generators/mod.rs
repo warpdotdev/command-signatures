@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::iter::FromIterator;
-use warp_completion_metadata::{Generators, Filters};
+use warp_completion_metadata::{Filters, Generators};
 
 mod bosh;
 mod brew;
@@ -13,6 +13,7 @@ mod gh;
 mod git;
 mod go;
 mod heroku;
+mod kill;
 mod killall;
 mod make;
 mod man;
@@ -56,6 +57,7 @@ pub fn generators() -> HashMap<String, (Generators, Filters)> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        kill::generator(),
         killall::generator(),
         tmuxinator::generator(),
         tmux::generator(),
