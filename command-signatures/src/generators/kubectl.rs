@@ -2,19 +2,21 @@ use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-enum KubectlPostProcess {
+enum KubetctlStatus {
     ConnectedToCluster,
     Other,
     GeneralError,
 }
 
-fn check_kubectl_post_process(output: &str) -> KubectlPostProcess {
-    if output.contains("The connection to the server") {
-        KubectlPostProcess::ConnectedToCluster
-    } else if output.contains("error:") {
-        KubectlPostProcess::GeneralError
-    } else {
-        KubectlPostProcess::Other
+impl KubetctlStatus {
+    fn from_output(output: &str) -> Self {
+        if output.contains("The connection to the server") {
+            KubetctlStatus::ConnectedToCluster
+        } else if output.contains("error:") {
+            KubetctlStatus::GeneralError
+        } else {
+            KubetctlStatus::Other
+        }
     }
 }
 
@@ -26,11 +28,11 @@ fn type_without_name(type_name: &str) -> String {
 }
 
 fn kubectl_post_process(output: &str) -> GeneratorResults {
-    match check_kubectl_post_process(output) {
-        KubectlPostProcess::ConnectedToCluster | KubectlPostProcess::GeneralError => {
+    match KubetctlStatus::from_output(output) {
+        KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
             GeneratorResults::default()
         }
-        KubectlPostProcess::Other => output
+        KubetctlStatus::Other => output
             .lines()
             .map(str::trim)
             .filter(|line| !line.is_empty())
