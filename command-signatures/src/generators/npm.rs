@@ -2,12 +2,13 @@ use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
+use serde::Deserialize;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
 
 /// Helper struct used for deserializing a npm/yarn package.json file into the necessary fields
 /// needed for generators.
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct PackageJsonInfo {
     #[serde(default)]
     dependencies: HashMap<String, String>,
@@ -24,10 +25,26 @@ struct PackageJsonInfo {
 
 /// Helper struct used for deserializing an npm package.json file. Useful for deserializing a field
 /// from a npm package.json file where the schema differs from the yarn package.json file.
-#[derive(serde::Deserialize)]
+#[derive(Deserialize)]
 struct NpmPackageJsonInfo {
     #[serde(default)]
     workspaces: Vec<String>,
+}
+
+/// Helper struct that matches the output of running `yarn list --depth=0 --json`.
+#[derive(Deserialize)]
+struct YarnListInfo {
+    data: YarnListInfoData,
+}
+
+#[derive(Deserialize)]
+struct YarnListInfoData {
+    trees: Vec<YarnListInfoTree>,
+}
+
+#[derive(Deserialize)]
+struct YarnListInfoTree {
+    name: String,
 }
 
 fn get_scripts_generator() -> Generator {
@@ -145,7 +162,7 @@ fn dependencies_generator() -> Generator {
 }
 
 fn workspace_generator() -> Generator {
-    Generator::new("cat package.json", |output| {
+    Generator::new("cat $(npm prefix)/package.json", |output| {
         if output.trim().is_empty() {
             return GeneratorResults::default();
         }
@@ -179,6 +196,35 @@ pub fn yarn_generators() -> CommandGenerators {
         .add_generator("config_list", config_list())
         .add_generator("dependencies_generator", dependencies_generator())
         .add_generator("get_scripts_generator", get_scripts_generator())
+        .add_generator(
+            "all_dependencies_generator",
+            Generator::new("yarn list --depth=0 --json", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
+                let yarn_list_info: YarnListInfo = match serde_json::from_str(output) {
+                    Ok(info) => info,
+                    Err(e) => {
+                        log::warn!(
+                            "Failed to deserialize all_dependencies_generator yarn output {:?}",
+                            e
+                        );
+                        return GeneratorResults::default();
+                    }
+                };
+
+                yarn_list_info
+                    .data
+                    .trees
+                    .into_iter()
+                    .filter_map(|tree| {
+                        let name = tree.name.rsplit_once('@')?.0;
+                        Some(Suggestion::new(name))
+                    })
+                    .collect_ordered_results()
+            }),
+        )
 }
 
 #[cfg(test)]

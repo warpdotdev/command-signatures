@@ -4,10 +4,7 @@
     "args": {
         "name": "process_name",
         "isVariadic": true,
-        "generators": {
-            "script": "ps -A -o comm | sort -u",
-            "postProcess": "_NuFrRa_s=>s.trim().split(`\n`).map(e=>{let i=e.indexOf(\".app/\"),t=i!==-1,n=e.slice(e.lastIndexOf(\"/\")+1),r=new Set(n);return{name:n,description:e,priority:![\"(\",\"_\",\".\"].some(o=>r.has(o))&&t?51:40,icon:t?\"fig://\"+e.slice(0,i+4):\"fig://icon?type=gear\"}})"
-        }
+        "generatorName": "process_name"
     },
     "options": [
         {
@@ -167,10 +164,7 @@
             "description": "Limit potentially matching processes to those belonging to the user",
             "args": {
                 "name": "user",
-                "generators": {
-                    "script": "dscl . -list /Users | grep -v '^_'",
-                    "postProcess": "_NuFrRa_s=>s.trim().split(`\n`).map(e=>({name:e,icon:\"fig://template?badge=\\u{1F464}\"}))"
-                }
+                "generatorName": "user_name"
             }
         },
         {

@@ -135,10 +135,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -166,10 +163,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -210,14 +204,7 @@
             "args": {
                 "name": "script",
                 "description": "Script to run from your package.json",
-                "generators": {
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "cacheByDirectory": true
-                    },
-                    "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                    "postProcess": "function(n,[a]){if(n.trim()==\"\")return[];try{let e=JSON.parse(n),d=e.scripts,m=e.fig||{};if(d)return Object.entries(d).map(([l,g])=>{let s=a===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",o=m[l];return T({name:l,icon:s,description:g},o)})}catch(e){console.error(e)}return[]}"
-                }
+                "generatorName": "get_scripts_generator"
             }
         },
         {
@@ -296,10 +283,7 @@
                             "description": "Enable running a command in the context of the configured workspaces of the current project",
                             "args": {
                                 "name": "workspace",
-                                "generators": {
-                                    "script": "cat $(npm prefix)/package.json",
-                                    "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                                },
+                               "generatorName": "workspace_generator",
                                 "isVariadic": true
                             }
                         },
@@ -322,10 +306,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -652,10 +633,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -898,10 +876,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1081,10 +1056,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1201,10 +1173,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1265,10 +1234,7 @@
                             "description": "Enable running a command in the context of the configured workspaces of the current project",
                             "args": {
                                 "name": "workspace",
-                                "generators": {
-                                    "script": "cat $(npm prefix)/package.json",
-                                    "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                                },
+                               "generatorName": "workspace_generator",
                                 "isVariadic": true
                             }
                         },
@@ -1302,10 +1268,7 @@
                             "description": "Enable running a command in the context of the configured workspaces of the current project",
                             "args": {
                                 "name": "workspace",
-                                "generators": {
-                                    "script": "cat $(npm prefix)/package.json",
-                                    "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                                },
+                               "generatorName": "workspace_generator",
                                 "isVariadic": true
                             }
                         },
@@ -1343,10 +1306,7 @@
                             "description": "Enable running a command in the context of the configured workspaces of the current project",
                             "args": {
                                 "name": "workspace",
-                                "generators": {
-                                    "script": "cat $(npm prefix)/package.json",
-                                    "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                                },
+                               "generatorName": "workspace_generator",
                                 "isVariadic": true
                             }
                         },
@@ -1576,10 +1536,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1619,10 +1576,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1682,10 +1636,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1732,10 +1683,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -1931,10 +1879,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2302,10 +2247,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2370,10 +2312,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2435,10 +2374,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2500,10 +2436,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2565,10 +2498,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2608,10 +2538,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2722,10 +2649,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2750,10 +2674,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
@@ -2810,10 +2731,7 @@
                     "description": "Enable running a command in the context of the configured workspaces of the current project",
                     "args": {
                         "name": "workspace",
-                        "generators": {
-                            "script": "cat $(npm prefix)/package.json",
-                            "postProcess": "function(n){let a=[];try{if(n.trim()==\"\")return a;let d=JSON.parse(n).workspaces;if(d)for(let m of d)a.push({name:m,description:\"Workspaces\"})}catch(e){console.log(e)}return a}"
-                        },
+                        "generatorName": "workspace_generator",
                         "isVariadic": true
                     }
                 },
