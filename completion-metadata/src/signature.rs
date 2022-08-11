@@ -312,7 +312,7 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
 
 #[derive(Clone)]
 pub enum GeneratorProcess {
-    CommandFromTokens(fn(Vec<&str>) -> String),
+    CommandFromTokens(fn([&str]) -> String),
     ShellCommand(String),
 }
 
@@ -347,7 +347,7 @@ impl Generator {
     }
 
     pub fn command_from_tokens(
-        command_from_tokens: fn(Vec<&str>) -> String,
+        command_from_tokens: fn([&str]) -> String,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
