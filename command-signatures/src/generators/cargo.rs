@@ -111,7 +111,7 @@ pub fn generator() -> CommandGenerators {
                             target
                                 .kind
                                 .into_iter()
-                                .any(|item| &item == "bin")
+                                .any(|item| item == "bin")
                                 .then(|| Suggestion::new(target.name))
                         })
                         .collect_unordered_results(),
