@@ -8,7 +8,7 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("kill")
         .add_generator(
             "process",
-            Generator::new("ps axo pid,comm | sed 1d", |output| {
+            Generator::script("ps axo pid,comm | sed 1d", |output| {
                 output
                     .lines()
                     .filter_map(|line| {
@@ -24,7 +24,7 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "signal_name",
-            Generator::new("env kill -l", |output| {
+            Generator::script("env kill -l", |output| {
                 RE.find_iter(output)
                     .map(|capture| Suggestion::new(capture.as_str()))
                     .collect_unordered_results()

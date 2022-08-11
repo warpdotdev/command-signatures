@@ -45,29 +45,29 @@ pub fn generator() -> CommandGenerators {
     CommandGenerators::new("kubectl")
         .add_generator(
             "resource_type",
-            Generator::new("kubectl api-resources -o name", kubectl_post_process),
+            Generator::script("kubectl api-resources -o name", kubectl_post_process),
         )
         .add_generator(
             "running_pods",
-            Generator::new(
+            Generator::script(
                 "kubectl get pods --field-selector=status.phase=Running -o name",
                 kubectl_post_process,
             ),
         )
         .add_generator(
             "deployments",
-            Generator::new(type_without_name("deployments"), kubectl_post_process),
+            Generator::script(type_without_name("deployments"), kubectl_post_process),
         )
         .add_generator(
             "node",
-            Generator::new(type_without_name("nodes"), kubectl_post_process),
+            Generator::script(type_without_name("nodes"), kubectl_post_process),
         )
         .add_generator(
             "cluster_role",
-            Generator::new(type_without_name("clusterroles"), kubectl_post_process),
+            Generator::script(type_without_name("clusterroles"), kubectl_post_process),
         )
         .add_generator(
             "role",
-            Generator::new(type_without_name("roles"), kubectl_post_process),
+            Generator::script(type_without_name("roles"), kubectl_post_process),
         )
 }
