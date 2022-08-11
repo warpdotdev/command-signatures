@@ -1,5 +1,8 @@
+use std::iter;
+
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance, Order,
+    Priority, Suggestion,
 };
 
 pub fn generator() -> CommandGenerators {
@@ -7,17 +10,22 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "delete_context",
             Generator::new("kubectx", |output| {
-                let default = Suggestion::with_description(".", "Delete current context");
+                let mut default = Suggestion::with_description(".", "Delete current context");
+                default.priority = Priority::Global(Importance::More(Order(90)));
 
-                let mut results = output
+                let results = output
                     .lines()
                     .map(str::trim)
                     .filter(|line| !line.is_empty())
-                    .map(Suggestion::new)
-                    .collect_ordered_results();
+                    .map(|item| {
+                        let mut suggestion = Suggestion::new(item);
+                        suggestion.priority = Priority::Global(Importance::More(Order(95)));
+                        suggestion
+                    });
 
-                results.suggestions.insert(0, default);
-                results
+                iter::once(default)
+                    .chain(results)
+                    .collect_unordered_results()
             }),
         )
         .add_generator(
