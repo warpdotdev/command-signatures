@@ -4,6 +4,7 @@ use warp_completion_metadata::{Filters, Generators};
 
 mod bosh;
 mod brew;
+mod cargo;
 mod conda;
 mod defaults;
 mod docker;
@@ -58,6 +59,7 @@ pub fn generators() -> HashMap<String, (Generators, Filters)> {
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
+        cargo::generator(),
         kubectl::generator(),
         kill::generator(),
         killall::generator(),
