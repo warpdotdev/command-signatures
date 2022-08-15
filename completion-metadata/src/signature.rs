@@ -230,7 +230,7 @@ impl Argument {
 }
 
 type DefaultValue = String;
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Eq)]
 pub enum IsArgumentOptional {
     Optional(Option<DefaultValue>),
     Required,
@@ -370,7 +370,7 @@ impl Debug for Generator {
 }
 
 /// Prebuilt `Generator`s
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Eq)]
 pub enum TemplateType {
     GitBranches,
     Files,
