@@ -386,7 +386,7 @@ pub fn generator() -> CommandGenerators {
             Generator::command_from_tokens(
                 |context| match context.last() {
                     Some(search_term) if !search_term.is_empty() => {
-                        format!("docker search {} --format '{{ json . }}'", search_term)
+                        format!("docker search {} --format '{{{{ json . }}}}'", search_term)
                     }
                     _ => "".to_string(),
                 },

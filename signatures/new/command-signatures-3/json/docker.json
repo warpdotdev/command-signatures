@@ -1484,11 +1484,7 @@
             "description": "Pull an image or a repository from a registry",
             "args": {
                 "name": "NAME[:TAG|@DIGEST]",
-                "generators": {
-                    "script": "function(t){return t[t.length-1]===\"\"?\"\":`docker search ${t[t.length-1]} --format '{{ json . }}'`}",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.Name}`,icon:\"fig://icon?type=docker\"}))}",
-                    "trigger": "function(){return!0}"
-                },
+                "generatorName": "docker_hub_search",
                 "debounce": true
             },
             "options": [
