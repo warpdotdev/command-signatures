@@ -52,6 +52,13 @@ struct DockerSwarmOutput {
     status: Option<String>,
 }
 
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "PascalCase")]
+struct DockerSearchOutput {
+    #[serde(default)]
+    name: Option<String>,
+}
+
 fn post_process_docker_ps(output: &str) -> GeneratorResults {
     output
         .trim()
@@ -383,7 +390,9 @@ pub fn generator() -> CommandGenerators {
                     }
                     _ => "".to_string(),
                 },
-                ,
+                |output| {
+                    let parsed_output: Result<> = serde_json::from_str(output);
+                },
             ),
         )
         .add_filter(
