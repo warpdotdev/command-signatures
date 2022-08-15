@@ -374,6 +374,18 @@ pub fn generator() -> CommandGenerators {
                 },
             ),
         )
+        .add_generator(
+            "docker_hub_search",
+            Generator::command_from_tokens(
+                |context| match context.last() {
+                    Some(searchTerm) if !searchTerm.is_empty() => {
+                        format!("docker search {} --format '{{ json . }}'", searchTerm)
+                    }
+                    _ => "".to_string(),
+                },
+                ,
+            ),
+        )
         .add_filter(
             "filter-docker-files",
             TemplateFilter(|suggestion| {
