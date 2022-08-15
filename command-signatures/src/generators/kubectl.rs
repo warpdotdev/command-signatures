@@ -70,4 +70,56 @@ pub fn generator() -> CommandGenerators {
             "role",
             Generator::script(type_without_name("roles"), kubectl_post_process),
         )
+        .add_generator(
+            "resource",
+            Generator::command_from_tokens(
+                |tokens| match tokens.get(tokens.len() - 2) {
+                    Some(type_name) => type_without_name(type_name),
+                    None => "".to_string(),
+                },
+                kubectl_post_process,
+            ),
+        )
+        .add_generator(
+            "context",
+            Generator::command_from_tokens(
+                |tokens| {
+                    let config_idx = tokens.iter().position(|token| *token == "--kubeconfig");
+                    match config_idx {
+                        Some(idx) if idx + 1 < tokens.len() => format!(
+                            "kubectl config --kubeconfig={} get-contexts -o name",
+                            tokens[idx + 1]
+                        ),
+                        _ => "kubectl config get-contexts -o name".to_string(),
+                    }
+                },
+                kubectl_post_process,
+            ),
+        )
+        .add_generator(
+            "cluster",
+            Generator::command_from_tokens(
+                |tokens| {
+                    let config_idx = tokens.iter().position(|token| *token == "--kubeconfig");
+                    match config_idx {
+                        Some(idx) if idx + 1 < tokens.len() => format!(
+                            "kubectl config --kubeconfig={} get-clusters",
+                            tokens[idx + 1]
+                        ),
+                        _ => "kubectl config get-clusters".to_string(),
+                    }
+                },
+                |output| match KubetctlStatus::from_output(output) {
+                    KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
+                        GeneratorResults::default()
+                    }
+                    KubetctlStatus::Other => output
+                        .lines()
+                        .map(str::trim)
+                        .filter(|line| !line.is_empty() && *line != "NAME")
+                        .map(Suggestion::new)
+                        .collect_unordered_results(),
+                },
+            ),
+        )
 }
