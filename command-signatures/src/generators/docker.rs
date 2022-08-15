@@ -385,13 +385,21 @@ pub fn generator() -> CommandGenerators {
             "docker_hub_search",
             Generator::command_from_tokens(
                 |context| match context.last() {
-                    Some(searchTerm) if !searchTerm.is_empty() => {
-                        format!("docker search {} --format '{{ json . }}'", searchTerm)
+                    Some(search_term) if !search_term.is_empty() => {
+                        format!("docker search {} --format '{{ json . }}'", search_term)
                     }
                     _ => "".to_string(),
                 },
                 |output| {
-                    let parsed_output: Result<> = serde_json::from_str(output);
+                    output
+                        .lines()
+                        .filter_map(|line| {
+                            let parsed_output: Result<DockerSearchOutput> =
+                                serde_json::from_str(line);
+                            parsed_output.ok().and_then(|parsed| parsed.name)
+                        })
+                        .map(Suggestion::new)
+                        .collect_unordered_results()
                 },
             ),
         )
