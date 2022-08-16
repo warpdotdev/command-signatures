@@ -372,7 +372,6 @@ impl Debug for Generator {
 /// Prebuilt `Generator`s
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub enum TemplateType {
-    GitBranches,
     Files,
     Folders,
     #[allow(dead_code)]
