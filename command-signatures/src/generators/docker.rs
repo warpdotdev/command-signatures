@@ -1,6 +1,6 @@
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandGenerators, FileSuggestionType, Generator, GeneratorResults, GeneratorResultsCollector,
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, PathSuggestionType,
     Suggestion, TemplateFilter,
 };
 
@@ -377,7 +377,7 @@ pub fn generator() -> CommandGenerators {
         .add_filter(
             "filter-docker-files",
             TemplateFilter(|suggestion, file_type| {
-                (matches!(file_type, FileSuggestionType::Folder)
+                (matches!(file_type, PathSuggestionType::Folder)
                     || suggestion.exact_string.ends_with(".yaml")
                     || suggestion.exact_string.ends_with(".yml"))
                 .then(|| suggestion)

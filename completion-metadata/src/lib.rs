@@ -44,7 +44,7 @@ impl Hash for Suggestion {
 }
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
-pub enum FileSuggestionType {
+pub enum PathSuggestionType {
     File,
     Folder,
 }
