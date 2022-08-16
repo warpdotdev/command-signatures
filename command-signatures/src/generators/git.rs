@@ -433,6 +433,29 @@ fn filter_messages(out: &str) -> &str {
     }
 }
 
+fn post_process_tracked_files(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
+    output
+        .split('\n')
+        .filter_map(|file| {
+            let arr = file.trim().split(' ').collect::<Vec<_>>();
+            if arr.len() > 1 {
+                Some((
+                    arr.first().unwrap().to_string(),
+                    arr[1..].join(" ").trim().to_string(),
+                ))
+            } else {
+                None
+            }
+        })
+        .map(|(_working, file)| Suggestion::with_description(file, "Changed file"))
+        .collect_unordered_results()
+}
+
 fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
@@ -640,28 +663,10 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "files_for_staging",
-            Generator::script("git --no-optional-locks status --short", |output| {
-                let output = filter_messages(output);
-                if output.starts_with("fatal:") {
-                    return GeneratorResults::default();
-                }
-
-                output
-                    .split('\n')
-                    .filter_map(|file| {
-                        let arr = file.trim().split(' ').collect::<Vec<_>>();
-                        if arr.len() > 1 {
-                            Some((
-                                arr.first().unwrap().to_string(),
-                                arr[1..].join(" ").trim().to_string(),
-                            ))
-                        } else {
-                            None
-                        }
-                    })
-                    .map(|(_working, file)| Suggestion::with_description(file, "Changed file"))
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                "git --no-optional-locks status --short",
+                post_process_tracked_files,
+            ),
         )
         .add_generator(
             "settings_generator",
@@ -674,6 +679,21 @@ pub fn generator() -> CommandGenerators {
                     .map(Suggestion::new)
                     .collect_unordered_results()
             }),
+        )
+        .add_generator(
+            "get_changed_or_tracked_files",
+            Generator::command_from_tokens(
+                |context| {
+                    if context.contains(&"--staged") || context.contains(&"--cached") {
+                        "git --no-optional-locks status --short | sed -ne '/^M /p' -e '/A /p'"
+                            .to_string()
+                    } else {
+                        "git --no-optional-locks status --short | sed -ne '/M /p' -e '/A /p'"
+                            .to_string()
+                    }
+                },
+                post_process_tracked_files,
+            ),
         )
 }
 
