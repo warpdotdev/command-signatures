@@ -1,6 +1,6 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion, TemplateFilter,
 };
 
 use lazy_static::lazy_static;
@@ -46,6 +46,12 @@ pub fn generator() -> CommandGenerators {
                         })
                     })
                     .collect_unordered_results()
+            }),
+        )
+        .add_filter(
+            "filter-dart-files",
+            TemplateFilter(|suggestion| {
+                (suggestion.exact_string.ends_with(".dart")).then(|| suggestion)
             }),
         )
 }
