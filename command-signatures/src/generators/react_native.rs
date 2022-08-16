@@ -4,6 +4,7 @@ use serde_json::Result;
 use std::collections::HashMap;
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    TemplateFilter,
 };
 
 lazy_static! {
@@ -186,6 +187,12 @@ pub fn generator() -> CommandGenerators {
                         None
                     })
                     .collect_unordered_results()
+            }),
+        )
+        .add_filter(
+            "filter-js-files",
+            TemplateFilter(|suggestion| {
+                (suggestion.exact_string.ends_with(".js")).then(|| suggestion)
             }),
         )
 }
