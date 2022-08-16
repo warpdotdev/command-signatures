@@ -73,12 +73,9 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "resource",
             Generator::command_from_tokens(
-                |tokens| {
-                    println!("HERE");
-                    match tokens.get(tokens.len() - 2) {
-                        Some(type_name) => type_without_name(type_name),
-                        None => "".to_string(),
-                    }
+                |tokens| match tokens.get(tokens.len() - 2) {
+                    Some(type_name) => type_without_name(type_name),
+                    None => "".to_string(),
                 },
                 kubectl_post_process,
             ),
