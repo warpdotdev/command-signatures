@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::{Filters, Generators};
+use crate::{Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
@@ -389,10 +389,10 @@ pub struct Template {
 /// A template filter function. This takes in a generated Suggestion and returned
 /// a modified suggestion or None if the suggestion is filtered out.
 #[derive(Clone)]
-pub struct TemplateFilter(pub fn(Suggestion) -> Option<Suggestion>);
+pub struct TemplateFilter(pub fn(Suggestion, PathSuggestionType) -> Option<Suggestion>);
 
 impl TemplateFilter {
-    pub fn filter(&self, input: Suggestion) -> Option<Suggestion> {
-        (self.0)(input)
+    pub fn filter(&self, input: Suggestion, type_name: PathSuggestionType) -> Option<Suggestion> {
+        (self.0)(input, type_name)
     }
 }
