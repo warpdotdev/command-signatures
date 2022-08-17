@@ -23,6 +23,7 @@ mod kubens;
 mod make;
 mod man;
 mod ng;
+mod node;
 mod npm;
 mod nx;
 mod phpunit_watcher;
@@ -71,6 +72,7 @@ pub fn generators() -> HashMap<String, (Generators, Filters)> {
         killall::generator(),
         tmuxinator::generator(),
         tmux::generator(),
+        node::generator(),
     ];
 
     HashMap::from_iter(generators.map(Into::into))
