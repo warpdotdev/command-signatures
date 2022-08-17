@@ -1,6 +1,6 @@
 use warp_completion_metadata::{
     CommandGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
-    Priority, Suggestion,
+    Importance, Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -433,6 +433,23 @@ fn filter_messages(out: &str) -> &str {
     }
 }
 
+fn post_process_tracked_files(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
+    output
+        .lines()
+        .filter_map(|file| file.trim().split_once(' '))
+        .map(|(_working, file)| {
+            let mut suggestion = Suggestion::with_description(file, "Changed file");
+            suggestion.priority = Priority::Global(Importance::More(Order(100)));
+            suggestion
+        })
+        .collect_unordered_results()
+}
+
 fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
@@ -449,16 +466,17 @@ fn post_process_branches(out: &str) -> GeneratorResults {
         GeneratorResults::default()
     } else {
         output
-            .split('\n')
+            .lines()
             .filter_map(|elm| {
                 let mut name = elm.trim().to_owned();
-                if name.is_empty() {
+                if name.is_empty() || name.starts_with("HEAD") {
                     return None;
                 }
 
-                let parts = POST_PROCESS_BRANCHES_RE.find_iter(elm).collect::<Vec<_>>();
-                if parts.len() > 1 {
-                    if parts[0].as_str() == "*" {
+                let post_process_branch = POST_PROCESS_BRANCHES_RE.find(elm);
+
+                if let Some(post_process_branch) = post_process_branch {
+                    if post_process_branch.as_str() == "*" {
                         if elm.contains("HEAD detached") {
                             // We are in a detached HEAD state.
                             return None;
@@ -469,7 +487,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                                 priority: Priority::most_important(),
                             });
                         }
-                    } else if parts[0].as_str() == "+" {
+                    } else if post_process_branch.as_str() == "+" {
                         let elm = elm.replace('+', "");
                         name = elm.trim().to_owned();
                     }
@@ -640,28 +658,10 @@ pub fn generator() -> CommandGenerators {
         )
         .add_generator(
             "files_for_staging",
-            Generator::script("git --no-optional-locks status --short", |output| {
-                let output = filter_messages(output);
-                if output.starts_with("fatal:") {
-                    return GeneratorResults::default();
-                }
-
-                output
-                    .split('\n')
-                    .filter_map(|file| {
-                        let arr = file.trim().split(' ').collect::<Vec<_>>();
-                        if arr.len() > 1 {
-                            Some((
-                                arr.first().unwrap().to_string(),
-                                arr[1..].join(" ").trim().to_string(),
-                            ))
-                        } else {
-                            None
-                        }
-                    })
-                    .map(|(_working, file)| Suggestion::with_description(file, "Changed file"))
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                "git --no-optional-locks status --short",
+                post_process_tracked_files,
+            ),
         )
         .add_generator(
             "settings_generator",
@@ -674,6 +674,36 @@ pub fn generator() -> CommandGenerators {
                     .map(Suggestion::new)
                     .collect_unordered_results()
             }),
+        )
+        .add_generator(
+            "get_changed_or_tracked_files",
+            Generator::command_from_tokens(
+                |context| {
+                    if context.contains(&"--staged") || context.contains(&"--cached") {
+                        "git --no-optional-locks status --short | sed -ne '/^M /p' -e '/A /p'"
+                            .to_string()
+                    } else {
+                        "git --no-optional-locks status --short | sed -ne '/M /p' -e '/A /p'"
+                            .to_string()
+                    }
+                },
+                post_process_tracked_files,
+            ),
+        )
+        .add_generator(
+            "local_or_remote_branch",
+            Generator::command_from_tokens(
+                |context| {
+                    if context.contains(&"-r") {
+                        "git --no-optional-locks branch -r --no-color --sort=-committerdate"
+                            .to_string()
+                    } else {
+                        "git --no-optional-locks branch --no-color --sort=-committerdate"
+                            .to_string()
+                    }
+                },
+                post_process_branches,
+            ),
         )
 }
 

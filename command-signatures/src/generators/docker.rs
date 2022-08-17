@@ -376,8 +376,9 @@ pub fn generator() -> CommandGenerators {
         )
         .add_filter(
             "filter-docker-files",
-            TemplateFilter(|suggestion| {
-                (suggestion.exact_string.ends_with(".yaml")
+            TemplateFilter(|suggestion, file_type| {
+                (file_type.is_folder()
+                    || suggestion.exact_string.ends_with(".yaml")
                     || suggestion.exact_string.ends_with(".yml"))
                 .then(|| suggestion)
             }),
