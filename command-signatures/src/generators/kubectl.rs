@@ -85,11 +85,11 @@ pub fn generator() -> CommandGenerators {
             Generator::command_from_tokens(
                 |tokens| {
                     let config_idx = tokens.iter().position(|token| *token == "--kubeconfig");
-                    match config_idx {
-                        Some(idx) if idx + 1 < tokens.len() => format!(
-                            "kubectl config --kubeconfig={} get-contexts -o name",
-                            tokens[idx + 1]
-                        ),
+                    let token_after_flag = config_idx.and_then(|idx| tokens.get(idx + 1));
+                    match token_after_flag {
+                        Some(token) => {
+                            format!("kubectl config --kubeconfig={} get-contexts -o name", token)
+                        }
                         _ => "kubectl config get-contexts -o name".to_string(),
                     }
                 },
