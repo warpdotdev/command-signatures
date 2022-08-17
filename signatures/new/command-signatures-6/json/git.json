@@ -4475,12 +4475,9 @@
                         "insertValue": "HEAD~"
                     }
                 ],
-                "generatorNames": "commits",
-                "generators": [
-                    {
-                        "script": "function(o){return o.includes(\"--staged\")||o.includes(\"--cached\")?\"git --no-optional-locks status --short | sed -ne '/^M /p' -e '/A /p'\":\"git --no-optional-locks status --short | sed -ne '/M /p' -e '/A /p'\"}",
-                        "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);return i.startsWith(\"fatal:\")?[]:[...i.split(`\n`).map(a=>{let s=a.trim().split(\" \");return{working:s[0],file:s.slice(1).join(\" \").trim()}}).map(a=>{let s=a.file.replace(/^\"|\"$/g,\"\"),n=\"\";try{n=s.split(\".\").slice(-1)[0]}catch(c){}return s.endsWith(\"/\")&&(n=\"folder\"),{name:s,icon:`fig://icon?type=${n}&color=ff0000&badge=${a.working}`,description:\"Changed tracked files\",priority:t.some(c=>c.includes(s))?50:100}})]}"
-                    }
+                "generatorName": [
+                    "commits",
+                    "get_changed_or_tracked_files"
                 ]
             }
         },
@@ -6677,7 +6674,12 @@
                     "name": "branch, file, tag or commit",
                     "description": "Branch, file, tag or commit to switch to",
                     "isOptional": true,
-                    "generatorName": ["local_branches", "remote_branches", "refs_remote_branches", "tags"],
+                    "generatorName": [
+                        "local_branches",
+                        "remote_branches",
+                        "refs_remote_branches",
+                        "tags"
+                    ],
                     "template": [
                         "filepaths",
                         "folders"
@@ -7266,7 +7268,10 @@
             "description": "Join two or more development histories together",
             "args": {
                 "name": "branch",
-                "generatorName": ["local_branches", "remote_branches"],
+                "generatorName": [
+                    "local_branches",
+                    "remote_branches"
+                ],
                 "isVariadic": true,
                 "isOptional": true,
                 "suggestions": [

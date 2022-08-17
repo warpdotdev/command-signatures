@@ -43,6 +43,12 @@ impl Hash for Suggestion {
     }
 }
 
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+pub enum PathSuggestionType {
+    File,
+    Folder,
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
