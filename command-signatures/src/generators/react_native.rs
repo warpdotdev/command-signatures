@@ -191,8 +191,8 @@ pub fn generator() -> CommandGenerators {
         )
         .add_filter(
             "filter-js-files",
-            TemplateFilter(|suggestion| {
-                (suggestion.exact_string.ends_with(".js")).then(|| suggestion)
+            TemplateFilter(|suggestion, path_type| {
+                (path_type.is_folder() || suggestion.exact_string.ends_with(".js")).then(|| suggestion)
             }),
         )
 }
