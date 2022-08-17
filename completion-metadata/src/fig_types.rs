@@ -20,7 +20,7 @@ struct FigPriority(pub u32);
 /// 67b2515c5ea4ff4c70c672a5ccdf8a77547d1366.
 /// See https://github.com/withfig/autocomplete-tools/blob/67b2515c5ea4ff4c70c672a5ccdf8a77547d1366/packages/autocomplete-types/index.d.ts
 /// for the original type definition.
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum SuggestionType {
     #[serde(rename = "folder")]
     Folder,
@@ -96,7 +96,7 @@ pub struct Command {
     hidden: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
 pub enum NumberOrBool {
     Number(usize),
@@ -200,7 +200,7 @@ pub struct Arg {
     pub default: Option<StringOrNumber>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
 pub enum StringOrNumber {
     String(String),
@@ -216,7 +216,7 @@ impl From<StringOrNumber> for String {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
 pub enum Template {
     #[serde(rename = "filepaths")]
     FilePaths,
