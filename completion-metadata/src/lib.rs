@@ -49,6 +49,12 @@ pub enum PathSuggestionType {
     Folder,
 }
 
+impl PathSuggestionType {
+    pub fn is_folder(&self) -> bool {
+        matches!(self, PathSuggestionType::Folder)
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
