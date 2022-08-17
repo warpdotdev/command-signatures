@@ -1,7 +1,6 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, PathSuggestionType, Suggestion,
-    TemplateFilter,
+    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion, TemplateFilter,
 };
 
 use lazy_static::lazy_static;

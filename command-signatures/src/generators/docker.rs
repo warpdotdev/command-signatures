@@ -1,7 +1,7 @@
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, PathSuggestionType,
-    Suggestion, TemplateFilter,
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    TemplateFilter,
 };
 
 #[derive(Debug, serde::Deserialize)]
