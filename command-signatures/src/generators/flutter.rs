@@ -1,6 +1,7 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion, TemplateFilter,
+    CommandGenerators, Generator, GeneratorResultsCollector, PathSuggestionType, Suggestion,
+    TemplateFilter,
 };
 
 use lazy_static::lazy_static;
@@ -50,8 +51,9 @@ pub fn generator() -> CommandGenerators {
         )
         .add_filter(
             "filter-dart-files",
-            TemplateFilter(|suggestion| {
-                (suggestion.exact_string.ends_with(".dart")).then(|| suggestion)
+            TemplateFilter(|suggestion, path_type| {
+                (path_type.is_folder() || suggestion.exact_string.ends_with(".dart"))
+                    .then(|| suggestion)
             }),
         )
 }
