@@ -73,7 +73,7 @@ pub fn generator() -> CommandGenerators {
         .add_generator(
             "resource",
             Generator::command_from_tokens(
-                |tokens| match tokens.get(tokens.len() - 2) {
+                |tokens| match tokens.last() {
                     Some(type_name) => type_without_name(type_name),
                     None => "".to_string(),
                 },
