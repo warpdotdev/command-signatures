@@ -694,13 +694,15 @@ pub fn generator() -> CommandGenerators {
             "local_or_remote_branch",
             Generator::command_from_tokens(
                 |context| {
-                    if context.contains(&"-r") {
+                    // If the `-r` flag is specified, only surface remote branches, otherwise only
+                    // surface local branches.
+                    let command = if context.contains(&"-r") || context.contains(&"--remotes") {
                         "git --no-optional-locks branch -r --no-color --sort=-committerdate"
-                            .to_string()
                     } else {
                         "git --no-optional-locks branch --no-color --sort=-committerdate"
-                            .to_string()
-                    }
+                    };
+
+                    command.into()
                 },
                 post_process_branches,
             ),
