@@ -743,7 +743,12 @@ mod tests {
             post_process_branches(command_output),
             GeneratorResults {
                 suggestions: vec![
-                    Suggestion::with_description("_release/v0.2021.04.02.14.18._00", "Branch"),
+                    Suggestion {
+                        exact_string: "_release/v0.2021.04.02.14.18._00".to_owned(),
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(AdditionalIconType::GitBranch)
+                    },
                     Suggestion {
                         exact_string: "aloke/add_new_generators".to_owned(),
                         description: Some("Current branch".to_owned()),
