@@ -4,10 +4,11 @@ pub use all_commands::*;
 pub use generators::generators;
 
 pub use warp_completion_metadata::{
-    Argument, ArgumentType, CommandGenerators, FilterTemplateSuggestion, Filters, Generator,
-    GeneratorName, GeneratorProcess, GeneratorResults, GeneratorResultsCollector, Generators,
-    Importance, IsArgumentOptional, Opt, Order, PathSuggestionType, Priority, Signature,
-    Suggestion, Template, TemplateFilter, TemplateFilters, TemplateType,
+    AdditionalIconType, Argument, ArgumentType, CommandGenerators, FilterTemplateSuggestion,
+    Filters, Generator, GeneratorName, GeneratorProcess, GeneratorResults,
+    GeneratorResultsCollector, Generators, Importance, IsArgumentOptional, Opt, Order,
+    PathSuggestionType, Priority, Signature, Suggestion, Template, TemplateFilter, TemplateFilters,
+    TemplateType,
 };
 
 #[cfg(not(feature = "new_fig_specs"))]
