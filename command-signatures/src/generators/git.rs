@@ -485,6 +485,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                                 exact_string: elm.replace('*', "").trim().to_owned(),
                                 description: Some("Current branch".to_owned()),
                                 priority: Priority::most_important(),
+                                icon: None,
                             });
                         }
                     } else if post_process_branch.as_str() == "+" {
@@ -731,6 +732,7 @@ mod tests {
                         exact_string: "aloke/add_new_generators".to_owned(),
                         description: Some("Current branch".to_owned()),
                         priority: Priority::most_important(),
+                        icon: None,
                     },
                     Suggestion::with_description("aloke/add_options", "Branch"),
                     Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
