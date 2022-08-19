@@ -23,6 +23,8 @@ pub struct Suggestion {
     pub exact_string: String,
     pub description: Option<String>,
     pub priority: Priority,
+    // We have default flags based on type of suggestion (command, flag, argument, etc).
+    // This provides a way for generators to override the default one with a different icon.
     pub icon: Option<AdditionalIconType>,
 }
 
