@@ -367,7 +367,6 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
                 priority: suggestion
                     .priority
                     .map_or_else(Priority::default, Into::into),
-                icon: None,
             })
             .collect()
     }
@@ -1000,13 +999,11 @@ mod tests {
                 exact_string: "first".into(),
                 description: description.clone(),
                 priority,
-                icon: None,
             },
             crate::Suggestion {
                 exact_string: "second".into(),
                 description,
                 priority,
-                icon: None,
             },
         ];
 
