@@ -12,20 +12,10 @@ const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
-pub enum AdditionalIconType {
-    File,
-    Folder,
-    GitBranch,
-}
-
-#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
 pub struct Suggestion {
     pub exact_string: String,
     pub description: Option<String>,
     pub priority: Priority,
-    // We have default flags based on type of suggestion (command, flag, argument, etc).
-    // This provides a way for generators to override the default one with a different icon.
-    pub icon: Option<AdditionalIconType>,
 }
 
 impl Suggestion {
@@ -34,7 +24,6 @@ impl Suggestion {
             exact_string: name.into(),
             description: None,
             priority: Priority::Default,
-            icon: None,
         }
     }
 
@@ -43,7 +32,6 @@ impl Suggestion {
             exact_string: name.into(),
             description: Some(description.into()),
             priority: Priority::Default,
-            icon: None,
         }
     }
 }
