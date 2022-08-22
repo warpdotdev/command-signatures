@@ -1,26 +1,26 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
+
+fn hosts(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .filter_map(|line| {
+            if line.trim().starts_with("Host ") && !line.contains('*') {
+                line.split_whitespace()
+                    .next_back()
+                    .map(|name| Suggestion::with_description(name, "SSH Host"))
+            } else {
+                None
+            }
+        })
+        .collect_unordered_results()
+}
 
 pub fn generator() -> CommandGenerators {
     CommandGenerators::new("ssh")
-        .add_generator(
-            "hosts",
-            Generator::script("cat ~/.ssh/config", |output| {
-                output
-                    .lines()
-                    .filter_map(|line| {
-                        if line.trim().starts_with("Host ") && !line.contains('*') {
-                            line.split_whitespace()
-                                .next_back()
-                                .map(|name| Suggestion::with_description(name, "SSH Host"))
-                        } else {
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
-        )
+        .add_generator("hosts", Generator::script("cat ~/.ssh/config", hosts))
+        .add_generator("addresses", Generator::script("cat ~/.ssh/config", hosts))
         .add_generator(
             "known_hosts",
             Generator::script("cat ~/.ssh/known_hosts", |output| {
