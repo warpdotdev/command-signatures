@@ -13,7 +13,6 @@ use walkdir::WalkDir;
 /// were created.    
 pub fn generate_rust_completion_specs() -> Result<()> {
     println!("cargo:rerun-if-changed=json");
-    println!("cargo:rerun-if-changed=../../completion-metadata/src");
 
     // Create a commands module that will contain all of the signatures.
     std::fs::create_dir_all("src/commands")?;
