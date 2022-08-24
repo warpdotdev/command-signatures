@@ -3,10 +3,8 @@ use crate::Signature;
 use anyhow::Result;
 use check_keyword::CheckKeyword;
 use convert_case::{Case, Casing};
-use std::fs;
 use std::fs::File;
 use std::io::Write;
-use std::path::Path;
 use walkdir::WalkDir;
 
 /// Generates completions specs as rust files from the json stored in /json. Each command signature
@@ -15,12 +13,6 @@ use walkdir::WalkDir;
 /// were created.    
 pub fn generate_rust_completion_specs() -> Result<()> {
     println!("cargo:rerun-if-changed=json");
-
-    if Path::new("../../completion-metadata/src").exists() {
-        println!("cargo:rerun-if-changed=../../completion-metadata/src");
-    } else if Path::new("../../../completion-metadata/src").exists() {
-        println!("cargo:rerun-if-changed=../../../completion-metadata/src");
-    }
 
     // Create a commands module that will contain all of the signatures.
     std::fs::create_dir_all("src/commands")?;
