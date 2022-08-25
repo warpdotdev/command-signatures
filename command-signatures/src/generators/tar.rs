@@ -1,6 +1,5 @@
 use warp_completion_metadata::{
-    AdditionalIconType, CommandGenerators, Generator, GeneratorResultsCollector, Priority,
-    Suggestion,
+    CommandGenerators, Generator, GeneratorResultsCollector, IconType, Priority, Suggestion,
 };
 
 pub fn generator() -> CommandGenerators {
@@ -14,7 +13,7 @@ pub fn generator() -> CommandGenerators {
                     exact_string: line.to_owned(),
                     description: None,
                     priority: Priority::Default,
-                    icon: Some(AdditionalIconType::File),
+                    icon: Some(IconType::File),
                 })
                 .collect_unordered_results()
         }),
