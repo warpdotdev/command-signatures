@@ -11,7 +11,7 @@ use std::hash::{Hash, Hasher};
 const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
 
-#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
 pub enum AdditionalIconType {
     File,
     Folder,

@@ -1,6 +1,6 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
-    Importance, Order, Priority, Suggestion,
+    AdditionalIconType, CommandGenerators, Generator, GeneratorName, GeneratorResults,
+    GeneratorResultsCollector, Importance, Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -445,6 +445,7 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         .map(|(_working, file)| {
             let mut suggestion = Suggestion::with_description(file, "Changed file");
             suggestion.priority = Priority::Global(Importance::More(Order(100)));
+            suggestion.icon = Some(AdditionalIconType::File);
             suggestion
         })
         .collect_unordered_results()
@@ -454,7 +455,12 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .filter_map(|line| {
-            (!line.is_empty()).then(|| Suggestion::with_description(line.trim(), "Branch"))
+            (!line.is_empty()).then(|| Suggestion {
+                exact_string: line.trim().to_owned(),
+                description: Some("Branch".to_owned()),
+                priority: Priority::Default,
+                icon: Some(AdditionalIconType::GitBranch),
+            })
         })
         .collect_ordered_results()
 }
@@ -485,7 +491,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                                 exact_string: elm.replace('*', "").trim().to_owned(),
                                 description: Some("Current branch".to_owned()),
                                 priority: Priority::most_important(),
-                                icon: None,
+                                icon: Some(AdditionalIconType::GitBranch),
                             });
                         }
                     } else if post_process_branch.as_str() == "+" {
@@ -494,7 +500,12 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                     }
                 }
 
-                Some(Suggestion::with_description(name, "Branch"))
+                Some(Suggestion {
+                    exact_string: name,
+                    description: Some("Branch".to_owned()),
+                    priority: Priority::Default,
+                    icon: Some(AdditionalIconType::GitBranch),
+                })
             })
             .collect_ordered_results()
     }
@@ -593,7 +604,12 @@ pub fn generator() -> CommandGenerators {
 
                     output
                         .split('\n')
-                        .map(|file| Suggestion::with_description(file, "staged file"))
+                        .map(|file| Suggestion {
+                            exact_string: file.to_owned(),
+                            description: Some("staged file".to_owned()),
+                            priority: Priority::Default,
+                            icon: Some(AdditionalIconType::File),
+                        })
                         .collect_unordered_results()
                 },
             ),
@@ -713,7 +729,7 @@ pub fn generator() -> CommandGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::post_process_branches;
-    use warp_completion_metadata::{GeneratorResults, Priority, Suggestion};
+    use warp_completion_metadata::{AdditionalIconType, GeneratorResults, Priority, Suggestion};
 
     #[test]
     fn test_post_process_branches() {
@@ -727,16 +743,36 @@ mod tests {
             post_process_branches(command_output),
             GeneratorResults {
                 suggestions: vec![
-                    Suggestion::with_description("_release/v0.2021.04.02.14.18._00", "Branch"),
+                    Suggestion {
+                        exact_string: "_release/v0.2021.04.02.14.18._00".to_owned(),
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(AdditionalIconType::GitBranch)
+                    },
                     Suggestion {
                         exact_string: "aloke/add_new_generators".to_owned(),
                         description: Some("Current branch".to_owned()),
                         priority: Priority::most_important(),
-                        icon: None,
+                        icon: Some(AdditionalIconType::GitBranch),
                     },
-                    Suggestion::with_description("aloke/add_options", "Branch"),
-                    Suggestion::with_description("aloke/add_stable_release_workflow", "Branch"),
-                    Suggestion::with_description("aloke/after_frame_hook", "Branch"),
+                    Suggestion {
+                        exact_string: "aloke/add_options".to_owned(),
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(AdditionalIconType::GitBranch),
+                    },
+                    Suggestion {
+                        exact_string: "aloke/add_stable_release_workflow".to_owned(),
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(AdditionalIconType::GitBranch),
+                    },
+                    Suggestion {
+                        exact_string: "aloke/after_frame_hook".to_owned(),
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(AdditionalIconType::GitBranch),
+                    },
                 ],
                 is_ordered: true,
             }
