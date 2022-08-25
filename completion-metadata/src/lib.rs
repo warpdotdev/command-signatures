@@ -12,7 +12,7 @@ const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
 
 #[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
-pub enum AdditionalIconType {
+pub enum IconType {
     File,
     Folder,
     GitBranch,
@@ -25,7 +25,7 @@ pub struct Suggestion {
     pub priority: Priority,
     // We have default flags based on type of suggestion (command, flag, argument, etc).
     // This provides a way for generators to override the default one with a different icon.
-    pub icon: Option<AdditionalIconType>,
+    pub icon: Option<IconType>,
 }
 
 impl Suggestion {
