@@ -441,8 +441,9 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
 
     output
         .lines()
-        .filter_map(|file| file.trim().split_once(' '))
-        .map(|(_working, file)| {
+        // The first non-whitespace string is just a character indicating the type of indexed file.
+        .filter_map(|file| file.split_whitespace().nth(1))
+        .map(|file| {
             let mut suggestion = Suggestion::with_description(file, "Changed file");
             suggestion.priority = Priority::Global(Importance::More(Order(100)));
             suggestion.icon = Some(IconType::File);
@@ -732,8 +733,10 @@ pub fn generator() -> CommandGenerators {
 
 #[cfg(test)]
 mod tests {
-    use crate::generators::git::post_process_branches;
-    use warp_completion_metadata::{GeneratorResults, IconType, Priority, Suggestion};
+    use crate::generators::git::{post_process_branches, post_process_tracked_files};
+    use warp_completion_metadata::{
+        GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
+    };
 
     #[test]
     fn test_post_process_branches() {
@@ -784,6 +787,44 @@ mod tests {
                     },
                 ],
                 is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_post_process_tracked_files() {
+        let command_output = r" 
+         M app/src/features.rs
+        M  app/src/launch_config_palette.rs
+         M app/src/workspace/mod.rs";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "app/src/features.rs".to_owned(),
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "app/src/launch_config_palette.rs".to_owned(),
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "app/src/workspace/mod.rs".to_owned(),
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: false,
             }
         );
     }
