@@ -441,9 +441,10 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
 
     output
         .lines()
-        .filter_map(|file| file.trim().split_once(' '))
-        .map(|(_working, file)| {
-            let mut suggestion = Suggestion::with_description(file, "Changed file");
+        // The first non-whitespace string is just a character indicating the type of indexed file.
+        .filter_map(|file| file.trim().split_whitespace().skip(1).next())
+        .map(|file| {
+            let mut suggestion = Suggestion::with_description(file.trim(), "Changed file");
             suggestion.priority = Priority::Global(Importance::More(Order(100)));
             suggestion.icon = Some(IconType::File);
             suggestion
