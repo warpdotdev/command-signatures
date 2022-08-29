@@ -7,6 +7,15 @@ use warp_completion_metadata::{
 };
 
 lazy_static! {
+    /// Regex to parse Makefiles for targets with either leading or inline comments that could be
+    /// used as descriptions. The regex can be parsed as follows:
+    /// `((?:^#.*\n)*)`: Capture group to match any leading comments (comments on the line before a
+    ///   target).
+    /// `(?:^\.[A-Z_]+:.*\n)`: non-capture group to avoid matching on some upper cased special
+    ///   targets.
+    /// `(^\S*?)`: Capture group to capture the target name.
+    /// `(?:\s#+[ \t]*(.+))`: Match any trailing comments (while only capturing the name of the
+    ///   comment) of the target. Such as `target: {command} # {trailing comment}`
     static ref MAKE_TARGET_RE: Regex =
         Regex::new(r"(?m)((?:^#.*\n)*)(?:^\.[A-Z_]+:.*\n)*(^\S*?):.*?(?:\s#+[ \t]*(.+))?$")
             .unwrap();
@@ -34,25 +43,27 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
     MAKE_TARGET_RE
         .captures_iter(output)
         .filter_map(|capture| {
-            let entire_match = capture.get(0)?.as_str();
-            if SPECIAL_TARGETS.contains(entire_match) {
+            let target = capture.get(2)?.as_str();
+            if SPECIAL_TARGETS.contains(target) {
                 return None;
             }
 
-            let leading_comment = capture.get(1)?.as_str();
-            let target = capture.get(2)?.as_str();
+            let leading_comment = capture
+                .get(1)
+                .map(|capture_match| capture_match.as_str().trim());
+
             // The regex may not have a match for the capture group matching inline_comment. Both
             // target and leading comment should always have a match.
-            let inline_comment = capture.get(3);
+            let inline_comment = capture
+                .get(3)
+                .map(|capture_match| capture_match.as_str().trim());
 
             // Determine what the description should be based on the present of either a leading
             // comment or inline comment on the target. If neither exist, fallback to "Make target"
             // as the description
             let description = match (inline_comment, leading_comment) {
-                (Some(inline_comment), _) if !inline_comment.as_str().is_empty() => {
-                    inline_comment.as_str().into()
-                }
-                (_, leading_comment) if !leading_comment.is_empty() => {
+                (Some(inline_comment), _) if !inline_comment.is_empty() => inline_comment.into(),
+                (_, Some(leading_comment)) if !leading_comment.is_empty() => {
                     STARTS_WITH_COMMENT.replace_all(leading_comment, "")
                 }
                 // If there are no comments, fallback to `Make target` as the description.
@@ -106,6 +117,8 @@ DMG_DIR = $(RELEASE_DIR)/osx
 vpath $(TARGET) $(RELEASE_DIR)
 vpath $(APP_NAME) $(APP_DIR)
 vpath $(DMG_NAME) $(APP_DIR)
+
+.PHONY: all
 
 all: help
 
