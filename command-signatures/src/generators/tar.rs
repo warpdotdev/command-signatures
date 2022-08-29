@@ -14,6 +14,7 @@ pub fn generator() -> CommandGenerators {
                     description: None,
                     priority: Priority::Default,
                     icon: Some(IconType::File),
+                    is_hidden: false,
                 })
                 .collect_unordered_results()
         }),

@@ -368,6 +368,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
                     .priority
                     .map_or_else(Priority::default, Into::into),
                 icon: None,
+                is_hidden: suggestion.hidden,
             })
             .collect()
     }
@@ -1001,12 +1002,14 @@ mod tests {
                 description: description.clone(),
                 priority,
                 icon: None,
+                is_hidden: false,
             },
             crate::Suggestion {
                 exact_string: "second".into(),
                 description,
                 priority,
                 icon: None,
+                is_hidden: false,
             },
         ];
 

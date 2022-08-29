@@ -460,6 +460,7 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
                 description: Some("Branch".to_owned()),
                 priority: Priority::Default,
                 icon: Some(IconType::GitBranch),
+                is_hidden: false,
             })
         })
         .collect_ordered_results()
@@ -492,6 +493,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                                 description: Some("Current branch".to_owned()),
                                 priority: Priority::most_important(),
                                 icon: Some(IconType::GitBranch),
+                                is_hidden: false,
                             });
                         }
                     } else if post_process_branch.as_str() == "+" {
@@ -505,6 +507,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                     description: Some("Branch".to_owned()),
                     priority: Priority::Default,
                     icon: Some(IconType::GitBranch),
+                    is_hidden: false,
                 })
             })
             .collect_ordered_results()
@@ -609,6 +612,7 @@ pub fn generator() -> CommandGenerators {
                             description: Some("staged file".to_owned()),
                             priority: Priority::Default,
                             icon: Some(IconType::File),
+                            is_hidden: false,
                         })
                         .collect_unordered_results()
                 },

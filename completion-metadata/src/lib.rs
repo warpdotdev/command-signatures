@@ -26,6 +26,7 @@ pub struct Suggestion {
     // We have default flags based on type of suggestion (command, flag, argument, etc).
     // This provides a way for generators to override the default one with a different icon.
     pub icon: Option<IconType>,
+    pub is_hidden: bool,
 }
 
 impl Suggestion {
@@ -35,6 +36,7 @@ impl Suggestion {
             description: None,
             priority: Priority::Default,
             icon: None,
+            is_hidden: false,
         }
     }
 
@@ -44,6 +46,7 @@ impl Suggestion {
             description: Some(description.into()),
             priority: Priority::Default,
             icon: None,
+            is_hidden: false,
         }
     }
 }
