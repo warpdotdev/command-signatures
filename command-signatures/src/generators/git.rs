@@ -460,6 +460,7 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
                 description: Some("Branch".to_owned()),
                 priority: Priority::Default,
                 icon: Some(IconType::GitBranch),
+                is_hidden: false,
             })
         })
         .collect_ordered_results()
@@ -492,6 +493,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                                 description: Some("Current branch".to_owned()),
                                 priority: Priority::most_important(),
                                 icon: Some(IconType::GitBranch),
+                                is_hidden: false,
                             });
                         }
                     } else if post_process_branch.as_str() == "+" {
@@ -505,6 +507,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                     description: Some("Branch".to_owned()),
                     priority: Priority::Default,
                     icon: Some(IconType::GitBranch),
+                    is_hidden: false,
                 })
             })
             .collect_ordered_results()
@@ -609,6 +612,7 @@ pub fn generator() -> CommandGenerators {
                             description: Some("staged file".to_owned()),
                             priority: Priority::Default,
                             icon: Some(IconType::File),
+                            is_hidden: false,
                         })
                         .collect_unordered_results()
                 },
@@ -747,31 +751,36 @@ mod tests {
                         exact_string: "_release/v0.2021.04.02.14.18._00".to_owned(),
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
-                        icon: Some(IconType::GitBranch)
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
                     },
                     Suggestion {
                         exact_string: "aloke/add_new_generators".to_owned(),
                         description: Some("Current branch".to_owned()),
                         priority: Priority::most_important(),
                         icon: Some(IconType::GitBranch),
+                        is_hidden: false,
                     },
                     Suggestion {
                         exact_string: "aloke/add_options".to_owned(),
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
+                        is_hidden: false,
                     },
                     Suggestion {
                         exact_string: "aloke/add_stable_release_workflow".to_owned(),
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
+                        is_hidden: false,
                     },
                     Suggestion {
                         exact_string: "aloke/after_frame_hook".to_owned(),
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
+                        is_hidden: false,
                     },
                 ],
                 is_ordered: true,
