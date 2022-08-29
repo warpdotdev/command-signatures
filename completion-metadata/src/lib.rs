@@ -46,6 +46,11 @@ impl Suggestion {
             icon: None,
         }
     }
+
+    pub fn with_priority(mut self, priority: Priority) -> Self {
+        self.priority = priority;
+        self
+    }
 }
 
 #[allow(clippy::derive_hash_xor_eq)]
