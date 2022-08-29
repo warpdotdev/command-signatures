@@ -64,7 +64,9 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
             let description = match (inline_comment, leading_comment) {
                 (Some(inline_comment), _) if !inline_comment.is_empty() => inline_comment.into(),
                 (_, Some(leading_comment)) if !leading_comment.is_empty() => {
-                    STARTS_WITH_COMMENT.replace_all(leading_comment, "")
+                    // Remove the first part of the match so that we have the comment without any
+                    // leading `#`s.
+                    STARTS_WITH_COMMENT.replace(leading_comment, "")
                 }
                 // If there are no comments, fallback to `Make target` as the description.
                 _ => "Make target".into(),
