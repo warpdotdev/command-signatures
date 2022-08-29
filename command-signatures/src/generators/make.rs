@@ -41,8 +41,8 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 
             let leading_comment = capture.get(1)?.as_str();
             let target = capture.get(2)?.as_str();
-            // The regex may not have a match for the inline_command capture group. Both target
-            // and leading comment should always have a match.
+            // The regex may not have a match for the capture group matching inline_comment. Both
+            // target and leading comment should always have a match.
             let inline_comment = capture.get(3);
 
             // Determine what the description should be based on the present of either a leading
