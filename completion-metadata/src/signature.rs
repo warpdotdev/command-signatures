@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::{Filters, Generators, PathSuggestionType};
+use crate::{Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
@@ -227,6 +227,36 @@ impl Argument {
             Some(filter) => Some(filter),
         }
     }
+
+    pub fn alias_by_name<'a>(
+        &self,
+        aliases: Option<&'a Aliases>,
+        alias_name: &AliasName,
+    ) -> Option<&'a Alias> {
+        let aliases = match aliases {
+            None => {
+                log::error!(
+                    "Argument {:?} specified alias {:?} but none are specified",
+                    &self.display_name,
+                    alias_name
+                );
+                return None;
+            }
+            Some(aliases) => aliases,
+        };
+
+        match aliases.get(alias_name) {
+            None => {
+                log::error!(
+                    "Argument {:?} specified alias {:?} but it wasn't specified",
+                    &self.display_name,
+                    alias_name
+                );
+                None
+            }
+            Some(alias) => Some(alias),
+        }
+    }
 }
 
 type DefaultValue = String;
@@ -241,6 +271,7 @@ pub enum ArgumentType {
     Suggestion(Suggestion),
     Template(Template),
     Generator(GeneratorName),
+    Alias(AliasName),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -394,5 +425,26 @@ pub struct TemplateFilter(pub fn(Suggestion, PathSuggestionType) -> Option<Sugge
 impl TemplateFilter {
     pub fn filter(&self, input: Suggestion, type_name: PathSuggestionType) -> Option<Suggestion> {
         (self.0)(input, type_name)
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct AliasName(pub String);
+
+/// An `Alias` takes in a shell command and expands it if there is any command specific aliases.
+#[derive(Clone)]
+pub struct Alias {
+    // Given a list of command tokens, return the shell command that will generate aliases.
+    pub command_with_tokens: fn(&[&str]) -> String,
+    pub on_complete_callback: fn(&str) -> String,
+}
+
+impl Alias {
+    pub fn command(&self, input: &[&str]) -> String {
+        (self.command_with_tokens)(input)
+    }
+
+    pub fn on_complete(&self, input: &str) -> String {
+        (self.on_complete_callback)(input)
     }
 }

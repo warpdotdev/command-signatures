@@ -1,5 +1,5 @@
 use crate::{
-    Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
+    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
     IsArgumentOptional, Opt, Order, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
@@ -177,6 +177,11 @@ pub struct Arg {
 
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde(rename = "generatorName")]
+    pub alias_name: Vec<AliasName>,
+
+    #[serde(default)]
+    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub template: Vec<Template>,
 
     #[serde(default)]
@@ -324,6 +329,7 @@ impl From<Arg> for Argument {
                         })
                     })
             }))
+            .chain(arg.alias_name.into_iter().map(ArgumentType::Alias))
             .collect();
 
         let optional = if arg.is_optional {
@@ -566,6 +572,7 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -579,6 +586,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -623,6 +631,7 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -636,6 +645,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -649,6 +659,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -693,6 +704,7 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -706,6 +718,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -750,6 +763,7 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -763,6 +777,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -776,6 +791,7 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
+                                alias_name: vec![],
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
