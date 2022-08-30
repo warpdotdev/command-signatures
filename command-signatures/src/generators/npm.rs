@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 use serde::Deserialize;
@@ -181,14 +181,14 @@ fn workspace_generator() -> Generator {
     })
 }
 
-pub fn npm_generators() -> CommandGenerators {
-    CommandGenerators::new("npm")
+pub fn npm_generators() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("npm")
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("workspace_generator", workspace_generator())
 }
 
-pub fn yarn_generators() -> CommandGenerators {
-    CommandGenerators::new("yarn")
+pub fn yarn_generators() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("yarn")
         .add_generator(
             "get_global_packages_generator",
             get_global_packages_generator(),

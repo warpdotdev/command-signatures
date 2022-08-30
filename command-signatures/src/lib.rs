@@ -1,14 +1,9 @@
 mod generators;
 
 pub use all_commands::*;
-pub use generators::generators;
+pub use generators::command_signature_generators;
 
-pub use warp_completion_metadata::{
-    Alias, AliasName, Argument, ArgumentType, CommandGenerators, FilterTemplateSuggestion, Filters,
-    Generator, GeneratorName, GeneratorProcess, GeneratorResults, GeneratorResultsCollector,
-    Generators, IconType, Importance, IsArgumentOptional, Opt, Order, PathSuggestionType, Priority,
-    Signature, Suggestion, Template, TemplateFilter, TemplateFilters, TemplateType,
-};
+pub use warp_completion_metadata::*;
 
 #[cfg(not(feature = "new_fig_specs"))]
 pub fn commands() -> Vec<Signature> {

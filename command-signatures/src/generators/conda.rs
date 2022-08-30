@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("conda")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("conda")
         .add_generator(
             "get_installed_packages",
             Generator::script("conda list", |output| {

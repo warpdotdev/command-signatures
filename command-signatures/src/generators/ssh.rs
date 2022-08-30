@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 fn hosts(output: &str) -> GeneratorResults {
@@ -17,8 +17,8 @@ fn hosts(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("ssh")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("ssh")
         .add_generator("hosts", Generator::script("cat ~/.ssh/config", hosts))
         .add_generator("addresses", Generator::script("cat ~/.ssh/config", hosts))
         .add_generator(

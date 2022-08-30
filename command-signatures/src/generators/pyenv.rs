@@ -1,15 +1,15 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 lazy_static! {
     static ref RE: Regex = Regex::new(r"\s*\*").unwrap();
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("pyenv")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("pyenv")
         .add_generator(
             "version_list",
             Generator::script("pyenv install -l", |output| {

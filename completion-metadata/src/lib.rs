@@ -181,15 +181,15 @@ pub type Aliases = HashMap<AliasName, Alias>;
 pub type Generators = HashMap<GeneratorName, Generator>;
 
 #[derive(Clone)]
-pub struct CommandGenerators {
+pub struct CommandSignatureGenerators {
     command_name: String,
     generators: Generators,
     filters: Filters,
     aliases: Aliases,
 }
 
-impl From<CommandGenerators> for (String, (Generators, Filters, Aliases)) {
-    fn from(command_generators: CommandGenerators) -> Self {
+impl From<CommandSignatureGenerators> for (String, (Generators, Filters, Aliases)) {
+    fn from(command_generators: CommandSignatureGenerators) -> Self {
         (
             command_generators.command_name,
             (
@@ -201,7 +201,7 @@ impl From<CommandGenerators> for (String, (Generators, Filters, Aliases)) {
     }
 }
 
-impl CommandGenerators {
+impl CommandSignatureGenerators {
     pub fn new(command_name: impl Into<String>) -> Self {
         Self {
             command_name: command_name.into(),
@@ -229,7 +229,7 @@ impl CommandGenerators {
         self
     }
 
-    pub fn add_aliases(mut self, alias_name: impl Into<AliasName>, alias: Alias) -> Self {
+    pub fn add_alias(mut self, alias_name: impl Into<AliasName>, alias: Alias) -> Self {
         self.aliases.insert(alias_name.into(), alias);
         self
     }

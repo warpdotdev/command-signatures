@@ -1,6 +1,6 @@
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
     TemplateFilter,
 };
 
@@ -93,8 +93,8 @@ fn shared_post_process(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("docker")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("docker")
         .add_generator(
             "running_docker_containers",
             Generator::script("docker ps --format '{{ json . }}'", post_process_docker_ps),

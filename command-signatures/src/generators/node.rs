@@ -1,7 +1,9 @@
-use warp_completion_metadata::{CommandGenerators, Importance, Order, Priority, TemplateFilter};
+use warp_completion_metadata::{
+    CommandSignatureGenerators, Importance, Order, Priority, TemplateFilter,
+};
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("node").add_filter(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("node").add_filter(
         "filter-node-files",
         TemplateFilter(|mut suggestion, path_type| {
             (path_type.is_folder()

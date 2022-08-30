@@ -1,12 +1,12 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 use lazy_static::lazy_static;
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("firebase").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("firebase").add_generator(
         "project_aliases",
         Generator::script("firebase projects:list", |output| {
             RE.captures_iter(output)

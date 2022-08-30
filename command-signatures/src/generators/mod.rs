@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::iter::FromIterator;
-use warp_completion_metadata::{Filters, Generators, Aliases};
+use warp_completion_metadata::{Aliases, Filters, Generators};
 
 mod bazel;
 mod bosh;
@@ -36,8 +36,8 @@ mod terraform;
 mod tmux;
 mod tmuxinator;
 
-pub fn generators() -> HashMap<String, (Generators, Filters, Aliases)> {
-    let generators = [
+pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, Aliases)> {
+    let command_signature_generators = [
         bosh::generator(),
         brew::generator(),
         conda::generator(),
@@ -75,5 +75,5 @@ pub fn generators() -> HashMap<String, (Generators, Filters, Aliases)> {
         node::generator(),
     ];
 
-    HashMap::from_iter(generators.map(Into::into))
+    HashMap::from_iter(command_signature_generators.map(Into::into))
 }

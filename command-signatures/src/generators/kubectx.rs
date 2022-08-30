@@ -1,12 +1,12 @@
 use std::iter;
 
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance, Order,
-    Priority, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance,
+    Order, Priority, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("kubectx")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("kubectx")
         .add_generator(
             "delete_context",
             Generator::script("kubectx", |output| {

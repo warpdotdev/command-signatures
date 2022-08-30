@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
+    CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
     IconType, Importance, Order, Priority, Suggestion,
 };
 
@@ -521,8 +521,8 @@ fn commit_line_to_suggestion(line: &str) -> Option<Suggestion> {
         .map(|(name, description)| Suggestion::with_description(name, description))
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("git")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("git")
         .add_generator(
             "commits",
             Generator::script("git --no-optional-locks log --oneline", |output| {
@@ -793,7 +793,7 @@ mod tests {
 
     #[test]
     fn test_post_process_tracked_files() {
-        let command_output = r" 
+        let command_output = r"
          M app/src/features.rs
         M  app/src/launch_config_palette.rs
          M app/src/workspace/mod.rs";

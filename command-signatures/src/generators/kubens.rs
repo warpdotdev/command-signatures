@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("kubens")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("kubens")
         .add_generator(
             "kubens_context",
             Generator::script("kubens | grep -v $(kubens -c)", |output| {

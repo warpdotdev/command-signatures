@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("brew")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("brew")
         .add_generator(
             "services",
             Generator::script(

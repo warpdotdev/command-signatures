@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("tmuxinator")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("tmuxinator")
         .add_generator(
             "projects",
             Generator::script("tmuxinator list -n", |output| {

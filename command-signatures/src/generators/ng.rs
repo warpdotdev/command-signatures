@@ -1,7 +1,7 @@
 use serde_json::Result;
 use std::collections::HashMap;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 #[derive(serde::Deserialize)]
@@ -10,8 +10,8 @@ struct AngularConfigOutput {
     project_type: String,
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("ng").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("ng").add_generator(
         "list_projects",
         Generator::script("ng config projects", |output| {
             let json_output: Result<HashMap<String, AngularConfigOutput>> =

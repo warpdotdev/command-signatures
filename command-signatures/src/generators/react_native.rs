@@ -3,7 +3,7 @@ use regex::Regex;
 use serde_json::Result;
 use std::collections::HashMap;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
     TemplateFilter,
 };
 
@@ -38,8 +38,8 @@ struct XcRunOutput {
     devices: HashMap<String, Vec<XcRunDevice>>,
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("react-native")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("react-native")
         .add_generator(
             "worker_generator",
             Generator::script("sysctl -n hw.ncpu", |output| {
@@ -192,7 +192,8 @@ pub fn generator() -> CommandGenerators {
         .add_filter(
             "filter-js-files",
             TemplateFilter(|suggestion, path_type| {
-                (path_type.is_folder() || suggestion.exact_string.ends_with(".js")).then(|| suggestion)
+                (path_type.is_folder() || suggestion.exact_string.ends_with(".js"))
+                    .then(|| suggestion)
             }),
         )
 }

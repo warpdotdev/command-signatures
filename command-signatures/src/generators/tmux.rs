@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 fn tmux_post_process(output: &str) -> GeneratorResults {
@@ -16,8 +16,8 @@ fn tmux_post_process(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("tmux")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("tmux")
         .add_generator(
             "target_session",
             Generator::script("tmux ls", tmux_post_process),
