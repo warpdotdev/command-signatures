@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("phpunit").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("phpunit").add_generator(
         "tests",
         Generator::script("phpunit --list-tests", |output| {
             if output.starts_with("fatal:") {

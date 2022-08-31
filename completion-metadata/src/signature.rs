@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::{Filters, Generators, PathSuggestionType};
+use crate::{Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
@@ -227,6 +227,36 @@ impl Argument {
             Some(filter) => Some(filter),
         }
     }
+
+    pub fn alias_by_name<'a>(
+        &self,
+        aliases: Option<&'a Aliases>,
+        alias_name: &AliasName,
+    ) -> Option<&'a Alias> {
+        let aliases = match aliases {
+            None => {
+                log::error!(
+                    "Argument {:?} specified alias {:?} but none are specified",
+                    &self.display_name,
+                    alias_name
+                );
+                return None;
+            }
+            Some(aliases) => aliases,
+        };
+
+        match aliases.get(alias_name) {
+            None => {
+                log::error!(
+                    "Argument {:?} specified alias {:?} but it wasn't specified",
+                    &self.display_name,
+                    alias_name
+                );
+                None
+            }
+            Some(alias) => Some(alias),
+        }
+    }
 }
 
 type DefaultValue = String;
@@ -241,6 +271,7 @@ pub enum ArgumentType {
     Suggestion(Suggestion),
     Template(Template),
     Generator(GeneratorName),
+    Alias(AliasName),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]

@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("terraform")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("terraform")
         .add_generator(
             "workspace_list",
             Generator::script("terraform workspace list", |output| {

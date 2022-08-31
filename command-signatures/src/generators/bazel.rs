@@ -1,13 +1,13 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Importance, Order, Priority,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Importance, Order, Priority,
     Suggestion,
 };
 
 use lazy_static::lazy_static;
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("bazel").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("bazel").add_generator(
         "build_file",
         // returns filepaths and contents in the form below, note the "----" to indicate the filepath
         // ----.//lib/BUILD

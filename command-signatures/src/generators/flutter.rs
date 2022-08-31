@@ -1,12 +1,12 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion, TemplateFilter,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion, TemplateFilter,
 };
 
 use lazy_static::lazy_static;
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("flutter")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("flutter")
         .add_generator(
             "emulators",
             Generator::script("flutter emulators", |output| {
