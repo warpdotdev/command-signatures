@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 use serde_json::Result;
@@ -23,8 +23,8 @@ struct BoshDeployment {
     tables: Option<Vec<Table>>,
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("bosh").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("bosh").add_generator(
         "deployments",
         Generator::script("bosh --json deployments", |output| {
             if output.starts_with("fatal:") {

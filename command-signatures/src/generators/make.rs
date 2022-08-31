@@ -2,8 +2,8 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::HashSet;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance, Order,
-    Priority, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance,
+    Order, Priority, Suggestion,
 };
 
 lazy_static! {
@@ -80,8 +80,8 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("make").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("make").add_generator(
         "list_targets",
         Generator::script("cat [Mm]akefile", list_targets_post_process),
     )

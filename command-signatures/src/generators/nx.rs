@@ -1,7 +1,7 @@
 use serde_json::Result;
 use std::collections::HashMap;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 #[derive(Debug, serde::Deserialize)]
@@ -42,8 +42,8 @@ fn process_generators(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("nx")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("nx")
         .add_generator(
             "apps",
             Generator::script("cat workspace.json", |output| {

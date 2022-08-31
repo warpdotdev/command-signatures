@@ -1,6 +1,6 @@
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 #[derive(serde::Deserialize)]
@@ -9,8 +9,8 @@ struct HerokuAppOutput {
     name: String,
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("heroku").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("heroku").add_generator(
         "get_app_generator",
         Generator::script("heroku apps --all --json", |output| {
             let json_output: Result<Vec<HerokuAppOutput>> = serde_json::from_str(output);

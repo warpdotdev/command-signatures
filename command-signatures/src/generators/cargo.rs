@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 use serde_json::Result;
@@ -35,8 +35,8 @@ struct Target {
     name: String,
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("cargo")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("cargo")
         .add_generator(
             "features_generators",
             Generator::script("cargo metadata --no-deps --format-version 1", |output| {

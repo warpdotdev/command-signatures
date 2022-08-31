@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("defaults").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("defaults").add_generator(
         "domain_generator",
         Generator::script("defaults domain", |output| {
             output

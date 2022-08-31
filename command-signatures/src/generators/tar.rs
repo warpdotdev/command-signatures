@@ -1,9 +1,10 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, IconType, Priority, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, IconType, Priority,
+    Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("tar").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("tar").add_generator(
         "list_tar_files",
         Generator::script("ls -1 | grep '.tar'", |output| {
             output

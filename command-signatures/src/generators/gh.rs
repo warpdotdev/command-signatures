@@ -1,11 +1,11 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("gh")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("gh")
         .add_generator(
             "list_pr",
             Generator::script("gh pr list", |output| {

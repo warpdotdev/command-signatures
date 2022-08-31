@@ -1,11 +1,11 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("kill")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("kill")
         .add_generator(
             "process",
             Generator::script("ps axo pid,comm | sed 1d", |output| {

@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("go").add_generator(
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("go").add_generator(
         "tool_generator",
         Generator::script("go tool", |output| {
             output

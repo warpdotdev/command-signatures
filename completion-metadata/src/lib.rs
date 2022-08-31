@@ -177,30 +177,37 @@ impl Order {
     }
 }
 
+pub type Aliases = HashMap<AliasName, Alias>;
 pub type Generators = HashMap<GeneratorName, Generator>;
 
 #[derive(Clone)]
-pub struct CommandGenerators {
+pub struct CommandSignatureGenerators {
     command_name: String,
     generators: Generators,
     filters: Filters,
+    aliases: Aliases,
 }
 
-impl From<CommandGenerators> for (String, (Generators, Filters)) {
-    fn from(command_generators: CommandGenerators) -> Self {
+impl From<CommandSignatureGenerators> for (String, (Generators, Filters, Aliases)) {
+    fn from(command_generators: CommandSignatureGenerators) -> Self {
         (
             command_generators.command_name,
-            (command_generators.generators, command_generators.filters),
+            (
+                command_generators.generators,
+                command_generators.filters,
+                command_generators.aliases,
+            ),
         )
     }
 }
 
-impl CommandGenerators {
+impl CommandSignatureGenerators {
     pub fn new(command_name: impl Into<String>) -> Self {
         Self {
             command_name: command_name.into(),
             generators: HashMap::new(),
             filters: HashMap::new(),
+            aliases: HashMap::new(),
         }
     }
 
@@ -219,6 +226,11 @@ impl CommandGenerators {
         filter: TemplateFilter,
     ) -> Self {
         self.filters.insert(filter_name.into(), filter);
+        self
+    }
+
+    pub fn add_alias(mut self, alias_name: impl Into<AliasName>, alias: Alias) -> Self {
+        self.aliases.insert(alias_name.into(), alias);
         self
     }
 

@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
 enum KubetctlStatus {
@@ -41,8 +41,8 @@ fn kubectl_post_process(output: &str) -> GeneratorResults {
     }
 }
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("kubectl")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("kubectl")
         .add_generator(
             "resource_type",
             Generator::script("kubectl api-resources -o name", kubectl_post_process),

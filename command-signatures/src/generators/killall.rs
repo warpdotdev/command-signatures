@@ -1,9 +1,9 @@
 use warp_completion_metadata::{
-    CommandGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-pub fn generator() -> CommandGenerators {
-    CommandGenerators::new("killall")
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("killall")
         .add_generator(
             "user_name",
             Generator::script("dscl . -list /Users | grep -v '^_'", |output| {
