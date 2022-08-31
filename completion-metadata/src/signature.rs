@@ -435,16 +435,16 @@ pub struct AliasName(pub String);
 #[derive(Clone)]
 pub struct Alias {
     // Given a list of command tokens, return the shell command that will generate aliases.
-    pub command_with_tokens: fn(&[&str]) -> String,
-    pub on_complete_callback: fn(&str) -> String,
+    pub command_from_tokens: fn(&[&str]) -> String,
+    pub on_complete_callback: fn(&str) -> Option<String>,
 }
 
 impl Alias {
     pub fn command(&self, input: &[&str]) -> String {
-        (self.command_with_tokens)(input)
+        (self.command_from_tokens)(input)
     }
 
-    pub fn on_complete(&self, input: &str) -> String {
+    pub fn on_complete(&self, input: &str) -> Option<String> {
         (self.on_complete_callback)(input)
     }
 }
