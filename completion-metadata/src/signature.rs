@@ -396,3 +396,25 @@ impl TemplateFilter {
         (self.0)(input, type_name)
     }
 }
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct AliasName(pub String);
+
+/// An `Alias` takes in a shell command and expands it if there is any command specific aliases.
+#[derive(Clone)]
+pub struct Alias {
+    // Given a list of command tokens, return the shell command that will generate aliases.
+    pub command_from_tokens: fn(&[&str]) -> String,
+    // Given the command to expand alias, the list of tokens and the index of the current token, return the expanded command.
+    pub on_complete_callback: fn(&str, &[&str], usize) -> Option<String>,
+}
+
+impl Alias {
+    pub fn command(&self, input: &[&str]) -> String {
+        (self.command_from_tokens)(input)
+    }
+
+    pub fn on_complete(&self, input: &str, tokens: &[&str], token_idx: usize) -> Option<String> {
+        (self.on_complete_callback)(input, tokens, token_idx)
+    }
+}
