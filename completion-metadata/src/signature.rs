@@ -436,7 +436,8 @@ pub struct AliasName(pub String);
 pub struct Alias {
     // Given a list of command tokens, return the shell command that will generate aliases.
     pub command_from_tokens: fn(&[&str]) -> String,
-    pub on_complete_callback: fn(&str) -> Option<String>,
+    // Given the command from `command_from_tokens`, the list of tokens and the index of the current token, return the expanded command.
+    pub on_complete_callback: fn(&str, &[&str], usize) -> Option<String>,
 }
 
 impl Alias {
@@ -444,7 +445,12 @@ impl Alias {
         (self.command_from_tokens)(input)
     }
 
-    pub fn on_complete(&self, input: &str) -> Option<String> {
-        (self.on_complete_callback)(input)
+    pub fn on_complete(
+        &self,
+        alias_command_output: &str,
+        tokens: &[&str],
+        token_idx: usize,
+    ) -> Option<String> {
+        (self.on_complete_callback)(alias_command_output, tokens, token_idx)
     }
 }
