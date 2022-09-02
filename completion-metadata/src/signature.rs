@@ -431,6 +431,12 @@ impl TemplateFilter {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AliasName(pub String);
 
+impl From<&'static str> for AliasName {
+    fn from(str: &'static str) -> Self {
+        Self(str.into())
+    }
+}
+
 /// An `Alias` takes in a shell command and expands it if there is any command specific aliases.
 #[derive(Clone)]
 pub struct Alias {
@@ -441,6 +447,16 @@ pub struct Alias {
 }
 
 impl Alias {
+    pub fn new(
+        command_from_tokens: fn(&[&str]) -> String,
+        on_complete_callback: fn(&str, &[&str], usize) -> Option<String>,
+    ) -> Self {
+        Self {
+            command_from_tokens,
+            on_complete_callback,
+        }
+    }
+
     pub fn command(&self, input: &[&str]) -> String {
         (self.command_from_tokens)(input)
     }
