@@ -742,15 +742,13 @@ pub fn generator() -> CommandSignatureGenerators {
                     let replaced_tokens: Vec<&str> = tokens
                         .iter()
                         .enumerate()
-                        .map(
-                            |(curr_idx, token)| {
-                                if curr_idx == idx {
-                                    output
-                                } else {
-                                    token
-                                }
-                            },
-                        )
+                        .map(|(curr_idx, token)| {
+                            if curr_idx == idx {
+                                output.trim()
+                            } else {
+                                token
+                            }
+                        })
                         .collect();
 
                     Some(replaced_tokens.join(" "))
