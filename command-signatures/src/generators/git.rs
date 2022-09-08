@@ -1,3 +1,4 @@
+use itertools::Itertools;
 use warp_completion_metadata::{
     Alias, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
     GeneratorResultsCollector, IconType, Importance, Order, Priority, Suggestion,
@@ -739,19 +740,20 @@ pub fn generator() -> CommandSignatureGenerators {
                         .unwrap_or_default()
                 },
                 |output, tokens, idx| {
-                    let replaced_tokens: Vec<&str> = tokens
-                        .iter()
-                        .enumerate()
-                        .map(|(curr_idx, token)| {
-                            if curr_idx == idx {
-                                output.trim()
-                            } else {
-                                token
-                            }
-                        })
-                        .collect();
-
-                    Some(replaced_tokens.join(" "))
+                    Some(match output.strip_prefix('!') {
+                        Some(full_replace) => full_replace.to_string(),
+                        None => tokens
+                            .iter()
+                            .enumerate()
+                            .map(|(curr_idx, token)| {
+                                if curr_idx == idx {
+                                    output.trim()
+                                } else {
+                                    token
+                                }
+                            })
+                            .join(" "),
+                    })
                 },
             ),
         )
