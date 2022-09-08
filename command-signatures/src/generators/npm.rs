@@ -191,15 +191,13 @@ fn script_alias_generator() -> Alias {
             }
 
             let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
-            if let Ok(package_info) = package_info {
-                package_info
-                    .scripts
-                    .into_iter()
-                    .find(|(key, _)| key == tokens[idx])
-                    .map(|(_, command)| command)
-            } else {
-                None
-            }
+
+            package_info
+                .ok()?
+                .scripts
+                .into_iter()
+                .find(|(key, _)| key == tokens[idx])
+                .map(|(_, command)| command)
         },
     )
 }
