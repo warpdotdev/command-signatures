@@ -1,6 +1,7 @@
+use itertools::Itertools;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults, GeneratorResultsCollector,
-    IconType, Importance, Order, Priority, Suggestion,
+    Alias, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
+    GeneratorResultsCollector, IconType, Importance, Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -727,6 +728,33 @@ pub fn generator() -> CommandSignatureGenerators {
                     command.into()
                 },
                 post_process_branches,
+            ),
+        )
+        .add_alias(
+            "alias",
+            Alias::new(
+                |tokens| {
+                    tokens
+                        .last()
+                        .map(|token| format!("git config --get alias.{}", token))
+                        .unwrap_or_default()
+                },
+                |output, tokens, idx| {
+                    Some(match output.strip_prefix('!') {
+                        Some(full_replace) => full_replace.to_string(),
+                        None => tokens
+                            .iter()
+                            .enumerate()
+                            .map(|(curr_idx, token)| {
+                                if curr_idx == idx {
+                                    output.trim()
+                                } else {
+                                    token
+                                }
+                            })
+                            .join(" "),
+                    })
+                },
             ),
         )
 }
