@@ -74,6 +74,34 @@ impl Signature {
                 })
             })
     }
+
+    pub fn alias<'a>(&self, aliases: Option<&'a Aliases>) -> Option<&'a Alias> {
+        self.alias.as_ref().and_then(|alias_name| {
+            let aliases = match aliases {
+                None => {
+                    log::error!(
+                        "Signature {:?} specified alias {:?} but none are specified",
+                        &self.name,
+                        alias_name
+                    );
+                    return None;
+                }
+                Some(aliases) => aliases,
+            };
+
+            match aliases.get(alias_name) {
+                None => {
+                    log::error!(
+                        "Signature {:?} specified alias {:?} but it wasn't specified",
+                        &self.name,
+                        alias_name
+                    );
+                    None
+                }
+                Some(alias) => Some(alias),
+            }
+        })
+    }
 }
 
 /// An `Opt` is an option. It adds information to a command.
@@ -226,36 +254,6 @@ impl Argument {
                 None
             }
             Some(filter) => Some(filter),
-        }
-    }
-
-    pub fn alias_by_name<'a>(
-        &self,
-        aliases: Option<&'a Aliases>,
-        alias_name: &AliasName,
-    ) -> Option<&'a Alias> {
-        let aliases = match aliases {
-            None => {
-                log::error!(
-                    "Argument {:?} specified alias {:?} but none are specified",
-                    &self.display_name,
-                    alias_name
-                );
-                return None;
-            }
-            Some(aliases) => aliases,
-        };
-
-        match aliases.get(alias_name) {
-            None => {
-                log::error!(
-                    "Argument {:?} specified alias {:?} but it wasn't specified",
-                    &self.display_name,
-                    alias_name
-                );
-                None
-            }
-            Some(alias) => Some(alias),
         }
     }
 }
