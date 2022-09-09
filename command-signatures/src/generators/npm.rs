@@ -1,5 +1,6 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    Alias, CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector,
+    Suggestion,
 };
 
 use serde::Deserialize;
@@ -181,10 +182,31 @@ fn workspace_generator() -> Generator {
     })
 }
 
+fn script_alias_generator() -> Alias {
+    Alias::new(
+        |_| "cat $(npm prefix)/package.json".to_string(),
+        |output, tokens, idx| {
+            if output.trim().is_empty() {
+                return None;
+            }
+
+            let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
+
+            package_info
+                .ok()?
+                .scripts
+                .into_iter()
+                .find(|(key, _)| key == tokens[idx])
+                .map(|(_, command)| command)
+        },
+    )
+}
+
 pub fn npm_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("npm")
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("workspace_generator", workspace_generator())
+        .add_alias("script_alias", script_alias_generator())
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
@@ -225,6 +247,7 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
                     .collect_ordered_results()
             }),
         )
+        .add_alias("script_alias", script_alias_generator())
 }
 
 #[cfg(test)]
