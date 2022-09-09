@@ -81,6 +81,10 @@ pub struct Command {
     pub args: Vec<Arg>,
 
     #[serde(default)]
+    #[serde(rename = "aliasName")]
+    pub alias_name: Option<AliasName>,
+
+    #[serde(default)]
     pub additional_suggestions: Vec<Suggestion>,
 
     #[serde(default)]
@@ -174,10 +178,6 @@ pub struct Arg {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     #[serde(rename = "generatorName")]
     pub generator_name: Vec<GeneratorName>,
-
-    #[serde(default)]
-    #[serde(rename = "aliasName")]
-    pub alias_name: Option<AliasName>,
 
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
@@ -276,6 +276,7 @@ impl From<Command> for Signature {
     fn from(command: Command) -> Self {
         Signature {
             name: command.name.first().cloned().unwrap_or_default(),
+            alias: command.alias_name,
             description: command.description,
             arguments: if command.args.is_empty() {
                 None
@@ -328,7 +329,6 @@ impl From<Arg> for Argument {
                         })
                     })
             }))
-            .chain(arg.alias_name.into_iter().map(ArgumentType::Alias))
             .collect();
 
         let optional = if arg.is_optional {
@@ -533,6 +533,7 @@ mod tests {
             Command {
                 name: vec!["defaults".into()],
                 description: Some("Command line interface to a user's defaults.".into()),
+                alias_name: None,
                 is_dangerous: false,
                 priority: None,
                 hidden: false,
@@ -540,6 +541,7 @@ mod tests {
                     Command {
                         name: vec!["read".into()],
                         description: Some("shows defaults".into()),
+                        alias_name: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -571,7 +573,6 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -585,7 +586,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -599,6 +599,7 @@ mod tests {
                     Command {
                         name: vec!["write".into()],
                         description: Some("writes key for domain".into()),
+                        alias_name: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -630,7 +631,6 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -644,7 +644,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -658,7 +657,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -672,6 +670,7 @@ mod tests {
                     Command {
                         name: vec!["delete".into()],
                         description: Some("deletes domain or key in domain".into()),
+                        alias_name: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -703,7 +702,6 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -717,7 +715,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -731,6 +728,7 @@ mod tests {
                     Command {
                         name: vec!["rename".into()],
                         description: Some("renames old_key to new_key".into()),
+                        alias_name: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -762,7 +760,6 @@ mod tests {
                                     .into(),
                                 ],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -776,7 +773,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -790,7 +786,6 @@ mod tests {
                                 is_dangerous: false,
                                 suggestions: vec![],
                                 generator_name: vec![],
-                                alias_name: None,
                                 template: vec![],
                                 filter_template_suggestions: None,
                                 is_variadic: false,
@@ -804,6 +799,7 @@ mod tests {
                     Command {
                         name: vec!["domains".into()],
                         description: Some("lists all domains".to_string()),
+                        alias_name: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,

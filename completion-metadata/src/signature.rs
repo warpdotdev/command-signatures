@@ -14,6 +14,7 @@ pub struct AnnotatedFlag<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct Signature {
     pub name: String,
+    pub alias: Option<AliasName>,
     pub description: Option<String>,
     pub arguments: Option<Vec<Argument>>,
     pub subcommands: Option<Vec<Signature>>,
