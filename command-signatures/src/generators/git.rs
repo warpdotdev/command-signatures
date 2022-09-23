@@ -445,10 +445,9 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         // The first non-whitespace string is just a character indicating the type of indexed file.
         .filter_map(|file| file.split_whitespace().nth(1))
         .map(|file| {
-            let mut suggestion = Suggestion::with_description(file, "Changed file");
-            suggestion.priority = Priority::Global(Importance::More(Order(100)));
-            suggestion.icon = Some(IconType::File);
-            suggestion
+            Suggestion::with_description(file, "Changed file")
+                .with_priority(Priority::Global(Importance::More(Order(100))))
+                .with_icon(IconType::File)
         })
         .collect_unordered_results()
 }
@@ -457,12 +456,8 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .filter_map(|line| {
-            (!line.is_empty()).then(|| Suggestion {
-                exact_string: line.trim().to_owned(),
-                description: Some("Branch".to_owned()),
-                priority: Priority::Default,
-                icon: Some(IconType::GitBranch),
-                is_hidden: false,
+            (!line.is_empty()).then(|| {
+                Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch)
             })
         })
         .collect_ordered_results()
@@ -504,13 +499,7 @@ fn post_process_branches(out: &str) -> GeneratorResults {
                     }
                 }
 
-                Some(Suggestion {
-                    exact_string: name,
-                    description: Some("Branch".to_owned()),
-                    priority: Priority::Default,
-                    icon: Some(IconType::GitBranch),
-                    is_hidden: false,
-                })
+                Some(Suggestion::with_description(name, "Branch").with_icon(IconType::GitBranch))
             })
             .collect_ordered_results()
     }
