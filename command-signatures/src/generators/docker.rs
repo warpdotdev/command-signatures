@@ -62,7 +62,7 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                 if let Some(id) = output.id {
                     Some(
                         Suggestion::with_description(id, output.image.unwrap_or_default())
-                            .with_icon(IconType::Docker),
+                            .with_icon(IconType::DockerContainer),
                     )
                 } else {
                     None
@@ -123,7 +123,7 @@ pub fn generator() -> CommandSignatureGenerators {
                             serde_json::from_str(line);
                         if let Ok(docker_image_output) = docker_image_output {
                             docker_image_output.repository.map(|repository| {
-                                Suggestion::new(repository).with_icon(IconType::Docker)
+                                Suggestion::new(repository).with_icon(IconType::DockerImage)
                             })
                         } else {
                             log::error!(
@@ -309,7 +309,7 @@ pub fn generator() -> CommandSignatureGenerators {
                             serde_json::from_str(line);
                         if let Ok(docker_image_output) = docker_image_output {
                             docker_image_output.repository.map(|repository| {
-                                Suggestion::new(repository).with_icon(IconType::Docker)
+                                Suggestion::new(repository).with_icon(IconType::DockerImage)
                             })
                         } else {
                             log::info!(
@@ -342,7 +342,7 @@ pub fn generator() -> CommandSignatureGenerators {
                                         repo,
                                         format!("{}@{} -{}", id, tag, size),
                                     )
-                                    .with_icon(IconType::Docker),
+                                    .with_icon(IconType::DockerImage),
                                 )
                             } else {
                                 None
@@ -375,7 +375,7 @@ pub fn generator() -> CommandSignatureGenerators {
                                     words[0],
                                     format!("{}@{} - {}", id, tag, size),
                                 )
-                                .with_icon(IconType::Docker)
+                                .with_icon(IconType::DockerImage)
                             })
                         })
                         .collect_unordered_results()

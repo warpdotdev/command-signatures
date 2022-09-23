@@ -18,7 +18,8 @@ pub enum IconType {
     GitBranch,
     KubePod,
     KubeCluster,
-    Docker,
+    DockerContainer,
+    DockerImage,
 }
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
