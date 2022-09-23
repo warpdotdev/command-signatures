@@ -1,5 +1,6 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
+    Suggestion,
 };
 
 enum KubetctlStatus {
@@ -27,7 +28,7 @@ fn type_without_name(type_name: &str) -> String {
     )
 }
 
-fn kubectl_post_process(output: &str) -> GeneratorResults {
+fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
     match KubetctlStatus::from_output(output) {
         KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
             GeneratorResults::default()
@@ -36,7 +37,10 @@ fn kubectl_post_process(output: &str) -> GeneratorResults {
             .lines()
             .map(str::trim)
             .filter(|line| !line.is_empty())
-            .map(Suggestion::new)
+            .map(|suggestion| match icon {
+                Some(icon) => Suggestion::new(suggestion).with_icon(icon),
+                None => Suggestion::new(suggestion),
+            })
             .collect_unordered_results(),
     }
 }
@@ -45,30 +49,40 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("kubectl")
         .add_generator(
             "resource_type",
-            Generator::script("kubectl api-resources -o name", kubectl_post_process),
+            Generator::script("kubectl api-resources -o name", |output| {
+                kubectl_post_process(output, None)
+            }),
         )
         .add_generator(
             "running_pods",
             Generator::script(
                 "kubectl get pods --field-selector=status.phase=Running -o name",
-                kubectl_post_process,
+                |output| kubectl_post_process(output, Some(IconType::KubePod)),
             ),
         )
         .add_generator(
             "deployments",
-            Generator::script(type_without_name("deployments"), kubectl_post_process),
+            Generator::script(type_without_name("deployments"), |output| {
+                kubectl_post_process(output, None)
+            }),
         )
         .add_generator(
             "node",
-            Generator::script(type_without_name("nodes"), kubectl_post_process),
+            Generator::script(type_without_name("nodes"), |output| {
+                kubectl_post_process(output, None)
+            }),
         )
         .add_generator(
             "cluster_role",
-            Generator::script(type_without_name("clusterroles"), kubectl_post_process),
+            Generator::script(type_without_name("clusterroles"), |output| {
+                kubectl_post_process(output, None)
+            }),
         )
         .add_generator(
             "role",
-            Generator::script(type_without_name("roles"), kubectl_post_process),
+            Generator::script(type_without_name("roles"), |output| {
+                kubectl_post_process(output, None)
+            }),
         )
         .add_generator(
             "resource",
@@ -77,7 +91,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     Some(type_name) => type_without_name(type_name),
                     None => "".to_string(),
                 },
-                kubectl_post_process,
+                |output| kubectl_post_process(output, None),
             ),
         )
         .add_generator(
@@ -93,7 +107,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         _ => "kubectl config get-contexts -o name".to_string(),
                     }
                 },
-                kubectl_post_process,
+                |output| kubectl_post_process(output, None),
             ),
         )
         .add_generator(
@@ -117,7 +131,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         .lines()
                         .map(str::trim)
                         .filter(|line| !line.is_empty() && *line != "NAME")
-                        .map(Suggestion::new)
+                        .map(|name| Suggestion::new(name).with_icon(IconType::KubeCluster))
                         .collect_unordered_results(),
                 },
             ),

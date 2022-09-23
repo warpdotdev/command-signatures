@@ -1,7 +1,7 @@
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
-    TemplateFilter,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
+    Suggestion, TemplateFilter,
 };
 
 #[derive(Debug, serde::Deserialize)]
@@ -60,10 +60,10 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
             let parsed_output: Result<DockerOutput> = serde_json::from_str(line);
             if let Ok(output) = parsed_output {
                 if let Some(id) = output.id {
-                    Some(Suggestion::with_description(
-                        id,
-                        output.image.unwrap_or_default(),
-                    ))
+                    Some(
+                        Suggestion::with_description(id, output.image.unwrap_or_default())
+                            .with_icon(IconType::Docker),
+                    )
                 } else {
                     None
                 }
@@ -122,7 +122,9 @@ pub fn generator() -> CommandSignatureGenerators {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(line);
                         if let Ok(docker_image_output) = docker_image_output {
-                            docker_image_output.repository.map(Suggestion::new)
+                            docker_image_output.repository.map(|repository| {
+                                Suggestion::new(repository).with_icon(IconType::Docker)
+                            })
                         } else {
                             log::error!(
                                 "Unable to deserialize docker image output with err {:?}",
@@ -306,7 +308,9 @@ pub fn generator() -> CommandSignatureGenerators {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(line);
                         if let Ok(docker_image_output) = docker_image_output {
-                            docker_image_output.repository.map(Suggestion::new)
+                            docker_image_output.repository.map(|repository| {
+                                Suggestion::new(repository).with_icon(IconType::Docker)
+                            })
                         } else {
                             log::info!(
                                 "Unable to deserialize docker image output with err {:?}",
@@ -333,10 +337,13 @@ pub fn generator() -> CommandSignatureGenerators {
                                 docker_image_output.tag,
                                 docker_image_output.id,
                             ) {
-                                Some(Suggestion::with_description(
-                                    repo,
-                                    format!("{}@{} -{}", id, tag, size),
-                                ))
+                                Some(
+                                    Suggestion::with_description(
+                                        repo,
+                                        format!("{}@{} -{}", id, tag, size),
+                                    )
+                                    .with_icon(IconType::Docker),
+                                )
                             } else {
                                 None
                             }
@@ -368,6 +375,7 @@ pub fn generator() -> CommandSignatureGenerators {
                                     words[0],
                                     format!("{}@{} - {}", id, tag, size),
                                 )
+                                .with_icon(IconType::Docker)
                             })
                         })
                         .collect_unordered_results()

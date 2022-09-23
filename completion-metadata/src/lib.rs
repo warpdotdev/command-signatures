@@ -16,6 +16,9 @@ pub enum IconType {
     File,
     Folder,
     GitBranch,
+    KubePod,
+    KubeCluster,
+    Docker,
 }
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
@@ -53,6 +56,11 @@ impl Suggestion {
 
     pub fn with_priority(mut self, priority: Priority) -> Self {
         self.priority = priority;
+        self
+    }
+
+    pub fn with_icon(mut self, icon: IconType) -> Self {
+        self.icon = Some(icon);
         self
     }
 }
