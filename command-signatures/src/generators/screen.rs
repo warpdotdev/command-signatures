@@ -11,7 +11,7 @@ fn list_sessions(output: &str) -> impl Iterator<Item = &str>{
 
 pub fn generator() -> CommandSignatureGenerators {
     // For these generators, we need to skip both the last two lines and the first line of `screen -ls`
-    // an example output for this function is:
+    // an example output for this command is:
     //     There are screens on:
     //         10651.ianrocks (Detached)
     //         19411.suraj_iscool  (Attached)
