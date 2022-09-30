@@ -30,6 +30,7 @@ mod phpunit_watcher;
 mod pip;
 mod pyenv;
 mod react_native;
+mod screen;
 mod ssh;
 mod tar;
 mod terraform;
@@ -73,6 +74,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         tmuxinator::generator(),
         tmux::generator(),
         node::generator(),
+        screen::generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))
