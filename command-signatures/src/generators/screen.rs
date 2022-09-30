@@ -2,10 +2,11 @@ use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
+const LIST_SESSIONS_COMMAND: &str = "screen -ls | sed '1d;$d' | sed '$d'";
+
 fn list_sessions(output: &str) -> impl Iterator<Item = &str>{
     output
         .lines()
-        .skip(1)
         .map(str::trim)
 }
 
@@ -20,7 +21,7 @@ pub fn generator() -> CommandSignatureGenerators {
     // Only the three middle lines in this example are relevant.
     CommandSignatureGenerators::new("screen").add_generator(
         "sessions",
-        Generator::script("screen -ls | sed '$d' | sed '$d'", 
+        Generator::script(LIST_SESSIONS_COMMAND, 
         |output| {
             list_sessions(output)
                 .filter_map(|session_line| {
@@ -32,11 +33,11 @@ pub fn generator() -> CommandSignatureGenerators {
         }),
     )
     .add_generator("detached_sessions", 
-    Generator::script("screen -ls | sed '$d' | sed '$d'", 
+    Generator::script(LIST_SESSIONS_COMMAND, 
     |output| {
         list_sessions(output)
             .filter_map(|session_line| {
-                if !session_line.contains("(Detached)") {
+                if !session_line.ends_with("(Detached)") {
                     return None;
                 }
                 session_line.split('\t')
