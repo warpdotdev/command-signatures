@@ -116,8 +116,12 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "all_local_images",
             Generator::script("docker image ls --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(line);
@@ -126,7 +130,7 @@ pub fn generator() -> CommandSignatureGenerators {
                                 Suggestion::new(repository).with_icon(IconType::DockerImage)
                             })
                         } else {
-                            log::error!(
+                            log::warn!(
                                 "Unable to deserialize docker image output with err {:?}",
                                 docker_image_output.err().unwrap()
                             );
@@ -260,15 +264,19 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "docker_images",
             Generator::script("docker images -a --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(line);
                         if let Ok(docker_image_output) = docker_image_output {
                             docker_image_output.repository.map(Suggestion::new)
                         } else {
-                            log::error!(
+                            log::warn!(
                                 "Unable to deserialize docker image output with err {:?}",
                                 docker_image_output.err().unwrap()
                             );
@@ -281,16 +289,20 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "docker_volumes",
             Generator::script("docker volume ls --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         let docker_volume_output: Result<DockerVolumeOutput> =
                             serde_json::from_str(line);
                         if let Ok(docker_volume_output) = docker_volume_output {
                             docker_volume_output.name.map(Suggestion::new)
                         } else {
-                            log::error!(
-                                "Unable to deserialize docker image output with err {:?}",
+                            log::warn!(
+                                "Unable to deserialize docker volume output with err {:?}",
                                 docker_volume_output.err().unwrap()
                             );
                             None
@@ -302,8 +314,12 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "remove_images",
             Generator::script("docker images -aq --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|line| {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(line);
@@ -325,8 +341,12 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "run_images",
             Generator::script("docker images --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
-                    .split('\n')
+                    .lines()
                     .filter_map(|image| {
                         let docker_image_output: Result<DockerImageOutput> =
                             serde_json::from_str(image);
