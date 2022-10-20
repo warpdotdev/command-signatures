@@ -130,7 +130,7 @@ pub fn generator() -> CommandSignatureGenerators {
                                 Suggestion::new(repository).with_icon(IconType::DockerImage)
                             })
                         } else {
-                            log::error!(
+                            log::warn!(
                                 "Unable to deserialize docker image output with err {:?}",
                                 docker_image_output.err().unwrap()
                             );
@@ -276,7 +276,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         if let Ok(docker_image_output) = docker_image_output {
                             docker_image_output.repository.map(Suggestion::new)
                         } else {
-                            log::error!(
+                            log::warn!(
                                 "Unable to deserialize docker image output with err {:?}",
                                 docker_image_output.err().unwrap()
                             );
@@ -301,7 +301,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         if let Ok(docker_volume_output) = docker_volume_output {
                             docker_volume_output.name.map(Suggestion::new)
                         } else {
-                            log::error!(
+                            log::warn!(
                                 "Unable to deserialize docker volume output with err {:?}",
                                 docker_volume_output.err().unwrap()
                             );
