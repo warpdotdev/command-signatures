@@ -116,6 +116,10 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "all_local_images",
             Generator::script("docker image ls --format '{{ json . }}'", |output| {
+                if output.trim().is_empty() {
+                    return GeneratorResults::default();
+                }
+
                 output
                     .lines()
                     .filter_map(|line| {
