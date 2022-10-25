@@ -1,5 +1,6 @@
 use warp_completion_metadata::Signature;
 
+#[cfg(not(feature = "json-embed"))]
 pub mod commands;
 
 #[cfg(feature = "json-embed")]
