@@ -6,8 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+itertools = { version = "0.10.5", optional = true }
+rust-embed = { version = "6.4.2", optional = true }
+serde_json = { version = "1.0.87", optional = true }
 warp-completion-metadata = {path = "../../completion-metadata"}
 
 [build-dependencies]
 anyhow = "1.0"
 warp-completion-metadata = {path = "../../completion-metadata"}
+
+[features]
+json-embed = ["dep:itertools", "dep:rust-embed", "dep:serde_json"]
