@@ -7,7 +7,8 @@ edition = "2021"
 
 [dependencies]
 itertools = { version = "0.10.3", optional = true }
-rust-embed = { version = "6.4.2", optional = true, features = ["interpolate-folder-path"] }
+rayon = { version = "1.5.3", optional = true }
+rust-embed = { version = "6.4.2", optional = true, features = ["debug-embed"] }
 serde_json = { version = "1.0.39", optional = true }
 warp-completion-metadata = {path = "../../completion-metadata"}
 
@@ -16,4 +17,4 @@ anyhow = "1.0"
 warp-completion-metadata = {path = "../../completion-metadata"}
 
 [features]
-json-embed = ["dep:itertools", "dep:rust-embed", "dep:serde_json"]
+json-embed = ["dep:itertools", "dep:rayon", "dep:rust-embed", "dep:serde_json"]
