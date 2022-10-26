@@ -6,10 +6,9 @@ pub mod commands;
 #[cfg(feature = "json-embed")]
 mod embed;
 
-
 #[cfg(feature = "json-embed")]
 pub fn signatures() -> Vec<Signature> {
-    return embed::signatures()
+    embed::signatures()
 }
 
 #[cfg(not(feature = "json-embed"))]
