@@ -1,11 +1,5 @@
 mod generators;
 
-use command_signatures_1;
-use command_signatures_2;
-use command_signatures_3;
-use command_signatures_4;
-use command_signatures_5;
-use command_signatures_6;
 pub use generators::command_signature_generators;
 
 pub use warp_completion_metadata::*;
