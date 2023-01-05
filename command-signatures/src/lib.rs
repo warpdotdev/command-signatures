@@ -24,3 +24,74 @@ pub fn commands() -> Vec<Signature> {
         .chain(command_signatures_6::signatures().into_iter())
         .collect()
 }
+
+#[cfg(test)]
+mod tests {
+    use std::collections::HashSet;
+
+    use itertools::Itertools;
+
+    use super::*;
+
+    fn get_generator_names_from_argument(arg: &Argument) -> Vec<&str> {
+        let mut names = vec![];
+        for arg_type in &arg.argument_types {
+            match arg_type {
+                ArgumentType::Generator(GeneratorName(name)) => names.push(name.as_str()),
+                _ => {}
+            }
+        }
+        names
+    }
+
+    fn get_generator_names_from_option(opt: &Opt) -> Vec<&str> {
+        opt.arguments()
+            .iter()
+            .map(get_generator_names_from_argument)
+            .flatten()
+            .collect_vec()
+    }
+
+    fn get_generator_names_from_signature(signature: &Signature) -> Vec<(&str, &str)> {
+        std::iter::repeat(signature.name.as_str())
+            .zip(
+                // Combine generator names from arguments...
+                signature
+                    .arguments()
+                    .iter()
+                    .flat_map(get_generator_names_from_argument)
+                    // generator names from options...
+                    .chain(
+                        signature
+                            .options()
+                            .iter()
+                            .flat_map(get_generator_names_from_option),
+                    )
+                    // and generator names from subcommands.
+                    .chain(
+                        signature
+                            .subcommands()
+                            .iter()
+                            .flat_map(get_generator_names_from_signature)
+                            .map(|(_signature_name, generator_name)| generator_name),
+                    ),
+            )
+            .collect_vec()
+    }
+
+    /// Verify that all generators referenced by command signatures are actually defined.
+    #[test]
+    fn all_referenced_generators_exist() {
+        let generators = generators::command_signature_generators();
+        let generator_names = generators
+            .values()
+            .map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
+            .flatten()
+            .collect::<HashSet<_>>();
+        for signature in commands() {
+            for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
+                assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
+            }
+        }
+    }
+}
