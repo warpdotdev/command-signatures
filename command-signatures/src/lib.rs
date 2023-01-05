@@ -36,9 +36,8 @@ mod tests {
     fn get_generator_names_from_argument(arg: &Argument) -> Vec<&str> {
         let mut names = vec![];
         for arg_type in &arg.argument_types {
-            match arg_type {
-                ArgumentType::Generator(GeneratorName(name)) => names.push(name.as_str()),
-                _ => {}
+            if let ArgumentType::Generator(GeneratorName(name)) = arg_type {
+                names.push(name.as_str());
             }
         }
         names
