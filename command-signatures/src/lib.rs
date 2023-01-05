@@ -47,8 +47,7 @@ mod tests {
     fn get_generator_names_from_option(opt: &Opt) -> Vec<&str> {
         opt.arguments()
             .iter()
-            .map(get_generator_names_from_argument)
-            .flatten()
+            .flat_map(get_generator_names_from_argument)
             .collect_vec()
     }
 
@@ -85,8 +84,7 @@ mod tests {
         let generators = generators::command_signature_generators();
         let generator_names = generators
             .values()
-            .map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
-            .flatten()
+            .flat_map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
             .collect::<HashSet<_>>();
         for signature in commands() {
             for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
