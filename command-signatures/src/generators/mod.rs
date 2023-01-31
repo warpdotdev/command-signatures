@@ -59,6 +59,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         phpunit_watcher::generator(),
         pip::generator(),
         pip::pip3_generator(),
+        npm::pnpm_generators(),
         pyenv::generator(),
         react_native::generator(),
         ssh::generator(),
