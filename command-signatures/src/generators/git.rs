@@ -421,7 +421,7 @@ lazy_static! {
     ]);
 }
 
-fn filter_messages(out: &str) -> &str {
+pub fn filter_messages(out: &str) -> &str {
     if out.starts_with("warning:") || out.starts_with("error:") {
         let split: Vec<&str> = out.splitn(2, '\n').collect();
         if split.len() > 1 {
@@ -463,7 +463,7 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
         .collect_ordered_results()
 }
 
-fn post_process_branches(out: &str) -> GeneratorResults {
+pub fn post_process_branches(out: &str) -> GeneratorResults {
     let output = filter_messages(out);
 
     if output.starts_with("fatal:") {

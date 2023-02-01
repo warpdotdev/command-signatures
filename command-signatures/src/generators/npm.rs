@@ -3,6 +3,7 @@ use warp_completion_metadata::{
     Suggestion,
 };
 
+use crate::generators::git::post_process_branches;
 use serde::Deserialize;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
@@ -207,6 +208,16 @@ pub fn npm_generators() -> CommandSignatureGenerators {
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("workspace_generator", workspace_generator())
         .add_alias("script_alias", script_alias_generator())
+}
+
+pub fn pnpm_generators() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("pnpm")
+        .add_generator(
+            "search_branches",
+            Generator::script("git branch --no-color", post_process_branches),
+        )
+        .add_generator("get_scripts_generator", get_scripts_generator())
+        .add_generator("dependencies_generator", dependencies_generator())
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
