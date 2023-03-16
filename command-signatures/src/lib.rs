@@ -97,7 +97,10 @@ mod tests {
             .values()
             .flat_map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
             .collect::<HashSet<_>>();
-        assert!(!generator_names.is_empty(), "The bundled command signatures should reference at least one generator");
+        assert!(
+            !generator_names.is_empty(),
+            "The bundled command signatures should reference at least one generator"
+        );
         for signature in commands() {
             for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
                 assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
