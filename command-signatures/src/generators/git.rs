@@ -631,7 +631,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "local_branches",
             Generator::script(
-                "/Users/david/src/segfault/segfault",
+                "git --no-optional-locks branch --no-color --sort=-committerdate",
                 post_process_branches,
             ),
         )
