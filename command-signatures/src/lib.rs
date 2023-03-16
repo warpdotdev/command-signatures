@@ -1,27 +1,39 @@
 mod generators;
 
+use itertools::Itertools;
+use rayon::prelude::*;
+use rust_embed::RustEmbed;
+
 pub use generators::command_signature_generators;
 
 pub use warp_completion_metadata::*;
 
+#[derive(RustEmbed)]
+#[folder = "json"]
+struct Assets;
+
 pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
-    let name = name.as_ref();
-    command_signatures_1::signature_by_name(name)
-        .or_else(|| command_signatures_2::signature_by_name(name))
-        .or_else(|| command_signatures_3::signature_by_name(name))
-        .or_else(|| command_signatures_4::signature_by_name(name))
-        .or_else(|| command_signatures_5::signature_by_name(name))
-        .or_else(|| command_signatures_6::signature_by_name(name))
+    let file_path = format!("{}.json", name.as_ref());
+    Assets::get(&file_path).and_then(|embedded_file| {
+        let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
+        let fig_command: warp_completion_metadata::fig_types::Command =
+            serde_json::from_str(json_content).ok()?;
+        Some(Signature::from(fig_command))
+    })
 }
 
 pub fn commands() -> Vec<Signature> {
-    command_signatures_1::signatures()
-        .into_iter()
-        .chain(command_signatures_2::signatures().into_iter())
-        .chain(command_signatures_3::signatures().into_iter())
-        .chain(command_signatures_4::signatures().into_iter())
-        .chain(command_signatures_5::signatures().into_iter())
-        .chain(command_signatures_6::signatures().into_iter())
+    Assets::iter()
+        .collect_vec()
+        .into_par_iter()
+        .map(|path| Assets::get(&path))
+        .filter_map(|embedded_file| {
+            let embedded_data = embedded_file?.data;
+            let json_content = std::str::from_utf8(&embedded_data).ok()?;
+            let fig_command: warp_completion_metadata::fig_types::Command =
+                serde_json::from_str(json_content).ok()?;
+            Some(Signature::from(fig_command))
+        })
         .collect()
 }
 
@@ -85,6 +97,7 @@ mod tests {
             .values()
             .flat_map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
             .collect::<HashSet<_>>();
+        assert!(generator_names.len() > 0, "The bundled command signatures should reference at least one generator");
         for signature in commands() {
             for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
                 assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
