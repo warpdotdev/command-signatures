@@ -13,8 +13,8 @@ pub struct AnnotatedFlag<'a> {
 impl<'a> AnnotatedFlag<'a> {
     /// Builds an `AnnotatedFlag` from an option's specific flag name.
     fn from_option(opt: &'a Opt, name: &'a str) -> Self {
-        let (style, name) = if name.starts_with("--") {
-            (FlagStyle::DoubleDash, &name[2..])
+        let (style, name) = if let Some(name) = name.strip_prefix("--") {
+            (FlagStyle::DoubleDash, name)
         } else {
             (FlagStyle::SingleDash, &name[1..])
         };
@@ -23,7 +23,7 @@ impl<'a> AnnotatedFlag<'a> {
             name,
             description: opt.description.as_deref(),
             priority: opt.priority,
-            style: style,
+            style,
         }
     }
 }
@@ -88,7 +88,7 @@ impl Signature {
             .flat_map(|options| options.iter())
             .flat_map(|option| {
                 option.exact_string.iter().filter_map(move |name| {
-                    is_short_hand_flag(name).then(|| AnnotatedFlag::from_option(&option, name))
+                    is_short_hand_flag(name).then(|| AnnotatedFlag::from_option(option, name))
                 })
             })
     }
