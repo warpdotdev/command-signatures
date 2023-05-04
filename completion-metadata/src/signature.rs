@@ -7,6 +7,36 @@ pub struct AnnotatedFlag<'a> {
     pub name: &'a str,
     pub description: Option<&'a str>,
     pub priority: Priority,
+    pub style: FlagStyle,
+}
+
+impl<'a> AnnotatedFlag<'a> {
+    /// Builds an `AnnotatedFlag` from an option's specific flag name.
+    fn from_option(opt: &'a Opt, name: &'a str) -> Self {
+        let (style, name) = if name.starts_with("--") {
+            (FlagStyle::DoubleDash, &name[2..])
+        } else {
+            (FlagStyle::SingleDash, &name[1..])
+        };
+
+        AnnotatedFlag {
+            name,
+            description: opt.description.as_deref(),
+            priority: opt.priority,
+            style: style,
+        }
+    }
+}
+
+/// The prefix style used by a flag. By convention, short-hand flags start with a `-` and
+/// long-hand flags start with `--`. However, some programs use a single dash for long-hand
+/// flags (such as `java -version`), which is captured by the flag style.
+///
+/// In the future, this could support Windows-style `/flag` flags.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FlagStyle {
+    SingleDash,
+    DoubleDash,
 }
 
 /// A `Signature` defines a command or a subcommand.
@@ -40,6 +70,15 @@ impl Signature {
     }
 }
 
+/// Heuristic to determine if a flag name is a short-hand flag or not.
+///
+/// * A single dash followed by a single character (`-h`, `-v`, etc.) is short-hand, unless the second character is also a dash.
+/// * A single dash followed by multiple characters (`-version`) is long-hand
+/// * Two dashes followed by 0 or more characters is long-hand
+fn is_short_hand_flag(name: &str) -> bool {
+    name.len() == 2 && name.starts_with('-') && name != "--"
+}
+
 impl Signature {
     /// Returns a list of the short-hand flags.
     // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
@@ -48,12 +87,8 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter_map(|name| {
-                    (name.starts_with('-') && !name.starts_with("--")).then(|| AnnotatedFlag {
-                        name: &name[1..],
-                        description: option.description.as_deref(),
-                        priority: option.priority,
-                    })
+                option.exact_string.iter().filter_map(move |name| {
+                    is_short_hand_flag(name).then(|| AnnotatedFlag::from_option(&option, name))
                 })
             })
     }
@@ -65,12 +100,9 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter_map(|name| {
-                    (name.starts_with("--")).then(|| AnnotatedFlag {
-                        name: &name[2..],
-                        description: option.description.as_deref(),
-                        priority: option.priority,
-                    })
+                option.exact_string.iter().filter_map(move |name| {
+                    (name.starts_with('-') && !is_short_hand_flag(name))
+                        .then(|| AnnotatedFlag::from_option(option, name))
                 })
             })
     }
