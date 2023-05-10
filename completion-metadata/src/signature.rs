@@ -79,6 +79,12 @@ fn is_short_hand_flag(name: &str) -> bool {
     name.len() == 2 && name.starts_with('-') && name != "--"
 }
 
+/// Tests if `name` is a long-hand flag name. A long-hand flag is a string
+/// starting with `-` that is not a short-hand flag.
+fn is_long_hand_flag(name: &str) -> bool {
+    name.starts_with('-') && !is_short_hand_flag(name)
+}
+
 impl Signature {
     /// Returns a list of the short-hand flags.
     // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
@@ -101,8 +107,7 @@ impl Signature {
             .flat_map(|options| options.iter())
             .flat_map(|option| {
                 option.exact_string.iter().filter_map(move |name| {
-                    (name.starts_with('-') && !is_short_hand_flag(name))
-                        .then(|| AnnotatedFlag::from_option(option, name))
+                    is_long_hand_flag(name).then(|| AnnotatedFlag::from_option(option, name))
                 })
             })
     }
