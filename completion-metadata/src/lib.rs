@@ -1,5 +1,4 @@
 pub mod fig_types;
-pub mod rust_generator;
 mod signature;
 
 use serde::Serialize;
