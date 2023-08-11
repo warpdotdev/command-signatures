@@ -7,10 +7,13 @@ edition = "2021"
 itertools = "0.10.0"
 lazy_static = "1.4.0"
 log = "0.4"
-rayon = { version = "1.5.3" }
+rayon = { version = "1.5.3", optional = true }
 regex = "1.5.4"
-rust-embed = { version = "6.4.2", features = ["debug-embed"] }
+rust-embed = { version = "6.4.2", features = ["debug-embed"], optional = true }
 serde = {version = "1.0", features = ["derive"]}
 serde_json = "1.0"
 serde_with = "2.0.1"
 warp-completion-metadata = {path = "../completion-metadata"}
+
+[features]
+embed-signatures = ["rayon", "rust-embed"]
