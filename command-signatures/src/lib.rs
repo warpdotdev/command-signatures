@@ -4,48 +4,39 @@ pub use generators::command_signature_generators;
 
 pub use warp_completion_metadata::*;
 
-cfg_if::cfg_if! {
-    if #[cfg(feature = "embed-signatures")] {
-        #[derive(rust_embed::RustEmbed)]
-        #[folder = "json"]
-        struct Assets;
+#[cfg(feature = "embed-signatures")]
+#[derive(rust_embed::RustEmbed)]
+#[folder = "json"]
+struct Assets;
 
-        pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
-            let file_path = format!("{}.json", name.as_ref());
-            Assets::get(&file_path).and_then(|embedded_file| {
-                let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
-                let fig_command: warp_completion_metadata::fig_types::Command =
-                    serde_json::from_str(json_content).ok()?;
-                Some(Signature::from(fig_command))
-            })
-        }
+#[cfg(feature = "embed-signatures")]
+pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
+    let file_path = format!("{}.json", name.as_ref());
+    Assets::get(&file_path).and_then(|embedded_file| {
+        let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
+        let fig_command: warp_completion_metadata::fig_types::Command =
+            serde_json::from_str(json_content).ok()?;
+        Some(Signature::from(fig_command))
+    })
+}
 
-        pub fn commands() -> Vec<Signature> {
-            use itertools::Itertools;
-            use rayon::prelude::*;
+#[cfg(feature = "embed-signatures")]
+pub fn commands() -> Vec<Signature> {
+    use itertools::Itertools;
+    use rayon::prelude::*;
 
-            Assets::iter()
-                .collect_vec()
-                .into_par_iter()
-                .map(|path| Assets::get(&path))
-                .filter_map(|embedded_file| {
-                    let embedded_data = embedded_file?.data;
-                    let json_content = std::str::from_utf8(&embedded_data).ok()?;
-                    let fig_command: warp_completion_metadata::fig_types::Command =
-                        serde_json::from_str(json_content).ok()?;
-                    Some(Signature::from(fig_command))
-                })
-                .collect()
-        }
-    } else {
-        pub fn signature_by_name(_name: impl AsRef<str>) -> Option<Signature> {
-            None
-        }
-
-        pub fn commands() -> Vec<Signature> {
-            vec![]
-        }
-    }
+    Assets::iter()
+        .collect_vec()
+        .into_par_iter()
+        .map(|path| Assets::get(&path))
+        .filter_map(|embedded_file| {
+            let embedded_data = embedded_file?.data;
+            let json_content = std::str::from_utf8(&embedded_data).ok()?;
+            let fig_command: warp_completion_metadata::fig_types::Command =
+                serde_json::from_str(json_content).ok()?;
+            Some(Signature::from(fig_command))
+        })
+        .collect()
 }
 
 #[cfg(test)]
