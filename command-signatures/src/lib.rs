@@ -1,17 +1,15 @@
 mod generators;
 
-use itertools::Itertools;
-use rayon::prelude::*;
-use rust_embed::RustEmbed;
-
 pub use generators::command_signature_generators;
 
 pub use warp_completion_metadata::*;
 
-#[derive(RustEmbed)]
+#[cfg(feature = "embed-signatures")]
+#[derive(rust_embed::RustEmbed)]
 #[folder = "json"]
 struct Assets;
 
+#[cfg(feature = "embed-signatures")]
 pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
     let file_path = format!("{}.json", name.as_ref());
     Assets::get(&file_path).and_then(|embedded_file| {
@@ -22,7 +20,11 @@ pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
     })
 }
 
+#[cfg(feature = "embed-signatures")]
 pub fn commands() -> Vec<Signature> {
+    use itertools::Itertools;
+    use rayon::prelude::*;
+
     Assets::iter()
         .collect_vec()
         .into_par_iter()
