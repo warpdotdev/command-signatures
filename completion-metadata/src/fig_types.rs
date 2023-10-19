@@ -20,7 +20,7 @@ struct FigPriority(pub u32);
 /// 67b2515c5ea4ff4c70c672a5ccdf8a77547d1366.
 /// See https://github.com/withfig/autocomplete-tools/blob/67b2515c5ea4ff4c70c672a5ccdf8a77547d1366/packages/autocomplete-types/index.d.ts
 /// for the original type definition.
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 pub enum SuggestionType {
     #[serde(rename = "folder")]
     Folder,
@@ -40,7 +40,7 @@ pub enum SuggestionType {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Default, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Default, Debug, PartialEq, Clone)]
 pub struct Suggestion {
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
@@ -100,7 +100,7 @@ pub struct Command {
     hidden: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(untagged)]
 pub enum NumberOrBool {
     Number(usize),
@@ -108,7 +108,7 @@ pub enum NumberOrBool {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct CommandOption {
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
@@ -157,7 +157,7 @@ pub struct CommandOption {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]
 pub struct Arg {
     #[serde(default)]
     #[serde_as(as = "NoneAsEmptyString")]
@@ -204,7 +204,7 @@ pub struct Arg {
     pub default: Option<StringOrNumber>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(untagged)]
 pub enum StringOrNumber {
     String(String),
@@ -220,7 +220,7 @@ impl From<StringOrNumber> for String {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 pub enum Template {
     #[serde(rename = "filepaths")]
     FilePaths,
@@ -250,7 +250,7 @@ impl Display for Suggestion {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(untagged)]
 pub enum NameOrSuggestion {
     Name(String),
@@ -274,6 +274,11 @@ impl From<Suggestion> for NameOrSuggestion {
 
 impl From<Command> for Signature {
     fn from(command: Command) -> Self {
+        let persistent_options = command
+            .options
+            .iter()
+            .filter_map(|option| option.is_persistent.then(|| option.clone()))
+            .collect_vec();
         Signature {
             name: command.name.first().cloned().unwrap_or_default(),
             alias: command.alias_name,
@@ -286,7 +291,16 @@ impl From<Command> for Signature {
             subcommands: if command.subcommands.is_empty() {
                 None
             } else {
-                Some(command.subcommands.into_iter().map(|s| s.into()).collect())
+                Some(
+                    command
+                        .subcommands
+                        .into_iter()
+                        .map(|mut s| {
+                            s.options.extend(persistent_options.clone());
+                            s.into()
+                        })
+                        .collect(),
+                )
             },
             options: if command.options.is_empty() {
                 None
