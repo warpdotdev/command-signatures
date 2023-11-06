@@ -94,8 +94,8 @@ fn config_list() -> Generator {
             let config_object: Result<HashMap<String, Value>> = serde_json::from_str(&output);
             if let Ok(config_object) = config_object {
                 return config_object
-                    .into_iter()
-                    .map(|(key, _)| Suggestion::new(key))
+                    .into_keys()
+                    .map(Suggestion::new)
                     .collect_unordered_results();
             }
         }
@@ -141,22 +141,22 @@ fn dependencies_generator() -> Generator {
 
             let mut suggestions = package_info
                 .dependencies
-                .into_iter()
-                .map(|(key, _)| Suggestion::with_description(key, "dependency"))
+                .into_keys()
+                .map(|key| Suggestion::with_description(key, "dependency"))
                 .collect::<Vec<Suggestion>>();
 
             suggestions.extend(
                 package_info
                     .dev_dependencies
-                    .into_iter()
-                    .map(|(key, _)| Suggestion::with_description(key, "devDependency")),
+                    .into_keys()
+                    .map(|key| Suggestion::with_description(key, "devDependency")),
             );
 
             suggestions.extend(
                 package_info
                     .optional_dependencies
-                    .into_iter()
-                    .map(|(key, _)| Suggestion::with_description(key, "optionalDependency")),
+                    .into_keys()
+                    .map(|key| Suggestion::with_description(key, "optionalDependency")),
             );
             suggestions.into_iter().collect_unordered_results()
         },

@@ -52,7 +52,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "filter-dart-files",
             TemplateFilter(|suggestion, path_type| {
                 (path_type.is_folder() || suggestion.exact_string.ends_with(".dart"))
-                    .then(|| suggestion)
+                    .then_some(suggestion)
             }),
         )
 }

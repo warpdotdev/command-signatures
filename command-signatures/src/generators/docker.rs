@@ -408,7 +408,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 (file_type.is_folder()
                     || suggestion.exact_string.ends_with(".yaml")
                     || suggestion.exact_string.ends_with(".yml"))
-                .then(|| suggestion)
+                .then_some(suggestion)
             }),
         )
 }

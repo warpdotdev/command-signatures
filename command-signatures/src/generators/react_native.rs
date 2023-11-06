@@ -158,7 +158,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         if !line.starts_with('=') && !line.is_empty() {
                             let words = line.split("").collect::<Vec<_>>();
                             words.last().map(|word| {
-                                let name = word.trim().replace('(', "").replace(')', "");
+                                let name = word.trim().replace(['(', ')'], "");
                                 Suggestion::new(name)
                             })
                         } else {
@@ -193,7 +193,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "filter-js-files",
             TemplateFilter(|suggestion, path_type| {
                 (path_type.is_folder() || suggestion.exact_string.ends_with(".js"))
-                    .then(|| suggestion)
+                    .then_some(suggestion)
             }),
         )
 }
