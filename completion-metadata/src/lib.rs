@@ -1,7 +1,7 @@
 pub mod fig_types;
 mod signature;
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 pub use signature::*;
 use std::cmp::Ordering;
 use std::collections::HashMap;
@@ -10,7 +10,7 @@ use std::hash::{Hash, Hasher};
 const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
 
-#[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub enum IconType {
     File,
     Folder,
@@ -21,7 +21,7 @@ pub enum IconType {
     DockerImage,
 }
 
-#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Suggestion {
     pub exact_string: String,
     pub description: Option<String>,
@@ -84,7 +84,7 @@ impl PathSuggestionType {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
@@ -147,7 +147,7 @@ impl PartialOrd for Priority {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Importance {
     /// More is reserved for suggestions that should be ordered with more priority relative to another suggestion.
     /// The higher the order, the more priority it should have.
@@ -176,7 +176,7 @@ impl PartialOrd for Importance {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Order(pub u32);
 impl Order {
     fn normalized(self) -> Self {

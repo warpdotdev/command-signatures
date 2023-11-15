@@ -41,7 +41,7 @@ pub enum FlagStyle {
 
 /// A `Signature` defines a command or a subcommand.
 /// `Signature`s are recursive.
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Signature {
     pub name: String,
     pub alias: Option<AliasName>,
@@ -145,7 +145,7 @@ impl Signature {
 /// We use the shortname `Opt` here to avoid the conflict with std::Option
 /// It takes the forms of --name, -name, --name=arg, -name=arg, --name arg, -name arg.
 /// The ones that do not take an argument are called flags and are boolean.
-#[derive(Clone, Debug, PartialEq, Serialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Opt {
     // `--name`, `-n`, etc.
     pub exact_string: Vec<String>,
@@ -209,7 +209,7 @@ impl Opt {
 }
 
 /// An `Argument` indicates when a Signature or an Opt takes a value as a parameter.
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Argument {
     pub display_name: Option<String>,
     pub description: Option<String>,
@@ -296,13 +296,13 @@ impl Argument {
 }
 
 type DefaultValue = String;
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum IsArgumentOptional {
     Optional(Option<DefaultValue>),
     Required,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum ArgumentType {
     Suggestion(Suggestion),
     Template(Template),
@@ -437,7 +437,7 @@ impl Debug for Generator {
 }
 
 /// Prebuilt `Generator`s
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum TemplateType {
     Files,
     Folders,
@@ -445,7 +445,7 @@ pub enum TemplateType {
     FilesAndFolders,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Template {
     // The type of the prebuilt generator template.
     pub type_name: TemplateType,
