@@ -7,18 +7,12 @@ use warp_completion_metadata::{
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct DockerOutput {
-    id: Option<String>,
+    #[serde(default, rename = "ID")]
+    id: String,
 
     image: Option<String>,
 
     name: Option<String>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-#[serde(rename_all = "PascalCase")]
-struct DockerContainerOutput {
-    #[serde(default, rename = "ID")]
-    id: String,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -64,7 +58,7 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
         .trim()
         .split('\n')
         .filter_map(|line| {
-            let parsed_output: Result<DockerContainerOutput> = serde_json::from_str(line);
+            let parsed_output: Result<DockerOutput> = serde_json::from_str(line);
             if let Ok(output) = parsed_output {
                 Some(
                     Suggestion::with_description(output.id, "Container")
@@ -89,7 +83,7 @@ fn shared_post_process(output: &str) -> GeneratorResults {
             let parsed_output: DockerOutput = serde_json::from_str(line).ok()?;
 
             match (parsed_output.name, parsed_output.id) {
-                (Some(name), Some(id)) => Some(Suggestion::with_description(name, id)),
+                (Some(name), id) => Some(Suggestion::with_description(name, id)),
                 _ => None,
             }
         })
