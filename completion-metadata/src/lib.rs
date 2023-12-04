@@ -23,7 +23,10 @@ pub enum IconType {
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Suggestion {
+    /// The exact string the command will receive as input. Maps to Fig's `name` field.
     pub exact_string: String,
+    /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
+    /// e.g. "Container" for a Docker container completion.
     pub description: Option<String>,
     pub priority: Priority,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
