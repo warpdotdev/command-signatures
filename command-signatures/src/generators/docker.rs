@@ -16,6 +16,13 @@ struct DockerOutput {
 
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
+struct DockerContainerOutput {
+    #[serde(default, rename = "ID")]
+    id: String,
+}
+
+#[derive(Debug, serde::Deserialize)]
+#[serde(rename_all = "PascalCase")]
 struct DockerImageOutput {
     // These fields can return `Null`, hence they are all optional.
     #[serde(default, rename = "ID")]
@@ -57,16 +64,12 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
         .trim()
         .split('\n')
         .filter_map(|line| {
-            let parsed_output: Result<DockerOutput> = serde_json::from_str(line);
+            let parsed_output: Result<DockerContainerOutput> = serde_json::from_str(line);
             if let Ok(output) = parsed_output {
-                if let Some(id) = output.id {
-                    Some(
-                        Suggestion::with_description(id, output.image.unwrap_or_default())
-                            .with_icon(IconType::DockerContainer),
-                    )
-                } else {
-                    None
-                }
+                Some(
+                    Suggestion::with_description(output.id, "Container")
+                        .with_icon(IconType::DockerContainer),
+                )
             } else {
                 log::info!(
                     "unable to parse docker output: {:?}",
