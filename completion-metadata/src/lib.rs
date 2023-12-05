@@ -62,6 +62,11 @@ impl Suggestion {
         }
     }
 
+    pub fn with_display_name(mut self, display_name: Option<String>) -> Self {
+        self.display_name = display_name;
+        self
+    }
+
     pub fn with_priority(mut self, priority: Priority) -> Self {
         self.priority = priority;
         self
