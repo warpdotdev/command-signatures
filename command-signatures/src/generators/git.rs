@@ -491,6 +491,7 @@ pub fn post_process_branches(out: &str) -> GeneratorResults {
                                 priority: Priority::most_important(),
                                 icon: Some(IconType::GitBranch),
                                 is_hidden: false,
+                                display_name: todo!(),
                             });
                         }
                     } else if post_process_branch.as_str() == "+" {
