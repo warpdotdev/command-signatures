@@ -53,6 +53,9 @@ struct DockerSwarmOutput {
     status: Option<String>,
 }
 
+/// `docker ps` returns information about Docker containers. The information we want to display
+/// about Docker containers as part of our completions is already stored in `DockerOutput` so we're
+/// reusing that struct here.
 fn post_process_docker_ps(output: &str) -> GeneratorResults {
     output
         .trim()
@@ -65,7 +68,16 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                 },
                 |output: DockerOutput| {
                     output.id.map(|id| {
+                        // Try to show as much helpful info as possible in the display name.
+                        let display_name = match (output.name, output.image) {
+                            (None, None) => None,
+                            (None, Some(image)) => Some(format!("{0} ({1})", id, image)),
+                            (Some(name), None) => Some(format!("{0} ({1})", name, id)),
+                            (Some(name), Some(image)) => Some(format!("{0} ({1})", name, image)),
+                        };
+
                         Suggestion::with_description(id, "Container")
+                            .with_display_name(display_name)
                             .with_icon(IconType::DockerContainer)
                     })
                 },
