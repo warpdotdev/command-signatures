@@ -21,10 +21,13 @@ pub enum IconType {
     DockerImage,
 }
 
-#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize, Default)]
 pub struct Suggestion {
     /// The exact string the command will receive as input. Maps to Fig's `name` field.
     pub exact_string: String,
+    /// The string used to represent the completion that should be more helpful than the
+    /// `exact_string` itself. Maps to Fig's `displayValue` field.
+    pub display_name: Option<String>,
     /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
     /// e.g. "Container" for a Docker container completion.
     pub description: Option<String>,
@@ -40,6 +43,7 @@ impl Suggestion {
     pub fn new(name: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: None,
             priority: Priority::Default,
             icon: None,
@@ -50,6 +54,7 @@ impl Suggestion {
     pub fn with_description(name: impl Into<String>, description: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: Some(description.into()),
             priority: Priority::Default,
             icon: None,
