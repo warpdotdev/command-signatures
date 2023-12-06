@@ -78,10 +78,8 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                 |output: DockerContainerOutput| {
                     // Try to show as much helpful info as possible in the display name.
                     let display_name = match (output.name, output.image) {
-                        (None, None) => None,
-                        (None, Some(image)) => Some(format!("{0} ({1})", output.id, image)),
-                        (Some(name), None) => Some(format!("{0} ({1})", name, output.id)),
                         (Some(name), Some(image)) => Some(format!("{0} ({1})", name, image)),
+                        (_, _) => None,
                     };
 
                     Some(
