@@ -20,4 +20,4 @@ Note that this `command-signatures` repo contains a Cargo workspace with two cra
 
 ### Ready for Release
 
-When your changes to `command-signatures` are complete, you can go back to the original `git` dependency definition in `warp-internal` and update the `rev` (revision) to point to the latest `command-signatures` commit you created. That's how you tell `warp-internal` to start using your latest changes.
+When your changes to `command-signatures` are complete, you can go back to the original `git` dependency definition in `warp-internal` and update the `rev` (revision) to point to the latest `command-signatures` commit hash after the change has been merged. That's how you tell `warp-internal` to start using your latest changes.
