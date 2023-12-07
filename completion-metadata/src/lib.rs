@@ -25,8 +25,8 @@ pub enum IconType {
 pub struct Suggestion {
     /// The exact string the command will receive as input. Maps to Fig's `name` field.
     pub exact_string: String,
-    /// The string used to represent the completion that should be more helpful than the
-    /// `exact_string` itself. Maps to Fig's `displayValue` field.
+    /// If provided, is used as the display value for the suggestion in the menu. Maps to Fig's
+    /// `displayValue` field.
     pub display_name: Option<String>,
     /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
     /// e.g. "Container" for a Docker container completion.
