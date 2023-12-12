@@ -73,11 +73,12 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                     None
                 },
                 |output: DockerContainerOutput| {
-                    let display_name = Some(format!("{0} ({1})", output.name, output.image));
-
                     Some(
-                        Suggestion::with_description(output.name, "Container")
-                            .with_display_name(display_name)
+                        Suggestion::with_description(output.name.clone(), "Container")
+                            .with_display_name(Some(format!(
+                                "{0} ({1})",
+                                output.name, output.image
+                            )))
                             .with_icon(IconType::DockerContainer),
                     )
                 },

@@ -46,8 +46,7 @@ pub struct Suggestion {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub name: Vec<String>,
 
-    #[serde(default)]
-    #[serde(rename = "displayName")]
+    #[serde(default, rename = "displayName")]
     pub display_name: Option<String>,
 
     #[serde(default)]
