@@ -7,13 +7,10 @@ use warp_completion_metadata::{
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct DockerContainerOutput {
-    #[serde(rename = "ID")]
-    id: String,
+    image: String,
 
-    image: Option<String>,
-
-    #[serde(default, rename = "Names")]
-    name: Option<String>,
+    #[serde(rename = "Names")]
+    name: String,
 }
 
 #[derive(Debug, serde::Deserialize)]
@@ -76,19 +73,10 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
                     None
                 },
                 |output: DockerContainerOutput| {
-                    // Try to show as much helpful info as possible in the display name.
-                    let display_name = match (output.name.clone(), output.image) {
-                        (Some(name), Some(image)) => Some(format!("{0} ({1})", name, image)),
-                        (_, _) => None,
-                    };
-
-                    let suggestion_name = match output.name {
-                        Some(name) => name,
-                        None => output.id,
-                    };
+                    let display_name = Some(format!("{0} ({1})", output.name, output.image));
 
                     Some(
-                        Suggestion::with_description(suggestion_name, "Container")
+                        Suggestion::with_description(output.name, "Container")
                             .with_display_name(display_name)
                             .with_icon(IconType::DockerContainer),
                     )
