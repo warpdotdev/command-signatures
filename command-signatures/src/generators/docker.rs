@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use serde_json::Result;
 use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
@@ -6,7 +7,17 @@ use warp_completion_metadata::{
 
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "PascalCase")]
+struct DockerContainerOutput {
+    image: String,
+
+    #[serde(rename = "Names")]
+    name: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "PascalCase")]
 struct DockerOutput {
+    #[serde(rename = "ID")]
     id: Option<String>,
 
     image: Option<String>,
@@ -57,23 +68,22 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
         .trim()
         .split('\n')
         .filter_map(|line| {
-            let parsed_output: Result<DockerOutput> = serde_json::from_str(line);
-            if let Ok(output) = parsed_output {
-                if let Some(id) = output.id {
+            serde_json::from_str(line).map_or_else(
+                |err| {
+                    log::warn!("Failed to parse docker output. Error: {:?}", err);
+                    None
+                },
+                |output: DockerContainerOutput| {
                     Some(
-                        Suggestion::with_description(id, output.image.unwrap_or_default())
+                        Suggestion::with_description(output.name.clone(), "Container")
+                            .with_display_name(Some(format!(
+                                "{0} ({1})",
+                                output.name, output.image
+                            )))
                             .with_icon(IconType::DockerContainer),
                     )
-                } else {
-                    None
-                }
-            } else {
-                log::info!(
-                    "unable to parse docker output: {:?}",
-                    parsed_output.err().unwrap()
-                );
-                None
-            }
+                },
+            )
         })
         .collect_unordered_results()
 }

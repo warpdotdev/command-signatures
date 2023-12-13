@@ -16,6 +16,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     priority: Priority::Default,
                     icon: Some(IconType::File),
                     is_hidden: false,
+                    display_name: None,
                 })
                 .collect_unordered_results()
         }),

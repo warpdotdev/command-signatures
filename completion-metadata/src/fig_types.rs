@@ -46,6 +46,9 @@ pub struct Suggestion {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub name: Vec<String>,
 
+    #[serde(default, rename = "displayName")]
+    pub display_name: Option<String>,
+
     #[serde(default)]
     #[serde(rename = "type")]
     pub suggestion_type: Option<SuggestionType>,
@@ -382,6 +385,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
             .into_iter()
             .map(|name| crate::Suggestion {
                 exact_string: name,
+                display_name: suggestion.display_name.clone(),
                 description: suggestion.description.clone(),
                 priority: suggestion
                     .priority
@@ -569,6 +573,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -578,6 +583,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -627,6 +633,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -636,6 +643,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -698,6 +706,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -707,6 +716,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -756,6 +766,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -765,6 +776,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -918,6 +930,7 @@ mod tests {
             vec![
                 Suggestion {
                     name: vec!["hdd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("hdd".into()),
                     is_dangerous: false,
@@ -927,6 +940,7 @@ mod tests {
                 .into(),
                 Suggestion {
                     name: vec!["ssd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("ssd".into()),
                     is_dangerous: false,
@@ -958,6 +972,7 @@ mod tests {
             vec![
                 NameOrSuggestion::Suggestion(Suggestion {
                     name: vec!["hdd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("hdd".into()),
                     is_dangerous: false,
@@ -996,6 +1011,7 @@ mod tests {
     fn test_default_priority() {
         let fig_suggestion = Suggestion {
             name: vec!["first".into()],
+            display_name: None,
             suggestion_type: None,
             description: Some("hdd".to_owned()),
             is_dangerous: false,
@@ -1014,6 +1030,7 @@ mod tests {
         let priority = Priority::Global(Importance::Less(Order(42)));
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
+            display_name: Some("Suggestion Display Name".into()),
             suggestion_type: None,
             description: description.clone(),
             is_dangerous: false,
@@ -1024,6 +1041,7 @@ mod tests {
         let warp_suggestions = vec![
             crate::Suggestion {
                 exact_string: "first".into(),
+                display_name: Some("Suggestion Display Name".into()),
                 description: description.clone(),
                 priority,
                 icon: None,
@@ -1031,6 +1049,7 @@ mod tests {
             },
             crate::Suggestion {
                 exact_string: "second".into(),
+                display_name: Some("Suggestion Display Name".into()),
                 description,
                 priority,
                 icon: None,

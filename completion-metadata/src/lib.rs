@@ -23,7 +23,14 @@ pub enum IconType {
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Suggestion {
+    /// The exact string to be inserted, should the suggestion be accepted. Maps to Fig's `name`
+    /// field.
     pub exact_string: String,
+    /// If provided, is used as the display value for the suggestion in the menu. Maps to Fig's
+    /// `displayValue` field.
+    pub display_name: Option<String>,
+    /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
+    /// e.g. "Container" for a Docker container suggestion vs. a Docker image suggestion.
     pub description: Option<String>,
     pub priority: Priority,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
@@ -37,6 +44,7 @@ impl Suggestion {
     pub fn new(name: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: None,
             priority: Priority::Default,
             icon: None,
@@ -47,11 +55,17 @@ impl Suggestion {
     pub fn with_description(name: impl Into<String>, description: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: Some(description.into()),
             priority: Priority::Default,
             icon: None,
             is_hidden: false,
         }
+    }
+
+    pub fn with_display_name(mut self, display_name: Option<String>) -> Self {
+        self.display_name = display_name;
+        self
     }
 
     pub fn with_priority(mut self, priority: Priority) -> Self {
