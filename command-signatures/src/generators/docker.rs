@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use serde_json::Result;
 use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
@@ -13,7 +14,7 @@ struct DockerContainerOutput {
     name: String,
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 struct DockerOutput {
     #[serde(rename = "ID")]
@@ -69,7 +70,7 @@ fn post_process_docker_ps(output: &str) -> GeneratorResults {
         .filter_map(|line| {
             serde_json::from_str(line).map_or_else(
                 |err| {
-                    log::info!("unable to parse docker output: {:?}", err);
+                    log::warn!("Failed to parse docker output. Error: {:?}", err);
                     None
                 },
                 |output: DockerContainerOutput| {

@@ -23,7 +23,8 @@ pub enum IconType {
 
 #[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Suggestion {
-    /// The exact string the command will receive as input. Maps to Fig's `name` field.
+    /// The exact string to be inserted, should the suggestion be accepted. Maps to Fig's `name`
+    /// field.
     pub exact_string: String,
     /// If provided, is used as the display value for the suggestion in the menu. Maps to Fig's
     /// `displayValue` field.
