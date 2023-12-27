@@ -98,6 +98,44 @@ impl PathSuggestionType {
     }
 }
 
+pub const MAX_PRIORITY: i32 = 100;
+#[derive(PartialEq, Eq)]
+pub struct SimplePriority(pub i32);
+
+impl SimplePriority {
+    pub fn most_important() -> Self {
+        Self(MAX_PRIORITY)
+    }
+}
+
+impl From<Priority> for SimplePriority {
+    fn from(value: Priority) -> Self {
+        match value {
+            Priority::Global(Importance::More(order)) => SimplePriority(order.0 as i32),
+            Priority::Global(Importance::Less(order)) => SimplePriority(-1 * order.0 as i32),
+            Priority::Local(Importance::More(order)) => SimplePriority(order.0 as i32),
+            Priority::Local(Importance::Less(order)) => SimplePriority(-1 * order.0 as i32),
+            Priority::Default => SimplePriority(0),
+        }
+    }
+}
+
+impl From<SimplePriority> for Priority {
+    fn from(value: SimplePriority) -> Self {
+        match value.0 {
+            i32::MIN..=-1 => Priority::Global(Importance::Less(Order(value.0.abs() as u32))),
+            0 => Priority::Default,
+            0..=i32::MAX => Priority::Global(Importance::More(Order(value.0.abs() as u32))),
+        }
+    }
+}
+
+impl Default for SimplePriority {
+    fn default() -> Self {
+        Self(0)
+    }
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
