@@ -32,7 +32,7 @@ pub struct Suggestion {
     /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
     /// e.g. "Container" for a Docker container suggestion vs. a Docker image suggestion.
     pub description: Option<String>,
-    pub priority: Priority,
+    pub priority: PriorityV1,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
     /// This provides a way for generators to override the default one with a different icon.
     pub icon: Option<IconType>,
@@ -46,7 +46,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: None,
-            priority: Priority::Default,
+            priority: PriorityV1::Default,
             icon: None,
             is_hidden: false,
         }
@@ -57,7 +57,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: Some(description.into()),
-            priority: Priority::Default,
+            priority: PriorityV1::Default,
             icon: None,
             is_hidden: false,
         }
@@ -68,7 +68,7 @@ impl Suggestion {
         self
     }
 
-    pub fn with_priority(mut self, priority: Priority) -> Self {
+    pub fn with_priority(mut self, priority: PriorityV1) -> Self {
         self.priority = priority;
         self
     }
@@ -98,46 +98,60 @@ impl PathSuggestionType {
     }
 }
 
+pub const MIN_PRIORITY: i32 = -100;
 pub const MAX_PRIORITY: i32 = 100;
-#[derive(PartialEq, Eq)]
-pub struct SimplePriority(pub i32);
 
-impl SimplePriority {
+#[derive(Debug, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Priority {
+    value: i32,
+}
+
+impl Priority {
+    pub fn new(value: i32) -> Self {
+        Self {
+            value: value.max(MIN_PRIORITY).min(MAX_PRIORITY),
+        }
+    }
+
     pub fn most_important() -> Self {
-        Self(MAX_PRIORITY)
+        Self::new(MAX_PRIORITY)
     }
 }
 
-impl From<Priority> for SimplePriority {
-    fn from(value: Priority) -> Self {
+impl From<PriorityV1> for Priority {
+    fn from(value: PriorityV1) -> Self {
         match value {
-            Priority::Global(Importance::More(order)) => SimplePriority(order.0 as i32),
-            Priority::Global(Importance::Less(order)) => SimplePriority(-1 * order.0 as i32),
-            Priority::Local(Importance::More(order)) => SimplePriority(order.0 as i32),
-            Priority::Local(Importance::Less(order)) => SimplePriority(-1 * order.0 as i32),
-            Priority::Default => SimplePriority(0),
+            PriorityV1::Global(Importance::More(order)) => Priority::new(order.0 as i32),
+            PriorityV1::Global(Importance::Less(order)) => Priority::new(-1 * order.0 as i32),
+            PriorityV1::Local(Importance::More(order)) => Priority::new(order.0 as i32),
+            PriorityV1::Local(Importance::Less(order)) => Priority::new(-1 * order.0 as i32),
+            PriorityV1::Default => Priority::default(),
         }
     }
 }
 
-impl From<SimplePriority> for Priority {
-    fn from(value: SimplePriority) -> Self {
-        match value.0 {
-            i32::MIN..=-1 => Priority::Global(Importance::Less(Order(value.0.abs() as u32))),
-            0 => Priority::Default,
-            0..=i32::MAX => Priority::Global(Importance::More(Order(value.0.abs() as u32))),
+impl From<Priority> for PriorityV1 {
+    fn from(priority: Priority) -> Self {
+        match priority.value {
+            i32::MIN..=-1 => {
+                PriorityV1::Global(Importance::Less(Order(priority.value.abs() as u32)))
+            }
+            0 => PriorityV1::Default,
+            0..=i32::MAX => {
+                PriorityV1::Global(Importance::More(Order(priority.value.abs() as u32)))
+            }
         }
     }
 }
 
-impl Default for SimplePriority {
+impl Default for Priority {
     fn default() -> Self {
-        Self(0)
+        Self::new(0)
     }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum Priority {
+pub enum PriorityV1 {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
     Global(Importance),
@@ -149,26 +163,26 @@ pub enum Priority {
     Default,
 }
 
-impl Default for Priority {
+impl Default for PriorityV1 {
     fn default() -> Self {
         Self::Default
     }
 }
 
-impl Priority {
+impl PriorityV1 {
     pub fn is_global(&self) -> bool {
-        matches!(self, Priority::Global(_))
+        matches!(self, PriorityV1::Global(_))
     }
 
     pub fn most_important() -> Self {
-        Priority::Global(Importance::More(Order(MAX_ORDER_VAL)))
+        PriorityV1::Global(Importance::More(Order(MAX_ORDER_VAL)))
     }
 }
 
-impl Ord for Priority {
+impl Ord for PriorityV1 {
     fn cmp(&self, other: &Self) -> Ordering {
         use Importance::*;
-        use Priority::*;
+        use PriorityV1::*;
 
         match (self, other) {
             // If we're comparing two Globals or two Locals, compare their importances.
@@ -193,7 +207,7 @@ impl Ord for Priority {
     }
 }
 
-impl PartialOrd for Priority {
+impl PartialOrd for PriorityV1 {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
     }
@@ -337,7 +351,7 @@ impl TemplateFilters {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Importance, Order, Priority};
+    use crate::{Importance, Order, PriorityV1};
 
     #[test]
     fn test_order_normalization() {
@@ -384,27 +398,27 @@ mod tests {
 
         // When comparing a Global with Global or Local with Local, their Importances
         // are the deciding factor in comparisons.
-        assert!(Priority::Global(super_important) > Priority::Global(important));
-        assert!(Priority::Local(super_important) > Priority::Local(important));
+        assert!(PriorityV1::Global(super_important) > PriorityV1::Global(important));
+        assert!(PriorityV1::Local(super_important) > PriorityV1::Local(important));
 
         // When comparing a Global with Local, a Global::More will be greater before any Local
         // whereas a Global::Less will be less than any Local.
-        assert!(Priority::Local(super_important) > Priority::Global(not_important));
-        assert!(Priority::Global(not_important) < Priority::Local(super_important));
+        assert!(PriorityV1::Local(super_important) > PriorityV1::Global(not_important));
+        assert!(PriorityV1::Global(not_important) < PriorityV1::Local(super_important));
 
-        assert!(Priority::Local(not_important) < Priority::Global(super_important));
-        assert!(Priority::Global(super_important) > Priority::Local(not_important));
+        assert!(PriorityV1::Local(not_important) < PriorityV1::Global(super_important));
+        assert!(PriorityV1::Global(super_important) > PriorityV1::Local(not_important));
 
         // When comparing a Global with Default, Global::More > Default > Global::Less
-        assert!(Priority::Global(important) > Priority::Default);
-        assert!(Priority::Default < Priority::Global(important));
-        assert!(Priority::Global(not_important) < Priority::Default);
-        assert!(Priority::Default > Priority::Global(not_important));
+        assert!(PriorityV1::Global(important) > PriorityV1::Default);
+        assert!(PriorityV1::Default < PriorityV1::Global(important));
+        assert!(PriorityV1::Global(not_important) < PriorityV1::Default);
+        assert!(PriorityV1::Default > PriorityV1::Global(not_important));
 
         // When comparing a Local with Default, Local::More > Default > Local::Less
-        assert!(Priority::Local(important) > Priority::Default);
-        assert!(Priority::Default < Priority::Local(important));
-        assert!(Priority::Local(not_important) < Priority::Default);
-        assert!(Priority::Default > Priority::Local(not_important));
+        assert!(PriorityV1::Local(important) > PriorityV1::Default);
+        assert!(PriorityV1::Default < PriorityV1::Local(important));
+        assert!(PriorityV1::Local(not_important) < PriorityV1::Default);
+        assert!(PriorityV1::Default > PriorityV1::Local(not_important));
     }
 }
