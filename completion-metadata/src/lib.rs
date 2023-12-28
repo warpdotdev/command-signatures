@@ -98,9 +98,14 @@ impl PathSuggestionType {
     }
 }
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize, PartialOrd, Ord)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum Priority {
+    /// Ordering for suggestions that can be ordered above or below all of the other suggestions
+    /// (e.g. the current branch should be the first suggestion that shows up)
     Global(Order),
+
+    /// Ordering for suggestions that can be ordered above or below all of the other suggestions in the same group
+    /// (e.g. the --help option should be the first option that appears among all other options)
     Local(Order),
 }
 const MAX_PRIORITY: i32 = 100;
@@ -117,36 +122,62 @@ impl Default for Priority {
     }
 }
 
+impl Ord for Priority {
+    fn cmp(&self, other: &Self) -> Ordering {
+        match (self, other) {
+            (Priority::Global(self_order), Priority::Global(other_order)) => {
+                self_order.cmp(other_order)
+            }
+            (Priority::Global(self_order), Priority::Local(other_order)) => {
+                match (self_order.up_down(), other_order.up_down()) {
+                    (UpDown::Less, _) => Ordering::Less,
+                    (UpDown::Default, UpDown::Less) => Ordering::Greater,
+                    (UpDown::Default, UpDown::Default) => Ordering::Equal,
+                    (UpDown::Default, UpDown::More) => Ordering::Less,
+                    (UpDown::More, _) => Ordering::Greater,
+                }
+            }
+            (Priority::Local(self_order), Priority::Global(other_order)) => {
+                // to-do: probably flip the order back to be match above
+                match (other_order.up_down(), self_order.up_down()) {
+                    (UpDown::Less, _) => Ordering::Less,
+                    (UpDown::Default, UpDown::Less) => Ordering::Greater,
+                    (UpDown::Default, UpDown::Default) => Ordering::Equal,
+                    (UpDown::Default, UpDown::More) => Ordering::Less,
+                    (UpDown::More, _) => Ordering::Greater,
+                }
+            }
+            (Priority::Local(self_order), Priority::Local(other_order)) => {
+                self_order.cmp(other_order)
+            }
+        }
+    }
+}
+
+impl PartialOrd for Priority {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize, PartialOrd, Ord)]
 pub struct Order(pub i32);
+impl Order {
+    fn up_down(self) -> UpDown {
+        if self.0 < 0 {
+            UpDown::Less
+        } else if self.0 == 0 {
+            UpDown::Default
+        } else {
+            UpDown::More
+        }
+    }
+}
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-enum PriorityV1 {
-    /// Ordering for suggestions that can be ordered above or below all of the other suggestions
-    /// (e.g. the current branch should be the first suggestion that shows up)
-    Global(Importance),
-    /// Ordering for suggestions that can be ordered above or below all of the other suggestions in the same group
-    /// (e.g. the --help option should be the first option that appears among all other options)
-    Local(Importance),
-
-    /// No special priority
+enum UpDown {
+    Less,
     Default,
-}
-
-impl Default for PriorityV1 {
-    fn default() -> Self {
-        Self::Default
-    }
-}
-
-impl PriorityV1 {
-    pub fn is_global(&self) -> bool {
-        matches!(self, PriorityV1::Global(_))
-    }
-
-    pub fn most_important() -> Self {
-        PriorityV1::Global(Importance::More(OrderV1(MAX_ORDER_VAL)))
-    }
+    More,
 }
 
 impl Ord for PriorityV1 {
