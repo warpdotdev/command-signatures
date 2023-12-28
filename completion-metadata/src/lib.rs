@@ -32,7 +32,7 @@ pub struct Suggestion {
     /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
     /// e.g. "Container" for a Docker container suggestion vs. a Docker image suggestion.
     pub description: Option<String>,
-    pub priority: PriorityV1,
+    pub priority: Priority,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
     /// This provides a way for generators to override the default one with a different icon.
     pub icon: Option<IconType>,
@@ -46,7 +46,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: None,
-            priority: PriorityV1::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -57,7 +57,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: Some(description.into()),
-            priority: PriorityV1::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -68,7 +68,7 @@ impl Suggestion {
         self
     }
 
-    pub fn with_priority(mut self, priority: PriorityV1) -> Self {
+    pub fn with_priority(mut self, priority: Priority) -> Self {
         self.priority = priority;
         self
     }
@@ -151,7 +151,7 @@ impl Default for Priority {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum PriorityV1 {
+enum PriorityV1 {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
     Global(Importance),

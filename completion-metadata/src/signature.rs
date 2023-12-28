@@ -1,12 +1,12 @@
 use super::{PriorityV1, Suggestion};
-use crate::{Aliases, Filters, Generators, PathSuggestionType};
+use crate::{Aliases, Filters, Generators, PathSuggestionType, Priority};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
 pub struct AnnotatedFlag<'a> {
     pub name: &'a str,
     pub description: Option<&'a str>,
-    pub priority: PriorityV1,
+    pub priority: Priority,
     pub style: FlagStyle,
 }
 
@@ -49,7 +49,7 @@ pub struct Signature {
     pub arguments: Option<Vec<Argument>>,
     pub subcommands: Option<Vec<Signature>>,
     pub options: Option<Vec<Opt>>,
-    pub priority: PriorityV1,
+    pub priority: Priority,
 }
 
 impl Signature {
@@ -152,7 +152,7 @@ pub struct Opt {
     pub description: Option<String>,
     pub arguments: Option<Vec<Argument>>,
     pub required: bool,
-    pub priority: PriorityV1,
+    pub priority: Priority,
 }
 
 impl Opt {

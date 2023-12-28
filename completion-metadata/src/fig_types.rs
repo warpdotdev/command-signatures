@@ -1,6 +1,6 @@
 use crate::{
     AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
-    IsArgumentOptional, Opt, Order, PriorityV1, Signature,
+    IsArgumentOptional, Opt, Order, Priority, PriorityV1, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
@@ -312,7 +312,7 @@ impl From<Command> for Signature {
             },
             priority: command
                 .priority
-                .map_or_else(PriorityV1::default, Into::into),
+                .map_or_else(|| Priority::default(), Into::into),
         }
     }
 }
@@ -368,6 +368,20 @@ impl From<Arg> for Argument {
 
 /// https://fig.io/docs/reference/suggestion/indicating-priority
 /// 50 is default, so < 50 is Lower and > 50 is Higher
+impl From<FigPriority> for Priority {
+    fn from(priority: FigPriority) -> Self {
+        // Scale the original value to the range [0, 1]
+        let scaled = (priority.0 as f64 - 1.0) / 99.0;
+
+        // Map the scaled value to the range [-100, 100]
+        let mapped = scaled * 200.0 - 100.0;
+
+        Self::new(mapped.round() as i32)
+    }
+}
+
+/// https://fig.io/docs/reference/suggestion/indicating-priority
+/// 50 is default, so < 50 is Lower and > 50 is Higher
 impl From<FigPriority> for PriorityV1 {
     fn from(priority: FigPriority) -> Self {
         let order = Order(priority.0).normalized();
@@ -391,7 +405,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
                 description: suggestion.description.clone(),
                 priority: suggestion
                     .priority
-                    .map_or_else(PriorityV1::default, Into::into),
+                    .map_or_else(|| Priority::default(), Into::into),
                 icon: None,
                 is_hidden: suggestion.hidden,
             })
@@ -410,7 +424,9 @@ impl From<CommandOption> for Opt {
                 Some(option.args.into_iter().map(|a| a.into()).collect())
             },
             required: option.is_required,
-            priority: option.priority.map_or_else(PriorityV1::default, Into::into),
+            priority: option
+                .priority
+                .map_or_else(|| Priority::default(), Into::into),
         }
     }
 }
@@ -433,7 +449,7 @@ mod tests {
         Arg, Command, CommandOption, FigPriority, NameOrSuggestion, StringOrNumber, Suggestion,
     };
 
-    use crate::{Importance, Order, PriorityV1};
+    use crate::{Importance, Order, Priority, PriorityV1};
 
     #[test]
     fn deserialize_command() {
@@ -1025,14 +1041,14 @@ mod tests {
 
         assert_eq!(
             warp_suggestion.first().unwrap().priority,
-            PriorityV1::Default
+            Priority::default()
         );
     }
 
     #[test]
     fn test_fig_suggestion_into_warp_suggestions() {
         let description = Some("hdd".into());
-        let priority = PriorityV1::Global(Importance::Less(Order(42)));
+        let priority = Priority::new(-42);
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
             display_name: Some("Suggestion Display Name".into()),
