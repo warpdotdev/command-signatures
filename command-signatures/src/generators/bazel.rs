@@ -1,7 +1,6 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Importance, OrderV1,
-    PriorityV1, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -32,7 +31,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 } else if let Some(bazel) = bazel_target {
                     if let Some(bazel_match) = bazel.get(1) {
                         let mut suggestion =Suggestion::with_description(format!("{}{}", current_path.clone(), bazel_match.as_str()), "Bazel target");
-                        suggestion.priority = PriorityV1::Global(Importance::More(OrderV1(80)));
+                        suggestion.priority = Priority::Global(Order(80));
                         targets.push(suggestion);
                     }
                 }

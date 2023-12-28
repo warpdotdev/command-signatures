@@ -1,7 +1,7 @@
 use itertools::Itertools;
 use warp_completion_metadata::{
     Alias, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
-    GeneratorResultsCollector, IconType, Importance, OrderV1, PriorityV1, Suggestion,
+    GeneratorResultsCollector, IconType, Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -446,7 +446,7 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         .filter_map(|file| file.split_whitespace().nth(1))
         .map(|file| {
             Suggestion::with_description(file, "Changed file")
-                .with_priority(PriorityV1::Global(Importance::More(OrderV1(100))))
+                .with_priority(Priority::Global(Order(100)))
                 .with_icon(IconType::File)
         })
         .collect_unordered_results()
@@ -489,7 +489,7 @@ pub fn post_process_branches(out: &str) -> GeneratorResults {
                                 exact_string: elm.replace('*', "").trim().to_owned(),
                                 display_name: None,
                                 description: Some("Current branch".to_owned()),
-                                priority: PriorityV1::most_important(),
+                                priority: Priority::most_important(),
                                 icon: Some(IconType::GitBranch),
                                 is_hidden: false,
                             });
@@ -603,7 +603,7 @@ pub fn generator() -> CommandSignatureGenerators {
                             exact_string: file.to_owned(),
                             display_name: None,
                             description: Some("staged file".to_owned()),
-                            priority: PriorityV1::Default,
+                            priority: Priority::default(),
                             icon: Some(IconType::File),
                             is_hidden: false,
                         })
@@ -753,9 +753,7 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{post_process_branches, post_process_tracked_files};
-    use warp_completion_metadata::{
-        GeneratorResults, IconType, Importance, OrderV1, PriorityV1, Suggestion,
-    };
+    use warp_completion_metadata::{GeneratorResults, IconType, Order, Priority, Suggestion};
 
     #[test]
     fn test_post_process_branches() {
@@ -773,7 +771,7 @@ mod tests {
                         exact_string: "_release/v0.2021.04.02.14.18._00".to_owned(),
                         display_name: None,
                         description: Some("Branch".to_owned()),
-                        priority: PriorityV1::Default,
+                        priority: Priority::default(),
                         icon: Some(IconType::GitBranch),
                         is_hidden: false,
                     },
@@ -781,7 +779,7 @@ mod tests {
                         exact_string: "aloke/add_new_generators".to_owned(),
                         display_name: None,
                         description: Some("Current branch".to_owned()),
-                        priority: PriorityV1::most_important(),
+                        priority: Priority::most_important(),
                         icon: Some(IconType::GitBranch),
                         is_hidden: false,
                     },
@@ -789,7 +787,7 @@ mod tests {
                         exact_string: "aloke/add_options".to_owned(),
                         display_name: None,
                         description: Some("Branch".to_owned()),
-                        priority: PriorityV1::Default,
+                        priority: Priority::default(),
                         icon: Some(IconType::GitBranch),
                         is_hidden: false,
                     },
@@ -797,7 +795,7 @@ mod tests {
                         exact_string: "aloke/add_stable_release_workflow".to_owned(),
                         display_name: None,
                         description: Some("Branch".to_owned()),
-                        priority: PriorityV1::Default,
+                        priority: Priority::default(),
                         icon: Some(IconType::GitBranch),
                         is_hidden: false,
                     },
@@ -805,7 +803,7 @@ mod tests {
                         exact_string: "aloke/after_frame_hook".to_owned(),
                         display_name: None,
                         description: Some("Branch".to_owned()),
-                        priority: PriorityV1::Default,
+                        priority: Priority::default(),
                         icon: Some(IconType::GitBranch),
                         is_hidden: false,
                     },
@@ -830,7 +828,7 @@ mod tests {
                         exact_string: "app/src/features.rs".to_owned(),
                         display_name: None,
                         description: Some("Changed file".to_owned()),
-                        priority: PriorityV1::Global(Importance::More(OrderV1(100))),
+                        priority: Priority::Global(Order(100)),
                         icon: Some(IconType::File),
                         is_hidden: false,
                     },
@@ -838,7 +836,7 @@ mod tests {
                         exact_string: "app/src/launch_config_palette.rs".to_owned(),
                         display_name: None,
                         description: Some("Changed file".to_owned()),
-                        priority: PriorityV1::Global(Importance::More(OrderV1(100))),
+                        priority: Priority::Global(Order(100)),
                         icon: Some(IconType::File),
                         is_hidden: false,
                     },
@@ -846,7 +844,7 @@ mod tests {
                         exact_string: "app/src/workspace/mod.rs".to_owned(),
                         display_name: None,
                         description: Some("Changed file".to_owned()),
-                        priority: PriorityV1::Global(Importance::More(OrderV1(100))),
+                        priority: Priority::Global(Order(100)),
                         icon: Some(IconType::File),
                         is_hidden: false,
                     },

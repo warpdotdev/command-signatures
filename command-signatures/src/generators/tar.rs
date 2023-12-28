@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, IconType, PriorityV1,
+    CommandSignatureGenerators, Generator, GeneratorResultsCollector, IconType, Priority,
     Suggestion,
 };
 
@@ -13,7 +13,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 .map(|line| Suggestion {
                     exact_string: line.to_owned(),
                     description: None,
-                    priority: PriorityV1::Default,
+                    priority: Priority::default(),
                     icon: Some(IconType::File),
                     is_hidden: false,
                     display_name: None,

@@ -1,8 +1,8 @@
 use std::iter;
 
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance,
-    OrderV1, PriorityV1, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Order,
+    Priority, Suggestion,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -11,7 +11,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "delete_context",
             Generator::script("kubectx", |output| {
                 let mut default = Suggestion::with_description(".", "Delete current context");
-                default.priority = PriorityV1::Global(Importance::More(OrderV1(90)));
+                default.priority = Priority::Global(Order(90));
 
                 let results = output
                     .lines()
@@ -19,7 +19,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     .filter(|line| !line.is_empty())
                     .map(|item| {
                         let mut suggestion = Suggestion::new(item);
-                        suggestion.priority = PriorityV1::Global(Importance::More(OrderV1(95)));
+                        suggestion.priority = Priority::Global(Order(95));
                         suggestion
                     });
 

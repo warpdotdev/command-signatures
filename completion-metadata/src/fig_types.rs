@@ -1,11 +1,10 @@
 use crate::{
-    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
-    IsArgumentOptional, Opt, Order, OrderV1, Priority, PriorityV1, Signature,
+    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, IsArgumentOptional,
+    Opt, Order, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
-use std::cmp::Ordering;
 use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -312,7 +311,7 @@ impl From<Command> for Signature {
             },
             priority: command
                 .priority
-                .map_or_else(PriorityV1::default, Into::into),
+                .map_or_else(|| Priority::default(), Into::into),
         }
     }
 }
@@ -381,20 +380,6 @@ impl From<FigPriority> for Priority {
     }
 }
 
-/// https://fig.io/docs/reference/suggestion/indicating-priority
-/// 50 is default, so < 50 is Lower and > 50 is Higher
-impl From<FigPriority> for PriorityV1 {
-    fn from(priority: FigPriority) -> Self {
-        let order = OrderV1(priority.0).normalized();
-        let default_order = OrderV1(50);
-        match order.cmp(&default_order) {
-            Ordering::Less => PriorityV1::Global(Importance::Less(order)),
-            Ordering::Greater => PriorityV1::Global(Importance::More(order)),
-            Ordering::Equal => PriorityV1::Default,
-        }
-    }
-}
-
 impl From<Suggestion> for Vec<crate::Suggestion> {
     fn from(suggestion: Suggestion) -> Self {
         suggestion
@@ -406,7 +391,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
                 description: suggestion.description.clone(),
                 priority: suggestion
                     .priority
-                    .map_or_else(PriorityV1::default, Into::into),
+                    .map_or_else(|| Priority::default(), Into::into),
                 icon: None,
                 is_hidden: suggestion.hidden,
             })
@@ -425,7 +410,9 @@ impl From<CommandOption> for Opt {
                 Some(option.args.into_iter().map(|a| a.into()).collect())
             },
             required: option.is_required,
-            priority: option.priority.map_or_else(PriorityV1::default, Into::into),
+            priority: option
+                .priority
+                .map_or_else(|| Priority::default(), Into::into),
         }
     }
 }
@@ -448,7 +435,7 @@ mod tests {
         Arg, Command, CommandOption, FigPriority, NameOrSuggestion, StringOrNumber, Suggestion,
     };
 
-    use crate::{Importance, OrderV1, PriorityV1};
+    use crate::{Order, Priority};
 
     #[test]
     fn deserialize_command() {
@@ -1003,24 +990,21 @@ mod tests {
 
     #[test]
     fn test_from_fig_priority() {
-        assert_eq!(PriorityV1::from(FigPriority(50)), PriorityV1::Default);
+        assert_eq!(Priority::from(FigPriority(50)), Priority::default());
 
+        assert_eq!(Priority::from(FigPriority(56)), Priority::Global(Order(12)));
         assert_eq!(
-            PriorityV1::from(FigPriority(56)),
-            PriorityV1::Global(Importance::More(OrderV1(56)))
-        );
-        assert_eq!(
-            PriorityV1::from(FigPriority(200)),
-            PriorityV1::Global(Importance::More(OrderV1(100)))
+            Priority::from(FigPriority(200)),
+            Priority::Global(Order(100))
         );
 
         assert_eq!(
-            PriorityV1::from(FigPriority(46)),
-            PriorityV1::Global(Importance::Less(OrderV1(46)))
+            Priority::from(FigPriority(46)),
+            Priority::Global(Order(-12))
         );
         assert_eq!(
-            PriorityV1::from(FigPriority(0)),
-            PriorityV1::Global(Importance::Less(OrderV1(1)))
+            Priority::from(FigPriority(1)),
+            Priority::Global(Order(-100))
         );
     }
 
@@ -1040,14 +1024,14 @@ mod tests {
 
         assert_eq!(
             warp_suggestion.first().unwrap().priority,
-            PriorityV1::Default
+            Priority::default()
         );
     }
 
     #[test]
     fn test_fig_suggestion_into_warp_suggestions() {
         let description = Some("hdd".into());
-        let priority = PriorityV1::Global(Importance::Less(OrderV1(42)));
+        let priority = Priority::Global(Order(-16));
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
             display_name: Some("Suggestion Display Name".into()),

@@ -2,8 +2,8 @@ use lazy_static::lazy_static;
 use regex::Regex;
 use std::collections::HashSet;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance,
-    OrderV1, PriorityV1, Suggestion,
+    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Order,
+    Priority, Suggestion,
 };
 
 lazy_static! {
@@ -74,7 +74,7 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 
             Some(
                 Suggestion::with_description(target.trim(), description.trim())
-                    .with_priority(PriorityV1::Global(Importance::More(OrderV1(80)))),
+                    .with_priority(Priority::Global(Order(80))),
             )
         })
         .collect_unordered_results()

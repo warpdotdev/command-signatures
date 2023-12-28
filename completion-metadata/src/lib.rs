@@ -32,7 +32,7 @@ pub struct Suggestion {
     /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
     /// e.g. "Container" for a Docker container suggestion vs. a Docker image suggestion.
     pub description: Option<String>,
-    pub priority: PriorityV1,
+    pub priority: Priority,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
     /// This provides a way for generators to override the default one with a different icon.
     pub icon: Option<IconType>,
@@ -46,7 +46,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: None,
-            priority: PriorityV1::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -57,7 +57,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: Some(description.into()),
-            priority: PriorityV1::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -68,7 +68,7 @@ impl Suggestion {
         self
     }
 
-    pub fn with_priority(mut self, priority: PriorityV1) -> Self {
+    pub fn with_priority(mut self, priority: Priority) -> Self {
         self.priority = priority;
         self
     }
@@ -98,9 +98,17 @@ impl PathSuggestionType {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize, PartialOrd, Ord)]
 pub enum Priority {
     Global(Order),
     Local(Order),
+}
+const MAX_PRIORITY: i32 = 100;
+
+impl Priority {
+    pub fn most_important() -> Self {
+        Self::Global(Order(MAX_PRIORITY))
+    }
 }
 
 impl Default for Priority {
@@ -109,10 +117,11 @@ impl Default for Priority {
     }
 }
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize, PartialOrd, Ord)]
 pub struct Order(pub i32);
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum PriorityV1 {
+enum PriorityV1 {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
     Global(Importance),
@@ -175,7 +184,7 @@ impl PartialOrd for PriorityV1 {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum Importance {
+enum Importance {
     /// More is reserved for suggestions that should be ordered with more priority relative to another suggestion.
     /// The higher the order, the more priority it should have.
     More(OrderV1),
@@ -204,7 +213,7 @@ impl PartialOrd for Importance {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-pub struct OrderV1(pub u32);
+struct OrderV1(pub u32);
 impl OrderV1 {
     fn normalized(self) -> Self {
         let bounded_weight: u32 = self.0.max(MIN_ORDER_VAL).min(MAX_ORDER_VAL);
