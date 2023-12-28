@@ -3,7 +3,7 @@ use regex::Regex;
 use std::collections::HashSet;
 use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Importance,
-    Order, Priority, Suggestion,
+    OrderV1, PriorityV1, Suggestion,
 };
 
 lazy_static! {
@@ -74,7 +74,7 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 
             Some(
                 Suggestion::with_description(target.trim(), description.trim())
-                    .with_priority(Priority::Global(Importance::More(Order(80)))),
+                    .with_priority(PriorityV1::Global(Importance::More(OrderV1(80)))),
             )
         })
         .collect_unordered_results()

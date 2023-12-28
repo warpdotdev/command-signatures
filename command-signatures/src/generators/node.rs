@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Importance, Order, Priority, TemplateFilter,
+    CommandSignatureGenerators, Importance, OrderV1, PriorityV1, TemplateFilter,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -11,7 +11,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 || suggestion.exact_string.ends_with(".js"))
             .then(|| {
                 if !path_type.is_folder() {
-                    suggestion.priority = Priority::Global(Importance::More(Order(76)));
+                    suggestion.priority = PriorityV1::Global(Importance::More(OrderV1(76)));
                 }
                 suggestion
             })
