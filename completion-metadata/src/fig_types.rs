@@ -1,6 +1,6 @@
 use crate::{
     AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
-    IsArgumentOptional, Opt, OrderV1, PriorityV1, Signature,
+    IsArgumentOptional, Opt, Order, OrderV1, Priority, PriorityV1, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
@@ -362,6 +362,21 @@ impl From<Arg> for Argument {
             is_variadic: arg.is_variadic,
             argument_types,
             optional,
+        }
+    }
+}
+
+/// https://fig.io/docs/reference/suggestion/indicating-priority
+/// 50 is default, so < 50 is Lower and > 50 is Higher
+// to-do: add tests for this
+impl From<FigPriority> for Priority {
+    fn from(priority: FigPriority) -> Self {
+        if priority.0 == 50 {
+            Self::default()
+        } else {
+            let scaled = priority.0 * 100;
+            let mapped = scaled * 200 - 100;
+            Self::Global(Order(mapped as i32))
         }
     }
 }

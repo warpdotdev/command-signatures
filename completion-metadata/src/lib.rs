@@ -98,6 +98,19 @@ impl PathSuggestionType {
     }
 }
 
+pub enum Priority {
+    Global(Order),
+    Local(Order),
+}
+
+impl Default for Priority {
+    fn default() -> Self {
+        Self::Local(Order(50))
+    }
+}
+
+pub struct Order(pub i32);
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum PriorityV1 {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
