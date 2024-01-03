@@ -8,13 +8,13 @@ use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 /// The lowest priority value a completion object can have.
-const MIN_PRIORITY: i32 = -200;
+pub const MIN_PRIORITY: i32 = -200;
 
 /// The priority value of a completion object if not otherwise specifiied.
 const DEFAULT_PRIORITY: i32 = 0;
 
 /// The highest priority value a completion object can have.
-const MAX_PRIORITY: i32 = 200;
+pub const MAX_PRIORITY: i32 = 200;
 
 #[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub enum IconType {
@@ -110,6 +110,10 @@ pub struct Priority(Order);
 impl Priority {
     pub fn new(value: i32) -> Self {
         Self(Order::new(value))
+    }
+
+    pub fn most_important() -> Self {
+        Self(Order::new(MAX_PRIORITY))
     }
 }
 

@@ -13,7 +13,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 .map(|line| Suggestion {
                     exact_string: line.to_owned(),
                     description: None,
-                    priority: Priority::Default,
+                    priority: Priority::default(),
                     icon: Some(IconType::File),
                     is_hidden: false,
                     display_name: None,
