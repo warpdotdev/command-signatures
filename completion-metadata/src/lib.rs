@@ -98,60 +98,28 @@ impl PathSuggestionType {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum Priority {
-    /// Ordering for suggestions that can be ordered above or below all of the other suggestions
-    /// (e.g. the current branch should be the first suggestion that shows up)
-    Global(Importance),
-    /// Ordering for suggestions that can be ordered above or below all of the other suggestions in the same group
-    /// (e.g. the --help option should be the first option that appears among all other options)
-    Local(Importance),
+const MIN_PRIORITY: i32 = -200;
+const DEFAULT_PRIORITY: i32 = 0;
+const MAX_PRIORITY: i32 = 200;
 
-    /// No special priority
-    Default,
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Priority(Order);
+
+impl Priority {
+    pub fn new(value: i32) -> Self {
+        Self(Order::new(value))
+    }
 }
 
 impl Default for Priority {
     fn default() -> Self {
-        Self::Default
-    }
-}
-
-impl Priority {
-    pub fn is_global(&self) -> bool {
-        matches!(self, Priority::Global(_))
-    }
-
-    pub fn most_important() -> Self {
-        Priority::Global(Importance::More(Order(MAX_ORDER_VAL)))
+        Self::new(DEFAULT_PRIORITY)
     }
 }
 
 impl Ord for Priority {
     fn cmp(&self, other: &Self) -> Ordering {
-        use Importance::*;
-        use Priority::*;
-
-        match (self, other) {
-            // If we're comparing two Globals or two Locals, compare their importances.
-            (Global(self_relativity), Global(other_relativity))
-            | (Local(self_relativity), Local(other_relativity)) => {
-                self_relativity.cmp(other_relativity)
-            }
-
-            // Two defaults are always equal
-            (Default, Default) => Ordering::Equal,
-
-            // If we're comparing a Global::More, it will always be greater than any other Local/Default.
-            // Similarly, a Global::Less will always be less than any other Local/Default.
-            (Global(More(_)), _) | (_, Global(Less(_))) => Ordering::Greater,
-            (_, Global(More(_))) | (Global(Less(_)), _) => Ordering::Less,
-
-            // Finally, we compare Local's with Default. A Local::More will always be greater than a Default.
-            // Similarly, a Local::Less will always be less than a Default.
-            (Local(More(_)), Default) | (Default, Local(Less(_))) => Ordering::Greater,
-            (Default, Local(More(_))) | (Local(Less(_)), Default) => Ordering::Less,
-        }
+        self.0.cmp(&other.0)
     }
 }
 
@@ -161,41 +129,11 @@ impl PartialOrd for Priority {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub enum Importance {
-    /// More is reserved for suggestions that should be ordered with more priority relative to another suggestion.
-    /// The higher the order, the more priority it should have.
-    More(Order),
-    /// Less is reserved for suggestions that should be ordered with less priority relative to another suggestion.
-    /// The higher the order, the more priority it should have.
-    Less(Order),
-}
-
-impl Ord for Importance {
-    fn cmp(&self, other: &Self) -> Ordering {
-        use Importance::*;
-        match (self, other) {
-            (More(self_weight), More(other_weight)) | (Less(self_weight), Less(other_weight)) => {
-                self_weight.normalized().cmp(&other_weight.normalized())
-            }
-            (More(_), Less(_)) => Ordering::Greater,
-            (Less(_), More(_)) => Ordering::Less,
-        }
-    }
-}
-
-impl PartialOrd for Importance {
-    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        Some(self.cmp(other))
-    }
-}
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-pub struct Order(pub u32);
+pub struct Order(pub i32);
 impl Order {
-    fn normalized(self) -> Self {
-        let bounded_weight: u32 = self.0.max(MIN_ORDER_VAL).min(MAX_ORDER_VAL);
-        Order(bounded_weight)
+    fn new(value: i32) -> Self {
+        Self(value.max(MIN_PRIORITY).min(MAX_PRIORITY))
     }
 }
 
