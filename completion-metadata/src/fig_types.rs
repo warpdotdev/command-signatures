@@ -1,11 +1,10 @@
 use crate::{
-    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
-    IsArgumentOptional, Opt, Order, Priority, Signature,
+    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, IsArgumentOptional,
+    Opt, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
-use std::cmp::Ordering;
 use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -368,13 +367,7 @@ impl From<Arg> for Argument {
 /// 50 is default, so < 50 is Lower and > 50 is Higher
 impl From<FigPriority> for Priority {
     fn from(priority: FigPriority) -> Self {
-        let order = Order(priority.0).normalized();
-        let default_order = Order(50);
-        match order.cmp(&default_order) {
-            Ordering::Less => Priority::Global(Importance::Less(order)),
-            Ordering::Greater => Priority::Global(Importance::More(order)),
-            Ordering::Equal => Priority::Default,
-        }
+        Self::new(priority.0 as i32 * 2 - 100)
     }
 }
 
@@ -431,7 +424,7 @@ mod tests {
         Arg, Command, CommandOption, FigPriority, NameOrSuggestion, StringOrNumber, Suggestion,
     };
 
-    use crate::{Importance, Order, Priority};
+    use crate::{Priority, MAX_PRIORITY, MIN_PRIORITY};
 
     #[test]
     fn deserialize_command() {
@@ -986,25 +979,16 @@ mod tests {
 
     #[test]
     fn test_from_fig_priority() {
-        assert_eq!(Priority::from(FigPriority(50)), Priority::Default);
+        assert_eq!(Priority::from(FigPriority(50)), Priority::default());
 
-        assert_eq!(
-            Priority::from(FigPriority(56)),
-            Priority::Global(Importance::More(Order(56)))
-        );
+        assert_eq!(Priority::from(FigPriority(56)), Priority::new(12));
         assert_eq!(
             Priority::from(FigPriority(200)),
-            Priority::Global(Importance::More(Order(100)))
+            Priority::new(MAX_PRIORITY)
         );
 
-        assert_eq!(
-            Priority::from(FigPriority(46)),
-            Priority::Global(Importance::Less(Order(46)))
-        );
-        assert_eq!(
-            Priority::from(FigPriority(0)),
-            Priority::Global(Importance::Less(Order(1)))
-        );
+        assert_eq!(Priority::from(FigPriority(46)), Priority::new(-8));
+        assert_eq!(Priority::from(FigPriority(0)), Priority::new(MIN_PRIORITY));
     }
 
     #[test]
@@ -1021,13 +1005,16 @@ mod tests {
 
         let warp_suggestion = Vec::<crate::Suggestion>::from(fig_suggestion);
 
-        assert_eq!(warp_suggestion.first().unwrap().priority, Priority::Default);
+        assert_eq!(
+            warp_suggestion.first().unwrap().priority,
+            Priority::default()
+        );
     }
 
     #[test]
     fn test_fig_suggestion_into_warp_suggestions() {
         let description = Some("hdd".into());
-        let priority = Priority::Global(Importance::Less(Order(42)));
+        let priority = Priority::new(-16);
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
             display_name: Some("Suggestion Display Name".into()),
