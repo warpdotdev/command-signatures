@@ -112,6 +112,10 @@ impl Priority {
         Self(Order::new(value))
     }
 
+    pub fn value(&self) -> Order {
+        self.0
+    }
+
     pub fn most_important() -> Self {
         Self(Order::new(MAX_PRIORITY))
     }
@@ -140,6 +144,10 @@ pub struct Order(i32);
 impl Order {
     fn new(value: i32) -> Self {
         Self(value.max(MIN_PRIORITY).min(MAX_PRIORITY))
+    }
+
+    pub fn value(&self) -> i32 {
+        self.0
     }
 }
 
