@@ -372,12 +372,10 @@ impl From<FigPriority> for Priority {
 
         let offset = (fig_default - fig_value).abs() * 2;
 
-        if fig_value > fig_default {
-            Self::new(100 + offset)
-        } else if fig_value == fig_default {
-            Self::new(DEFAULT_PRIORITY)
-        } else {
-            Self::new(-100 + -1 * offset)
+        match fig_value.cmp(&fig_default) {
+            std::cmp::Ordering::Less => Self::new(-100 + -offset),
+            std::cmp::Ordering::Equal => Self::new(DEFAULT_PRIORITY),
+            std::cmp::Ordering::Greater => Self::new(100 + offset),
         }
     }
 }
