@@ -1,6 +1,6 @@
 use crate::{
     AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, IsArgumentOptional,
-    Opt, Priority, Signature,
+    Opt, Priority, Signature, DEFAULT_PRIORITY,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::PreferMany;
@@ -367,7 +367,18 @@ impl From<Arg> for Argument {
 /// 50 is default, so < 50 is Lower and > 50 is Higher
 impl From<FigPriority> for Priority {
     fn from(priority: FigPriority) -> Self {
-        Self::new(priority.0 as i32 * 2 - 100)
+        let fig_value = priority.0 as i32;
+        let fig_default = 50;
+
+        let offset = (fig_default - fig_value).abs() * 2;
+
+        if fig_value > fig_default {
+            Self::new(100 + offset)
+        } else if fig_value == fig_default {
+            Self::new(DEFAULT_PRIORITY)
+        } else {
+            Self::new(-100 + -1 * offset)
+        }
     }
 }
 
@@ -981,13 +992,14 @@ mod tests {
     fn test_from_fig_priority() {
         assert_eq!(Priority::from(FigPriority(50)), Priority::default());
 
-        assert_eq!(Priority::from(FigPriority(56)), Priority::new(12));
+        assert_eq!(Priority::from(FigPriority(56)), Priority::new(112));
+
         assert_eq!(
             Priority::from(FigPriority(200)),
             Priority::new(MAX_PRIORITY)
         );
 
-        assert_eq!(Priority::from(FigPriority(46)), Priority::new(-8));
+        assert_eq!(Priority::from(FigPriority(46)), Priority::new(-108));
         assert_eq!(Priority::from(FigPriority(0)), Priority::new(MIN_PRIORITY));
     }
 
@@ -1014,7 +1026,7 @@ mod tests {
     #[test]
     fn test_fig_suggestion_into_warp_suggestions() {
         let description = Some("hdd".into());
-        let priority = Priority::new(-16);
+        let priority = Priority::new(-116);
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
             display_name: Some("Suggestion Display Name".into()),
