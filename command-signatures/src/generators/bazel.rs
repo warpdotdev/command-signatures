@@ -31,7 +31,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 } else if let Some(bazel) = bazel_target {
                     if let Some(bazel_match) = bazel.get(1) {
                         let mut suggestion =Suggestion::with_description(format!("{}{}", current_path.clone(), bazel_match.as_str()), "Bazel target");
-                        suggestion.priority = Priority::new(160);
+                        suggestion.priority = Priority::new(180);
                         targets.push(suggestion);
                     }
                 }

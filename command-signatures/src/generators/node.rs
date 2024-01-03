@@ -9,7 +9,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 || suggestion.exact_string.ends_with(".js"))
             .then(|| {
                 if !path_type.is_folder() {
-                    suggestion.priority = Priority::new(152);
+                    suggestion.priority = Priority::new(176);
                 }
                 suggestion
             })

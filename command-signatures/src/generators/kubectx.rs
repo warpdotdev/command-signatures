@@ -11,7 +11,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "delete_context",
             Generator::script("kubectx", |output| {
                 let mut default = Suggestion::with_description(".", "Delete current context");
-                default.priority = Priority::new(180);
+                default.priority = Priority::new(190);
 
                 let results = output
                     .lines()
@@ -19,7 +19,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     .filter(|line| !line.is_empty())
                     .map(|item| {
                         let mut suggestion = Suggestion::new(item);
-                        suggestion.priority = Priority::new(190);
+                        suggestion.priority = Priority::new(195);
                         suggestion
                     });
 

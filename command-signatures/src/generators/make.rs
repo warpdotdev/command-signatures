@@ -74,7 +74,7 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 
             Some(
                 Suggestion::with_description(target.trim(), description.trim())
-                    .with_priority(Priority::new(160)),
+                    .with_priority(Priority::new(180)),
             )
         })
         .collect_unordered_results()
