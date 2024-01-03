@@ -7,8 +7,14 @@ use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
-const MIN_ORDER_VAL: u32 = 1;
-const MAX_ORDER_VAL: u32 = 100;
+/// The lowest priority value a completion object can have.
+const MIN_PRIORITY: i32 = -200;
+
+/// The priority value of a completion object if not otherwise specifiied.
+const DEFAULT_PRIORITY: i32 = 0;
+
+/// The highest priority value a completion object can have.
+const MAX_PRIORITY: i32 = 200;
 
 #[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub enum IconType {
@@ -46,7 +52,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: None,
-            priority: Priority::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -57,7 +63,7 @@ impl Suggestion {
             exact_string: name.into(),
             display_name: None,
             description: Some(description.into()),
-            priority: Priority::Default,
+            priority: Priority::default(),
             icon: None,
             is_hidden: false,
         }
@@ -98,10 +104,6 @@ impl PathSuggestionType {
     }
 }
 
-const MIN_PRIORITY: i32 = -200;
-const DEFAULT_PRIORITY: i32 = 0;
-const MAX_PRIORITY: i32 = 200;
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Priority(Order);
 
@@ -130,7 +132,7 @@ impl PartialOrd for Priority {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
-pub struct Order(pub i32);
+pub struct Order(i32);
 impl Order {
     fn new(value: i32) -> Self {
         Self(value.max(MIN_PRIORITY).min(MAX_PRIORITY))
@@ -237,18 +239,18 @@ impl TemplateFilters {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Importance, Order, Priority};
+    use crate::{Order, Priority, MAX_PRIORITY, MIN_PRIORITY};
 
     #[test]
     fn test_order_normalization() {
-        let too_small = Order(0);
-        assert_eq!(1, too_small.normalized().0);
+        let too_small = Order::new(-201);
+        assert_eq!(MIN_PRIORITY, too_small.0);
 
-        let too_large = Order(101);
-        assert_eq!(100, too_large.normalized().0);
+        let too_large = Order::new(201);
+        assert_eq!(MAX_PRIORITY, too_large.0);
 
-        let fourty_two = Order(42);
-        assert_eq!(42, fourty_two.normalized().0);
+        let fourty_two = Order::new(42);
+        assert_eq!(42, fourty_two.0);
     }
 
     #[test]
@@ -258,53 +260,18 @@ mod tests {
     }
 
     #[test]
-    fn test_importance_comparison() {
-        let super_important = Importance::More(Order(100));
-        let important = Importance::More(Order(20));
-        let not_important = Importance::Less(Order(60));
-        let dead_last = Importance::Less(Order(1));
-        let ordered = [dead_last, not_important, important, super_important];
-
-        for (less_idx, less_important) in ordered.iter().enumerate() {
-            for (more_idx, more_important) in ordered.iter().enumerate() {
-                if less_idx < more_idx {
-                    assert!(less_important < more_important);
-                    assert!(more_important > less_important);
-                }
-            }
-        }
-        assert!(Importance::More(Order(2022)) == Importance::More(Order(2022)));
-    }
-
-    #[test]
     fn test_priority_comparison() {
-        let super_important = Importance::More(Order(100));
-        let important = Importance::More(Order(20));
-        let not_important = Importance::Less(Order(60));
+        let super_important = Priority::new(200);
+        let important = Priority::new(40);
+        let not_important = Priority::new(-80);
 
-        // When comparing a Global with Global or Local with Local, their Importances
-        // are the deciding factor in comparisons.
-        assert!(Priority::Global(super_important) > Priority::Global(important));
-        assert!(Priority::Local(super_important) > Priority::Local(important));
+        assert!(super_important == super_important);
+        assert!(super_important > important);
+        assert!(super_important > not_important);
 
-        // When comparing a Global with Local, a Global::More will be greater before any Local
-        // whereas a Global::Less will be less than any Local.
-        assert!(Priority::Local(super_important) > Priority::Global(not_important));
-        assert!(Priority::Global(not_important) < Priority::Local(super_important));
+        assert!(important == important);
+        assert!(important > not_important);
 
-        assert!(Priority::Local(not_important) < Priority::Global(super_important));
-        assert!(Priority::Global(super_important) > Priority::Local(not_important));
-
-        // When comparing a Global with Default, Global::More > Default > Global::Less
-        assert!(Priority::Global(important) > Priority::Default);
-        assert!(Priority::Default < Priority::Global(important));
-        assert!(Priority::Global(not_important) < Priority::Default);
-        assert!(Priority::Default > Priority::Global(not_important));
-
-        // When comparing a Local with Default, Local::More > Default > Local::Less
-        assert!(Priority::Local(important) > Priority::Default);
-        assert!(Priority::Default < Priority::Local(important));
-        assert!(Priority::Local(not_important) < Priority::Default);
-        assert!(Priority::Default > Priority::Local(not_important));
+        assert!(not_important == not_important);
     }
 }
