@@ -26,6 +26,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 let mut targets = Vec::new();
                 for file in output.lines() {
                     targets.push(
+                        // We should prioritize .deb files over the already installed packages.
                         Suggestion::with_description(file.to_string(), ".deb file")
                             .with_priority(Priority::most_important()),
                     )
