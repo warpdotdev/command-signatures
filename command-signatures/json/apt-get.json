@@ -4,11 +4,23 @@
   "subcommands": [
     {
       "name": "update",
-      "description": "Update all packages"
+      "description": "Update all packages",
+      "options": [
+        {
+          "name": "--no-allow-insecure-repositories",
+          "description": "Forbid the update command to acquire unverifiable data from configured sources"
+        }
+      ]
     },
     {
       "name": "upgrade",
-      "description": "Install the newest versions of all packages currently installed on the system"
+      "description": "Install the newest versions of all packages currently installed on the system",
+      "options": [
+        {
+          "name": "--with-new-pkgs",
+          "description": "Allow installing new packages when used in conjunction with upgrade"
+        }
+      ]
     },
     {
       "name": "dist-upgrade",
@@ -20,11 +32,31 @@
     },
     {
       "name": "install",
-      "description": "Install package(s)"
+      "description": "Install package(s)",
+      "options": [
+        {
+          "name": "--no-upgrade",
+          "description": "Do not upgrade packages"
+        },
+        {
+          "name": "--only-upgrade",
+          "description": "Do not install new packages"
+        },
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ]
     },
     {
       "name": "remove",
-      "description": "Remove package(s)"
+      "description": "Remove package(s)",
+      "options": [
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ]
     },
     {
       "name": "purge",
@@ -41,12 +73,30 @@
         {
           "name": "--download-only",
           "description": "The source package will not be unpacked"
+        },
+        {
+          "name": ["-a", "--host-architecture"],
+          "description": "Controls the architecture packages are built for by apt-get source --compile and how cross-builddependencies are satisfied"
+        },
+        {
+          "name": ["-P", "--build-profiles"],
+          "description": "Controls the activated build profiles for which a source package is built by apt-get source --compile and how build dependencies are satisfied"
+        },
+        {
+          "name": "--only-source",
+          "description": "Indicates that the given source names are not to be mapped through the binary table"
         }
       ]
     },
     {
       "name": "build-dep",
-      "description": "Install/remove packages in an attempt to satisfy the build dependencies for a source package"
+      "description": "Install/remove packages in an attempt to satisfy the build dependencies for a source package",
+      "options": [
+        {
+          "name": "--only-source",
+          "description": "Indicates that the given source names are not to be mapped through the binary table"
+        }
+      ]
     },
     {
       "name": "check",
@@ -136,40 +186,92 @@
       "description": "Show full versions for upgraded and installed packages"
     },
     {
-      "name": ["-a", "--host-architecture"],
-      "description": "Controls the architecture packages are built for by apt-get source --compile and how cross-builddependencies are satisfied"
+      "name": ["-b", "--compile", "--build"],
+      "description": "Compile source packages after downloading them"
     },
     {
-      "name": "",
-      "description": ""
+      "name": "--ignore-hold",
+      "description": "Ignore package holds"
     },
     {
-      "name": "",
-      "description": ""
+      "name": "--allow-downgrades",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is doing downgrades"
     },
     {
-      "name": "",
-      "description": ""
+      "name": "--allow-remove-essential",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is removing essentials"
     },
     {
-      "name": "",
-      "description": ""
+      "name": "-allow-change-held-packages",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is changing held packages"
     },
     {
-      "name": "",
-      "description": ""
+      "name": "--force-yes",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is doing something potentially harmful"
+    },
+    {
+      "name": "--print-uris",
+      "description": "Instead of fetching the files to install their URIs are printed"
+    },
+    {
+      "name": "--purge",
+      "description": "Use purge instead of remove for anything that would be removed"
+    },
+    {
+      "name": "--reinstall",
+      "description": "Re-install packages that are already installed and at the newest version"
+    },
+    {
+      "name": "--list-cleanup",
+      "description": "apt-get will automatically manage the contents of /var/lib/apt/lists to ensure that obsolete files are erased"
+    },
+    {
+      "name": ["-t", "--target-release", "--default-release"],
+      "description": "controls the default input to the policy engine"
+    },
+    {
+      "name": "--trivial-only",
+      "description": "Only perform operations that are 'trivial'"
+    },
+    {
+      "name": "--no-remove",
+      "description": "If any packages are to be removed immediately aborts without prompting"
+    },
+    {
+      "name": ["--diff-only", "--dsc-only", "--tar-only"],
+      "description": "Download only the diff, dsc, or tar file of a source archive"
+    },
+    {
+      "name": "--arch-only",
+      "description": "Only process architecture-dependent build-dependencies"
+    },
+    {
+      "name": "--allow-unauthenticated",
+      "description": "Ignore if packages can't be authenticated and don't prompt about it"
+    },
+    {
+      "name": "--show-progress",
+      "description": "Show user friendly progress information in the terminal window when packages are installed, upgraded or removed"
     },
     {
       "name": ["-h", "--help"],
-      "description": "Print help message and exit",
+      "description": "Show a short usage summary",
       "isPersistent": true,
       "priority": 40
     },
     {
       "name": ["-v", "--version"],
-      "description": "Print version information and exit",
+      "description": "Show the program version",
       "isPersistent": true,
       "priority": 40
+    },
+    {
+      "name": ["-c", "--config-file"],
+      "description": "Specify a configuration file to use"
+    },
+    {
+      "name": ["-o", "--option"],
+      "description": "Set a configuration option"
     }
   ]
 }
