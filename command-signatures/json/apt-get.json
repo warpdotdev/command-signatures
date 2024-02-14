@@ -11,6 +11,7 @@
           "description": "Forbid the update command to acquire unverifiable data from configured sources"
         }
       ],
+      "isVariadic": true,
       "priority": 100
     },
     {
@@ -50,6 +51,9 @@
           "description": "Acts like running the autoremove command"
         }
       ],
+      "args": {
+        "generatorName": ["list_all_deb_files_in_cwd", "list_all_packages"]
+      },
       "priority": 100
     },
     {
@@ -69,6 +73,9 @@
     {
       "name": "purge",
       "description": "Same as remove, but also deletes configuration files",
+      "args": {
+        "generatorName": "list_all_packages"
+      },
       "priority": 90
     },
     {
