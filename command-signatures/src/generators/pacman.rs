@@ -5,8 +5,20 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pacman")
         .add_generator(
-            "list_all_packages",
+            "list_installed_packages",
             Generator::script(r#"pacman -Q | awk '{print $1}'"#, |output| {
+                let mut targets = Vec::new();
+                for package_name in output.lines() {
+                    targets.push(Suggestion::with_description(
+                        package_name.to_string(),
+                        "package",
+                    ));
+                }
+                targets.into_iter().collect_unordered_results()
+            }),
+        ).add_generator(
+            "list_all_packages",
+            Generator::script("pacman -Slq", |output| {
                 let mut targets = Vec::new();
                 for package_name in output.lines() {
                     targets.push(Suggestion::with_description(
