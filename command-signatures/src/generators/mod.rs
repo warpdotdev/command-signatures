@@ -28,6 +28,7 @@ mod ng;
 mod node;
 mod npm;
 mod nx;
+mod pacman;
 mod phpunit_watcher;
 mod pip;
 mod pyenv;
@@ -60,6 +61,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         npm::npm_generators(),
         npm::yarn_generators(),
         nx::generator(),
+        pacman::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
         pip::pip3_generator(),

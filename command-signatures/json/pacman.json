@@ -74,7 +74,11 @@
             "name": "glob"
           }
         }
-      ]
+      ],
+      "isVariadic": true,
+      "args": {
+        "generatorName": ["list_all_pkg_tar_files_in_cwd", "list_all_packages"]
+      }
     },
     {
       "name": "--upgrade",
@@ -148,7 +152,11 @@
             "name": "glob"
           }
         }
-      ]
+      ],
+      "isVariadic": true,
+      "args": {
+        "generatorName": ["list_all_pkg_tar_files_in_cwd", "list_all_packages"]
+      }
     },
     {
       "name": "-D",
@@ -158,12 +166,17 @@
           "name": "--asdeps",
           "description": "Mark a package as non-explicitly installed",
           "args": {
-            "name": "package"
+            "name": "package",
+            "generatorName": "list_all_packages"
           }
         },
         {
           "name": "--asexplicit",
-          "description": "Mark a package as explicitly installed"
+          "description": "Mark a package as explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_all_packages"
+          }
         },
         {
           "name": ["-k", "--check"],
@@ -183,12 +196,17 @@
           "name": "--asdeps",
           "description": "Mark a package as non-explicitly installed",
           "args": {
-            "name": "package"
+            "name": "package",
+            "generatorName": "list_all_packages"
           }
         },
         {
           "name": "--asexplicit",
-          "description": "Mark a package as explicitly installed"
+          "description": "Mark a package as explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_all_packages"
+          }
         },
         {
           "name": ["-k", "--check"],
@@ -271,7 +289,11 @@
           "name": ["-u", "--upgrades"],
           "description": "Filter output to print only packages that are out-of-date on the local system"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages",
+        "template": "filepaths"
+      }
     },
     {
       "name": "--query",
@@ -344,7 +366,11 @@
           "name": ["-u", "--upgrades"],
           "description": "Filter output to print only packages that are out-of-date on the local system"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages",
+        "template": "filepaths"
+      }
     },
     {
       "name": "-R",
@@ -397,7 +423,10 @@
           "name": ["-u", "-unneeded"],
           "description": "Removes targets that are not required by any other packages"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
     },
     {
       "name": "--remove",
@@ -450,7 +479,10 @@
           "name": ["-u", "-unneeded"],
           "description": "Removes targets that are not required by any other packages"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
     },
     {
       "name": "-S",
@@ -559,7 +591,10 @@
           "name": ["-y", "--refresh"],
           "description": "Download a fresh copy of the master package database from the server(s)"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
     },
     {
       "name": "--sync",
@@ -668,7 +703,10 @@
           "name": ["-y", "--refresh"],
           "description": "Download a fresh copy of the master package database from the server(s)"
         }
-      ]
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
     },
     {
       "name": "-T",
