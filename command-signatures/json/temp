@@ -1,0 +1,45 @@
+Remove Options (apply to -R)
+-c, --cascade
+Remove all target packages, as well as all packages that depend on one or more target packages. This operation is recursive and must be used with care, since it can remove many potentially needed packages.
+
+-n, --nosave
+Instructs pacman to ignore file backup designations. Normally, when a file is removed from the system, the database is checked to see if the file should be renamed with a .pacsave extension.
+
+-s, --recursive
+Remove each target specified including all of their dependencies, provided that (A) they are not required by other packages; and (B) they were not explicitly installed by the user. This operation is recursive and analogous to a backwards --sync operation, and it helps keep a clean system without orphans. If you want to omit condition (B), pass this option twice.
+
+-u, --unneeded
+Removes targets that are not required by any other packages. This is mostly useful when removing a group without using the -c option, to avoid breaking any dependencies.
+
+***************************************
+
+Sync Options (apply to -S)
+-c, --clean
+Remove packages that are no longer installed from the cache as well as currently unused sync databases to free up disk space. When pacman downloads packages, it saves them in a cache directory. In addition, databases are saved for every sync DB you download from and are not deleted even if they are removed from the configuration file pacman.conf(5). Use one --clean switch to only remove packages that are no longer installed; use two to remove all files from the cache. In both cases, you will have a yes or no option to remove packages and/or unused downloaded databases.
+
+If you use a network shared cache, see the CleanMethod option in pacman.conf(5).
+
+-g, --groups
+Display all the members for each package group specified. If no group names are provided, all groups will be listed; pass the flag twice to view all groups and their members.
+
+-i, --info
+Display information on a given sync database package. Passing two --info or -i flags will also display those packages in all repositories that depend on this package.
+
+-l, --list
+List all packages in the specified repositories. Multiple repositories can be specified on the command line.
+
+-q, --quiet
+Show less information for certain sync operations. This is useful when pacman’s output is processed in a script. Search will only show package names and not repository, version, group, and description information; list will only show package names and omit databases and versions; group will only show package names and omit group names.
+
+-s, --search <regexp>
+This will search each package in the sync databases for names or descriptions that match regexp. When you include multiple search terms, only packages with descriptions matching ALL of those terms will be returned.
+
+-u, --sysupgrade
+Upgrades all packages that are out-of-date. Each currently-installed package will be examined and upgraded if a newer package exists. A report of all packages to upgrade will be presented, and the operation will not proceed without user confirmation. Dependencies are automatically resolved at this level and will be installed/upgraded if necessary.
+
+Pass this option twice to enable package downgrades; in this case, pacman will select sync packages whose versions do not match with the local versions. This can be useful when the user switches from a testing repository to a stable one.
+
+Additional targets can also be specified manually, so that -Su foo will do a system upgrade and install/upgrade the "foo" package in the same operation.
+
+-y, --refresh
+Download a fresh copy of the master package database from the server(s) defined in pacman.conf(5). This should typically be used each time you use --sysupgrade or -u. Passing two --refresh or -y flags will force a refresh of all package databases, even if they appear to be up-to-date.
