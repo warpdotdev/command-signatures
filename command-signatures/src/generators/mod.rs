@@ -2,7 +2,8 @@ use std::collections::HashMap;
 use std::iter::FromIterator;
 use warp_completion_metadata::{Aliases, Filters, Generators};
 
-mod apt_get;
+/// Used for debian-based package managers like apt-get, aptitude, etc.
+mod apt;
 mod bazel;
 mod bosh;
 mod brew;
@@ -40,7 +41,8 @@ mod tmuxinator;
 
 pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, Aliases)> {
     let command_signature_generators = [
-        apt_get::generator(),
+        apt::apt_get_generators(),
+        apt::aptitude_generators(),
         bosh::generator(),
         brew::generator(),
         conda::generator(),
