@@ -1,0 +1,299 @@
+{
+  "name": "apt-get",
+  "description": "APT package handling utility for Debian-based Linux distributions",
+  "subcommands": [
+    {
+      "name": "update",
+      "description": "Update all packages",
+      "options": [
+        {
+          "name": "--no-allow-insecure-repositories",
+          "description": "Forbid the update command to acquire unverifiable data from configured sources"
+        }
+      ],
+      "priority": 100
+    },
+    {
+      "name": "upgrade",
+      "description": "Install the newest versions of all packages currently installed on the system",
+      "options": [
+        {
+          "name": "--with-new-pkgs",
+          "description": "Allow installing new packages when used in conjunction with upgrade"
+        }
+      ],
+      "priority": 100
+    },
+    {
+      "name": "dist-upgrade",
+      "description": "Same as upgrade, but also handles changing dependencies with new versions of packages"
+    },
+    {
+      "name": "dselect-upgrade",
+      "description": "Follows the changes made by dselect(1) to the Status field of available packages"
+    },
+    {
+      "name": "install",
+      "description": "Install package(s)",
+      "options": [
+        {
+          "name": "--no-upgrade",
+          "description": "Do not upgrade packages"
+        },
+        {
+          "name": "--only-upgrade",
+          "description": "Do not install new packages"
+        },
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ],
+      "args": {
+        "generatorName": ["list_all_deb_files_in_cwd", "list_all_packages"]
+      },
+      "isVariadic": true,
+      "priority": 100
+    },
+    {
+      "name": "remove",
+      "description": "Remove package(s)",
+      "options": [
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ],
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "priority": 100
+    },
+    {
+      "name": "purge",
+      "description": "Same as remove, but also deletes configuration files",
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "isVariadic": true,
+      "priority": 90
+    },
+    {
+      "name": "source",
+      "description": "Fetch source packages",
+      "options": [
+        {
+          "name": "--compile",
+          "description": "The package will be compiled to a binary .deb"
+        },
+        {
+          "name": "--download-only",
+          "description": "The source package will not be unpacked"
+        },
+        {
+          "name": ["-a", "--host-architecture"],
+          "description": "Controls the architecture packages are built for by apt-get source --compile and how cross-builddependencies are satisfied"
+        },
+        {
+          "name": ["-P", "--build-profiles"],
+          "description": "Controls the activated build profiles for which a source package is built by apt-get source --compile and how build dependencies are satisfied"
+        },
+        {
+          "name": "--only-source",
+          "description": "Indicates that the given source names are not to be mapped through the binary table"
+        }
+      ]
+    },
+    {
+      "name": "build-dep",
+      "description": "Install/remove packages in an attempt to satisfy the build dependencies for a source package",
+      "options": [
+        {
+          "name": "--only-source",
+          "description": "Indicates that the given source names are not to be mapped through the binary table"
+        }
+      ]
+    },
+    {
+      "name": "check",
+      "description": "Updates the package cache and checks for broken dependencies"
+    },
+    {
+      "name": "download",
+      "description": "Download the given binary package into the current directory"
+    },
+    {
+      "name": "clean",
+      "description": "Clears out the local repository of retrieved package files"
+    },
+    {
+      "name": "autoclean",
+      "alias": "auto-clean",
+      "description": "Same as clean, but only removes package files that can no longer be downloaded"
+    },
+    {
+      "name": "autoremove",
+      "alias": "auto-remove",
+      "description": "Remove packages that were automatically installed to satisfy dependencies for other packages and are no longer needed",
+      "priority": 90
+    },
+    {
+      "name": "changelog",
+      "description": "Displays the changelog of a package"
+    },
+    {
+      "name": "indextargets",
+      "description": "Displays a listing of information about all data files (aka index targets) apt-get update would download"
+    }
+  ],
+  "options": [
+    {
+      "name": "--no-install-recommends",
+      "description": "Do not consider recommended packages as a dependency for installing"
+    },
+    {
+      "name": "--install-suggests",
+      "description": "Consider suggested packages as a dependency for installing"
+    },
+    {
+      "name": ["-d", "--download-only"],
+      "description": "Package files are only retrieved, not unpacked or installed"
+    },
+    {
+      "name": ["-f", "--fix-broken"],
+      "description": "Attempt to correct a system with broken dependencies in place"
+    },
+    {
+      "name": ["-m", "--ignore-missing", "--fix-missing"],
+      "description": "Ignore missing packages"
+    },
+    {
+      "name": "--no-download",
+      "description": "Disables downloading of packages"
+    },
+    {
+      "name": ["-q", "--quiet"],
+      "description": "Produces output suitable for logging, omitting progress indicators"
+    },
+    {
+      "name": [
+        "-s",
+        "--simulate",
+        "--just-print",
+        "--dry-run",
+        "--recon",
+        "--no-act"
+      ],
+      "description": "Perform a simulation of events that would occur based on the current system state but do not actually change the system"
+    },
+    {
+      "name": ["-y", "--yes", "--assume-yes"],
+      "description": "Automatic yes to all prompts"
+    },
+    {
+      "name": "--assume-no",
+      "description": "Automatic no to all prompts"
+    },
+    {
+      "name": ["-u", "--show-upgraded"],
+      "description": "Show upgraded packages"
+    },
+    {
+      "name": ["-V", "--verbose-versions"],
+      "description": "Show full versions for upgraded and installed packages"
+    },
+    {
+      "name": ["-b", "--compile", "--build"],
+      "description": "Compile source packages after downloading them"
+    },
+    {
+      "name": "--ignore-hold",
+      "description": "Ignore package holds"
+    },
+    {
+      "name": "--allow-downgrades",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is doing downgrades"
+    },
+    {
+      "name": "--allow-remove-essential",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is removing essentials"
+    },
+    {
+      "name": "-allow-change-held-packages",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is changing held packages"
+    },
+    {
+      "name": "--force-yes",
+      "description": "Dangerous option that will cause apt to continue without prompting if it is doing something potentially harmful"
+    },
+    {
+      "name": "--print-uris",
+      "description": "Instead of fetching the files to install their URIs are printed"
+    },
+    {
+      "name": "--purge",
+      "description": "Use purge instead of remove for anything that would be removed"
+    },
+    {
+      "name": "--reinstall",
+      "description": "Re-install packages that are already installed and at the newest version"
+    },
+    {
+      "name": "--list-cleanup",
+      "description": "apt-get will automatically manage the contents of /var/lib/apt/lists to ensure that obsolete files are erased"
+    },
+    {
+      "name": ["-t", "--target-release", "--default-release"],
+      "description": "controls the default input to the policy engine"
+    },
+    {
+      "name": "--trivial-only",
+      "description": "Only perform operations that are 'trivial'"
+    },
+    {
+      "name": "--no-remove",
+      "description": "If any packages are to be removed immediately aborts without prompting"
+    },
+    {
+      "name": ["--diff-only", "--dsc-only", "--tar-only"],
+      "description": "Download only the diff, dsc, or tar file of a source archive"
+    },
+    {
+      "name": "--arch-only",
+      "description": "Only process architecture-dependent build-dependencies"
+    },
+    {
+      "name": "--allow-unauthenticated",
+      "description": "Ignore if packages can't be authenticated and don't prompt about it"
+    },
+    {
+      "name": "--show-progress",
+      "description": "Show user friendly progress information in the terminal window when packages are installed, upgraded or removed"
+    },
+    {
+      "name": ["-h", "--help"],
+      "description": "Show a short usage summary",
+      "isPersistent": true,
+      "priority": 40
+    },
+    {
+      "name": ["-v", "--version"],
+      "description": "Show the program version",
+      "isPersistent": true,
+      "priority": 40
+    },
+    {
+      "name": ["-c", "--config-file"],
+      "description": "Specify a configuration file to use",
+      "args": {
+        "name": "config_file",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": ["-o", "--option"],
+      "description": "Set a configuration option"
+    }
+  ]
+}
