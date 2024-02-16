@@ -13,10 +13,10 @@ struct Assets;
 pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
     let file_path = format!("{}.json", name.as_ref());
     Assets::get(&file_path).and_then(|embedded_file| {
-        let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
+        let json_content = dbg!(std::str::from_utf8(&embedded_file.data).ok()?);
         let fig_command: warp_completion_metadata::fig_types::Command =
-            serde_json::from_str(json_content).ok()?;
-        Some(Signature::from(fig_command))
+            dbg!(serde_json::from_str(json_content).ok()?);
+        Some(dbg!(Signature::from(fig_command)))
     })
 }
 
@@ -108,5 +108,10 @@ mod tests {
                 assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
             }
         }
+    }
+
+    #[test]
+    fn test_pacman() {
+        dbg!(signature_by_name("pacman"));
     }
 }
