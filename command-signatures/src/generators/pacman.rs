@@ -25,7 +25,6 @@ pub fn generator() -> CommandSignatureGenerators {
                     // We should prioritize .pkg.tar files over the already installed packages.
                     let mut targets = Vec::new();
                     for file in output.lines() {
-                        println!("file {:?}", file);
                         if !file.is_empty() {
                             targets.push(Suggestion::with_description(file.to_string(), ".pkg.tar file").with_priority(Priority::most_important()))
                         }
