@@ -1,35 +1,411 @@
 {
   "name": "pacman",
   "description": "Package manager for Arch Linux",
-  "options": [
+  "subcommands": [
     {
-      "name": ["-D", "--database"],
+      "name": "-U",
+      "description": "Upgrade or add package(s) and install the required dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ]
+    },
+    {
+      "name": "--upgrade",
+      "description": "Upgrade or add package(s) and install the required dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ]
+    },
+    {
+      "name": "-D",
       "description": "Operate on the package database"
     },
     {
-      "name": ["-Q", "--query"],
+      "name": "--database",
+      "description": "Operate on the package database"
+    },
+    {
+      "name": "-Q",
       "description": "Query the package database"
     },
     {
-      "name": ["-R", "--remove"],
-      "description": "Remove package(s) from the system"
+      "name": "--query",
+      "description": "Query the package database"
     },
     {
-      "name": ["-S", "--sync"],
-      "description": "Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies"
+      "name": "-R",
+      "description": "Remove package(s) from the system",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        }
+      ]
     },
     {
-      "name": ["-T", "--deptest"],
+      "name": "--remove",
+      "description": "Remove package(s) from the system",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        }
+      ]
+    },
+    {
+      "name": "-S",
+      "description": "Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ]
+    },
+    {
+      "name": "--sync",
+      "description": "Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ]
+    },
+    {
+      "name": "-T",
       "description": "Check dependencies"
     },
     {
-      "name": ["-U", "--upgrade"],
-      "description": "Upgrade or add package(s) and install the required dependencies"
+      "name": "--deptest",
+      "description": "Check dependencies"
     },
     {
-      "name": ["-F", "--files"],
+      "name": "-F",
       "description": "Query the files database"
     },
+    {
+      "name": "--files",
+      "description": "Query the files database"
+    }
+  ],
+  "options": [
     {
       "name": ["-h", "--help"],
       "description": "Display syntax for the given operation or if no operation was supplied, then the general syntax is shown",
