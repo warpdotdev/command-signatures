@@ -10,6 +10,7 @@ mod brew;
 mod cargo;
 mod conda;
 mod defaults;
+mod dnf;
 mod docker;
 mod firebase;
 mod flutter;
@@ -48,6 +49,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         brew::generator(),
         conda::generator(),
         defaults::generator(),
+        dnf::generator(),
         docker::generator(),
         firebase::generator(),
         flutter::generator(),
