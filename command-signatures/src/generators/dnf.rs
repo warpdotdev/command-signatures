@@ -6,16 +6,19 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("dnf")
         .add_generator(
             "list_installed_packages",
-            Generator::script(r#"dnf list --installed | awk '{print $1}'"#, |output| {
-                let mut targets = Vec::new();
-                for package_name in output.lines() {
-                    targets.push(Suggestion::with_description(
-                        package_name.to_string(),
-                        "package",
-                    ));
-                }
-                targets.into_iter().collect_unordered_results()
-            }),
+            Generator::script(
+                r#"dnf list --installed | tail -n +2 | awk '{print $1}'"#,
+                |output| {
+                    let mut targets = Vec::new();
+                    for package_name in output.lines() {
+                        targets.push(Suggestion::with_description(
+                            package_name.to_string(),
+                            "package",
+                        ));
+                    }
+                    targets.into_iter().collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_rpm_files_in_cwd",
