@@ -1,3 +1,4 @@
+use lazy_static::lazy_static;
 use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
     Suggestion,
@@ -63,61 +64,41 @@ fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResult
     }
 }
 
-pub fn generator() -> CommandSignatureGenerators {
-    CommandSignatureGenerators::new("kubectl")
-        .add_generator(
-            "resource_type",
-            Generator::command_from_tokens(
-                |tokens| kubectl_script(tokens, "api-resources -o name"),
-                |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "running_pods",
-            Generator::command_from_tokens(
-                |tokens| {
-                    kubectl_script(
-                        tokens,
-                        "get pods --field-selector=status.phase=Running -o name",
-                    )
-                },
-                |output| kubectl_post_process(output, Some(IconType::KubePod)),
-            ),
-        )
-        .add_generator(
-            "deployments",
-            Generator::command_from_tokens(
-                |tokens| {
-                    kubectl_script(tokens, "get deployments -o custom-columns=:.metadata.name")
-                },
-                |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "node",
-            Generator::command_from_tokens(
-                |tokens| kubectl_script(tokens, "get nodes -o custom-columns=:.metadata.name"),
-                |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "cluster_role",
+lazy_static! {
+    pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
+        |tokens| kubectl_script(tokens, "api-resources -o name"),
+        |output| kubectl_post_process(output, None),
+    );
+    pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
+        |tokens| {
+            kubectl_script(
+                tokens,
+                "get pods --field-selector=status.phase=Running -o name",
+            )
+        },
+        |output| kubectl_post_process(output, Some(IconType::KubePod)),
+    );
+    pub(super) static ref DEPLOYMENTS_GENERATOR: Generator = Generator::command_from_tokens(
+        |tokens| { kubectl_script(tokens, "get deployments -o custom-columns=:.metadata.name") },
+        |output| kubectl_post_process(output, None),
+    );
+    pub(super) static ref NODE_GENERATOR: Generator = Generator::command_from_tokens(
+        |tokens| kubectl_script(tokens, "get nodes -o custom-columns=:.metadata.name"),
+        |output| kubectl_post_process(output, None),
+    );
+    pub(super) static ref CLUSTER_ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens| {
                     kubectl_script(tokens, "get clusterroles -o custom-columns=:.metadata.name")
                 },
                 |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "role",
+            );
+    pub(super) static ref ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens| kubectl_script(tokens, "get roles -o custom-columns=:.metadata.name"),
                 |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "resource",
+            );
+    pub(super) static ref RESOURCE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens| match tokens.last() {
                     Some(type_name) => kubectl_script(
@@ -127,17 +108,13 @@ pub fn generator() -> CommandSignatureGenerators {
                     None => "".to_string(),
                 },
                 |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "context",
+            );
+    pub(super) static ref CONTEXT_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens| kubectl_script(tokens, "config get-contexts -o name"),
                 |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "cluster",
+            );
+    pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens| kubectl_script(tokens, "config get_clusters"),
                 |output| match KubetctlStatus::from_output(output) {
@@ -151,17 +128,13 @@ pub fn generator() -> CommandSignatureGenerators {
                         .map(|name| Suggestion::new(name).with_icon(IconType::KubeCluster))
                         .collect_unordered_results(),
                 },
-            ),
-        )
-        .add_generator(
-            "namespace",
+            );
+    pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
                 |tokens| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name"),
                 |output| kubectl_post_process(output, None),
-            ),
-        )
-        .add_generator(
-            "type_or_type_slash_name",
+            );
+    pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
             Generator::command_from_tokens(
                 |tokens| {
                     // This is not correct (Fig's implementation is broken too). The last token
@@ -184,6 +157,20 @@ pub fn generator() -> CommandSignatureGenerators {
                     kubectl_script(tokens, "api-resources -o name")
                 },
                 |output| kubectl_post_process(output, None),
-            ),
-        )
+            );
+}
+
+pub fn generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("kubectl")
+        .add_generator("resource_type", RESOURCE_TYPE_GENERATOR.clone())
+        .add_generator("running_pods", RUNNING_PODS_GENERATOR.clone())
+        .add_generator("deployments", DEPLOYMENTS_GENERATOR.clone())
+        .add_generator("node", NODE_GENERATOR.clone())
+        .add_generator("cluster_role", CLUSTER_ROLE_GENERATOR.clone())
+        .add_generator("role", ROLE_GENERATOR.clone())
+        .add_generator("resource", RESOURCE_GENERATOR.clone())
+        .add_generator("context", CONTEXT_GENERATOR.clone())
+        .add_generator("cluster", CLUSTER_GENERATOR.clone())
+        .add_generator("namespace", NAMESPACE_GENERATOR.clone())
+        .add_generator("type_or_type_slash_name", TYPE_OR_TYPE_SLASH_NAME.clone())
 }

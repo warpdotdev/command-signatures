@@ -20,6 +20,7 @@ mod go;
 mod heroku;
 mod kill;
 mod killall;
+mod kubecolor;
 mod kubectl;
 mod kubectx;
 mod kubens;
@@ -78,6 +79,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         bazel::generator(),
         cargo::generator(),
         kubectl::generator(),
+        kubecolor::generator(),
         kill::generator(),
         killall::generator(),
         tmuxinator::generator(),
