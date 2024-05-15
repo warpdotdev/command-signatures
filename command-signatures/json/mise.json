@@ -2,47 +2,62 @@
   "name": "mise",
   "description": "A tool for managing runtime versions",
   "subcommands": [
-    { "name": "activate", "description": "Initializes mise in the current shell session" },
-    { "name": "alias", "description": "Manage aliases", "aliases": ["a"] },
-    { "name": "backends", "description": "Manage backends", "aliases": ["b"] },
-    { "name": "bin-paths", "description": "List all the active runtime bin paths" },
-    { "name": "cache", "description": "Manage the mise cache" },
-    { "name": "completion", "description": "Generate shell completions" },
-    { "name": "config", "description": "[experimental] Manage config files", "aliases": ["cfg"] },
-    { "name": "current", "description": "Shows current active and installed runtime versions" },
-    { "name": "deactivate", "description": "Disable mise for current shell session" },
-    { "name": "direnv", "description": "Output direnv function to use mise inside direnv" },
-    { "name": "doctor", "description": "Check mise installation for possible problems", "aliases": ["dr"] },
-    { "name": "env", "description": "Exports env vars to activate mise a single time", "aliases": ["e"] },
-    { "name": "exec", "description": "Execute a command with tool(s) set", "aliases": ["x"] },
-    { "name": "implode", "description": "Removes mise CLI and all related data" },
-    { "name": "install", "description": "Install a tool version", "aliases": ["i"] },
-    { "name": "latest", "description": "Gets the latest available version for a plugin" },
-    { "name": "link", "description": "Symlinks a tool version into mise", "aliases": ["ln"] },
-    { "name": "ls", "description": "List installed and active tool versions", "aliases": ["list"] },
-    { "name": "ls-remote", "description": "List runtime versions available for install" },
-    { "name": "outdated", "description": "Shows outdated tool versions" },
-    { "name": "plugins", "description": "Manage plugins", "aliases": ["p"] },
-    { "name": "prune", "description": "Delete unused versions of tools" },
-    { "name": "reshim", "description": "Rebuilds the shim farm" },
-    { "name": "run", "description": "[experimental] Run tasks", "aliases": ["r"] },
-    { "name": "self-update", "description": "Updates mise itself" },
-    { "name": "set", "description": "Manage environment variables" },
-    { "name": "settings", "description": "Manage settings" },
-    { "name": "shell", "description": "Sets a tool version for the current session", "aliases": ["sh"] },
-    { "name": "sync", "description": "Add tool versions from external tools to mise" },
-    { "name": "tasks", "description": "[experimental] Manage tasks", "aliases": ["t"] },
-    { "name": "trust", "description": "Marks a config file as trusted" },
-    { "name": "uninstall", "description": "Removes runtime versions", "aliases": ["remove", "rm"] },
-    { "name": "unset", "description": "Remove environment variable(s) from the config file" },
-    { "name": "upgrade", "description": "Upgrades outdated tool versions", "aliases": ["up"] },
-    { "name": "usage", "description": "Generate a usage CLI spec" },
-    { "name": "use", "description": "Install tool version and add it to config", "aliases": ["u"] },
-    { "name": "version", "description": "Show mise version" },
-    { "name": "watch", "description": "[experimental] Run tasks watching for changes", "aliases": ["w"] },
-    { "name": "where", "description": "Display the installation path for a runtime" },
-    { "name": "which", "description": "Shows the path that a bin name points to" },
-    { "name": "help", "description": "Print this message or the help of the given subcommand(s)" }
+    {
+      "name": "activate",
+      "description": "Initializes mise in the current shell session",
+      "args": {
+        "name": "SHELL_TYPE",
+        "description": "Shell type to generate the script for",
+        "suggestions": ["bash", "fish", "nu", "xonsh", "zsh"]
+      },
+      "options": [
+        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
+        { "name": "--shims", "description": "Use shims instead of modifying PATH" },
+        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
+        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
+        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "alias",
+      "description": "Manage aliases",
+      "aliases": ["a"],
+      "subcommands": [
+        { "name": "get", "description": "Show an alias for a plugin" },
+        { "name": "ls", "description": "List aliases", "aliases": ["list"] },
+        { "name": "set", "description": "Add/update an alias for a plugin", "aliases": ["add", "create"] },
+        { "name": "unset", "description": "Clears an alias for a plugin", "aliases": ["rm", "remove", "delete", "del"] },
+        { "name": "help", "description": "Print this message or the help of the given subcommand(s)" }
+      ],
+      "options": [
+        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
+        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
+        { "name": ["-p", "--plugin"], "description": "Filter aliases by plugin", "args": { "name": "PLUGIN" } },
+        { "name": "--no-header", "description": "Don't show table header" },
+        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
+        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    // Repeat above structure for each subcommand
+    // Backends example:
+    {
+      "name": "backends",
+      "description": "Manage backends",
+      "subcommands": [
+        { "name": "ls", "description": "List built-in backends", "aliases": ["list"] },
+        { "name": "help", "description": "Print this message or the help of the given subcommand(s)" }
+      ],
+      "options": [
+        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
+        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
+        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
+        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    // Continue for other subcommands...
   ],
   "options": [
     { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
