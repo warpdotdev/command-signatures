@@ -11,11 +11,27 @@
         "suggestions": ["bash", "fish", "nu", "xonsh", "zsh"]
       },
       "options": [
-        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
-        { "name": "--shims", "description": "Use shims instead of modifying PATH" },
-        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
-        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
-        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": "--shims",
+          "description": "Use shims instead of modifying PATH"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
         { "name": ["-h", "--help"], "description": "Print help" }
       ]
     },
@@ -26,44 +42,1547 @@
       "subcommands": [
         { "name": "get", "description": "Show an alias for a plugin" },
         { "name": "ls", "description": "List aliases", "aliases": ["list"] },
-        { "name": "set", "description": "Add/update an alias for a plugin", "aliases": ["add", "create"] },
-        { "name": "unset", "description": "Clears an alias for a plugin", "aliases": ["rm", "remove", "delete", "del"] },
-        { "name": "help", "description": "Print this message or the help of the given subcommand(s)" }
+        {
+          "name": "set",
+          "description": "Add/update an alias for a plugin",
+          "aliases": ["add", "create"]
+        },
+        {
+          "name": "unset",
+          "description": "Clears an alias for a plugin",
+          "aliases": ["rm", "remove", "delete", "del"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
       ],
       "options": [
-        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
-        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
-        { "name": ["-p", "--plugin"], "description": "Filter aliases by plugin", "args": { "name": "PLUGIN" } },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-p", "--plugin"],
+          "description": "Filter aliases by plugin",
+          "args": { "name": "PLUGIN" }
+        },
         { "name": "--no-header", "description": "Don't show table header" },
-        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
-        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
         { "name": ["-h", "--help"], "description": "Print help" }
       ]
     },
-    // Backends example:
     {
       "name": "backends",
       "description": "Manage backends",
       "subcommands": [
-        { "name": "ls", "description": "List built-in backends", "aliases": ["list"] },
-        { "name": "help", "description": "Print this message or the help of the given subcommand(s)" }
+        {
+          "name": "ls",
+          "description": "List built-in backends",
+          "aliases": ["list"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
       ],
       "options": [
-        { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
-        { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
-        { "name": ["-v", "--verbose"], "description": "Show extra output (use -vv for even more)" },
-        { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
         { "name": ["-h", "--help"], "description": "Print help" }
       ]
     },
-    // Continue for other subcommands...
-  ],
-  "options": [
-    { "name": ["-C", "--cd"], "description": "Change directory before running command", "args": { "name": "DIR" } },
-    { "name": ["-q", "--quiet"], "description": "Suppress non-error messages" },
-    { "name": ["-v", "--verbose"], "description": "Show extra output" },
-    { "name": ["-y", "--yes"], "description": "Answer yes to all confirmation prompts" },
-    { "name": ["-h", "--help"], "description": "Print help" },
-    { "name": ["-V", "--version"], "description": "Print version" }
+    {
+      "name": "bin-paths",
+      "description": "List all the active runtime bin paths",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "cache",
+      "description": "Manage the mise cache",
+      "subcommands": [
+        {
+          "name": "clear",
+          "description": "Deletes all cache files in mise",
+          "aliases": ["c"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "completion",
+      "description": "Generate shell completions",
+      "args": {
+        "name": "SHELL",
+        "description": "Shell type to generate completions for",
+        "suggestions": ["bash", "fish", "zsh"]
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "config",
+      "description": "[experimental] Manage config files",
+      "aliases": ["cfg"],
+      "subcommands": [
+        {
+          "name": "ls",
+          "description": "[experimental] List config files currently in use"
+        },
+        {
+          "name": "generate",
+          "description": "[experimental] Generate an .mise.toml file",
+          "aliases": ["g"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        { "name": "--no-header", "description": "Do not print table header" },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "current",
+      "description": "Shows current active and installed runtime versions",
+      "args": {
+        "name": "PLUGIN",
+        "description": "Plugin to show versions of e.g.: ruby, node, cargo:eza, npm:prettier, etc"
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "deactivate",
+      "description": "Disable mise for current shell session",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "direnv",
+      "description": "Output direnv function to use mise inside direnv",
+      "subcommands": [
+        {
+          "name": "activate",
+          "description": "Output direnv function to use mise inside direnv"
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "doctor",
+      "description": "Check mise installation for possible problems",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "env",
+      "description": "Exports env vars to activate mise a single time",
+      "args": {
+        "name": "TOOL@VERSION",
+        "description": "Tool(s) to use",
+        "isVariadic": true
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        { "name": ["-J", "--json"], "description": "Output in JSON format" },
+        {
+          "name": ["-s", "--shell"],
+          "description": "Shell type to generate environment variables for",
+          "args": {
+            "name": "SHELL",
+            "suggestions": ["bash", "fish", "nu", "xonsh", "zsh"]
+          }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "exec",
+      "description": "Execute a command with tool(s) set",
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to start e.g.: node@20 python@3.10",
+          "isVariadic": true
+        },
+        {
+          "name": "COMMAND",
+          "description": "Command string to execute",
+          "isCommand": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-c", "--command"],
+          "description": "Command string to execute",
+          "args": { "name": "C", "description": "Command string to execute" }
+        },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of jobs to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": "--raw",
+          "description": "Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "implode",
+      "description": "Removes mise CLI and all related data",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        { "name": "--config", "description": "Also remove config directory" },
+        {
+          "name": ["-n", "--dry-run"],
+          "description": "List directories that would be removed without actually removing them"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "install",
+      "description": "Install a tool version",
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to install e.g.: node@20",
+          "isVariadic": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Force reinstall even if already installed"
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of jobs to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": "--raw",
+          "description": "Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show installation output"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "latest",
+      "description": "Gets the latest available version for a plugin",
+      "args": {
+        "name": "TOOL@VERSION",
+        "description": "Tool to get the latest version of"
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-i", "--installed"],
+          "description": "Show latest installed instead of available version"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "link",
+      "description": "Symlinks a tool version into mise",
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool name and version to create a symlink for"
+        },
+        {
+          "name": "PATH",
+          "description": "The local path to the tool version e.g.: ~/.nvm/versions/node/v20.0.0"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Overwrite an existing tool version if it exists"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "ls",
+      "description": "List installed and active tool versions",
+      "aliases": ["list"],
+      "args": [
+        {
+          "name": "PLUGIN",
+          "description": "Only show tool versions from [PLUGIN]",
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-c", "--current"],
+          "description": "Only show tool versions currently specified in a .tool-versions/.mise.toml"
+        },
+        {
+          "name": ["-g", "--global"],
+          "description": "Only show tool versions currently specified in the global .tool-versions/.mise.toml"
+        },
+        {
+          "name": ["-i", "--installed"],
+          "description": "Only show tool versions that are installed (Hides tools defined in .tool-versions/.mise.toml but not installed)"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        { "name": ["-J", "--json"], "description": "Output in JSON format" },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-m", "--missing"],
+          "description": "Display missing tool versions"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        {
+          "name": "--prefix",
+          "description": "Display versions matching this prefix",
+          "args": { "name": "PREFIX" }
+        },
+        { "name": "--no-header", "description": "Don't display headers" },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "ls-remote",
+      "description": "List runtime versions available for install",
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Plugin to get versions for"
+        },
+        {
+          "name": "PREFIX",
+          "description": "The version prefix to use when querying the latest version",
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": "--all",
+          "description": "Show all installed plugins and versions"
+        },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "outdated",
+      "description": "Shows outdated tool versions",
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to show outdated versions for e.g.: node@20 python@3.10",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        { "name": ["-J", "--json"], "description": "Output in JSON format" },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "plugins",
+      "description": "Manage plugins",
+      "subcommands": [
+        {
+          "name": "install",
+          "description": "Install a plugin",
+          "aliases": ["i", "a", "add"]
+        },
+        {
+          "name": "link",
+          "description": "Symlinks a plugin into mise",
+          "aliases": ["ln"]
+        },
+        {
+          "name": "ls",
+          "description": "List installed plugins",
+          "aliases": ["list"]
+        },
+        {
+          "name": "ls-remote",
+          "description": "List all available remote plugins",
+          "aliases": ["list-remote", "list-all"]
+        },
+        {
+          "name": "uninstall",
+          "description": "Removes a plugin",
+          "aliases": ["remove", "rm"]
+        },
+        {
+          "name": "update",
+          "description": "Updates a plugin to the latest version",
+          "aliases": ["up", "upgrade"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        {
+          "name": ["-c", "--core"],
+          "description": "The built-in plugins only Normally these are not shown"
+        },
+        {
+          "name": "--user",
+          "description": "List installed plugins This is the default behavior but can be used with --core to show core and user plugins"
+        },
+        {
+          "name": ["-u", "--urls"],
+          "description": "Show the git url for each plugin e.g.: https://github.com/asdf-vm/asdf-nodejs.git"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "prune",
+      "description": "Delete unused versions of tools",
+      "args": [
+        {
+          "name": "PLUGIN",
+          "description": "Prune only versions from this plugin(s)",
+          "isOptional": true,
+          "isVariadic": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-n", "--dry-run"],
+          "description": "Do not actually delete anything"
+        },
+        {
+          "name": "--configs",
+          "description": "Prune only tracked and trusted configuration links that point to non-existent configurations"
+        },
+        {
+          "name": "--tools",
+          "description": "Prune only unused versions of tools"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "reshim",
+      "description": "Rebuilds the shim farm",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "run",
+      "description": "[experimental] Run tasks",
+      "aliases": ["r"],
+      "args": [
+        {
+          "name": "TASK",
+          "description": "Tasks to run Can specify multiple tasks by separating with ':::'",
+          "default": "default"
+        },
+        {
+          "name": "ARGS",
+          "description": "Arguments to pass to the tasks. Use ':::' to separate tasks",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "CD" }
+        },
+        {
+          "name": ["-n", "--dry-run"],
+          "description": "Don't actually run the tasks(s), just print them in order of execution"
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Force the tasks to run even if outputs are up to date"
+        },
+        {
+          "name": ["-p", "--prefix"],
+          "description": "Print stdout/stderr by line, prefixed with the tasks's label"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-i", "--interleave"],
+          "description": "Print directly to stdout/stderr instead of by line"
+        },
+        {
+          "name": ["-t", "--tool"],
+          "description": "Tool(s) to also add e.g.: node@20 python@3.10",
+          "args": { "name": "TOOL@VERSION" }
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of tasks to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        {
+          "name": ["-r", "--raw"],
+          "description": "Read/write directly to stdin/stdout/stderr instead of by line"
+        },
+        {
+          "name": ["--timings"],
+          "description": "Show elapsed time after each tasks"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "self-update",
+      "description": "Updates mise itself",
+      "args": {
+        "name": "VERSION",
+        "description": "Update to a specific version",
+        "isOptional": true
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Update even if already up to date"
+        },
+        {
+          "name": "--no-plugins",
+          "description": "Disable auto-updating plugins"
+        },
+        { "name": ["-y", "--yes"], "description": "Skip confirmation prompt" },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "set",
+      "description": "Manage environment variables",
+      "args": [
+        {
+          "name": "ENV_VARS",
+          "description": "Environment variable(s) to set e.g.: NODE_ENV=production",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": "--file",
+          "description": "The TOML file to update",
+          "args": { "name": "FILE" }
+        },
+        {
+          "name": ["-g", "--global"],
+          "description": "Set the environment variable in the global config file"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "settings",
+      "description": "Manage settings",
+      "subcommands": [
+        { "name": "get", "description": "Show a current setting" },
+        {
+          "name": "ls",
+          "description": "Show current settings",
+          "aliases": ["list"]
+        },
+        {
+          "name": "set",
+          "description": "Add/update a setting",
+          "aliases": ["add", "create"]
+        },
+        {
+          "name": "unset",
+          "description": "Clears a setting",
+          "aliases": ["rm", "remove", "delete", "del"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": "--keys",
+          "description": "Only display key names for each setting"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "shell",
+      "description": "Sets a tool version for the current session",
+      "aliases": ["sh"],
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to use",
+          "isVariadic": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of jobs to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": "--raw",
+          "description": "Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1"
+        },
+        {
+          "name": ["-u", "--unset"],
+          "description": "Removes a previously set version"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "sync",
+      "description": "Add tool versions from external tools to mise",
+      "subcommands": [
+        {
+          "name": "node",
+          "description": "Symlinks all tool versions from an external tool into mise"
+        },
+        {
+          "name": "python",
+          "description": "Symlinks all tool versions from an external tool into mise"
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "tasks",
+      "description": "[experimental] Manage tasks",
+      "subcommands": [
+        {
+          "name": "deps",
+          "description": "[experimental] Display a tree visualization of a dependency graph"
+        },
+        {
+          "name": "edit",
+          "description": "[experimental] Edit a tasks with $EDITOR"
+        },
+        {
+          "name": "ls",
+          "description": "[experimental] List available tasks to execute"
+        },
+        {
+          "name": "run",
+          "description": "[experimental] Run a tasks",
+          "aliases": ["r"]
+        },
+        {
+          "name": "help",
+          "description": "Print this message or the help of the given subcommand(s)"
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        { "name": "--no-header", "description": "Do not print table header" },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        { "name": ["-x", "--extended"], "description": "Show all columns" },
+        { "name": "--hidden", "description": "Show hidden tasks" },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        {
+          "name": "--sort",
+          "description": "Sort by column. Default is name.",
+          "args": {
+            "name": "COLUMN",
+            "suggestions": ["name", "alias", "description", "source"]
+          }
+        },
+        {
+          "name": "--sort-order",
+          "description": "Sort order. Default is asc.",
+          "args": { "name": "SORT_ORDER", "suggestions": ["asc", "desc"] }
+        },
+        { "name": ["-J", "--json"], "description": "Output in JSON format" },
+        {
+          "name": ["-h", "--help"],
+          "description": "Print help (see a summary with '-h')"
+        }
+      ]
+    },
+    {
+      "name": "trust",
+      "description": "Marks a config file as trusted",
+      "args": [
+        {
+          "name": "CONFIG_FILE",
+          "description": "The config file to trust",
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-a", "--all"],
+          "description": "Trust all config files in the current directory and its parents"
+        },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        { "name": "--untrust", "description": "No longer trust this config" },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "uninstall",
+      "description": "Removes runtime versions",
+      "aliases": ["remove", "rm"],
+      "args": [
+        {
+          "name": "INSTALLED_TOOL@VERSION",
+          "description": "Tool(s) to remove",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-a", "--all"],
+          "description": "Delete all installed versions"
+        },
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-n", "--dry-run"],
+          "description": "Do not actually delete anything"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "unset",
+      "description": "Remove environment variable(s) from the config file",
+      "args": [
+        {
+          "name": "KEYS",
+          "description": "Environment variable(s) to remove e.g.: NODE_ENV",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-f", "--file"],
+          "description": "Specify a file to use instead of '.mise.toml'",
+          "args": { "name": "FILE" }
+        },
+        {
+          "name": ["-g", "--global"],
+          "description": "Use the global config file"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "description": "Upgrades outdated tool versions",
+      "aliases": ["up"],
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to upgrade e.g.: node@20 python@3.10",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-n", "--dry-run"],
+          "description": "Just print what would be done, don't actually do it"
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of jobs to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": ["-i", "--interactive"],
+          "description": "Display multiselect menu to choose which tools to upgrade"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": "--raw",
+          "description": "Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "usage",
+      "description": "Generate a usage CLI spec",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "use",
+      "description": "Install tool version and add it to config",
+      "aliases": ["u"],
+      "args": [
+        {
+          "name": "TOOL@VERSION",
+          "description": "Tool(s) to add to config file e.g.: node@20, cargo:ripgrep@latest npm:prettier@3",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-f", "--force"],
+          "description": "Force reinstall even if already installed"
+        },
+        {
+          "name": "--fuzzy",
+          "description": "Save fuzzy version to config file"
+        },
+        {
+          "name": ["-g", "--global"],
+          "description": "Use the global config file (~/.config/mise/config.toml) instead of the local one"
+        },
+        {
+          "name": ["-e", "--env"],
+          "description": "Modify an environment-specific config file like .mise.<env>.toml",
+          "args": { "name": "ENV" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-j", "--jobs"],
+          "description": "Number of jobs to run in parallel",
+          "args": {
+            "name": "JOBS",
+            "description": "Number of jobs to run in parallel",
+            "default": 4
+          }
+        },
+        {
+          "name": "--raw",
+          "description": "Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": "--remove",
+          "description": "Remove the plugin(s) from config file",
+          "args": { "name": "PLUGIN" }
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        {
+          "name": ["-p", "--path"],
+          "description": "Specify a path to a config file or directory",
+          "args": { "name": "PATH" }
+        },
+        { "name": "--pin", "description": "Save exact version to config file" },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "version",
+      "description": "Show mise version",
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "watch",
+      "description": "[experimental] Run a tasks watching for changes",
+      "args": [
+        {
+          "name": "ARGS",
+          "description": "Extra arguments",
+          "isVariadic": true,
+          "isOptional": true
+        }
+      ],
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-t", "--task"],
+          "description": "Tasks to run",
+          "args": { "name": "TASK", "default": "default" }
+        },
+        {
+          "name": ["-g", "--glob"],
+          "description": "Files to watch",
+          "args": { "name": "GLOB" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    },
+    {
+      "name": "where",
+      "description": "Display the installation path for a runtime",
+      "args": {
+        "name": "TOOL@VERSION",
+        "description": "Tool(s) to look up e.g.: ruby@3"
+      },
+      "options": [
+        {
+          "name": ["-C", "--cd"],
+          "description": "Change directory before running command",
+          "args": { "name": "DIR" }
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress non-error messages"
+        },
+        {
+          "name": ["-v", "--verbose"],
+          "description": "Show extra output (use -vv for even more)"
+        },
+        {
+          "name": ["-y", "--yes"],
+          "description": "Answer yes to all confirmation prompts"
+        },
+        { "name": ["-h", "--help"], "description": "Print help" }
+      ]
+    }
   ]
 }
