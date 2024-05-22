@@ -210,15 +210,36 @@ pub struct CommandSignatureGenerators {
     aliases: Aliases,
 }
 
-impl From<CommandSignatureGenerators> for (String, (Generators, Filters, Aliases)) {
+/// Struct containing metadata needed to produce dynamic completion results.
+pub struct DynamicCompletionData {
+    generators: Generators,
+    filters: Filters,
+    aliases: Aliases,
+}
+
+impl DynamicCompletionData {
+    pub fn generators(&self) -> &Generators {
+        &self.generators
+    }
+
+    pub fn filters(&self) -> &Filters {
+        &self.filters
+    }
+
+    pub fn aliases(&self) -> &Aliases {
+        &self.aliases
+    }
+}
+
+impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
     fn from(command_generators: CommandSignatureGenerators) -> Self {
         (
             command_generators.command_name,
-            (
-                command_generators.generators,
-                command_generators.filters,
-                command_generators.aliases,
-            ),
+            DynamicCompletionData {
+                generators: command_generators.generators,
+                filters: command_generators.filters,
+                aliases: command_generators.aliases,
+            }
         )
     }
 }
