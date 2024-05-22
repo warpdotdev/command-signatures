@@ -360,6 +360,7 @@ impl From<Arg> for Argument {
             is_variadic: arg.is_variadic,
             argument_types,
             optional,
+            is_command: arg.is_command,
         }
     }
 }
