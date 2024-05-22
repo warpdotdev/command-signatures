@@ -219,6 +219,9 @@ pub struct Argument {
     // If empty, the  parser will accept any string.
     pub argument_types: Vec<ArgumentType>,
     pub optional: IsArgumentOptional,
+    /// Whether this argument should itself be a top-level command (such as `sudo <arg>` or `time <arg>`). If true,
+    /// the completer will surface completions for top level command here.
+    pub is_command: bool,
 }
 
 impl Argument {
@@ -232,6 +235,10 @@ impl Argument {
 
     pub fn is_required(&self) -> bool {
         matches!(self.optional, IsArgumentOptional::Required)
+    }
+
+    pub fn is_command(&self) -> bool {
+        self.is_command
     }
 
     pub fn generator_by_name<'a>(
