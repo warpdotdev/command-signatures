@@ -1,6 +1,6 @@
 mod generators;
 
-pub use generators::command_signature_generators;
+pub use generators::dynamic_command_signature_data;
 
 pub use warp_completion_metadata::*;
 
@@ -101,10 +101,10 @@ mod tests {
     /// Verify that all generators referenced by command signatures are actually defined.
     #[test]
     fn all_referenced_generators_exist() {
-        let generators = generators::command_signature_generators();
+        let generators = generators::dynamic_command_signature_data();
         let generator_names = generators
             .values()
-            .flat_map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
+            .flat_map(|dynamic_data| dynamic_data.generators().keys().map(|g| g.0.as_str()))
             .collect::<HashSet<_>>();
         assert!(
             !generator_names.is_empty(),

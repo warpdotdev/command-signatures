@@ -42,7 +42,8 @@ mod terraform;
 mod tmux;
 mod tmuxinator;
 
-pub fn command_signature_generators() -> HashMap<String, DynamicCompletionData> {
+/// Returns dynamic command signature data, keyed on the command the data corresponds to.
+pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
     let command_signature_generators = [
         apt::apt_get_generators(),
         apt::aptitude_generators(),
