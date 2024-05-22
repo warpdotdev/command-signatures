@@ -219,7 +219,7 @@ pub struct Argument {
     // If empty, the  parser will accept any string.
     pub argument_types: Vec<ArgumentType>,
     pub optional: IsArgumentOptional,
-    /// Whether this argument should itself by a top-level command (such as `sudo <arg>` or `time <arg>`). If true,
+    /// Whether this argument should itself be a top-level command (such as `sudo <arg>` or `time <arg>`). If true,
     /// the completer will surface completions for top level command here.
     pub is_command: bool,
 }
