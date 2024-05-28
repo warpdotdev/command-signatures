@@ -1,6 +1,6 @@
 {
     "name": "kubecolor",
-    "description": "",
+    "description": "KubeColor is a kubectl replacement used to add colors to your kubectl output.",
     "subcommands": [
         {
             "name": "alpha",
@@ -72,29 +72,11 @@
         },
         {
             "name": "annotate",
-            "description": "Update the annotations on one or more resources",
+            "description": "Update the annotations on one or more resources DEBUG",
             "args": [
                 {
-                    "name": "Resource Type",
-                    "generators": {
-                        "script": "kubectl api-resources -o name",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        },
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                    }
-                },
-                {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 },
                 {
@@ -461,27 +443,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -627,27 +593,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -723,10 +673,7 @@
             "description": "Attach to a process that is already running inside an existing container",
             "args": {
                 "name": "Running Pods",
-                "generators": {
-                    "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                }
+                "generatorName": "running_pods"
             },
             "options": [
                 {
@@ -788,27 +735,11 @@
                         },
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -942,27 +873,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -1340,10 +1255,7 @@
                     "description": "Delete the specified cluster from the kubeconfig",
                     "args": {
                         "name": "Cluster",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-clusters`:\"kubectl config get-clusters\"}",
-                            "postProcess": "function(r){return s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).filter(i=>i!==\"NAME\").map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))}"
-                        }
+                        "generatorName": "cluster"
                     }
                 },
                 {
@@ -1351,10 +1263,7 @@
                     "description": "Delete the specified context from the kubeconfig",
                     "args": {
                         "name": "Context",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-contexts -o name`:\"kubectl config get-contexts -o name\"}",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                        }
+                        "generatorName": "context"
                     }
                 },
                 {
@@ -1366,10 +1275,7 @@
                     "description": "Displays one or many contexts from the kubeconfig file",
                     "args": {
                         "name": "Context",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-contexts -o name`:\"kubectl config get-contexts -o name\"}",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                        },
+                        "generatorName": "context",
                         "isOptional": true
                     },
                     "options": [
@@ -1411,10 +1317,7 @@
                     "args": [
                         {
                             "name": "Context",
-                            "generators": {
-                                "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-contexts -o name`:\"kubectl config get-contexts -o name\"}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                            }
+                            "generatorName": "context"
                         },
                         {
                             "name": "New Context Name"
@@ -1491,10 +1394,7 @@
                     "description": "Sets a context entry in kubeconfig",
                     "args": {
                         "name": "Context",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-contexts -o name`:\"kubectl config get-contexts -o name\"}",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                        }
+                        "generatorName": "context"
                     },
                     "options": [
                         {
@@ -1529,10 +1429,7 @@
                     "description": "Sets a user entry in kubeconfig",
                     "args": {
                         "name": "Cluster",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-clusters`:\"kubectl config get-clusters\"}",
-                            "postProcess": "function(r){return s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).filter(i=>i!==\"NAME\").map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))}"
-                        }
+                        "generatorName": "cluster"
                     },
                     "options": [
                         {
@@ -1641,10 +1538,7 @@
                     "description": "Sets the current-context in a kubeconfig file",
                     "args": {
                         "name": "Context",
-                        "generators": {
-                            "script": "function(r){let i=r.indexOf(\"--kubeconfig\");return i!==-1?`kubectl config --kubeconfig=${r[i+1]} get-contexts -o name`:\"kubectl config get-contexts -o name\"}",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                        }
+                        "generatorName": "context"
                     }
                 },
                 {
@@ -1791,14 +1685,7 @@
             "description": "Mark node as unschedulable",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -2023,14 +1910,7 @@
                             "description": "Resource that the rule applies to",
                             "args": {
                                 "name": "Resource Type",
-                                "generators": {
-                                    "script": "kubectl api-resources -o name",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    },
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "resource_type"
                             }
                         },
                         {
@@ -2124,14 +2004,7 @@
                             "description": "ClusterRole this ClusterRoleBinding should reference",
                             "args": {
                                 "name": "Cluster Role",
-                                "generators": {
-                                    "script": "kubectl get clusterroles -o custom-columns=:.metadata.name",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    }
-                                }
+                                "generatorName": "cluster_role"
                             }
                         },
                         {
@@ -2963,14 +2836,7 @@
                             "description": "Resource that the rule applies to",
                             "args": {
                                 "name": "Resource Type",
-                                "generators": {
-                                    "script": "kubectl api-resources -o name",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    },
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "resource_type"
                             }
                         },
                         {
@@ -3060,14 +2926,7 @@
                             "description": "ClusterRole this RoleBinding should reference",
                             "args": {
                                 "name": "Cluster Role",
-                                "generators": {
-                                    "script": "kubectl get clusterroles -o custom-columns=:.metadata.name",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                    "cache": {
-                                        "strategy": "stale-while-revalidate",
-                                        "ttl": 3600000
-                                    }
-                                }
+                                "generatorName": "cluster_role"
                             }
                         },
                         {
@@ -3082,10 +2941,7 @@
                             "description": "Role this RoleBinding should reference",
                             "args": {
                                 "name": "Role",
-                                "generators": {
-                                    "script": "_NuFrRa_()=>o.typeWithoutName(\"roles\")",
-                                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                                }
+                                "generatorName": "role"
                             }
                         },
                         {
@@ -3776,27 +3632,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -3935,27 +3775,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -4065,14 +3889,7 @@
             "description": "Drain node in preparation for maintenance",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -4147,27 +3964,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -4261,10 +4062,7 @@
             "args": [
                 {
                     "name": "Running Pods",
-                    "generators": {
-                        "script": "kubectl get pods --field-selector=status.phase=Running -o name",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                    }
+                    "generatorName": "running_pods"
                 },
                 {
                     "name": "COMMAND",
@@ -4323,14 +4121,7 @@
             "description": "List the fields for supported resources",
             "args": {
                 "name": "Resource Type",
-                "generators": {
-                    "script": "kubectl api-resources -o name",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    },
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))"
-                }
+                "generatorName": "resource_type"
             },
             "options": [
                 {
@@ -4350,27 +4141,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -4559,27 +4334,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -4814,27 +4573,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -4960,27 +4703,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -5079,27 +4806,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -5217,27 +4928,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 },
                 {
@@ -5473,14 +5168,7 @@
                     "description": "View previous rollout revisions and configurations",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5556,14 +5244,7 @@
                     "description": "Mark the provided resource as paused",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5633,14 +5314,7 @@
                     "description": "Restart a resource",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5710,14 +5384,7 @@
                     "description": "Resume a paused resource",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5787,14 +5454,7 @@
                     "description": "Show the status of the rollout",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -5852,14 +5512,7 @@
                     "description": "Rollback to a previous rollout",
                     "args": {
                         "name": "Deployments",
-                        "generators": {
-                            "script": "kubectl get deployments -o custom-columns=:.metadata.name",
-                            "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "ttl": 3600000
-                            }
-                        }
+                        "generatorName": "deployments"
                     },
                     "options": [
                         {
@@ -6174,27 +5827,11 @@
             "args": [
                 {
                     "name": "TYPE | TYPE/NAME",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "trigger": "/",
-                        "getQueryTerm": "/",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    }
+                    "generatorName": "type_or_type_slash_name"
                 },
                 {
                     "name": "Resource",
-                    "generators": {
-                        "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                        "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                        "cache": {
-                            "strategy": "stale-while-revalidate",
-                            "ttl": 3600000
-                        }
-                    },
+                    "generatorName": "resource",
                     "isOptional": true
                 }
             ],
@@ -6323,27 +5960,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         },
                         {
@@ -6496,27 +6117,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         },
                         {
@@ -6626,27 +6231,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -6773,27 +6362,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         },
                         {
@@ -6901,27 +6474,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -7019,27 +6576,11 @@
                     "args": [
                         {
                             "name": "TYPE | TYPE/NAME",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-1];return i.includes(\"/\")?o.typeWithoutName(i.substring(0,i.indexOf(\"/\"))):o.types}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "trigger": "/",
-                                "getQueryTerm": "/",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            }
+                            "generatorName": "type_or_type_slash_name"
                         },
                         {
                             "name": "Resource",
-                            "generators": {
-                                "script": "function(r){let i=r[r.length-2];return o.typeWithoutName(i)}",
-                                "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                                "cache": {
-                                    "strategy": "stale-while-revalidate",
-                                    "ttl": 3600000
-                                }
-                            },
+                            "generatorName": "resource",
                             "isOptional": true
                         }
                     ],
@@ -7150,14 +6691,7 @@
             "description": "Update the taints on one or more nodes",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -7235,14 +6769,7 @@
             "description": "Mark node as schedulable",
             "args": {
                 "name": "Node",
-                "generators": {
-                    "script": "kubectl get nodes -o custom-columns=:.metadata.name",
-                    "postProcess": "_NuFrRa_r=>s.connectedToCluster(r)||s.generalError(r)?[]:r.split(`\n`).map(i=>({name:i,icon:\"fig://icon?type=kubernetes\"}))",
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 3600000
-                    }
-                }
+                "generatorName": "node"
             },
             "options": [
                 {
@@ -7400,6 +6927,213 @@
                     "args": {}
                 }
             ]
+        }
+    ],
+    "options": [
+        {
+          "name": "--as",
+          "args": {
+            "name": "username"
+          },
+          "description": "Username to impersonate for the operation. User could be a regular user or a service account in a namespace.",
+          "isPersistent": true
+        },
+        {
+          "name": "--as-group",
+          "args": {
+            "name": "group"
+          },
+          "description": "Group to impersonate for the operation, this flag can be repeated to specify multiple groups.",
+          "isPersistent": true
+        },
+        {
+          "name": "--as-uid",
+          "args": {
+            "name": "UID"
+          },
+          "description": "UID to impersonate for the operation.",
+          "isPersistent": true
+        },
+        {
+          "name": "--cache-dir",
+          "args": {
+            "name": "directory"
+          },
+          "description": "Default cache directory",
+          "isPersistent": true
+        },
+        {
+          "name": "--certificate-authority",
+          "args": {
+            "name": "filename"
+          },
+          "description": "Path to a cert file for the certificate authority",
+          "isPersistent": true
+        },
+        {
+          "name": "--client-certificate",
+          "args": {
+            "name": "filename"
+          },
+          "description": "Path to a client certificate file for TLS",
+          "isPersistent": true
+        },
+        {
+          "name": "--client-key",
+          "args": {
+            "name": "filename"
+          },
+          "description": "Path to a client key file for TLS",
+          "isPersistent": true
+        },
+        {
+          "name": "--cluster",
+          "args": {
+            "name": "cluster"
+          },
+          "description": "The name of the kubeconfig cluster to use",
+          "isPersistent": true
+        },
+        {
+          "name": "--context",
+          "args": {
+            "name": "context"
+          },
+          "description": "The name of the kubeconfig context to use",
+          "isPersistent": true
+        },
+        {
+          "name": "--insecure-skip-tls-verify",
+          "args": {
+            "name": "value",
+            "suggestions": ["true", "false"]
+          },
+          "description": "If true, the server's certificate will not be checked for validity. This will make your HTTPS connections insecure.",
+          "isPersistent": true
+        },
+        {
+          "name": "--kubeconfig",
+          "args": {
+            "name": "filename"
+          },
+          "description": "Path to the kubeconfig file to use for CLI requests.",
+          "isPersistent": true
+        },
+        {
+          "name": "--log-flush-frequency",
+          "args": {
+            "name": "seconds"
+          },
+          "description": "Maximum number of seconds between log flushes",
+          "isPersistent": true
+        },
+        {
+          "name": "--match-server-version",
+          "args": {
+            "name": "value",
+            "suggestions": ["true", "false"]
+          },
+          "description": "Require server version to match client version.",
+          "isPersistent": true
+        },
+        {
+          "name": ["-n", "--namespace"],
+          "args": {
+            "name": "namespace",
+            "generatorName": "namespace"
+          },
+          "description": "If present, the namespace scope for this CLI request",
+          "isPersistent": true
+        },
+        {
+          "name": "--password",
+          "args": {
+            "name": "password"
+          },
+          "description": "Password for basic authentication to the API server",
+          "isPersistent": true
+        },
+        {
+          "name": "--profile",
+          "args": {
+            "name": "profile",
+            "suggestions": ["none", "cpu", "heap", "goroutine", "threadcreate", "block", "mutex"]
+          },
+          "description": "Name of the profile to capture", 
+          "isPersistent": true
+        },
+        {
+          "name": "--profile-output",
+          "args": {
+            "name": "filename"
+          },
+          "description": "Name of the file to write the profile to",
+          "isPersistent": true
+        },
+        {
+          "name": "--request-timeout",
+          "args": {
+            "name": "duration"
+          },
+          "description": "The length of time to wait before giving up on a single server request. Non-zero values should contain a corresponding time unit (e.g. 1s, 2m, 3h). A value of zero means don't timeout requests.",
+          "isPersistent": true
+        },
+        {
+          "name": ["-s", "--server"],
+          "args": {
+            "name": "address"
+          },
+          "description": "The address and port of the Kubernetes API server",
+          "isPersistent": true
+        },
+        {
+          "name": "--tls-server-name",
+          "args": {
+            "name": "name"
+          },
+          "description": "Server name to use for server certificate validation. If it is not provided, the hostname used to contact the server is used.",
+          "isPersistent": true
+        },
+        {
+          "name": "--token",
+          "args": {
+            "name": "token"
+          },
+          "description": "Bearer token for authentication to the API server",
+          "isPersistent": true
+        },
+        {
+          "name": "--user",
+          "args": {
+            "name": "user"
+          },
+          "description": "The name of the kubeconfig user to use",
+          "isPersistent": true
+        },
+        {
+          "name": ["-v", "--v"],
+          "args": {
+            "name": "level"
+          },
+          "description": "Number for the log level verbosity",
+          "isPersistent": true
+        },
+        {
+          "name": "--vmodule",
+          "args": {
+            "name": "filters"
+          },
+          "description": "Comma-separated list of pattern=N settings for file-filtered logging",
+          "isPersistent": true
+        },
+        {
+          "name": "--warnings-as-errors",
+          "args": {
+            "name": "value",
+            "suggestions": ["true", "false"]
+          },
+          "description": "Treat warnings received from the server as errors and exit with a non-zero exit code.",
+          "isPersistent": true
         }
     ]
 }

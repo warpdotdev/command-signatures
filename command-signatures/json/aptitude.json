@@ -1,0 +1,416 @@
+{
+  "name": "aptitude",
+  "description": "High-level interface to the APT package manager",
+  "subcommands": [
+    {
+      "name": "install",
+      "description": "Install package(s)",
+      "options": [
+        {
+          "name": "--no-upgrade",
+          "description": "Do not upgrade packages"
+        },
+        {
+          "name": "--only-upgrade",
+          "description": "Do not install new packages"
+        },
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ],
+      "args": {
+        "generatorName": ["list_all_deb_files_in_cwd", "list_all_packages"]
+      },
+      "isVariadic": true,
+      "priority": 100
+    },
+    {
+      "name": "remove",
+      "description": "Remove package(s)",
+      "options": [
+        {
+          "name": ["--auto-remove", "--autoremove"],
+          "description": "Acts like running the autoremove command"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "isVariadic": true,
+      "priority": 100
+    },
+    {
+      "name": "purge",
+      "description": "Same as remove, but also deletes configuration files",
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "isVariadic": true,
+      "priority": 90
+    },
+    {
+      "name": "hold",
+      "description": "Mark the package to be ignored by future safe-upgrade or full-upgrade commands",
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "isVariadic": true
+    },
+    {
+      "name": "unhold",
+      "description": "Mark to package to no longer be ignored by future safe-upgrade or full-upgrade commands",
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "keep",
+      "description": "Cancels any scheduled actions on the package",
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "reinstall",
+      "description": "Re-install packages that are already installed and at the newest version",
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "markauto",
+      "description": "Mark packages as automatically installed",
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "unmarkauto",
+      "description": "Mark packages as manually installed",
+      "isVariadic": true,
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "build-depends",
+      "alias": "build-dep",
+      "description": "Satisfy the build dependencies of a package"
+    },
+    {
+      "name": "forbid-version",
+      "description": "Forbid a package from being upgraded to a particular version"
+    },
+    {
+      "name": "update",
+      "description": "Update all packages",
+      "options": [
+        {
+          "name": "--no-allow-insecure-repositories",
+          "description": "Forbid the update command to acquire unverifiable data from configured sources"
+        }
+      ],
+      "priority": 100
+    },
+    {
+      "name": "safe-upgrade",
+      "description": "Upgrade installed packages, without removing any packages",
+      "options": [
+        {
+          "name": "--no-new-installs",
+          "description": "Do not install new packages to resolve dependencies"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "priority": 100
+    },
+    {
+      "name": "full-upgrade",
+      "alias": "dist-upgrade",
+      "description": "Upgrade installed packages, removing or installing packages as necessary",
+      "options": [
+        {
+          "name": "--with-new-pkgs",
+          "description": "Allow installing new packages when used in conjunction with upgrade"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "priority": 90
+    },
+    {
+      "name": "dist-upgrade",
+      "description": "Same as upgrade, but also handles changing dependencies with new versions of packages"
+    },
+    {
+      "name": "keep-all",
+      "description": "Cancels all scheduled actions on all packages"
+    },
+    {
+      "name": "forget-new",
+      "description": "Forgets all internal information about which packages are 'new'"
+    },
+    {
+      "name": "search",
+      "description": "Searches for packages matching one of the patterns given",
+      "options": [
+        {
+          "name": ["-F", "-display-format"],
+          "description": "Specify the format which should be used to display output from the search and versions commands"
+        },
+        {
+          "name": "--disable-columns",
+          "description": "Causes output to show without any special formatting"
+        },
+        {
+          "name": ["-O", "--sort"],
+          "description": "Specify the order in which output should be displayed"
+        },
+        {
+          "name": ["-w", "--width"],
+          "description": "Specify the display width which should be used for output"
+        }
+      ]
+    },
+    {
+      "name": "show",
+      "description": "Displays detailed information about package(s)",
+      "args": {
+        "generatorName": "list_all_packages"
+      },
+      "isVariadic": true
+    },
+    {
+      "name": "versions",
+      "description": "Displays the versions of the packages given",
+      "options": [
+        {
+          "name": ["-F", "-display-format"],
+          "description": "Specify the format which should be used to display output from the search and versions commands"
+        },
+        {
+          "name": "--disable-columns",
+          "description": "Causes output to show without any special formatting"
+        },
+        {
+          "name": "--group-by",
+          "description": "Control how the output is grouped"
+        },
+        {
+          "name": ["-O", "--sort"],
+          "description": "Specify the order in which output should be displayed"
+        },
+        {
+          "name": "--show-package-names",
+          "description": "Controls when to show package names"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "add-user-tag",
+      "description": "Adds a user tag to the selected group of packages"
+    },
+    {
+      "name": "remove-user-tag",
+      "description": "Removes a user tag from the selected group of packages"
+    },
+    {
+      "name": "why",
+      "description": "Explains the reason that a package should be installed",
+      "options": [
+        {
+          "name": "--show-summary",
+          "description": "Summarize each dependency chain instead of displaying it in long form"
+        }
+      ]
+    },
+
+    {
+      "name": "why-not",
+      "description": "Explains the reason that a package cannot be installed"
+    },
+    {
+      "name": "clean",
+      "description": "Removes all previously downloaded .deb files from the package cache directory"
+    },
+    {
+      "name": "autoclean",
+      "description": "Removes any cached packages which can no longer be downloaded"
+    },
+    {
+      "name": "changelog",
+      "description": "Downloads and displays the Debian changelog for each of the given sources/binary packages"
+    },
+    {
+      "name": "download",
+      "description": "Downloads the .deb file for the given package to the current directory"
+    },
+    {
+      "name": "extract-cache-subset",
+      "description": "Copy the apt configuration directory and a subset of the package database to the specified directory "
+    },
+    {
+      "name": "help",
+      "description": "Displays a brief summary of the available commands and options"
+    }
+  ],
+  "options": [
+    {
+      "name": "--add-user-tag",
+      "description": "Add the user tag to all packages that are installed, removed, or upgraded"
+    },
+    {
+      "name": "--add-user-tag-to",
+      "description": "Add the user tag to all packages that match the pattern"
+    },
+    {
+      "name": "--allow-new-upgrades",
+      "description": "Allow the dependency resolver to install upgrades for packages (when the safe resolver is being used)"
+    },
+    {
+      "name": "--allow-new-installs",
+      "description": "Allow the safe-upgrade command to install new packages"
+    },
+    {
+      "name": "--allow-untrusted",
+      "description": "Install packages from untrusted sources without prompting"
+    },
+
+    {
+      "name": ["-D", "--show-deps"],
+      "description": "Show brief explanations of automatic installations and removals"
+    },
+    {
+      "name": ["-d", "--download-only"],
+      "description": "Download packages to the package cache as necessary, but do not install or remove anything"
+    },
+    {
+      "name": "-f",
+      "description": "Try hard to fix the dependencies of broken packages"
+    },
+    {
+      "name": "--full-resolver",
+      "description": "Use the default 'full' resolver to solve package dependency problems"
+    },
+    {
+      "name": ["-h", "--help"],
+      "description": "Display a brief help message"
+    },
+    {
+      "name": "--log-file",
+      "description": "Log messages will be written to the given file (or standard output if - is given)",
+      "args": {
+        "name": "file",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": "--log-level",
+      "description": "Only log messages at the givben level or higher"
+    },
+    {
+      "name": "--log-resolver",
+      "description": "Set some standard log levels related to the resolver, to produce logging output suitable for processing with automated tools"
+    },
+    {
+      "name": "--no-new-upgrades",
+      "description": "Forbid the dependency resolver from installing upgrades (when the safe resolver is being used)"
+    },
+    {
+      "name": "--no-show-resolver-actions",
+      "description": "Do not display the actions performed by the 'safe' resolver"
+    },
+    {
+      "name": "-o",
+      "description": "Set a configuration file option directly"
+    },
+    {
+      "name": ["-P", "--prompt"],
+      "description": "Always display a prompt before downloading, installing, or removing packages"
+    },
+    {
+      "name": "--purge-unused",
+      "description": "Purge packages that are no longer required by any installed package, removing their configuration files and perhaps other important data",
+      "isDangerous": true
+    },
+    {
+      "name": ["-q", "--quiet"],
+      "description": "Suppress all incremental progress indicators"
+    },
+    {
+      "name": ["-R", "--without-recommends"],
+      "description": "Do not treat recommendations as dependencies when installing new packages"
+    },
+    {
+      "name": ["-r", "--with-recommends"],
+      "description": "Treat recommendations as dependencies when installing new packages"
+    },
+    {
+      "name": "--remove-user-tag",
+      "description": "Remove the user tag from all packages that are installed, removed, or upgraded by this command"
+    },
+    {
+      "name": "--remove-user-tag-from",
+      "description": "remove the user tag from all packages that match the given pattern"
+    },
+    {
+      "name": ["-s", "--simulate"],
+      "description": "Print the actions that would normally be performed but don't actually perform them"
+    },
+    {
+      "name": "--safe-resolver",
+      "description": "Use a 'safe' algorithm to solve package dependency problems"
+    },
+    {
+      "name": "--schedule-only",
+      "description": "Schedule operations to be performed in the future, but don't perform them"
+    },
+    {
+      "name": "--show-resolver-actions",
+      "description": "Display the actions performed by the 'safe' resolver"
+    },
+    {
+      "name": ["-t", "--target-release"],
+      "description": "Set the release from which the package should be installed"
+    },
+    {
+      "name": ["-V", "--show-versions"],
+      "description": "Show which versions of packages will be installed"
+    },
+    {
+      "name": ["-v", "--verbose"],
+      "description": "Display extra information"
+    },
+    {
+      "name": "--version",
+      "description": "Display the version of aptitude and information about how it was compiled"
+    },
+    {
+      "name": "--visual-preview",
+      "description": "Start up the visual interface when installing/removing packages"
+    },
+    {
+      "name": "-W, --show-why",
+      "description": "Show what manual package is reponsible for each automatically installed/removed package"
+    },
+    {
+      "name": ["-y", "--assume-yes"],
+      "description": "Answer yes to all prompts"
+    },
+    {
+      "name": "-Z",
+      "description": "Show how much disk space will be used/freed by the packages being installed/upgraded/removed"
+    }
+  ]
+}

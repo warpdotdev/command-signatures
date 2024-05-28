@@ -1,6 +1,6 @@
 mod generators;
 
-pub use generators::command_signature_generators;
+pub use generators::dynamic_command_signature_data;
 
 pub use warp_completion_metadata::*;
 
@@ -18,6 +18,13 @@ pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
             serde_json::from_str(json_content).ok()?;
         Some(Signature::from(fig_command))
     })
+}
+
+/// On web, we don't embed command signatures into the binary. All requests for a command signature return
+/// None. In the future, we would like to investigate lazy loading this data.
+#[cfg(not(feature = "embed-signatures"))]
+pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
+    None
 }
 
 #[cfg(feature = "embed-signatures")]
@@ -94,10 +101,10 @@ mod tests {
     /// Verify that all generators referenced by command signatures are actually defined.
     #[test]
     fn all_referenced_generators_exist() {
-        let generators = generators::command_signature_generators();
+        let generators = generators::dynamic_command_signature_data();
         let generator_names = generators
             .values()
-            .flat_map(|(generators, _, _)| generators.keys().map(|g| g.0.as_str()))
+            .flat_map(|dynamic_data| dynamic_data.generators().keys().map(|g| g.0.as_str()))
             .collect::<HashSet<_>>();
         assert!(
             !generator_names.is_empty(),

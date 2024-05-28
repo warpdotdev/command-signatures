@@ -20,7 +20,7 @@ struct FigPriority(pub u32);
 /// 67b2515c5ea4ff4c70c672a5ccdf8a77547d1366.
 /// See https://github.com/withfig/autocomplete-tools/blob/67b2515c5ea4ff4c70c672a5ccdf8a77547d1366/packages/autocomplete-types/index.d.ts
 /// for the original type definition.
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 pub enum SuggestionType {
     #[serde(rename = "folder")]
     Folder,
@@ -40,11 +40,14 @@ pub enum SuggestionType {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Default, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Default, Debug, PartialEq, Clone)]
 pub struct Suggestion {
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub name: Vec<String>,
+
+    #[serde(default, rename = "displayName")]
+    pub display_name: Option<String>,
 
     #[serde(default)]
     #[serde(rename = "type")]
@@ -100,7 +103,7 @@ pub struct Command {
     hidden: bool,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 #[serde(untagged)]
 pub enum NumberOrBool {
     Number(usize),
@@ -108,7 +111,7 @@ pub enum NumberOrBool {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct CommandOption {
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
@@ -157,7 +160,7 @@ pub struct CommandOption {
 }
 
 #[serde_as]
-#[derive(Serialize, Deserialize, Debug, Default, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]
 pub struct Arg {
     #[serde(default)]
     #[serde_as(as = "NoneAsEmptyString")]
@@ -204,7 +207,7 @@ pub struct Arg {
     pub default: Option<StringOrNumber>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(untagged)]
 pub enum StringOrNumber {
     String(String),
@@ -220,7 +223,7 @@ impl From<StringOrNumber> for String {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
 pub enum Template {
     #[serde(rename = "filepaths")]
     FilePaths,
@@ -250,7 +253,7 @@ impl Display for Suggestion {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(untagged)]
 pub enum NameOrSuggestion {
     Name(String),
@@ -274,6 +277,11 @@ impl From<Suggestion> for NameOrSuggestion {
 
 impl From<Command> for Signature {
     fn from(command: Command) -> Self {
+        let persistent_options = command
+            .options
+            .iter()
+            .filter_map(|option| option.is_persistent.then(|| option.clone()))
+            .collect_vec();
         Signature {
             name: command.name.first().cloned().unwrap_or_default(),
             alias: command.alias_name,
@@ -286,7 +294,16 @@ impl From<Command> for Signature {
             subcommands: if command.subcommands.is_empty() {
                 None
             } else {
-                Some(command.subcommands.into_iter().map(|s| s.into()).collect())
+                Some(
+                    command
+                        .subcommands
+                        .into_iter()
+                        .map(|mut s| {
+                            s.options.extend(persistent_options.clone());
+                            s.into()
+                        })
+                        .collect(),
+                )
             },
             options: if command.options.is_empty() {
                 None
@@ -343,6 +360,7 @@ impl From<Arg> for Argument {
             is_variadic: arg.is_variadic,
             argument_types,
             optional,
+            is_command: arg.is_command,
         }
     }
 }
@@ -368,6 +386,7 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
             .into_iter()
             .map(|name| crate::Suggestion {
                 exact_string: name,
+                display_name: suggestion.display_name.clone(),
                 description: suggestion.description.clone(),
                 priority: suggestion
                     .priority
@@ -555,6 +574,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -564,6 +584,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -613,6 +634,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -622,6 +644,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -684,6 +707,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -693,6 +717,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -742,6 +767,7 @@ mod tests {
                                 suggestions: vec![
                                     Suggestion {
                                         name: vec!["-globalDomain".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Global domain".into()),
                                         is_dangerous: false,
@@ -751,6 +777,7 @@ mod tests {
                                     .into(),
                                     Suggestion {
                                         name: vec!["-app".into()],
+                                        display_name: None,
                                         suggestion_type: None,
                                         description: Some("Application name".into()),
                                         is_dangerous: false,
@@ -904,6 +931,7 @@ mod tests {
             vec![
                 Suggestion {
                     name: vec!["hdd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("hdd".into()),
                     is_dangerous: false,
@@ -913,6 +941,7 @@ mod tests {
                 .into(),
                 Suggestion {
                     name: vec!["ssd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("ssd".into()),
                     is_dangerous: false,
@@ -944,6 +973,7 @@ mod tests {
             vec![
                 NameOrSuggestion::Suggestion(Suggestion {
                     name: vec!["hdd".into()],
+                    display_name: None,
                     suggestion_type: None,
                     description: Some("hdd".into()),
                     is_dangerous: false,
@@ -982,6 +1012,7 @@ mod tests {
     fn test_default_priority() {
         let fig_suggestion = Suggestion {
             name: vec!["first".into()],
+            display_name: None,
             suggestion_type: None,
             description: Some("hdd".to_owned()),
             is_dangerous: false,
@@ -1000,6 +1031,7 @@ mod tests {
         let priority = Priority::Global(Importance::Less(Order(42)));
         let fig_suggestion = Suggestion {
             name: vec!["first".into(), "second".into()],
+            display_name: Some("Suggestion Display Name".into()),
             suggestion_type: None,
             description: description.clone(),
             is_dangerous: false,
@@ -1010,6 +1042,7 @@ mod tests {
         let warp_suggestions = vec![
             crate::Suggestion {
                 exact_string: "first".into(),
+                display_name: Some("Suggestion Display Name".into()),
                 description: description.clone(),
                 priority,
                 icon: None,
@@ -1017,6 +1050,7 @@ mod tests {
             },
             crate::Suggestion {
                 exact_string: "second".into(),
+                display_name: Some("Suggestion Display Name".into()),
                 description,
                 priority,
                 icon: None,

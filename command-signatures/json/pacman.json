@@ -1,0 +1,889 @@
+{
+  "name": "pacman",
+  "description": "Package manager for Arch Linux",
+  "subcommands": [
+    {
+      "name": "-U",
+      "description": "Upgrade or add package(s) and install the required dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ],
+      "isVariadic": true,
+      "args": {
+        "generatorName": [
+          "list_all_pkg_tar_files_in_cwd",
+          "list_installed_packages"
+        ]
+      }
+    },
+    {
+      "name": "--upgrade",
+      "description": "Upgrade or add package(s) and install the required dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        }
+      ],
+      "isVariadic": true,
+      "args": {
+        "generatorName": [
+          "list_all_pkg_tar_files_in_cwd",
+          "list_installed_packages"
+        ]
+      }
+    },
+    {
+      "name": "-D",
+      "description": "Operate on the package database",
+      "options": [
+        {
+          "name": "--asdeps",
+          "description": "Mark a package as non-explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_installed_packages"
+          }
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Mark a package as explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_installed_packages"
+          }
+        },
+        {
+          "name": ["-k", "--check"],
+          "description": "Check the local package database is internally consistent"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress messages on successful completions of database operations"
+        }
+      ]
+    },
+    {
+      "name": "--database",
+      "description": "Operate on the package database",
+      "options": [
+        {
+          "name": "--asdeps",
+          "description": "Mark a package as non-explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_installed_packages"
+          }
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Mark a package as explicitly installed",
+          "args": {
+            "name": "package",
+            "generatorName": "list_installed_packages"
+          }
+        },
+        {
+          "name": ["-k", "--check"],
+          "description": "Check the local package database is internally consistent"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Suppress messages on successful completions of database operations"
+        }
+      ]
+    },
+    {
+      "name": "-Q",
+      "description": "Query the package database",
+      "options": [
+        {
+          "name": ["-c", "--changelog"],
+          "description": "View the changelog of package if it exists"
+        },
+        {
+          "name": ["-d", "--deps"],
+          "description": "Filter output to packages installed as dependencies"
+        },
+        {
+          "name": ["-e", "--explicit"],
+          "description": "Filter output to explicitly installed packages"
+        },
+        {
+          "name": ["-g", "--groups"],
+          "description": "Display all packages that are members of a named group"
+        },
+        {
+          "name": ["-i", "--info"],
+          "description": "Display information on a given package"
+        },
+        {
+          "name": ["-k", "--check"],
+          "description": "Check that all files owned by the given package(s) are present on the system"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List all files owned by a given package"
+        },
+        {
+          "name": ["-m", "--foreign"],
+          "description": "Filter output to packages that were not found in the sync database(s)"
+        },
+        {
+          "name": ["-n", "--native"],
+          "description": "Filter output to packages that are found in the sync database(s)"
+        },
+        {
+          "name": ["-o", "--owns"],
+          "description": "Search for the packages that own the specified file(s)",
+          "args": {
+            "name": "file",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-p", "--file"],
+          "description": "Signifies that the package supplied on the command line is a file and not an entry in the database"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain query operations"
+        },
+        {
+          "name": ["-s", "--search"],
+          "description": "Search each locally-installed package for names or descriptions that match the given regex",
+          "args": {
+            "name": "regexp"
+          }
+        },
+        {
+          "name": ["-t", "--unrequired"],
+          "description": "Filter output to print only packages neither required nor optionally required by any currently installed package"
+        },
+        {
+          "name": ["-u", "--upgrades"],
+          "description": "Filter output to print only packages that are out-of-date on the local system"
+        }
+      ],
+      "args": {
+        "generatorName": "list_installed_packages",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": "--query",
+      "description": "Query the package database",
+      "options": [
+        {
+          "name": ["-c", "--changelog"],
+          "description": "View the changelog of package if it exists"
+        },
+        {
+          "name": ["-d", "--deps"],
+          "description": "Filter output to packages installed as dependencies"
+        },
+        {
+          "name": ["-e", "--explicit"],
+          "description": "Filter output to explicitly installed packages"
+        },
+        {
+          "name": ["-g", "--groups"],
+          "description": "Display all packages that are members of a named group"
+        },
+        {
+          "name": ["-i", "--info"],
+          "description": "Display information on a given package"
+        },
+        {
+          "name": ["-k", "--check"],
+          "description": "Check that all files owned by the given package(s) are present on the system"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List all files owned by a given package"
+        },
+        {
+          "name": ["-m", "--foreign"],
+          "description": "Filter output to packages that were not found in the sync database(s)"
+        },
+        {
+          "name": ["-n", "--native"],
+          "description": "Filter output to packages that are found in the sync database(s)"
+        },
+        {
+          "name": ["-o", "--owns"],
+          "description": "Search for the packages that own the specified file(s)",
+          "args": {
+            "name": "file",
+            "template": "filepaths"
+          }
+        },
+        {
+          "name": ["-p", "--file"],
+          "description": "Signifies that the package supplied on the command line is a file and not an entry in the database"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain query operations"
+        },
+        {
+          "name": ["-s", "--search"],
+          "description": "Search each locally-installed package for names or descriptions that match the given regex",
+          "args": {
+            "name": "regexp"
+          }
+        },
+        {
+          "name": ["-t", "--unrequired"],
+          "description": "Filter output to print only packages neither required nor optionally required by any currently installed package"
+        },
+        {
+          "name": ["-u", "--upgrades"],
+          "description": "Filter output to print only packages that are out-of-date on the local system"
+        }
+      ],
+      "args": {
+        "generatorName": "list_installed_packages",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": "-R",
+      "description": "Remove package(s) from the system",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-c", "--cascade"],
+          "description": "Remove all target packages, as well as all packages that depend on one or more target packages"
+        },
+        {
+          "name": ["-n", "--nosave"],
+          "description": "Instructs pacman to ignore file backup designations"
+        },
+        {
+          "name": ["-s", "--recursive"],
+          "description": "Remove each target specified including all of their dependencies, provided that they are not required by other packages and they were not explicity installed by the user"
+        },
+        {
+          "name": ["-u", "-unneeded"],
+          "description": "Removes targets that are not required by any other packages"
+        }
+      ],
+      "args": {
+        "generatorName": "list_installed_packages"
+      }
+    },
+    {
+      "name": "--remove",
+      "description": "Remove package(s) from the system",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-c", "--cascade"],
+          "description": "Remove all target packages, as well as all packages that depend on one or more target packages"
+        },
+        {
+          "name": ["-n", "--nosave"],
+          "description": "Instructs pacman to ignore file backup designations"
+        },
+        {
+          "name": ["-s", "--recursive"],
+          "description": "Remove each target specified including all of their dependencies, provided that they are not required by other packages and they were not explicity installed by the user"
+        },
+        {
+          "name": ["-u", "-unneeded"],
+          "description": "Removes targets that are not required by any other packages"
+        }
+      ],
+      "args": {
+        "generatorName": "list_installed_packages"
+      }
+    },
+    {
+      "name": "-S",
+      "description": "Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        },
+        {
+          "name": ["-c", "--clean"],
+          "description": "Remove packages that are no longer installed from the cache as well as currently unused sync databases"
+        },
+        {
+          "name": ["-g", "--groups"],
+          "description": "Display all the members for each package group specified"
+        },
+        {
+          "name": ["-i", "--info"],
+          "description": "Display information on a given sync database package"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List all packages in the specified repositories"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain sync operations"
+        },
+        {
+          "name": ["-s", "--search"],
+          "description": "Search the local sync database for names or descriptions that match the given regex",
+          "args": {
+            "name": "regexp"
+          }
+        },
+        {
+          "name": ["-u", "--sysupgrade"],
+          "description": "Upgrades all packages that are out-of-date"
+        },
+        {
+          "name": ["-y", "--refresh"],
+          "description": "Download a fresh copy of the master package database from the server(s)"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "--sync",
+      "description": "Synchronize packages. Packages are installed directly from the remote repositories, including all dependencies",
+      "options": [
+        {
+          "name": ["-d", "--nodeps"],
+          "description": "Skips dependency version checks"
+        },
+        {
+          "name": "--assume-installed",
+          "description": "Add a virtual package with version to the transaction to satisfy dependencies",
+          "args": {
+            "name": "package=version"
+          }
+        },
+        {
+          "name": "--dbonly",
+          "description": "Adds/removes the database entry only, leaving all files in place"
+        },
+        {
+          "name": "--noprogressbar",
+          "description": "Do not show a progress bar when downloading files"
+        },
+        {
+          "name": "--noscriptlet",
+          "description": "If an install scriptlet exists, do not execute it"
+        },
+        {
+          "name": ["-p", "--print"],
+          "description": "Only print the targets instead of performing the actual operation"
+        },
+        {
+          "name": "--print-format",
+          "description": "Specify a printf-like format to control the output of the --print operation"
+        },
+        {
+          "name": ["-w", "--downloadonly"],
+          "description": "Retrieve all packages from the server, but do not install/upgrade anything"
+        },
+        {
+          "name": "--asdeps",
+          "description": "Install packages non-explicitly by faking their install reason to be installed as a dependency"
+        },
+        {
+          "name": "--asexplicit",
+          "description": "Install packages explicitly by faking their install reason to be explicitly installed"
+        },
+        {
+          "name": "--ignore",
+          "description": "Directs pacman to ignore upgrades of a package even if there is one available",
+          "args": {
+            "name": "package"
+          }
+        },
+        {
+          "name": "--ignoregroup",
+          "description": "Directs pacman to ignore upgrades of all packages in a group even if there is one available",
+          "args": {
+            "name": "group"
+          }
+        },
+        {
+          "name": "--needed",
+          "description": "Do not reinstall the targets that are already up-to-date"
+        },
+        {
+          "name": "--overwrite",
+          "description": "Bypass file conflict checks and overwrite conflicting files",
+          "args": {
+            "name": "glob"
+          }
+        },
+        {
+          "name": ["-c", "--clean"],
+          "description": "Remove packages that are no longer installed from the cache as well as currently unused sync databases"
+        },
+        {
+          "name": ["-g", "--groups"],
+          "description": "Display all the members for each package group specified"
+        },
+        {
+          "name": ["-i", "--info"],
+          "description": "Display information on a given sync database package"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List all packages in the specified repositories"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain sync operations"
+        },
+        {
+          "name": ["-s", "--search"],
+          "description": "Search the local sync database for names or descriptions that match the given regex",
+          "args": {
+            "name": "regexp"
+          }
+        },
+        {
+          "name": ["-u", "--sysupgrade"],
+          "description": "Upgrades all packages that are out-of-date"
+        },
+        {
+          "name": ["-y", "--refresh"],
+          "description": "Download a fresh copy of the master package database from the server(s)"
+        }
+      ],
+      "args": {
+        "generatorName": "list_all_packages"
+      }
+    },
+    {
+      "name": "-T",
+      "description": "Check dependencies"
+    },
+    {
+      "name": "--deptest",
+      "description": "Check dependencies"
+    },
+    {
+      "name": "-F",
+      "description": "Query the files database",
+      "options": [
+        {
+          "name": ["-y", "--refresh"],
+          "description": "Download fresh package databases from the server"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List the files owned by the queried package"
+        },
+        {
+          "name": ["-x", "--regex"],
+          "description": "Interpret each query as a regular expression"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain file operations"
+        },
+        {
+          "name": "--machinereadable",
+          "description": "Print each match in a machine readable output format"
+        }
+      ]
+    },
+    {
+      "name": "--files",
+      "description": "Query the files database",
+      "options": [
+        {
+          "name": ["-y", "--refresh"],
+          "description": "Download fresh package databases from the server"
+        },
+        {
+          "name": ["-l", "--list"],
+          "description": "List the files owned by the queried package"
+        },
+        {
+          "name": ["-x", "--regex"],
+          "description": "Interpret each query as a regular expression"
+        },
+        {
+          "name": ["-q", "--quiet"],
+          "description": "Show less information for certain file operations"
+        },
+        {
+          "name": "--machinereadable",
+          "description": "Print each match in a machine readable output format"
+        }
+      ]
+    }
+  ],
+  "options": [
+    {
+      "name": ["-h", "--help"],
+      "description": "Display syntax for the given operation or if no operation was supplied, then the general syntax is shown",
+      "priority": 40
+    },
+    {
+      "name": ["-V", "--version"],
+      "description": "Display version and exit",
+      "isPersistent": true,
+      "priority": 40
+    },
+    {
+      "name": ["-b", "--dbpath"],
+      "description": "Specify an alternative database location",
+      "args": {
+        "name": "path",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": ["-r", "--root"],
+      "description": "Specify an alternative installation root",
+      "args": {
+        "name": "path",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": ["-v", "--verbose"],
+      "description": "Output paths such as the Root, Conf File, DB Path, Cache Dirs, etc"
+    },
+    {
+      "name": "--arch",
+      "description": "Specify an alternate architecture",
+      "args": {
+        "name": "arch"
+      }
+    },
+    {
+      "name": "--cachedir",
+      "description": "Specify an alternative package cache location",
+      "args": {
+        "name": "dir",
+        "template": "folders"
+      }
+    },
+    {
+      "name": "--color",
+      "description": "Specify when to enable coloring",
+      "args": {
+        "name": "when"
+      }
+    },
+    {
+      "name": "--config",
+      "description": "Specify an alternate configuration file",
+      "args": {
+        "name": "file",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": "--debug",
+      "description": "Display debug messages"
+    },
+    {
+      "name": "--gpgdir",
+      "description": "Specify a directory of files used by GnuPG to verify package signatures",
+      "args": {
+        "name": "dir",
+        "template": "folders"
+      }
+    },
+    {
+      "name": "--logfile",
+      "description": "Specify an alternate log file (absolute path)",
+      "args": {
+        "name": "file",
+        "template": "filepaths"
+      }
+    },
+    {
+      "name": "--hookdir",
+      "description": "Specify an alternative directory containing hook files",
+      "args": {
+        "name": "dir",
+        "template": "folders"
+      }
+    },
+    {
+      "name": "--noconfirm",
+      "description": "Bypass any and all 'Are you sure?' messages"
+    },
+    {
+      "name": "--confirm",
+      "description": "Cancels the effects of a previous --noconfirm"
+    },
+    {
+      "name": "--disable-download-timeout",
+      "description": "Disable defaults for low speed limit and timeout on downloads"
+    },
+    {
+      "name": "--sysroot",
+      "description": "Specify an alternative system root",
+      "args": {
+        "name": "dir",
+        "template": "folders"
+      }
+    }
+  ]
+}

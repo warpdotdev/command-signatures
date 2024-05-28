@@ -1,7 +1,7 @@
 pub mod fig_types;
 mod signature;
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 pub use signature::*;
 use std::cmp::Ordering;
 use std::collections::HashMap;
@@ -10,7 +10,7 @@ use std::hash::{Hash, Hasher};
 const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
 
-#[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+#[derive(Clone, Copy, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub enum IconType {
     File,
     Folder,
@@ -21,9 +21,16 @@ pub enum IconType {
     DockerImage,
 }
 
-#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Suggestion {
+    /// The exact string to be inserted, should the suggestion be accepted. Maps to Fig's `name`
+    /// field.
     pub exact_string: String,
+    /// If provided, is used as the display value for the suggestion in the menu. Maps to Fig's
+    /// `displayValue` field.
+    pub display_name: Option<String>,
+    /// Helper text to describe what kind of suggestion this is. Maps to Fig's `description` field.
+    /// e.g. "Container" for a Docker container suggestion vs. a Docker image suggestion.
     pub description: Option<String>,
     pub priority: Priority,
     /// We have default flags based on type of suggestion (command, flag, argument, etc).
@@ -37,6 +44,7 @@ impl Suggestion {
     pub fn new(name: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: None,
             priority: Priority::Default,
             icon: None,
@@ -47,11 +55,17 @@ impl Suggestion {
     pub fn with_description(name: impl Into<String>, description: impl Into<String>) -> Self {
         Suggestion {
             exact_string: name.into(),
+            display_name: None,
             description: Some(description.into()),
             priority: Priority::Default,
             icon: None,
             is_hidden: false,
         }
+    }
+
+    pub fn with_display_name(mut self, display_name: Option<String>) -> Self {
+        self.display_name = display_name;
+        self
     }
 
     pub fn with_priority(mut self, priority: Priority) -> Self {
@@ -65,7 +79,7 @@ impl Suggestion {
     }
 }
 
-#[allow(clippy::derive_hash_xor_eq)]
+#[allow(clippy::derived_hash_with_manual_eq)]
 impl Hash for Suggestion {
     fn hash<H: Hasher>(&self, state: &mut H) {
         self.exact_string.hash(state)
@@ -84,7 +98,7 @@ impl PathSuggestionType {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
@@ -147,7 +161,7 @@ impl PartialOrd for Priority {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Importance {
     /// More is reserved for suggestions that should be ordered with more priority relative to another suggestion.
     /// The higher the order, the more priority it should have.
@@ -176,7 +190,7 @@ impl PartialOrd for Importance {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 pub struct Order(pub u32);
 impl Order {
     fn normalized(self) -> Self {
@@ -196,15 +210,36 @@ pub struct CommandSignatureGenerators {
     aliases: Aliases,
 }
 
-impl From<CommandSignatureGenerators> for (String, (Generators, Filters, Aliases)) {
+/// Struct containing metadata needed to produce dynamic completion results.
+pub struct DynamicCompletionData {
+    generators: Generators,
+    filters: Filters,
+    aliases: Aliases,
+}
+
+impl DynamicCompletionData {
+    pub fn generators(&self) -> &Generators {
+        &self.generators
+    }
+
+    pub fn filters(&self) -> &Filters {
+        &self.filters
+    }
+
+    pub fn aliases(&self) -> &Aliases {
+        &self.aliases
+    }
+}
+
+impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
     fn from(command_generators: CommandSignatureGenerators) -> Self {
         (
             command_generators.command_name,
-            (
-                command_generators.generators,
-                command_generators.filters,
-                command_generators.aliases,
-            ),
+            DynamicCompletionData {
+                generators: command_generators.generators,
+                filters: command_generators.filters,
+                aliases: command_generators.aliases,
+            }
         )
     }
 }

@@ -1,13 +1,16 @@
 use std::collections::HashMap;
 use std::iter::FromIterator;
-use warp_completion_metadata::{Aliases, Filters, Generators};
+use warp_completion_metadata::DynamicCompletionData;
 
+/// Used for debian-based package managers like apt-get, aptitude, etc.
+mod apt;
 mod bazel;
 mod bosh;
 mod brew;
 mod cargo;
 mod conda;
 mod defaults;
+mod dnf;
 mod docker;
 mod firebase;
 mod flutter;
@@ -17,6 +20,7 @@ mod go;
 mod heroku;
 mod kill;
 mod killall;
+mod kubecolor;
 mod kubectl;
 mod kubectx;
 mod kubens;
@@ -26,6 +30,7 @@ mod ng;
 mod node;
 mod npm;
 mod nx;
+mod pacman;
 mod phpunit_watcher;
 mod pip;
 mod pyenv;
@@ -37,12 +42,16 @@ mod terraform;
 mod tmux;
 mod tmuxinator;
 
-pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, Aliases)> {
+/// Returns dynamic command signature data, keyed on the command the data corresponds to.
+pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
     let command_signature_generators = [
+        apt::apt_get_generators(),
+        apt::aptitude_generators(),
         bosh::generator(),
         brew::generator(),
         conda::generator(),
         defaults::generator(),
+        dnf::generator(),
         docker::generator(),
         firebase::generator(),
         flutter::generator(),
@@ -56,6 +65,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         npm::npm_generators(),
         npm::yarn_generators(),
         nx::generator(),
+        pacman::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
         pip::pip3_generator(),
@@ -70,6 +80,7 @@ pub fn command_signature_generators() -> HashMap<String, (Generators, Filters, A
         bazel::generator(),
         cargo::generator(),
         kubectl::generator(),
+        kubecolor::generator(),
         kill::generator(),
         killall::generator(),
         tmuxinator::generator(),

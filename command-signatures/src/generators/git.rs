@@ -487,6 +487,7 @@ pub fn post_process_branches(out: &str) -> GeneratorResults {
                         } else {
                             return Some(Suggestion {
                                 exact_string: elm.replace('*', "").trim().to_owned(),
+                                display_name: None,
                                 description: Some("Current branch".to_owned()),
                                 priority: Priority::most_important(),
                                 icon: Some(IconType::GitBranch),
@@ -600,6 +601,7 @@ pub fn generator() -> CommandSignatureGenerators {
                         .split('\n')
                         .map(|file| Suggestion {
                             exact_string: file.to_owned(),
+                            display_name: None,
                             description: Some("staged file".to_owned()),
                             priority: Priority::Default,
                             icon: Some(IconType::File),
@@ -769,6 +771,7 @@ mod tests {
                 suggestions: vec![
                     Suggestion {
                         exact_string: "_release/v0.2021.04.02.14.18._00".to_owned(),
+                        display_name: None,
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
@@ -776,6 +779,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "aloke/add_new_generators".to_owned(),
+                        display_name: None,
                         description: Some("Current branch".to_owned()),
                         priority: Priority::most_important(),
                         icon: Some(IconType::GitBranch),
@@ -783,6 +787,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "aloke/add_options".to_owned(),
+                        display_name: None,
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
@@ -790,6 +795,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "aloke/add_stable_release_workflow".to_owned(),
+                        display_name: None,
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
@@ -797,6 +803,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "aloke/after_frame_hook".to_owned(),
+                        display_name: None,
                         description: Some("Branch".to_owned()),
                         priority: Priority::Default,
                         icon: Some(IconType::GitBranch),
@@ -821,6 +828,7 @@ mod tests {
                 suggestions: vec![
                     Suggestion {
                         exact_string: "app/src/features.rs".to_owned(),
+                        display_name: None,
                         description: Some("Changed file".to_owned()),
                         priority: Priority::Global(Importance::More(Order(100))),
                         icon: Some(IconType::File),
@@ -828,6 +836,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "app/src/launch_config_palette.rs".to_owned(),
+                        display_name: None,
                         description: Some("Changed file".to_owned()),
                         priority: Priority::Global(Importance::More(Order(100))),
                         icon: Some(IconType::File),
@@ -835,6 +844,7 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "app/src/workspace/mod.rs".to_owned(),
+                        display_name: None,
                         description: Some("Changed file".to_owned()),
                         priority: Priority::Global(Importance::More(Order(100))),
                         icon: Some(IconType::File),
