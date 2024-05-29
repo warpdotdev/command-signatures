@@ -1,1209 +1,1217 @@
 {
-    "name": "nx",
-    "description": "Fig completions for Nx by Nrwl",
-    "subcommands": [
+  "name": "nx",
+  "description": "Fig completions for Nx by Nrwl",
+  "subcommands": [
+    {
+      "name": "build",
+      "description": "Build an Nx app",
+      "args": {
+        "generatorName": "apps_and_libs",
+        "name": "app"
+      }
+    },
+    {
+      "name": "run",
+      "description": "Run a target for a project. (e.g., `nx run myapp:serve:production`)",
+      "args": {
+        "generatorName": "workspace_targets",
+        "name": "[project][:target][:configuration]"
+      }
+    },
+    {
+      "name": "serve",
+      "description": "Serve an Nx app",
+      "args": {
+        "generatorName": "apps_and_libs",
+        "name": "app"
+      },
+      "options": [
         {
-            "name": "build",
-            "description": "Build an Nx app",
-            "args": {
-                "generatorName": "apps_and_libs",
-                "name": "app"
-            }
+          "name": "--allowedHosts",
+          "args": {},
+          "description": "This option allows you to whitelist services that are allowed to access the dev server"
         },
         {
-            "name": "serve",
-            "description": "Serve an Nx app",
-            "args": {
-                "generatorName": "apps_and_libs",
-                "name": "app"
-            },
-            "options": [
-                {
-                    "name": "--allowedHosts",
-                    "args": {},
-                    "description": "This option allows you to whitelist services that are allowed to access the dev server"
-                },
-                {
-                    "name": "--host",
-                    "args": {
-                        "suggestions": [
-                            "localhost"
-                        ]
-                    },
-                    "description": "Host to listen on (default: localhost)"
-                },
-                {
-                    "name": "--liveReload",
-                    "args": {
-                        "suggestions": [
-                            "true",
-                            "false"
-                        ]
-                    },
-                    "description": "Whether to reload the page on change, using live-reload"
-                },
-                {
-                    "name": [
-                        "--open",
-                        "-o"
-                    ],
-                    "description": "Open the application in the browser"
-                },
-                {
-                    "name": "--port",
-                    "args": {
-                        "suggestions": [
-                            "4200"
-                        ]
-                    },
-                    "description": "Port to listen on (default: 4200)"
-                },
-                {
-                    "name": "--publicHost",
-                    "description": "Public URL where the application will be served"
-                },
-                {
-                    "name": "--ssl",
-                    "args": {
-                        "suggestions": [
-                            "true",
-                            "false"
-                        ]
-                    },
-                    "description": "Serve using HTTPS"
-                },
-                {
-                    "name": "--sslKey",
-                    "args": {},
-                    "description": "SSL key to use for serving HTTPS"
-                },
-                {
-                    "name": "--sslCert",
-                    "args": {},
-                    "description": "SSL certificate to use for serving HTTPS"
-                },
-                {
-                    "name": "--watch",
-                    "args": {
-                        "suggestions": [
-                            "true",
-                            "false"
-                        ]
-                    },
-                    "description": "Watches for changes and rebuilds application (default: true)"
-                },
-                {
-                    "name": "--buildTarget",
-                    "args": {},
-                    "description": "Target which builds the application"
-                },
-                {
-                    "name": "--memoryLimit",
-                    "args": {},
-                    "description": "Memory limit for type checking service process in MB"
-                },
-                {
-                    "name": "--maxWorkers",
-                    "args": {},
-                    "description": "Number of workers to use for type checking"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
+          "name": "--host",
+          "args": {
+            "suggestions": [
+              "localhost"
             ]
+          },
+          "description": "Host to listen on (default: localhost)"
         },
         {
-            "name": "test",
-            "description": "Test an Nx app or lib",
-            "args": {
-                "generatorName": "apps_and_libs",
-                "name": "app/lib"
-            },
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
+          "name": "--liveReload",
+          "args": {
+            "suggestions": [
+              "true",
+              "false"
             ]
+          },
+          "description": "Whether to reload the page on change, using live-reload"
         },
         {
-            "name": "e2e",
-            "description": "Run e2e tests for an Nx app",
-            "args": {
-                "generatorName": "apps_and_libs",
-                "name": "app"
-            },
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": [
+            "--open",
+            "-o"
+          ],
+          "description": "Open the application in the browser"
         },
         {
-            "name": "lint",
-            "description": "Lint an Nx app or lib",
-            "args": {
-                "generatorName": "apps_and_libs",
-                "name": "app/lib"
-            },
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
+          "name": "--port",
+          "args": {
+            "suggestions": [
+              "4200"
             ]
+          },
+          "description": "Port to listen on (default: 4200)"
         },
         {
-            "name": "workspace-schematic",
-            "description": "Run a workspace schematic",
-            "args": {
-                "generatorName": "local_schematics",
-                "name": "schematic"
-            },
-            "options": [
-                {
-                    "name": "--list-schematics",
-                    "description": "List the available workspace-schematics"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--publicHost",
+          "description": "Public URL where the application will be served"
         },
         {
-            "name": "workspace-generator",
-            "description": "Run a workspace generator",
-            "args": {
-                "generatorName": "local_generators",
-                "name": "generator"
-            },
-            "options": [
-                {
-                    "name": "--list-generators",
-                    "description": "List the available workspace-generators"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
+          "name": "--ssl",
+          "args": {
+            "suggestions": [
+              "true",
+              "false"
             ]
+          },
+          "description": "Serve using HTTPS"
         },
         {
-            "name": "generate",
-            "description": "Run a generator",
-            "args": {
-                "generators": {
-                    "script": "_NuFrRa_n=>{let e=n.slice(-1)[0];return e.indexOf(\":\")>-1?`nx list ${e.split(\":\")[0]}`:\"nx list\"}",
-                    "trigger": ":",
-                    "cache": {
-                        "ttl": 86400
-                    },
-                    "postProcess": "_NuFrRa_(n,e)=>{if(n.indexOf(\"Installed plugins\")>-1){let i=n.split(\">\")[1].split(`\n`).filter(Boolean);return i.shift(),i.map(t=>t.trim().split(\" \")[0]).map(t=>({name:t,type:\"option\"}))}else if(n.indexOf(\"Capabilities\")>-1){let a=e.slice(-1)[0];return n.split(`\n`).filter(t=>t.trim().indexOf(\" : \")>-1).map(t=>a+t.trim().split(\" : \")[0]).map(t=>({name:t,type:\"option\"}))}}"
-                },
-                "name": "collection:generator"
-            },
-            "options": [
-                {
-                    "name": "--defaults",
-                    "args": [
-                        {
-                            "name": "true"
-                        },
-                        {
-                            "name": "false"
-                        }
-                    ],
-                    "description": "When true, disables interactive input prompts for options with a default {true|false}"
-                },
-                {
-                    "name": "--dryRun",
-                    "args": [
-                        {
-                            "name": "true"
-                        },
-                        {
-                            "name": "false"
-                        }
-                    ],
-                    "description": "When true, runs the generator without making actual changes {true|false}"
-                },
-                {
-                    "name": "--force",
-                    "args": [
-                        {
-                            "name": "true"
-                        },
-                        {
-                            "name": "false"
-                        }
-                    ],
-                    "description": "When true, forces overwriting of existing files {true|false}"
-                },
-                {
-                    "name": "--interactive",
-                    "args": [
-                        {
-                            "name": "true"
-                        },
-                        {
-                            "name": "false"
-                        }
-                    ],
-                    "description": "When false, disables interactive input prompts {true|false}"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--sslKey",
+          "args": {},
+          "description": "SSL key to use for serving HTTPS"
         },
         {
-            "name": "dep-graph",
-            "options": [
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "List of projects delimited by commas to exclude from the dependency graph"
-                },
-                {
-                    "name": "--file",
-                    "args": {},
-                    "description": "Output file (e.g. --file=output.json or --file=dep-graph.html)"
-                },
-                {
-                    "name": "--focus",
-                    "args": {},
-                    "description": "Use to show the dependency graph for a particular project and every node that is either an ancestor or a descendant"
-                },
-                {
-                    "name": "--groupByFolder",
-                    "description": "Group projects by folder in dependency graph"
-                },
-                {
-                    "name": "--host",
-                    "args": {},
-                    "description": "Bind the dep graph server to a specific ip address"
-                },
-                {
-                    "name": "--port",
-                    "args": {},
-                    "description": "Bind the dep graph server to a specific port"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--sslCert",
+          "args": {},
+          "description": "SSL certificate to use for serving HTTPS"
         },
         {
-            "name": "affected",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
+          "name": "--watch",
+          "args": {
+            "suggestions": [
+              "true",
+              "false"
             ]
+          },
+          "description": "Watches for changes and rebuilds application (default: true)"
         },
         {
-            "name": "affected:build",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--buildTarget",
+          "args": {},
+          "description": "Target which builds the application"
         },
         {
-            "name": "affected:serve",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--memoryLimit",
+          "args": {},
+          "description": "Memory limit for type checking service process in MB"
         },
         {
-            "name": "affected:test",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--maxWorkers",
+          "args": {},
+          "description": "Number of workers to use for type checking"
         },
         {
-            "name": "affected:e2e",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--help",
+          "description": "Show help"
         },
         {
-            "name": "affected:lint",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "affected:dep-graph",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "affected:apps",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "affected:libs",
-            "options": [
-                {
-                    "name": "--all",
-                    "description": "All projects"
-                },
-                {
-                    "name": "--base",
-                    "args": {},
-                    "description": "Base of the current branch (usually master)"
-                },
-                {
-                    "name": "--configuration",
-                    "args": {},
-                    "description": "This is the configuration to use when performing tasks on projects"
-                },
-                {
-                    "name": "--exclude",
-                    "args": {},
-                    "description": "Exclude certain projects from being processed"
-                },
-                {
-                    "name": "--files",
-                    "args": {},
-                    "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
-                },
-                {
-                    "name": "--head",
-                    "args": {},
-                    "description": "Latest commit of the current branch (usually HEAD)"
-                },
-                {
-                    "name": "--maxParallel",
-                    "args": {
-                        "suggestions": [
-                            "3"
-                        ]
-                    },
-                    "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
-                },
-                {
-                    "name": "--only-failed",
-                    "description": "Isolate projects which previously failed"
-                },
-                {
-                    "name": "--parallel",
-                    "args": {
-                        "suggestions": [
-                            "false",
-                            "true"
-                        ]
-                    },
-                    "description": "Parallelize the command (default: false)"
-                },
-                {
-                    "name": "--runner",
-                    "args": {},
-                    "description": "This is the name of the tasks runner configured in nx.json"
-                },
-                {
-                    "name": "--skip-nx-cache",
-                    "description": "Rerun the tasks even when the results are available in the cache"
-                },
-                {
-                    "name": "--target",
-                    "args": {},
-                    "description": "Task to run for affected projects"
-                },
-                {
-                    "name": "--uncommitted",
-                    "description": "Uncommitted changes"
-                },
-                {
-                    "name": "--untracked",
-                    "description": "Untracked changes"
-                },
-                {
-                    "name": "--verbose",
-                    "description": "Print additional error stack trace on failure"
-                },
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "report",
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "workspace-lint",
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "connect-lint",
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
-        },
-        {
-            "name": "list",
-            "args": {
-                "generatorName": "installed_plugins",
-                "description": "The name of an installed plugin to query"
-            },
-            "options": [
-                {
-                    "name": "--help",
-                    "description": "Show help"
-                },
-                {
-                    "name": "--version",
-                    "description": "Show version number"
-                }
-            ]
+          "name": "--version",
+          "description": "Show version number"
         }
-    ]
+      ]
+    },
+    {
+      "name": "test",
+      "description": "Test an Nx app or lib",
+      "args": {
+        "generatorName": "apps_and_libs",
+        "name": "app/lib"
+      },
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "e2e",
+      "description": "Run e2e tests for an Nx app",
+      "args": {
+        "generatorName": "apps_and_libs",
+        "name": "app"
+      },
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "lint",
+      "description": "Lint an Nx app or lib",
+      "args": {
+        "generatorName": "apps_and_libs",
+        "name": "app/lib"
+      },
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "workspace-schematic",
+      "description": "Run a workspace schematic",
+      "args": {
+        "generatorName": "local_schematics",
+        "name": "schematic"
+      },
+      "options": [
+        {
+          "name": "--list-schematics",
+          "description": "List the available workspace-schematics"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "workspace-generator",
+      "description": "Run a workspace generator",
+      "args": {
+        "generatorName": "local_generators",
+        "name": "generator"
+      },
+      "options": [
+        {
+          "name": "--list-generators",
+          "description": "List the available workspace-generators"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "generate",
+      "description": "Run a generator",
+      "args": {
+        "generators": {
+          "script": "_NuFrRa_n=>{let e=n.slice(-1)[0];return e.indexOf(\":\")>-1?`nx list ${e.split(\":\")[0]}`:\"nx list\"}",
+          "trigger": ":",
+          "cache": {
+            "ttl": 86400
+          },
+          "postProcess": "_NuFrRa_(n,e)=>{if(n.indexOf(\"Installed plugins\")>-1){let i=n.split(\">\")[1].split(`\n`).filter(Boolean);return i.shift(),i.map(t=>t.trim().split(\" \")[0]).map(t=>({name:t,type:\"option\"}))}else if(n.indexOf(\"Capabilities\")>-1){let a=e.slice(-1)[0];return n.split(`\n`).filter(t=>t.trim().indexOf(\" : \")>-1).map(t=>a+t.trim().split(\" : \")[0]).map(t=>({name:t,type:\"option\"}))}}"
+        },
+        "name": "collection:generator"
+      },
+      "options": [
+        {
+          "name": "--defaults",
+          "args": [
+            {
+              "name": "true"
+            },
+            {
+              "name": "false"
+            }
+          ],
+          "description": "When true, disables interactive input prompts for options with a default {true|false}"
+        },
+        {
+          "name": "--dryRun",
+          "args": [
+            {
+              "name": "true"
+            },
+            {
+              "name": "false"
+            }
+          ],
+          "description": "When true, runs the generator without making actual changes {true|false}"
+        },
+        {
+          "name": "--force",
+          "args": [
+            {
+              "name": "true"
+            },
+            {
+              "name": "false"
+            }
+          ],
+          "description": "When true, forces overwriting of existing files {true|false}"
+        },
+        {
+          "name": "--interactive",
+          "args": [
+            {
+              "name": "true"
+            },
+            {
+              "name": "false"
+            }
+          ],
+          "description": "When false, disables interactive input prompts {true|false}"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "dep-graph",
+      "options": [
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "List of projects delimited by commas to exclude from the dependency graph"
+        },
+        {
+          "name": "--file",
+          "args": {},
+          "description": "Output file (e.g. --file=output.json or --file=dep-graph.html)"
+        },
+        {
+          "name": "--focus",
+          "args": {},
+          "description": "Use to show the dependency graph for a particular project and every node that is either an ancestor or a descendant"
+        },
+        {
+          "name": "--groupByFolder",
+          "description": "Group projects by folder in dependency graph"
+        },
+        {
+          "name": "--host",
+          "args": {},
+          "description": "Bind the dep graph server to a specific ip address"
+        },
+        {
+          "name": "--port",
+          "args": {},
+          "description": "Bind the dep graph server to a specific port"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:build",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:serve",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:test",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:e2e",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:lint",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:dep-graph",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:apps",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "affected:libs",
+      "options": [
+        {
+          "name": "--all",
+          "description": "All projects"
+        },
+        {
+          "name": "--base",
+          "args": {},
+          "description": "Base of the current branch (usually master)"
+        },
+        {
+          "name": "--configuration",
+          "args": {},
+          "description": "This is the configuration to use when performing tasks on projects"
+        },
+        {
+          "name": "--exclude",
+          "args": {},
+          "description": "Exclude certain projects from being processed"
+        },
+        {
+          "name": "--files",
+          "args": {},
+          "description": "Change the way Nx is calculating the affected command by providing directly changed files, list of files delimited by commas"
+        },
+        {
+          "name": "--head",
+          "args": {},
+          "description": "Latest commit of the current branch (usually HEAD)"
+        },
+        {
+          "name": "--maxParallel",
+          "args": {
+            "suggestions": [
+              "3"
+            ]
+          },
+          "description": "Max number of parallel processes. This flag is ignored if the parallel option is set to false. (default: 3)"
+        },
+        {
+          "name": "--only-failed",
+          "description": "Isolate projects which previously failed"
+        },
+        {
+          "name": "--parallel",
+          "args": {
+            "suggestions": [
+              "false",
+              "true"
+            ]
+          },
+          "description": "Parallelize the command (default: false)"
+        },
+        {
+          "name": "--runner",
+          "args": {},
+          "description": "This is the name of the tasks runner configured in nx.json"
+        },
+        {
+          "name": "--skip-nx-cache",
+          "description": "Rerun the tasks even when the results are available in the cache"
+        },
+        {
+          "name": "--target",
+          "args": {},
+          "description": "Task to run for affected projects"
+        },
+        {
+          "name": "--uncommitted",
+          "description": "Uncommitted changes"
+        },
+        {
+          "name": "--untracked",
+          "description": "Untracked changes"
+        },
+        {
+          "name": "--verbose",
+          "description": "Print additional error stack trace on failure"
+        },
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "report",
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "workspace-lint",
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "connect-lint",
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    },
+    {
+      "name": "list",
+      "args": {
+        "generatorName": "installed_plugins",
+        "description": "The name of an installed plugin to query"
+      },
+      "options": [
+        {
+          "name": "--help",
+          "description": "Show help"
+        },
+        {
+          "name": "--version",
+          "description": "Show version number"
+        }
+      ]
+    }
+  ]
 }
