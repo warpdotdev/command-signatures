@@ -1,4 +1,5 @@
-use serde_json::Result;
+use itertools::Itertools;
+use serde_json::{Result, Value};
 use std::collections::HashMap;
 use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
@@ -14,6 +15,32 @@ struct NxOutput {
 #[serde(rename_all = "camelCase")]
 struct NxProject {
     project_type: String,
+}
+
+#[derive(Debug, serde::Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct NXGraphFile {
+    graph: NXGraph,
+}
+
+#[derive(Debug, serde::Deserialize)]
+#[serde(rename_all = "camelCase")]
+#[derive(Default)]
+struct NXGraph {
+    nodes: HashMap<String, NXNode>,
+}
+
+#[derive(Debug, serde::Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct NXNode {
+    name: String,
+    data: NXData,
+}
+
+#[derive(Debug, serde::Deserialize, Default)]
+#[serde(rename_all = "camelCase")]
+struct NXData {
+    targets: HashMap<String, Value>,
 }
 
 fn process_workspace_json(
@@ -73,6 +100,30 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "local_generators",
             Generator::script("ls tools/generators", process_generators),
+        )
+        .add_generator(
+            "workspace_targets",
+            Generator::script("nx graph --file stdout", |output| {
+                let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
+                    return GeneratorResults::default()
+                };
+
+                let suggestions = parsed_output
+                    .graph
+                    .nodes
+                    .into_values()
+                    .flat_map(|node| {
+                        node.data.targets.into_keys().map(move |target| {
+                            let name = format!("{}:{target}", node.name);
+                            Suggestion::with_description(name, "nx target")
+                        })
+                    })
+                    .unique();
+                GeneratorResults {
+                    suggestions: suggestions.collect(),
+                    is_ordered: false,
+                }
+            }),
         )
         .add_generator(
             "installed_plugins",
