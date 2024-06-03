@@ -72,7 +72,8 @@ fn get_scripts_generator() -> Generator {
     )
 }
 
-fn get_binaries_generator() -> Generator {
+/// Returns the list of executables located within the `node_modules` directory.
+fn executables_within_node_modules() -> Generator {
     Generator::script(
         "until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/",
         |output| {
@@ -273,7 +274,7 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
                     .collect_ordered_results()
             }),
         )
-        .add_generator("binaries_generator", get_binaries_generator())
+        .add_generator("binaries_generator", executables_within_node_modules())
         .add_alias("script_alias", script_alias_generator())
 }
 
