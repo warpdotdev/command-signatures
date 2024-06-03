@@ -72,6 +72,21 @@ fn get_scripts_generator() -> Generator {
     )
 }
 
+fn get_binaries_generator() -> Generator {
+    Generator::script(
+        "until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/",
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
+
+            output.lines().map(|item| {
+                Suggestion::with_description(item, "Binary from a yarn workspace dependency")
+            }).collect_unordered_results()
+        },
+    )
+}
+
 fn config_list() -> Generator {
     Generator::script("yarn config list", |output| {
         if output.trim().is_empty() {
@@ -258,6 +273,7 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
                     .collect_ordered_results()
             }),
         )
+        .add_generator("binaries_generator", get_binaries_generator())
         .add_alias("script_alias", script_alias_generator())
 }
 
