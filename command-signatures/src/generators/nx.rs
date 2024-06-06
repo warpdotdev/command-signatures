@@ -10,8 +10,8 @@ use warp_completion_metadata::{
 /// where the output of `nx graph` could be truncated when printing to stdout (see https://github.com/nrwl/nx/issues/18689
 /// for more details).
 /// The workaround here is to write the output to a tmpfile and then `cat` that tmpfile. We execute
-/// this within a sh shell to ensure we are running in an environment where we can POSIX shell
-/// compliant commands to generate the output , even if the user is running a non-POSIX compliant
+/// this within a sh shell to ensure we are running in an environment where we can run POSIX-shell
+/// compliant commands to generate the output, even if the user is running a non-POSIX compliant
 /// shell (such as fish).
 const NX_WORKSPACE_TARGETS_COMMAND: &str =
     "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp > /dev/null && cat $temp'";
