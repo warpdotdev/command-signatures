@@ -5,6 +5,17 @@ use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
+/// Command that computes the `nx` workspace targets by executing `nx graph --file`.
+/// `nx graph` supports printing to stdout, but older versions of `nx` (before 19.20) had a bug
+/// where the output of `nx graph` could be truncated when printing to stdout (see https://github.com/nrwl/nx/issues/18689
+/// for more details).
+/// The workaround here is to write the output to a tmpfile and then `cat` that tmpfile. We execute
+/// this within a sh shell to ensure we are running in an environment where we can POSIX shell
+/// compliant commands to generate the output , even if the user is running a non-POSIX compliant
+/// shell (such as fish).
+const NX_WORKSPACE_TARGETS_COMMAND: &str =
+    "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp > /dev/null && cat $temp'";
+
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct NxOutput {
@@ -103,7 +114,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "workspace_targets",
-            Generator::script("nx graph --file stdout", |output| {
+            Generator::script(NX_WORKSPACE_TARGETS_COMMAND, |output| {
                 let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
                     return GeneratorResults::default()
                 };
