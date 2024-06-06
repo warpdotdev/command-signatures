@@ -14,7 +14,7 @@ use warp_completion_metadata::{
 /// compliant commands to generate the output, even if the user is running a non-POSIX compliant
 /// shell (such as fish).
 const NX_WORKSPACE_TARGETS_COMMAND: &str =
-    "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp > /dev/null && cat $temp'";
+    "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp > /dev/null && cat $temp && rm $temp'";
 
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
