@@ -6,6 +6,7 @@ use rayon::prelude::*;
 use serde::{Deserialize, Deserializer};
 use serde_json::Value;
 use serde_with::{formats::PreferMany, serde_as, DefaultOnNull, OneOrMany};
+use warp_command_signatures::fig_types::{Arg, Command, CommandOption, NameOrSuggestion};
 
 #[serde_as]
 #[derive(Debug, Deserialize)]
@@ -136,13 +137,103 @@ fn main() {
         .map(|cmdlet_name| {
             let cmdlet_help_json =
                 run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
-            serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
-                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"))
+            let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
+                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"));
+            let aliases = run_pwsh_command(format!(
+                "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
+            ));
+            cmdlet_help.aliases = aliases
+                .trim()
+                .split('\n')
+                .map(ToOwned::to_owned)
+                .collect_vec();
+            cmdlet_help
         })
         .collect::<Vec<_>>();
 
     for cmdlet_help in all_cmdlet_help {
-        println!("{:#?}", cmdlet_help);
+        let options = cmdlet_help
+            .parameters
+            .unwrap_or_default()
+            .parameter
+            .iter()
+            .map(|param| {
+                let mut name = vec!["-".to_owned() + &param.name];
+                name.extend(param.aliases.as_ref().map(|alias| "-".to_owned() + alias));
+
+                let suggestions = cmdlet_help
+                    .syntax
+                    .syntax_items
+                    .iter()
+                    .flat_map(|item| &item.parameter)
+                    .find(|syn_param| {
+                        syn_param.name == param.name
+                            && syn_param
+                                .allowed_values
+                                .as_ref()
+                                .is_some_and(|values| !values.values.is_empty())
+                    });
+
+                // "Switches", i.e. a flag without an argument, are either "SwitchParameter" or
+                // "System.Management.Automation.SwitchParameter"
+                let args = if param.type_info.name.ends_with("SwitchParameter") {
+                    vec![]
+                } else {
+                    vec![Arg {
+                        suggestions: suggestions
+                            .and_then(|param| param.allowed_values.as_ref())
+                            .map(|values| values.values.clone())
+                            .unwrap_or_default()
+                            .into_iter()
+                            .map(NameOrSuggestion::Name)
+                            .collect_vec(),
+                        is_variadic: param.variable_length,
+                        ..Default::default()
+                    }]
+                };
+
+                CommandOption {
+                    name,
+                    args,
+                    // This only applies to subcommands, which PowerShell cmdlets don't have.
+                    is_persistent: false,
+                    is_required: param.required,
+                    // PowerShell cmdlets forbid this.
+                    requires_equals: false,
+                    // PowerShell cmdlets forbid this too.
+                    is_repeatable: None,
+                    // TODO, difficult to parse.
+                    exclusive_on: vec![],
+                    // TODO, difficult to parse.
+                    depends_on: vec![],
+                    description: param
+                        .description
+                        .iter()
+                        .find(|para| !para.text.contains("> [!NOTE] >"))
+                        .map(|pg| pg.text.clone()),
+                    is_dangerous: false,
+                    priority: None,
+                    hidden: false,
+                }
+            })
+            .collect_vec();
+        let command_spec = Command {
+            name: vec![cmdlet_help.name],
+            // PowerShell cmdlets don't have subcommands.
+            subcommands: vec![],
+            options,
+            // PowerShell cmdlets never require positional arguments. There are some parameters
+            // which may be specified positionally, but they always have named flags as an
+            // alternative. The named flags are generally encouraged.
+            args: vec![],
+            alias_name: cmdlet_help.aliases.get(0).map(|s| s.as_str().into()),
+            additional_suggestions: vec![],
+            description: Some(cmdlet_help.synopsis),
+            is_dangerous: false,
+            priority: None,
+            hidden: false,
+        };
+        println!("{command_spec:#?}");
     }
 }
 
