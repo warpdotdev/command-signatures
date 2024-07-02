@@ -11,14 +11,25 @@ use serde_with::{formats::PreferMany, serde_as, DefaultOnNull, OneOrMany};
 struct CmdletHelp {
     #[serde(alias = "Name")]
     name: String,
+
     #[serde(alias = "Synopsis")]
     synopsis: String,
+
+    /// Doesn't come from `Get-Help`. Need to separately get it from `Get-Alias`.
+    #[serde(skip_deserializing)]
+    aliases: Vec<String>,
+
+    #[allow(dead_code)]
     #[serde(alias = "ModuleName")]
     module_name: String,
+
+    #[allow(dead_code)]
     #[serde_as(deserialize_as = "DefaultOnNull")]
     description: Vec<Paragraph>,
+
     #[serde(deserialize_with = "empty_string_is_none")]
     parameters: Option<ParameterTypes>,
+
     #[serde(alias = "Syntax")]
     syntax: SyntaxInfo,
 }
@@ -30,7 +41,7 @@ struct Paragraph {
 }
 
 #[serde_as]
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Default)]
 struct ParameterTypes {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     parameter: Vec<Parameter>,
@@ -39,22 +50,48 @@ struct ParameterTypes {
 #[derive(Debug, Deserialize)]
 struct Parameter {
     name: String,
+
     #[serde(rename = "type")]
     type_info: TypeInfo,
+
     #[serde(default)]
     description: Vec<Paragraph>,
+
     #[serde(default, rename = "parameterValueGroup")]
     allowed_values: Option<ParameterValues>,
+
+    #[allow(dead_code)]
     #[serde(default, rename = "defaultValue")]
     default_value: Option<String>,
-    required: String,
-    #[serde(default, rename = "variableLength")]
-    variable_length: Option<String>,
-    globbing: String,
+
+    #[serde(deserialize_with = "string_to_bool")]
+    required: bool,
+
+    #[serde(
+        default,
+        rename = "variableLength",
+        deserialize_with = "string_to_bool"
+    )]
+    variable_length: bool,
+
+    #[allow(dead_code)]
+    #[serde(deserialize_with = "string_to_bool")]
+    globbing: bool,
+
+    /// Possible values: "False", "True", "True (ByValue)", "True (ByPropertyName)",
+    /// "True (ByPropertyName, ByValue)"
+    #[allow(dead_code)]
     #[serde(rename = "pipelineInput")]
     pipeline_input: String,
+
+    /// Possible values: "named", "0", "1", "2", "3", "100", "101"
+    /// The "100" and "101" values seem like errors, and are observed in the `Register-EngineEvent`
+    /// and `Register-ObjectEvent` cmdlets on pwsh 7.4.2.
+    #[allow(dead_code)]
     position: String,
-    aliases: String,
+
+    #[serde(deserialize_with = "literal_none_is_none")]
+    aliases: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -73,7 +110,9 @@ struct ParameterValues {
 #[serde_as]
 #[derive(Debug, Deserialize)]
 struct SyntaxTypes {
+    #[allow(dead_code)]
     name: String,
+
     #[serde(default)]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     parameter: Vec<Parameter>,
@@ -147,4 +186,24 @@ where
     T::deserialize(value)
         .map(|v| Some(v))
         .map_err(serde::de::Error::custom)
+}
+
+fn literal_none_is_none<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: Option<String> = Option::deserialize(deserializer)?;
+    Ok(s.filter(|s| s.trim().to_lowercase() != "none"))
+}
+
+fn string_to_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = Deserialize::deserialize(deserializer)?;
+    match s.as_str() {
+        "true" => Ok(true),
+        "false" => Ok(false),
+        _ => Err(serde::de::Error::custom(format!("Unexpected value: {s}"))),
+    }
 }
