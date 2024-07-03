@@ -30,7 +30,7 @@ pub(super) fn literal_none_is_empty<'de, D>(deserializer: D) -> Result<Vec<Strin
 where
     D: Deserializer<'de>,
 {
-    let s: String = String::deserialize(deserializer)?;
+    let s = String::deserialize(deserializer)?;
     if s.trim().to_lowercase() == "none" {
         return Ok(vec![]);
     }

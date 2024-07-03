@@ -57,13 +57,13 @@ pub struct Suggestion {
     pub description: Option<String>,
 
     #[serde(default)]
-    is_dangerous: bool,
+    pub is_dangerous: bool,
 
     #[serde(default)]
-    priority: Option<FigPriority>,
+    pub priority: Option<FigPriority>,
 
     #[serde(default)]
-    hidden: bool,
+    pub hidden: bool,
 }
 
 #[serde_as]
