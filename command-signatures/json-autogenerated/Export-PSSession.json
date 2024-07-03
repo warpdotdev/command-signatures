@@ -1,0 +1,163 @@
+{
+  "name": "Export-PSSession",
+  "options": [
+    {
+      "name": "-AllowClobber",
+      "description": "Exports the specified commands, even if they have the same names as commands in the current session.\n"
+    },
+    {
+      "name": [
+        "-ArgumentList",
+        "-Args"
+      ],
+      "args": [
+        {
+          "name": "System.Object[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Exports the variant of the command that results from using the specified arguments (parameter values).\n"
+    },
+    {
+      "name": "-Certificate",
+      "args": [
+        {
+          "name": "System.Security.Cryptography.X509Certificates.X509Certificate2",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the client certificate that is used to sign the format files (*.Format.ps1xml) or script module files (.psm1) in the module that `Export-PSSession` creates. Enter a variable that contains a certificate or a command or expression that gets the certificate.\n"
+    },
+    {
+      "name": [
+        "-CommandName",
+        "-Name"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true,
+          "default": "All commands in the session."
+        }
+      ],
+      "description": "Exports only the commands with the specified names or name patterns. Wildcards are permitted. Use CommandName or its alias, Name .\n"
+    },
+    {
+      "name": [
+        "-CommandType",
+        "-Type"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.CommandTypes",
+          "suggestions": [
+            "Alias",
+            "All",
+            "Application",
+            "Cmdlet",
+            "Configuration",
+            "ExternalScript",
+            "Filter",
+            "Function",
+            "Script",
+            "Workflow"
+          ],
+          "isVariadic": true,
+          "default": "All commands in the session."
+        }
+      ],
+      "description": "Exports only the specified types of command objects. Use CommandType or its alias, Type .\n"
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            "ASCII",
+            "BigEndianUnicode",
+            "BigEndianUTF32",
+            "OEM",
+            "Unicode",
+            "UTF7",
+            "UTF8",
+            "UTF8BOM",
+            "UTF8NoBOM",
+            "UTF32"
+          ],
+          "isVariadic": true,
+          "default": "UTF8NoBOM"
+        }
+      ],
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": "-Force",
+      "description": "Overwrites one or more existing output files, even if the file has the read-only attribute."
+    },
+    {
+      "name": "-FormatTypeName",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Exports formatting instructions only for the specified Microsoft .NET Framework types. Enter the type names. By default, `Export-PSSession` exports formatting instructions for all .NET Framework types that are not in the System.Management.Automation namespace.\n"
+    },
+    {
+      "name": "-FullyQualifiedModule",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.ModuleSpecification[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "The value can be a module name, a full module specification, or a path to a module file.\n"
+    },
+    {
+      "name": [
+        "-Module",
+        "-PSSnapin"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true,
+          "default": "All commands in the session."
+        }
+      ],
+      "description": "Exports only the commands in the specified PowerShell snap-ins and modules. Enter the snap-in and module names. Wildcards are not permitted.\n"
+    },
+    {
+      "name": [
+        "-OutputModule",
+        "-PSPath",
+        "-ModuleName"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "$HOME\\Documents\\WindowsPowerShell\\Modules"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an optional path and name for the module created by `Export-PSSession`. The default path is `$HOME\\Documents\\WindowsPowerShell\\Modules`. This parameter is required.\n"
+    },
+    {
+      "name": "-Session",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.PSSession",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the PSSession from which the commands are exported. Enter a variable that contains a session object or a command that gets a session object, such as a `Get-PSSession` command. This parameter is required."
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Exports commands from another session and saves them in a PowerShell module."
+}

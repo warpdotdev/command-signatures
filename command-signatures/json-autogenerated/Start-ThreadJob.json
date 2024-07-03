@@ -1,0 +1,91 @@
+{
+  "name": "Start-ThreadJob",
+  "options": [
+    {
+      "name": "-ArgumentList",
+      "args": [
+        {
+          "name": "System.Object[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an array of arguments, or parameter values, for the script that is specified by the FilePath or ScriptBlock parameters. ArgumentList must be the last parameter on the command line. All the values that follow the parameter name are interpreted values in the argument list."
+    },
+    {
+      "name": "-FilePath",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a script file to run as a background job. Enter the path and filename of the script. The script must be on the local computer or in a folder that the local computer can access.\n"
+    },
+    {
+      "name": "-InitializationScript",
+      "args": [
+        {
+          "name": "System.Management.Automation.ScriptBlock",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies commands that run before the job starts. Enclose the commands in braces (`{}`) to create a script block.\n"
+    },
+    {
+      "name": "-InputObject",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSObject",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the objects used as input to the script block. It also allows for pipeline input. Use the `$input` automatic variable in the script block to access the input objects."
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a friendly name for the new job. You can use the name to identify the job to other job cmdlets, such as the `Stop-Job` cmdlet.\n"
+    },
+    {
+      "name": "-ScriptBlock",
+      "args": [
+        {
+          "name": "System.Management.Automation.ScriptBlock",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the commands to run in the background job. Enclose the commands in braces (`{}`) to create a script block. Use the `$Input` automatic variable to access the value of the InputObject parameter. This parameter is required."
+    },
+    {
+      "name": "-StreamingHost",
+      "args": [
+        {
+          "name": "System.Management.Automation.Host.PSHost",
+          "isVariadic": true
+        }
+      ],
+      "description": "This parameter provides a thread safe way to allow `Write-Host` output to go directly to the passed in PSHost object. Without it, `Write-Host` output goes to the job information data stream collection and doesn't appear in a host console until after the jobs finish running."
+    },
+    {
+      "name": "-ThrottleLimit",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "5"
+        }
+      ],
+      "description": "This parameter limits the number of jobs running at one time. As jobs are started, they are queued and wait until a thread is available in the thread pool to run the job. The default limit is 5 threads.\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Creates background jobs similar to the `Start-Job` cmdlet."
+}

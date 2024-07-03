@@ -1,0 +1,229 @@
+{
+  "name": "New-PSSessionOption",
+  "options": [
+    {
+      "name": "-ApplicationArguments",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSPrimitiveDictionary",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a PrimitiveDictionary that is sent to the remote session. Commands and scripts in the remote session, including startup scripts in the session configuration, can find this dictionary in the ApplicationArguments property of the `$PSSenderInfo` automatic variable. You can use this parameter to send data to the remote session.\n"
+    },
+    {
+      "name": [
+        "-CancelTimeout",
+        "-CancelTimeoutMSec"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "60000"
+        }
+      ],
+      "description": "Determines how long PowerShell waits for a cancel operation (<kbd>CTRL</kbd>+<kbd>C</kbd>) to finish before ending it. Enter a value in milliseconds.\n"
+    },
+    {
+      "name": "-Culture",
+      "args": [
+        {
+          "name": "System.Globalization.CultureInfo",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the culture to use for the session. Enter a culture name in `<languagecode2>-<country/regioncode2>` format (like `ja-JP`), a variable that contains a CultureInfo object, or a command that gets a CultureInfo object.\n"
+    },
+    {
+      "name": [
+        "-IdleTimeout",
+        "-IdleTimeoutMSec"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Determines how long the session stays open if the remote computer does not receive any communication from the local computer. This includes the heartbeat signal. When the interval expires, the session closes.\n"
+    },
+    {
+      "name": "-IncludePortInSPN",
+      "description": "Includes the port number in the Service Principal Name (SPN) used for Kerberos authentication, for example, `HTTP://<ComputerName>:5985`. This option allows a client that uses a non-default SPN to authenticate against a remote computer that uses Kerberos authentication.\n"
+    },
+    {
+      "name": "-MaxConnectionRetryCount",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the number of times that PowerShell attempts to make a connection to a target machine if the current attempt fails due to network issues. The default value is `5`.\n"
+    },
+    {
+      "name": "-MaximumReceivedDataSizePerCommand",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the maximum number of bytes that the local computer can receive from the remote computer in a single command. Enter a value in bytes. By default, there is no data size limit.\n"
+    },
+    {
+      "name": "-MaximumReceivedObjectSize",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "209715200"
+        }
+      ],
+      "description": "Specifies the maximum size of an object that the local computer can receive from the remote computer. This option is designed to protect the resources on the client computer. Enter a value in bytes.\n"
+    },
+    {
+      "name": "-MaximumRedirection",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "5"
+        }
+      ],
+      "description": "Determines how many times PowerShell redirects a connection to an alternate Uniform Resource Identifier (URI) before the connection fails. The default value is `5`. A value of `0` (zero) prevents all redirection.\n"
+    },
+    {
+      "name": "-NoCompression",
+      "description": "Turns off packet compression in the session. Compression uses more processor cycles, but it makes transmission faster."
+    },
+    {
+      "name": "-NoEncryption",
+      "description": "Turns off data encryption."
+    },
+    {
+      "name": "-NoMachineProfile",
+      "description": "Prevents loading the user's Windows user profile. As a result, the session might be created faster, but user-specific registry settings, items such as environment variables, and certificates are not available in the session."
+    },
+    {
+      "name": [
+        "-OpenTimeout",
+        "-OpenTimeoutMSec"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "180000 (3 minutes)"
+        }
+      ],
+      "description": "Determines how long the client computer waits for the session connection to be established. When the interval expires, the command to establish the connection fails. Enter a value in milliseconds.\n"
+    },
+    {
+      "name": [
+        "-OperationTimeout",
+        "-OperationTimeoutMSec"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "180000 (3 minutes)"
+        }
+      ],
+      "description": "Determines the maximum time WinRM waits for positive connection tests from a live connection before initiating a connection time-out. For more information on WinRM, see the Windows Remote Management Documentation (/windows/win32/winrm/portal). OperationTimeout does not impose a time limit on commands or processes running in a remote session and does not affect other remoting protocols like SSH.\n"
+    },
+    {
+      "name": "-OutputBufferingMode",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.OutputBufferingMode",
+          "suggestions": [
+            "None",
+            "Drop",
+            "Block"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Determines how command output is managed in disconnected sessions when the output buffer becomes full.\n"
+    },
+    {
+      "name": "-ProxyAccessType",
+      "args": [
+        {
+          "name": "System.Management.Automation.Remoting.ProxyAccessType",
+          "suggestions": [
+            "None",
+            "IEConfig",
+            "WinHttpConfig",
+            "AutoDetect",
+            "NoProxyServer"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Determines which mechanism is used to resolve the hostname. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-ProxyAuthentication",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
+          "suggestions": [
+            "Default",
+            "Basic",
+            "Negotiate",
+            "NegotiateWithImplicitCredential",
+            "Credssp",
+            "Digest",
+            "Kerberos"
+          ],
+          "isVariadic": true,
+          "default": "Negotiate"
+        }
+      ],
+      "description": "Specifies the authentication method that is used for proxy resolution. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-ProxyCredential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the credentials to use for proxy authentication. Enter a variable that contains a PSCredential object or a command that gets a PSCredential object, such as a `Get-Credential` command. If this option is not set, no credentials are specified."
+    },
+    {
+      "name": "-SkipCACheck",
+      "description": "Specifies that when it connects over HTTPS, the client does not validate that the server certificate is signed by a trusted certification authority (CA).\n"
+    },
+    {
+      "name": "-SkipCNCheck",
+      "description": "Specifies that the certificate common name (CN) of the server does not have to match the hostname of the server. This option is used only in remote operations that use the HTTPS protocol.\n"
+    },
+    {
+      "name": "-SkipRevocationCheck",
+      "description": "Does not validate the revocation status of the server certificate."
+    },
+    {
+      "name": "-UICulture",
+      "args": [
+        {
+          "name": "System.Globalization.CultureInfo",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the UI culture to use for the session.\n"
+    },
+    {
+      "name": "-UseUTF16",
+      "description": "Indicates that this cmdlet encodes the request in UTF16 format instead of UTF8 format."
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Creates an object that contains advanced options for a PSSession."
+}

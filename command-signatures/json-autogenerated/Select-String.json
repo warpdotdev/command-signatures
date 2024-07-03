@@ -1,0 +1,154 @@
+{
+  "name": "Select-String",
+  "options": [
+    {
+      "name": "-AllMatches",
+      "description": "Indicates that the cmdlet searches for more than one match in each line of text. Without this parameter, `Select-String` finds only the first match in each line of text.\n"
+    },
+    {
+      "name": "-CaseSensitive",
+      "description": "Indicates that the cmdlet matches are case-sensitive. By default, matches aren't case-sensitive."
+    },
+    {
+      "name": "-Context",
+      "args": [
+        {
+          "name": "System.Int32[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Captures the specified number of lines before and after the line that matches the pattern.\n"
+    },
+    {
+      "name": "-Culture",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "Culture of the current PowerShell session"
+        }
+      ],
+      "description": "Specifies a culture name to match the specified pattern. The Culture parameter must be used with the SimpleMatch parameter. The default behavior uses the culture of the current PowerShell runspace (session).\n"
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            "ASCII",
+            "BigEndianUnicode",
+            "BigEndianUTF32",
+            "OEM",
+            "Unicode",
+            "UTF7",
+            "UTF8",
+            "UTF8BOM",
+            "UTF8NoBOM",
+            "UTF32"
+          ],
+          "isVariadic": true,
+          "default": "UTF8NoBOM"
+        }
+      ],
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": "-Exclude",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Exclude the specified items. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcards are permitted."
+    },
+    {
+      "name": "-Include",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Includes the specified items. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcards are permitted."
+    },
+    {
+      "name": "-InputObject",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSObject",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the text to be searched. Enter a variable that contains the text, or type a command or expression that gets the text.\n"
+    },
+    {
+      "name": "-List",
+      "description": "Only the first instance of matching text is returned from each input file. This is the most efficient way to retrieve a list of files that have contents matching the regular expression.\n"
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the files to be searched. The value of the LiteralPath parameter is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences. For more information, see about_Quoting_Rules (../Microsoft.Powershell.Core/About/about_Quoting_Rules.md)."
+    },
+    {
+      "name": "-NoEmphasis",
+      "description": "By default, `Select-String` highlights the string that matches the pattern you searched for with the Pattern parameter. The NoEmphasis parameter disables the highlighting.\n"
+    },
+    {
+      "name": "-NotMatch",
+      "description": "The NotMatch parameter finds text that doesn't match the specified pattern."
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true,
+          "default": "Local directory"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the files to search. Wildcards are permitted. The default location is the local directory.\n"
+    },
+    {
+      "name": "-Pattern",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the text to find on each line. The pattern value is treated as a regular expression.\n"
+    },
+    {
+      "name": "-Quiet",
+      "description": "Indicates that the cmdlet returns a Boolean value (True or False), instead of a MatchInfo object. The value is True if the pattern is found; otherwise the value is False."
+    },
+    {
+      "name": "-Raw",
+      "isRequired": true,
+      "description": "Causes the cmdlet to output only the matching strings, rather than MatchInfo objects. This is the results in behavior that's the most similar to the Unix grep or Windows findstr.exe commands.\n"
+    },
+    {
+      "name": "-SimpleMatch",
+      "description": "Indicates that the cmdlet uses a simple match rather than a regular expression match. In a simple match, `Select-String` searches the input for the text in the Pattern parameter. It doesn't interpret the value of the Pattern parameter as a regular expression statement.\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "sls",
+  "description": "Finds text in strings and files."
+}

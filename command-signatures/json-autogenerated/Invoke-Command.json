@@ -1,0 +1,372 @@
+{
+  "name": "Invoke-Command",
+  "options": [
+    {
+      "name": "-AllowRedirection",
+      "description": "Allows redirection of this connection to an alternate Uniform Resource Identifier (URI).\n"
+    },
+    {
+      "name": "-ApplicationName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "$PSSessionApplicationName if set on the local computer, otherwise WSMAN"
+        }
+      ],
+      "description": "Specifies the application name segment of the connection URI. Use this parameter to specify the application name when you aren't using the ConnectionURI parameter in the command.\n"
+    },
+    {
+      "name": [
+        "-ArgumentList",
+        "-Args"
+      ],
+      "args": [
+        {
+          "name": "System.Object[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Supplies the values of parameters for the scriptblock. The parameters in the script block are passed by position from the array value supplied to ArgumentList . This is known as array splatting. For more information about the behavior of ArgumentList , see about_Splatting (about/about_Splatting.md#splatting-with-arrays)."
+    },
+    {
+      "name": "-AsJob",
+      "description": "Indicates that this cmdlet runs the command as a background job on a remote computer. Use this parameter to run commands that take an extensive time to finish.\n"
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
+          "suggestions": [
+            "Basic",
+            "Default",
+            "Credssp",
+            "Digest",
+            "Kerberos",
+            "Negotiate",
+            "NegotiateWithImplicitCredential"
+          ],
+          "isVariadic": true,
+          "default": "Default"
+        }
+      ],
+      "description": "Specifies the mechanism that's used to authenticate the user's credentials. CredSSP authentication is available only in Windows Vista, Windows Server 2008, and later versions of the Windows operating system.\n"
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to connect to the disconnected session. Enter the certificate thumbprint of the certificate.\n"
+    },
+    {
+      "name": [
+        "-ComputerName",
+        "-Cn"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true,
+          "default": "Local computer"
+        }
+      ],
+      "description": "Specifies the computers on which the command runs. The default is the local computer.\n"
+    },
+    {
+      "name": "-ConfigurationName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "$PSSessionConfigurationName if set on the local computer, otherwise Microsoft.PowerShell"
+        }
+      ],
+      "description": "Specifies the session configuration that is used for the new PSSession .\n"
+    },
+    {
+      "name": "-ConnectingTimeout",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "Unlimited"
+        }
+      ],
+      "description": "Specifies the amount of time in milliseconds allowed for the initial SSH connection to complete. If the connection doesn't complete within the specified time, an error is returned.\n"
+    },
+    {
+      "name": [
+        "-ConnectionUri",
+        "-URI",
+        "-CU"
+      ],
+      "args": [
+        {
+          "name": "System.Uri[]",
+          "isVariadic": true,
+          "default": "http://localhost:5985/WSMAN"
+        }
+      ],
+      "description": "Specifies a Uniform Resource Identifier (URI) that defines the connection endpoint of the session. The URI must be fully qualified.\n"
+    },
+    {
+      "name": "-ContainerId",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of container IDs."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "isVariadic": true,
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to perform this action. The default is the current user.\n"
+    },
+    {
+      "name": "-EnableNetworkAccess",
+      "description": "Indicates that this cmdlet adds an interactive security token to loopback sessions. The interactive token lets you run commands in the loopback session that get data from other computers. For example, you can run a command in the session that copies XML files from a remote computer to the local computer.\n"
+    },
+    {
+      "name": [
+        "-FilePath",
+        "-PSPath"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a local script that this cmdlet runs on one or more remote computers. Enter the path and filename of the script, or pipe a script path to `Invoke-Command`. The script must exist on the local computer or in a directory that the local computer can access. Use ArgumentList to specify the values of parameters in the script.\n"
+    },
+    {
+      "name": [
+        "-HideComputerName",
+        "-HCN"
+      ],
+      "description": "Indicates that this cmdlet omits the computer name of each object from the output display. By default, the name of the computer that generated the object appears in the display.\n"
+    },
+    {
+      "name": "-HostName",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of computer names for a Secure Shell (SSH) based connection. This is similar to the ComputerName parameter except that the connection to the remote computer is made using SSH rather than Windows WinRM.\n"
+    },
+    {
+      "name": [
+        "-InDisconnectedSession",
+        "-Disconnected"
+      ],
+      "description": "Indicates that this cmdlet runs a command or script in a disconnected session.\n"
+    },
+    {
+      "name": "-InputObject",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSObject",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies input to the command. Enter a variable that contains the objects or type a command or expression that gets the objects.\n"
+    },
+    {
+      "name": "-JobName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "Job<n>"
+        }
+      ],
+      "description": "Specifies a friendly name for the background job. By default, jobs are named `Job<n>`, where `<n>` is an ordinal number.\n"
+    },
+    {
+      "name": [
+        "-KeyFilePath",
+        "-IdentityFilePath"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a key file path used by Secure Shell (SSH) to authenticate a user on a remote computer.\n"
+    },
+    {
+      "name": "-NoNewScope",
+      "description": "Indicates that this cmdlet runs the specified command in the current scope. By default, `Invoke-Command` runs commands in their own scope.\n"
+    },
+    {
+      "name": "-Options",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a hashtable of SSH options used when connecting to a remote SSH-based session. The possible options are any values supported by the Unix-based version of the ssh (https://man.openbsd.org/ssh#o)command.\n"
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the network port on the remote computer that is used for this command. To connect to a remote computer, the remote computer must be listening on the port that the connection uses. The default ports are 5985 (WinRM port for HTTP) and 5986 (WinRM port for HTTPS).\n"
+    },
+    {
+      "name": "-RemoteDebug",
+      "description": "Used to run the invoked command in debug mode in the remote PowerShell session."
+    },
+    {
+      "name": "-RunAsAdministrator",
+      "description": "Indicates that this cmdlet invokes a command as an Administrator."
+    },
+    {
+      "name": [
+        "-ScriptBlock",
+        "-Command"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ScriptBlock",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the commands to run. Enclose the commands in braces (`{ }`) to create a script block. When using `Invoke-Command` to run a command remotely, any variables in the command are evaluated on the remote computer.\n"
+    },
+    {
+      "name": "-Session",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.PSSession[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an array of sessions in which this cmdlet runs the command. Enter a variable that contains PSSession objects or a command that creates or gets the PSSession objects, such as a `New-PSSession` or `Get-PSSession` command.\n"
+    },
+    {
+      "name": "-SessionName",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a friendly name for a disconnected session. You can use the name to refer to the session in subsequent commands, such as a `Get-PSSession` command. This parameter is valid only with the InDisconnectedSession parameter.\n"
+    },
+    {
+      "name": "-SessionOption",
+      "args": [
+        {
+          "name": "System.Management.Automation.Remoting.PSSessionOption",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies advanced options for the session. Enter a SessionOption object, such as one that you create using the `New-PSSessionOption` cmdlet, or a hash table in which the keys are session option names and the values are session option values.\n"
+    },
+    {
+      "name": "-SSHConnection",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "This parameter takes an array of hash tables where each hash table contains one or more connection parameters needed to establish a Secure Shell (SSH) connection. The SSHConnection parameter is useful for creating multiple sessions where each session requires different connection information.\n"
+    },
+    {
+      "name": "-SSHTransport",
+      "description": "Indicates that the remote connection is established using Secure Shell (SSH).\n"
+    },
+    {
+      "name": "-Subsystem",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "powershell"
+        }
+      ],
+      "description": "Specifies the SSH subsystem used for the new PSSession .\n"
+    },
+    {
+      "name": "-ThrottleLimit",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "32"
+        }
+      ],
+      "description": "Specifies the maximum number of concurrent connections that can be established to run this command. If you omit this parameter or enter a value of 0, the default value, 32, is used.\n"
+    },
+    {
+      "name": "-UserName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the username for the account used to run a command on the remote computer. The user authentication method depends on how Secure Shell (SSH) is configured on the remote computer.\n"
+    },
+    {
+      "name": "-UseSSL",
+      "description": "Indicates that this cmdlet uses the Secure Sockets Layer (SSL) protocol to establish a connection to the remote computer. By default, SSL isn't used.\n"
+    },
+    {
+      "name": [
+        "-VMId",
+        "-VMGuid"
+      ],
+      "args": [
+        {
+          "name": "System.Guid[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of IDs of virtual machines."
+    },
+    {
+      "name": "-VMName",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of names of virtual machines."
+    }
+  ],
+  "args": [],
+  "aliasName": "icm",
+  "description": "Runs commands on local and remote computers."
+}

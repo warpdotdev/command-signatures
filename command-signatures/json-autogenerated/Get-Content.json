@@ -1,0 +1,172 @@
+{
+  "name": "Get-Content",
+  "options": [
+    {
+      "name": "-AsByteStream",
+      "description": "Specifies that the content should be read as a stream of bytes. The AsByteStream parameter was introduced in Windows PowerShell 6.0.\n"
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "isVariadic": true,
+          "default": "Current user"
+        }
+      ]
+    },
+    {
+      "name": "-Delimiter",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "End-of-line character"
+        }
+      ],
+      "description": "Specifies the delimiter that `Get-Content` uses to divide the file into objects while it reads. The default is `\\n`, the end-of-line character. When reading a text file, `Get-Content` returns a collection of string objects, each ending with an end-of-line character. When you enter a delimiter that doesn't exist in the file, `Get-Content` returns the entire file as a single, undelimited object.\n"
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            "ASCII",
+            "BigEndianUnicode",
+            "BigEndianUTF32",
+            "OEM",
+            "Unicode",
+            "UTF7",
+            "UTF8",
+            "UTF8BOM",
+            "UTF8NoBOM",
+            "UTF32"
+          ],
+          "isVariadic": true,
+          "default": "UTF8NoBOM"
+        }
+      ],
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": "-Exclude",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter.\n"
+    },
+    {
+      "name": "-Filter",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in about_Wildcards (../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved."
+    },
+    {
+      "name": "-Force",
+      "description": "Force can override a read-only attribute or create directories to complete a file path. The Force parameter doesn't attempt to change file permissions or override security restrictions."
+    },
+    {
+      "name": "-Include",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `\" .txt\"`. Wildcard characters are permitted. The Include * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to an item where `Get-Content` gets the content. Wildcard characters are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory."
+    },
+    {
+      "name": "-Raw",
+      "description": "Ignores newline characters and returns the entire contents of a file in one string with the newlines preserved. By default, newline characters in a file are used as delimiters to separate the input into an array of strings. This parameter was introduced in PowerShell 3.0. Raw is a dynamic parameter that the FileSystem provider adds to the `Get-Content` cmdlet This parameter works only in file system drives."
+    },
+    {
+      "name": "-ReadCount",
+      "args": [
+        {
+          "name": "System.Int64",
+          "isVariadic": true,
+          "default": "1"
+        }
+      ],
+      "description": "Specifies how many lines of content are sent through the pipeline at a time. The default value is 1. A value of 0 (zero) or negative numbers sends all the content at one time.\n"
+    },
+    {
+      "name": "-Stream",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Gets the contents of the specified alternate NTFS file stream from the file. Enter the stream name. Wildcards aren't supported. Stream is a dynamic parameter that the FileSystem provider adds to the `Get-Content` cmdlet. This parameter works only in file system drives on Windows systems.\n"
+    },
+    {
+      "name": [
+        "-Tail",
+        "-Last"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the number of lines from the end of a file or other item. You can use the Tail parameter name or its alias, Last . Negative values cause the cmdlet to return the entire contents.\n"
+    },
+    {
+      "name": [
+        "-TotalCount",
+        "-First",
+        "-Head"
+      ],
+      "args": [
+        {
+          "name": "System.Int64",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the number of lines from the beginning of a file or other item. Negative values cause the cmdlet to return the entire contents.\n"
+    },
+    {
+      "name": "-Wait",
+      "description": "Causes the cmdlet to wait indefinitely, keeping the file open, until interrupted. While waiting, `Get-Content` checks the file once per second and outputs new lines if present. When used with the TotalCount parameter, `Get-Content` waits until the specified number of lines are available in the specified file. For example, if you specify a TotalCount of 10 and the file already has 10 or more lines, `Get-Content` returns the 10 lines and exits. If the file has fewer than 10 lines, `Get-Content` outputs each line as it arrives, but waits until the tenth line arrives before exiting.\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "gc",
+  "description": "Gets the content of the item at the specified location."
+}

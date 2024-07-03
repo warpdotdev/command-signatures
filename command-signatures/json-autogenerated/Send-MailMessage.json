@@ -1,0 +1,205 @@
+{
+  "name": "Send-MailMessage",
+  "options": [
+    {
+      "name": [
+        "-Attachments",
+        "-PsPath"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the path and file names of files to be attached to the email message. You can use this parameter or pipe the paths and file names to `Send-MailMessage`."
+    },
+    {
+      "name": "-Bcc",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the email addresses that receive a copy of the mail but aren't listed as recipients of the message. Enter names (optional) and the email address, such as `Name <someone@fabrikam.com>`."
+    },
+    {
+      "name": "-Body",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the content of the email message."
+    },
+    {
+      "name": [
+        "-BodyAsHtml",
+        "-BAH"
+      ],
+      "description": "Specifies that the value of the Body parameter contains HTML."
+    },
+    {
+      "name": "-Cc",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the email addresses to which a carbon copy (CC) of the email message is sent. Enter names (optional) and the email address, such as `Name <someone@fabrikam.com>`."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "isVariadic": true,
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to perform this action. The default is the current user.\n"
+    },
+    {
+      "name": [
+        "-DeliveryNotificationOption",
+        "-DNO"
+      ],
+      "args": [
+        {
+          "name": "System.Net.Mail.DeliveryNotificationOptions",
+          "suggestions": [
+            "None",
+            "OnSuccess",
+            "OnFailure",
+            "Delay",
+            "Never"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the delivery notification options for the email message. You can specify multiple values. None is the default value. The alias for this parameter is DNO .\n"
+    },
+    {
+      "name": [
+        "-Encoding",
+        "-BE"
+      ],
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            "ASCII",
+            "BigEndianUnicode",
+            "BigEndianUTF32",
+            "OEM",
+            "Unicode",
+            "UTF7",
+            "UTF8",
+            "UTF8BOM",
+            "UTF8NoBOM",
+            "UTF32"
+          ],
+          "isVariadic": true,
+          "default": "ASCII"
+        }
+      ],
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": "-From",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "The From parameter is required. This parameter specifies the sender's email address. Enter a name (optional) and email address, such as `Name <someone@fabrikam.com>`."
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "25"
+        }
+      ],
+      "description": "Specifies an alternate port on the SMTP server. The default value is 25, which is the default SMTP port."
+    },
+    {
+      "name": "-Priority",
+      "args": [
+        {
+          "name": "System.Net.Mail.MailPriority",
+          "suggestions": [
+            "Normal",
+            "High",
+            "Low"
+          ],
+          "isVariadic": true,
+          "default": "Normal"
+        }
+      ],
+      "description": "Specifies the priority of the email message. Normal is the default. The acceptable values for this parameter are Normal, High, and Low."
+    },
+    {
+      "name": "-ReplyTo",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies additional email addresses (other than the From address) to use to reply to this message. Enter names (optional) and the email address, such as `Name <someone@fabrikam.com>`.\n"
+    },
+    {
+      "name": [
+        "-SmtpServer",
+        "-ComputerName"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "$PSEmailServer"
+        }
+      ],
+      "description": "Specifies the name of the SMTP server that sends the email message.\n"
+    },
+    {
+      "name": [
+        "-Subject",
+        "-sub"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "The Subject parameter isn't required. This parameter specifies the subject of the email message."
+    },
+    {
+      "name": "-To",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "The To parameter is required. This parameter specifies the recipient's email address. Enter names (optional) and the email address, such as `Name <someone@fabrikam.com>`."
+    },
+    {
+      "name": "-UseSsl",
+      "description": "The Secure Sockets Layer (SSL) protocol is used to establish a secure connection to the remote computer to send mail. By default, SSL isn't used."
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Sends an email message."
+}

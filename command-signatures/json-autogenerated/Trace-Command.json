@@ -1,0 +1,141 @@
+{
+  "name": "Trace-Command",
+  "options": [
+    {
+      "name": [
+        "-ArgumentList",
+        "-Args"
+      ],
+      "args": [
+        {
+          "name": "System.Object[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the parameters and parameter values for the command being traced. The alias for ArgumentList is Args . This feature is useful for debugging dynamic parameters.\n"
+    },
+    {
+      "name": "-Command",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a command that's being processed during the trace.\n"
+    },
+    {
+      "name": "-Debugger",
+      "description": "Indicates that the cmdlet sends the trace output to the debugger. You can view the output in any user-mode or kernel mode debugger or in Visual Studio. This parameter also selects the default trace listener."
+    },
+    {
+      "name": "-Expression",
+      "args": [
+        {
+          "name": "System.Management.Automation.ScriptBlock",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the expression that's being processed during the trace. Enclose the expression in braces (`{}`)."
+    },
+    {
+      "name": [
+        "-FilePath",
+        "-PSPath",
+        "-Path"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a file that the cmdlet sends the trace output to. This parameter also selects the file trace listener."
+    },
+    {
+      "name": "-Force",
+      "description": "Forces the command to run without asking for user confirmation. Used with the FilePath parameter. Even using the Force parameter, the cmdlet can't override security restrictions."
+    },
+    {
+      "name": "-InputObject",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSObject",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies input to the expression that's being processed during the trace. You can enter a variable that represents the input that the expression accepts, or pass an object through the pipeline."
+    },
+    {
+      "name": "-ListenerOption",
+      "args": [
+        {
+          "name": "System.Diagnostics.TraceOptions",
+          "suggestions": [
+            "None",
+            "LogicalOperationStack",
+            "DateTime",
+            "Timestamp",
+            "ProcessId",
+            "ThreadId",
+            "Callstack"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies optional data to the prefix of each trace message in the output. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of PowerShell components that are traced. Enter the name of the trace source of each component. Wildcards are permitted. To find the trace sources on your computer, type `Get-TraceSource`."
+    },
+    {
+      "name": "-Option",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSTraceSourceOptions",
+          "suggestions": [
+            "None",
+            "Constructor",
+            "Dispose",
+            "Finalizer",
+            "Method",
+            "Property",
+            "Delegates",
+            "Events",
+            "Exception",
+            "Lock",
+            "Error",
+            "Errors",
+            "Warning",
+            "Verbose",
+            "WriteLine",
+            "Data",
+            "Scope",
+            "ExecutionFlow",
+            "Assert",
+            "All"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Determines the type of events that are traced. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-PSHost",
+      "description": "Indicates that the cmdlet sends the trace output to the PowerShell host. This parameter also selects the PSHost trace listener."
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Configures and starts a trace of the specified expression or command."
+}

@@ -1,0 +1,152 @@
+{
+  "name": "Get-Job",
+  "options": [
+    {
+      "name": "-After",
+      "args": [
+        {
+          "name": "System.DateTime",
+          "isVariadic": true
+        }
+      ],
+      "description": "Gets completed jobs that ended after the specified date and time. Enter a DateTime object, such as one returned by the `Get-Date` cmdlet or a string that can be converted to a DateTime object, such as `Dec 1, 2012 2:00 AM` or `11/06`.\n"
+    },
+    {
+      "name": "-Before",
+      "args": [
+        {
+          "name": "System.DateTime",
+          "isVariadic": true
+        }
+      ],
+      "description": "Gets completed jobs that ended before the specified date and time. Enter a DateTime object.\n"
+    },
+    {
+      "name": "-ChildJobState",
+      "args": [
+        {
+          "name": "System.Management.Automation.JobState",
+          "suggestions": [
+            "NotStarted",
+            "Running",
+            "Completed",
+            "Failed",
+            "Stopped",
+            "Blocked",
+            "Suspended",
+            "Disconnected",
+            "Suspending",
+            "Stopping",
+            "AtBreakpoint"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Gets only the child jobs that have the specified state. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-Command",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an array of commands as strings. This cmdlet gets the jobs that include the specified commands. The default is all jobs. You can use wildcard characters to specify a command pattern."
+    },
+    {
+      "name": "-Filter",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a hash table of conditions. This cmdlet gets jobs that satisfy all of the conditions. Enter a hash table where the keys are job properties and the values are job property values.\n"
+    },
+    {
+      "name": "-HasMoreData",
+      "args": [
+        {
+          "name": "System.Boolean",
+          "isVariadic": true
+        }
+      ],
+      "description": "Indicates whether this cmdlet gets only jobs that have the specified HasMoreData property value. The HasMoreData property indicates whether all job results have been received in the current session. To get jobs that have more results, specify a value of `$True`. To get jobs that do not have more results, specify a value of `$False`.\n"
+    },
+    {
+      "name": "-Id",
+      "args": [
+        {
+          "name": "System.Int32[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an array of IDs of jobs that this cmdlet gets.\n"
+    },
+    {
+      "name": "-IncludeChildJob",
+      "description": "Indicates that this cmdlet returns child jobs, in addition to parent jobs.\n"
+    },
+    {
+      "name": "-InstanceId",
+      "args": [
+        {
+          "name": "System.Guid[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of instance IDs of jobs that this cmdlet gets. The default is all jobs.\n"
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of instance friendly names of jobs that this cmdlet gets. Enter a job name, or use wildcard characters to enter a job name pattern. By default, `Get-Job` gets all jobs in the current session."
+    },
+    {
+      "name": "-Newest",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies a number of jobs to get. This cmdlet gets the jobs that ended most recently.\n"
+    },
+    {
+      "name": "-State",
+      "args": [
+        {
+          "name": "System.Management.Automation.JobState",
+          "suggestions": [
+            "NotStarted",
+            "Running",
+            "Completed",
+            "Failed",
+            "Stopped",
+            "Blocked",
+            "Suspended",
+            "Disconnected",
+            "Suspending",
+            "Stopping",
+            "AtBreakpoint"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a job state. This cmdlet gets only jobs in the specified state. The acceptable values for this parameter are:\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "gjb",
+  "description": "Gets PowerShell background jobs that are running in the current session."
+}

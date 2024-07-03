@@ -1,0 +1,103 @@
+{
+  "name": "Set-PSBreakpoint",
+  "options": [
+    {
+      "name": "-Action",
+      "args": [
+        {
+          "name": "System.Management.Automation.ScriptBlock",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies commands that run at each breakpoint instead of breaking. Enter a script block that contains the commands. You can use this parameter to set conditional breakpoints or to perform other tasks, such as testing or logging.\n"
+    },
+    {
+      "name": "-Column",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true,
+          "default": "1"
+        }
+      ],
+      "description": "Specifies the column number of the column in the script file on which execution stops. Enter only one column number. The default is column 1.\n"
+    },
+    {
+      "name": [
+        "-Command",
+        "-C"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Sets a command breakpoint. Enter cmdlet names, such as `Get-Process`, or function names. Wildcards are permitted.\n"
+    },
+    {
+      "name": "-Line",
+      "args": [
+        {
+          "name": "System.Int32[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Sets a line breakpoint in a script. Enter one or more line numbers, separated by commas. PowerShell stops immediately before executing the statement that begins on each of the specified lines.\n"
+    },
+    {
+      "name": "-Mode",
+      "args": [
+        {
+          "name": "System.Management.Automation.VariableAccessMode",
+          "suggestions": [
+            "Read",
+            "Write",
+            "ReadWrite"
+          ],
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the mode of access that triggers variable breakpoints. The default is Write .\n"
+    },
+    {
+      "name": "-Runspace",
+      "args": [
+        {
+          "name": "Runspace",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies the Id of a Runspace object so you can interact with breakpoints in the specified runspace.\n"
+    },
+    {
+      "name": "-Script",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an array of script files that this cmdlet sets a breakpoint in. Enter the paths and file names of one or more script files. If the files are in the current directory, you can omit the path. Wildcards are permitted.\n"
+    },
+    {
+      "name": [
+        "-Variable",
+        "-V"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of variables that this cmdlet sets breakpoints on. Enter a comma-separated list of variables without dollar signs (`$`).\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "sbp",
+  "description": "Sets a breakpoint on a line, command, or variable."
+}

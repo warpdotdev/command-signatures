@@ -1,0 +1,83 @@
+{
+  "name": "Import-Csv",
+  "options": [
+    {
+      "name": "-Delimiter",
+      "args": [
+        {
+          "name": "System.Char",
+          "isVariadic": true,
+          "default": "comma (,)"
+        }
+      ],
+      "description": "Specifies the delimiter that separates the property values in the CSV file. The default is a comma (`,`).\n"
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            "ASCII",
+            "BigEndianUnicode",
+            "BigEndianUTF32",
+            "OEM",
+            "Unicode",
+            "UTF7",
+            "UTF8",
+            "UTF8BOM",
+            "UTF8NoBOM",
+            "UTF32"
+          ],
+          "isVariadic": true,
+          "default": "UTF8NoBOM"
+        }
+      ],
+      "description": "Specifies the encoding for the imported CSV file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": "-Header",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "description": "Specifies an alternate column header row for the imported file. The column header determines the property names of the objects created by `Import-Csv`.\n"
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the CSV file to import. Unlike Path , the value of the LiteralPath parameter is used exactly as it is typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String[]",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the CSV file to import. You can also pipe a path to `Import-Csv`."
+    },
+    {
+      "name": "-UseCulture",
+      "isRequired": true,
+      "description": "Uses the list separator for the current culture as the item delimiter. To find the list separator for a culture, use the following command: `(Get-Culture).TextInfo.ListSeparator`."
+    }
+  ],
+  "args": [],
+  "aliasName": "ipcsv",
+  "description": "Creates table-like custom objects from the items in a character-separated value (CSV) file."
+}

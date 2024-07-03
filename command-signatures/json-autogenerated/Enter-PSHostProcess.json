@@ -1,0 +1,74 @@
+{
+  "name": "Enter-PSHostProcess",
+  "options": [
+    {
+      "name": "-AppDomainName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true,
+          "default": "DefaultAppDomain"
+        }
+      ],
+      "description": "Specifies an application domain name to connect to if omitted, uses DefaultAppDomain . Use `Get-PSHostProcessInfo` to display the application domain names."
+    },
+    {
+      "name": "-CustomPipeName",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Gets or sets the custom named pipe name to connect to. This is usually used in conjunction with `pwsh -CustomPipeName`.\n"
+    },
+    {
+      "name": "-HostProcessInfo",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.PSHostProcessInfo",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a PSHostProcessInfo object that can be connected to with PowerShell. Use `Get-PSHostProcessInfo` to get the object."
+    },
+    {
+      "name": "-Id",
+      "args": [
+        {
+          "name": "System.Int32",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a process by the process ID. To get a process ID, run the `Get-Process` cmdlet."
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a process by the process name. To get a process name, run the `Get-Process` cmdlet. You can also get process names from the Properties dialog box of a process in Task Manager."
+    },
+    {
+      "name": "-Process",
+      "args": [
+        {
+          "name": "System.Diagnostics.Process",
+          "isVariadic": true
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a process by the process object. The simplest way to use this parameter is to save the results of a `Get-Process` command that returns process that you want to enter in a variable, and then specify the variable as the value of this parameter."
+    }
+  ],
+  "args": [],
+  "aliasName": "",
+  "description": "Connects to and enters into an interactive session with a local process."
+}
