@@ -1,4 +1,5 @@
 mod generators;
+pub mod powershell_autogenerator;
 
 pub use generators::dynamic_command_signature_data;
 
