@@ -48,9 +48,10 @@ pub fn commands() -> Vec<Signature> {
 
 #[cfg(test)]
 mod tests {
-    use std::collections::HashSet;
+    use std::{collections::HashSet, fs, path};
 
     use itertools::Itertools;
+    use warp_completion_metadata::fig_types::Command;
 
     use super::*;
 
@@ -113,6 +114,27 @@ mod tests {
         for signature in commands() {
             for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
                 assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
+            }
+        }
+    }
+
+    #[test]
+    fn all_command_specs_succeed_deserialization() {
+        let command_spec_dir = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("json");
+        let dir_listing = fs::read_dir(command_spec_dir).expect("failed to read JSON dir");
+        for read_file in dir_listing {
+            let entry = read_file.expect("failed to get dir entry");
+            if entry
+                .metadata()
+                .expect("failed to get metadata")
+                .file_type()
+                .is_file()
+                && entry.path().extension().is_some_and(|ext| ext == "json")
+            {
+                let json_bytes = fs::read(entry.path()).expect("failed to read JSON file content");
+                let json = String::from_utf8(json_bytes).expect("JSON file is invalid UTF8");
+                serde_json::from_str::<Command>(&json)
+                    .expect(&format!("{} failed to deserialize", entry.path().display()));
             }
         }
     }
