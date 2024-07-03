@@ -44,26 +44,29 @@ pub enum SuggestionType {
 #[derive(Serialize, Deserialize, Default, Debug, PartialEq, Clone)]
 pub struct Suggestion {
     #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
 
-    #[serde(default, rename = "displayName")]
+    #[serde(
+        default,
+        rename = "displayName",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub display_name: Option<String>,
 
-    #[serde(default)]
-    #[serde(rename = "type")]
+    #[serde(default, rename = "type", skip_serializing_if = "Option::is_none")]
     pub suggestion_type: Option<SuggestionType>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
 
-    #[serde(default)]
+    #[serde(default, rename = "isDangerous", skip_serializing_if = "<&bool>::not")]
     pub is_dangerous: bool,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub priority: Option<FigPriority>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "<&bool>::not")]
     pub hidden: bool,
 }
 
