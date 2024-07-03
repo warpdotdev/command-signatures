@@ -1,5 +1,5 @@
 use itertools::Itertools as _;
-use warp_completion_metadata::fig_types::StringOrNumber;
+use warp_completion_metadata::fig_types::{StringOrNumber, Suggestion};
 
 use crate::fig_types::{Arg, Command, CommandOption, NameOrSuggestion};
 use crate::powershell_autogenerator::CmdletHelp;
@@ -50,7 +50,12 @@ impl From<CmdletHelp> for Command {
                             .map(|values| values.values.clone())
                             .unwrap_or_default()
                             .into_iter()
-                            .map(NameOrSuggestion::Name)
+                            .map(|name| {
+                                NameOrSuggestion::Suggestion(Suggestion {
+                                    name: vec![name],
+                                    ..Default::default()
+                                })
+                            })
                             .collect_vec(),
                         ..Default::default()
                     }]

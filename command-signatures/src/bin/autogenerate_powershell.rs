@@ -25,6 +25,7 @@ fn main() {
             cmdlet_help.aliases = aliases
                 .trim()
                 .split('\n')
+                .filter(|val| !val.is_empty())
                 .map(ToOwned::to_owned)
                 .collect_vec();
             cmdlet_help.into()
