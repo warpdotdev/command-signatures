@@ -13,7 +13,7 @@ impl From<CmdletHelp> for Command {
             .iter()
             .map(|param| {
                 let mut name = vec![format!("-{}", param.name)];
-                name.extend(param.aliases.as_ref().map(|alias| "-".to_owned() + alias));
+                name.extend(param.aliases.iter().map(|alias| "-".to_owned() + alias));
 
                 // For some reason, [`crate::powershell_autogenerator::Parameter::allowed_values`]
                 // is always None inside [`CmdletHelp::parameters`], but it is defined inside

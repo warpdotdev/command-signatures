@@ -71,7 +71,11 @@ pub struct Parameter {
     #[serde(default, rename = "parameterValueGroup")]
     pub allowed_values: Option<ParameterValues>,
 
-    #[serde(default, rename = "defaultValue")]
+    #[serde(
+        default,
+        rename = "defaultValue",
+        deserialize_with = "literal_none_is_none"
+    )]
     pub default_value: Option<String>,
 
     #[serde(deserialize_with = "string_to_bool")]
@@ -97,8 +101,8 @@ pub struct Parameter {
     /// and `Register-ObjectEvent` cmdlets on pwsh 7.4.2.
     pub position: String,
 
-    #[serde(deserialize_with = "literal_none_is_none")]
-    pub aliases: Option<String>,
+    #[serde(deserialize_with = "literal_none_is_empty")]
+    pub aliases: Vec<String>,
 }
 
 #[derive(Debug, Deserialize)]

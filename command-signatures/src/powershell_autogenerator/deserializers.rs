@@ -1,3 +1,4 @@
+use itertools::Itertools as _;
 use serde::{Deserialize, Deserializer};
 use serde_json::Value;
 
@@ -23,6 +24,17 @@ where
 {
     let s = Option::<String>::deserialize(deserializer)?;
     Ok(s.filter(|s| s.trim().to_lowercase() != "none"))
+}
+
+pub(super) fn literal_none_is_empty<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let s: String = String::deserialize(deserializer)?;
+    if s.trim().to_lowercase() == "none" {
+        return Ok(vec![]);
+    }
+    Ok(s.split(", ").map(ToOwned::to_owned).collect_vec())
 }
 
 pub(super) fn string_to_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
