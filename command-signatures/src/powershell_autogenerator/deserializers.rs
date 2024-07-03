@@ -21,7 +21,7 @@ pub(super) fn literal_none_is_none<'de, D>(deserializer: D) -> Result<Option<Str
 where
     D: Deserializer<'de>,
 {
-    let s: Option<String> = Option::deserialize(deserializer)?;
+    let s = Option::<String>::deserialize(deserializer)?;
     Ok(s.filter(|s| s.trim().to_lowercase() != "none"))
 }
 
@@ -29,7 +29,7 @@ pub(super) fn string_to_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let s: String = Deserialize::deserialize(deserializer)?;
+    let s = String::deserialize(deserializer)?;
     match s.as_str() {
         "true" => Ok(true),
         "false" => Ok(false),
