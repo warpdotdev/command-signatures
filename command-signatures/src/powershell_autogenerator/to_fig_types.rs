@@ -55,9 +55,9 @@ impl From<CmdletHelp> for Command {
                     requires_equals: false,
                     // PowerShell cmdlets forbid this too.
                     is_repeatable: None,
-                    // TODO, difficult to parse.
+                    // Difficult to parse.
                     exclusive_on: vec![],
-                    // TODO, difficult to parse.
+                    // Difficult to parse.
                     depends_on: vec![],
                     description: param
                         .description
