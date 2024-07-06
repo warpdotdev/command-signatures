@@ -14,6 +14,9 @@ impl From<CmdletHelp> for Command {
                 let mut name = vec![format!("-{}", param.name)];
                 name.extend(param.aliases.as_ref().map(|alias| "-".to_owned() + alias));
 
+                // For some reason, [`crate::powershell_autogenerator::Parameter::allowed_values`]
+                // is always None inside [`CmdletHelp::parameters`], but it is defined inside
+                // [`CmdletHelp::syntax`], so we look for the matching parameter there.
                 let suggestions = cmdlet_help
                     .syntax
                     .syntax_items
