@@ -48,10 +48,9 @@ pub fn commands() -> Vec<Signature> {
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::HashSet, fs, path};
+    use std::collections::HashSet;
 
     use itertools::Itertools;
-    use warp_completion_metadata::fig_types::Command;
 
     use super::*;
 
@@ -120,21 +119,10 @@ mod tests {
 
     #[test]
     fn all_command_specs_succeed_deserialization() {
-        let command_spec_dir = path::Path::new(env!("CARGO_MANIFEST_DIR")).join("json");
-        let dir_listing = fs::read_dir(command_spec_dir).expect("failed to read JSON dir");
-        for read_file in dir_listing {
-            let entry = read_file.expect("failed to get dir entry");
-            if entry
-                .metadata()
-                .expect("failed to get metadata")
-                .file_type()
-                .is_file()
-                && entry.path().extension().is_some_and(|ext| ext == "json")
-            {
-                let json_bytes = fs::read(entry.path()).expect("failed to read JSON file content");
-                let json = String::from_utf8(json_bytes).expect("JSON file is invalid UTF8");
-                serde_json::from_str::<Command>(&json)
-                    .unwrap_or_else(|_| panic!("{} failed to deserialize", entry.path().display()));
+        for filename in Assets::names() {
+            if let Some(name) = filename.strip_suffix(".json") {
+                signature_by_name(name)
+                    .unwrap_or_else(|| panic!("{} failed to deserialize", filename));
             }
         }
     }
