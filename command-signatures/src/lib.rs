@@ -9,6 +9,12 @@ pub use warp_completion_metadata::*;
 #[folder = "json"]
 struct Assets;
 
+/// Iterates over the names of all known command signatures.
+#[cfg(test)]
+fn all_signature_names() -> impl Iterator<Item = &'static str> {
+    Assets::names().filter_map(|name| name.strip_suffix(".json"))
+}
+
 #[cfg(feature = "embed-signatures")]
 pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
     let file_path = format!("{}.json", name.as_ref());
@@ -114,6 +120,15 @@ mod tests {
             for (signature_name, generator_name) in get_generator_names_from_signature(&signature) {
                 assert!(generator_names.contains(generator_name), "Did not find generator with name {generator_name} (from signature {signature_name})");
             }
+        }
+    }
+
+    /// Verify that all command signatures are well-formed JSON and valid for our deserialization
+    /// schema.
+    #[test]
+    fn all_command_specs_succeed_deserialization() {
+        for name in all_signature_names() {
+            signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
     }
 }
