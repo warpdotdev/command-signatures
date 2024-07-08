@@ -139,27 +139,9 @@ fn main() {
                 .expect(&format!("failed to deserialize {cmdlet_name} help"))
         })
         .collect::<Vec<_>>();
-    let dbg_index = all_cmdlet_names
-        .iter()
-        .find_position(|name| **name == "Get-Command");
-    if let Some((i, _)) = dbg_index {
-        dbg!(&all_cmdlet_help[i]);
-    }
+
     for cmdlet_help in all_cmdlet_help {
-        println!("{}", cmdlet_help.name);
-        println!(
-            "{}",
-            cmdlet_help
-                .syntax
-                .syntax_items
-                .iter()
-                .map(|item| item.parameter.len())
-                .sum::<usize>()
-        );
-        println!(
-            "{:?}",
-            cmdlet_help.parameters.map(|param| param.parameter.len())
-        );
+        println!("{:#?}", cmdlet_help);
     }
 }
 
