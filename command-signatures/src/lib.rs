@@ -134,7 +134,7 @@ mod tests {
                 let json_bytes = fs::read(entry.path()).expect("failed to read JSON file content");
                 let json = String::from_utf8(json_bytes).expect("JSON file is invalid UTF8");
                 serde_json::from_str::<Command>(&json)
-                    .expect(&format!("{} failed to deserialize", entry.path().display()));
+                    .unwrap_or_else(|_| panic!("{} failed to deserialize", entry.path().display()));
             }
         }
     }
