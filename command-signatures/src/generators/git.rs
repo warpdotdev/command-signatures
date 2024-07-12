@@ -665,7 +665,9 @@ pub fn generator() -> CommandSignatureGenerators {
                 |output| {
                     output
                         .lines()
-                        .filter_map(|line| (!line.is_empty()).then(|| Suggestion::new(line)))
+                        .filter_map(|line| {
+                            (!line.is_empty()).then(|| Suggestion::with_description(line, "tag"))
+                        })
                         .collect_ordered_results()
                 },
             ),
