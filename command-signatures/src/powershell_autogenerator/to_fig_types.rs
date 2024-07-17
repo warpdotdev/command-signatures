@@ -30,12 +30,23 @@ impl From<CmdletHelp> for Command {
                                 .is_some_and(|values| !values.values.is_empty())
                     });
 
-                // "Switches", i.e. a flag without an argument, are either "SwitchParameter" or
-                // "System.Management.Automation.SwitchParameter"
-                let args = if param.type_info.name.ends_with("SwitchParameter") {
+                let type_name = &param.type_info.name;
+
+                // "Switches", i.e. a flag without an argument, are either "SwitchParameter",
+                // "System.Management.Automation.SwitchParameter", or "switch".
+                let args = if type_name.ends_with("SwitchParameter")
+                    || type_name.to_lowercase() == "switch"
+                {
                     vec![]
                 } else {
                     vec![Arg {
+                        name: Some(type_name.clone()),
+                        default: param
+                            .default_value
+                            .clone()
+                            .map(|val| StringOrNumber::String(val)),
+                        // TODO(CORE-2677) Recognize PowerShell array syntax.
+                        is_variadic: false,
                         suggestions: suggestions
                             .and_then(|param| param.allowed_values.as_ref())
                             .map(|values| values.values.clone())

@@ -85,7 +85,7 @@ pub struct Parameter {
     )]
     pub variable_length: bool,
 
-    #[serde(deserialize_with = "string_to_bool")]
+    #[serde(default, deserialize_with = "string_to_bool")]
     pub globbing: bool,
 
     /// Possible values: "False", "True", "True (ByValue)", "True (ByPropertyName)",
