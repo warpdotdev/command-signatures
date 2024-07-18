@@ -1,9 +1,12 @@
-use std::{fs, path, process};
+use core::panic;
+use std::{fs, io, path, process};
 
 use itertools::Itertools;
 use rayon::prelude::*;
 
-use warp_command_signatures::{fig_types::Command, powershell_autogenerator::CmdletHelp};
+use warp_command_signatures::{
+    fig_types::Command, overrides::CommandOverrides, powershell_autogenerator::CmdletHelp,
+};
 
 fn main() {
     println!("Getting all Cmdlet names...");
@@ -28,7 +31,14 @@ fn main() {
                 .filter(|val| !val.is_empty())
                 .map(ToOwned::to_owned)
                 .collect_vec();
-            cmdlet_help.into()
+            let mut fig_command: Command = cmdlet_help.into();
+
+            if let Some(overrides) = get_overrides(cmdlet_name) {
+                apply_overrides(&mut fig_command, overrides)
+                    .expect(&format!("unable to apply arg override for {}", cmdlet_name));
+            }
+
+            fig_command
         })
         .collect::<Vec<Command>>();
 
@@ -54,4 +64,47 @@ fn run_pwsh_command<S: AsRef<str>>(command: S) -> String {
         .expect("pwsh must be installed")
         .stdout;
     String::from_utf8(stdout_bytes).expect("pwsh output must be valid UTF8")
+}
+
+/// Check if this command has overrides defined. If there is no file for this command, return None.
+fn get_overrides(name: &str) -> Option<CommandOverrides> {
+    let overrides_path = path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("json-overrides")
+        .join(format!("{}.json", name));
+
+    match fs::File::open(overrides_path) {
+        Ok(f) => {
+            let overrides = serde_json::from_reader::<_, CommandOverrides>(io::BufReader::new(f))
+                .expect(&format!("failed to deserialize {name} overrides"));
+            Some(overrides)
+        }
+        Err(e) => match e.kind() {
+            std::io::ErrorKind::NotFound => None,
+            _ => panic!("Failed to read file: {}", e),
+        },
+    }
+}
+
+/// Assign the data on the overrides onto the signature spec.
+fn apply_overrides(command: &mut Command, overrides: CommandOverrides) -> Result<(), ()> {
+    for (i, arg_overrides) in overrides.args.into_iter().enumerate() {
+        if !arg_overrides.template.is_empty() {
+            let arg = command.args.get_mut(i).ok_or(())?;
+            arg.template = arg_overrides.template;
+        }
+    }
+
+    for option_override in overrides.options {
+        let option = command
+            .options
+            .iter_mut()
+            .find(|option| option.name.contains(&option_override.name))
+            .ok_or(())?;
+        for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
+            let arg = option.args.get_mut(i).ok_or(())?;
+            arg.template = arg_overrides.template;
+        }
+    }
+
+    Ok(())
 }
