@@ -1,6 +1,8 @@
 use itertools::Itertools as _;
-use serde::{Deserialize, Deserializer};
+use serde::{de::Error as _, Deserialize, Deserializer};
 use serde_json::Value;
+
+use crate::powershell_autogenerator::ParameterPosition;
 
 /// Sometimes an empty string is placed in a field which is an object type. This will convert that
 /// to a `None`.
@@ -46,5 +48,24 @@ where
         "true" => Ok(true),
         "false" => Ok(false),
         _ => Err(serde::de::Error::custom(format!("Unexpected value: {s}"))),
+    }
+}
+
+impl<'de> Deserialize<'de> for ParameterPosition {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        if s.to_lowercase() == "named" {
+            return Ok(Self::Named);
+        }
+
+        match s.parse::<usize>() {
+            Ok(i) => Ok(Self::Index(i)),
+            Err(_) => Err(D::Error::custom(format!(
+                "Invalid value {s:?}. Expected 'named' or an integer."
+            ))),
+        }
     }
 }

@@ -96,13 +96,22 @@ pub struct Parameter {
     #[serde(rename = "pipelineInput")]
     pub pipeline_input: String,
 
-    /// Possible values: "named", "0", "1", "2", "3", "100", "101"
-    /// The "100" and "101" values seem like errors, and are observed in the `Register-EngineEvent`
-    /// and `Register-ObjectEvent` cmdlets on pwsh 7.4.2.
-    pub position: String,
+    pub position: ParameterPosition,
 
     #[serde(deserialize_with = "literal_none_is_empty")]
     pub aliases: Vec<String>,
+}
+
+/// Parameters are always nameable by a flag. Some may also be specified positionally. This enum
+/// indicates if the parameter is named-only or if it can be positional. The position indices are
+/// relative, and aren't required to start from 0.
+/// https://github.com/MicrosoftDocs/PowerShell-Docs/issues/11273#issuecomment-2233357535
+#[derive(Debug)]
+pub enum ParameterPosition {
+    /// If a parameter may be specified positionally, this will hold the index of that position.
+    Index(usize),
+    /// Parameter that can only be a named option.
+    Named,
 }
 
 #[derive(Debug, Deserialize)]
