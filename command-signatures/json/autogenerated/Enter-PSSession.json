@@ -1,0 +1,270 @@
+{
+  "name": "Enter-PSSession",
+  "options": [
+    {
+      "name": "-AllowRedirection",
+      "description": "Allows redirection of this connection to an alternate Uniform Resource Identifier (URI). By default, redirection is not allowed.\n"
+    },
+    {
+      "name": "-ApplicationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the application name segment of the connection URI. Use this parameter to specify the application name when you are not using the ConnectionURI parameter in the command.\n"
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "NegotiateWithImplicitCredential"
+            },
+            {
+              "name": "Credssp"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the mechanism that is used to authenticate the user's credentials. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to perform this action. Enter the certificate thumbprint of the certificate.\n"
+    },
+    {
+      "name": [
+        "-ComputerName",
+        "-Cn"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a computer name. This cmdlet starts an interactive session with the specified remote computer. Enter only one computer name. The default is the local computer.\n"
+    },
+    {
+      "name": "-ConfigurationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the session configuration that is used for the interactive session.\n"
+    },
+    {
+      "name": "-ConnectingTimeout",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "unlimited"
+        }
+      ],
+      "description": "Specifies the amount of time in milliseconds allowed for the initial SSH connection to complete. If the connection doesn't complete within the specified time, an error is returned.\n"
+    },
+    {
+      "name": [
+        "-ConnectionUri",
+        "-URI",
+        "-CU"
+      ],
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "description": "Specifies a URI that defines the connection endpoint for the session. The URI must be fully qualified. The format of this string is as follows:\n"
+    },
+    {
+      "name": "-ContainerId",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the ID of a container."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to perform this action. The default is the current user.\n"
+    },
+    {
+      "name": "-EnableNetworkAccess",
+      "description": "Indicates that this cmdlet adds an interactive security token to loopback sessions. The interactive token lets you run commands in the loopback session that get data from other computers. For example, you can run a command in the session that copies XML files from a remote computer to the local computer.\n"
+    },
+    {
+      "name": "-HostName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a computer name for a Secure Shell (SSH) based connection. This is similar to the ComputerName parameter except that the connection to the remote computer is made using SSH rather than Windows WinRM. This parameter supports specifying the user name and/or port as part of the host name parameter value using the form `user@hostname:port`. The user name and/or port specified as part of the host name takes precedence over the `-UserName` and `-Port` parameters, if specified. This allows passing multiple computer names to this parameter where some have specific user names and/or ports, while others use the user name and/or port from the `-UserName` and `-Port` parameters.\n"
+    },
+    {
+      "name": "-Id",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the ID of an existing session. `Enter-PSSession` uses the specified session for the interactive session.\n"
+    },
+    {
+      "name": "-InstanceId",
+      "args": [
+        {
+          "name": "System.Guid"
+        }
+      ],
+      "description": "Specifies the instance ID of an existing session. `Enter-PSSession` uses the specified session for the interactive session.\n"
+    },
+    {
+      "name": [
+        "-KeyFilePath",
+        "-IdentityFilePath"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a key file path used by Secure Shell (SSH) to authenticate a user on a remote computer.\n"
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the friendly name of an existing session. `Enter-PSSession` uses the specified session for the interactive session.\n"
+    },
+    {
+      "name": "-Options",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable"
+        }
+      ],
+      "description": "Specifies a hashtable of SSH options used when connecting to a remote SSH-based session. The possible options are any values supported by the Unix-based version of the ssh (https://man.openbsd.org/ssh#o)command.\n"
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the network port on the remote computer that is used for this command.\n"
+    },
+    {
+      "name": "-RunAsAdministrator",
+      "description": "Indicates that the PSSession runs as administrator."
+    },
+    {
+      "name": "-Session",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.PSSession"
+        }
+      ],
+      "description": "Specifies a PowerShell session ( PSSession ) to use for the interactive session. This parameter takes a session object. You can also use the Name , InstanceID , or ID parameters to specify a PSSession .\n"
+    },
+    {
+      "name": "-SessionOption",
+      "args": [
+        {
+          "name": "System.Management.Automation.Remoting.PSSessionOption"
+        }
+      ],
+      "description": "Sets advanced options for the session. Enter a SessionOption object, such as one that you create by using the `New-PSSessionOption` cmdlet, or a hash table in which the keys are session option names and the values are session option values.\n"
+    },
+    {
+      "name": "-SSHTransport",
+      "description": "Indicates that the remote connection is established using Secure Shell (SSH).\n"
+    },
+    {
+      "name": "-Subsystem",
+      "args": [
+        {
+          "name": "System.String",
+          "default": "Powershell"
+        }
+      ],
+      "description": "Specifies the SSH subsystem used for the new PSSession .\n"
+    },
+    {
+      "name": "-UserName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the user name for the account used to create a session on the remote computer. User authentication method will depend on how Secure Shell (SSH) is configured on the remote computer.\n"
+    },
+    {
+      "name": "-UseSSL",
+      "description": "Indicates that this cmdlet uses the Secure Sockets Layer (SSL) protocol to establish a connection to the remote computer. By default, SSL is not used.\n"
+    },
+    {
+      "name": [
+        "-VMId",
+        "-VMGuid"
+      ],
+      "args": [
+        {
+          "name": "System.Guid"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the ID of a virtual machine."
+    },
+    {
+      "name": "-VMName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of a virtual machine."
+    }
+  ],
+  "args": [],
+  "aliasName": "etsn",
+  "description": "Starts an interactive session with a remote computer."
+}

@@ -1,0 +1,422 @@
+{
+  "name": "Invoke-RestMethod",
+  "options": [
+    {
+      "name": "-AllowUnencryptedAuthentication",
+      "description": "Allows sending of credentials and secrets over unencrypted connections. By default, supplying Credential or any Authentication option with a Uri that does not begin with `https://` will result in an error and the request will abort to prevent unintentionally communicating secrets in plain text over unencrypted connections. To override this behavior at your own risk, supply the AllowUnencryptedAuthentication parameter.\n"
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.WebAuthenticationType",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Bearer"
+            },
+            {
+              "name": "OAuth"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the explicit authentication type to use for the request. The default is None . The Authentication parameter can't be used with the UseDefaultCredentials parameter.\n"
+    },
+    {
+      "name": "-Body",
+      "args": [
+        {
+          "name": "System.Object"
+        }
+      ],
+      "description": "Specifies the body of the request. The body is the content of the request that follows the headers. You can also pipe a body value to `Invoke-RestMethod`.\n"
+    },
+    {
+      "name": "-Certificate",
+      "args": [
+        {
+          "name": "System.Security.Cryptography.X509Certificates.X509Certificate"
+        }
+      ],
+      "description": "Specifies the client certificate that is used for a secure web request. Enter a variable that contains a certificate or a command or expression that gets the certificate.\n"
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to send the request. Enter the certificate thumbprint of the certificate.\n"
+    },
+    {
+      "name": "-ContentType",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the content type of the web request.\n"
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to send the request. The default is the current user.\n"
+    },
+    {
+      "name": [
+        "-CustomMethod",
+        "-CM"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies custom method used for the web request. This can be used with the Request Method required by the endpoint is not an available option on the Method . Method and CustomMethod cannot be used together.\n"
+    },
+    {
+      "name": "-DisableKeepAlive",
+      "description": "Indicates that the cmdlet sets the KeepAlive value in the HTTP header to False. By default, KeepAlive is True. KeepAlive establishes a persistent connection to the server to facilitate subsequent requests."
+    },
+    {
+      "name": [
+        "-FollowRelLink",
+        "-FL"
+      ],
+      "description": "Indicates the cmdlet should follow relation links.\n"
+    },
+    {
+      "name": "-Form",
+      "args": [
+        {
+          "name": "System.Collections.IDictionary"
+        }
+      ],
+      "description": "Converts a dictionary to a `multipart/form-data` submission. Form may not be used with Body . If ContentType will be ignored.\n"
+    },
+    {
+      "name": "-Headers",
+      "args": [
+        {
+          "name": "System.Collections.IDictionary"
+        }
+      ],
+      "description": "Specifies the headers of the web request. Enter a hash table or dictionary.\n"
+    },
+    {
+      "name": "-HttpVersion",
+      "args": [
+        {
+          "name": "System.Version"
+        }
+      ],
+      "description": "Specifies the HTTP version used for the request. The default is `1.1`.\n"
+    },
+    {
+      "name": "-InFile",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Gets the content of the web request from a file.\n"
+    },
+    {
+      "name": [
+        "-MaximumFollowRelLink",
+        "-ML"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "Int32.MaxValue"
+        }
+      ],
+      "description": "Specifies how many times to follow relation links if FollowRelLink is used. A smaller value may be needed if the REST api throttles due to too many requests. The default value is `[Int32]::MaxValue`. A value of 0 (zero) prevents following relation links."
+    },
+    {
+      "name": "-MaximumRedirection",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies how many times PowerShell redirects a connection to an alternate Uniform Resource Identifier (URI) before the connection fails. The default value is 5. A value of 0 (zero) prevents all redirection."
+    },
+    {
+      "name": "-MaximumRetryCount",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies how many times PowerShell retries a connection when a failure code between 400 and 599, inclusive or 304 is received. Also, see the RetryIntervalSec parameter for specifying the number of seconds between retries."
+    },
+    {
+      "name": "-Method",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.WebRequestMethod",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Get"
+            },
+            {
+              "name": "Head"
+            },
+            {
+              "name": "Post"
+            },
+            {
+              "name": "Put"
+            },
+            {
+              "name": "Delete"
+            },
+            {
+              "name": "Trace"
+            },
+            {
+              "name": "Options"
+            },
+            {
+              "name": "Merge"
+            },
+            {
+              "name": "Patch"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the method used for the web request. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-NoProxy",
+      "isRequired": true,
+      "description": "Indicates that the cmdlet will not use a proxy to reach the destination.\n"
+    },
+    {
+      "name": "-OutFile",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Saves the response body in the specified output file. Enter a path and filename. If you omit the path, the default is the current location. The name is treated as a literal path. Names that contain brackets (`[]`) must be enclosed in single quotes (`'`).\n"
+    },
+    {
+      "name": "-PassThru",
+      "description": "This parameter is valid only when the OutFile parameter is also used in the command. The intent is to have the results written to the file and to the pipeline.\n"
+    },
+    {
+      "name": "-PreserveAuthorizationOnRedirect",
+      "description": "Indicates the cmdlet should preserve the `Authorization` header, when present, across redirections.\n"
+    },
+    {
+      "name": "-Proxy",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "description": "Uses a proxy server for the request, rather than connecting directly to the internet resource. Enter the Uniform Resource Identifier (URI) of a network proxy server.\n"
+    },
+    {
+      "name": "-ProxyCredential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential"
+        }
+      ],
+      "description": "Specifies a user account that has permission to use the proxy server that is specified by the Proxy parameter. The default is the current user.\n"
+    },
+    {
+      "name": "-ProxyUseDefaultCredentials",
+      "description": "Indicates that the cmdlet uses the credentials of the current user to access the proxy server that is specified by the Proxy parameter.\n"
+    },
+    {
+      "name": [
+        "-ResponseHeadersVariable",
+        "-RHV"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Creates a variable containing a Response Headers Dictionary. Enter a variable name without the dollar sign (`$`) symbol. The keys of the dictionary contain the field names and values of the Response Header returned by the web server.\n"
+    },
+    {
+      "name": "-Resume",
+      "description": "Performs a best effort attempt to resume downloading a partial file. The Resume parameter requires the OutFile parameter. Resume only operates on the size of the local file and remote file and performs no other validation that the local file and the remote file are the same.\n"
+    },
+    {
+      "name": "-RetryIntervalSec",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "5"
+        }
+      ],
+      "description": "Specifies the interval between retries for the connection when a failure code between 400 and 599, inclusive or 304 is received. The value must be between `1` and `[int]::MaxValue`.\n"
+    },
+    {
+      "name": [
+        "-SessionVariable",
+        "-SV"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Creates a variable containing the web request session. Enter a variable name without the dollar sign (`$`) symbol.\n"
+    },
+    {
+      "name": "-SkipCertificateCheck",
+      "description": "Skips certificate validation checks that include all validations such as expiration, revocation, trusted root authority, etc.\n"
+    },
+    {
+      "name": "-SkipHeaderValidation",
+      "description": "Indicates the cmdlet should add headers to the request without validation.\n"
+    },
+    {
+      "name": "-SkipHttpErrorCheck",
+      "description": "This parameter causes the cmdlet to ignore HTTP error statuses and continue to process responses. The error responses are written to the pipeline just as if they were successful.\n"
+    },
+    {
+      "name": "-SslProtocol",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.WebSslProtocol",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Tls"
+            },
+            {
+              "name": "Tls11"
+            },
+            {
+              "name": "Tls12"
+            },
+            {
+              "name": "Tls13"
+            }
+          ]
+        }
+      ],
+      "description": "Sets the SSL/TLS protocols that are permissible for the web request. By default all, SSL/TLS protocols supported by the system are allowed. SslProtocol allows for limiting to specific protocols for compliance purposes.\n"
+    },
+    {
+      "name": "-StatusCodeVariable",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Creates a variable containing a HTTP status code result of the request. Enter a variable name without the dollar sign (`$`) symbol.\n"
+    },
+    {
+      "name": "-TimeoutSec",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies how long the request can be pending before it times out. Enter a value in seconds. The default value, 0, specifies an indefinite time-out.\n"
+    },
+    {
+      "name": "-Token",
+      "args": [
+        {
+          "name": "System.Security.SecureString"
+        }
+      ],
+      "description": "The OAuth or Bearer token to include in the request. Token is required by certain Authentication options. It can't be used independently. Token takes a `SecureString` that contains the token. To supply the token, manually use the following:\n"
+    },
+    {
+      "name": "-TransferEncoding",
+      "args": [
+        {
+          "name": "System.String",
+          "suggestions": [
+            {
+              "name": "chunked"
+            },
+            {
+              "name": "compress"
+            },
+            {
+              "name": "deflate"
+            },
+            {
+              "name": "gzip"
+            },
+            {
+              "name": "identity"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies a value for the transfer-encoding HTTP response header. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-Uri",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the Uniform Resource Identifier (URI) of the internet resource to which the web request is sent. This parameter supports HTTP, HTTPS, FTP, and FILE values.\n"
+    },
+    {
+      "name": "-UseBasicParsing",
+      "description": "This parameter has been deprecated. Beginning with PowerShell 6.0.0, all Web requests use basic parsing only. This parameter is included for backwards compatibility only and any use of it will have no effect on the operation of the cmdlet."
+    },
+    {
+      "name": "-UseDefaultCredentials",
+      "description": "Indicates that the cmdlet uses the credentials of the current user to send the web request. This can't be used with Authentication or Credential and may not be supported on all platforms."
+    },
+    {
+      "name": "-UserAgent",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a user agent string for the web request.\n"
+    },
+    {
+      "name": "-WebSession",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.WebRequestSession"
+        }
+      ],
+      "description": "Specifies a web request session. Enter the variable name, including the dollar sign (`$`).\n"
+    }
+  ],
+  "args": [],
+  "aliasName": "irm",
+  "description": "Sends an HTTP or HTTPS request to a RESTful web service."
+}

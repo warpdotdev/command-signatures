@@ -1,0 +1,127 @@
+{
+  "name": "Out-File",
+  "options": [
+    {
+      "name": "-Append",
+      "description": "Adds the output to the end of an existing file."
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "System.Text.Encoding",
+          "suggestions": [
+            {
+              "name": "ASCII"
+            },
+            {
+              "name": "BigEndianUnicode"
+            },
+            {
+              "name": "BigEndianUTF32"
+            },
+            {
+              "name": "OEM"
+            },
+            {
+              "name": "Unicode"
+            },
+            {
+              "name": "UTF7"
+            },
+            {
+              "name": "UTF8"
+            },
+            {
+              "name": "UTF8BOM"
+            },
+            {
+              "name": "UTF8NoBOM"
+            },
+            {
+              "name": "UTF32"
+            }
+          ],
+          "default": "UTF8NoBOM"
+        }
+      ],
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+    },
+    {
+      "name": [
+        "-FilePath",
+        "-Path"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the output file."
+    },
+    {
+      "name": "-Force",
+      "description": "Overrides the read-only attribute and overwrites an existing read-only file. The Force parameter doesn't override security restrictions."
+    },
+    {
+      "name": "-InputObject",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSObject"
+        }
+      ],
+      "description": "Specifies the objects to be written to the file. Enter a variable that contains the objects or type a command or expression that gets the objects."
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the output file. The LiteralPath parameter is used exactly as it's typed. Wildcard characters aren't accepted. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences. For more information, see about_Quoting_Rules (../Microsoft.Powershell.Core/About/about_Quoting_Rules.md)."
+    },
+    {
+      "name": [
+        "-NoClobber",
+        "-NoOverwrite"
+      ],
+      "description": "NoClobber prevents an existing file from being overwritten and displays a message that the file already exists. By default, if a file exists in the specified path, `Out-File` overwrites the file without warning."
+    },
+    {
+      "name": "-NoNewline",
+      "description": "Specifies that the content written to the file doesn't end with a newline character. The string representations of the input objects are concatenated to form the output. No spaces or newlines are inserted between the output strings. No newline is added after the last output string."
+    },
+    {
+      "name": "-Width",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the maximum number of characters in each line of output. Any additional characters are truncated, not wrapped. If this parameter isn't used, the width is determined by the characteristics of the host. The default for the PowerShell console is 80 characters. If you want to control the width for all invocations of `Out-File` as well as the redirection operators (`>` and `>>`), set `$PSDefaultParameterValues['out-file:width'] = 2000` before using `Out-File`."
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet isn't run."
+    }
+  ],
+  "args": [],
+  "description": "Sends output to a file."
+}

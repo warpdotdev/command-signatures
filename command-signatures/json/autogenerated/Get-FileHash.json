@@ -1,0 +1,68 @@
+{
+  "name": "Get-FileHash",
+  "options": [
+    {
+      "name": "-Algorithm",
+      "args": [
+        {
+          "name": "System.String",
+          "suggestions": [
+            {
+              "name": "SHA1"
+            },
+            {
+              "name": "SHA256"
+            },
+            {
+              "name": "SHA384"
+            },
+            {
+              "name": "SHA512"
+            },
+            {
+              "name": "MD5"
+            }
+          ],
+          "default": "SHA256"
+        }
+      ],
+      "description": "Specifies the cryptographic hash function to use for computing the hash value of the contents of the specified file or stream. A cryptographic hash function has the property that it is infeasible to find two different files with the same hash value. Hash functions are commonly used with digital signatures and for data integrity. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-InputStream",
+      "args": [
+        {
+          "name": "System.IO.Stream"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the input stream."
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to a file. Unlike the Path parameter, the value of the LiteralPath parameter is used exactly as it is typed. No characters are interpreted as wildcard characters. If the path includes escape characters, enclose the path in single quotation marks. Single quotation marks instruct PowerShell not to interpret characters as escape sequences."
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to one or more files as an array. Wildcard characters are permitted."
+    }
+  ],
+  "args": [],
+  "description": "Computes the hash value for a file by using a specified hash algorithm."
+}
