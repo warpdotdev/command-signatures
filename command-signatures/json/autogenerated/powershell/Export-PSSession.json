@@ -187,6 +187,27 @@
       "description": "Specifies the PSSession from which the commands are exported. Enter a variable that contains a session object or a command that gets a session object, such as a `Get-PSSession` command. This parameter is required."
     }
   ],
-  "args": [],
-  "description": "Exports commands from another session and saves them in a PowerShell module."
+  "args": [
+    {
+      "name": "-Session",
+      "description": "Specifies the PSSession from which the commands are exported. Enter a variable that contains a session object or a command that gets a session object, such as a `Get-PSSession` command. This parameter is required."
+    },
+    {
+      "name": "-OutputModule",
+      "description": "Specifies an optional path and name for the module created by `Export-PSSession`. The default path is `$HOME\\Documents\\WindowsPowerShell\\Modules`. This parameter is required.\n"
+    },
+    {
+      "name": "-CommandName",
+      "description": "Exports only the commands with the specified names or name patterns. Wildcards are permitted. Use CommandName or its alias, Name .\n"
+    },
+    {
+      "name": "-FormatTypeName",
+      "description": "Exports formatting instructions only for the specified Microsoft .NET Framework types. Enter the type names. By default, `Export-PSSession` exports formatting instructions for all .NET Framework types that are not in the System.Management.Automation namespace.\n"
+    }
+  ],
+  "description": "Exports commands from another session and saves them in a PowerShell module.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true
+  }
 }

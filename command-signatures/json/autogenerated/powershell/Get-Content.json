@@ -174,7 +174,16 @@
       "description": "Causes the cmdlet to wait indefinitely, keeping the file open, until interrupted. While waiting, `Get-Content` checks the file once per second and outputs new lines if present. When used with the TotalCount parameter, `Get-Content` waits until the specified number of lines are available in the specified file. For example, if you specify a TotalCount of 10 and the file already has 10 or more lines, `Get-Content` returns the 10 lines and exits. If the file has fewer than 10 lines, `Get-Content` outputs each line as it arrives, but waits until the tenth line arrives before exiting.\n"
     }
   ],
-  "args": [],
+  "args": [
+    {
+      "name": "-Path",
+      "description": "Specifies the path to an item where `Get-Content` gets the content. Wildcard characters are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory."
+    }
+  ],
   "aliasName": "gc",
-  "description": "Gets the content of the item at the specified location."
+  "description": "Gets the content of the item at the specified location.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true
+  }
 }
