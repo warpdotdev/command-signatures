@@ -39,8 +39,7 @@ impl From<CmdletHelp> for Command {
                 let description = param
                     .description
                     .iter()
-                    .filter(|param| !param.text.contains("> [!NOTE] >"))
-                    .next()
+                    .find(|param| !param.text.contains("> [!NOTE] >"))
                     .map(|pg| pg.text.clone());
 
                 let type_name = &param.type_info.name;
