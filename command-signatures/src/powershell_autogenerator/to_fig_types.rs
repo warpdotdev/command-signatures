@@ -1,4 +1,5 @@
 use itertools::Itertools as _;
+use warp_completion_metadata::fig_types::StringOrNumber;
 
 use crate::fig_types::{Arg, Command, CommandOption, NameOrSuggestion};
 use crate::powershell_autogenerator::CmdletHelp;
@@ -41,10 +42,7 @@ impl From<CmdletHelp> for Command {
                 } else {
                     vec![Arg {
                         name: Some(type_name.clone()),
-                        default: param
-                            .default_value
-                            .clone()
-                            .map(|val| StringOrNumber::String(val)),
+                        default: param.default_value.clone().map(StringOrNumber::String),
                         // TODO(CORE-2677) Recognize PowerShell array syntax.
                         is_variadic: false,
                         suggestions: suggestions
@@ -54,7 +52,6 @@ impl From<CmdletHelp> for Command {
                             .into_iter()
                             .map(NameOrSuggestion::Name)
                             .collect_vec(),
-                        is_variadic: param.variable_length,
                         ..Default::default()
                     }]
                 };

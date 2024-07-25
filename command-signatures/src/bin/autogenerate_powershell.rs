@@ -15,7 +15,7 @@ fn main() {
             let cmdlet_help_json =
                 run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
             let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
-                .expect(&format!("failed to deserialize {cmdlet_name} help"));
+                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"));
             let aliases = run_pwsh_command(format!(
                 "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
             ));

@@ -16,7 +16,6 @@ use serde::Deserialize;
 use serde_with::{formats::PreferMany, serde_as, DefaultOnNull, OneOrMany};
 
 use deserializers::*;
-use to_fig_types::*;
 
 #[serde_as]
 #[derive(Debug, Deserialize)]
