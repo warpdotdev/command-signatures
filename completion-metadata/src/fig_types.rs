@@ -14,7 +14,7 @@ use itertools::Itertools;
 
 /// https://fig.io/docs/reference/suggestion/indicating-priority
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
-struct FigPriority(pub u32);
+pub struct FigPriority(pub u32);
 
 /// Mapping to the exact types of Fig's completion specs at commit
 /// 67b2515c5ea4ff4c70c672a5ccdf8a77547d1366.
@@ -94,13 +94,13 @@ pub struct Command {
     pub description: Option<String>,
 
     #[serde(default)]
-    is_dangerous: bool,
+    pub is_dangerous: bool,
 
     #[serde(default)]
-    priority: Option<FigPriority>,
+    pub priority: Option<FigPriority>,
 
     #[serde(default)]
-    hidden: bool,
+    pub hidden: bool,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
@@ -123,7 +123,7 @@ pub struct CommandOption {
 
     #[serde(default)]
     #[serde(rename = "isPersistent")]
-    is_persistent: bool,
+    pub is_persistent: bool,
 
     #[serde(default)]
     #[serde(rename = "isRequired")]
@@ -150,13 +150,13 @@ pub struct CommandOption {
     pub description: Option<String>,
 
     #[serde(default)]
-    is_dangerous: bool,
+    pub is_dangerous: bool,
 
     #[serde(default)]
-    priority: Option<FigPriority>,
+    pub priority: Option<FigPriority>,
 
     #[serde(default)]
-    hidden: bool,
+    pub hidden: bool,
 }
 
 #[serde_as]

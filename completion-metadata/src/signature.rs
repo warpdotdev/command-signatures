@@ -474,8 +474,8 @@ impl TemplateFilter {
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct AliasName(pub String);
 
-impl From<&'static str> for AliasName {
-    fn from(str: &'static str) -> Self {
+impl From<&str> for AliasName {
+    fn from(str: &str) -> Self {
         Self(str.into())
     }
 }
