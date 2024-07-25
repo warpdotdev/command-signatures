@@ -113,6 +113,8 @@ pub struct Command {
 }
 
 /// Configure how the completion engine will map raw tokens to options/flags in the spec.
+/// Basically back-porting this concept from Fig:
+/// https://fig.io/docs/reference/arg#parserdirectives
 #[derive(Clone, Debug, Default, Deserialize, Serialize, Eq, PartialEq)]
 pub struct ParserDirectives {
     /// Flags with long names may begin with just 1 hyphen instead of 2.
@@ -662,7 +664,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["write".into()],
@@ -735,7 +738,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["delete".into()],
@@ -795,7 +799,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["rename".into()],
@@ -868,7 +873,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["domains".into()],
@@ -880,12 +886,14 @@ mod tests {
                         subcommands: vec![],
                         options: vec![],
                         args: vec![],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                 ],
                 options: vec![],
                 args: vec![],
-                additional_suggestions: vec![]
+                additional_suggestions: vec![],
+                parser_directives: Default::default(),
             }
         )
     }
