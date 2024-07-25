@@ -41,8 +41,9 @@ fn main() {
             .join("powershell")
             .join(format!("{name}.json"));
         let json = serde_json::to_string_pretty(&cmdlet_spec)
-            .expect(&format!("Cmdlet {name} failed to serialize"));
-        fs::write(file_path, &json).expect(&format!("Cmdlet {name} JSON file failed to write"));
+            .unwrap_or_else(|_| panic!("Cmdlet {name} failed to serialize"));
+        fs::write(file_path, json)
+            .unwrap_or_else(|_| panic!("Cmdlet {name} JSON file failed to write"));
     });
 }
 
