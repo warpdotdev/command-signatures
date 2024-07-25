@@ -1,0 +1,40 @@
+use std::process;
+
+use itertools::Itertools;
+use rayon::prelude::*;
+
+use warp_command_signatures::{fig_types::Command, powershell_autogenerator::CmdletHelp};
+
+fn main() {
+    let all_cmdlet_names =
+        run_pwsh_command("Get-Command -Type Cmdlet | Select-Object -ExpandProperty Name");
+    let all_cmdlet_names = all_cmdlet_names.trim().split('\n').collect_vec();
+    let all_cmdlet_specs = all_cmdlet_names
+        .par_iter()
+        .map(|cmdlet_name| {
+            let cmdlet_help_json =
+                run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
+            let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
+                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"));
+            let aliases = run_pwsh_command(format!(
+                "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
+            ));
+            cmdlet_help.aliases = aliases
+                .trim()
+                .split('\n')
+                .map(ToOwned::to_owned)
+                .collect_vec();
+            cmdlet_help.into()
+        })
+        .collect::<Vec<Command>>();
+    dbg!(all_cmdlet_specs);
+}
+
+fn run_pwsh_command<S: AsRef<str>>(command: S) -> String {
+    let stdout_bytes = process::Command::new("pwsh")
+        .args(["-NoProfile", "-NoLogo", "-Command", command.as_ref()])
+        .output()
+        .expect("pwsh must be installed")
+        .stdout;
+    String::from_utf8(stdout_bytes).expect("pwsh output must be valid UTF8")
+}
