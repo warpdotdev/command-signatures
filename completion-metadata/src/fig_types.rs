@@ -307,7 +307,7 @@ impl From<Command> for Vec<Signature> {
         let options = if command.options.is_empty() {
             None
         } else {
-            Some(command.options.into_iter().map(|o| o.into()).collect_vec())
+            Some(command.options.into_iter().map(Into::into).collect_vec())
         };
 
         command
