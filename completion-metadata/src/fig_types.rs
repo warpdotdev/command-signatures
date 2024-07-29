@@ -275,43 +275,54 @@ impl From<Suggestion> for NameOrSuggestion {
     }
 }
 
-impl From<Command> for Signature {
+impl From<Command> for Vec<Signature> {
     fn from(command: Command) -> Self {
         let persistent_options = command
             .options
             .iter()
             .filter_map(|option| option.is_persistent.then(|| option.clone()))
             .collect_vec();
-        Signature {
-            name: command.name.first().cloned().unwrap_or_default(),
-            alias: command.alias_name,
-            description: command.description,
-            arguments: if command.args.is_empty() {
-                None
-            } else {
-                Some(command.args.into_iter().map(|a| a.into()).collect())
-            },
-            subcommands: if command.subcommands.is_empty() {
-                None
-            } else {
-                Some(
-                    command
-                        .subcommands
-                        .into_iter()
-                        .map(|mut s| {
-                            s.options.extend(persistent_options.clone());
-                            s.into()
-                        })
-                        .collect(),
-                )
-            },
-            options: if command.options.is_empty() {
-                None
-            } else {
-                Some(command.options.into_iter().map(|o| o.into()).collect())
-            },
-            priority: command.priority.map_or_else(Priority::default, Into::into),
-        }
+
+        let arguments = if command.args.is_empty() {
+            None
+        } else {
+            Some(command.args.into_iter().map(Into::into).collect_vec())
+        };
+
+        let subcommands = if command.subcommands.is_empty() {
+            None
+        } else {
+            Some(
+                command
+                    .subcommands
+                    .into_iter()
+                    .flat_map(|mut subcommand| {
+                        subcommand.options.extend(persistent_options.clone());
+                        Vec::from(subcommand)
+                    })
+                    .collect_vec(),
+            )
+        };
+
+        let options = if command.options.is_empty() {
+            None
+        } else {
+            Some(command.options.into_iter().map(Into::into).collect_vec())
+        };
+
+        command
+            .name
+            .into_iter()
+            .map(|name| Signature {
+                name,
+                alias: command.alias_name.clone(),
+                description: command.description.clone(),
+                arguments: arguments.clone(),
+                subcommands: subcommands.clone(),
+                options: options.clone(),
+                priority: command.priority.map_or_else(Priority::default, Into::into),
+            })
+            .collect()
     }
 }
 

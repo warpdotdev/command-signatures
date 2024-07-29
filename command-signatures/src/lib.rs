@@ -23,7 +23,12 @@ pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
         let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
         let fig_command: warp_completion_metadata::fig_types::Command =
             serde_json::from_str(json_content).ok()?;
-        Some(Signature::from(fig_command))
+        let signatures: Vec<Signature> = fig_command.into();
+        debug_assert!(
+            signatures.len() <= 1,
+            "Tried to fetch a signature by name for a signature that has multiple names"
+        );
+        signatures.into_iter().next()
     })
 }
 
@@ -48,8 +53,9 @@ pub fn commands() -> Vec<Signature> {
             let json_content = std::str::from_utf8(&embedded_data).ok()?;
             let fig_command: warp_completion_metadata::fig_types::Command =
                 serde_json::from_str(json_content).ok()?;
-            Some(Signature::from(fig_command))
+            Some(Vec::from(fig_command))
         })
+        .flatten()
         .collect()
 }
 
