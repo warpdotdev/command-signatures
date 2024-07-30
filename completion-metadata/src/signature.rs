@@ -1,7 +1,7 @@
 use super::{Priority, Suggestion};
 use crate::{fig_types::ParserDirectives, Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
-use std::fmt::{Debug, Formatter};
+use std::fmt::{self, Debug, Formatter};
 
 pub struct AnnotatedFlag<'a> {
     pub name: &'a str,
@@ -44,7 +44,7 @@ pub enum FlagStyle {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Signature {
     pub name: String,
-    pub alias: Option<AliasName>,
+    pub alias_generator: Option<AliasGeneratorName>,
     pub description: Option<String>,
     pub arguments: Option<Vec<Argument>>,
     pub subcommands: Option<Vec<Signature>>,
@@ -114,7 +114,7 @@ impl Signature {
     }
 
     pub fn alias<'a>(&self, aliases: Option<&'a Aliases>) -> Option<&'a Alias> {
-        self.alias.as_ref().and_then(|alias_name| {
+        self.alias_generator.as_ref().and_then(|alias_name| {
             let aliases = match aliases {
                 None => {
                     log::error!(
@@ -315,7 +315,7 @@ pub enum ArgumentType {
     Suggestion(Suggestion),
     Template(Template),
     Generator(GeneratorName),
-    Alias(AliasName),
+    Alias(AliasGeneratorName),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
@@ -473,11 +473,17 @@ impl TemplateFilter {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
-pub struct AliasName(pub String);
+pub struct AliasGeneratorName(pub String);
 
-impl From<&str> for AliasName {
+impl From<&str> for AliasGeneratorName {
     fn from(str: &str) -> Self {
         Self(str.into())
+    }
+}
+
+impl fmt::Display for AliasGeneratorName {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        f.write_str(&self.0)
     }
 }
 
