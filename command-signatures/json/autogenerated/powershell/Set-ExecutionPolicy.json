@@ -80,6 +80,59 @@
       "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
     }
   ],
-  "args": [],
-  "description": "Sets the PowerShell execution policies for Windows computers."
+  "args": [
+    {
+      "name": "-ExecutionPolicy",
+      "description": "Specifies the execution policy. If there are no Group Policies and each scope's execution policy is set to `Undefined`, then `Restricted` becomes the effective policy for all users.\n",
+      "suggestions": [
+        {
+          "name": "AllSigned"
+        },
+        {
+          "name": "Bypass"
+        },
+        {
+          "name": "Default"
+        },
+        {
+          "name": "RemoteSigned"
+        },
+        {
+          "name": "Restricted"
+        },
+        {
+          "name": "Undefined"
+        },
+        {
+          "name": "Unrestricted"
+        }
+      ]
+    },
+    {
+      "name": "-Scope",
+      "description": "Specifies the scope that is affected by an execution policy. The default scope is `LocalMachine`.\n",
+      "suggestions": [
+        {
+          "name": "CurrentUser"
+        },
+        {
+          "name": "LocalMachine"
+        },
+        {
+          "name": "MachinePolicy"
+        },
+        {
+          "name": "Process"
+        },
+        {
+          "name": "UserPolicy"
+        }
+      ]
+    }
+  ],
+  "description": "Sets the PowerShell execution policies for Windows computers.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true
+  }
 }

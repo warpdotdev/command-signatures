@@ -1,15 +1,20 @@
-use itertools::Itertools as _;
-use warp_completion_metadata::fig_types::{StringOrNumber, Suggestion};
+use std::collections::HashMap;
 
-use crate::fig_types::{Arg, Command, CommandOption, NameOrSuggestion};
+use itertools::Itertools;
+use warp_completion_metadata::fig_types::{ParserDirectives, StringOrNumber, Suggestion};
+
 use crate::powershell_autogenerator::CmdletHelp;
+use crate::{
+    fig_types::{Arg, Command, CommandOption, NameOrSuggestion},
+    powershell_autogenerator::ParameterPosition,
+};
 
 impl From<CmdletHelp> for Command {
     fn from(cmdlet_help: CmdletHelp) -> Self {
-        let options = cmdlet_help
-            .parameters
-            .unwrap_or_default()
-            .parameter
+        let parameters = &cmdlet_help.parameters.unwrap_or_default().parameter;
+        let mut top_level_args = HashMap::<usize, Vec<Arg>>::new();
+
+        let options = parameters
             .iter()
             .map(|param| {
                 let mut name = vec![format!("-{}", param.name)];
@@ -31,6 +36,12 @@ impl From<CmdletHelp> for Command {
                                 .is_some_and(|values| !values.values.is_empty())
                     });
 
+                let description = param
+                    .description
+                    .iter()
+                    .find(|param| !param.text.contains("> [!NOTE] >"))
+                    .map(|pg| pg.text.clone());
+
                 let type_name = &param.type_info.name;
 
                 // "Switches", i.e. a flag without an argument, are either "SwitchParameter",
@@ -40,7 +51,7 @@ impl From<CmdletHelp> for Command {
                 {
                     vec![]
                 } else {
-                    vec![Arg {
+                    let arg = Arg {
                         name: Some(type_name.clone()),
                         default: param.default_value.clone().map(StringOrNumber::String),
                         // TODO(CORE-2677) Recognize PowerShell array syntax.
@@ -58,7 +69,19 @@ impl From<CmdletHelp> for Command {
                             })
                             .collect_vec(),
                         ..Default::default()
-                    }]
+                    };
+                    if let ParameterPosition::Index(i) = &param.position {
+                        let arg = Arg {
+                            name: name.first().cloned(),
+                            description: description.clone(),
+                            // TODO(CORE-2677) Recognize PowerShell array syntax.
+                            is_variadic: false,
+                            suggestions: arg.suggestions.clone(),
+                            ..Default::default()
+                        };
+                        top_level_args.entry(*i).or_default().push(arg);
+                    }
+                    vec![arg]
                 };
 
                 CommandOption {
@@ -75,32 +98,44 @@ impl From<CmdletHelp> for Command {
                     exclusive_on: vec![],
                     // Difficult to parse.
                     depends_on: vec![],
-                    description: param
-                        .description
-                        .iter()
-                        .find(|para| !para.text.contains("> [!NOTE] >"))
-                        .map(|pg| pg.text.clone()),
+                    description,
                     is_dangerous: false,
                     priority: None,
                     hidden: false,
                 }
             })
             .collect_vec();
+
+        // Sometimes, multiple different params may appear in a particular position depending on
+        // the "syntax". For example, see `Get-Help Add-Member` in the "SYNTAX" section. If that is
+        // the case, just bail out of trying to provide completions on positional args.
+        let args = if top_level_args.values().any(|params| params.len() > 1) {
+            vec![]
+        } else {
+            top_level_args
+                .into_iter()
+                .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+                .map(|(_, mut params)| params.remove(0))
+                .collect_vec()
+        };
+
         Self {
             name: vec![cmdlet_help.name],
             // PowerShell cmdlets don't have subcommands.
             subcommands: vec![],
             options,
-            // PowerShell cmdlets never require positional arguments. There are some parameters
-            // which may be specified positionally, but they always have named flags as an
-            // alternative. The named flags are generally encouraged.
-            args: vec![],
+            args,
             alias_name: cmdlet_help.aliases.get(0).map(|s| s.as_str().into()),
             additional_suggestions: vec![],
             description: Some(cmdlet_help.synopsis),
             is_dangerous: false,
             priority: None,
             hidden: false,
+            parser_directives: ParserDirectives {
+                // All cmdlet flags are prefixed by a single hyphen.
+                flags_are_posix_noncompliant: true,
+                flags_match_unique_prefix: true,
+            },
         }
     }
 }

@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::{Aliases, Filters, Generators, PathSuggestionType};
+use crate::{fig_types::ParserDirectives, Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{Debug, Formatter};
 
@@ -50,6 +50,7 @@ pub struct Signature {
     pub subcommands: Option<Vec<Signature>>,
     pub options: Option<Vec<Opt>>,
     pub priority: Priority,
+    pub parser_directives: ParserDirectives,
 }
 
 impl Signature {

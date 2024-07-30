@@ -38,7 +38,16 @@
       "description": "Specifies an existing location stack name that this cmdlet makes the current location stack. Enter a location stack name. To indicate the unnamed default location stack, type `$null` or an empty string (`\"\"`).\n"
     }
   ],
-  "args": [],
+  "args": [
+    {
+      "name": "-Path",
+      "description": "Specify the path of a new working location. If no path is provided, `Set-Location` defaults to the current user's home directory. When wildcards are used, the cmdlet chooses the container (directory, registry key, certificate store) that matches the wildcard pattern. If the wildcard pattern matches more than one container, the cmdlet returns an error.\n"
+    }
+  ],
   "aliasName": "cd",
-  "description": "Sets the current working location to a specified location."
+  "description": "Sets the current working location to a specified location.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true
+  }
 }

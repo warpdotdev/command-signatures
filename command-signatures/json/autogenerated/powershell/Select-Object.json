@@ -100,7 +100,16 @@
       "description": "Indicates that the cmdlet turns off optimization. PowerShell runs commands in the order that they appear in the command pipeline and lets them generate all objects. By default, if you include a `Select-Object` command with the First or Index parameters in a command pipeline, PowerShell stops the command that generates the objects as soon as the selected number of objects is generated.\n"
     }
   ],
-  "args": [],
+  "args": [
+    {
+      "name": "-Property",
+      "description": "Specifies the properties to select. These properties are added as NoteProperty members to the output objects. Wildcards are permitted. If the input object doesn't have the property named, the value of the new NoteProperty is set to `$null`.\n"
+    }
+  ],
   "aliasName": "select",
-  "description": "Selects objects or object properties."
+  "description": "Selects objects or object properties.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true
+  }
 }

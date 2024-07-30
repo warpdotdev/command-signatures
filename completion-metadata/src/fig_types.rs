@@ -103,6 +103,43 @@ pub struct Command {
 
     #[serde(default, skip_serializing_if = "<&bool>::not")]
     pub hidden: bool,
+
+    #[serde(
+        default,
+        rename = "parserDirectives",
+        skip_serializing_if = "ParserDirectives::is_default"
+    )]
+    pub parser_directives: ParserDirectives,
+}
+
+/// Configure how the completion engine will map raw tokens to options/flags in the spec.
+/// Basically back-porting this concept from Fig:
+/// https://fig.io/docs/reference/arg#parserdirectives
+#[derive(Clone, Debug, Default, Deserialize, Serialize, Eq, PartialEq)]
+pub struct ParserDirectives {
+    /// Flags with long names may begin with just 1 hyphen instead of 2.
+    /// https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html
+    #[serde(
+        default,
+        rename = "flagsArePosixNoncompliant",
+        skip_serializing_if = "<&bool>::not"
+    )]
+    pub flags_are_posix_noncompliant: bool,
+
+    /// Flags don't need to be spelled out in full, e.g. for `Get-ChildItem` you can provide "-Fi"
+    /// instead of "-Filter", but not just "-F" as it might match "-Filter" or "-Force".
+    #[serde(
+        default,
+        rename = "flagsMatchUniquePrefix",
+        skip_serializing_if = "<&bool>::not"
+    )]
+    pub flags_match_unique_prefix: bool,
+}
+
+impl ParserDirectives {
+    fn is_default(&self) -> bool {
+        *self == Self::default()
+    }
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, Copy)]
@@ -321,6 +358,7 @@ impl From<Command> for Vec<Signature> {
                 subcommands: subcommands.clone(),
                 options: options.clone(),
                 priority: command.priority.map_or_else(Priority::default, Into::into),
+                parser_directives: command.parser_directives.clone(),
             })
             .collect()
     }
@@ -626,7 +664,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["write".into()],
@@ -699,7 +738,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["delete".into()],
@@ -759,7 +799,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["rename".into()],
@@ -832,7 +873,8 @@ mod tests {
                                 default: None
                             }
                         ],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                     Command {
                         name: vec!["domains".into()],
@@ -844,12 +886,14 @@ mod tests {
                         subcommands: vec![],
                         options: vec![],
                         args: vec![],
-                        additional_suggestions: vec![]
+                        additional_suggestions: vec![],
+                        parser_directives: Default::default(),
                     },
                 ],
                 options: vec![],
                 args: vec![],
-                additional_suggestions: vec![]
+                additional_suggestions: vec![],
+                parser_directives: Default::default(),
             }
         )
     }
