@@ -1,0 +1,127 @@
+{
+  "name": "Restart-Computer",
+  "options": [
+    {
+      "name": [
+        "-ComputerName",
+        "-CN",
+        "-__SERVER",
+        "-Server",
+        "-IPAddress"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies one computer name or a comma-separated array of computer names. `Restart-Computer` accepts ComputerName objects from the pipeline or variables.\n"
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to do this action. The default is the current user.\n"
+    },
+    {
+      "name": "-Delay",
+      "args": [
+        {
+          "name": "System.Int16"
+        }
+      ],
+      "description": "Specifies the frequency of queries, in seconds. PowerShell queries the service specified by the For parameter to determine whether the service is available after the computer is restarted.\n"
+    },
+    {
+      "name": "-For",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.WaitForServiceTypes",
+          "suggestions": [
+            {
+              "name": "Wmi"
+            },
+            {
+              "name": "WinRM"
+            },
+            {
+              "name": "PowerShell"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the behavior of PowerShell as it waits for the specified service or feature to become available after the computer restarts. This parameter is only valid with the Wait parameter.\n"
+    },
+    {
+      "name": [
+        "-Force",
+        "-f"
+      ],
+      "description": "Forces an immediate restart of the computer."
+    },
+    {
+      "name": [
+        "-Timeout",
+        "-TimeoutSec"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the duration of the wait, in seconds. When the timeout elapses, `Restart-Computer` returns to the command prompt, even if the computers aren't restarted.\n"
+    },
+    {
+      "name": "-Wait",
+      "description": "`Restart-Computer` suppresses the PowerShell prompt and blocks the pipeline until the computers have restarted. You can use this parameter in a script to restart computers and then continue to process when the restart is finished.\n"
+    },
+    {
+      "name": "-WsmanAuthentication",
+      "args": [
+        {
+          "name": "System.String",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "CredSSP"
+            },
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            },
+            {
+              "name": "Negotiate"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the mechanism that is used to authenticate the user credentials. This parameter was introduced in Windows PowerShell 3.0.\n"
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running `Restart-Computer`."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the `Restart-Computer` runs. The `Restart-Computer` cmdlet isn't run."
+    }
+  ],
+  "args": [],
+  "description": "Restarts the operating system on local and remote computers."
+}

@@ -1,0 +1,144 @@
+{
+  "name": "Test-Connection",
+  "options": [
+    {
+      "name": [
+        "-BufferSize",
+        "-Size",
+        "-Bytes",
+        "-BS"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "32"
+        }
+      ],
+      "description": "Specifies the size, in bytes, of the buffer sent with this command. The default value is 32."
+    },
+    {
+      "name": "-Count",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "4"
+        }
+      ],
+      "description": "Specifies the number of echo requests to send. The default value is 4."
+    },
+    {
+      "name": "-Delay",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the interval between pings, in seconds."
+    },
+    {
+      "name": "-DontFragment",
+      "description": "This parameter sets the Don't Fragment flag in the IP header. You can use this parameter with the BufferSize parameter to test the Path MTU size. For more information about Path MTU, see the Path MTU Discovery (https://wikipedia.org/wiki/Path_MTU_Discovery)article in wikipedia."
+    },
+    {
+      "name": "-IPv4",
+      "description": "Forces the cmdlet to use the IPv4 protocol for the test."
+    },
+    {
+      "name": "-IPv6",
+      "description": "Forces the cmdlet to use the IPv6 protocol for the test."
+    },
+    {
+      "name": [
+        "-MaxHops",
+        "-Ttl",
+        "-TimeToLive",
+        "-Hops"
+      ],
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "128"
+        }
+      ],
+      "description": "Sets the maximum number of hops that an ICMP request message can be sent. The default value is controlled by the operating system. The default value for Windows 10 and higher is 128 hops."
+    },
+    {
+      "name": [
+        "-MtuSize",
+        "-MtuSizeDetect"
+      ],
+      "isRequired": true,
+      "description": "This parameter is used to discover the Path MTU size. The cmdlet returns a PingReply#MTUSize object that contains the Path MTU size to the target. For more information about Path MTU, see the Path MTU Discovery (https://wikipedia.org/wiki/Path_MTU_Discovery)article in wikipedia."
+    },
+    {
+      "name": "-Ping",
+      "description": "Causes the cmdlet to do a ping test. This is the default mode for the `Test-Connection` cmdlet."
+    },
+    {
+      "name": "-Quiet",
+      "description": "The Quiet parameter returns a Boolean value. Using this parameter suppresses all errors.\n"
+    },
+    {
+      "name": [
+        "-Repeat",
+        "-Continuous"
+      ],
+      "isRequired": true,
+      "description": "Causes the cmdlet to send ping requests continuously. When the value of TargetName is an array of targets, the cmdlet repeats the ping requests for the first target only. It ignores the remaining targets. This parameter can't be used with the Count parameter."
+    },
+    {
+      "name": "-ResolveDestination",
+      "description": "Causes the cmdlet to attempt to resolve the DNS name of the target. When used in conjunction with the Traceroute parameter, the DNS names of all intermediate hosts will also be retrieved, if possible."
+    },
+    {
+      "name": "-Source",
+      "args": [
+        {
+          "name": "System.String",
+          "default": "Local computer"
+        }
+      ],
+      "description": "Specifies the names of the computers where the ping originates. Enter a comma-separated list of computer names. The default is the local computer.\n"
+    },
+    {
+      "name": [
+        "-TargetName",
+        "-ComputerName"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the computer(s) to test. Type the computer names or type IP addresses in IPv4 or IPv6 format."
+    },
+    {
+      "name": "-TcpPort",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the TCP port number on the target to be used in the TCP connection test. The cmdlet will attempt to make a TCP connection to the specified port on the target.\n"
+    },
+    {
+      "name": "-TimeoutSeconds",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "5 seconds"
+        }
+      ],
+      "description": "Sets the timeout value for the test. The test fails if a response isn't received before the timeout expires. The default is five seconds.\n"
+    },
+    {
+      "name": "-Traceroute",
+      "isRequired": true,
+      "description": "Causes the cmdlet to do a traceroute test. When this parameter is used, the cmdlet returns a `TestConnectionCommand+TraceStatus` object."
+    }
+  ],
+  "args": [],
+  "description": "Sends ICMP echo request packets, or pings, to one or more computers."
+}

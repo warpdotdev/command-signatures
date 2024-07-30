@@ -1,0 +1,126 @@
+{
+  "name": "Stop-Job",
+  "options": [
+    {
+      "name": "-Filter",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a hash table of conditions. This cmdlet stops jobs that satisfy every condition. Enter a hash table where the keys are job properties and the values are job property values.\n"
+    },
+    {
+      "name": "-Id",
+      "args": [
+        {
+          "name": "System.Int32[]",
+          "default": "All jobs"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the IDs of jobs that this cmdlet stops. The default is all jobs in the current session.\n"
+    },
+    {
+      "name": "-InstanceId",
+      "args": [
+        {
+          "name": "System.Guid[]",
+          "default": "All jobs"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the instance IDs of jobs that this cmdlet stops. The default is all jobs.\n"
+    },
+    {
+      "name": "-Job",
+      "args": [
+        {
+          "name": "System.Management.Automation.Job[]",
+          "default": "All jobs"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the jobs that this cmdlet stops. Enter a variable that contains the jobs or a command that gets the jobs. You can also use a pipeline operator to submit jobs to the `Stop-Job` cmdlet. By default, `Stop-Job` deletes all jobs that were started in the current session."
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String[]",
+          "default": "All jobs"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies friendly names of jobs that this cmdlet stops. Enter the job names in a comma-separated list or use wildcard characters (`*`) to enter a job name pattern. By default, `Stop-Job` stops all jobs created in the current session.\n"
+    },
+    {
+      "name": "-PassThru",
+      "description": "Returns an object representing the item with which you are working. By default, this cmdlet does not generate any output."
+    },
+    {
+      "name": "-State",
+      "args": [
+        {
+          "name": "System.Management.Automation.JobState",
+          "suggestions": [
+            {
+              "name": "NotStarted"
+            },
+            {
+              "name": "Running"
+            },
+            {
+              "name": "Completed"
+            },
+            {
+              "name": "Failed"
+            },
+            {
+              "name": "Stopped"
+            },
+            {
+              "name": "Blocked"
+            },
+            {
+              "name": "Suspended"
+            },
+            {
+              "name": "Disconnected"
+            },
+            {
+              "name": "Suspending"
+            },
+            {
+              "name": "Stopping"
+            },
+            {
+              "name": "AtBreakpoint"
+            }
+          ],
+          "default": "All jobs"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a job state. This cmdlet stops only jobs in the specified state. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    }
+  ],
+  "args": [],
+  "aliasName": "spjb",
+  "description": "Stops a PowerShell background job."
+}
