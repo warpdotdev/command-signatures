@@ -1,11 +1,11 @@
 use core::panic;
-use std::{fs, io, path, process};
+use std::{fs, path, process};
 
 use itertools::Itertools;
 use rayon::prelude::*;
 
 use warp_command_signatures::{
-    fig_types::Command, overrides::CommandOverrides, powershell_autogenerator::CmdletHelp,
+    fig_types::Command, overrides::apply_overrides, powershell_autogenerator::CmdletHelp,
 };
 
 fn main() {
@@ -33,11 +33,9 @@ fn main() {
                 .collect_vec();
             let mut fig_command: Command = cmdlet_help.into();
 
-            if let Some(overrides) = get_overrides(cmdlet_name) {
-                apply_overrides(&mut fig_command, overrides).unwrap_or_else(|err| {
-                    panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)
-                });
-            }
+            apply_overrides(&mut fig_command).unwrap_or_else(|err| {
+                panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)
+            });
 
             fig_command
         })
@@ -66,58 +64,4 @@ fn run_pwsh_command<S: AsRef<str>>(command: S) -> String {
         .expect("pwsh must be installed")
         .stdout;
     String::from_utf8(stdout_bytes).expect("pwsh output must be valid UTF8")
-}
-
-/// Check if this command has overrides defined. If there is no file for this command, return None.
-fn get_overrides(name: &str) -> Option<CommandOverrides> {
-    let overrides_path = path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("json")
-        .join("overrides")
-        .join("powershell")
-        .join(format!("{}.json", name));
-
-    match fs::File::open(overrides_path) {
-        Ok(f) => {
-            let overrides = serde_json::from_reader::<_, CommandOverrides>(io::BufReader::new(f))
-                .unwrap_or_else(|err| panic!("failed to deserialize {name} overrides: {err:?}"));
-            Some(overrides)
-        }
-        Err(e) => match e.kind() {
-            std::io::ErrorKind::NotFound => None,
-            _ => panic!("Failed to read file: {}", e),
-        },
-    }
-}
-
-/// Assign the data on the overrides onto the signature spec.
-fn apply_overrides(command: &mut Command, overrides: CommandOverrides) -> Result<(), String> {
-    // Apply argument overrides by their position in the Vec.
-    for (i, arg_overrides) in overrides.args.into_iter().enumerate() {
-        if !arg_overrides.template.is_empty() {
-            let arg = command.args.get_mut(i).ok_or(format!(
-                "Tried to apply an override to positional argument at index {i}."
-            ))?;
-            arg.template = arg_overrides.template;
-        }
-    }
-
-    for option_override in overrides.options {
-        let option = command
-            .options
-            .iter_mut()
-            .find(|option| option.name.contains(&option_override.name))
-            .ok_or(format!(
-                "Tried to apply an override to option {}",
-                option_override.name
-            ))?;
-        for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
-            let arg = option.args.get_mut(i).ok_or(format!(
-                "Tried to apply an override to argument {i} for option {}",
-                option_override.name
-            ))?;
-            arg.template = arg_overrides.template;
-        }
-    }
-
-    Ok(())
 }
