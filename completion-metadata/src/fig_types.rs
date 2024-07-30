@@ -3,12 +3,13 @@ use crate::{
     IsArgumentOptional, Opt, Order, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
-use serde_with::formats::PreferMany;
+use serde_with::formats::{PreferMany, PreferOne};
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
 use std::cmp::Ordering;
 use std::convert::TryFrom;
 use std::fmt;
 use std::fmt::{Display, Formatter};
+use std::ops::Not;
 
 use itertools::Itertools;
 
@@ -40,40 +41,40 @@ pub enum SuggestionType {
 }
 
 #[serde_as]
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Default, Debug, PartialEq, Clone)]
 pub struct Suggestion {
     #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
 
     #[serde(default, rename = "displayName")]
     pub display_name: Option<String>,
 
-    #[serde(default)]
-    #[serde(rename = "type")]
+    #[serde(default, rename = "type")]
     pub suggestion_type: Option<SuggestionType>,
 
     #[serde(default)]
     pub description: Option<String>,
 
-    #[serde(default)]
+    #[serde(default, rename = "isDangerous", skip_serializing_if = "<&bool>::not")]
     pub is_dangerous: bool,
 
     #[serde(default)]
     pub priority: Option<FigPriority>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "<&bool>::not")]
     pub hidden: bool,
 }
 
 #[serde_as]
+#[serde_with::skip_serializing_none]
 #[derive(Deserialize, Serialize, Debug, PartialEq)]
 pub struct Command {
-    #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub subcommands: Vec<Command>,
 
     #[serde(default)]
@@ -83,23 +84,24 @@ pub struct Command {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub args: Vec<Arg>,
 
-    #[serde(default)]
-    #[serde(rename = "aliasName")]
+    #[serde(default, rename = "aliasName")]
     pub alias_name: Option<AliasName>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub additional_suggestions: Vec<Suggestion>,
 
     #[serde(default)]
+    #[serialize_always]
+    #[serde_as(as = "NoneAsEmptyString")]
     pub description: Option<String>,
 
-    #[serde(default)]
+    #[serde(default, rename = "isDangerous", skip_serializing_if = "<&bool>::not")]
     pub is_dangerous: bool,
 
     #[serde(default)]
     pub priority: Option<FigPriority>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "<&bool>::not")]
     pub hidden: bool,
 }
 
@@ -111,95 +113,93 @@ pub enum NumberOrBool {
 }
 
 #[serde_as]
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct CommandOption {
     #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub args: Vec<Arg>,
 
-    #[serde(default)]
-    #[serde(rename = "isPersistent")]
+    #[serde(default, rename = "isPersistent", skip_serializing_if = "<&bool>::not")]
     pub is_persistent: bool,
 
-    #[serde(default)]
-    #[serde(rename = "isRequired")]
+    #[serde(default, rename = "isRequired", skip_serializing_if = "<&bool>::not")]
     pub is_required: bool,
 
-    #[serde(default)]
-    #[serde(rename = "requiresEquals")]
+    #[serde(
+        default,
+        rename = "requiresEquals",
+        skip_serializing_if = "<&bool>::not"
+    )]
     pub requires_equals: bool,
 
     // TODO: we should be using this option to determine if an option can be repeated.
-    #[serde(default)]
-    #[serde(rename = "isRepeatable")]
+    #[serde(default, rename = "isRepeatable")]
     pub is_repeatable: Option<NumberOrBool>,
 
-    #[serde(default)]
-    #[serde(rename = "exclusiveOn")]
+    #[serde(default, rename = "exclusiveOn", skip_serializing_if = "Vec::is_empty")]
     pub exclusive_on: Vec<String>,
 
-    #[serde(default)]
-    #[serde(rename = "dependsOn")]
+    #[serde(default, rename = "dependsOn", skip_serializing_if = "Vec::is_empty")]
     pub depends_on: Vec<String>,
 
     #[serde(default)]
     pub description: Option<String>,
 
-    #[serde(default)]
+    #[serde(default, rename = "isDangerous", skip_serializing_if = "<&bool>::not")]
     pub is_dangerous: bool,
 
     #[serde(default)]
     pub priority: Option<FigPriority>,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "<&bool>::not")]
     pub hidden: bool,
 }
 
 #[serde_as]
+#[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]
 pub struct Arg {
     #[serde(default)]
+    #[serialize_always]
     #[serde_as(as = "NoneAsEmptyString")]
     pub name: Option<String>,
 
     #[serde(default)]
-    #[serde_as(as = "NoneAsEmptyString")]
     pub description: Option<String>,
 
-    #[serde(default)]
-    #[serde(rename = "isDangerous")]
+    #[serde(default, rename = "isDangerous", skip_serializing_if = "<&bool>::not")]
     pub is_dangerous: bool,
 
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub suggestions: Vec<NameOrSuggestion>,
 
-    #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
-    #[serde(rename = "generatorName")]
+    #[serde(
+        default,
+        rename = "generatorName",
+        skip_serializing_if = "Vec::is_empty"
+    )]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub generator_name: Vec<GeneratorName>,
 
-    #[serde(default)]
-    #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub template: Vec<Template>,
 
-    #[serde(default)]
-    #[serde(rename = "filterTemplateName")]
+    #[serde(default, rename = "filterTemplateName")]
     pub filter_template_suggestions: Option<FilterTemplateSuggestion>,
 
-    #[serde(default)]
-    #[serde(rename = "isVariadic")]
+    #[serde(default, rename = "isVariadic", skip_serializing_if = "<&bool>::not")]
     pub is_variadic: bool,
 
-    #[serde(default)]
-    #[serde(rename = "isOptional")]
+    #[serde(default, rename = "isOptional", skip_serializing_if = "<&bool>::not")]
     pub is_optional: bool,
 
-    #[serde(default)]
-    #[serde(rename = "isCommand")]
+    #[serde(default, rename = "isCommand", skip_serializing_if = "<&bool>::not")]
     pub is_command: bool,
 
     /// The default value for an optional argument. This is just a string.
