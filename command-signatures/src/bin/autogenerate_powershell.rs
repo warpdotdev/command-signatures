@@ -21,7 +21,7 @@ fn main() {
             let cmdlet_help_json =
                 run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
             let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
-                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"));
+                .unwrap_or_else(|err| panic!("failed to deserialize {cmdlet_name} help: {err:?}"));
             let aliases = run_pwsh_command(format!(
                 "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
             ));
@@ -34,8 +34,9 @@ fn main() {
             let mut fig_command: Command = cmdlet_help.into();
 
             if let Some(overrides) = get_overrides(cmdlet_name) {
-                apply_overrides(&mut fig_command, overrides)
-                    .expect(&format!("unable to apply arg override for {}", cmdlet_name));
+                apply_overrides(&mut fig_command, overrides).unwrap_or_else(|err| {
+                    panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)
+                });
             }
 
             fig_command
@@ -51,10 +52,10 @@ fn main() {
             .join("powershell")
             .join(format!("{name}.json"));
         let mut json = serde_json::to_string_pretty(&cmdlet_spec)
-            .unwrap_or_else(|_| panic!("Cmdlet {name} failed to serialize"));
+            .unwrap_or_else(|err| panic!("Cmdlet {name} failed to serialize: {err:?}"));
         json.push('\n');
         fs::write(file_path, json)
-            .unwrap_or_else(|_| panic!("Cmdlet {name} JSON file failed to write"));
+            .unwrap_or_else(|err| panic!("Cmdlet {name} JSON file failed to write: {err:?}"));
     });
 }
 
@@ -78,7 +79,7 @@ fn get_overrides(name: &str) -> Option<CommandOverrides> {
     match fs::File::open(overrides_path) {
         Ok(f) => {
             let overrides = serde_json::from_reader::<_, CommandOverrides>(io::BufReader::new(f))
-                .expect(&format!("failed to deserialize {name} overrides"));
+                .unwrap_or_else(|err| panic!("failed to deserialize {name} overrides: {err:?}"));
             Some(overrides)
         }
         Err(e) => match e.kind() {
@@ -89,10 +90,13 @@ fn get_overrides(name: &str) -> Option<CommandOverrides> {
 }
 
 /// Assign the data on the overrides onto the signature spec.
-fn apply_overrides(command: &mut Command, overrides: CommandOverrides) -> Result<(), ()> {
+fn apply_overrides(command: &mut Command, overrides: CommandOverrides) -> Result<(), String> {
+    // Apply argument overrides by their position in the Vec.
     for (i, arg_overrides) in overrides.args.into_iter().enumerate() {
         if !arg_overrides.template.is_empty() {
-            let arg = command.args.get_mut(i).ok_or(())?;
+            let arg = command.args.get_mut(i).ok_or(format!(
+                "Tried to apply an override to positional argument at index {i}."
+            ))?;
             arg.template = arg_overrides.template;
         }
     }
@@ -102,9 +106,15 @@ fn apply_overrides(command: &mut Command, overrides: CommandOverrides) -> Result
             .options
             .iter_mut()
             .find(|option| option.name.contains(&option_override.name))
-            .ok_or(())?;
+            .ok_or(format!(
+                "Tried to apply an override to option {}",
+                option_override.name
+            ))?;
         for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
-            let arg = option.args.get_mut(i).ok_or(())?;
+            let arg = option.args.get_mut(i).ok_or(format!(
+                "Tried to apply an override to argument {i} for option {}",
+                option_override.name
+            ))?;
             arg.template = arg_overrides.template;
         }
     }
