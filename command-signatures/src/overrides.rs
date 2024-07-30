@@ -84,6 +84,7 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
         }
     }
 
+    // Option overrides are matched by name instead of position in the Vec.
     for option_override in overrides.options {
         let option = command
             .options
@@ -93,6 +94,7 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
                 "Tried to apply an override to option {}",
                 option_override.name
             ))?;
+        // Then, the arguments for the option are overwritten by position in Vec.
         for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
             let arg = option.args.get_mut(i).ok_or(format!(
                 "Tried to apply an override to argument {i} for option {}",
