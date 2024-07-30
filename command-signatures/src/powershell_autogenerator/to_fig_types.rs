@@ -1,5 +1,5 @@
 use itertools::Itertools as _;
-use warp_completion_metadata::fig_types::StringOrNumber;
+use warp_completion_metadata::fig_types::{StringOrNumber, Suggestion};
 
 use crate::fig_types::{Arg, Command, CommandOption, NameOrSuggestion};
 use crate::powershell_autogenerator::CmdletHelp;
@@ -13,7 +13,7 @@ impl From<CmdletHelp> for Command {
             .iter()
             .map(|param| {
                 let mut name = vec![format!("-{}", param.name)];
-                name.extend(param.aliases.as_ref().map(|alias| "-".to_owned() + alias));
+                name.extend(param.aliases.iter().map(|alias| format!("-{}", alias)));
 
                 // For some reason, [`crate::powershell_autogenerator::Parameter::allowed_values`]
                 // is always None inside [`CmdletHelp::parameters`], but it is defined inside
@@ -50,7 +50,12 @@ impl From<CmdletHelp> for Command {
                             .map(|values| values.values.clone())
                             .unwrap_or_default()
                             .into_iter()
-                            .map(NameOrSuggestion::Name)
+                            .map(|name| {
+                                NameOrSuggestion::Suggestion(Suggestion {
+                                    name: vec![name],
+                                    ..Default::default()
+                                })
+                            })
                             .collect_vec(),
                         ..Default::default()
                     }]
