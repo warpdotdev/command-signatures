@@ -94,7 +94,7 @@ pub struct Parameter {
 
     pub position: ParameterPosition,
 
-    #[serde(deserialize_with = "literal_none_is_empty")]
+    #[serde(deserialize_with = "powershell_alias_list")]
     pub aliases: Vec<String>,
 }
 
