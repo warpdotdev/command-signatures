@@ -2,7 +2,6 @@
 //! auto-generated command signatures. The data structures here mirror the ones in
 //! [`warp_completion_metadata::fig_types`], but will contain a subset of the fields we care to
 //! override. We may also have differences in invariants, e.g. optionality may differ.
-use core::panic;
 use std::{fs, io, path};
 
 use serde::Deserialize;
@@ -18,7 +17,7 @@ struct CommandOverrides {
 
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
-    pub args: Vec<ArgOverrides>,
+    pub args: Vec<Option<ArgOverrides>>,
 }
 
 #[serde_as]
@@ -36,7 +35,7 @@ struct OptionOverrides {
 
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
-    pub args: Vec<ArgOverrides>,
+    pub args: Vec<Option<ArgOverrides>>,
 }
 
 /// Check if this command has overrides defined. If there is no file for this command, return None.
@@ -76,11 +75,15 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
 
     // Apply argument overrides by their position in the Vec.
     for (i, arg_overrides) in overrides.args.into_iter().enumerate() {
-        if !arg_overrides.template.is_empty() {
-            let arg = command.args.get_mut(i).ok_or(format!(
-                "Tried to apply an override to positional argument at index {i}"
-            ))?;
-            arg.template = arg_overrides.template;
+        if let Some(overrides) = arg_overrides {
+            if !overrides.template.is_empty() {
+                let arg_len = command.args.len();
+                let arg = command.args.get_mut(i).ok_or(format!(
+                    "Tried to apply an override to positional argument at index {i}, but length is {}",
+                    arg_len
+                ))?;
+                arg.template = overrides.template;
+            }
         }
     }
 
@@ -96,11 +99,13 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
             ))?;
         // Then, the arguments for the option are overwritten by position in Vec.
         for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
-            let arg = option.args.get_mut(i).ok_or(format!(
-                "Tried to apply an override to argument {i} for option {}",
-                option_override.name
-            ))?;
-            arg.template = arg_overrides.template;
+            if let Some(overrides) = arg_overrides {
+                let arg = option.args.get_mut(i).ok_or(format!(
+                    "Tried to apply an override to argument {i} for option {}",
+                    option_override.name
+                ))?;
+                arg.template = overrides.template;
+            }
         }
     }
 
