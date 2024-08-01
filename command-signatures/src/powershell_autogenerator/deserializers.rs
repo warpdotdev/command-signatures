@@ -28,7 +28,10 @@ where
     Ok(s.filter(|s| s.trim().to_lowercase() != "none"))
 }
 
-pub(super) fn literal_none_is_empty<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
+/// PowerShell JSON-formatted help pages serialize the list of aliases in a unique way. Instead of
+/// an array of strings, it is a comma-delimited string, e.g. "PSPath, LP". Also, an empty list is
+/// serialized as "none".
+pub(super) fn powershell_alias_list<'de, D>(deserializer: D) -> Result<Vec<String>, D::Error>
 where
     D: Deserializer<'de>,
 {
@@ -36,7 +39,9 @@ where
     if s.trim().to_lowercase() == "none" {
         return Ok(vec![]);
     }
-    Ok(s.split(", ").map(ToOwned::to_owned).collect_vec())
+    Ok(s.split(',')
+        .map(|item| item.trim().to_owned())
+        .collect_vec())
 }
 
 pub(super) fn string_to_bool<'de, D>(deserializer: D) -> Result<bool, D::Error>
