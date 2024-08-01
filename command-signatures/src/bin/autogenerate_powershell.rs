@@ -1,4 +1,3 @@
-use core::panic;
 use std::{fs, path, process};
 
 use itertools::Itertools;
