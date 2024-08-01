@@ -125,7 +125,7 @@ impl From<CmdletHelp> for Command {
             subcommands: vec![],
             options,
             args,
-            alias_name: cmdlet_help.aliases.get(0).map(|s| s.as_str().into()),
+            alias_generator: None,
             additional_suggestions: vec![],
             description: Some(cmdlet_help.synopsis),
             is_dangerous: false,

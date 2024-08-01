@@ -199,7 +199,7 @@ impl Order {
     }
 }
 
-pub type Aliases = HashMap<AliasName, Alias>;
+pub type Aliases = HashMap<AliasGeneratorName, Alias>;
 pub type Generators = HashMap<GeneratorName, Generator>;
 
 #[derive(Clone)]
@@ -239,7 +239,7 @@ impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
                 generators: command_generators.generators,
                 filters: command_generators.filters,
                 aliases: command_generators.aliases,
-            }
+            },
         )
     }
 }
@@ -272,7 +272,7 @@ impl CommandSignatureGenerators {
         self
     }
 
-    pub fn add_alias(mut self, alias_name: impl Into<AliasName>, alias: Alias) -> Self {
+    pub fn add_alias(mut self, alias_name: impl Into<AliasGeneratorName>, alias: Alias) -> Self {
         self.aliases.insert(alias_name.into(), alias);
         self
     }

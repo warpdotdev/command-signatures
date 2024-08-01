@@ -19,17 +19,8 @@ fn main() {
         .map(|cmdlet_name| {
             let cmdlet_help_json =
                 run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
-            let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
+            let cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
                 .unwrap_or_else(|err| panic!("failed to deserialize {cmdlet_name} help: {err:?}"));
-            let aliases = run_pwsh_command(format!(
-                "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
-            ));
-            cmdlet_help.aliases = aliases
-                .trim()
-                .split('\n')
-                .filter(|val| !val.is_empty())
-                .map(ToOwned::to_owned)
-                .collect_vec();
             let mut fig_command: Command = cmdlet_help.into();
 
             apply_overrides(&mut fig_command).unwrap_or_else(|err| {

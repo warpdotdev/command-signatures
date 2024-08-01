@@ -26,10 +26,6 @@ pub struct CmdletHelp {
     #[serde(alias = "Synopsis")]
     pub synopsis: String,
 
-    /// Doesn't come from `Get-Help`. Need to separately get it from `Get-Alias`.
-    #[serde(skip_deserializing)]
-    pub aliases: Vec<String>,
-
     #[allow(dead_code)]
     #[serde(alias = "ModuleName")]
     pub module_name: String,

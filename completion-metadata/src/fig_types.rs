@@ -1,6 +1,6 @@
 use crate::{
-    AliasName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName, Importance,
-    IsArgumentOptional, Opt, Order, Priority, Signature,
+    AliasGeneratorName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName,
+    Importance, IsArgumentOptional, Opt, Order, Priority, Signature,
 };
 use serde::{Deserialize, Serialize};
 use serde_with::formats::{PreferMany, PreferOne};
@@ -84,8 +84,8 @@ pub struct Command {
     #[serde_as(deserialize_as = "OneOrMany<_, PreferMany>")]
     pub args: Vec<Arg>,
 
-    #[serde(default, rename = "aliasName")]
-    pub alias_name: Option<AliasName>,
+    #[serde(default, rename = "aliasGenerator")]
+    pub alias_generator: Option<AliasGeneratorName>,
 
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub additional_suggestions: Vec<Suggestion>,
@@ -352,7 +352,7 @@ impl From<Command> for Vec<Signature> {
             .into_iter()
             .map(|name| Signature {
                 name,
-                alias: command.alias_name.clone(),
+                alias_generator: command.alias_generator.clone(),
                 description: command.description.clone(),
                 arguments: arguments.clone(),
                 subcommands: subcommands.clone(),
@@ -601,7 +601,7 @@ mod tests {
             Command {
                 name: vec!["defaults".into()],
                 description: Some("Command line interface to a user's defaults.".into()),
-                alias_name: None,
+                alias_generator: None,
                 is_dangerous: false,
                 priority: None,
                 hidden: false,
@@ -609,7 +609,7 @@ mod tests {
                     Command {
                         name: vec!["read".into()],
                         description: Some("shows defaults".into()),
-                        alias_name: None,
+                        alias_generator: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -670,7 +670,7 @@ mod tests {
                     Command {
                         name: vec!["write".into()],
                         description: Some("writes key for domain".into()),
-                        alias_name: None,
+                        alias_generator: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -744,7 +744,7 @@ mod tests {
                     Command {
                         name: vec!["delete".into()],
                         description: Some("deletes domain or key in domain".into()),
-                        alias_name: None,
+                        alias_generator: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -805,7 +805,7 @@ mod tests {
                     Command {
                         name: vec!["rename".into()],
                         description: Some("renames old_key to new_key".into()),
-                        alias_name: None,
+                        alias_generator: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -879,7 +879,7 @@ mod tests {
                     Command {
                         name: vec!["domains".into()],
                         description: Some("lists all domains".to_string()),
-                        alias_name: None,
+                        alias_generator: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
