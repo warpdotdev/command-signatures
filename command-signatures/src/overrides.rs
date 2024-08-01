@@ -4,6 +4,7 @@
 //! override. We may also have differences in invariants, e.g. optionality may differ.
 use std::{fs, io, path};
 
+use itertools::Itertools;
 use serde::Deserialize;
 use serde_with::{formats::PreferMany, serde_as, OneOrMany};
 use warp_completion_metadata::fig_types::{Command, Template};
@@ -17,12 +18,13 @@ struct CommandOverrides {
 
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
-    pub args: Vec<Option<ArgOverrides>>,
+    pub args: Vec<ArgOverrides>,
 }
 
 #[serde_as]
 #[derive(Debug, Deserialize)]
 struct ArgOverrides {
+    pub index: usize,
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
     pub template: Vec<Template>,
@@ -35,7 +37,7 @@ struct OptionOverrides {
 
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
-    pub args: Vec<Option<ArgOverrides>>,
+    pub args: Vec<ArgOverrides>,
 }
 
 /// Check if this command has overrides defined. If there is no file for this command, return None.
@@ -73,17 +75,20 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
         return Ok(());
     };
 
+    assert!(
+        overrides.args.iter().map(|arg| arg.index).all_unique(),
+        "All argument positions must be unique"
+    );
+
     // Apply argument overrides by their position in the Vec.
-    for (i, arg_overrides) in overrides.args.into_iter().enumerate() {
-        if let Some(overrides) = arg_overrides {
-            if !overrides.template.is_empty() {
-                let arg_len = command.args.len();
-                let arg = command.args.get_mut(i).ok_or(format!(
-                    "Tried to apply an override to positional argument at index {i}, but length is {}",
-                    arg_len
-                ))?;
-                arg.template = overrides.template;
-            }
+    for arg_overrides in overrides.args.into_iter() {
+        if !arg_overrides.template.is_empty() {
+            let arg_len = command.args.len();
+            let arg = command.args.get_mut(arg_overrides.index).ok_or(format!(
+                "Tried to apply an override to positional argument at index {}, but length is {}",
+                arg_overrides.index, arg_len
+            ))?;
+            arg.template = arg_overrides.template;
         }
     }
 
@@ -97,15 +102,23 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
                 "Tried to apply an override to option {}",
                 option_override.name
             ))?;
+
+        assert!(
+            option_override
+                .args
+                .iter()
+                .map(|arg| arg.index)
+                .all_unique(),
+            "All argument positions must be unique"
+        );
+
         // Then, the arguments for the option are overwritten by position in Vec.
-        for (i, arg_overrides) in option_override.args.into_iter().enumerate() {
-            if let Some(overrides) = arg_overrides {
-                let arg = option.args.get_mut(i).ok_or(format!(
-                    "Tried to apply an override to argument {i} for option {}",
-                    option_override.name
-                ))?;
-                arg.template = overrides.template;
-            }
+        for arg_overrides in option_override.args.into_iter() {
+            let arg = option.args.get_mut(arg_overrides.index).ok_or(format!(
+                "Tried to apply an override to argument {} for option {}",
+                arg_overrides.index, option_override.name
+            ))?;
+            arg.template = arg_overrides.template;
         }
     }
 
