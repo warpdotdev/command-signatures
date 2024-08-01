@@ -80,7 +80,7 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
         "All argument positions must be unique"
     );
 
-    // Apply argument overrides by their position in the Vec.
+    // Apply argument overrides by their specified index.
     for arg_overrides in overrides.args.into_iter() {
         if !arg_overrides.template.is_empty() {
             let arg_len = command.args.len();
@@ -92,7 +92,7 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
         }
     }
 
-    // Option overrides are matched by name instead of position in the Vec.
+    // Option overrides are matched by name instead of a numerical index.
     for option_override in overrides.options {
         let option = command
             .options
@@ -112,7 +112,7 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
             "All argument positions must be unique"
         );
 
-        // Then, the arguments for the option are overwritten by position in Vec.
+        // Then, the arguments for the option are overwritten by their specified index.
         for arg_overrides in option_override.args.into_iter() {
             let arg = option.args.get_mut(arg_overrides.index).ok_or(format!(
                 "Tried to apply an override to argument {} for option {}",
