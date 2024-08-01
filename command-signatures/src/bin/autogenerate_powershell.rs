@@ -3,7 +3,9 @@ use std::{fs, path, process};
 use itertools::Itertools;
 use rayon::prelude::*;
 
-use warp_command_signatures::{fig_types::Command, powershell_autogenerator::CmdletHelp};
+use warp_command_signatures::{
+    fig_types::Command, overrides::apply_overrides, powershell_autogenerator::CmdletHelp,
+};
 
 fn main() {
     println!("Getting all Cmdlet names...");
@@ -18,7 +20,7 @@ fn main() {
             let cmdlet_help_json =
                 run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
             let mut cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
-                .unwrap_or_else(|_| panic!("failed to deserialize {cmdlet_name} help"));
+                .unwrap_or_else(|err| panic!("failed to deserialize {cmdlet_name} help: {err:?}"));
             let aliases = run_pwsh_command(format!(
                 "Get-Alias -Definition {cmdlet_name} | Select-Object -ExpandProperty Name"
             ));
@@ -28,7 +30,13 @@ fn main() {
                 .filter(|val| !val.is_empty())
                 .map(ToOwned::to_owned)
                 .collect_vec();
-            cmdlet_help.into()
+            let mut fig_command: Command = cmdlet_help.into();
+
+            apply_overrides(&mut fig_command).unwrap_or_else(|err| {
+                panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)
+            });
+
+            fig_command
         })
         .collect::<Vec<Command>>();
 
@@ -41,10 +49,10 @@ fn main() {
             .join("powershell")
             .join(format!("{name}.json"));
         let mut json = serde_json::to_string_pretty(&cmdlet_spec)
-            .unwrap_or_else(|_| panic!("Cmdlet {name} failed to serialize"));
+            .unwrap_or_else(|err| panic!("Cmdlet {name} failed to serialize: {err:?}"));
         json.push('\n');
         fs::write(file_path, json)
-            .unwrap_or_else(|_| panic!("Cmdlet {name} JSON file failed to write"));
+            .unwrap_or_else(|err| panic!("Cmdlet {name} JSON file failed to write: {err:?}"));
     });
 }
 
