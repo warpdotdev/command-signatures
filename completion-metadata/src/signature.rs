@@ -157,8 +157,8 @@ pub struct Opt {
 }
 
 impl Opt {
-    pub fn names(&self) -> &[String] {
-        self.exact_string.as_slice()
+    pub fn names(&self) -> impl Iterator<Item = &str> {
+        self.exact_string.iter().map(AsRef::as_ref)
     }
 
     pub fn arguments(&self) -> &[Argument] {
