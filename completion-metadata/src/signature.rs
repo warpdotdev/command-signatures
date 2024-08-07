@@ -172,40 +172,8 @@ impl Opt {
         }
     }
 
-    #[allow(dead_code)]
-    pub fn required(&self) -> bool {
-        self.required
-    }
-}
-
-impl Opt {
-    pub fn get_short_hand_flags(&self) -> Vec<String> {
-        self.exact_string
-            .iter()
-            .filter(|s| s.starts_with('-') && !s.starts_with("--"))
-            .map(|s| s[1..].to_string())
-            .collect()
-    }
-
-    pub fn get_long_hand_flags(&self) -> Vec<String> {
-        self.exact_string
-            .iter()
-            .filter(|s| s.starts_with("--"))
-            .map(|s| s[2..].to_string())
-            .collect()
-    }
-
-    // Whether the option has the given name.
     pub fn has_name(&self, name: &str) -> bool {
-        self.exact_string.iter().any(|option_name| {
-            if let Some(rest) = option_name.strip_prefix("--") {
-                rest == name
-            } else if let Some(rest) = option_name.strip_prefix('-') {
-                rest == name
-            } else {
-                false
-            }
-        })
+        self.exact_string.iter().any(|s| s.as_str() == name)
     }
 }
 
