@@ -1,5 +1,5 @@
 use super::{Priority, Suggestion};
-use crate::{fig_types::ParserDirectives, Aliases, Filters, Generators, PathSuggestionType};
+use crate::{Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Debug, Formatter};
 
@@ -37,6 +37,18 @@ impl<'a> AnnotatedFlag<'a> {
 pub enum FlagStyle {
     SingleDash,
     DoubleDash,
+}
+
+/// Configure how the completion engine will map raw tokens to options/flags in the spec.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ParserDirectives {
+    /// Flags with long names may begin with just 1 hyphen instead of 2.
+    /// https://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html
+    pub flags_are_posix_noncompliant: bool,
+
+    /// Flags don't need to be spelled out in full, e.g. for `Get-ChildItem` you can provide "-Fi"
+    /// instead of "-Filter", but not just "-F" as it might match "-Filter" or "-Force".
+    pub flags_match_unique_prefix: bool,
 }
 
 /// A `Signature` defines a command or a subcommand.

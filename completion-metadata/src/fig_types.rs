@@ -358,7 +358,7 @@ impl From<Command> for Vec<Signature> {
                 subcommands: subcommands.clone(),
                 options: options.clone(),
                 priority: command.priority.map_or_else(Priority::default, Into::into),
-                parser_directives: command.parser_directives.clone(),
+                parser_directives: command.parser_directives.clone().into(),
             })
             .collect()
     }
@@ -471,6 +471,15 @@ impl TryFrom<Template> for crate::TemplateType {
             Template::FilePaths => Ok(crate::TemplateType::Files),
             Template::Folders => Ok(crate::TemplateType::Folders),
             Template::History | Template::Help => Err(()),
+        }
+    }
+}
+
+impl From<ParserDirectives> for crate::ParserDirectives {
+    fn from(value: ParserDirectives) -> Self {
+        Self {
+            flags_are_posix_noncompliant: value.flags_are_posix_noncompliant,
+            flags_match_unique_prefix: value.flags_match_unique_prefix,
         }
     }
 }
