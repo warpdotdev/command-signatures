@@ -3,10 +3,10 @@ use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
 
-const GET_COMMAND_NAMES: &str =
-    "Get-Command -Type Cmdlet, Function, Alias, Script, Configuration, \
-    ExternalScript, Filter | Select-Object -Property Name, CommandType | ForEach-Object \
-    { @{Name = $_.Name; Description = ($_.CommandType | Out-String -NoNewline)} } | ConvertTo-Json";
+const GET_COMMAND_NAMES: &str = "Get-Command -Type Cmdlet, Function, Alias | \
+    Select-Object -Property Name, CommandType | \
+    ForEach-Object { @{Name = $_.Name; Description = ($_.CommandType | Out-String -NoNewline)} } | \
+    ConvertTo-Json";
 
 #[derive(Deserialize)]
 struct SuggestionWithDescription {
