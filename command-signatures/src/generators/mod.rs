@@ -33,6 +33,7 @@ mod nx;
 mod pacman;
 mod phpunit_watcher;
 mod pip;
+mod powershell;
 mod pyenv;
 mod react_native;
 mod screen;
@@ -87,6 +88,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         tmux::generator(),
         node::generator(),
         screen::generator(),
+        powershell::get_help_generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))
