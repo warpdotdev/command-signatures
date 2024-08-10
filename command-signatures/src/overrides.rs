@@ -6,8 +6,14 @@ use std::{fs, io, path};
 
 use itertools::Itertools;
 use serde::Deserialize;
-use serde_with::{formats::PreferMany, serde_as, OneOrMany};
-use warp_completion_metadata::fig_types::{Command, Template};
+use serde_with::{
+    formats::{PreferMany, PreferOne},
+    serde_as, OneOrMany,
+};
+use warp_completion_metadata::{
+    fig_types::{Command, Template},
+    GeneratorName,
+};
 
 /// Contains hand-written information to be merged into an auto-generated command spec.
 #[serde_as]
@@ -25,9 +31,14 @@ struct CommandOverrides {
 #[derive(Debug, Deserialize)]
 struct ArgOverrides {
     pub index: usize,
+
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferMany>")]
     pub template: Vec<Template>,
+
+    #[serde(default, rename = "generatorName")]
+    #[serde_as(as = "OneOrMany<_, PreferOne>")]
+    pub generator_name: Vec<GeneratorName>,
 }
 
 #[serde_as]
@@ -82,13 +93,16 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
 
     // Apply argument overrides by their specified index.
     for arg_overrides in overrides.args.into_iter() {
+        let arg_len = command.args.len();
+        let arg = command.args.get_mut(arg_overrides.index).ok_or(format!(
+            "Tried to apply an override to positional argument at index {}, but length is {}",
+            arg_overrides.index, arg_len
+        ))?;
         if !arg_overrides.template.is_empty() {
-            let arg_len = command.args.len();
-            let arg = command.args.get_mut(arg_overrides.index).ok_or(format!(
-                "Tried to apply an override to positional argument at index {}, but length is {}",
-                arg_overrides.index, arg_len
-            ))?;
             arg.template = arg_overrides.template;
+        }
+        if !arg_overrides.generator_name.is_empty() {
+            arg.generator_name = arg_overrides.generator_name;
         }
     }
 
@@ -114,11 +128,17 @@ pub fn apply_overrides(command: &mut Command) -> Result<(), String> {
 
         // Then, the arguments for the option are overwritten by their specified index.
         for arg_overrides in option_override.args.into_iter() {
+            let arg_len = option.args.len();
             let arg = option.args.get_mut(arg_overrides.index).ok_or(format!(
-                "Tried to apply an override to argument {} for option {}",
-                arg_overrides.index, option_override.name
+                "Tried to apply an override to argument {} for option {}, but length is {}",
+                arg_overrides.index, option_override.name, arg_len
             ))?;
-            arg.template = arg_overrides.template;
+            if !arg_overrides.template.is_empty() {
+                arg.template = arg_overrides.template;
+            }
+            if !arg_overrides.generator_name.is_empty() {
+                arg.generator_name = arg_overrides.generator_name;
+            }
         }
     }
 
