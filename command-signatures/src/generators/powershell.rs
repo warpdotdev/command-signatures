@@ -11,6 +11,12 @@ const GET_COMMAND_NAMES: &str = "Get-Command -Type Cmdlet, Function, Alias | \
 const GET_PROCESS_NAMES: &str = "Get-Process | Select-Object -ExpandProperty Name | \
     Sort-Object | Get-Unique";
 
+/// Exclude Warp internal variables here to avoid encouraging users to alter those. Doing so may
+/// break their session.
+const GET_VARIABLE_NAMES: &str = "Get-Variable | \
+    Where-Object { -not $_.Name.ToLower().StartsWith('_warp') } | \
+    Select-Object -ExpandProperty Name";
+
 #[derive(Deserialize)]
 struct SuggestionWithDescription {
     #[serde(alias = "Name")]
@@ -75,5 +81,33 @@ pub fn enter_ps_host_process_generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("Enter-PSHostProcess").add_generator(
         "get_process_names",
         Generator::script(GET_PROCESS_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn get_variable_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Get-Variable").add_generator(
+        "get_variable_names",
+        Generator::script(GET_VARIABLE_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn clear_variable_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Clear-Variable").add_generator(
+        "get_variable_names",
+        Generator::script(GET_VARIABLE_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn remove_variable_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Remove-Variable").add_generator(
+        "get_variable_names",
+        Generator::script(GET_VARIABLE_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn set_variable_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Set-Variable").add_generator(
+        "get_variable_names",
+        Generator::script(GET_VARIABLE_NAMES, process_plaintext_lines),
     )
 }

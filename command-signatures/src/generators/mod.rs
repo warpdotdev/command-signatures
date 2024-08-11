@@ -93,6 +93,10 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::debug_process_generator(),
         powershell::wait_process_generator(),
         powershell::enter_ps_host_process_generator(),
+        powershell::get_variable_generator(),
+        powershell::clear_variable_generator(),
+        powershell::set_variable_generator(),
+        powershell::remove_variable_generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))
