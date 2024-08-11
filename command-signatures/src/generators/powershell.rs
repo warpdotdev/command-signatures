@@ -8,6 +8,9 @@ const GET_COMMAND_NAMES: &str = "Get-Command -Type Cmdlet, Function, Alias | \
     ForEach-Object { @{Name = $_.Name; Description = ($_.CommandType | Out-String -NoNewline)} } | \
     ConvertTo-Json";
 
+const GET_PROCESS_NAMES: &str = "Get-Process | Select-Object -ExpandProperty Name | \
+    Sort-Object | Get-Unique";
+
 #[derive(Deserialize)]
 struct SuggestionWithDescription {
     #[serde(alias = "Name")]
@@ -23,7 +26,7 @@ impl From<SuggestionWithDescription> for Suggestion {
     }
 }
 
-fn get_command_names(output: &str) -> GeneratorResults {
+fn process_suggestions_with_desc(output: &str) -> GeneratorResults {
     let commands = serde_json::from_str::<Vec<SuggestionWithDescription>>(output);
     commands
         .unwrap_or_default()
@@ -35,6 +38,42 @@ fn get_command_names(output: &str) -> GeneratorResults {
 pub fn get_help_generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("Get-Help").add_generator(
         "get_command_names",
-        Generator::script(GET_COMMAND_NAMES, get_command_names),
+        Generator::script(GET_COMMAND_NAMES, process_suggestions_with_desc),
+    )
+}
+
+fn process_plaintext_lines(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .filter(|val| !val.is_empty())
+        .map(Suggestion::new)
+        .collect_unordered_results()
+}
+
+pub fn get_process_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Get-Process").add_generator(
+        "get_process_names",
+        Generator::script(GET_PROCESS_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn debug_process_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Debug-Process").add_generator(
+        "get_process_names",
+        Generator::script(GET_PROCESS_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn wait_process_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Wait-Process").add_generator(
+        "get_process_names",
+        Generator::script(GET_PROCESS_NAMES, process_plaintext_lines),
+    )
+}
+
+pub fn enter_ps_host_process_generator() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("Enter-PSHostProcess").add_generator(
+        "get_process_names",
+        Generator::script(GET_PROCESS_NAMES, process_plaintext_lines),
     )
 }
