@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Not};
 
 use itertools::Itertools;
 use warp_completion_metadata::fig_types::{ParserDirectives, StringOrNumber, Suggestion};
@@ -12,6 +12,12 @@ use crate::{
 impl From<CmdletHelp> for Command {
     fn from(cmdlet_help: CmdletHelp) -> Self {
         let parameters = &cmdlet_help.parameters.unwrap_or_default().parameter;
+        // In PowerShell, all options are first-and-foremost named options. _Some_ options may
+        // instead be provided as positional args. As we loop through the named options, we'll
+        // collect those in this HashMap. Why a HashMap? Sometimes, multiple different params may
+        // appear in a particular arg position depending on the "syntax". For example, see
+        // `Get-Help Add-Member` in the "SYNTAX" section. This HashMap is keyed by the position
+        // where the value is all params that _may_ appear in that position.
         let mut top_level_args = HashMap::<usize, Vec<Arg>>::new();
 
         let options = parameters
@@ -106,18 +112,27 @@ impl From<CmdletHelp> for Command {
             })
             .collect_vec();
 
-        // Sometimes, multiple different params may appear in a particular position depending on
-        // the "syntax". For example, see `Get-Help Add-Member` in the "SYNTAX" section. If that is
-        // the case, just bail out of trying to provide completions on positional args.
-        let args = if top_level_args.values().any(|params| params.len() > 1) {
-            vec![]
-        } else {
-            top_level_args
-                .into_iter()
-                .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
-                .map(|(_, mut params)| params.remove(0))
-                .collect_vec()
-        };
+        let args = top_level_args
+            .into_iter()
+            .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+            .map(|(_, params)| match params.into_iter().exactly_one() {
+                // If there is unambiguously one parameter in this position, use that parameter
+                // definition as-is.
+                Ok(param) => param,
+                // If it's ambiguous, create a new parameter definition which awkwardly combines
+                // the names of the multiple possible parameters and has no other information.
+                Err(e) => {
+                    let combined_names = e
+                        .into_iter()
+                        .map(|arg| arg.name.unwrap_or("-Unnamed".to_string()))
+                        .join("-Or");
+                    Arg {
+                        name: combined_names.is_empty().not().then_some(combined_names),
+                        ..Default::default()
+                    }
+                }
+            })
+            .collect_vec();
 
         Self {
             name: vec![cmdlet_help.name],
