@@ -3,7 +3,7 @@ use std::{collections::HashMap, ops::Not};
 use itertools::Itertools;
 use warp_completion_metadata::fig_types::{ParserDirectives, StringOrNumber, Suggestion};
 
-use crate::powershell_autogenerator::CmdletHelp;
+use crate::powershell_autogenerator::{common_parameters::cmdlet_common_parameters, CmdletHelp};
 use crate::{
     fig_types::{Arg, Command, CommandOption, NameOrSuggestion},
     powershell_autogenerator::ParameterPosition,
@@ -20,7 +20,7 @@ impl From<CmdletHelp> for Command {
         // where the value is all params that _may_ appear in that position.
         let mut top_level_args = HashMap::<usize, Vec<Arg>>::new();
 
-        let options = parameters
+        let mut options = parameters
             .iter()
             .map(|param| {
                 let mut name = vec![format!("-{}", param.name)];
@@ -111,6 +111,8 @@ impl From<CmdletHelp> for Command {
                 }
             })
             .collect_vec();
+
+        options.extend(cmdlet_common_parameters());
 
         let args = top_level_args
             .into_iter()

@@ -151,7 +151,7 @@ pub enum NumberOrBool {
 
 #[serde_as]
 #[serde_with::skip_serializing_none]
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Default, Debug, PartialEq, Clone)]
 pub struct CommandOption {
     #[serde(default)]
     #[serde_as(as = "OneOrMany<_, PreferOne>")]

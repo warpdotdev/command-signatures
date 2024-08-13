@@ -9,6 +9,7 @@
 //! data, or to use `Cow<'_, str>`. Since this for a script we'll run during development, and not
 //! during Warp runtime, a few extra copies don't really matter. It makes the code simpler. So, I've
 //! gone with `String`.
+mod common_parameters;
 mod deserializers;
 mod to_fig_types;
 
