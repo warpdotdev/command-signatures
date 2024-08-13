@@ -14,7 +14,7 @@ pub(super) fn cmdlet_common_parameters() -> [CommandOption; 12] {
             ..Default::default()
         },
         CommandOption {
-            name: vec!["ErrorAction".to_string(), "-ea".to_string()],
+            name: vec!["-ErrorAction".to_string(), "-ea".to_string()],
             description: Some(
                 "Determines how the cmdlet responds to a non-terminating error from the command. \
                 This parameter works only when the command generates a non-terminating error."
@@ -50,7 +50,7 @@ pub(super) fn cmdlet_common_parameters() -> [CommandOption; 12] {
             ..Default::default()
         },
         CommandOption {
-            name: vec!["InformationAction".to_string(), "-infa".to_string()],
+            name: vec!["-InformationAction".to_string(), "-infa".to_string()],
             description: Some(
                 "Within the command or script in which it's used, the InformationAction common \
                 parameter overrides the value of the `$InformationPreference` preference variable, \
