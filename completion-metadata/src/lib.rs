@@ -245,9 +245,9 @@ impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
 }
 
 impl CommandSignatureGenerators {
-    pub fn new(command_name: impl Into<String>) -> Self {
+    pub fn new(command_name: impl AsRef<str>) -> Self {
         Self {
-            command_name: command_name.into(),
+            command_name: command_name.as_ref().to_lowercase(),
             generators: HashMap::new(),
             filters: HashMap::new(),
             aliases: HashMap::new(),
