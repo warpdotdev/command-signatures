@@ -152,6 +152,7 @@ impl From<CmdletHelp> for Command {
                 // All cmdlet flags are prefixed by a single hyphen.
                 flags_are_posix_noncompliant: true,
                 flags_match_unique_prefix: true,
+                always_case_insensitive: true,
             },
         }
     }
