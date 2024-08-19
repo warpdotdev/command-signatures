@@ -49,6 +49,9 @@ pub struct ParserDirectives {
     /// Flags don't need to be spelled out in full, e.g. for `Get-ChildItem` you can provide "-Fi"
     /// instead of "-Filter", but not just "-F" as it might match "-Filter" or "-Force".
     pub flags_match_unique_prefix: bool,
+
+    /// This command is case-insensitive _even if_ the user's filesystem is case-sensitive.
+    pub always_case_insensitive: bool,
 }
 
 /// A `Signature` defines a command or a subcommand.

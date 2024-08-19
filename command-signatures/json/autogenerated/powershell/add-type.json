@@ -1,0 +1,361 @@
+{
+  "name": "Add-Type",
+  "options": [
+    {
+      "name": [
+        "-AssemblyName",
+        "-AN"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of an assembly that includes the types. `Add-Type` takes the types from the specified assembly. This parameter is required when you're creating types based on an assembly name.\n"
+    },
+    {
+      "name": "-CompilerOptions",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the options for the source code compiler. These options are sent to the compiler without revision.\n"
+    },
+    {
+      "name": "-IgnoreWarnings",
+      "description": "Ignores compiler warnings. Use this parameter to prevent `Add-Type` from handling compiler warnings as errors."
+    },
+    {
+      "name": "-Language",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.Language",
+          "suggestions": [
+            {
+              "name": "CSharp"
+            }
+          ],
+          "default": "CSharp"
+        }
+      ],
+      "description": "Specifies the language that is used in the source code. The acceptable value for this parameter is `CSharp`."
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to source code files or assembly DLL files that contain the types. Unlike Path , the value of the LiteralPath parameter is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+    },
+    {
+      "name": "-MemberDefinition",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies new properties or methods for the class. `Add-Type` generates the template code that is required to support the properties or methods.\n"
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of the class to create. This parameter is required when generating a type from a member definition.\n"
+    },
+    {
+      "name": [
+        "-Namespace",
+        "-NS"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a namespace for the type.\n"
+    },
+    {
+      "name": [
+        "-OutputAssembly",
+        "-OA"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Generates a DLL file for the assembly with the specified name in the location. Enter an optional path and filename. Wildcard characters are permitted. By default, `Add-Type` generates the assembly only in memory."
+    },
+    {
+      "name": [
+        "-OutputType",
+        "-OT"
+      ],
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.OutputAssemblyType",
+          "suggestions": [
+            {
+              "name": "ConsoleApplication"
+            },
+            {
+              "name": "Library"
+            },
+            {
+              "name": "WindowsApplication"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the output type of the output assembly. By default, no output type is specified. This parameter is valid only when an output assembly is specified in the command. For more information about the values, see OutputAssemblyType Enumeration (/dotnet/api/microsoft.powershell.commands.outputassemblytype).\n"
+    },
+    {
+      "name": "-PassThru",
+      "description": "Returns a System.Runtime object that represents the types that were added. By default, this cmdlet doesn't generate any output."
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to source code files or assembly DLL files that contain the types.\n"
+    },
+    {
+      "name": [
+        "-ReferencedAssemblies",
+        "-RA"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the assemblies upon which the type depends. By default, `Add-Type` references `System.dll` and `System.Management.Automation.dll`. The assemblies that you specify by using this parameter are referenced in addition to the default assemblies.\n"
+    },
+    {
+      "name": "-TypeDefinition",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the source code that contains the type definitions. Enter the source code in a string or here-string, or enter a variable that contains the source code. For more information about here-strings, see about_Quoting_Rules (../Microsoft.PowerShell.Core/about/about_Quoting_Rules.md).\n"
+    },
+    {
+      "name": [
+        "-UsingNamespace",
+        "-Using"
+      ],
+      "args": [
+        {
+          "name": "System.String[]",
+          "default": "System namespace"
+        }
+      ],
+      "description": "Specifies other namespaces that are required for the class. This is much like the C# keyword, `Using`.\n"
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-Name-Or-Path-Or-TypeDefinition"
+    },
+    {
+      "name": "-MemberDefinition",
+      "description": "Specifies new properties or methods for the class. `Add-Type` generates the template code that is required to support the properties or methods.\n"
+    }
+  ],
+  "description": "Adds a Microsoft .NET class to a PowerShell session.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

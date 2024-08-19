@@ -134,6 +134,14 @@ pub struct ParserDirectives {
         skip_serializing_if = "<&bool>::not"
     )]
     pub flags_match_unique_prefix: bool,
+
+    /// This command is case-insensitive _even if_ the user's filesystem is case-sensitive.
+    #[serde(
+        default,
+        rename = "alwaysCaseInsensitive",
+        skip_serializing_if = "<&bool>::not"
+    )]
+    pub always_case_insensitive: bool,
 }
 
 impl ParserDirectives {
@@ -477,9 +485,15 @@ impl TryFrom<Template> for crate::TemplateType {
 
 impl From<ParserDirectives> for crate::ParserDirectives {
     fn from(value: ParserDirectives) -> Self {
+        let ParserDirectives {
+            flags_are_posix_noncompliant,
+            flags_match_unique_prefix,
+            always_case_insensitive,
+        } = value;
         Self {
-            flags_are_posix_noncompliant: value.flags_are_posix_noncompliant,
-            flags_match_unique_prefix: value.flags_match_unique_prefix,
+            flags_are_posix_noncompliant,
+            flags_match_unique_prefix,
+            always_case_insensitive,
         }
     }
 }

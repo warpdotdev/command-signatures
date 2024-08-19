@@ -1,0 +1,454 @@
+{
+  "name": "New-PSSession",
+  "options": [
+    {
+      "name": "-AllowRedirection",
+      "description": "Indicates that this cmdlet allows redirection of this connection to an alternate Uniform Resource Identifier (URI).\n"
+    },
+    {
+      "name": "-ApplicationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the application name segment of the connection URI. Use this parameter to specify the application name when you are not using the ConnectionURI parameter in the command.\n"
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "NegotiateWithImplicitCredential"
+            },
+            {
+              "name": "Credssp"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the mechanism that is used to authenticate the user's credentials. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to perform this action. Enter the certificate thumbprint of the certificate.\n"
+    },
+    {
+      "name": [
+        "-ComputerName",
+        "-Cn"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies an array of names of computers. This cmdlet creates a persistent connection ( PSSession ) to the specified computer. If you enter multiple computer names, `New-PSSession` creates multiple PSSession objects, one for each computer. The default is the local computer.\n"
+    },
+    {
+      "name": "-ConfigurationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the session configuration that is used for the new PSSession .\n"
+    },
+    {
+      "name": "-ConnectingTimeout",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "unlimited"
+        }
+      ],
+      "description": "Specifies the amount of time in milliseconds allowed for the initial SSH connection to complete. If the connection doesn't complete within the specified time, an error is returned.\n"
+    },
+    {
+      "name": [
+        "-ConnectionUri",
+        "-URI",
+        "-CU"
+      ],
+      "args": [
+        {
+          "name": "System.Uri[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a URI that defines the connection endpoint for the session. The URI must be fully qualified. The format of this string is as follows:\n"
+    },
+    {
+      "name": "-ContainerId",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of IDs of containers. This cmdlet starts an interactive session with each of the specified containers. Use the `docker ps` command to get a list of container IDs. For more information, see the help for the docker ps (https://docs.docker.com/engine/reference/commandline/ps/)command."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential",
+          "default": "Current user"
+        }
+      ],
+      "description": "Specifies a user account that has permission to do this action. The default is the current user.\n"
+    },
+    {
+      "name": "-EnableNetworkAccess",
+      "description": "Indicates that this cmdlet adds an interactive security token to loopback sessions. The interactive token lets you run commands in the loopback session that get data from other computers. For example, you can run a command in the session that copies XML files from a remote computer to the local computer.\n"
+    },
+    {
+      "name": "-HostName",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of computer names for a Secure Shell (SSH) based connection. This is similar to the ComputerName parameter except that the connection to the remote computer is made using SSH rather than Windows WinRM.\n"
+    },
+    {
+      "name": [
+        "-KeyFilePath",
+        "-IdentityFilePath"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a key file path used by Secure Shell (SSH) to authenticate a user on a remote computer.\n"
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies a friendly name for the PSSession .\n"
+    },
+    {
+      "name": "-Options",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable"
+        }
+      ],
+      "description": "Specifies a hashtable of SSH options used when connecting to a remote SSH-based session. The possible options are any values supported by the Unix-based version of the ssh (https://man.openbsd.org/ssh#o)command.\n"
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the network port on the remote computer that is used for this connection. To connect to a remote computer, the remote computer must be listening on the port that the connection uses. The default ports are `5985`, which is the WinRM port for HTTP, and `5986`, which is the WinRM port for HTTPS.\n"
+    },
+    {
+      "name": "-RunAsAdministrator",
+      "description": "Indicates that the PSSession runs as administrator."
+    },
+    {
+      "name": "-Session",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.PSSession[]"
+        }
+      ],
+      "description": "Specifies an array of PSSession objects that this cmdlet uses as a model for the new PSSession . This parameter creates new PSSession objects that have the same properties as the specified PSSession objects.\n"
+    },
+    {
+      "name": "-SessionOption",
+      "args": [
+        {
+          "name": "System.Management.Automation.Remoting.PSSessionOption"
+        }
+      ],
+      "description": "Specifies advanced options for the session. Enter a SessionOption object, such as one that you create by using the `New-PSSessionOption` cmdlet, or a hash table in which the keys are session option names and the values are session option values.\n"
+    },
+    {
+      "name": "-SSHConnection",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "This parameter takes an array of hashtables where each hashtable contains one or more connection parameters needed to establish a Secure Shell (SSH) connection ( HostName , Port , UserName , KeyFilePath ).\n"
+    },
+    {
+      "name": "-SSHTransport",
+      "description": "Indicates that the remote connection is established using Secure Shell (SSH).\n"
+    },
+    {
+      "name": "-Subsystem",
+      "args": [
+        {
+          "name": "System.String",
+          "default": "powershell"
+        }
+      ],
+      "description": "Specifies the SSH subsystem used for the new PSSession .\n"
+    },
+    {
+      "name": "-ThrottleLimit",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the maximum number of concurrent connections that can be established to run this command. If you omit this parameter or enter a value of `0` (zero), the default value, `32`, is used.\n"
+    },
+    {
+      "name": "-UserName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the username for the account used to create a session on the remote computer. The user authentication method depends on how Secure Shell (SSH) is configured on the remote computer.\n"
+    },
+    {
+      "name": "-UseSSL",
+      "description": "Indicates that this cmdlet uses the SSL protocol to establish a connection to the remote computer. By default, SSL is not used.\n"
+    },
+    {
+      "name": "-UseWindowsPowerShell",
+      "isRequired": true,
+      "description": "Creates a remote connection to a new Windows PowerShell runspace on the local system."
+    },
+    {
+      "name": [
+        "-VMId",
+        "-VMGuid"
+      ],
+      "args": [
+        {
+          "name": "System.Guid[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of virtual machine IDs. This cmdlet starts a PowerShell Direct interactive session with each of the specified virtual machines. For more information, see Virtual Machine automation and management using PowerShell (/virtualization/hyper-v-on-windows/user-guide/powershell-direct).\n"
+    },
+    {
+      "name": "-VMName",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of names of virtual machines. This cmdlet starts a PowerShell Direct interactive session with each of the specified virtual machines. For more information, see Virtual Machine automation and management using PowerShell (/virtualization/hyper-v-on-windows/user-guide/powershell-direct).\n"
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-ComputerName-Or-ConnectionUri-Or-HostName-Or-Session-Or-VMId"
+    }
+  ],
+  "description": "Creates a persistent connection to a local or remote computer.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

@@ -1,0 +1,314 @@
+{
+  "name": "Invoke-ScriptAnalyzer",
+  "options": [
+    {
+      "name": [
+        "-CustomRulePath",
+        "-CustomizedRulePath"
+      ],
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Enter the path to a file that defines rules or a directory that contains files that define rules. Wildcard characters are supported. When CustomRulePath is specified, only the custom rules found in the specified paths are used for the analysis. If `Invoke-ScriptAnalyzer` cannot find rules in the , it runs the standard rules without notice.\n"
+    },
+    {
+      "name": "-EnableExit",
+      "description": "On completion of the analysis, this parameter exits the PowerShell sessions and returns an exit code equal to the number of error records. This can be useful in continuous integration (CI) pipeline."
+    },
+    {
+      "name": "-ExcludeRule",
+      "args": [
+        {
+          "name": "String[]",
+          "default": "All rules are included."
+        }
+      ],
+      "description": "Omits the specified rules from the Script Analyzer test. Wildcard characters are supported.\n"
+    },
+    {
+      "name": "-Fix",
+      "description": "Fixes certain warnings that contain a fix in their DiagnosticRecord .\n"
+    },
+    {
+      "name": "-IncludeDefaultRules",
+      "description": "Invoke default rules along with Custom rules."
+    },
+    {
+      "name": "-IncludeRule",
+      "args": [
+        {
+          "name": "String[]",
+          "default": "All rules are included."
+        }
+      ],
+      "description": "Runs only the specified rules in the Script Analyzer test. By default, PSScriptAnalyzer runs all rules.\n"
+    },
+    {
+      "name": "-IncludeSuppressed",
+      "isRequired": true,
+      "description": "Include suppressed diagnostics in output."
+    },
+    {
+      "name": [
+        "-Path",
+        "-PSPath"
+      ],
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to the scripts or module to be analyzed. Wildcard characters are supported.\n"
+    },
+    {
+      "name": "-Recurse",
+      "description": "Runs Script Analyzer on the files in the Path directory and all subdirectories recursively.\n"
+    },
+    {
+      "name": "-RecurseCustomRulePath",
+      "description": "Adds rules defined in subdirectories of the CustomRulePath location. By default, `Invoke-ScriptAnalyzer` uses only the custom rules defined in the specified file or directory. To include the built-in rules, use the IncludeDefaultRules parameter."
+    },
+    {
+      "name": "-ReportSummary",
+      "description": "Write a summary of the violations found to the host."
+    },
+    {
+      "name": "-SaveDscDependency",
+      "description": "Resolve DSC resource dependencies.\n"
+    },
+    {
+      "name": "-ScriptDefinition",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Runs the analysis on commands, functions, or expressions in a string. You can use this feature to analyze statements, expressions, and functions, independent of their script context."
+    },
+    {
+      "name": [
+        "-Settings",
+        "-Profile"
+      ],
+      "args": [
+        {
+          "name": "Object"
+        }
+      ],
+      "description": "A path to a file containing a user-defined profile or a hashtable object containing settings for ScriptAnalyzer.\n"
+    },
+    {
+      "name": "-Severity",
+      "args": [
+        {
+          "name": "String[]",
+          "default": "All rule violations"
+        }
+      ],
+      "description": "After running Script Analyzer with all rules, this parameter selects rule violations with the specified severity.\n"
+    },
+    {
+      "name": "-SuppressedOnly",
+      "description": "Returns violations only for rules that are suppressed.\n"
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-Path-Or-ScriptDefinition"
+    }
+  ],
+  "description": "Evaluates a script or module based on selected best practice rules",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

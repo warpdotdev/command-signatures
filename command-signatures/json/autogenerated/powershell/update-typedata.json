@@ -1,0 +1,402 @@
+{
+  "name": "Update-TypeData",
+  "options": [
+    {
+      "name": [
+        "-AppendPath",
+        "-PSPath",
+        "-Path"
+      ],
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the path to optional `.ps1xml` files. The specified files are loaded in the order that they are listed after the built-in files are loaded. You can also pipe an AppendPath value to `Update-TypeData`."
+    },
+    {
+      "name": "-DefaultDisplayProperty",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the property of the type that is displayed by the `Format-Wide` cmdlet when no other properties are specified.\n"
+    },
+    {
+      "name": "-DefaultDisplayPropertySet",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies one or more properties of the type. These properties are displayed by the `Format-List`, `Format-Table`, and `Format-Custom` cmdlets when no other properties are specified.\n"
+    },
+    {
+      "name": "-DefaultKeyPropertySet",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies one or more properties of the type. These properties are used by the `Group-Object` and `Sort-Object` cmdlets when no other properties are specified.\n"
+    },
+    {
+      "name": "-Force",
+      "description": "Indicates that the cmdlet uses the specified type data, even if type data has already been specified for that type.\n"
+    },
+    {
+      "name": "-InheritPropertySerializationSet",
+      "args": [
+        {
+          "name": "System.Nullable`1[System.Boolean]"
+        }
+      ],
+      "description": "Indicates whether the set of properties that are serialized is inherited. The default value is `$Null`. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-MemberName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of a property or method.\n"
+    },
+    {
+      "name": "-MemberType",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSMemberTypes",
+          "suggestions": [
+            {
+              "name": "NoteProperty"
+            },
+            {
+              "name": "AliasProperty"
+            },
+            {
+              "name": "ScriptProperty"
+            },
+            {
+              "name": "CodeProperty"
+            },
+            {
+              "name": "ScriptMethod"
+            },
+            {
+              "name": "CodeMethod"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the type of the member to add or change.\n"
+    },
+    {
+      "name": "-PrependPath",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the path to the optional `.ps1xml` files. The specified files are loaded in the order that they are listed before the built-in files are loaded."
+    },
+    {
+      "name": "-PropertySerializationSet",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the names of properties that are serialized. Use this parameter when the value of the SerializationMethod parameter is SpecificProperties ."
+    },
+    {
+      "name": "-SecondValue",
+      "args": [
+        {
+          "name": "System.Object"
+        }
+      ],
+      "description": "Specifies additional values for AliasProperty , ScriptProperty , CodeProperty , or CodeMethod members.\n"
+    },
+    {
+      "name": "-SerializationDepth",
+      "args": [
+        {
+          "name": "System.Int32",
+          "default": "1"
+        }
+      ],
+      "description": "Specifies how many levels of type objects are serialized as strings. The default value `1` serializes the object and its properties. A value of `0` serializes the object, but not its properties. A value of `2` serializes the object, its properties, and any objects in property values.\n"
+    },
+    {
+      "name": "-SerializationMethod",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a serialization method for the type. A serialization method determines which properties of the type are serialized and the technique that is used to serialize them. The acceptable values for this parameter are:\n"
+    },
+    {
+      "name": "-StringSerializationSource",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of a property of the type. The value of specified property is used as the serialization result. This parameter is valid only when the value of the SerializationMethod parameter is String."
+    },
+    {
+      "name": "-TargetTypeForDeserialization",
+      "args": [
+        {
+          "name": "System.Type"
+        }
+      ],
+      "description": "Specifies the type to which object of this type are converted when they are deserialized.\n"
+    },
+    {
+      "name": "-TypeAdapter",
+      "args": [
+        {
+          "name": "System.Type"
+        }
+      ],
+      "description": "Specifies the type of a type adapter, such as Microsoft.PowerShell.Cim.CimInstanceAdapter . A type adapter enables PowerShell to get the members of a type.\n"
+    },
+    {
+      "name": "-TypeConverter",
+      "args": [
+        {
+          "name": "System.Type"
+        }
+      ],
+      "description": "Specifies a type converter to convert values between different types. If a type converter is defined for a type, an instance of the type converter is used for the conversion.\n"
+    },
+    {
+      "name": "-TypeData",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.TypeData[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies an array of type data that this cmdlet adds to the session. Enter a variable that contains a TypeData object or a command that gets a TypeData object, such as a `Get-TypeData` command. You can also pipe a TypeData object to `Update-TypeData`.\n"
+    },
+    {
+      "name": "-TypeName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of the type to extend.\n"
+    },
+    {
+      "name": "-Value",
+      "args": [
+        {
+          "name": "System.Object"
+        }
+      ],
+      "description": "Specifies the value of the property or method.\n"
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-AppendPath-Or-TypeData"
+    }
+  ],
+  "description": "Updates the extended type data in the session.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}
