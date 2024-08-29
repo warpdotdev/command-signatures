@@ -153,7 +153,7 @@ mod tests {
     #[test]
     fn all_command_specs_succeed_deserialization() {
         for name in all_signature_names() {
-            signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
+            signature_by_name(&name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
     }
 }
