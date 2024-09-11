@@ -524,7 +524,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     output
                         .split('\n')
                         .filter_map(commit_line_to_suggestion)
-                        .collect_unordered_results()
+                        .collect_ordered_results()
                 }
             }),
         )
