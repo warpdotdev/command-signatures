@@ -370,7 +370,10 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
 
 #[derive(Clone)]
 pub enum GeneratorProcess {
-    CommandFromTokens(fn(&[&str]) -> String),
+    /// Tokens should contain every token in the input, including the last one which may still be incomplete.
+    /// The second bool argument is whether there is trailing whitespace in the command. This is
+    /// necessary so the completions generator can tell whether it's completing a partial token or the next new argument.
+    CommandFromTokens(fn(&[&str], bool) -> String),
     ShellCommand(String),
 }
 
@@ -405,7 +408,7 @@ impl Generator {
     }
 
     pub fn command_from_tokens(
-        command_from_tokens: fn(&[&str]) -> String,
+        command_from_tokens: fn(&[&str], bool) -> String,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
