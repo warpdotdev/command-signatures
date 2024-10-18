@@ -65,33 +65,21 @@ fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResult
     }
 }
 
-fn skip_last_n<T, I>(iter: I, n: usize) -> Vec<T>
-where
-    I: IntoIterator<Item = T>,
-{
-    let items: Vec<T> = iter.into_iter().collect();
-    let len = items.len();
-    items.into_iter().take(len.saturating_sub(n)).collect()
-}
-
 fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
     match KubetctlStatus::from_output(output) {
         KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
             GeneratorResults::default()
         }
-        KubetctlStatus::Other => {
-            let results = output
-                .lines()
-                .map(str::trim)
-                .filter(|line| !line.is_empty())
-                .map(|suggestion| match icon {
-                    Some(icon) => Suggestion::new(suggestion).with_icon(icon),
-                    None => Suggestion::new(suggestion),
-                });
-            // The last line of the output of __complete is metadata, not a completion result.
-            // The output is already ordered.
-            skip_last_n(results, 1).into_iter().collect_ordered_results()
-        },
+        KubetctlStatus::Other => output
+            .lines()
+            .map(str::trim)
+            .filter(|line| !line.is_empty())
+            .map(|suggestion| match icon {
+                Some(icon) => Suggestion::new(suggestion).with_icon(icon),
+                None => Suggestion::new(suggestion),
+            })
+            // Builtin completions output is already ordered semantically (e.g. pods on top, resource prefixes on bottom)
+            .collect_ordered_results(),
     }
 }
 
@@ -194,19 +182,18 @@ lazy_static! {
     pub(super) static ref KUBECTL_BUILTIN_COMPLETION: Generator =
     Generator::command_from_tokens(
         |tokens, has_trailing_whitespace| {
-            // Skip the first token which is just "kubectl"
             let mut generation_command = vec!["kubectl", "__complete"].into_iter().chain(
+                // Skip the first token which is just "kubectl"
                 tokens.iter().skip(1).cloned()
             ).collect_vec();
             // The __complete command needs the empty string at the end
             if has_trailing_whitespace {
                 generation_command.push("\"\"");
             }
-            println!("generation_command: {generation_command:?}");
-            // Skip the last line
+            // Skip the last line since it is metadata, not a completion result.
             format!("{} | sed '$d'", generation_command.join(" "))
         },
-        |output| {println!("output: {output}"); kubectl_post_process(output, None)},
+        |output| kubectl_builtin_complete_post_process(output, None),
     );
 }
 
@@ -223,5 +210,8 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("cluster", CLUSTER_GENERATOR.clone())
         .add_generator("namespace", NAMESPACE_GENERATOR.clone())
         .add_generator("type_or_type_slash_name", TYPE_OR_TYPE_SLASH_NAME.clone())
-        .add_generator("kubectl_builtin_completion", KUBECTL_BUILTIN_COMPLETION.clone())
+        .add_generator(
+            "kubectl_builtin_completion",
+            KUBECTL_BUILTIN_COMPLETION.clone(),
+        )
 }

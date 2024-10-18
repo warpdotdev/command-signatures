@@ -274,7 +274,10 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
                     .collect_ordered_results()
             }),
         )
-        .add_generator("executables_within_node_modules", executables_within_node_modules())
+        .add_generator(
+            "executables_within_node_modules",
+            executables_within_node_modules(),
+        )
         .add_alias("script_alias", script_alias_generator())
 }
 
