@@ -88,8 +88,9 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
                     Some(icon) => Suggestion::new(suggestion).with_icon(icon),
                     None => Suggestion::new(suggestion),
                 });
-            // The last line of the output of __complete is metadata, not completion results.
-            skip_last_n(results, 1).into_iter().collect_unordered_results()
+            // The last line of the output of __complete is metadata, not a completion result.
+            // The output is already ordered.
+            skip_last_n(results, 1).into_iter().collect_ordered_results()
         },
     }
 }
