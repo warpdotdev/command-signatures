@@ -6,8 +6,8 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("man").add_generator(
         "list_man_pages",
         Generator::command_from_tokens(
-            |context| {
-                let section_glob = match context.last() {
+            |tokens, _| {
+                let section_glob = match tokens.last() {
                     Some(maybe_section) if maybe_section.len() == 1 && *maybe_section >= "1" && *maybe_section <= "8" => maybe_section,
                     // On a high-level, this code is try to get man completions for type 1 (general commands) and 8 (system admin and daemons) packages.
                     // man -w gives the all directories that contain man pages. These directories are further broken into sub-directories categorized by the type number.
