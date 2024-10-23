@@ -616,8 +616,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "refs_remote_branches",
             Generator::script(
-                r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" \
-                "refs/remotes/**" | uniq -u"#,
+                r#"output=$(git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**") && echo "$output" | uniq -u"#,
                 post_process_git_for_each_ref,
             ),
         )
@@ -696,10 +695,10 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |context| {
                     if context.contains(&"--staged") || context.contains(&"--cached") {
-                        "git --no-optional-locks status --short | sed -ne '/^M /p' -e '/A /p'"
+                        r#"output=$(git --no-optional-locks status --short) && echo "$output" | sed -ne '/^M /p' -e '/A /p'"#
                             .to_string()
                     } else {
-                        "git --no-optional-locks status --short | sed -ne '/M /p' -e '/A /p'"
+                        r#"output=$(git --no-optional-locks status --short) && echo "$output" | sed -ne '/M /p' -e '/A /p'"#
                             .to_string()
                     }
                 },
