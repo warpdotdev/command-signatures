@@ -372,7 +372,9 @@ pub trait GeneratorResultsCollector: Iterator<Item = Suggestion> {
 pub enum GeneratorProcess {
     /// Tokens should contain every token in the input, including the last one which may still be incomplete.
     /// The second bool argument is whether there is trailing whitespace in the command. This is
-    /// necessary so the completions generator can tell whether it's completing a partial token or the next new argument.
+    /// necessary so the completions generator can tell whether it's completing a partial token or a new token.
+    /// Note that some options can take multiple whitespace-delimited args, so it's up to the generator to actually determine
+    /// what suggestions to provide for a new token.
     CommandFromTokens(fn(&[&str], bool) -> String),
     ShellCommand(String),
 }
