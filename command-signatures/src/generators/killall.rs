@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("killall")
         .add_generator(
             "user_name",
-            Generator::script("dscl . -list /Users | grep -v '^_'", |output| {
+            Generator::script("dscl . -list /Users 2>/dev/null | grep -v '^_'", |output| {
                 output
                     .trim()
                     .lines()
@@ -16,7 +16,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "process_name",
-            Generator::script("ps -A -o comm | sort -u", |output| {
+            Generator::script("ps -A -o comm 2>/dev/null | sort -u", |output| {
                 output
                     .trim()
                     .lines()

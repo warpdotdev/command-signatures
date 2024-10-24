@@ -6,7 +6,7 @@ use warp_completion_metadata::{
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("tar").add_generator(
         "list_tar_files",
-        Generator::script("ls -1 | grep '.tar'", |output| {
+        Generator::script("ls -1 2>/dev/null | grep '.tar'", |output| {
             output
                 .trim()
                 .split('\n')

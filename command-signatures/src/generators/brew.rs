@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "services",
             Generator::script(
-                "brew services list | sed -e 's/ .*//' | tail -n +2",
+                "brew services list 2>/dev/null | sed -e 's/ .*//' | tail -n +2",
                 |output| {
                     output
                         .trim()

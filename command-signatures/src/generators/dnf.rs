@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "list_installed_packages",
             Generator::script(
-                r#"dnf list --installed | tail -n +2 | awk '{print $1}'"#,
+                r#"dnf list --installed 2>/dev/null | tail -n +2 | awk '{print $1}'"#,
                 |output| {
                     let mut targets = Vec::new();
                     for package_name in output.lines() {
