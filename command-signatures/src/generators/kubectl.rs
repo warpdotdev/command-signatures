@@ -172,7 +172,7 @@ lazy_static! {
                             tokens,
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
-                            format!(r#"get {resource} -o custom-columns=:.metadata.name | sed '/./ s/^/{resource}\//'"#),
+                            format!(r#"get {resource} -o custom-columns=:.metadata.name 2>/dev/null | sed '/./ s/^/{resource}\//'"#),
                         );
                     }
                     kubectl_script(tokens, "api-resources -o name")
@@ -191,7 +191,7 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            format!("{} | sed '$d'", generation_command.join(" "))
+            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" "))
         },
         |output| kubectl_builtin_complete_post_process(output, None),
     );

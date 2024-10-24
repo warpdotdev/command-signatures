@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pacman")
         .add_generator(
             "list_installed_packages",
-            Generator::script(r#"pacman -Q | awk '{print $1}'"#, |output| {
+            Generator::script(r#"pacman -Q 2>/dev/null | awk '{print $1}'"#, |output| {
                 let mut targets = Vec::new();
                 for package_name in output.lines() {
                     targets.push(Suggestion::with_description(

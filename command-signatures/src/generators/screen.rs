@@ -2,7 +2,7 @@ use warp_completion_metadata::{
     CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-const LIST_SESSIONS_COMMAND: &str = "screen -ls | sed '1d;$d' | sed '$d'";
+const LIST_SESSIONS_COMMAND: &str = "screen -ls 2>/dev/null | sed '1d;$d' | sed '$d'";
 
 fn list_sessions(output: &str) -> impl Iterator<Item = &str> {
     output.lines().map(str::trim)

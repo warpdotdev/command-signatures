@@ -125,7 +125,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "spec",
             Generator::script(
-                r#"cargo install --list | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#,
+                r#"cargo install --list 2>/dev/null | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#,
                 |output| {
                     output
                         .lines()
