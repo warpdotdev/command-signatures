@@ -119,12 +119,22 @@ lazy_static! {
             );
     pub(super) static ref RESOURCE_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| match tokens.last() {
-                    Some(type_name) => kubectl_script(
-                        tokens,
-                        format!("get {} -o custom-columns=:.metadata.name", type_name),
-                    ),
-                    None => "".to_string(),
+                |tokens, has_trailing_whitespace| {
+                    // If there is trailing whitepsace, the last token is a resource type.
+                    let resource_type = if has_trailing_whitespace {
+                        tokens.last()
+                    } else {
+                        // If there is no trailing whitespace, the last token is a prefix of a resource name, 
+                        // and the token before is the resource type.
+                        tokens.get(tokens.len() - 2)
+                    };
+                    match resource_type {
+                        Some(resource_type) => kubectl_script(
+                            tokens,
+                            format!("get {} -o custom-columns=:.metadata.name", resource_type),
+                        ),
+                        None => "".to_string(),
+                    }
                 },
                 |output| kubectl_post_process(output, None),
             );
