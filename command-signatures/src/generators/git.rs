@@ -535,10 +535,7 @@ pub fn local_branches_generator() -> Generator {
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
-        .add_generator(
-            "commits",
-            commits_generator(),
-        )
+        .add_generator("commits", commits_generator())
         .add_generator(
             "aliases",
             Generator::script(
@@ -640,10 +637,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 post_process_git_for_each_ref,
             ),
         )
-        .add_generator(
-            "local_branches",
-            local_branches_generator(),
-        )
+        .add_generator("local_branches", local_branches_generator())
         .add_generator(
             "remotes",
             Generator::script("git --no-optional-locks remote -v", |output| {
