@@ -463,6 +463,18 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
         .collect_ordered_results()
 }
 
+pub fn post_process_commits(out: &str) -> GeneratorResults {
+    let output = filter_messages(out);
+    if output.starts_with("fatal:") {
+        GeneratorResults::default()
+    } else {
+        output
+            .split('\n')
+            .filter_map(commit_line_to_suggestion)
+            .collect_ordered_results()
+    }
+}
+
 pub fn post_process_branches(out: &str) -> GeneratorResults {
     let output = filter_messages(out);
 
@@ -516,17 +528,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
         .add_generator(
             "commits",
-            Generator::script("git --no-optional-locks log --oneline", |output| {
-                let output = filter_messages(output);
-                if output.starts_with("fatal:") {
-                    GeneratorResults::default()
-                } else {
-                    output
-                        .split('\n')
-                        .filter_map(commit_line_to_suggestion)
-                        .collect_ordered_results()
-                }
-            }),
+            Generator::script("git --no-optional-locks log --oneline", post_process_commits),
         )
         .add_generator(
             "aliases",

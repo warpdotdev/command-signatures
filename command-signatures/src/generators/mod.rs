@@ -17,6 +17,7 @@ mod flutter;
 mod gh;
 mod git;
 mod go;
+mod gt;
 mod heroku;
 mod kill;
 mod killall;
@@ -58,6 +59,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         flutter::generator(),
         gh::generator(),
         git::generator(),
+        gt::generator(),
         go::generator(),
         heroku::generator(),
         make::generator(),
