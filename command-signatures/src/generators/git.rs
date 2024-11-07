@@ -463,18 +463,6 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
         .collect_ordered_results()
 }
 
-pub fn post_process_commits(out: &str) -> GeneratorResults {
-    let output = filter_messages(out);
-    if output.starts_with("fatal:") {
-        GeneratorResults::default()
-    } else {
-        output
-            .split('\n')
-            .filter_map(commit_line_to_suggestion)
-            .collect_ordered_results()
-    }
-}
-
 pub fn post_process_branches(out: &str) -> GeneratorResults {
     let output = filter_messages(out);
 
@@ -524,11 +512,32 @@ fn commit_line_to_suggestion(line: &str) -> Option<Suggestion> {
         .map(|(name, description)| Suggestion::with_description(name, description))
 }
 
+pub fn commits_generator() -> Generator {
+    Generator::script("git --no-optional-locks log --oneline", |output| {
+        let output = filter_messages(output);
+        if output.starts_with("fatal:") {
+            GeneratorResults::default()
+        } else {
+            output
+                .split('\n')
+                .filter_map(commit_line_to_suggestion)
+                .collect_ordered_results()
+        }
+    })
+}
+
+pub fn local_branches_generator() -> Generator {
+    Generator::script(
+        "git --no-optional-locks branch --no-color --sort=-committerdate",
+        post_process_branches,
+    )
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
         .add_generator(
             "commits",
-            Generator::script("git --no-optional-locks log --oneline", post_process_commits),
+            commits_generator(),
         )
         .add_generator(
             "aliases",
@@ -633,10 +642,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "local_branches",
-            Generator::script(
-                "git --no-optional-locks branch --no-color --sort=-committerdate",
-                post_process_branches,
-            ),
+            local_branches_generator(),
         )
         .add_generator(
             "remotes",
