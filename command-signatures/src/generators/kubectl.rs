@@ -124,7 +124,7 @@ lazy_static! {
                     let resource_type = if has_trailing_whitespace {
                         tokens.last()
                     } else {
-                        // If there is no trailing whitespace, the last token is a prefix of a resource name, 
+                        // If there is no trailing whitespace, the last token is a prefix of a resource name,
                         // and the token before is the resource type.
                         tokens.get(tokens.len() - 2)
                     };

@@ -35,6 +35,7 @@
       "description": "Switch to a branch. If no branch is provided, opens an interactive selector",
       "args": {
         "name": "branch",
+        "generatorName": "local_branches",
         "description": "Name of branch to checkout",
         "isOptional": true
       },
@@ -96,7 +97,11 @@
     {
       "name": ["delete", "dl"],
       "description": "Delete a branch and its corresponding Graphite metadata",
-      "args": { "name": "name", "description": "Branch name" },
+      "args": {
+        "name": "name",
+        "generatorName": "local_branches",
+        "description": "Branch name"
+      },
       "options": [
         {
           "name": ["--force", "-f"],
@@ -157,6 +162,7 @@
       "description": "Get branches from trunk to the specified branch from remote, prompting the user to resolve conflicts. If no branch is provided, get downstack from the current branch",
       "args": {
         "name": "branch",
+        "generatorName": "local_branches",
         "description": "Branch to get from remote",
         "isOptional": true
       },
@@ -199,6 +205,7 @@
           "description": "The name of your trunk branch. If no name is passed, you will be prompted to select one interactively",
           "args": {
             "name": "trunk",
+            "generatorName": "local_branches",
             "description": "Name of the trunk branch",
             "isOptional": true
           }
@@ -299,12 +306,20 @@
         {
           "name": ["--onto", "-o"],
           "description": "Branch to move the current branch onto",
-          "args": { "name": "branch", "description": "Branch to move" }
+          "args": {
+            "name": "branch",
+            "generatorName": "local_branches",
+            "description": "Branch to move"
+          }
         },
         {
           "name": "--source",
           "description": "Branch to move (defaults to current branch)",
-          "args": { "name": "branch", "description": "Branch to move" }
+          "args": {
+            "name": "branch",
+            "generatorName": "local_branches",
+            "description": "Branch to move"
+          }
         }
       ]
     },
@@ -321,6 +336,7 @@
       "description": "Opens the pull request page for a branch or PR number. If no branch is passed, the current branch's PR is opened",
       "args": {
         "name": "branch",
+        "generatorName": "local_branches",
         "description": "A branch name or PR number to open"
       }
     },
@@ -346,7 +362,11 @@
         {
           "name": "--branch",
           "description": "Which branch to run this command from. Defaults to the current branch",
-          "args": { "name": "branch", "description": "Name of the branch" }
+          "args": {
+            "name": "branch",
+            "generatorName": "local_branches",
+            "description": "Name of the branch"
+          }
         },
         {
           "name": "--downstack",
@@ -362,7 +382,11 @@
     {
       "name": "revert",
       "description": "Create a branch that reverts a commit on the trunk branch. Currently experimental",
-      "args": { "name": "sha", "description": "The commit to revert" },
+      "args": {
+        "name": "sha",
+        "generatorName": "commits",
+        "description": "The commit to revert"
+      },
       "options": [
         { "name": ["--edit", "-e"], "description": "Edit the commit message" }
       ]
@@ -411,7 +435,11 @@
         {
           "name": "--branch",
           "description": "Which branch to run this command from. Defaults to the current branch",
-          "args": { "name": "branch", "description": "Name of branch" }
+          "args": {
+            "name": "branch",
+            "generatorName": "local_branches",
+            "description": "Name of branch"
+          }
         },
         {
           "name": ["--confirm", "-c"],
@@ -505,12 +533,20 @@
     {
       "name": ["track", "tr"],
       "description": "Start tracking the current (or provided) branch with Graphite by selecting its parent. This command can also be used to fix corrupted Graphite metadata",
-      "args": { "name": "branch", "description": "Branch name" },
+      "args": {
+        "name": "branch",
+        "generatorName": "local_branches",
+        "description": "Branch name"
+      },
       "options": [
         {
           "name": ["--parent", "-p"],
           "description": "The tracked branch's parent. If unset, prompts for a parent branch",
-          "args": { "name": "parent", "description": "Name of parent branch" }
+          "args": {
+            "name": "parent",
+            "generatorName": "local_branches",
+            "description": "Name of parent branch"
+          }
         },
         {
           "name": ["--force", "-f"],
@@ -522,7 +558,11 @@
     {
       "name": ["untrack", "utr"],
       "description": "Stop tracking a branch with Graphite. If the branch has children, they will also be untracked. Default to the current branch if none is passed in",
-      "args": { "name": "branch", "description": "Branch name" },
+      "args": {
+        "name": "branch",
+        "generatorName": "local_branches",
+        "description": "Branch name"
+      },
       "options": [
         {
           "name": ["--force", "-f"],

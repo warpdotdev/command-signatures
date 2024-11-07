@@ -512,22 +512,30 @@ fn commit_line_to_suggestion(line: &str) -> Option<Suggestion> {
         .map(|(name, description)| Suggestion::with_description(name, description))
 }
 
+pub fn commits_generator() -> Generator {
+    Generator::script("git --no-optional-locks log --oneline", |output| {
+        let output = filter_messages(output);
+        if output.starts_with("fatal:") {
+            GeneratorResults::default()
+        } else {
+            output
+                .split('\n')
+                .filter_map(commit_line_to_suggestion)
+                .collect_ordered_results()
+        }
+    })
+}
+
+pub fn local_branches_generator() -> Generator {
+    Generator::script(
+        "git --no-optional-locks branch --no-color --sort=-committerdate",
+        post_process_branches,
+    )
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
-        .add_generator(
-            "commits",
-            Generator::script("git --no-optional-locks log --oneline", |output| {
-                let output = filter_messages(output);
-                if output.starts_with("fatal:") {
-                    GeneratorResults::default()
-                } else {
-                    output
-                        .split('\n')
-                        .filter_map(commit_line_to_suggestion)
-                        .collect_ordered_results()
-                }
-            }),
-        )
+        .add_generator("commits", commits_generator())
         .add_generator(
             "aliases",
             Generator::script(
@@ -629,13 +637,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 post_process_git_for_each_ref,
             ),
         )
-        .add_generator(
-            "local_branches",
-            Generator::script(
-                "git --no-optional-locks branch --no-color --sort=-committerdate",
-                post_process_branches,
-            ),
-        )
+        .add_generator("local_branches", local_branches_generator())
         .add_generator(
             "remotes",
             Generator::script("git --no-optional-locks remote -v", |output| {
