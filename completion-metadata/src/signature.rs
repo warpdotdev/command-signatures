@@ -523,7 +523,7 @@ impl Alias {
 /// ```
 fn has_unsafe_newlines(str: String) -> bool {
     let mut quote_char: Option<char> = None;
-    let mut chars = s.chars().peekable();
+    let mut chars = str.chars().peekable();
     let mut is_escaped = false;
 
     while let Some(c) = chars.next() {
@@ -536,7 +536,7 @@ fn has_unsafe_newlines(str: String) -> bool {
                 }
             }
             '\n' => {
-                if !quote_char && !is_escaped {
+                if quote_char.is_none() && !is_escaped {
                     return false;
                 }
             }
