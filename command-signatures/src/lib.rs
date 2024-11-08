@@ -175,7 +175,7 @@ mod tests {
         let mut chars = str.chars().peekable();
         let mut is_escaped = false;
 
-        while let Some(c) = chars.next() {
+        for c in chars {
             match c {
                 '\'' | '"' => {
                     if quote_char.is_none() {
@@ -228,7 +228,7 @@ mod tests {
                             assert!(
                                 !has_unsafe_newlines(&true_result),
                                 "[true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
-                                tokens.to_string(),
+                                tokens,
                                 generator_name,
                                 true_result
                             );
@@ -236,7 +236,7 @@ mod tests {
                             assert!(
                                 !has_unsafe_newlines(&false_result),
                                 "[false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
-                                tokens.to_string(),
+                                tokens,
                                 generator_name,
                                 false_result
                             );
@@ -244,7 +244,7 @@ mod tests {
                     }
                     GeneratorProcess::ShellCommand(str) => {
                         assert!(
-                            !has_unsafe_newlines(&str),
+                            !has_unsafe_newlines(str),
                             "Generator `{}` has an unquoted newline in it: `{}`",
                             generator_name,
                             str
