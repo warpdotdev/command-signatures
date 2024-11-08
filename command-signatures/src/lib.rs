@@ -202,7 +202,14 @@ mod tests {
         let generators = generators::dynamic_command_signature_data();
         let generator_names = generators.keys().collect::<HashSet<_>>();
 
-        let token_test_cases = vec!["true", "test", "\\n"];
+        let token_test_cases = vec![
+            "true", "test",
+            "\\n",
+            // Note: We don't yet check if passing in strings which include newlines are safe.
+            // Many commands would blindly pass in a newline and not sanitize it, this
+            // may be the intended behavior but that means we can't test for it.
+            // "\n"
+        ];
 
         for generator_name in generator_names {
             generators
