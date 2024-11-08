@@ -409,7 +409,6 @@ impl Generator {
         }
     }
 
-    /// Ensure no unquoted newlines are present in the command.
     pub fn command_from_tokens(
         command_from_tokens: fn(&[&str], bool) -> String,
         on_complete_callback: fn(&str) -> GeneratorResults,
