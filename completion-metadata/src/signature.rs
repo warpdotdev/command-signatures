@@ -403,8 +403,6 @@ impl Generator {
         shell_command: impl Into<String>,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
-        debug_assert!(!has_unsafe_newlines(shell_command.into()));
-
         Generator {
             process: GeneratorProcess::ShellCommand(shell_command.into()),
             on_complete_callback,
@@ -510,44 +508,4 @@ impl Alias {
     ) -> Option<String> {
         (self.on_complete_callback)(alias_command_output, tokens, token_idx)
     }
-}
-
-/// Ensures no unquoted '\n' can be found.
-///
-/// # Examples
-///
-/// ```
-/// assert!(!has_unsafe_newlines("echo 'hello\nworld'".to_string()));
-/// assert!(!has_unsafe_newlines("echo hello\\nworld".to_string()));
-/// assert!(has_unsafe_newlines("echo hello\nworld".to_string()));
-/// ```
-fn has_unsafe_newlines(str: String) -> bool {
-    let mut quote_char: Option<char> = None;
-    let mut chars = str.chars().peekable();
-    let mut is_escaped = false;
-
-    while let Some(c) = chars.next() {
-        match c {
-            '\'' | '"' => {
-                if quote_char.is_none() {
-                    quote_char = Some(c);
-                } else if quote_char == Some(c) {
-                    quote_char = None;
-                }
-            }
-            '\n' => {
-                if quote_char.is_none() && !is_escaped {
-                    return false;
-                }
-            }
-            _ => {}
-        }
-        if c == '\\' {
-            is_escaped = !is_escaped;
-        } else {
-            is_escaped = false;
-        }
-    }
-
-    true
 }

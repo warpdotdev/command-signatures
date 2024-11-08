@@ -126,7 +126,7 @@ lazy_static! {
                     } else {
                         // If there is no trailing whitespace, the last token is a prefix of a resource name,
                         // and the token before is the resource type.
-                        tokens.get(tokens.len() - 2)
+                        tokens.get(tokens.len().saturating_sub(2))
                     };
                     match resource_type {
                         Some(resource_type) => kubectl_script(

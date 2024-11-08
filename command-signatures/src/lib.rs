@@ -156,4 +156,90 @@ mod tests {
             signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
     }
+
+    /// Ensures no unquoted '\n' can be found.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// assert!(!has_unsafe_newlines("echo 'hello\nworld'".to_string()));
+    /// assert!(!has_unsafe_newlines("echo hello\\nworld".to_string()));
+    /// assert!(has_unsafe_newlines("echo hello\nworld".to_string()));
+    /// ```
+    fn has_unsafe_newlines(str: &str) -> bool {
+        let mut quote_char: Option<char> = None;
+        let mut chars = str.chars().peekable();
+        let mut is_escaped = false;
+
+        while let Some(c) = chars.next() {
+            match c {
+                '\'' | '"' => {
+                    if quote_char.is_none() {
+                        quote_char = Some(c);
+                    } else if quote_char == Some(c) {
+                        quote_char = None;
+                    }
+                }
+                '\n' => {
+                    if quote_char.is_none() && !is_escaped {
+                        return true;
+                    }
+                }
+                _ => {}
+            }
+            if c == '\\' {
+                is_escaped = !is_escaped;
+            } else {
+                is_escaped = false;
+            }
+        }
+
+        false
+    }
+
+    #[test]
+    fn all_command_specs_have_no_newlines() {
+        let generators = generators::dynamic_command_signature_data();
+        let generator_names = generators.keys().collect::<HashSet<_>>();
+
+        let token_test_cases = vec!["true", "test", "\\n"];
+
+        for generator_name in generator_names {
+            generators
+                .get(generator_name)
+                .unwrap()
+                .generators()
+                .values()
+                .for_each(|generator| match &generator.process {
+                    GeneratorProcess::CommandFromTokens(func) => {
+                        token_test_cases.iter().for_each(|&tokens| {
+                            let true_result = func(&[tokens], true);
+                            assert!(
+                                !has_unsafe_newlines(&true_result),
+                                "[true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                tokens.to_string(),
+                                generator_name,
+                                true_result
+                            );
+                            let false_result = func(&[tokens], false);
+                            assert!(
+                                !has_unsafe_newlines(&false_result),
+                                "[false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                tokens.to_string(),
+                                generator_name,
+                                false_result
+                            );
+                        });
+                    }
+                    GeneratorProcess::ShellCommand(str) => {
+                        assert!(
+                            !has_unsafe_newlines(&str),
+                            "Generator `{}` has an unquoted newline in it: `{}`",
+                            generator_name,
+                            str
+                        );
+                    }
+                });
+        }
+    }
 }
