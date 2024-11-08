@@ -517,9 +517,11 @@ impl Alias {
 ///
 /// # Examples
 ///
-/// * `echo 'hello\nworld'` is valid
-/// * `echo hello\\nworld' is valid
-/// * `echo hello\nworld` is invalid.
+/// ```
+/// assert!(!has_unsafe_newlines("echo 'hello\nworld'".to_string()));
+/// assert!(!has_unsafe_newlines("echo hello\\nworld".to_string()));
+/// assert!(has_unsafe_newlines("echo hello\nworld".to_string()));
+/// ```
 fn has_unsafe_newlines(str: String) -> bool {
     let mut quote_char: Option<char> = None;
     let mut chars = s.chars().peekable();
