@@ -156,16 +156,4 @@ mod tests {
             signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
     }
-
-    fn validate_signature_has_no_unquoted_newlines(signature: &Signature) {
-        let signature_str = signature.to_string();
-        signature_str.lines().for_each(|line| {
-            assert!(
-                line.trim().is_empty(),
-                "Command signature `{}` has a non-quoted newline in it: `{}`",
-                signature.name,
-                line
-            );
-        });
-    }
 }
