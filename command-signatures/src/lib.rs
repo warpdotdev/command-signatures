@@ -162,9 +162,13 @@ mod tests {
     /// # Examples
     ///
     /// ```
+    /// # fn main() {
     /// assert!(!has_unsafe_newlines("echo 'hello\nworld'".to_string()));
+    /// assert!(has_unsafe_newlines("echo \'hello\nworld'".to_string()));
     /// assert!(!has_unsafe_newlines("echo hello\\nworld".to_string()));
     /// assert!(has_unsafe_newlines("echo hello\nworld".to_string()));
+    /// assert!(false);
+    /// # }
     /// ```
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
