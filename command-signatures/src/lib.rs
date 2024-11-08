@@ -231,7 +231,7 @@ mod tests {
                 .for_each(|generator| match &generator.process {
                     GeneratorProcess::CommandFromTokens(func) => {
                         token_test_cases.iter().for_each(|&tokens| {
-                            let trailing_whitespace_result = func(&[tokens], true);
+                            let trailing_whitespace_result = func(&[tokens, " "], true);
                             assert!(
                                 !has_unsafe_newlines(&trailing_whitespace_result),
                                 "[has_trailing_whitespace: true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
