@@ -234,7 +234,7 @@ mod tests {
                             let true_result = func(&[tokens], true);
                             assert!(
                                 !has_unsafe_newlines(&true_result),
-                                "[true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                "[has_trailing_whitespace: true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
                                 tokens,
                                 generator_name,
                                 true_result
@@ -242,7 +242,7 @@ mod tests {
                             let false_result = func(&[tokens], false);
                             assert!(
                                 !has_unsafe_newlines(&false_result),
-                                "[false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                "[has_trailing_whitespace: false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
                                 tokens,
                                 generator_name,
                                 false_result
