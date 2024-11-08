@@ -158,30 +158,20 @@ mod tests {
     }
 
     /// Ensures no unquoted '\n' can be found.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # fn main() {
-    /// assert!(!has_unsafe_newlines("echo 'hello\nworld'".to_string()));
-    /// assert!(has_unsafe_newlines("echo \'hello\nworld'".to_string()));
-    /// assert!(!has_unsafe_newlines("echo hello\\nworld".to_string()));
-    /// assert!(has_unsafe_newlines("echo hello\nworld".to_string()));
-    /// assert!(false);
-    /// # }
-    /// ```
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
-        let mut chars = str.chars().peekable();
+        let chars = str.chars().peekable();
         let mut is_escaped = false;
 
         for c in chars {
             match c {
                 '\'' | '"' => {
-                    if quote_char.is_none() {
-                        quote_char = Some(c);
-                    } else if quote_char == Some(c) {
-                        quote_char = None;
+                    if !is_escaped {
+                        if quote_char.is_none() {
+                            quote_char = Some(c);
+                        } else if quote_char == Some(c) {
+                            quote_char = None;
+                        }
                     }
                 }
                 '\n' => {
@@ -199,6 +189,23 @@ mod tests {
         }
 
         false
+    }
+
+    #[test]
+    fn test_has_unsafe_newlines() {
+        assert!(!has_unsafe_newlines("echo 'ahoy\nworld'"));
+        assert!(has_unsafe_newlines("echo \\'bon voyage\nworld'"));
+        assert!(!has_unsafe_newlines("echo \\\\'bon voyage\nworld'"));
+
+        assert!(!has_unsafe_newlines("echo \"ciao\nworld\""));
+        assert!(has_unsafe_newlines("echo \\\"danke\nworld\""));
+        assert!(!has_unsafe_newlines("echo \\\\\"ello\nworld\""));
+
+        assert!(!has_unsafe_newlines("echo \"fred's\nworld\""));
+        assert!(!has_unsafe_newlines("echo 'george says \"\nworld\"'"));
+
+        assert!(!has_unsafe_newlines("echo hello\\nworld"));
+        assert!(has_unsafe_newlines("echo imagine\nworld"));
     }
 
     #[test]
