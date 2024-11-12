@@ -156,4 +156,112 @@ mod tests {
             signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
     }
+
+    /// Ensures no unquoted '\n' can be found.
+    fn has_unsafe_newlines(str: &str) -> bool {
+        let mut quote_char: Option<char> = None;
+        let chars = str.chars().peekable();
+        let mut is_escaped = false;
+
+        for c in chars {
+            match c {
+                '\'' | '"' => {
+                    if !is_escaped {
+                        if quote_char.is_none() {
+                            quote_char = Some(c);
+                        } else if quote_char == Some(c) {
+                            quote_char = None;
+                        }
+                    }
+                }
+                '\n' => {
+                    if quote_char.is_none() && !is_escaped {
+                        return true;
+                    }
+                }
+                _ => {}
+            }
+            if c == '\\' {
+                is_escaped = !is_escaped;
+            } else {
+                is_escaped = false;
+            }
+        }
+
+        false
+    }
+
+    #[test]
+    fn test_has_unsafe_newlines() {
+        assert!(!has_unsafe_newlines("echo 'ahoy\nworld'"));
+        assert!(has_unsafe_newlines("echo \\'bon voyage\nworld'"));
+        assert!(!has_unsafe_newlines("echo \\\\'bon voyage\nworld'"));
+
+        assert!(!has_unsafe_newlines("echo \"ciao\nworld\""));
+        assert!(has_unsafe_newlines("echo \\\"danke\nworld\""));
+        assert!(!has_unsafe_newlines("echo \\\\\"ello\nworld\""));
+
+        assert!(!has_unsafe_newlines("echo \"fred's\nworld\""));
+        assert!(!has_unsafe_newlines("echo 'george says \"\nworld\"'"));
+
+        assert!(!has_unsafe_newlines("echo hello\\nworld"));
+        assert!(has_unsafe_newlines("echo imagine\nworld"));
+    }
+
+    #[test]
+    /// We want to send commands through TMUX control mode, and our current implementation
+    /// only supports one-line commands. This may be a constraint we don't need to
+    /// uphold in the future.
+    fn all_command_specs_have_no_newlines() {
+        let generators = generators::dynamic_command_signature_data();
+
+        let token_test_cases = vec![
+            "true",
+            "hello world",
+            "1",
+            "1.0",
+            "127.0.0.1",
+            "\\n",
+            // Note: We don't yet check if passing in strings which include newlines are safe.
+            // Many commands would blindly pass in a newline and not sanitize it, this
+            // may be the intended behavior but that means we can't test for it.
+            // "\n"
+        ];
+
+        for (generator_name, completion_data) in generators {
+            completion_data
+                .generators()
+                .values()
+                .for_each(|generator| match &generator.process {
+                    GeneratorProcess::CommandFromTokens(func) => {
+                        token_test_cases.iter().for_each(|&tokens| {
+                            let trailing_whitespace_result = func(&[tokens, " "], true);
+                            assert!(
+                                !has_unsafe_newlines(&trailing_whitespace_result),
+                                "[has_trailing_whitespace: true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                tokens,
+                                generator_name,
+                                trailing_whitespace_result
+                            );
+                            let no_trailing_whitespace_result = func(&[tokens], false);
+                            assert!(
+                                !has_unsafe_newlines(&no_trailing_whitespace_result),
+                                "[has_trailing_whitespace: false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
+                                tokens,
+                                generator_name,
+                                no_trailing_whitespace_result
+                            );
+                        });
+                    }
+                    GeneratorProcess::ShellCommand(str) => {
+                        assert!(
+                            !has_unsafe_newlines(str),
+                            "Generator `{}` has an unquoted newline in it: `{}`",
+                            generator_name,
+                            str
+                        );
+                    }
+                });
+        }
+    }
 }
