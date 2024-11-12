@@ -214,7 +214,6 @@ mod tests {
     /// uphold in the future.
     fn all_command_specs_have_no_newlines() {
         let generators = generators::dynamic_command_signature_data();
-        let generator_names = generators.keys().collect::<HashSet<_>>();
 
         let token_test_cases = vec![
             "true",
@@ -229,7 +228,7 @@ mod tests {
             // "\n"
         ];
 
-        for (generator_name, completion_data) in generator_names {
+        for (generator_name, completion_data) in generators {
             completion_data
                 .generators()
                 .values()
