@@ -209,12 +209,19 @@ mod tests {
     }
 
     #[test]
+    /// We want to send commands through TMUX control mode, and our current implementation
+    /// only supports one-line commands. This may be a constraint we don't need to
+    /// uphold in the future.
     fn all_command_specs_have_no_newlines() {
         let generators = generators::dynamic_command_signature_data();
         let generator_names = generators.keys().collect::<HashSet<_>>();
 
         let token_test_cases = vec![
-            "true", "test",
+            "true",
+            "hello world",
+            "1",
+            "1.0",
+            "127.0.0.1",
             "\\n",
             // Note: We don't yet check if passing in strings which include newlines are safe.
             // Many commands would blindly pass in a newline and not sanitize it, this
@@ -222,10 +229,8 @@ mod tests {
             // "\n"
         ];
 
-        for generator_name in generator_names {
-            generators
-                .get(generator_name)
-                .unwrap()
+        for (generator_name, completion_data) in generator_names {
+            completion_data
                 .generators()
                 .values()
                 .for_each(|generator| match &generator.process {
