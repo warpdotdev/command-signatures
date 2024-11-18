@@ -244,6 +244,7 @@ impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
     }
 }
 
+#[derive(Clone, Debug)]
 pub enum CommandPart {
     Command(String),
     // Two commands separated by an and (i.e. `A && B``)
@@ -256,26 +257,54 @@ impl CommandPart {
     pub fn command(self, shell: Shell) -> String {
         match self {
             CommandPart::Command(command) => command,
-            CommandPart::And(command_1, command_2) => format!("{} && {}", command_1.command(shell), command_2.command(shell)),
-            CommandPart::Pipe(command_1, command_2) => format!("{} {} | {}", command_1.command(shell), shell.stderr_to_null(), command_2.command(shell)),
+            CommandPart::And(command_1, command_2) => format!(
+                "{} && {}",
+                command_1.command(shell),
+                command_2.command(shell)
+            ),
+            CommandPart::Pipe(command_1, command_2) => format!(
+                "{} {} | {}",
+                command_1.command(shell),
+                shell.stderr_to_null(),
+                command_2.command(shell)
+            ),
         }
     }
 }
 
-
+#[derive(Clone, Debug)]
 pub struct CommandBuilder(CommandPart);
 
+// ATODO: temporary conversion method
+impl From<String> for CommandBuilder {
+    fn from(command: String) -> Self {
+        Self::new(command)
+    }
+}
+
+impl From<&str> for CommandBuilder {
+    fn from(command: &str) -> Self {
+        Self::new(command.to_owned())
+    }
+}
+
 impl CommandBuilder {
-    pub fn new(command: String) -> Self {
-        Self(CommandPart::Command(command))
+    pub fn new(command: impl Into<String>) -> Self {
+        Self(CommandPart::Command(command.into()))
     }
 
-    pub fn and(self, other: String) -> Self {
-        Self(CommandPart::And(Box::new(self.0), Box::new(CommandPart::Command(other))))
+    pub fn and(self, other: impl Into<String>) -> Self {
+        Self(CommandPart::And(
+            Box::new(self.0),
+            Box::new(CommandPart::Command(other.into())),
+        ))
     }
 
-    pub fn pipe(self, other: String) -> Self {
-        Self(CommandPart::Pipe(Box::new(self.0), Box::new(CommandPart::Command(other))))
+    pub fn pipe(self, other: impl Into<String>) -> Self {
+        Self(CommandPart::Pipe(
+            Box::new(self.0),
+            Box::new(CommandPart::Command(other.into())),
+        ))
     }
 
     pub fn command(self, shell: Shell) -> String {
@@ -286,7 +315,7 @@ impl CommandBuilder {
 #[derive(Copy, Clone)]
 pub enum Shell {
     Posix,
-    Powershell
+    Powershell,
 }
 
 impl Shell {
@@ -298,10 +327,7 @@ impl Shell {
     }
 }
 
-impl CommandBuilder {
-    
-}
-
+impl CommandBuilder {}
 
 impl CommandSignatureGenerators {
     pub fn new(command_name: impl AsRef<str>) -> Self {
