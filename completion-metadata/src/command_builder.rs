@@ -6,9 +6,9 @@ use std::borrow::Cow;
 
 #[derive(Clone, Debug)]
 enum CommandPart {
-    /// A single command/
+    /// A single command.
     SingleCommand(String),
-    /// Two commands separated by an and (i.e. `A && B``)
+    /// Two commands separated by an and (i.e. `A && B`)
     And(Box<CommandPart>, Box<CommandPart>),
     /// Two command separated by a pipe (i.e. `A | B`)
     Pipe(Box<CommandPart>, Box<CommandPart>),
