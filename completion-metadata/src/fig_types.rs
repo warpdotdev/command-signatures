@@ -325,7 +325,7 @@ impl From<Command> for Vec<Signature> {
         let persistent_options = command
             .options
             .iter()
-            .filter_map(|option| option.is_persistent.then(|| option.clone()))
+            .filter(|&option| option.is_persistent).cloned()
             .collect_vec();
 
         let arguments = if command.args.is_empty() {
@@ -939,7 +939,7 @@ mod tests {
 
         let cli_opt: CommandOption = serde_json::from_str(json_string).unwrap();
         assert_eq!(
-            cli_opt.args.get(0).unwrap().default,
+            cli_opt.args.first().unwrap().default,
             Some(StringOrNumber::Number(8100))
         );
 
@@ -959,7 +959,7 @@ mod tests {
 
         let cli_opt: CommandOption = serde_json::from_str(json_string).unwrap();
         assert_eq!(
-            cli_opt.args.get(0).unwrap().default,
+            cli_opt.args.first().unwrap().default,
             Some(StringOrNumber::String("8100".into()))
         );
     }
@@ -982,7 +982,7 @@ mod tests {
 
         let cli_opt: CommandOption = serde_json::from_str(json_string).unwrap();
         assert_eq!(
-            cli_opt.args.get(0).unwrap().suggestions,
+            cli_opt.args.first().unwrap().suggestions,
             vec![
                 NameOrSuggestion::Name("hdd".into()),
                 NameOrSuggestion::Name("ssd".into())
@@ -1005,7 +1005,7 @@ mod tests {
 
         let cli_opt: CommandOption = serde_json::from_str(json_string).unwrap();
         assert_eq!(
-            cli_opt.args.get(0).unwrap().suggestions,
+            cli_opt.args.first().unwrap().suggestions,
             vec![
                 Suggestion {
                     name: vec!["hdd".into()],
@@ -1047,7 +1047,7 @@ mod tests {
 
         let cli_opt: CommandOption = serde_json::from_str(json_string).unwrap();
         assert_eq!(
-            cli_opt.args.get(0).unwrap().suggestions,
+            cli_opt.args.first().unwrap().suggestions,
             vec![
                 NameOrSuggestion::Suggestion(Suggestion {
                     name: vec!["hdd".into()],

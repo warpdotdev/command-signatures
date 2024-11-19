@@ -215,18 +215,12 @@ mod tests {
     fn all_command_specs_have_no_newlines() {
         let generators = generators::dynamic_command_signature_data();
 
-        let token_test_cases = vec![
-            "true",
+        let token_test_cases = ["true",
             "hello world",
             "1",
             "1.0",
             "127.0.0.1",
-            "\\n",
-            // Note: We don't yet check if passing in strings which include newlines are safe.
-            // Many commands would blindly pass in a newline and not sanitize it, this
-            // may be the intended behavior but that means we can't test for it.
-            // "\n"
-        ];
+            "\\n"];
 
         for (generator_name, completion_data) in generators {
             completion_data
