@@ -1,8 +1,8 @@
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
-    Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, IconType, Suggestion,
 };
 
 enum KubetctlStatus {
@@ -33,7 +33,7 @@ fn space_delimited_option_value<'a>(tokens: &'a [&str], option_name: &str) -> Op
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> String {
+fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> CommandBuilder {
     let kubeconfig_value = space_delimited_option_value(tokens, "--kubeconfig")
         .map(|value| format!("--kubeconfig={value} "))
         .unwrap_or_else(|| "".to_owned());
@@ -46,6 +46,7 @@ fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> String {
         "kubectl {kubeconfig_value}{namespace_value}{}",
         subcommand.as_ref()
     )
+    .into()
 }
 
 fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
@@ -85,7 +86,7 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
 
 lazy_static! {
     pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, "api-resources -o name"),
+        |tokens, _| kubectl_script(tokens, "api-resources -o name").into(),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
@@ -133,7 +134,7 @@ lazy_static! {
                             tokens,
                             format!("get {} -o custom-columns=:.metadata.name", resource_type),
                         ),
-                        None => "".to_string(),
+                        None => "".into(),
                     }
                 },
                 |output| kubectl_post_process(output, None),
@@ -145,7 +146,7 @@ lazy_static! {
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "config get_clusters"),
+                |tokens, _| kubectl_script(tokens, "config get_clusters").into(),
                 |output| match KubetctlStatus::from_output(output) {
                     KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
                         GeneratorResults::default()
@@ -160,7 +161,7 @@ lazy_static! {
             );
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name"),
+                |tokens, _| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name").into(),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
@@ -183,9 +184,9 @@ lazy_static! {
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
                             format!(r#"get {resource} -o custom-columns=:.metadata.name 2>/dev/null | sed '/./ s/^/{resource}\//'"#),
-                        );
+                        ).into();
                     }
-                    kubectl_script(tokens, "api-resources -o name")
+                    kubectl_script(tokens, "api-resources -o name").into()
                 },
                 |output| kubectl_post_process(output, None),
             );
@@ -201,7 +202,7 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" "))
+            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" ")).into()
         },
         |output| kubectl_builtin_complete_post_process(output, None),
     );

@@ -455,6 +455,7 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
 fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
+        .unique()
         .filter_map(|line| {
             (!line.is_empty()).then(|| {
                 Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch)
@@ -624,7 +625,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "refs_remote_branches",
             Generator::script(
-                CommandBuilder::new(r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**"#).pipe("uniq -u"),
+                CommandBuilder::single_command(r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**""#),
                 post_process_git_for_each_ref,
             ),
         )
@@ -697,9 +698,9 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::new( r#"git --no-optional-locks status --short"#).pipe(r#"sed -ne '/^M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe( r#"git --no-optional-locks status --short"#, r#"sed -ne '/^M /p' -e '/A /p'"#)
                     } else {
-                        CommandBuilder::new(r#"git --no-optional-locks status --short"#).pipe(r#"sed -ne '/M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe(r#"git --no-optional-locks status --short"#, r#"sed -ne '/M /p' -e '/A /p'"#)
                     }
                 },
                 post_process_tracked_files,
