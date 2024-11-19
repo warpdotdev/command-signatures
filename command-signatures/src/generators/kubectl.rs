@@ -42,11 +42,10 @@ fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> CommandBuilde
         .map(|value| format!("--namespace={value} "))
         .unwrap_or_else(|| "".to_owned());
 
-    format!(
+    CommandBuilder::single_command(format!(
         "kubectl {kubeconfig_value}{namespace_value}{}",
         subcommand.as_ref()
-    )
-    .into()
+    ))
 }
 
 fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
@@ -134,7 +133,7 @@ lazy_static! {
                             tokens,
                             format!("get {} -o custom-columns=:.metadata.name", resource_type),
                         ),
-                        None => "".into(),
+                        None => CommandBuilder::single_command(""),
                     }
                 },
                 |output| kubectl_post_process(output, None),
@@ -202,7 +201,7 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" ")).into()
+            CommandBuilder::single_command(format!("{} 2>/dev/null | sed '$d'", generation_command.join(" ")))
         },
         |output| kubectl_builtin_complete_post_process(output, None),
     );

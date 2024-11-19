@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 const LIST_SESSIONS_COMMAND: &str = "screen -ls 2>/dev/null | sed '1d;$d' | sed '$d'";
@@ -20,23 +20,31 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("screen")
         .add_generator(
             "sessions",
-            Generator::script(LIST_SESSIONS_COMMAND, |output| {
-                list_sessions(output)
-                    .filter_map(|session_line| session_line.split('\t').next().map(Suggestion::new))
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command(LIST_SESSIONS_COMMAND),
+                |output| {
+                    list_sessions(output)
+                        .filter_map(|session_line| {
+                            session_line.split('\t').next().map(Suggestion::new)
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "detached_sessions",
-            Generator::script(LIST_SESSIONS_COMMAND, |output| {
-                list_sessions(output)
-                    .filter_map(|session_line| {
-                        if !session_line.ends_with("(Detached)") {
-                            return None;
-                        }
-                        session_line.split('\t').next().map(Suggestion::new)
-                    })
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command(LIST_SESSIONS_COMMAND),
+                |output| {
+                    list_sessions(output)
+                        .filter_map(|session_line| {
+                            if !session_line.ends_with("(Detached)") {
+                                return None;
+                            }
+                            session_line.split('\t').next().map(Suggestion::new)
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
 }

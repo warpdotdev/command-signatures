@@ -1,25 +1,29 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("tmuxinator")
         .add_generator(
             "projects",
-            Generator::script("tmuxinator list -n", |output| {
-                if output.starts_with("fatal:") {
-                    return GeneratorResults::default();
-                }
-                output
-                    .lines()
-                    .skip(1)
-                    .map(|line| Suggestion::with_description(line, "Project"))
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command("tmuxinator list -n"),
+                |output| {
+                    if output.starts_with("fatal:") {
+                        return GeneratorResults::default();
+                    }
+                    output
+                        .lines()
+                        .skip(1)
+                        .map(|line| Suggestion::with_description(line, "Project"))
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "session_names",
-            Generator::script("tmux ls", |output| {
+            Generator::script(CommandBuilder::single_command("tmux ls"), |output| {
                 if output.starts_with("fatal:") {
                     return GeneratorResults::default();
                 }

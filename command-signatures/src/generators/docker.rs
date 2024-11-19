@@ -1,8 +1,8 @@
 use serde::Deserialize;
 use serde_json::Result;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
-    Suggestion, TemplateFilter,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, IconType, Suggestion, TemplateFilter,
 };
 
 #[derive(Debug, serde::Deserialize)]
@@ -107,291 +107,331 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("docker")
         .add_generator(
             "running_docker_containers",
-            Generator::script("docker ps --format '{{ json . }}'", post_process_docker_ps),
+            Generator::script(
+                CommandBuilder::single_command("docker ps --format '{{ json . }}'"),
+                post_process_docker_ps,
+            ),
         )
         .add_generator(
             "all_docker_containers",
             Generator::script(
-                "docker ps -a --format '{{ json . }}'",
+                CommandBuilder::single_command("docker ps -a --format '{{ json . }}'"),
                 post_process_docker_ps,
             ),
         )
         .add_generator(
             "paused_docker_containers",
             Generator::script(
-                "docker ps --filter status=paused --format '{{ json . }}'",
+                CommandBuilder::single_command(
+                    "docker ps --filter status=paused --format '{{ json . }}'",
+                ),
                 post_process_docker_ps,
             ),
         )
         .add_generator(
             "all_local_images",
-            Generator::script("docker image ls --format '{{ json . }}'", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
+            Generator::script(
+                CommandBuilder::single_command("docker image ls --format '{{ json . }}'"),
+                |output| {
+                    if output.trim().is_empty() {
+                        return GeneratorResults::default();
+                    }
 
-                output
-                    .lines()
-                    .filter_map(|line| {
-                        let docker_image_output: Result<DockerImageOutput> =
-                            serde_json::from_str(line);
-                        if let Ok(docker_image_output) = docker_image_output {
-                            docker_image_output.repository.map(|repository| {
-                                Suggestion::new(repository).with_icon(IconType::DockerImage)
-                            })
-                        } else {
-                            log::warn!(
-                                "Unable to deserialize docker image output with err {:?}",
-                                docker_image_output.err().unwrap()
-                            );
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                    output
+                        .lines()
+                        .filter_map(|line| {
+                            let docker_image_output: Result<DockerImageOutput> =
+                                serde_json::from_str(line);
+                            if let Ok(docker_image_output) = docker_image_output {
+                                docker_image_output.repository.map(|repository| {
+                                    Suggestion::new(repository).with_icon(IconType::DockerImage)
+                                })
+                            } else {
+                                log::warn!(
+                                    "Unable to deserialize docker image output with err {:?}",
+                                    docker_image_output.err().unwrap()
+                                );
+                                None
+                            }
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "all_docker_contexts",
-            Generator::script("docker context list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_context_output: DockerContextOutput =
-                            serde_json::from_str(line).ok()?;
+            Generator::script(
+                CommandBuilder::single_command("docker context list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_context_output: DockerContextOutput =
+                                serde_json::from_str(line).ok()?;
 
-                        match (
-                            docker_context_output.name,
-                            docker_context_output.description,
-                        ) {
-                            (Some(name), Some(description)) => {
-                                Some(Suggestion::with_description(name, description))
+                            match (
+                                docker_context_output.name,
+                                docker_context_output.description,
+                            ) {
+                                (Some(name), Some(description)) => {
+                                    Some(Suggestion::with_description(name, description))
+                                }
+                                _ => None,
                             }
-                            _ => None,
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_docker_networks",
             Generator::script(
-                "docker network list --format '{{ json . }}'",
+                CommandBuilder::single_command("docker network list --format '{{ json . }}'"),
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_swarm_nodes",
-            Generator::script("docker node list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_swarm_output: DockerSwarmOutput =
-                            serde_json::from_str(line).ok()?;
-                        match (docker_swarm_output.id, docker_swarm_output.status) {
-                            (Some(id), Some(status)) => {
-                                Some(Suggestion::with_description(id, status))
+            Generator::script(
+                CommandBuilder::single_command("docker node list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_swarm_output: DockerSwarmOutput =
+                                serde_json::from_str(line).ok()?;
+                            match (docker_swarm_output.id, docker_swarm_output.status) {
+                                (Some(id), Some(status)) => {
+                                    Some(Suggestion::with_description(id, status))
+                                }
+                                _ => None,
                             }
-                            _ => None,
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_docker_plugins",
             Generator::script(
-                "docker plugin list --format '{{ json . }}'",
+                CommandBuilder::single_command("docker plugin list --format '{{ json . }}'"),
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_secrets",
             Generator::script(
-                "docker secret list --format '{{ json . }}'",
+                CommandBuilder::single_command("docker secret list --format '{{ json . }}'"),
                 shared_post_process,
             ),
         )
         .add_generator(
             "list_docker_services",
-            Generator::script("docker service list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
+            Generator::script(
+                CommandBuilder::single_command("docker service list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
 
-                        match (docker_output.name, docker_output.image) {
-                            (Some(name), Some(image)) => {
-                                Some(Suggestion::with_description(name, image))
+                            match (docker_output.name, docker_output.image) {
+                                (Some(name), Some(image)) => {
+                                    Some(Suggestion::with_description(name, image))
+                                }
+                                _ => None,
                             }
-                            _ => None,
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_docker_service_replicas",
-            Generator::script("docker service list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
+            Generator::script(
+                CommandBuilder::single_command("docker service list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
 
-                        match (docker_output.name, docker_output.image) {
-                            (Some(name), Some(image)) => {
-                                Some(Suggestion::with_description(format!("{}=", name), image))
+                            match (docker_output.name, docker_output.image) {
+                                (Some(name), Some(image)) => {
+                                    Some(Suggestion::with_description(format!("{}=", name), image))
+                                }
+                                _ => None,
                             }
-                            _ => None,
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_docker_stacks",
-            Generator::script("docker stack list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
-                        docker_output.name.map(Suggestion::new)
-                    })
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command("docker stack list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
+                            docker_output.name.map(Suggestion::new)
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "list_docker_volumes",
-            Generator::script("docker volume list --format '{{ json . }}'", |output| {
-                output
-                    .split('\n')
-                    .filter_map(|line| {
-                        let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
-                        docker_output.name.map(Suggestion::new)
-                    })
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command("docker volume list --format '{{ json . }}'"),
+                |output| {
+                    output
+                        .split('\n')
+                        .filter_map(|line| {
+                            let docker_output: DockerOutput = serde_json::from_str(line).ok()?;
+                            docker_output.name.map(Suggestion::new)
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "docker_images",
-            Generator::script("docker images -a --format '{{ json . }}'", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
+            Generator::script(
+                CommandBuilder::single_command("docker images -a --format '{{ json . }}'"),
+                |output| {
+                    if output.trim().is_empty() {
+                        return GeneratorResults::default();
+                    }
 
-                output
-                    .lines()
-                    .filter_map(|line| {
-                        let docker_image_output: Result<DockerImageOutput> =
-                            serde_json::from_str(line);
-                        if let Ok(docker_image_output) = docker_image_output {
-                            docker_image_output.repository.map(Suggestion::new)
-                        } else {
-                            log::warn!(
-                                "Unable to deserialize docker image output with err {:?}",
-                                docker_image_output.err().unwrap()
-                            );
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                    output
+                        .lines()
+                        .filter_map(|line| {
+                            let docker_image_output: Result<DockerImageOutput> =
+                                serde_json::from_str(line);
+                            if let Ok(docker_image_output) = docker_image_output {
+                                docker_image_output.repository.map(Suggestion::new)
+                            } else {
+                                log::warn!(
+                                    "Unable to deserialize docker image output with err {:?}",
+                                    docker_image_output.err().unwrap()
+                                );
+                                None
+                            }
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "docker_volumes",
-            Generator::script("docker volume ls --format '{{ json . }}'", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
+            Generator::script(
+                CommandBuilder::single_command("docker volume ls --format '{{ json . }}'"),
+                |output| {
+                    if output.trim().is_empty() {
+                        return GeneratorResults::default();
+                    }
 
-                output
-                    .lines()
-                    .filter_map(|line| {
-                        let docker_volume_output: Result<DockerVolumeOutput> =
-                            serde_json::from_str(line);
-                        if let Ok(docker_volume_output) = docker_volume_output {
-                            docker_volume_output.name.map(Suggestion::new)
-                        } else {
-                            log::warn!(
-                                "Unable to deserialize docker volume output with err {:?}",
-                                docker_volume_output.err().unwrap()
-                            );
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                    output
+                        .lines()
+                        .filter_map(|line| {
+                            let docker_volume_output: Result<DockerVolumeOutput> =
+                                serde_json::from_str(line);
+                            if let Ok(docker_volume_output) = docker_volume_output {
+                                docker_volume_output.name.map(Suggestion::new)
+                            } else {
+                                log::warn!(
+                                    "Unable to deserialize docker volume output with err {:?}",
+                                    docker_volume_output.err().unwrap()
+                                );
+                                None
+                            }
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "remove_images",
-            Generator::script("docker images -aq --format '{{ json . }}'", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
+            Generator::script(
+                CommandBuilder::single_command("docker images -aq --format '{{ json . }}'"),
+                |output| {
+                    if output.trim().is_empty() {
+                        return GeneratorResults::default();
+                    }
 
-                output
-                    .lines()
-                    .filter_map(|line| {
-                        let docker_image_output: Result<DockerImageOutput> =
-                            serde_json::from_str(line);
-                        if let Ok(docker_image_output) = docker_image_output {
-                            docker_image_output.repository.map(|repository| {
-                                Suggestion::new(repository).with_icon(IconType::DockerImage)
-                            })
-                        } else {
-                            log::info!(
-                                "Unable to deserialize docker image output with err {:?}",
-                                docker_image_output.err().unwrap()
-                            );
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                    output
+                        .lines()
+                        .filter_map(|line| {
+                            let docker_image_output: Result<DockerImageOutput> =
+                                serde_json::from_str(line);
+                            if let Ok(docker_image_output) = docker_image_output {
+                                docker_image_output.repository.map(|repository| {
+                                    Suggestion::new(repository).with_icon(IconType::DockerImage)
+                                })
+                            } else {
+                                log::info!(
+                                    "Unable to deserialize docker image output with err {:?}",
+                                    docker_image_output.err().unwrap()
+                                );
+                                None
+                            }
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "run_images",
-            Generator::script("docker images --format '{{ json . }}'", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
+            Generator::script(
+                CommandBuilder::single_command("docker images --format '{{ json . }}'"),
+                |output| {
+                    if output.trim().is_empty() {
+                        return GeneratorResults::default();
+                    }
 
-                output
-                    .lines()
-                    .filter_map(|image| {
-                        let docker_image_output: Result<DockerImageOutput> =
-                            serde_json::from_str(image);
-                        if let Ok(docker_image_output) = docker_image_output {
-                            if let (Some(repo), Some(size), Some(tag), Some(id)) = (
-                                docker_image_output.repository,
-                                docker_image_output.size,
-                                docker_image_output.tag,
-                                docker_image_output.id,
-                            ) {
-                                Some(
-                                    Suggestion::with_description(
-                                        repo,
-                                        format!("{}@{} -{}", id, tag, size),
+                    output
+                        .lines()
+                        .filter_map(|image| {
+                            let docker_image_output: Result<DockerImageOutput> =
+                                serde_json::from_str(image);
+                            if let Ok(docker_image_output) = docker_image_output {
+                                if let (Some(repo), Some(size), Some(tag), Some(id)) = (
+                                    docker_image_output.repository,
+                                    docker_image_output.size,
+                                    docker_image_output.tag,
+                                    docker_image_output.id,
+                                ) {
+                                    Some(
+                                        Suggestion::with_description(
+                                            repo,
+                                            format!("{}@{} -{}", id, tag, size),
+                                        )
+                                        .with_icon(IconType::DockerImage),
                                     )
-                                    .with_icon(IconType::DockerImage),
-                                )
+                                } else {
+                                    None
+                                }
                             } else {
+                                log::info!(
+                                    "Unable to deserialize docker image output with err {:?}",
+                                    docker_image_output.err().unwrap()
+                                );
                                 None
                             }
-                        } else {
-                            log::info!(
-                                "Unable to deserialize docker image output with err {:?}",
-                                docker_image_output.err().unwrap()
-                            );
-                            None
-                        }
-                    })
-                    .collect_unordered_results()
-            }),
+                        })
+                        .collect_unordered_results()
+                },
+            ),
         )
         .add_generator(
             "docker_image_with_tag_and_size",
             Generator::script(
-                "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
+                CommandBuilder::single_command(
+                    "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
+                ),
                 |output| {
                     output
                         .split('\n')

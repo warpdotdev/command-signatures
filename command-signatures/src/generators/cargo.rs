@@ -1,7 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 use serde_json::Result;
@@ -39,7 +40,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("cargo")
         .add_generator(
             "features_generators",
-            Generator::script("cargo metadata --no-deps --format-version 1", |output| {
+            Generator::script(CommandBuilder::single_command("cargo metadata --no-deps --format-version 1"), |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -58,7 +59,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "target_list",
-            Generator::script("rustc --print target-list", |output| {
+            Generator::script(CommandBuilder::single_command("rustc --print target-list"), |output| {
                 output
                     .lines()
                     .map(str::trim)
@@ -69,7 +70,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "dependencies",
-            Generator::script("cargo metadata --format-version 1", |output| {
+            Generator::script(CommandBuilder::single_command("cargo metadata --format-version 1"), |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -99,7 +100,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "bin_list",
-            Generator::script("cargo metadata --no-deps --format-version 1", |output| {
+            Generator::script(CommandBuilder::single_command("cargo metadata --no-deps --format-version 1"), |output| {
                 let metadata: Result<Metadata> = serde_json::from_str(output);
 
                 match metadata {
@@ -125,7 +126,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "spec",
             Generator::script(
-                r#"cargo install --list 2>/dev/null | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#,
+                CommandBuilder::single_command(r#"cargo install --list 2>/dev/null | \grep -E "^[a-zA-Z\\-]+\\sv" | cut -d ' ' -f 1"#),
                 |output| {
                     output
                         .lines()

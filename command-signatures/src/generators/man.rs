@@ -1,5 +1,5 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -16,7 +16,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     // gives all possible values to match on. For example, ls man[18] will run ls man1 and ls man8 and chain together the output
                     _ => "[18]"
                 };
-                format!("ls -1 $(man -w | sed 's#:#/man{} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq", section_glob).into()
+                CommandBuilder::single_command(format!("ls -1 $(man -w | sed 's#:#/man{} #g') 2>/dev/null | cut -f 1 -d . | sort | uniq", section_glob))
             },
             |output| {
                 output

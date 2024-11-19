@@ -1,5 +1,6 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 fn hosts(output: &str) -> GeneratorResults {
@@ -19,16 +20,25 @@ fn hosts(output: &str) -> GeneratorResults {
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("ssh")
-        .add_generator("hosts", Generator::script("cat ~/.ssh/config", hosts))
-        .add_generator("addresses", Generator::script("cat ~/.ssh/config", hosts))
+        .add_generator(
+            "hosts",
+            Generator::script(CommandBuilder::single_command("cat ~/.ssh/config"), hosts),
+        )
+        .add_generator(
+            "addresses",
+            Generator::script(CommandBuilder::single_command("cat ~/.ssh/config"), hosts),
+        )
         .add_generator(
             "known_hosts",
-            Generator::script("cat ~/.ssh/known_hosts", |output| {
-                output
-                    .lines()
-                    .filter_map(|line| line.split_once(' ').map(|(first, _)| first))
-                    .map(|known_host| Suggestion::with_description(known_host, "SSH Host"))
-                    .collect_unordered_results()
-            }),
+            Generator::script(
+                CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
+                |output| {
+                    output
+                        .lines()
+                        .filter_map(|line| line.split_once(' ').map(|(first, _)| first))
+                        .map(|known_host| Suggestion::with_description(known_host, "SSH Host"))
+                        .collect_unordered_results()
+                },
+            ),
         )
 }

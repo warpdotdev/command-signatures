@@ -2,7 +2,8 @@ use itertools::Itertools;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 /// Command that computes the `nx` workspace targets by executing `nx graph --file`.
@@ -84,61 +85,77 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("nx")
         .add_generator(
             "apps",
-            Generator::script("cat workspace.json", |output| {
-                process_workspace_json(output, |(name, project)| {
-                    project.project_type == "application" && !name.ends_with("-e2e")
-                })
-            }),
+            Generator::script(
+                CommandBuilder::single_command("cat workspace.json"),
+                |output| {
+                    process_workspace_json(output, |(name, project)| {
+                        project.project_type == "application" && !name.ends_with("-e2e")
+                    })
+                },
+            ),
         )
         .add_generator(
             "e2e_apps",
-            Generator::script("cat workspace.json", |output| {
-                process_workspace_json(output, |(name, project)| {
-                    project.project_type == "application" && name.ends_with("-e2e")
-                })
-            }),
+            Generator::script(
+                CommandBuilder::single_command("cat workspace.json"),
+                |output| {
+                    process_workspace_json(output, |(name, project)| {
+                        project.project_type == "application" && name.ends_with("-e2e")
+                    })
+                },
+            ),
         )
         .add_generator(
             "apps_and_libs",
-            Generator::script("cat workspace.json", |output| {
-                process_workspace_json(output, |_| true)
-            }),
+            Generator::script(
+                CommandBuilder::single_command("cat workspace.json"),
+                |output| process_workspace_json(output, |_| true),
+            ),
         )
         .add_generator(
             "local_schematics",
-            Generator::script("ls tools/schematics", process_generators),
+            Generator::script(
+                CommandBuilder::single_command("ls tools/schematics"),
+                process_generators,
+            ),
         )
         .add_generator(
             "local_generators",
-            Generator::script("ls tools/generators", process_generators),
+            Generator::script(
+                CommandBuilder::single_command("ls tools/generators"),
+                process_generators,
+            ),
         )
         .add_generator(
             "workspace_targets",
-            Generator::script(NX_WORKSPACE_TARGETS_COMMAND, |output| {
-                let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
-                    return GeneratorResults::default()
-                };
+            Generator::script(
+                CommandBuilder::single_command(NX_WORKSPACE_TARGETS_COMMAND),
+                |output| {
+                    let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
+                        return GeneratorResults::default();
+                    };
 
-                let suggestions = parsed_output
-                    .graph
-                    .nodes
-                    .into_values()
-                    .flat_map(|node| {
-                        node.data.targets.into_keys().map(move |target| {
-                            let name = format!("{}:{target}", node.name);
-                            Suggestion::with_description(name, "nx target")
+                    let suggestions = parsed_output
+                        .graph
+                        .nodes
+                        .into_values()
+                        .flat_map(|node| {
+                            node.data.targets.into_keys().map(move |target| {
+                                let name = format!("{}:{target}", node.name);
+                                Suggestion::with_description(name, "nx target")
+                            })
                         })
-                    })
-                    .unique();
-                GeneratorResults {
-                    suggestions: suggestions.collect(),
-                    is_ordered: false,
-                }
-            }),
+                        .unique();
+                    GeneratorResults {
+                        suggestions: suggestions.collect(),
+                        is_ordered: false,
+                    }
+                },
+            ),
         )
         .add_generator(
             "installed_plugins",
-            Generator::script("nx list", |output| {
+            Generator::script(CommandBuilder::single_command("nx list"), |output| {
                 if output.contains("Installed plugins") {
                     if let Some(installed_plugins) = output.split('>').nth(1) {
                         installed_plugins
