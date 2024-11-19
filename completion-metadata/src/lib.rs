@@ -194,7 +194,7 @@ impl PartialOrd for Importance {
 pub struct Order(pub u32);
 impl Order {
     fn normalized(self) -> Self {
-        let bounded_weight: u32 = self.0.max(MIN_ORDER_VAL).min(MAX_ORDER_VAL);
+        let bounded_weight: u32 = self.0.clamp(MIN_ORDER_VAL, MAX_ORDER_VAL);
         Order(bounded_weight)
     }
 }
