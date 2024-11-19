@@ -86,7 +86,7 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
 
 lazy_static! {
     pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, "api-resources -o name").into(),
+        |tokens, _| kubectl_script(tokens, "api-resources -o name"),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
@@ -146,7 +146,7 @@ lazy_static! {
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "config get_clusters").into(),
+                |tokens, _| kubectl_script(tokens, "config get_clusters"),
                 |output| match KubetctlStatus::from_output(output) {
                     KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
                         GeneratorResults::default()
@@ -161,7 +161,7 @@ lazy_static! {
             );
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name").into(),
+                |tokens, _| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name"),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
@@ -184,9 +184,9 @@ lazy_static! {
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
                             format!(r#"get {resource} -o custom-columns=:.metadata.name 2>/dev/null | sed '/./ s/^/{resource}\//'"#),
-                        ).into();
+                        );
                     }
-                    kubectl_script(tokens, "api-resources -o name").into()
+                    kubectl_script(tokens, "api-resources -o name")
                 },
                 |output| kubectl_post_process(output, None),
             );
