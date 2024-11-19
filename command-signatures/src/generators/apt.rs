@@ -1,7 +1,7 @@
 /// Used for debian-based package managers like apt-get, aptitude, etc.
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Priority,
-    Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Priority, Suggestion,
 };
 
 const LIST_ALL_PACKAGES_NAME: &str = "list_all_packages";
@@ -37,11 +37,17 @@ pub fn apt_get_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("apt-get")
         .add_generator(
             LIST_ALL_PACKAGES_NAME,
-            Generator::script(LIST_ALL_PACKAGES_COMMAND, list_all_packages),
+            Generator::script(
+                CommandBuilder::single_command(LIST_ALL_PACKAGES_COMMAND),
+                list_all_packages,
+            ),
         )
         .add_generator(
             LIST_ALL_DEB_FILES_NAME,
-            Generator::script(LIST_ALL_DEB_FILES_COMMAND, list_all_deb_files_in_cwd),
+            Generator::script(
+                CommandBuilder::single_command(LIST_ALL_DEB_FILES_COMMAND),
+                list_all_deb_files_in_cwd,
+            ),
         )
 }
 
@@ -49,10 +55,16 @@ pub fn aptitude_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("aptitude")
         .add_generator(
             LIST_ALL_PACKAGES_NAME,
-            Generator::script(LIST_ALL_PACKAGES_COMMAND, list_all_packages),
+            Generator::script(
+                CommandBuilder::single_command(LIST_ALL_PACKAGES_COMMAND),
+                list_all_packages,
+            ),
         )
         .add_generator(
             LIST_ALL_DEB_FILES_NAME,
-            Generator::script(LIST_ALL_DEB_FILES_COMMAND, list_all_deb_files_in_cwd),
+            Generator::script(
+                CommandBuilder::single_command(LIST_ALL_DEB_FILES_COMMAND),
+                list_all_deb_files_in_cwd,
+            ),
         )
 }

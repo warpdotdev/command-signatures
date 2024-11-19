@@ -1,7 +1,7 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Importance, Order, Priority,
-    Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Importance,
+    Order, Priority, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -19,7 +19,7 @@ pub fn generator() -> CommandSignatureGenerators {
         //     hdrs = ["hello-time.h"],
         //     visibility = ["//main:__pkg__"],
         // )
-        Generator::script(r#"FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#, |output| {
+        Generator::script(CommandBuilder::single_command(r#"FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#), |output| {
             let mut targets = Vec::new();
             let mut current_path = String::new();
             for line in output.lines() {

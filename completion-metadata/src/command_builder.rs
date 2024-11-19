@@ -40,20 +40,6 @@ impl CommandPart {
 #[derive(Clone, Debug)]
 pub struct CommandBuilder(CommandPart);
 
-// TOOD(alokedesai): Remove these temporary conversion methods once all of the generators in this
-// crate have been migrated to the new struct.
-impl From<String> for CommandBuilder {
-    fn from(command: String) -> Self {
-        Self::single_command(command)
-    }
-}
-
-impl From<&str> for CommandBuilder {
-    fn from(command: &str) -> Self {
-        Self::single_command(command.to_owned())
-    }
-}
-
 impl CommandBuilder {
     /// Constructs a new [`CommandBuilder`] for a _single_ command.
     /// See the [`Self::and`] and [`Self::pipe`] constructors for chaining multiple commands
