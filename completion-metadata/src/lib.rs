@@ -1,3 +1,4 @@
+mod command_builder;
 pub mod fig_types;
 mod signature;
 
@@ -6,6 +7,8 @@ pub use signature::*;
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
+
+pub use command_builder::CommandBuilder;
 
 const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;
@@ -241,6 +244,24 @@ impl From<CommandSignatureGenerators> for (String, DynamicCompletionData) {
                 aliases: command_generators.aliases,
             },
         )
+    }
+}
+
+/// The shell type that a command will be run in.
+#[derive(Copy, Clone)]
+pub enum Shell {
+    /// A shell that can assume POSIX-compliant syntax.
+    Posix,
+    Powershell,
+}
+
+impl Shell {
+    /// Returns the shell-specific way to ignore `stderr`.
+    fn ignore_stderr(&self) -> &'static str {
+        match self {
+            Shell::Posix => "2>/dev/null",
+            Shell::Powershell => "2> $null",
+        }
     }
 }
 

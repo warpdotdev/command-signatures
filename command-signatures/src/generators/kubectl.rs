@@ -1,8 +1,8 @@
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, IconType,
-    Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, IconType, Suggestion,
 };
 
 enum KubetctlStatus {
@@ -33,7 +33,7 @@ fn space_delimited_option_value<'a>(tokens: &'a [&str], option_name: &str) -> Op
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> String {
+fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> CommandBuilder {
     let kubeconfig_value = space_delimited_option_value(tokens, "--kubeconfig")
         .map(|value| format!("--kubeconfig={value} "))
         .unwrap_or_else(|| "".to_owned());
@@ -46,6 +46,7 @@ fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> String {
         "kubectl {kubeconfig_value}{namespace_value}{}",
         subcommand.as_ref()
     )
+    .into()
 }
 
 fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
@@ -133,7 +134,7 @@ lazy_static! {
                             tokens,
                             format!("get {} -o custom-columns=:.metadata.name", resource_type),
                         ),
-                        None => "".to_string(),
+                        None => "".into(),
                     }
                 },
                 |output| kubectl_post_process(output, None),
@@ -201,7 +202,7 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" "))
+            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" ")).into()
         },
         |output| kubectl_builtin_complete_post_process(output, None),
     );

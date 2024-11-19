@@ -1,6 +1,6 @@
 use itertools::Itertools;
 use warp_completion_metadata::{
-    Alias, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
+    Alias, CommandBuilder, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
     GeneratorResultsCollector, IconType, Importance, Order, Priority, Suggestion,
 };
 
@@ -455,6 +455,7 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
 fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
+        .unique()
         .filter(|&line| (!line.is_empty())).map(|line| Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch))
         .collect_ordered_results()
 }
@@ -620,7 +621,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "refs_remote_branches",
             Generator::script(
-                r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**" 2>/dev/null | uniq -u"#,
+                CommandBuilder::single_command(r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**""#),
                 post_process_git_for_each_ref,
             ),
         )
@@ -691,11 +692,9 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        r#"git --no-optional-locks status --short 2>/dev/null | sed -ne '/^M /p' -e '/A /p'"#
-                            .to_string()
+                        CommandBuilder::pipe( r#"git --no-optional-locks status --short"#, r#"sed -ne '/^M /p' -e '/A /p'"#)
                     } else {
-                        r#"git --no-optional-locks status --short 2>/dev/null | sed -ne '/M /p' -e '/A /p'"#
-                            .to_string()
+                        CommandBuilder::pipe(r#"git --no-optional-locks status --short"#, r#"sed -ne '/M /p' -e '/A /p'"#)
                     }
                 },
                 post_process_tracked_files,

@@ -215,12 +215,7 @@ mod tests {
     fn all_command_specs_have_no_newlines() {
         let generators = generators::dynamic_command_signature_data();
 
-        let token_test_cases = ["true",
-            "hello world",
-            "1",
-            "1.0",
-            "127.0.0.1",
-            "\\n"];
+        let token_test_cases = ["true", "hello world", "1", "1.0", "127.0.0.1", "\\n"];
 
         for (generator_name, completion_data) in generators {
             completion_data
@@ -229,7 +224,8 @@ mod tests {
                 .for_each(|generator| match &generator.process {
                     GeneratorProcess::CommandFromTokens(func) => {
                         token_test_cases.iter().for_each(|&tokens| {
-                            let trailing_whitespace_result = func(&[tokens, " "], true);
+                            let builder = func(&[tokens, " "], true);
+                            let trailing_whitespace_result = builder.build(Shell::Posix);
                             assert!(
                                 !has_unsafe_newlines(&trailing_whitespace_result),
                                 "[has_trailing_whitespace: true] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
@@ -237,7 +233,8 @@ mod tests {
                                 generator_name,
                                 trailing_whitespace_result
                             );
-                            let no_trailing_whitespace_result = func(&[tokens], false);
+                            let command_builder = func(&[tokens], false);
+                            let no_trailing_whitespace_result = command_builder.build(Shell::Posix);
                             assert!(
                                 !has_unsafe_newlines(&no_trailing_whitespace_result),
                                 "[has_trailing_whitespace: false] Tokens: `{}` - Generator `{}` has an unquoted newline in it: `{}`",
@@ -248,8 +245,9 @@ mod tests {
                         });
                     }
                     GeneratorProcess::ShellCommand(str) => {
+                        let str = str.build(Shell::Posix);
                         assert!(
-                            !has_unsafe_newlines(str),
+                            !has_unsafe_newlines(&str),
                             "Generator `{}` has an unquoted newline in it: `{}`",
                             generator_name,
                             str

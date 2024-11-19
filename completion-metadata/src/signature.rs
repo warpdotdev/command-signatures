@@ -1,4 +1,4 @@
-use super::{Priority, Suggestion};
+use super::{CommandBuilder, Priority, Suggestion};
 use crate::{Aliases, Filters, Generators, PathSuggestionType};
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Debug, Formatter};
@@ -371,15 +371,15 @@ pub enum GeneratorProcess {
     /// necessary so the completions generator can tell whether it's completing a partial token or a new token.
     /// Note that some options can take multiple whitespace-delimited args, so it's up to the generator to actually determine
     /// what suggestions to provide for a new token.
-    CommandFromTokens(fn(&[&str], bool) -> String),
-    ShellCommand(String),
+    CommandFromTokens(fn(&[&str], bool) -> CommandBuilder),
+    ShellCommand(CommandBuilder),
 }
 
 impl Debug for GeneratorProcess {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::CommandFromTokens(_) => write!(f, "Context Generator"),
-            Self::ShellCommand(s) => write!(f, "{}", s),
+            Self::ShellCommand(s) => write!(f, "{:?}", s),
         }
     }
 }
@@ -396,7 +396,7 @@ pub struct Generator {
 
 impl Generator {
     pub fn script(
-        shell_command: impl Into<String>,
+        shell_command: impl Into<CommandBuilder>,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
@@ -406,7 +406,7 @@ impl Generator {
     }
 
     pub fn command_from_tokens(
-        command_from_tokens: fn(&[&str], bool) -> String,
+        command_from_tokens: fn(&[&str], bool) -> CommandBuilder,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {
