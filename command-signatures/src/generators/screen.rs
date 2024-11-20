@@ -7,7 +7,7 @@ lazy_static! {
     static ref LIST_SESSIONS_COMMAND: CommandBuilder = CommandBuilder::pipe(
         CommandBuilder::single_command("screen -ls 2"),
         CommandBuilder::pipe(
-            CommandBuilder::single_command("sed '1d;$d' | sed '$d'"),
+            CommandBuilder::single_command("sed '1d;$d'"),
             CommandBuilder::single_command("sed '$d'")
         )
     );
