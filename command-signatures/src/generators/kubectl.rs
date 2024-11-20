@@ -201,7 +201,7 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            CommandBuilder::pipe(CommandBuilder::single_command(format!("{}", generation_command.join(" "))), CommandBuilder::single_command("sed '$d'"))
+            CommandBuilder::pipe(CommandBuilder::single_command(generation_command.join(" ")), CommandBuilder::single_command("sed '$d'"))
 
         },
         |output| kubectl_builtin_complete_post_process(output, None),

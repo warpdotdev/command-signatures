@@ -714,13 +714,11 @@ pub fn generator() -> CommandSignatureGenerators {
                 |tokens, _| {
                     // If the `-r` flag is specified, only surface remote branches, otherwise only
                     // surface local branches.
-                    let command = if tokens.contains(&"-r") || tokens.contains(&"--remotes") {
+                    if tokens.contains(&"-r") || tokens.contains(&"--remotes") {
                         CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate")
                     } else {
                         CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate")
-                    };
-
-                    command.into()
+                    }
                 },
                 post_process_branches,
             ),
