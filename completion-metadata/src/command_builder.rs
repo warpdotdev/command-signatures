@@ -7,8 +7,8 @@ use std::borrow::Cow;
 #[derive(Clone, Debug)]
 enum CommandPart {
     /// A single command.
-    SingleCommand(String),
-    SingleCommandWithStdErrIgnored(String),
+    SingleCommand(Cow<'static, str>),
+    SingleCommandWithStdErrIgnored(Cow<'static, str>),
     /// Two commands separated by an and (i.e. `A && B`)
     And(Box<CommandPart>, Box<CommandPart>),
     /// Two command separated by a pipe (i.e. `A | B`)
@@ -55,11 +55,12 @@ impl CommandBuilder {
     /// Constructs a new [`CommandBuilder`] for a _single_ command.
     /// See the [`Self::and`] and [`Self::pipe`] constructors for chaining multiple commands
     /// together.
-    pub fn single_command(command: impl Into<String>) -> Self {
+    pub fn single_command(command: impl Into<Cow<'static, str>>) -> Self {
         Self(CommandPart::SingleCommand(command.into()))
     }
 
-    pub fn single_command_and_ignore_stderr(command: impl Into<String>) -> Self {
+    /// Constructs a new [`CommandBuilder`] for a single command where all stderr output is ignored.
+    pub fn single_command_and_ignore_stderr(command: impl Into<Cow<'static, str>>) -> Self {
         Self(CommandPart::SingleCommandWithStdErrIgnored(command.into()))
     }
 
@@ -82,6 +83,9 @@ impl CommandBuilder {
         ))
     }
 
+    /// Concats two command parts together. i.e. `Concat(A,B)` becomes `A B`. This is useful in rare
+    /// situations where there's a [`CommandBuilder`] for a subcommand that needs to be concatenated
+    /// with another [`CommandBuilder`] instance.
     pub fn concat(first_command: CommandBuilder, second_command: CommandBuilder) -> Self {
         Self(CommandPart::Concat(
             Box::new(first_command.0),
