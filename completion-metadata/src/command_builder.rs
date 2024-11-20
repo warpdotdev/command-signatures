@@ -7,8 +7,8 @@ use std::borrow::Cow;
 #[derive(Clone, Debug)]
 enum CommandPart {
     /// A single command.
-    SingleCommand(Cow<'static, str>),
-    SingleCommandWithStdErrIgnored(Cow<'static, str>),
+    SingleCommand(String),
+    SingleCommandWithStdErrIgnored(String),
     /// Two commands separated by an and (i.e. `A && B`)
     And(Box<CommandPart>, Box<CommandPart>),
     /// Two command separated by a pipe (i.e. `A | B`)
@@ -55,12 +55,12 @@ impl CommandBuilder {
     /// Constructs a new [`CommandBuilder`] for a _single_ command.
     /// See the [`Self::and`] and [`Self::pipe`] constructors for chaining multiple commands
     /// together.
-    pub fn single_command(command: impl Into<Cow<'static, str>>) -> Self {
+    pub fn single_command(command: impl Into<String>) -> Self {
         Self(CommandPart::SingleCommand(command.into()))
     }
 
     /// Constructs a new [`CommandBuilder`] for a single command where all stderr output is ignored.
-    pub fn single_command_and_ignore_stderr(command: impl Into<Cow<'static, str>>) -> Self {
+    pub fn single_command_and_ignore_stderr(command: impl Into<String>) -> Self {
         Self(CommandPart::SingleCommandWithStdErrIgnored(command.into()))
     }
 
