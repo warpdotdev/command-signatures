@@ -7,7 +7,10 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("tar").add_generator(
         "list_tar_files",
         Generator::script(
-            CommandBuilder::single_command("ls -1 2>/dev/null | grep '.tar'"),
+            CommandBuilder::pipe(
+                CommandBuilder::single_command("ls -1"),
+                CommandBuilder::single_command("grep '.tar'"),
+            ),
             |output| {
                 output
                     .trim()

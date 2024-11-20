@@ -7,7 +7,10 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "user_name",
             Generator::script(
-                CommandBuilder::single_command("dscl . -list /Users 2>/dev/null | grep -v '^_'"),
+                CommandBuilder::pipe(
+                    CommandBuilder::single_command("dscl . -list /Users"),
+                    CommandBuilder::single_command("grep -v '^_'"),
+                ),
                 |output| {
                     output
                         .trim()
@@ -20,7 +23,10 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "process_name",
             Generator::script(
-                CommandBuilder::single_command("ps -A -o comm 2>/dev/null | sort -u"),
+                CommandBuilder::pipe(
+                    CommandBuilder::single_command("ps -A -o comm"),
+                    CommandBuilder::single_command("sort -u"),
+                ),
                 |output| {
                     output
                         .trim()

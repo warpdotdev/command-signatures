@@ -8,10 +8,12 @@ use std::borrow::Cow;
 enum CommandPart {
     /// A single command.
     SingleCommand(String),
+    SingleCommandWithStdErrIgnored(String),
     /// Two commands separated by an and (i.e. `A && B`)
     And(Box<CommandPart>, Box<CommandPart>),
     /// Two command separated by a pipe (i.e. `A | B`)
     Pipe(Box<CommandPart>, Box<CommandPart>),
+    Concat(Box<CommandPart>, Box<CommandPart>),
 }
 
 impl CommandPart {
@@ -31,6 +33,15 @@ impl CommandPart {
                 command_2.command(shell)
             )
             .into(),
+            CommandPart::SingleCommandWithStdErrIgnored(command) => {
+                format!("{command} {}", shell.ignore_stderr()).into()
+            }
+            CommandPart::Concat(first_command, second_command) => format!(
+                "{} {}",
+                first_command.command(shell),
+                second_command.command(shell)
+            )
+            .into(),
         }
     }
 }
@@ -48,22 +59,33 @@ impl CommandBuilder {
         Self(CommandPart::SingleCommand(command.into()))
     }
 
+    pub fn single_command_and_ignore_stderr(command: impl Into<String>) -> Self {
+        Self(CommandPart::SingleCommandWithStdErrIgnored(command.into()))
+    }
+
     /// Constructs a new [`CommandBuilder`] for a series of commands that should be and'd together
     /// (i.e. `second_command` should only run iff `first_command` succeeds).
-    pub fn and(first_command: impl Into<String>, second_command: impl Into<String>) -> Self {
+    pub fn and(first_command: CommandBuilder, second_command: CommandBuilder) -> Self {
         Self(CommandPart::And(
-            Box::new(CommandPart::SingleCommand(first_command.into())),
-            Box::new(CommandPart::SingleCommand(second_command.into())),
+            Box::new(first_command.0),
+            Box::new(second_command.0),
         ))
     }
 
     /// Constructs a new [`CommandBuilder`] for a series of commands that should be piped together.
     /// Concretely, this means the stdout of `first_command` is passed as input to `second_command`.
     /// NOTE any stderr output from `first_command` is ignored.
-    pub fn pipe(first_command: impl Into<String>, second_command: impl Into<String>) -> Self {
+    pub fn pipe(first_command: CommandBuilder, second_command: CommandBuilder) -> Self {
         Self(CommandPart::Pipe(
-            Box::new(CommandPart::SingleCommand(first_command.into())),
-            Box::new(CommandPart::SingleCommand(second_command.into())),
+            Box::new(first_command.0),
+            Box::new(second_command.0),
+        ))
+    }
+
+    pub fn concat(first_command: CommandBuilder, second_command: CommandBuilder) -> Self {
+        Self(CommandPart::Concat(
+            Box::new(first_command.0),
+            Box::new(second_command.0),
         ))
     }
 

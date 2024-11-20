@@ -8,7 +8,10 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "services",
             Generator::script(
-                CommandBuilder::pipe("brew services list", "sed -e 's/ .*//' | tail -n +2"),
+                CommandBuilder::pipe(
+                    CommandBuilder::single_command("brew services list"),
+                    CommandBuilder::single_command("sed -e 's/ .*//' | tail -n +2"),
+                ),
                 |output| {
                     output
                         .trim()

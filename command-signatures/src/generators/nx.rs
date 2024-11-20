@@ -1,4 +1,5 @@
 use itertools::Itertools;
+use lazy_static::lazy_static;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
 use warp_completion_metadata::{
@@ -6,16 +7,22 @@ use warp_completion_metadata::{
     GeneratorResultsCollector, Suggestion,
 };
 
-/// Command that computes the `nx` workspace targets by executing `nx graph --file`.
-/// `nx graph` supports printing to stdout, but older versions of `nx` (before 19.20) had a bug
-/// where the output of `nx graph` could be truncated when printing to stdout (see https://github.com/nrwl/nx/issues/18689
-/// for more details).
-/// The workaround here is to write the output to a tmpfile and then `cat` that tmpfile. We execute
-/// this within a sh shell to ensure we are running in an environment where we can run POSIX-shell
-/// compliant commands to generate the output, even if the user is running a non-POSIX compliant
-/// shell (such as fish).
-const NX_WORKSPACE_TARGETS_COMMAND: &str =
-    "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp > /dev/null && cat $temp && rm $temp'";
+lazy_static! {
+    /// Command that computes the `nx` workspace targets by executing `nx graph --file`.
+    /// `nx graph` supports printing to stdout, but older versions of `nx` (before 19.20) had a bug
+    /// where the output of `nx graph` could be truncated when printing to stdout (see https://github.com/nrwl/nx/issues/18689
+    /// for more details).
+    /// The workaround here is to write the output to a tmpfile and then `cat` that tmpfile. We execute
+    /// this within a sh shell to ensure we are running in an environment where we can run POSIX-shell
+    /// compliant commands to generate the output, even if the user is running a non-POSIX compliant
+    /// shell (such as fish).
+    static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder = CommandBuilder::and(
+        CommandBuilder::single_command_and_ignore_stderr(
+            "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp"
+        ),
+        CommandBuilder::single_command("cat $temp && rm $temp'")
+    );
+}
 
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -128,30 +135,27 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "workspace_targets",
-            Generator::script(
-                CommandBuilder::single_command(NX_WORKSPACE_TARGETS_COMMAND),
-                |output| {
-                    let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
-                        return GeneratorResults::default();
-                    };
+            Generator::script(NX_WORKSPACE_TARGETS_COMMAND.clone(), |output| {
+                let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
+                    return GeneratorResults::default();
+                };
 
-                    let suggestions = parsed_output
-                        .graph
-                        .nodes
-                        .into_values()
-                        .flat_map(|node| {
-                            node.data.targets.into_keys().map(move |target| {
-                                let name = format!("{}:{target}", node.name);
-                                Suggestion::with_description(name, "nx target")
-                            })
+                let suggestions = parsed_output
+                    .graph
+                    .nodes
+                    .into_values()
+                    .flat_map(|node| {
+                        node.data.targets.into_keys().map(move |target| {
+                            let name = format!("{}:{target}", node.name);
+                            Suggestion::with_description(name, "nx target")
                         })
-                        .unique();
-                    GeneratorResults {
-                        suggestions: suggestions.collect(),
-                        is_ordered: false,
-                    }
-                },
-            ),
+                    })
+                    .unique();
+                GeneratorResults {
+                    suggestions: suggestions.collect(),
+                    is_ordered: false,
+                }
+            }),
         )
         .add_generator(
             "installed_plugins",

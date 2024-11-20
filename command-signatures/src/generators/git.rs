@@ -700,9 +700,9 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::pipe( r#"git --no-optional-locks status --short"#, r#"sed -ne '/^M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
                     } else {
-                        CommandBuilder::pipe(r#"git --no-optional-locks status --short"#, r#"sed -ne '/M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe(CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/M /p' -e '/A /p'"#))
                     }
                 },
                 post_process_tracked_files,

@@ -9,7 +9,10 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "process",
             Generator::script(
-                CommandBuilder::single_command("ps axo pid,comm 2>/dev/null | sed 1d"),
+                CommandBuilder::pipe(
+                    CommandBuilder::single_command("ps axo pid,comm"),
+                    CommandBuilder::single_command("sed 1d"),
+                ),
                 |output| {
                     output
                         .lines()
