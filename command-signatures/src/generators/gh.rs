@@ -1,14 +1,14 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("gh")
         .add_generator(
             "list_pr",
-            Generator::script("gh pr list", |output| {
+            Generator::script(CommandBuilder::single_command("gh pr list"), |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {
@@ -33,7 +33,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "list_alias",
-            Generator::script("gh alias list", |output| {
+            Generator::script(CommandBuilder::single_command("gh alias list"), |output| {
                 output
                     .split('\n')
                     .filter_map(|line| {

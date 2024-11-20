@@ -1,6 +1,6 @@
 use regex::Regex;
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
 use lazy_static::lazy_static;
@@ -8,17 +8,23 @@ use lazy_static::lazy_static;
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("firebase").add_generator(
         "project_aliases",
-        Generator::script("firebase projects:list", |output| {
-            RE.captures_iter(output)
-                // First element is the table header
-                .skip(1)
-                .filter_map(|capture| {
-                    capture.get(1).map(|project_name| {
-                        Suggestion::with_description(project_name.as_str().trim(), "ProjectAlias")
+        Generator::script(
+            CommandBuilder::single_command("firebase projects:list"),
+            |output| {
+                RE.captures_iter(output)
+                    // First element is the table header
+                    .skip(1)
+                    .filter_map(|capture| {
+                        capture.get(1).map(|project_name| {
+                            Suggestion::with_description(
+                                project_name.as_str().trim(),
+                                "ProjectAlias",
+                            )
+                        })
                     })
-                })
-                .collect_unordered_results()
-        }),
+                    .collect_unordered_results()
+            },
+        ),
     )
 }
 

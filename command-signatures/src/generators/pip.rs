@@ -1,5 +1,6 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 fn list_packages_post_process(output: &str) -> GeneratorResults {
@@ -13,13 +14,19 @@ fn list_packages_post_process(output: &str) -> GeneratorResults {
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pip").add_generator(
         "list_packages",
-        Generator::script("pip list", list_packages_post_process),
+        Generator::script(
+            CommandBuilder::single_command("pip list"),
+            list_packages_post_process,
+        ),
     )
 }
 
 pub fn pip3_generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pip3").add_generator(
         "list_packages",
-        Generator::script("pip3 list", list_packages_post_process),
+        Generator::script(
+            CommandBuilder::single_command("pip3 list"),
+            list_packages_post_process,
+        ),
     )
 }

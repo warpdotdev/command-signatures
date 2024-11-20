@@ -1,5 +1,6 @@
 use warp_completion_metadata::{
-    CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 fn tmux_post_process(output: &str) -> GeneratorResults {
@@ -20,19 +21,34 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("tmux")
         .add_generator(
             "target_session",
-            Generator::script("tmux ls", tmux_post_process),
+            Generator::script(CommandBuilder::single_command("tmux ls"), tmux_post_process),
         )
         .add_generator(
             "target_client",
-            Generator::script("tmux lsc", tmux_post_process),
+            Generator::script(
+                CommandBuilder::single_command("tmux lsc"),
+                tmux_post_process,
+            ),
         )
-        .add_generator("src_pane", Generator::script("tmux lsp", tmux_post_process))
+        .add_generator(
+            "src_pane",
+            Generator::script(
+                CommandBuilder::single_command("tmux lsp"),
+                tmux_post_process,
+            ),
+        )
         .add_generator(
             "window_name",
-            Generator::script("tmux lsw", tmux_post_process),
+            Generator::script(
+                CommandBuilder::single_command("tmux lsw"),
+                tmux_post_process,
+            ),
         )
         .add_generator(
             "buffer_name",
-            Generator::script("tmux lsb", tmux_post_process),
+            Generator::script(
+                CommandBuilder::single_command("tmux lsb"),
+                tmux_post_process,
+            ),
         )
 }

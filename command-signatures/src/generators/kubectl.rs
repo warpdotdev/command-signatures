@@ -33,7 +33,7 @@ fn space_delimited_option_value<'a>(tokens: &'a [&str], option_name: &str) -> Op
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> CommandBuilder {
+fn kubectl_script(tokens: &[&str], subcommand: CommandBuilder) -> CommandBuilder {
     let kubeconfig_value = space_delimited_option_value(tokens, "--kubeconfig")
         .map(|value| format!("--kubeconfig={value} "))
         .unwrap_or_else(|| "".to_owned());
@@ -42,11 +42,10 @@ fn kubectl_script(tokens: &[&str], subcommand: impl AsRef<str>) -> CommandBuilde
         .map(|value| format!("--namespace={value} "))
         .unwrap_or_else(|| "".to_owned());
 
-    format!(
-        "kubectl {kubeconfig_value}{namespace_value}{}",
-        subcommand.as_ref()
+    CommandBuilder::concat(
+        CommandBuilder::single_command(format!("kubectl {kubeconfig_value}{namespace_value}")),
+        subcommand,
     )
-    .into()
 }
 
 fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
@@ -86,36 +85,36 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
 
 lazy_static! {
     pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, "api-resources -o name"),
+        |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("api-resources -o name")),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
         |tokens, _| {
             kubectl_script(
                 tokens,
-                "get pods --field-selector=status.phase=Running -o name",
+                CommandBuilder::single_command("get pods --field-selector=status.phase=Running -o name"),
             )
         },
         |output| kubectl_post_process(output, Some(IconType::KubePod)),
     );
     pub(super) static ref DEPLOYMENTS_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| { kubectl_script(tokens, "get deployments -o custom-columns=:.metadata.name") },
+        |tokens, _| { kubectl_script(tokens, CommandBuilder::single_command("get deployments -o custom-columns=:.metadata.name")) },
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref NODE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, "get nodes -o custom-columns=:.metadata.name"),
+        |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get nodes -o custom-columns=:.metadata.name")),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref CLUSTER_ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens, _| {
-                    kubectl_script(tokens, "get clusterroles -o custom-columns=:.metadata.name")
+                    kubectl_script(tokens, CommandBuilder::single_command("get clusterroles -o custom-columns=:.metadata.name"))
                 },
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "get roles -o custom-columns=:.metadata.name"),
+                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get roles -o custom-columns=:.metadata.name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref RESOURCE_GENERATOR: Generator =
@@ -132,21 +131,21 @@ lazy_static! {
                     match resource_type {
                         Some(resource_type) => kubectl_script(
                             tokens,
-                            format!("get {} -o custom-columns=:.metadata.name", resource_type),
+                            CommandBuilder::single_command(format!("get {} -o custom-columns=:.metadata.name", resource_type)),
                         ),
-                        None => "".into(),
+                        None => CommandBuilder::single_command(""),
                     }
                 },
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref CONTEXT_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "config get-contexts -o name"),
+                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("config get-contexts -o name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "config get_clusters"),
+                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("config get_clusters")),
                 |output| match KubetctlStatus::from_output(output) {
                     KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
                         GeneratorResults::default()
@@ -161,7 +160,7 @@ lazy_static! {
             );
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, "get namespace -o custom-columns=:.metadata.name"),
+                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
@@ -183,10 +182,10 @@ lazy_static! {
                             tokens,
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
-                            format!(r#"get {resource} -o custom-columns=:.metadata.name 2>/dev/null | sed '/./ s/^/{resource}\//'"#),
+                            CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"sed '/./ s/^/{resource}\//'"#))
                         );
                     }
-                    kubectl_script(tokens, "api-resources -o name")
+                    kubectl_script(tokens, CommandBuilder::single_command("api-resources -o name"))
                 },
                 |output| kubectl_post_process(output, None),
             );
@@ -202,7 +201,8 @@ lazy_static! {
                 generation_command.push("\"\"");
             }
             // Skip the last line since it is metadata, not a completion result.
-            format!("{} 2>/dev/null | sed '$d'", generation_command.join(" ")).into()
+            CommandBuilder::pipe(CommandBuilder::single_command(generation_command.join(" ")), CommandBuilder::single_command("sed '$d'"))
+
         },
         |output| kubectl_builtin_complete_post_process(output, None),
     );

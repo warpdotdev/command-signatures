@@ -456,7 +456,10 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .unique()
-        .filter(|&line| (!line.is_empty())).map(|line| Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch))
+        .filter(|&line| (!line.is_empty()))
+        .map(|line| {
+            Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch)
+        })
         .collect_ordered_results()
 }
 
@@ -510,22 +513,27 @@ fn commit_line_to_suggestion(line: &str) -> Option<Suggestion> {
 }
 
 pub fn commits_generator() -> Generator {
-    Generator::script("git --no-optional-locks log --oneline", |output| {
-        let output = filter_messages(output);
-        if output.starts_with("fatal:") {
-            GeneratorResults::default()
-        } else {
-            output
-                .split('\n')
-                .filter_map(commit_line_to_suggestion)
-                .collect_ordered_results()
-        }
-    })
+    Generator::script(
+        CommandBuilder::single_command("git --no-optional-locks log --oneline"),
+        |output| {
+            let output = filter_messages(output);
+            if output.starts_with("fatal:") {
+                GeneratorResults::default()
+            } else {
+                output
+                    .split('\n')
+                    .filter_map(commit_line_to_suggestion)
+                    .collect_ordered_results()
+            }
+        },
+    )
 }
 
 pub fn local_branches_generator() -> Generator {
     Generator::script(
-        "git --no-optional-locks branch --no-color --sort=-committerdate",
+        CommandBuilder::single_command(
+            "git --no-optional-locks branch --no-color --sort=-committerdate",
+        ),
         post_process_branches,
     )
 }
@@ -536,7 +544,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "aliases",
             Generator::script(
-                "git --no-optional-locks config --get-regexp '^alias.'",
+                CommandBuilder::single_command("git --no-optional-locks config --get-regexp '^alias.'"),
                 |output| {
                     output
                         .split('\n')
@@ -558,7 +566,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "revs",
-            Generator::script("git rev-list --all --oneline", |output| {
+            Generator::script(CommandBuilder::single_command("git rev-list --all --oneline"), |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     GeneratorResults::default()
@@ -572,7 +580,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "stashes",
-            Generator::script("git --no-optional-locks stash list", |output| {
+            Generator::script(CommandBuilder::single_command("git --no-optional-locks stash list"), |output| {
                 let output = filter_messages(output);
                 if output.starts_with("fatal:") {
                     GeneratorResults::default()
@@ -595,7 +603,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             GeneratorName::new("treeish"),
             Generator::script(
-                "git --no-optional-locks diff --cached --name-only",
+                CommandBuilder::single_command("git --no-optional-locks diff --cached --name-only"),
                 |output| {
                     let output = filter_messages(output);
                     if output.starts_with("fatal:") {
@@ -630,14 +638,14 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "remote_branches",
             Generator::script(
-                r#"git for-each-ref --format="%(refname:strip=2)" "refs/remotes/**""#,
+                CommandBuilder::single_command(r#"git for-each-ref --format="%(refname:strip=2)" "refs/remotes/**""#),
                 post_process_git_for_each_ref,
             ),
         )
         .add_generator("local_branches", local_branches_generator())
         .add_generator(
             "remotes",
-            Generator::script("git --no-optional-locks remote -v", |output| {
+            Generator::script(CommandBuilder::single_command("git --no-optional-locks remote -v"), |output| {
                 let mut remote_urls = output.split('\n').fold(HashMap::new(), |mut dict, line| {
                     let mut pair = line.split('\t');
 
@@ -659,7 +667,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "tags",
             Generator::script(
-                "git --no-optional-locks tag --list --sort=-committerdate",
+                CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-committerdate"),
                 |output| {
                     output
                         .lines()
@@ -671,13 +679,13 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "files_for_staging",
             Generator::script(
-                "git --no-optional-locks status --short",
+                CommandBuilder::single_command("git --no-optional-locks status --short"),
                 post_process_tracked_files,
             ),
         )
         .add_generator(
             "settings_generator",
-            Generator::script("git config --get-regexp '.*'", |output| {
+            Generator::script(CommandBuilder::single_command("git config --get-regexp '.*'"), |output| {
                 output
                     .trim()
                     .lines()
@@ -692,9 +700,9 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::pipe( r#"git --no-optional-locks status --short"#, r#"sed -ne '/^M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
                     } else {
-                        CommandBuilder::pipe(r#"git --no-optional-locks status --short"#, r#"sed -ne '/M /p' -e '/A /p'"#)
+                        CommandBuilder::pipe(CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/M /p' -e '/A /p'"#))
                     }
                 },
                 post_process_tracked_files,
@@ -706,13 +714,11 @@ pub fn generator() -> CommandSignatureGenerators {
                 |tokens, _| {
                     // If the `-r` flag is specified, only surface remote branches, otherwise only
                     // surface local branches.
-                    let command = if tokens.contains(&"-r") || tokens.contains(&"--remotes") {
-                        "git --no-optional-locks branch -r --no-color --sort=-committerdate"
+                    if tokens.contains(&"-r") || tokens.contains(&"--remotes") {
+                        CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate")
                     } else {
-                        "git --no-optional-locks branch --no-color --sort=-committerdate"
-                    };
-
-                    command.into()
+                        CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate")
+                    }
                 },
                 post_process_branches,
             ),

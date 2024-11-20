@@ -1,6 +1,6 @@
 use warp_completion_metadata::{
-    Alias, CommandSignatureGenerators, Generator, GeneratorResults, GeneratorResultsCollector,
-    Suggestion,
+    Alias, CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
+    GeneratorResultsCollector, Suggestion,
 };
 
 use crate::generators::git::post_process_branches;
@@ -51,7 +51,9 @@ struct YarnListInfoTree {
 
 fn get_scripts_generator() -> Generator {
     Generator::script(
-        "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+        CommandBuilder::single_command(
+            "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+        ),
         |output| {
             if output.trim().is_empty() {
                 return GeneratorResults::default();
@@ -74,8 +76,8 @@ fn get_scripts_generator() -> Generator {
 
 /// Returns the list of executables located within the `node_modules` directory.
 fn executables_within_node_modules() -> Generator {
-    Generator::script(
-        "until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/",
+    Generator::script(CommandBuilder::single_command(
+        "until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/"),
         |output| {
             if output.trim().is_empty() {
                 return GeneratorResults::default();
@@ -89,61 +91,69 @@ fn executables_within_node_modules() -> Generator {
 }
 
 fn config_list() -> Generator {
-    Generator::script("yarn config list", |output| {
-        if output.trim().is_empty() {
-            return GeneratorResults::default();
-        }
-
-        let start_index = output.find('{');
-        let end_index = output.find('}');
-
-        if let (Some(start_index), Some(end_index)) = (start_index, end_index) {
-            // TODO: fix hacky code that was imported from Fig.
-            // reason: JSON parse was not working without double quotes
-            let output = &output[start_index..end_index + 1];
-            let output = output
-                .replace('\'', "\"")
-                .replace("/\'/gi", "\"")
-                .replace("lastUpdateCheck", "\"lastUpdateCheck\"")
-                .replace("registry:", "\"lastUpdateCheck\":");
-
-            let config_object: Result<HashMap<String, Value>> = serde_json::from_str(&output);
-            if let Ok(config_object) = config_object {
-                return config_object
-                    .into_keys()
-                    .map(Suggestion::new)
-                    .collect_unordered_results();
+    Generator::script(
+        CommandBuilder::single_command("yarn config list"),
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
             }
-        }
-        GeneratorResults::default()
-    })
+
+            let start_index = output.find('{');
+            let end_index = output.find('}');
+
+            if let (Some(start_index), Some(end_index)) = (start_index, end_index) {
+                // TODO: fix hacky code that was imported from Fig.
+                // reason: JSON parse was not working without double quotes
+                let output = &output[start_index..end_index + 1];
+                let output = output
+                    .replace('\'', "\"")
+                    .replace("/\'/gi", "\"")
+                    .replace("lastUpdateCheck", "\"lastUpdateCheck\"")
+                    .replace("registry:", "\"lastUpdateCheck\":");
+
+                let config_object: Result<HashMap<String, Value>> = serde_json::from_str(&output);
+                if let Ok(config_object) = config_object {
+                    return config_object
+                        .into_keys()
+                        .map(Suggestion::new)
+                        .collect_unordered_results();
+                }
+            }
+            GeneratorResults::default()
+        },
+    )
 }
 
 fn get_global_packages_generator() -> Generator {
-    Generator::script(r#"cat "$(yarn global dir)/package.json""#, |output| {
-        if output.trim().is_empty() {
-            return GeneratorResults::default();
-        }
+    Generator::script(
+        CommandBuilder::single_command(r#"cat "$(yarn global dir)/package.json""#),
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
 
-        let package_info: Option<PackageJsonInfo> = serde_json::from_str(output).ok();
+            let package_info: Option<PackageJsonInfo> = serde_json::from_str(output).ok();
 
-        let package_info = match package_info {
-            None => return GeneratorResults::default(),
-            Some(package_info) => package_info,
-        };
+            let package_info = match package_info {
+                None => return GeneratorResults::default(),
+                Some(package_info) => package_info,
+            };
 
-        package_info
-            .dependencies
-            .keys()
-            .chain(package_info.dev_dependencies.keys())
-            .map(Suggestion::new)
-            .collect_unordered_results()
-    })
+            package_info
+                .dependencies
+                .keys()
+                .chain(package_info.dev_dependencies.keys())
+                .map(Suggestion::new)
+                .collect_unordered_results()
+        },
+    )
 }
 
 fn dependencies_generator() -> Generator {
     Generator::script(
-        "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+        CommandBuilder::single_command(
+            "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
+        ),
         |output| {
             if output.trim().is_empty() {
                 return GeneratorResults::default();
@@ -180,23 +190,26 @@ fn dependencies_generator() -> Generator {
 }
 
 fn workspace_generator() -> Generator {
-    Generator::script("cat $(npm prefix)/package.json", |output| {
-        if output.trim().is_empty() {
-            return GeneratorResults::default();
-        }
+    Generator::script(
+        CommandBuilder::single_command("cat $(npm prefix)/package.json"),
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
 
-        let package_info: Result<NpmPackageJsonInfo> = serde_json::from_str(output);
-        let package_info = match package_info {
-            Err(_) => return GeneratorResults::default(),
-            Ok(package_info) => package_info,
-        };
+            let package_info: Result<NpmPackageJsonInfo> = serde_json::from_str(output);
+            let package_info = match package_info {
+                Err(_) => return GeneratorResults::default(),
+                Ok(package_info) => package_info,
+            };
 
-        package_info
-            .workspaces
-            .into_iter()
-            .map(|name| Suggestion::with_description(name, "Workspaces"))
-            .collect_unordered_results()
-    })
+            package_info
+                .workspaces
+                .into_iter()
+                .map(|name| Suggestion::with_description(name, "Workspaces"))
+                .collect_unordered_results()
+        },
+    )
 }
 
 fn script_alias_generator() -> Alias {
@@ -230,7 +243,10 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pnpm")
         .add_generator(
             "search_branches",
-            Generator::script("git branch --no-color", post_process_branches),
+            Generator::script(
+                CommandBuilder::single_command("git branch --no-color"),
+                post_process_branches,
+            ),
         )
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("dependencies_generator", dependencies_generator())
@@ -247,32 +263,35 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator(
             "all_dependencies_generator",
-            Generator::script("yarn list --depth=0 --json", |output| {
-                if output.trim().is_empty() {
-                    return GeneratorResults::default();
-                }
-
-                let yarn_list_info: YarnListInfo = match serde_json::from_str(output) {
-                    Ok(info) => info,
-                    Err(e) => {
-                        log::warn!(
-                            "Failed to deserialize all_dependencies_generator yarn output {:?}",
-                            e
-                        );
+            Generator::script(
+                CommandBuilder::single_command("yarn list --depth=0 --json"),
+                |output| {
+                    if output.trim().is_empty() {
                         return GeneratorResults::default();
                     }
-                };
 
-                yarn_list_info
-                    .data
-                    .trees
-                    .into_iter()
-                    .filter_map(|tree| {
-                        let name = tree.name.rsplit_once('@')?.0;
-                        Some(Suggestion::new(name))
-                    })
-                    .collect_ordered_results()
-            }),
+                    let yarn_list_info: YarnListInfo = match serde_json::from_str(output) {
+                        Ok(info) => info,
+                        Err(e) => {
+                            log::warn!(
+                                "Failed to deserialize all_dependencies_generator yarn output {:?}",
+                                e
+                            );
+                            return GeneratorResults::default();
+                        }
+                    };
+
+                    yarn_list_info
+                        .data
+                        .trees
+                        .into_iter()
+                        .filter_map(|tree| {
+                            let name = tree.name.rsplit_once('@')?.0;
+                            Some(Suggestion::new(name))
+                        })
+                        .collect_ordered_results()
+                },
+            ),
         )
         .add_generator(
             "executables_within_node_modules",
