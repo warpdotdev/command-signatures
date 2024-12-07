@@ -325,7 +325,8 @@ impl From<Command> for Vec<Signature> {
         let persistent_options = command
             .options
             .iter()
-            .filter(|&option| option.is_persistent).cloned()
+            .filter(|&option| option.is_persistent)
+            .cloned()
             .collect_vec();
 
         let arguments = if command.args.is_empty() {

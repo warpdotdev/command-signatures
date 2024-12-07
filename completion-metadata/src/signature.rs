@@ -109,7 +109,11 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter(|&name| is_short_hand_flag(name)).map(|name| AnnotatedFlag::from_option(option, name))
+                option
+                    .exact_string
+                    .iter()
+                    .filter(|&name| is_short_hand_flag(name))
+                    .map(|name| AnnotatedFlag::from_option(option, name))
             })
     }
 
@@ -120,7 +124,11 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter(|&name| is_long_hand_flag(name)).map(|name| AnnotatedFlag::from_option(option, name))
+                option
+                    .exact_string
+                    .iter()
+                    .filter(|&name| is_long_hand_flag(name))
+                    .map(|name| AnnotatedFlag::from_option(option, name))
             })
     }
 

@@ -24,12 +24,20 @@ impl KubetctlStatus {
 }
 
 /// Returns the value for the given `option_name`, which may be space delimited (--option value) or equals delimited (--option=value).
-fn space_or_equals_delimited_option_value<'a>(tokens: &'a [&str], option_name: &str) -> Option<&'a str> {
+fn space_or_equals_delimited_option_value<'a>(
+    tokens: &'a [&str],
+    option_name: &str,
+) -> Option<&'a str> {
     let option_name_equals = format!("{option_name}=");
-    let option_idx = tokens.iter().position(|token| *token == option_name || token.starts_with(&option_name_equals));
+    let option_idx = tokens
+        .iter()
+        .position(|token| *token == option_name || token.starts_with(&option_name_equals));
     option_idx.and_then(|idx| {
         // This option is equals delimited, so position is option_name=value
-        if let Some(equals_value) = tokens.get(idx).map(|token| token.strip_prefix(&option_name_equals)).flatten() {
+        if let Some(equals_value) = tokens
+            .get(idx)
+            .and_then(|token| token.strip_prefix(&option_name_equals))
+        {
             Some(equals_value)
         } else {
             // This option is space delimited, so value is the next token
@@ -42,7 +50,11 @@ fn space_or_equals_delimited_option_value<'a>(tokens: &'a [&str], option_name: &
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(env_vars: &[String], tokens: &[&str], subcommand: CommandBuilder) -> CommandBuilder {
+fn kubectl_script(
+    env_vars: &[String],
+    tokens: &[&str],
+    subcommand: CommandBuilder,
+) -> CommandBuilder {
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .map(|value| format!("--kubeconfig={value} "))
         .unwrap_or_else(|| "".to_owned());
@@ -53,7 +65,9 @@ fn kubectl_script(env_vars: &[String], tokens: &[&str], subcommand: CommandBuild
 
     let env_vars_str = env_vars.iter().join(" ");
     CommandBuilder::concat(
-        CommandBuilder::single_command(format!("{env_vars_str} kubectl {kubeconfig_value}{namespace_value}")),
+        CommandBuilder::single_command(format!(
+            "{env_vars_str} kubectl {kubeconfig_value}{namespace_value}"
+        )),
         subcommand,
     )
 }
