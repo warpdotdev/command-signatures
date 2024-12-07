@@ -224,7 +224,7 @@ mod tests {
                 .for_each(|generator| match &generator.process {
                     GeneratorProcess::CommandFromTokens(func) => {
                         token_test_cases.iter().for_each(|&tokens| {
-                            let builder = func(&[tokens, " "], true);
+                            let builder = func(&[tokens, " "], true, &[]);
                             let trailing_whitespace_result = builder.build(Shell::Posix);
                             assert!(
                                 !has_unsafe_newlines(&trailing_whitespace_result),
@@ -233,7 +233,7 @@ mod tests {
                                 generator_name,
                                 trailing_whitespace_result
                             );
-                            let command_builder = func(&[tokens], false);
+                            let command_builder = func(&[tokens], false, &[]);
                             let no_trailing_whitespace_result = command_builder.build(Shell::Posix);
                             assert!(
                                 !has_unsafe_newlines(&no_trailing_whitespace_result),
