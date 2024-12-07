@@ -29,7 +29,7 @@ pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
 /// On web, we don't embed command signatures into the binary. All requests for a command signature return
 /// None. In the future, we would like to investigate lazy loading this data.
 #[cfg(not(feature = "embed-signatures"))]
-pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
+pub fn signature_by_name(_name: impl AsRef<str>) -> Option<Signature> {
     None
 }
 
