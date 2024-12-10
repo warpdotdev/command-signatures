@@ -23,27 +23,51 @@ impl KubetctlStatus {
     }
 }
 
-/// Returns the value for the given `option_name`, which may only be space delimited.
-fn space_delimited_option_value<'a>(tokens: &'a [&str], option_name: &str) -> Option<&'a str> {
-    let option_idx = tokens.iter().position(|token| *token == option_name);
-    option_idx.and_then(|idx| tokens.get(idx + 1).copied())
+/// Returns the value for the given `option_name`, which may be space delimited (--option value) or equals delimited (--option=value).
+fn space_or_equals_delimited_option_value<'a>(
+    tokens: &'a [&str],
+    option_name: &str,
+) -> Option<&'a str> {
+    let option_name_equals = format!("{option_name}=");
+    let option_idx = tokens
+        .iter()
+        .position(|token| *token == option_name || token.starts_with(&option_name_equals));
+    option_idx.and_then(|idx| {
+        // This option is equals delimited, so position is option_name=value
+        if let Some(equals_value) = tokens
+            .get(idx)
+            .and_then(|token| token.strip_prefix(&option_name_equals))
+        {
+            Some(equals_value)
+        } else {
+            // This option is space delimited, so value is the next token
+            tokens.get(idx + 1).copied()
+        }
+    })
 }
 
 /// Returns a command string to run the given `subcommand` string with the same `--namespace` and/or
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(tokens: &[&str], subcommand: CommandBuilder) -> CommandBuilder {
-    let kubeconfig_value = space_delimited_option_value(tokens, "--kubeconfig")
+fn kubectl_script(
+    env_vars: &[String],
+    tokens: &[&str],
+    subcommand: CommandBuilder,
+) -> CommandBuilder {
+    let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .map(|value| format!("--kubeconfig={value} "))
         .unwrap_or_else(|| "".to_owned());
-    let namespace_value = space_delimited_option_value(tokens, "--namespace")
-        .or(space_delimited_option_value(tokens, "-n"))
+    let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
+        .or(space_or_equals_delimited_option_value(tokens, "-n"))
         .map(|value| format!("--namespace={value} "))
         .unwrap_or_else(|| "".to_owned());
 
+    let env_vars_str = env_vars.iter().join(" ");
     CommandBuilder::concat(
-        CommandBuilder::single_command(format!("kubectl {kubeconfig_value}{namespace_value}")),
+        CommandBuilder::single_command(format!(
+            "{env_vars_str} kubectl {kubeconfig_value}{namespace_value}"
+        )),
         subcommand,
     )
 }
@@ -85,12 +109,13 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
 
 lazy_static! {
     pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("api-resources -o name")),
+        |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("api-resources -o name")),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| {
+        |tokens, _, env_vars| {
             kubectl_script(
+                env_vars,
                 tokens,
                 CommandBuilder::single_command("get pods --field-selector=status.phase=Running -o name"),
             )
@@ -98,28 +123,28 @@ lazy_static! {
         |output| kubectl_post_process(output, Some(IconType::KubePod)),
     );
     pub(super) static ref DEPLOYMENTS_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| { kubectl_script(tokens, CommandBuilder::single_command("get deployments -o custom-columns=:.metadata.name")) },
+        |tokens, _, env_vars| { kubectl_script(env_vars, tokens, CommandBuilder::single_command("get deployments -o custom-columns=:.metadata.name")) },
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref NODE_GENERATOR: Generator = Generator::command_from_tokens(
-        |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get nodes -o custom-columns=:.metadata.name")),
+        |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get nodes -o custom-columns=:.metadata.name")),
         |output| kubectl_post_process(output, None),
     );
     pub(super) static ref CLUSTER_ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| {
-                    kubectl_script(tokens, CommandBuilder::single_command("get clusterroles -o custom-columns=:.metadata.name"))
+                |tokens, _, env_vars| {
+                    kubectl_script(env_vars, tokens, CommandBuilder::single_command("get clusterroles -o custom-columns=:.metadata.name"))
                 },
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get roles -o custom-columns=:.metadata.name")),
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get roles -o custom-columns=:.metadata.name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref RESOURCE_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, has_trailing_whitespace| {
+                |tokens, has_trailing_whitespace, env_vars| {
                     // If there is trailing whitepsace, the last token is a resource type.
                     let resource_type = if has_trailing_whitespace {
                         tokens.last()
@@ -130,6 +155,7 @@ lazy_static! {
                     };
                     match resource_type {
                         Some(resource_type) => kubectl_script(
+                            env_vars,
                             tokens,
                             CommandBuilder::single_command(format!("get {} -o custom-columns=:.metadata.name", resource_type)),
                         ),
@@ -140,12 +166,12 @@ lazy_static! {
             );
     pub(super) static ref CONTEXT_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("config get-contexts -o name")),
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get-contexts -o name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("config get_clusters")),
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get_clusters")),
                 |output| match KubetctlStatus::from_output(output) {
                     KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
                         GeneratorResults::default()
@@ -160,12 +186,12 @@ lazy_static! {
             );
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
-                |tokens, _| kubectl_script(tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
             Generator::command_from_tokens(
-                |tokens, _| {
+                |tokens, _, env_vars| {
                     // This is not correct (Fig's implementation is broken too). The last token
                     // might not be a an incomplete resource type/name token; it could be the value
                     // for an option. So, for example, if you specified a value for '--kubeconfig'
@@ -179,20 +205,23 @@ lazy_static! {
                         last_input.find('/').map(|index| &last_input[0..index])
                     }) {
                         return kubectl_script(
+                            env_vars,
                             tokens,
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
-                            CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"sed '/./ s/^/{resource}\//'"#))
+                            CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"env"#))
+                            // CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"sed '/./ s/^/{resource}\//'"#))
                         );
                     }
-                    kubectl_script(tokens, CommandBuilder::single_command("api-resources -o name"))
+                    kubectl_script(env_vars, tokens, CommandBuilder::single_command("api-resources -o name"))
                 },
                 |output| kubectl_post_process(output, None),
             );
     pub(super) static ref KUBECTL_BUILTIN_COMPLETION: Generator =
     Generator::command_from_tokens(
-        |tokens, has_trailing_whitespace| {
-            let mut generation_command = vec!["kubectl", "__complete"].into_iter().chain(
+        |tokens, has_trailing_whitespace, env_vars| {
+            let env_vars_str = env_vars.iter().join(" ");
+            let mut generation_command = vec![&env_vars_str, "kubectl", "__complete"].into_iter().chain(
                 // Skip the first token which is just "kubectl"
                 tokens.iter().skip(1).cloned()
             ).collect_vec();

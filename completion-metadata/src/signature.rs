@@ -109,7 +109,11 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter(|&name| is_short_hand_flag(name)).map(|name| AnnotatedFlag::from_option(option, name))
+                option
+                    .exact_string
+                    .iter()
+                    .filter(|&name| is_short_hand_flag(name))
+                    .map(|name| AnnotatedFlag::from_option(option, name))
             })
     }
 
@@ -120,7 +124,11 @@ impl Signature {
             .iter()
             .flat_map(|options| options.iter())
             .flat_map(|option| {
-                option.exact_string.iter().filter(|&name| is_long_hand_flag(name)).map(|name| AnnotatedFlag::from_option(option, name))
+                option
+                    .exact_string
+                    .iter()
+                    .filter(|&name| is_long_hand_flag(name))
+                    .map(|name| AnnotatedFlag::from_option(option, name))
             })
     }
 
@@ -369,9 +377,10 @@ pub enum GeneratorProcess {
     /// Tokens should contain every token in the input, including the last one which may still be incomplete.
     /// The second bool argument is whether there is trailing whitespace in the command. This is
     /// necessary so the completions generator can tell whether it's completing a partial token or a new token.
+    /// The third argument is a list of environment variables, passed as ["KEY=VALUE", ...].
     /// Note that some options can take multiple whitespace-delimited args, so it's up to the generator to actually determine
     /// what suggestions to provide for a new token.
-    CommandFromTokens(fn(&[&str], bool) -> CommandBuilder),
+    CommandFromTokens(fn(&[&str], bool, &[String]) -> CommandBuilder),
     ShellCommand(CommandBuilder),
 }
 
@@ -406,7 +415,7 @@ impl Generator {
     }
 
     pub fn command_from_tokens(
-        command_from_tokens: fn(&[&str], bool) -> CommandBuilder,
+        command_from_tokens: fn(&[&str], bool, &[String]) -> CommandBuilder,
         on_complete_callback: fn(&str) -> GeneratorResults,
     ) -> Self {
         Generator {

@@ -698,7 +698,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "get_changed_or_tracked_files",
             Generator::command_from_tokens(
-                |tokens, _| {
+                |tokens, _, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
                         CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
                     } else {
@@ -711,7 +711,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "local_or_remote_branch",
             Generator::command_from_tokens(
-                |tokens, _| {
+                |tokens, _, _| {
                     // If the `-r` flag is specified, only surface remote branches, otherwise only
                     // surface local branches.
                     if tokens.contains(&"-r") || tokens.contains(&"--remotes") {

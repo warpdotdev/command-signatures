@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("man").add_generator(
         "list_man_pages",
         Generator::command_from_tokens(
-            |tokens, _| {
+            |tokens, _, _| {
                 let section_glob = match tokens.last() {
                     Some(maybe_section)
                         if maybe_section.len() == 1
