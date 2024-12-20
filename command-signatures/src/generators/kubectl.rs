@@ -209,8 +209,7 @@ lazy_static! {
                             tokens,
                             // Pipe to sed to add a {resource}/ prefix to every non empty line returned by the kubectl command.
                             // We need this prefix to match the last token in the input.
-                            CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"env"#))
-                            // CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"sed '/./ s/^/{resource}\//'"#))
+                            CommandBuilder::pipe(CommandBuilder::single_command(format!(r#"get {resource} -o custom-columns=:.metadata.name"#)), CommandBuilder::single_command(r#"sed '/./ s/^/{resource}\//'"#))
                         );
                     }
                     kubectl_script(env_vars, tokens, CommandBuilder::single_command("api-resources -o name"))
