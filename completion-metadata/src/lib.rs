@@ -253,6 +253,7 @@ pub enum Shell {
     /// A shell that can assume POSIX-compliant syntax.
     Posix,
     Powershell,
+    CmdExe
 }
 
 impl Shell {
@@ -261,6 +262,7 @@ impl Shell {
         match self {
             Shell::Posix => "2>/dev/null",
             Shell::Powershell => "2> $null",
+            Shell::CmdExe => "2> NUL"
         }
     }
 }
