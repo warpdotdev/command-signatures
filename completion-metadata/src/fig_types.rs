@@ -273,8 +273,14 @@ pub enum Template {
     #[serde(rename = "filepaths")]
     FilePaths,
 
+    #[serde(rename = "filepathsMayNotExist")]
+    FilePathsMayNotExist,
+
     #[serde(rename = "folders")]
     Folders,
+
+    #[serde(rename = "foldersMayNotExist")]
+    FoldersMayNotExist,
 
     #[serde(rename = "history")]
     History,
@@ -477,8 +483,14 @@ impl TryFrom<Template> for crate::TemplateType {
 
     fn try_from(template: Template) -> Result<Self, Self::Error> {
         match template {
-            Template::FilePaths => Ok(crate::TemplateType::Files),
-            Template::Folders => Ok(crate::TemplateType::Folders),
+            Template::FilePaths => Ok(crate::TemplateType::Files { must_exist: true }),
+            Template::FilePathsMayNotExist => Ok(crate::TemplateType::Files {
+                must_exist: false,
+            }),
+            Template::Folders => Ok(crate::TemplateType::Folders { must_exist: true }),
+            Template::FoldersMayNotExist => Ok(crate::TemplateType::Folders {
+                must_exist: false,
+            }),
             Template::History | Template::Help => Err(()),
         }
     }
