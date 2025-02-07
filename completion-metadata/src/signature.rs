@@ -440,8 +440,12 @@ impl Debug for Generator {
 /// Prebuilt `Generator`s
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum TemplateType {
-    Files,
-    Folders,
+    Files {
+        must_exist: bool,
+    },
+    Folders {
+        must_exist: bool,
+    },
     #[allow(dead_code)]
     FilesAndFolders,
 }
