@@ -210,6 +210,8 @@ pub struct Argument {
     /// Whether this argument should itself be a top-level command (such as `sudo <arg>` or `time <arg>`). If true,
     /// the completer will surface completions for top level command here.
     pub is_command: bool,
+    /// Whether to skip generator validation for this argument.
+    pub skip_generator_validation: bool,
 }
 
 impl Argument {

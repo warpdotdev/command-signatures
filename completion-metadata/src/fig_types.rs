@@ -231,6 +231,9 @@ pub struct Arg {
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub generator_name: Vec<GeneratorName>,
 
+    #[serde(default, rename = "skipGeneratorValidation", skip_serializing_if = "<&bool>::not")]
+    pub skip_generator_validation: bool,
+
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub template: Vec<Template>,
@@ -425,6 +428,7 @@ impl From<Arg> for Argument {
             argument_types,
             optional,
             is_command: arg.is_command,
+            skip_generator_validation: arg.skip_generator_validation,
         }
     }
 }
