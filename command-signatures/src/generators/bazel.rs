@@ -19,7 +19,11 @@ pub fn generator() -> CommandSignatureGenerators {
         //     hdrs = ["hello-time.h"],
         //     visibility = ["//main:__pkg__"],
         // )
-        Generator::script(CommandBuilder::single_command(r#"FILES=( $(find ./ -name BUILD -o -name BUILD.bazel) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#), |output| {
+        Generator::script(CommandBuilder::single_command(
+r#"find ./ -name BUILD -o -name BUILD.bazel | while read -r f; do
+    echo "----$f"
+    cat "$f"
+done"#), |output| {
             let mut targets = Vec::new();
             let mut current_path = String::new();
             for line in output.lines() {
