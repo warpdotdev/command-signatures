@@ -19,30 +19,42 @@ pub fn generator() -> CommandSignatureGenerators {
         //     hdrs = ["hello-time.h"],
         //     visibility = ["//main:__pkg__"],
         // )
-        Generator::script(CommandBuilder::single_command(r#"FILES=( $(find ./ -name BUILD) ); for f in $FILES; do echo "----$f"; \cat "$f"; done"#), |output| {
-            let mut targets = Vec::new();
-            let mut current_path = String::new();
-            for line in output.lines() {
-                let file_path = FILE_RE.captures(line);
-                let bazel_target = BAZEL_RE.captures(line);
-                if let Some(path) = file_path {
-                    if let Some(path_match) = path.get(1) {
-                        current_path = format!("{}:", path_match.as_str());
-                    }
-                } else if let Some(bazel) = bazel_target {
-                    if let Some(bazel_match) = bazel.get(1) {
-                        let mut suggestion =Suggestion::with_description(format!("{}{}", current_path.clone(), bazel_match.as_str()), "Bazel target");
-                        suggestion.priority = Priority::Global(Importance::More(Order(80)));
-                        targets.push(suggestion);
+        Generator::script(
+            CommandBuilder::pipe(
+                // Find BUILD.bazel or BUILD files
+                CommandBuilder::single_command(
+                    r#"find ./ -type f \( -name BUILD.bazel -o -name BUILD \)"#,
+                ),
+                CommandBuilder::single_command(r#"xargs -I {} sh -c 'echo "----{}"; cat "{}";'"#),
+            ),
+            |output| {
+                let mut targets = Vec::new();
+                let mut current_path = String::new();
+                for line in output.lines() {
+                    let file_path = FILE_RE.captures(line);
+                    let bazel_target = BAZEL_RE.captures(line);
+                    if let Some(path) = file_path {
+                        if let Some(path_match) = path.get(1) {
+                            current_path = format!("{}:", path_match.as_str());
+                        }
+                    } else if let Some(bazel) = bazel_target {
+                        if let Some(bazel_match) = bazel.get(1) {
+                            let mut suggestion = Suggestion::with_description(
+                                format!("{}{}", current_path.clone(), bazel_match.as_str()),
+                                "Bazel target",
+                            );
+                            suggestion.priority = Priority::Global(Importance::More(Order(80)));
+                            targets.push(suggestion);
+                        }
                     }
                 }
-            }
-            targets.into_iter().collect_unordered_results()
-        }),
+                targets.into_iter().collect_unordered_results()
+            },
+        ),
     )
 }
 
 lazy_static! {
-    static ref FILE_RE: Regex = Regex::new(r"----.(.*)/BUILD").unwrap();
+    static ref FILE_RE: Regex = Regex::new(r"----.(.*)/BUILD(?:\.bazel)?").unwrap();
     static ref BAZEL_RE: Regex = Regex::new(r#"name = "(.*)""#).unwrap();
 }
