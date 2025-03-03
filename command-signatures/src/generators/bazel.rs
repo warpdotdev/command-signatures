@@ -21,15 +21,13 @@ pub fn generator() -> CommandSignatureGenerators {
         // )
         Generator::script(
             CommandBuilder::pipe(
-                // Use -type f to ensure we only get files, and print with -print to ensure consistent output
+                // Find BUILD.bazel or BUILD files
                 CommandBuilder::single_command(
-                    r#"find ./ -type f \( -name BUILD.bazel -o -name BUILD \) -print"#,
+                    r#"find ./ -type f \( -name BUILD.bazel -o -name BUILD \)"#,
                 ),
-                // Use xargs instead of while read to handle filenames more reliably
                 CommandBuilder::single_command(r#"xargs -I {} sh -c 'echo "----{}"; cat "{}";'"#),
             ),
             |output| {
-                println!("OUTPUT IS HERE");
                 let mut targets = Vec::new();
                 let mut current_path = String::new();
                 for line in output.lines() {
