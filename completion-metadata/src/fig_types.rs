@@ -231,6 +231,13 @@ pub struct Arg {
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub generator_name: Vec<GeneratorName>,
 
+    #[serde(
+        default,
+        rename = "skipGeneratorValidation",
+        skip_serializing_if = "<&bool>::not"
+    )]
+    pub skip_generator_validation: bool,
+
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub template: Vec<Template>,
@@ -425,6 +432,7 @@ impl From<Arg> for Argument {
             argument_types,
             optional,
             is_command: arg.is_command,
+            skip_generator_validation: arg.skip_generator_validation,
         }
     }
 }
@@ -484,13 +492,9 @@ impl TryFrom<Template> for crate::TemplateType {
     fn try_from(template: Template) -> Result<Self, Self::Error> {
         match template {
             Template::FilePaths => Ok(crate::TemplateType::Files { must_exist: true }),
-            Template::FilePathsMayNotExist => Ok(crate::TemplateType::Files {
-                must_exist: false,
-            }),
+            Template::FilePathsMayNotExist => Ok(crate::TemplateType::Files { must_exist: false }),
             Template::Folders => Ok(crate::TemplateType::Folders { must_exist: true }),
-            Template::FoldersMayNotExist => Ok(crate::TemplateType::Folders {
-                must_exist: false,
-            }),
+            Template::FoldersMayNotExist => Ok(crate::TemplateType::Folders { must_exist: false }),
             Template::History | Template::Help => Err(()),
         }
     }
@@ -684,7 +688,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -697,7 +702,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             }
                         ],
                         additional_suggestions: vec![],
@@ -745,7 +751,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -758,7 +765,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("value".to_string()),
@@ -771,7 +779,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             }
                         ],
                         additional_suggestions: vec![],
@@ -819,7 +828,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -832,7 +842,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             }
                         ],
                         additional_suggestions: vec![],
@@ -880,7 +891,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("old_key".to_string()),
@@ -893,7 +905,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             },
                             Arg {
                                 name: Some("new_key".to_string()),
@@ -906,7 +919,8 @@ mod tests {
                                 is_variadic: false,
                                 is_optional: false,
                                 is_command: false,
-                                default: None
+                                default: None,
+                                skip_generator_validation: false
                             }
                         ],
                         additional_suggestions: vec![],
