@@ -210,7 +210,9 @@ pub struct Argument {
     /// Whether this argument should itself be a top-level command (such as `sudo <arg>` or `time <arg>`). If true,
     /// the completer will surface completions for top level command here.
     pub is_command: bool,
-    /// Whether to skip generator validation for this argument.
+    /// Whether to skip generator validation for this argument. If false, this arg's generators
+    /// will be used to validate args in command suggestions.
+    /// In general, this should be true if the generators are not exhaustive of all valid arguments.
     pub skip_generator_validation: bool,
 }
 
