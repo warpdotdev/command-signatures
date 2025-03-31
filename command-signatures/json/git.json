@@ -7,7 +7,8 @@
         "name": "alias",
         "description": "Custom user defined git alias",
         "isOptional": true,
-        "generatorName": "aliases"
+        "generatorName": "aliases",
+        "skipGeneratorValidation": false
     },
     "options": [
         {
@@ -2989,7 +2990,8 @@
                     "description": "Starting point at which to create the new commits. If the --onto option is not specified, the starting point is <upstream>. May be any valid commit, and not just an existing branch name. As a special case, you may use 'A...B' as a shortcut for the merge base of A and B if there is exactly one merge base. You can leave out at most one of A and B, in which case it defaults to HEAD",
                     "args": {
                         "name": "newbase",
-                        "generatorName": "commits"
+                        "generatorName": "commits",
+                        "skipGeneratorValidation": true
                     }
                 },
                 {
@@ -3282,12 +3284,14 @@
                 {
                     "name": "base",
                     "generatorName": "local_branches",
-                    "isOptional": true
+                    "isOptional": true,
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "new base",
                     "generatorName": "local_branches",
-                    "isOptional": true
+                    "isOptional": true,
+                    "skipGeneratorValidation": false
                 }
             ]
         },
@@ -3420,7 +3424,8 @@
                 "isVariadic": true,
                 "isOptional": true,
                 "generatorName": "files_for_staging",
-                "template": "folders"
+                "template": "folders",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -3551,7 +3556,9 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                "generatorName": "files_for_staging"
+                "generatorName": "files_for_staging",
+                "template": "folders",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -3713,7 +3720,8 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                "generatorName": "files_for_staging"
+                "generatorName": "files_for_staging",
+                "skipGeneratorValidation": true
             }
         },
         {
@@ -3782,7 +3790,8 @@
             "args": {
                 "name": "commit",
                 "isOptional": true,
-                "generatorName": "commits"
+                "generatorName": "commits",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -4479,7 +4488,8 @@
                 "generatorName": [
                     "commits",
                     "get_changed_or_tracked_files"
-                ]
+                ],
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -4580,7 +4590,8 @@
                     "treeish",
                     "commits"
                 ]
-            }
+            },
+            "skipGeneratorValidation": true
         },
         {
             "name": "log",
@@ -6717,7 +6728,8 @@
                             "description": "Switch to the last used branch",
                             "icon": "fig://icon?type=git"
                         }
-                    ]
+                    ],
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "pathspec",
@@ -6753,7 +6765,8 @@
                 "name": "commit",
                 "description": "Commits to cherry-pick",
                 "isVariadic": true,
-                "generatorName": "commits"
+                "generatorName": "commits",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -7306,7 +7319,8 @@
                         "name": "-",
                         "description": "Shorthand for the previous branch"
                     }
-                ]
+                ],
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -7982,7 +7996,8 @@
                             "description": "Switch to the last used branch",
                             "icon": "fig://icon?type=git"
                         }
-                    ]
+                    ],
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "start point",
