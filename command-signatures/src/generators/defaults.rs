@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("defaults").add_generator(
         "domain_generator",
         Generator::script(
-            CommandBuilder::single_command("defaults domain"),
+            CommandBuilder::single_command("defaults domains"),
             |output| {
                 output
                     .trim()
