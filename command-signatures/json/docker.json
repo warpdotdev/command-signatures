@@ -28,7 +28,8 @@
             "description": "Build an image from a Dockerfile",
             "args": {
                 "name": "path",
-                "template": "folders"
+                "template": "folders",
+                "skipGeneratorValidation": true
             },
             "options": [
                 {
@@ -64,7 +65,8 @@
                     "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                     "args": {
                         "name": "string",
-                        "template": "filepaths"
+                        "template": "filepaths",
+                        "skipGeneratorValidation": false
                     }
                 },
                 {
@@ -190,7 +192,8 @@
             "args": [
                 {
                     "name": "container",
-                    "generatorName": "running_docker_containers"
+                    "generatorName": "running_docker_containers",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "[REPOSITORY[:TAG]]"
@@ -265,7 +268,8 @@
             "args": [
                 {
                     "name": "container",
-                    "generatorName": "all_local_images"
+                    "generatorName": "all_local_images",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "command",
@@ -937,7 +941,8 @@
             "description": "Inspect changes to files or directories on a container's filesystem",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -1059,7 +1064,8 @@
             "args": [
                 {
                     "name": "container",
-                    "generatorName": "running_docker_containers"
+                    "generatorName": "running_docker_containers",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "command",
@@ -1072,7 +1078,8 @@
             "description": "Export a container's filesystem as a tar archive",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1092,7 +1099,8 @@
             "description": "Show the history of an image",
             "args": {
                 "name": "image",
-                "generatorName": "all_local_images"
+                "generatorName": "all_local_images",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1231,7 +1239,8 @@
                     "all_docker_containers",
                     "docker_images",
                     "docker_volumes"
-                ]
+                ],
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1266,6 +1275,7 @@
             "args": {
                 "name": "container",
                 "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false,
                 "isVariadic": true
             },
             "options": [
@@ -1346,7 +1356,8 @@
             "description": "Fetch the logs of a container",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1398,7 +1409,8 @@
             "description": "Pause all processes within one or more containers",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -1407,7 +1419,8 @@
             "args": [
                 {
                     "name": "container",
-                    "generatorName": "running_docker_containers"
+                    "generatorName": "running_docker_containers",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "[PRIVATE_PORT[/PROTO]]"
@@ -1552,7 +1565,8 @@
             "args": [
                 {
                     "name": "container",
-                    "generatorName": "running_docker_containers"
+                    "generatorName": "running_docker_containers",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "NEW_NAME"
@@ -1564,7 +1578,8 @@
             "description": "Restart one or more containers",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1585,7 +1600,8 @@
             "args": {
                 "isVariadic": true,
                 "name": "containers",
-                "generatorName": "all_docker_containers"
+                "generatorName": "all_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -1617,6 +1633,7 @@
             "args": {
                 "name": "image",
                 "generatorName": "all_local_images",
+                "skipGeneratorValidation": false,
                 "isVariadic": true
             },
             "options": [
@@ -2334,7 +2351,8 @@
                 {
                     "name": "image",
                     "description": "The Docker image to use",
-                    "generatorName": "docker_image_with_tag_and_size"
+                    "generatorName": "docker_image_with_tag_and_size",
+                    "skipGeneratorValidation": false
                 },
                 {
                     "name": "command"
@@ -2346,7 +2364,8 @@
             "description": "Save one or more images to a tar archive (streamed to STDOUT by default)",
             "args": {
                 "name": "image",
-                "generatorName": "all_local_images"
+                "generatorName": "all_local_images",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2404,7 +2423,8 @@
             "description": "View the packaged-based Software Bill Of Materials (SBOM) for an image",
             "args": {
                 "name": "image",
-                "generatorName": "all_local_images"
+                "generatorName": "all_local_images",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2462,6 +2482,7 @@
                         "template": [
                             "filepaths"
                         ],
+                        "skipGeneratorValidation": true,
                         "suggestCurrentToken": true
                     }
                 },
@@ -2490,7 +2511,8 @@
             "description": "Start one or more stopped containers",
             "args": {
                 "name": "container",
-                "generatorName": "all_docker_containers"
+                "generatorName": "all_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2521,7 +2543,8 @@
             "description": "Display a live stream of container(s) resource usage statistics",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2553,7 +2576,8 @@
             "description": "Stop one or more running containers",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2580,7 +2604,8 @@
             "description": "Display the running processes of a container",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -2588,7 +2613,8 @@
             "description": "Unpause all processes within one or more containers",
             "args": {
                 "name": "container",
-                "generatorName": "paused_docker_containers"
+                "generatorName": "paused_docker_containers",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -2596,7 +2622,8 @@
             "description": "Update configuration of one or more containers",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             },
             "options": [
                 {
@@ -2744,7 +2771,8 @@
             "description": "Block until one or more containers stop, then print their exit codes",
             "args": {
                 "name": "container",
-                "generatorName": "running_docker_containers"
+                "generatorName": "running_docker_containers",
+                "skipGeneratorValidation": false
             }
         },
         {
@@ -2756,7 +2784,8 @@
                     "description": "Build an image from a Dockerfile",
                     "args": {
                         "name": "path",
-                        "template": "folders"
+                        "template": "folders",
+                        "skipGeneratorValidation": true
                     },
                     "options": [
                         {
@@ -2792,7 +2821,8 @@
                             "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                             "args": {
                                 "name": "string",
-                                "template": "filepaths"
+                                "template": "filepaths",
+                                "skipGeneratorValidation": false
                             }
                         },
                         {
@@ -3082,7 +3112,8 @@
                     "args": [
                         {
                             "name": "container",
-                            "generatorName": "all_local_images"
+                            "generatorName": "all_local_images",
+                            "skipGeneratorValidation": false
                         },
                         {
                             "name": "command",
@@ -3754,7 +3785,8 @@
                     "description": "Inspect changes to files or directories on a container's filesystem",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     }
                 },
                 {
@@ -3839,7 +3871,8 @@
                     "args": [
                         {
                             "name": "container",
-                            "generatorName": "running_docker_containers"
+                            "generatorName": "running_docker_containers",
+                            "skipGeneratorValidation": false
                         },
                         {
                             "name": "command",
@@ -3852,7 +3885,8 @@
                     "description": "Export a container's filesystem as a tar archive",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -3872,7 +3906,8 @@
                     "description": "Return low-level information on Docker objects",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -3900,6 +3935,7 @@
                     "args": {
                         "name": "container",
                         "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false,
                         "isVariadic": true
                     },
                     "options": [
@@ -3920,7 +3956,8 @@
                     "description": "Fetch the logs of a container",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4037,7 +4074,8 @@
                     "description": "Pause all processes within one or more containers",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     }
                 },
                 {
@@ -4046,7 +4084,8 @@
                     "args": [
                         {
                             "name": "container",
-                            "generatorName": "running_docker_containers"
+                            "generatorName": "running_docker_containers",
+                            "skipGeneratorValidation": false
                         },
                         {
                             "name": "[PRIVATE_PORT[/PROTO]]"
@@ -4079,7 +4118,8 @@
                     "args": [
                         {
                             "name": "container",
-                            "generatorName": "running_docker_containers"
+                            "generatorName": "running_docker_containers",
+                            "skipGeneratorValidation": false
                         },
                         {
                             "name": "NEW_NAME"
@@ -4091,7 +4131,8 @@
                     "description": "Restart one or more containers",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4112,7 +4153,8 @@
                     "args": {
                         "isVariadic": true,
                         "name": "containers",
-                        "generatorName": "all_docker_containers"
+                        "generatorName": "all_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4851,7 +4893,8 @@
                     "description": "Start one or more stopped containers",
                     "args": {
                         "name": "container",
-                        "generatorName": "all_docker_containers"
+                        "generatorName": "all_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4882,7 +4925,8 @@
                     "description": "Display a live stream of container(s) resource usage statistics",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4914,7 +4958,8 @@
                     "description": "Stop one or more running containers",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -4934,7 +4979,8 @@
                     "description": "Display the running processes of a container",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     }
                 },
                 {
@@ -4950,7 +4996,8 @@
                     "description": "Update configuration of one or more containers",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -5071,7 +5118,8 @@
                     "description": "Block until one or more containers stop, then print their exit codes",
                     "args": {
                         "name": "container",
-                        "generatorName": "running_docker_containers"
+                        "generatorName": "running_docker_containers",
+                        "skipGeneratorValidation": false
                     }
                 }
             ]
@@ -5231,7 +5279,8 @@
                         },
                         {
                             "name": "FILE",
-                            "template": "filepaths"
+                            "template": "filepaths",
+                            "skipGeneratorValidation": true
                         }
                     ],
                     "options": [
@@ -5451,7 +5500,8 @@
                     "description": "Build an image from a Dockerfile",
                     "args": {
                         "name": "path",
-                        "template": "folders"
+                        "template": "folders",
+                        "skipGeneratorValidation": true
                     },
                     "options": [
                         {
@@ -5487,7 +5537,8 @@
                             "description": "Name of the Dockerfile (Default is 'PATH/Dockerfile')",
                             "args": {
                                 "name": "string",
-                                "template": "filepaths"
+                                "template": "filepaths",
+                                "skipGeneratorValidation": false
                             }
                         },
                         {
@@ -5612,7 +5663,8 @@
                     "description": "Show the history of an image",
                     "args": {
                         "name": "image",
-                        "generatorName": "all_local_images"
+                        "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -5684,6 +5736,7 @@
                     "args": {
                         "name": "image",
                         "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false,
                         "isVariadic": true
                     },
                     "options": [
@@ -5864,6 +5917,7 @@
                     "args": {
                         "name": "image",
                         "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false,
                         "isVariadic": true
                     },
                     "options": [
@@ -5885,7 +5939,8 @@
                     "description": "Save one or more images to a tar archive (streamed to STDOUT by default)",
                     "args": {
                         "name": "image",
-                        "generatorName": "all_local_images"
+                        "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -5923,7 +5978,8 @@
                         },
                         {
                             "name": "container",
-                            "generatorName": "running_docker_containers"
+                            "generatorName": "running_docker_containers",
+                            "skipGeneratorValidation": false
                         }
                     ],
                     "options": [
@@ -6093,7 +6149,8 @@
                         },
                         {
                             "name": "container",
-                            "generatorName": "running_docker_containers"
+                            "generatorName": "running_docker_containers",
+                            "skipGeneratorValidation": false
                         }
                     ],
                     "options": [
@@ -6391,7 +6448,8 @@
                         },
                         {
                             "name": "PLUGIN-DATA-DIR",
-                            "template": "filepaths"
+                            "template": "filepaths",
+                            "skipGeneratorValidation": true
                         }
                     ],
                     "options": [
@@ -6611,7 +6669,8 @@
                         },
                         {
                             "name": "SECRET",
-                            "template": "filepaths"
+                            "template": "filepaths",
+                            "skipGeneratorValidation": true
                         }
                     ],
                     "options": [
@@ -6720,7 +6779,8 @@
                     "args": [
                         {
                             "name": "image",
-                            "generatorName": "all_local_images"
+                            "generatorName": "all_local_images",
+                            "skipGeneratorValidation": false
                         },
                         {
                             "name": "COMMAND",
@@ -8699,7 +8759,8 @@
                     "description": "Remove trust for an image",
                     "args": {
                         "name": "image",
-                        "generatorName": "all_local_images"
+                        "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {
@@ -8716,7 +8777,8 @@
                     "description": "Sign an image",
                     "args": {
                         "name": "image",
-                        "generatorName": "all_local_images"
+                        "generatorName": "all_local_images",
+                        "skipGeneratorValidation": false
                     },
                     "options": [
                         {

@@ -205,6 +205,10 @@ pub struct CommandOption {
     pub hidden: bool,
 }
 
+fn default_skip_generator_validation() -> bool {
+    true
+}
+
 #[serde_as]
 #[serde_with::skip_serializing_none]
 #[derive(Serialize, Deserialize, Debug, Default, PartialEq, Clone)]
@@ -232,7 +236,7 @@ pub struct Arg {
     pub generator_name: Vec<GeneratorName>,
 
     #[serde(
-        default,
+        default = "default_skip_generator_validation",
         rename = "skipGeneratorValidation",
         skip_serializing_if = "<&bool>::not"
     )]
@@ -689,7 +693,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -703,7 +707,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             }
                         ],
                         additional_suggestions: vec![],
@@ -752,7 +756,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -766,7 +770,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("value".to_string()),
@@ -780,7 +784,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             }
                         ],
                         additional_suggestions: vec![],
@@ -829,7 +833,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("key".to_string()),
@@ -843,7 +847,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             }
                         ],
                         additional_suggestions: vec![],
@@ -892,7 +896,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("old_key".to_string()),
@@ -906,7 +910,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             },
                             Arg {
                                 name: Some("new_key".to_string()),
@@ -920,7 +924,7 @@ mod tests {
                                 is_optional: false,
                                 is_command: false,
                                 default: None,
-                                skip_generator_validation: false
+                                skip_generator_validation: true
                             }
                         ],
                         additional_suggestions: vec![],
