@@ -5,6 +5,7 @@ use crate::{
 use serde::{Deserialize, Serialize};
 use serde_with::formats::{PreferMany, PreferOne};
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
+use std::borrow::Cow;
 use std::cmp::Ordering;
 use std::convert::TryFrom;
 use std::fmt;
@@ -325,7 +326,7 @@ pub enum NameOrSuggestion {
 impl From<NameOrSuggestion> for Vec<crate::Suggestion> {
     fn from(name_or_suggestion: NameOrSuggestion) -> Self {
         match name_or_suggestion {
-            NameOrSuggestion::Name(name) => vec![crate::Suggestion::new(name)],
+            NameOrSuggestion::Name(name) => vec![crate::Suggestion::new(html_unescape(name))],
             NameOrSuggestion::Suggestion(suggestion) => suggestion.into(),
         }
     }
@@ -373,13 +374,15 @@ impl From<Command> for Vec<Signature> {
             Some(command.options.into_iter().map(Into::into).collect_vec())
         };
 
+        let description_unescaped = command.description.map(html_unescape);
+
         command
             .name
             .into_iter()
             .map(|name| Signature {
-                name,
+                name: html_unescape(name),
                 alias_generator: command.alias_generator.clone(),
-                description: command.description.clone(),
+                description: description_unescaped.clone(),
                 arguments: arguments.clone(),
                 subcommands: subcommands.clone(),
                 options: options.clone(),
@@ -429,9 +432,12 @@ impl From<Arg> for Argument {
             IsArgumentOptional::Required
         };
 
+        let display_name = arg.name.map(html_unescape);
+        let description = arg.description.map(html_unescape);
+
         Argument {
-            display_name: arg.name,
-            description: arg.description,
+            display_name,
+            description,
             is_variadic: arg.is_variadic,
             argument_types,
             optional,
@@ -457,13 +463,15 @@ impl From<FigPriority> for Priority {
 
 impl From<Suggestion> for Vec<crate::Suggestion> {
     fn from(suggestion: Suggestion) -> Self {
+        let display_name = suggestion.display_name.map(html_unescape);
+        let description = suggestion.description.map(html_unescape);
         suggestion
             .name
             .into_iter()
             .map(|name| crate::Suggestion {
-                exact_string: name,
-                display_name: suggestion.display_name.clone(),
-                description: suggestion.description.clone(),
+                exact_string: html_unescape(name),
+                display_name: display_name.clone(),
+                description: description.clone(),
                 priority: suggestion
                     .priority
                     .map_or_else(Priority::default, Into::into),
@@ -477,8 +485,8 @@ impl From<Suggestion> for Vec<crate::Suggestion> {
 impl From<CommandOption> for Opt {
     fn from(option: CommandOption) -> Self {
         Opt {
-            exact_string: option.name,
-            description: option.description,
+            exact_string: option.name.into_iter().map(html_unescape).collect(),
+            description: option.description.map(html_unescape),
             arguments: if option.args.is_empty() {
                 None
             } else {
@@ -516,6 +524,15 @@ impl From<ParserDirectives> for crate::ParserDirectives {
             flags_match_unique_prefix,
             always_case_insensitive,
         }
+    }
+}
+
+/// Unescape HTML entities that Fig allows in `name` or `description` fields.
+fn html_unescape(input: String) -> String {
+    match html_escape::decode_html_entities(&input) {
+        // If the input is returned as-is, it contains no HTML entities so we can reuse the owned String.
+        Cow::Borrowed(_) => input,
+        Cow::Owned(transformed) => transformed,
     }
 }
 
