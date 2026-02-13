@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: dtolnay/rust-toolchain@1.85
-      with:
-        components: rustfmt, clippy
+    - uses: dtolnay/rust-toolchain@stable
     - name: Run cargo fmt
       run: cargo fmt -p warp-command-signatures -p warp-completion-metadata --check
     - name: Run cargo clippy
@@ -23,6 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: dtolnay/rust-toolchain@1.85
+    - uses: dtolnay/rust-toolchain@stable
     - name: Run tests
       run: cargo test --verbose
