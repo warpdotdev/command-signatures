@@ -83,16 +83,6 @@ When creating new specs, use these as reference:
 - **Simple spec with generator**: `json/kill.json` + `src/generators/kill.rs` — minimal example showing `generatorName` usage for process and signal completions
 - **Complex spec with multiple generators**: `json/brew.json` + `src/generators/brew.rs` — shows subcommands, options, and multiple generators (`formulae_generator`, `services`, etc.)
 
-## Local Development with warp-internal
-
-To test changes locally, update `warp-internal/Cargo.toml` to point to your local checkout:
-
-```toml
-warp-command-signatures = { path = "../command-signatures/command-signatures", default-features = false }
-```
-
-When ready to release, revert to the git dependency with the new commit hash.
-
 ## Key Types
 
 - `Signature`: Defines a command/subcommand (name, options, arguments, subcommands)
