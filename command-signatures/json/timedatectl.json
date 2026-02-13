@@ -1,0 +1,186 @@
+{
+  "name": "timedatectl",
+  "description": "Query or change system time and date settings",
+  "subcommands": [
+    {
+      "name": "status",
+      "description": "Show current time settings"
+    },
+    {
+      "name": "show",
+      "description": "Show properties of systemd-timedated",
+      "options": [
+        {
+          "name": ["-p", "--property"],
+          "description": "Show only properties by this name",
+          "args": {
+            "name": "name",
+            "description": "Property name"
+          }
+        },
+        {
+          "name": ["-a", "--all"],
+          "description": "Show all properties, including empty ones"
+        },
+        {
+          "name": "--value",
+          "description": "When showing properties, only print the value"
+        }
+      ]
+    },
+    {
+      "name": "set-time",
+      "description": "Set system time",
+      "args": {
+        "name": "time",
+        "description": "Time to set (YYYY-MM-DD HH:MM:SS)"
+      }
+    },
+    {
+      "name": "set-timezone",
+      "description": "Set system time zone",
+      "args": {
+        "name": "zone",
+        "description": "Time zone to set",
+        "generatorName": "list_timezones"
+      }
+    },
+    {
+      "name": "list-timezones",
+      "description": "Show known time zones"
+    },
+    {
+      "name": "set-local-rtc",
+      "description": "Control whether RTC is in local time",
+      "args": {
+        "name": "bool",
+        "description": "Whether RTC is in local time",
+        "suggestions": ["true", "false"]
+      }
+    },
+    {
+      "name": "set-ntp",
+      "description": "Enable or disable network time synchronization",
+      "args": {
+        "name": "bool",
+        "description": "Whether to enable NTP",
+        "suggestions": ["true", "false"]
+      }
+    },
+    {
+      "name": "timesync-status",
+      "description": "Show status of systemd-timesyncd"
+    },
+    {
+      "name": "show-timesync",
+      "description": "Show properties of systemd-timesyncd",
+      "options": [
+        {
+          "name": ["-p", "--property"],
+          "description": "Show only properties by this name",
+          "args": {
+            "name": "name",
+            "description": "Property name"
+          }
+        },
+        {
+          "name": ["-a", "--all"],
+          "description": "Show all properties, including empty ones"
+        },
+        {
+          "name": "--value",
+          "description": "When showing properties, only print the value"
+        }
+      ]
+    },
+    {
+      "name": "ntp-servers",
+      "description": "Set the interface specific NTP servers",
+      "args": [
+        {
+          "name": "interface",
+          "description": "Network interface"
+        },
+        {
+          "name": "server",
+          "description": "NTP server(s)",
+          "isVariadic": true
+        }
+      ]
+    },
+    {
+      "name": "revert",
+      "description": "Revert the interface specific NTP servers",
+      "args": {
+        "name": "interface",
+        "description": "Network interface"
+      }
+    }
+  ],
+  "options": [
+    {
+      "name": ["-h", "--help"],
+      "description": "Show this help message"
+    },
+    {
+      "name": "--version",
+      "description": "Show package version"
+    },
+    {
+      "name": "--no-pager",
+      "description": "Do not pipe output into a pager"
+    },
+    {
+      "name": "--no-ask-password",
+      "description": "Do not prompt for password"
+    },
+    {
+      "name": ["-H", "--host"],
+      "description": "Operate on remote host",
+      "args": {
+        "name": "host",
+        "description": "[USER@]HOST"
+      }
+    },
+    {
+      "name": ["-M", "--machine"],
+      "description": "Operate on local container",
+      "args": {
+        "name": "container",
+        "description": "Container name"
+      }
+    },
+    {
+      "name": "--adjust-system-clock",
+      "description": "Adjust system clock when changing local RTC mode"
+    },
+    {
+      "name": "--monitor",
+      "description": "Monitor status of systemd-timesyncd"
+    },
+    {
+      "name": ["-p", "--property"],
+      "description": "Show only properties by this name",
+      "args": {
+        "name": "name",
+        "description": "Property name"
+      }
+    },
+    {
+      "name": ["-a", "--all"],
+      "description": "Show all properties, including empty ones"
+    },
+    {
+      "name": "--value",
+      "description": "When showing properties, only print the value"
+    },
+    {
+      "name": "-P",
+      "description": "Equivalent to --value --property=NAME",
+      "args": {
+        "name": "name",
+        "description": "Property name"
+      }
+    }
+  ]
+}
