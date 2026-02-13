@@ -12,6 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: dtolnay/rust-toolchain@1.85
+      with:
+        components: rustfmt, clippy
     - name: Run cargo fmt
       uses: actions-rs/cargo@v1
       with:
@@ -26,6 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: dtolnay/rust-toolchain@1.85
     - name: Run tests
       uses: actions-rs/cargo@v1
       with:
