@@ -13,21 +13,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Run cargo fmt
-      uses: actions-rs/cargo@v1
-      with:
-        command: fmt
-        args: -p warp-command-signatures -p warp-completion-metadata
+      run: cargo fmt -p warp-command-signatures -p warp-completion-metadata --check
     - name: Run cargo clippy
-      uses: actions-rs/cargo@v1
-      with:
-        command: clippy
-        args: -p warp-command-signatures -p warp-completion-metadata --all-targets --all-features -- -D warnings
+      run: cargo clippy -p warp-command-signatures -p warp-completion-metadata --all-targets --all-features -- -D warnings
   test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Run tests
-      uses: actions-rs/cargo@v1
-      with:
-        command: test
-        args: --verbose
+      run: cargo test --verbose
