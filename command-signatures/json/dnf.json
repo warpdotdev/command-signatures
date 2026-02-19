@@ -1,855 +1,933 @@
 {
-  "name": "dnf",
-  "description": "Package manager for RPM-based Linux distributions (successor to yum)",
-  "subcommands": [
-    {
-      "name": "search",
-      "description": "Search the repositories for a package",
-      "priority": 100
-    },
-    {
-      "name": ["install", "in"],
-      "description": "Install the given package(s) and its dependencies",
-      "args": {
-        "name": "package",
-        "generatorName": ["list_rpm_files_in_cwd", "list_installed_packages"],
-        "template": "filepaths"
-      },
-      "priority": 100
-    },
-    {
-      "name": "remove",
-      "description": "Remove package(s)",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      },
-      "priority": 100
-    },
-    {
-      "name": "autoremove",
-      "description": "Removes packages installed as dependencies that are no longer required by currently installed programs",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      },
-      "priority": 90
-    },
-    {
-      "name": "check-update",
-      "description": "Checks for updates, but does not download or install the packages",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      },
-      "priority": 90
-    },
-    {
-      "name": "downgrade",
-      "description": "Reverts to the previous version of a package",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      },
-      "priority": 90
-    },
-    {
-      "name": "info",
-      "description": "Provides basic information about the package including name, version, release, and description",
-      "priority": 90
-    },
-    {
-      "name": "reinstall",
-      "description": "Reinstalls the currently installed package",
-      "priority": 90
-    },
-    {
-      "name": "upgrade",
-      "description": "Check the repositories for newer packages and updates them",
-      "priority": 90
-    },
-    {
-      "name": "exclude",
-      "description": "Exclude a package from the transaction",
-      "priority": 90
-    },
-    {
-      "name": "alias",
-      "description": "Define and manage a list of aliases",
-      "subcommands": [
-        { "name": "list", "description": "Lists all defined aliases" },
-        { "name": "add", "description": "Create new aliases" },
-        { "name": "delete", "description": "Delete aliases" }
-      ]
-    },
-    {
-      "name": "check",
-      "description": "Checks the local packagedb and produces information on any problems it finds"
-    },
-    {
-      "name": "clean",
-      "description": "Performs cleanup of temporary files kept for repositories",
-      "subcommands": [
+    "name": "dnf",
+    "description": "Package manager for RPM-based Linux distributions (successor to yum)",
+    "subcommands": [
         {
-          "name": "dbcache",
-          "description": "Removes cache files generated from the repository metadata"
+            "name": "search",
+            "description": "Search the repositories for a package",
+            "priority": 100
         },
         {
-          "name": "expire-cache",
-          "description": "Marks the repository metadata as expired"
-        },
-        {
-          "name": "metadata",
-          "description": "Removes repository metadata"
-        },
-        {
-          "name": "packages",
-          "description": "Removes any cached packages from the system"
-        },
-        {
-          "name": "all",
-          "description": "Does all of the below"
-        }
-      ]
-    },
-    {
-      "name": ["distro-sync", "dsync"],
-      "description": "Upgrades, downgrades, or keeps selected installed packages to match the latest version available from any enabled repository",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      }
-    },
-    {
-      "name": ["downgrade", "dg"],
-      "description": "Downgrades the specified packages to the highest installable package of all known lower versions",
-      "args": {
-        "name": "package",
-        "generatorName": "list_installed_packages"
-      },
-      "priority": 90
-    },
-    {
-      "name": ["group", "grp"],
-      "description": "Manage groups (virtual collections of packages)",
-      "subcommands": [
-        {
-          "name": "info",
-          "description": "Display package lists of a group"
-        },
-        {
-          "name": "install",
-          "description": "Mark the specified group installed and install packages it contains"
-        },
-        {
-          "name": "list",
-          "description": "List all matching groups"
-        },
-        {
-          "name": "remove",
-          "description": "Mark the group removed and remove the packages in the group that do not belong to another installed group and were not installed explicitly by the user"
-        },
-        {
-          "name": "upgrade",
-          "description": "Upgrades the packages from the group and upgrades the group itself"
-        },
-        {
-          "name": "mark",
-          "description": "Mark the specified group",
-          "subcommands": [
-            {
-              "name": "install",
-              "description": "Mark the specified group installed without actually installing"
-            },
-            {
-              "name": "remove",
-              "description": "Mark the specified group removed without actually removing"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name": "help",
-      "description": "Displays the help text for all commands"
-    },
-    {
-      "name": ["history", "hist"],
-      "description": "View what has happened in past transactions",
-      "options": [
-        {
-          "name": "--reverse",
-          "description": "Print the output in reverse order"
-        }
-      ],
-      "subcommands": [
-        {
-          "name": "info",
-          "description": "Describe the given transactions"
-        },
-        {
-          "name": "redo",
-          "description": "Repeat the specified transaction"
-        },
-        {
-          "name": "replay",
-          "description": "Replay a transaction file stored in file by the history store command",
-          "args": {
-            "name": "filename",
-            "template": "filepaths"
-          },
-          "options": [
-            {
-              "name": "--ignore-installed",
-              "description": "Don't check for the installed packages being in the same state as those recorded in the transaction"
-            },
-            {
-              "name": "--ignore-extras",
-              "description": "Don't check for extra packages pulled into the transaction on the target system"
-            },
-            {
-              "name": "--skip-unavailable",
-              "description": "Skip packages not available on the target system that are stored in the transaction"
-            }
-          ]
-        },
-        {
-          "name": "rollback",
-          "description": "Undo all transactions performed after the specified transaction"
-        },
-        {
-          "name": "store",
-          "description": "Store a transaction",
-          "options": [
-            {
-              "name": ["-o", "--output-file"],
-              "description": "Store the serialized transaction into the given file",
-              "args": {
-                "name": "output-file",
+            "name": [
+                "install",
+                "in"
+            ],
+            "description": "Install the given package(s) and its dependencies",
+            "args": {
+                "name": "package",
+                "generatorName": [
+                    "list_rpm_files_in_cwd",
+                    "list_installed_packages"
+                ],
                 "template": "filepaths"
-              }
+            },
+            "priority": 100
+        },
+        {
+            "name": "remove",
+            "description": "Remove package(s)",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
+            },
+            "priority": 100
+        },
+        {
+            "name": "autoremove",
+            "description": "Removes packages installed as dependencies that are no longer required by currently installed programs",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
+            },
+            "priority": 90
+        },
+        {
+            "name": "check-update",
+            "description": "Checks for updates, but does not download or install the packages",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
+            },
+            "priority": 90
+        },
+        {
+            "name": "downgrade",
+            "description": "Reverts to the previous version of a package",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
+            },
+            "priority": 90
+        },
+        {
+            "name": "info",
+            "description": "Provides basic information about the package including name, version, release, and description",
+            "priority": 90
+        },
+        {
+            "name": "reinstall",
+            "description": "Reinstalls the currently installed package",
+            "priority": 90
+        },
+        {
+            "name": "upgrade",
+            "description": "Check the repositories for newer packages and updates them",
+            "priority": 90
+        },
+        {
+            "name": "exclude",
+            "description": "Exclude a package from the transaction",
+            "priority": 90
+        },
+        {
+            "name": "alias",
+            "description": "Define and manage a list of aliases",
+            "subcommands": [
+                { "name": "list", "description": "Lists all defined aliases" },
+                { "name": "add", "description": "Create new aliases" },
+                { "name": "delete", "description": "Delete aliases" }
+            ]
+        },
+        {
+            "name": "check",
+            "description": "Checks the local packagedb and produces information on any problems it finds"
+        },
+        {
+            "name": "clean",
+            "description": "Performs cleanup of temporary files kept for repositories",
+            "subcommands": [
+                {
+                    "name": "dbcache",
+                    "description": "Removes cache files generated from the repository metadata"
+                },
+                {
+                    "name": "expire-cache",
+                    "description": "Marks the repository metadata as expired"
+                },
+                {
+                    "name": "metadata",
+                    "description": "Removes repository metadata"
+                },
+                {
+                    "name": "packages",
+                    "description": "Removes any cached packages from the system"
+                },
+                {
+                    "name": "all",
+                    "description": "Does all of the below"
+                }
+            ]
+        },
+        {
+            "name": [
+                "distro-sync",
+                "dsync"
+            ],
+            "description": "Upgrades, downgrades, or keeps selected installed packages to match the latest version available from any enabled repository",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
             }
-          ]
         },
         {
-          "name": "undo",
-          "description": "Perform the opposite operation to all operations performed in the specified transaction"
+            "name": [
+                "downgrade",
+                "dg"
+            ],
+            "description": "Downgrades the specified packages to the highest installable package of all known lower versions",
+            "args": {
+                "name": "package",
+                "generatorName": "list_installed_packages"
+            },
+            "priority": 90
         },
         {
-          "name": "userinstalled",
-          "description": "Show all install-only packages outside of DNF and packages not installed as a dependency"
-        }
-      ]
-    },
-    {
-      "name": ["info", "if"],
-      "description": "Lists description and summary information about installed and available packages"
-    },
-    {
-      "name": ["list", "ls"],
-      "description": "Prints lists of packages",
-      "options": [
-        {
-          "name": "--all",
-          "description": "Lists all packages, present in the RPMDB, in a repository, or both"
+            "name": [
+                "group",
+                "grp"
+            ],
+            "description": "Manage groups (virtual collections of packages)",
+            "subcommands": [
+                {
+                    "name": "info",
+                    "description": "Display package lists of a group"
+                },
+                {
+                    "name": "install",
+                    "description": "Mark the specified group installed and install packages it contains"
+                },
+                {
+                    "name": "list",
+                    "description": "List all matching groups"
+                },
+                {
+                    "name": "remove",
+                    "description": "Mark the group removed and remove the packages in the group that do not belong to another installed group and were not installed explicitly by the user"
+                },
+                {
+                    "name": "upgrade",
+                    "description": "Upgrades the packages from the group and upgrades the group itself"
+                },
+                {
+                    "name": "mark",
+                    "description": "Mark the specified group",
+                    "subcommands": [
+                        {
+                            "name": "install",
+                            "description": "Mark the specified group installed without actually installing"
+                        },
+                        {
+                            "name": "remove",
+                            "description": "Mark the specified group removed without actually removing"
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "name": "--installed",
-          "description": "Lists installed packages"
+            "name": "help",
+            "description": "Displays the help text for all commands"
         },
         {
-          "name": "--available",
-          "description": "Lists available packages"
+            "name": [
+                "history",
+                "hist"
+            ],
+            "description": "View what has happened in past transactions",
+            "options": [
+                {
+                    "name": "--reverse",
+                    "description": "Print the output in reverse order"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "info",
+                    "description": "Describe the given transactions"
+                },
+                {
+                    "name": "redo",
+                    "description": "Repeat the specified transaction"
+                },
+                {
+                    "name": "replay",
+                    "description": "Replay a transaction file stored in file by the history store command",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths"
+                    },
+                    "options": [
+                        {
+                            "name": "--ignore-installed",
+                            "description": "Don't check for the installed packages being in the same state as those recorded in the transaction"
+                        },
+                        {
+                            "name": "--ignore-extras",
+                            "description": "Don't check for extra packages pulled into the transaction on the target system"
+                        },
+                        {
+                            "name": "--skip-unavailable",
+                            "description": "Skip packages not available on the target system that are stored in the transaction"
+                        }
+                    ]
+                },
+                {
+                    "name": "rollback",
+                    "description": "Undo all transactions performed after the specified transaction"
+                },
+                {
+                    "name": "store",
+                    "description": "Store a transaction",
+                    "options": [
+                        {
+                            "name": [
+                                "-o",
+                                "--output-file"
+                            ],
+                            "description": "Store the serialized transaction into the given file",
+                            "args": {
+                                "name": "output-file",
+                                "template": "filepaths"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "undo",
+                    "description": "Perform the opposite operation to all operations performed in the specified transaction"
+                },
+                {
+                    "name": "userinstalled",
+                    "description": "Show all install-only packages outside of DNF and packages not installed as a dependency"
+                }
+            ]
         },
         {
-          "name": "--extras",
-          "description": "Lists extras (packages installed on the system that are not available in any known repository"
+            "name": [
+                "info",
+                "if"
+            ],
+            "description": "Lists description and summary information about installed and available packages"
         },
         {
-          "name": "--obsoletes",
-          "description": "List packages installed on the system that are obsoleted by packages in any known repository"
-        },
-        {
-          "name": "--recent",
-          "description": "List packages recently added into the repositories"
-        },
-        {
-          "name": "--upgrades",
-          "description": "Lists upgrades available for the installed packages"
-        },
-        {
-          "name": "--autoremove",
-          "description": "List packages which will be removed by dnf autoremove"
-        }
-      ],
-      "args": {
-        "generatorName": "list_installed_packages"
-      }
-    },
-    {
-      "name": ["makecache", "mc"],
-      "description": "Downloads and caches metadata for enabled repositories",
-      "options": [
-        {
-          "name": "--timer",
-          "description": "Instructs DNF to be more resource-aware"
-        }
-      ]
-    },
-    {
-      "name": "mark",
-      "description": "Mark package(s)",
-      "subcommands": [
-        {
-          "name": "install",
-          "description": "Marks the given packages as installed by the user"
-        },
-        {
-          "name": "remove",
-          "description": "Unmarks the given packages as installed by the user"
-        },
-        {
-          "name": "group",
-          "description": "Marks the specified packages as installed by group"
-        }
-      ],
-      "args": {
-        "generatorName": "list_installed_packages"
-      }
-    },
-    {
-      "name": "module",
-      "description": "Manage modules",
-      "subcommands": [
-        {
-          "name": "install",
-          "description": "Install module profiles, including their packages"
-        },
-        {
-          "name": "update",
-          "description": "Update packages associated with an active module stream"
-        },
-        {
-          "name": "switch-to",
-          "description": "Switch to or enable a module stream, change versions of installed packages to versions provided by the new stream, and remove packages from the old stream that are no longer available"
-        },
-        {
-          "name": "remove",
-          "description": "Remove installed module profiles, including packages that were installed with dnf module install",
-          "options": [
-            {
-              "name": "--all",
-              "description": "Additionally removes all packages whose names are provided by specified modules"
+            "name": [
+                "list",
+                "ls"
+            ],
+            "description": "Prints lists of packages",
+            "options": [
+                {
+                    "name": "--all",
+                    "description": "Lists all packages, present in the RPMDB, in a repository, or both"
+                },
+                {
+                    "name": "--installed",
+                    "description": "Lists installed packages"
+                },
+                {
+                    "name": "--available",
+                    "description": "Lists available packages"
+                },
+                {
+                    "name": "--extras",
+                    "description": "Lists extras (packages installed on the system that are not available in any known repository"
+                },
+                {
+                    "name": "--obsoletes",
+                    "description": "List packages installed on the system that are obsoleted by packages in any known repository"
+                },
+                {
+                    "name": "--recent",
+                    "description": "List packages recently added into the repositories"
+                },
+                {
+                    "name": "--upgrades",
+                    "description": "Lists upgrades available for the installed packages"
+                },
+                {
+                    "name": "--autoremove",
+                    "description": "List packages which will be removed by dnf autoremove"
+                }
+            ],
+            "args": {
+                "generatorName": "list_installed_packages"
             }
-          ]
         },
         {
-          "name": "enable",
-          "description": "Enable a module stream and make the stream RPMs available in the package set"
+            "name": [
+                "makecache",
+                "mc"
+            ],
+            "description": "Downloads and caches metadata for enabled repositories",
+            "options": [
+                {
+                    "name": "--timer",
+                    "description": "Instructs DNF to be more resource-aware"
+                }
+            ]
         },
         {
-          "name": "disable",
-          "description": "Disable a module; all related module streams will become unavailable"
-        },
-        {
-          "name": "reset",
-          "description": "Reset module state so it's no longer enabled/disabled"
-        },
-        {
-          "name": "provides",
-          "description": "List all modular packages matching the given package name spec"
-        },
-        {
-          "name": "list",
-          "description": "Lists module streams",
-          "options": [
-            {
-              "name": "--all",
-              "description": "Lists all module streams, their profiles and states"
-            },
-            {
-              "name": "--enabled",
-              "description": "Lists module streams that are enabled"
-            },
-            {
-              "name": "--disabled",
-              "description": "Lists module streams that are disabled"
-            },
-            {
-              "name": "--installed",
-              "description": "Lists module streams with installed profiles"
+            "name": "mark",
+            "description": "Mark package(s)",
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Marks the given packages as installed by the user"
+                },
+                {
+                    "name": "remove",
+                    "description": "Unmarks the given packages as installed by the user"
+                },
+                {
+                    "name": "group",
+                    "description": "Marks the specified packages as installed by group"
+                }
+            ],
+            "args": {
+                "generatorName": "list_installed_packages"
             }
-          ]
         },
         {
-          "name": "info",
-          "description": "Print detailed information about the given module stream",
-          "options": [
-            {
-              "name": "--profile",
-              "description": "Print detailed information about the given module profiles"
-            }
-          ]
+            "name": "module",
+            "description": "Manage modules",
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install module profiles, including their packages"
+                },
+                {
+                    "name": "update",
+                    "description": "Update packages associated with an active module stream"
+                },
+                {
+                    "name": "switch-to",
+                    "description": "Switch to or enable a module stream, change versions of installed packages to versions provided by the new stream, and remove packages from the old stream that are no longer available"
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove installed module profiles, including packages that were installed with dnf module install",
+                    "options": [
+                        {
+                            "name": "--all",
+                            "description": "Additionally removes all packages whose names are provided by specified modules"
+                        }
+                    ]
+                },
+                {
+                    "name": "enable",
+                    "description": "Enable a module stream and make the stream RPMs available in the package set"
+                },
+                {
+                    "name": "disable",
+                    "description": "Disable a module; all related module streams will become unavailable"
+                },
+                {
+                    "name": "reset",
+                    "description": "Reset module state so it's no longer enabled/disabled"
+                },
+                {
+                    "name": "provides",
+                    "description": "List all modular packages matching the given package name spec"
+                },
+                {
+                    "name": "list",
+                    "description": "Lists module streams",
+                    "options": [
+                        {
+                            "name": "--all",
+                            "description": "Lists all module streams, their profiles and states"
+                        },
+                        {
+                            "name": "--enabled",
+                            "description": "Lists module streams that are enabled"
+                        },
+                        {
+                            "name": "--disabled",
+                            "description": "Lists module streams that are disabled"
+                        },
+                        {
+                            "name": "--installed",
+                            "description": "Lists module streams with installed profiles"
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "description": "Print detailed information about the given module stream",
+                    "options": [
+                        {
+                            "name": "--profile",
+                            "description": "Print detailed information about the given module profiles"
+                        }
+                    ]
+                },
+                {
+                    "name": "repoquery",
+                    "description": "List all available packages belonging to selected modules",
+                    "options": [
+                        {
+                            "name": "--available",
+                            "description": "List all available packages belonging to selected modules"
+                        },
+                        {
+                            "name": "--installed",
+                            "description": "List all installed packages with the same name like packages belonging to selected modules"
+                        }
+                    ]
+                }
+            ]
         },
         {
-          "name": "repoquery",
-          "description": "List all available packages belonging to selected modules",
-          "options": [
-            {
-              "name": "--available",
-              "description": "List all available packages belonging to selected modules"
+            "name": [
+                "provides",
+                "prov"
+            ],
+            "description": "Finds the packages providing the given provide spec"
+        },
+        {
+            "name": [
+                "reinstall",
+                "rei"
+            ],
+            "description": "Installs the specified packages"
+        },
+        {
+            "name": [
+                "remove",
+                "rm"
+            ],
+            "description": "Remove package(s) along with any packages depending on the packages being removed",
+            "options": [
+                {
+                    "name": "--duplicates",
+                    "description": "Removes older versions of duplicate packages"
+                },
+                {
+                    "name": "--oldinstallonly",
+                    "description": "Removes old installonly packages"
+                }
+            ]
+        },
+        {
+            "name": "repoinfo",
+            "description": "Alias for the repolist command"
+        },
+        {
+            "name": "repolist",
+            "description": "List repositories",
+            "options": [
+                {
+                    "name": "--enabled",
+                    "description": "Lists enabled repositories"
+                },
+                {
+                    "name": "--disabled",
+                    "description": "Lists disabled repositories"
+                },
+                {
+                    "name": "--all",
+                    "description": "Lists all known repositories"
+                }
+            ]
+        },
+        {
+            "name": [
+                "repoquery",
+                "rq"
+            ],
+            "description": "Searches available DNF repositories and displays the requested information",
+            "options": [
+                {
+                    "name": "--groupmember",
+                    "description": "List groups that contain <package-spec>"
+                },
+                {
+                    "name": "--querytags",
+                    "description": "Provides the list of tags recognized by the --queryformat repoquery option"
+                },
+                {
+                    "name": [
+                        "-a",
+                        "--all"
+                    ],
+                    "description": "Query all packages"
+                },
+                {
+                    "name": [
+                        "--arch",
+                        "--archlist"
+                    ],
+                    "description": "Limit the resulting set only to packages of selected architectures"
+                },
+                {
+                    "name": "--duplicates",
+                    "description": "Limit the resulting set to installed duplicate packages"
+                },
+                {
+                    "name": "--unneeded",
+                    "description": "Limit the resulting set to leaves packages that were installed as depedencies so they are no longer needed"
+                },
+                {
+                    "name": "--available",
+                    "description": "Limit the resulting set to available packages only (set by default)"
+                },
+                {
+                    "name": "--disable-modular-filtering",
+                    "description": "Disables filtering of modular packages, so that packages of inactive module streams are included in the result"
+                },
+                {
+                    "name": "--extras",
+                    "description": "Limit the resulting set to packages that are not present in any of the available repositories"
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--file"
+                    ],
+                    "description": "Limit the resulting set only to the package that owns the given file",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--installed",
+                    "description": "Limit the resulting set to installed packages only"
+                },
+                {
+                    "name": "--installonly",
+                    "description": "Limit the resulting set to installed installonly packages"
+                },
+                {
+                    "name": "--latest-limit",
+                    "description": "Limit the resulting set to the given number of latest packages for every package name and architecture"
+                },
+                {
+                    "name": "--recent",
+                    "description": "Limit the resulting set to packages that were recently edited"
+                },
+                {
+                    "name": "--repo",
+                    "description": "Limit the resulting set only to packages from a repository identified by <repoid>"
+                },
+                {
+                    "name": "--unsatisfied",
+                    "description": "Report unsatisfied dependencies among installed packages"
+                },
+                {
+                    "name": "--upgrades",
+                    "description": "Limit the resulting set to packages that provide an upgrade for some already installed package"
+                },
+                {
+                    "name": "--userinstalled",
+                    "description": "Limit the resulting set to packages installed by the user"
+                },
+                {
+                    "name": "--whatdepends",
+                    "description": "Limit the resulting set only to packages that require, enhance, recommend, suggest or supplement any of the given capabilities",
+                    "options": [
+                        {
+                            "name": "--alldeps",
+                            "description": "Adds all packages requiring the package features to the result set"
+                        }
+                    ]
+                },
+                {
+                    "name": "--whatconflicts",
+                    "description": "Limit the resulting set only to packages that conflict with any of the given capabilities"
+                },
+                {
+                    "name": "--whatenhances",
+                    "description": "Limit the resulting set only to packages that enhance any of the given capabilities"
+                },
+                {
+                    "name": "--whatobsoletes",
+                    "description": "Limit the resulting set only to packages that obsolete any of the given capabilities"
+                },
+                {
+                    "name": "--whatprovides",
+                    "description": "Limit the resulting set only to packages that provide any of the given capabilities"
+                },
+                {
+                    "name": "--whatrecommends",
+                    "description": "Limit the resulting set only to packages that recommend any of the given capabilities"
+                },
+                {
+                    "name": "--whatrequires",
+                    "description": "Limit the resulting set only to packages that require any of the given capabilities",
+                    "options": [
+                        {
+                            "name": "--alldeps",
+                            "description": "Adds all packages requiring the package features to the result set"
+                        },
+                        {
+                            "name": "--exactdeps",
+                            "description": "Limit the resulting set only to packages that require the given capability"
+                        }
+                    ]
+                },
+                {
+                    "name": "--whatsuggests",
+                    "description": "Limit the resulting set only to packages that suggest any of the given capabilities"
+                },
+                {
+                    "name": "--whatsupplements",
+                    "description": "Limit the resulting set only to packages that supplement any of the given capabilities"
+                },
+                {
+                    "name": "--srpm",
+                    "description": "Operate on the corresponding source RPM"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--info"
+                    ],
+                    "description": "Show detailed information about the package"
+                },
+                {
+                    "name": [
+                        "-l",
+                        "--list"
+                    ],
+                    "description": "Show the list of files in the package"
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--source"
+                    ],
+                    "description": "Show the package source RPM name"
+                },
+                {
+                    "name": "--changelogs",
+                    "description": "Print the package changelogs"
+                },
+                {
+                    "name": "--conflicts",
+                    "description": "Display capabilities that the package conflicts with"
+                },
+                {
+                    "name": "--depends",
+                    "description": "Display capabilities that the package depends on, enhances, recommends, suggests, or supplements"
+                },
+                {
+                    "name": "--enhances",
+                    "description": "Display capabilities enhanced by the package"
+                },
+                {
+                    "name": ["--location"],
+                    "description": "Show a location where the package could be downloaded from"
+                },
+                {
+                    "name": ["--obsoletes"],
+                    "description": "Display capabilities that the package obsoletes"
+                },
+                {
+                    "name": ["--provides"],
+                    "description": "Display capabilities provided by the package"
+                },
+                {
+                    "name": ["--recommends"],
+                    "description": "Display capabilities recommended by the package"
+                },
+                {
+                    "name": ["--requires"],
+                    "description": "Display capabilities that the package depends on"
+                },
+                {
+                    "name": ["--requires-pre"],
+                    "description": "Display capabilities that the package depends on for running a %pre script"
+                },
+                {
+                    "name": ["--suggests"],
+                    "description": "Display capabilities suggested by the package"
+                },
+                {
+                    "name": ["--supplements"],
+                    "description": "Display capabilities supplemented by the package"
+                },
+                {
+                    "name": ["--tree"],
+                    "description": "Display a recursive tree of packages with capabilities specified by one of the following supplementary options: --whatrequires, --requires, --conflicts, --enhances, --suggests, --provides, --supplements, --recommends."
+                },
+                {
+                    "name": ["--deplist"],
+                    "description": "Produce a list of all direct dependencies and what packages provide those dependencies for the given packages"
+                },
+                {
+                    "name": ["--nvr"],
+                    "description": "Show found packages in the name-version-release format"
+                },
+                {
+                    "name": ["--nevra"],
+                    "description": "Show found packages in the name-epoch:version-release.architecture format"
+                },
+                {
+                    "name": ["--envra"],
+                    "description": "Show found packages in the epoch:name-version-release.architecture format"
+                },
+                {
+                    "name": [
+                        "--qf",
+                        "--queryformat"
+                    ],
+                    "description": "Custom display format"
+                },
+                {
+                    "name": ["--recursive"],
+                    "description": "Query packages recursively. Has to be used with --whatrequires <REQ> (optionally with --alldeps, but not with --exactdeps) or with --requires <REQ> --resolve."
+                },
+                {
+                    "name": ["--resolve"],
+                    "description": "Resolve capabilities to originating package(s)"
+                }
+            ]
+        },
+        {
+            "name": "repository-packages",
+            "description": "Run commands on top of all packages in the given repository",
+            "args": {
+                "name": "repoid"
             },
-            {
-              "name": "--installed",
-              "description": "List all installed packages with the same name like packages belonging to selected modules"
-            }
-          ]
+            "subcommands": [
+                {
+                    "name": "check-update",
+                    "description": "Non-interactively checks if updates of the specified packages in the repository are available"
+                },
+                {
+                    "name": "info",
+                    "description": "List packages",
+                    "options": [
+                        {
+                            "name": "--all",
+                            "description": "List all related packages"
+                        },
+                        {
+                            "name": "--installed",
+                            "description": "List packages installed from the repository"
+                        },
+                        {
+                            "name": "--available",
+                            "description": "List packages available in the repository but not currently installed on the system"
+                        },
+                        {
+                            "name": "--extras",
+                            "description": "List packages installed from the repository that are not available in any repository"
+                        },
+                        {
+                            "name": "--obsoletes",
+                            "description": "List packages in the repository that obsolete packages installed on the system"
+                        },
+                        {
+                            "name": "--recent",
+                            "description": "List packages recently added into the repository"
+                        },
+                        {
+                            "name": "--upgrades",
+                            "description": "List packages in the repository that upgrade packages installed on the system"
+                        }
+                    ]
+                },
+                {
+                    "name": "install",
+                    "description": "Install packages matching the given package spec from the repository"
+                },
+                {
+                    "name": "list",
+                    "options": [
+                        {
+                            "name": "--all",
+                            "description": "List all related packages"
+                        },
+                        {
+                            "name": "--installed",
+                            "description": "List packages installed from the repository"
+                        },
+                        {
+                            "name": "--available",
+                            "description": "List packages available in the repository but not currently installed on the system"
+                        },
+                        {
+                            "name": "--extras",
+                            "description": "List packages installed from the repository that are not available in any repository"
+                        },
+                        {
+                            "name": "--obsoletes",
+                            "description": "List packages in the repository that obsolete packages installed on the system"
+                        },
+                        {
+                            "name": "--recent",
+                            "description": "List packages recently added into the repository"
+                        },
+                        {
+                            "name": "--upgrades",
+                            "description": "List packages in the repository that upgrade packages installed on the system"
+                        }
+                    ]
+                },
+                {
+                    "name": "move-to",
+                    "description": "Reinstall all those packages that are available in the repository"
+                },
+                {
+                    "name": "reinstall",
+                    "description": "Run the reinstall-old subcommand. If it fails, run the move-to subcommand"
+                },
+                {
+                    "name": "reinstall-old",
+                    "description": "Reinstall all those packages that were installed from the repository and simultaneously are available in the repository"
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove all packages installed from the repository along with any packages depending on the packages being removed"
+                },
+                {
+                    "name": "remove-or-distro-sync",
+                    "description": "Select all packages installed from the repository. Upgrade, downgrade or keep those of them that are available in another repository to match the latest version available there and remove the others along with any packages depending on the packages being removed"
+                },
+                {
+                    "name": "remove-or-reinstall",
+                    "description": "Select all packages installed from the repository. Reinstall those of them that are available in another repository and remove the others along with any packages depending on the packages being removed"
+                },
+                {
+                    "name": "upgrade",
+                    "description": "Update all packages to the highest resolvable version available in the repository"
+                },
+                {
+                    "name": "upgrade-to",
+                    "description": "A deprecated alias for the upgrade subcommand"
+                }
+            ]
+        },
+        {
+            "name": [
+                "search",
+                "se"
+            ],
+            "description": "Search package metadata for keywords",
+            "options": [
+                {
+                    "name": "--all",
+                    "description": "Lists packages that match at least one of the keys"
+                }
+            ]
+        },
+        {
+            "name": [
+                "shell",
+                "sh"
+            ],
+            "description": "Open an interactive shell for conducting multiple commands during a single execution of DNF"
+        },
+        {
+            "name": "swap",
+            "description": "Remove spec and install spec in one transaction"
+        },
+        {
+            "name": [
+                "updateinfo",
+                "upif"
+            ],
+            "description": "Display information about update advisories",
+            "options": [
+                {
+                    "name": "--summary",
+                    "description": "Diplays counts of advisory types"
+                },
+                {
+                    "name": "--list",
+                    "description": "List of advisories"
+                },
+                {
+                    "name": "--info",
+                    "description": "Detailed information"
+                }
+            ]
+        },
+        {
+            "name": [
+                "upgrade",
+                "up"
+            ],
+            "description": "Updates the given package(s) (or all if none is given) to the latest version"
+        },
+        {
+            "name": [
+                "upgrade-minimal",
+                "up-min"
+            ],
+            "description": "Updates package(s) (or all if none is given) to the latest available version that provides a bugfix, enhancement, or a fix for a security issue"
         }
-      ]
-    },
-    {
-      "name": ["provides", "prov"],
-      "description": "Finds the packages providing the given provide spec"
-    },
-    {
-      "name": ["reinstall", "rei"],
-      "description": "Installs the specified packages"
-    },
-    {
-      "name": ["remove", "rm"],
-      "description": "Remove package(s) along with any packages depending on the packages being removed",
-      "options": [
+    ],
+    "options": [
         {
-          "name": "--duplicates",
-          "description": "Removes older versions of duplicate packages"
+            "name": "-4",
+            "description": "Resolve to IPv4 addresses only"
         },
         {
-          "name": "--oldinstallonly",
-          "description": "Removes old installonly packages"
+            "name": "-6",
+            "description": "Resolve to IPv6 addresses only"
         }
-      ]
-    },
-    {
-      "name": "repoinfo",
-      "description": "Alias for the repolist command"
-    },
-    {
-      "name": "repolist",
-      "description": "List repositories",
-      "options": [
-        {
-          "name": "--enabled",
-          "description": "Lists enabled repositories"
-        },
-        {
-          "name": "--disabled",
-          "description": "Lists disabled repositories"
-        },
-        {
-          "name": "--all",
-          "description": "Lists all known repositories"
-        }
-      ]
-    },
-    {
-      "name": ["repoquery", "rq"],
-      "description": "Searches available DNF repositories and displays the requested information",
-      "options": [
-        {
-          "name": "--groupmember",
-          "description": "List groups that contain <package-spec>"
-        },
-        {
-          "name": "--querytags",
-          "description": "Provides the list of tags recognized by the --queryformat repoquery option"
-        },
-        {
-          "name": ["-a", "--all"],
-          "description": "Query all packages"
-        },
-        {
-          "name": ["--arch", "--archlist"],
-          "description": "Limit the resulting set only to packages of selected architectures"
-        },
-        {
-          "name": "--duplicates",
-          "description": "Limit the resulting set to installed duplicate packages"
-        },
-        {
-          "name": "--unneeded",
-          "description": "Limit the resulting set to leaves packages that were installed as depedencies so they are no longer needed"
-        },
-        {
-          "name": "--available",
-          "description": "Limit the resulting set to available packages only (set by default)"
-        },
-        {
-          "name": "--disable-modular-filtering",
-          "description": "Disables filtering of modular packages, so that packages of inactive module streams are included in the result"
-        },
-        {
-          "name": "--extras",
-          "description": "Limit the resulting set to packages that are not present in any of the available repositories"
-        },
-        {
-          "name": ["-f", "--file"],
-          "description": "Limit the resulting set only to the package that owns the given file",
-          "args": {
-            "name": "file",
-            "template": "filepaths"
-          }
-        },
-        {
-          "name": "--installed",
-          "description": "Limit the resulting set to installed packages only"
-        },
-        {
-          "name": "--installonly",
-          "description": "Limit the resulting set to installed installonly packages"
-        },
-        {
-          "name": "--latest-limit",
-          "description": "Limit the resulting set to the given number of latest packages for every package name and architecture"
-        },
-        {
-          "name": "--recent",
-          "description": "Limit the resulting set to packages that were recently edited"
-        },
-        {
-          "name": "--repo",
-          "description": "Limit the resulting set only to packages from a repository identified by <repoid>"
-        },
-        {
-          "name": "--unsatisfied",
-          "description": "Report unsatisfied dependencies among installed packages"
-        },
-        {
-          "name": "--upgrades",
-          "description": "Limit the resulting set to packages that provide an upgrade for some already installed package"
-        },
-        {
-          "name": "--userinstalled",
-          "description": "Limit the resulting set to packages installed by the user"
-        },
-        {
-          "name": "--whatdepends",
-          "description": "Limit the resulting set only to packages that require, enhance, recommend, suggest or supplement any of the given capabilities",
-          "options": [
-            {
-              "name": "--alldeps",
-              "description": "Adds all packages requiring the package features to the result set"
-            }
-          ]
-        },
-        {
-          "name": "--whatconflicts",
-          "description": "Limit the resulting set only to packages that conflict with any of the given capabilities"
-        },
-        {
-          "name": "--whatenhances",
-          "description": "Limit the resulting set only to packages that enhance any of the given capabilities"
-        },
-        {
-          "name": "--whatobsoletes",
-          "description": "Limit the resulting set only to packages that obsolete any of the given capabilities"
-        },
-        {
-          "name": "--whatprovides",
-          "description": "Limit the resulting set only to packages that provide any of the given capabilities"
-        },
-        {
-          "name": "--whatrecommends",
-          "description": "Limit the resulting set only to packages that recommend any of the given capabilities"
-        },
-        {
-          "name": "--whatrequires",
-          "description": "Limit the resulting set only to packages that require any of the given capabilities",
-          "options": [
-            {
-              "name": "--alldeps",
-              "description": "Adds all packages requiring the package features to the result set"
-            },
-            {
-              "name": "--exactdeps",
-              "description": "Limit the resulting set only to packages that require the given capability"
-            }
-          ]
-        },
-        {
-          "name": "--whatsuggests",
-          "description": "Limit the resulting set only to packages that suggest any of the given capabilities"
-        },
-        {
-          "name": "--whatsupplements",
-          "description": "Limit the resulting set only to packages that supplement any of the given capabilities"
-        },
-        {
-          "name": "--srpm",
-          "description": "Operate on the corresponding source RPM"
-        },
-        {
-          "name": ["-i", "--info"],
-          "description": "Show detailed information about the package"
-        },
-        {
-          "name": ["-l", "--list"],
-          "description": "Show the list of files in the package"
-        },
-        {
-          "name": ["-s", "--source"],
-          "description": "Show the package source RPM name"
-        },
-        {
-          "name": "--changelogs",
-          "description": "Print the package changelogs"
-        },
-        {
-          "name": "--conflicts",
-          "description": "Display capabilities that the package conflicts with"
-        },
-        {
-          "name": "--depends",
-          "description": "Display capabilities that the package depends on, enhances, recommends, suggests, or supplements"
-        },
-        {
-          "name": "--enhances",
-          "description": "Display capabilities enhanced by the package"
-        },
-        {
-          "name": ["--location"],
-          "description": "Show a location where the package could be downloaded from"
-        },
-        {
-          "name": ["--obsoletes"],
-          "description": "Display capabilities that the package obsoletes"
-        },
-        {
-          "name": ["--provides"],
-          "description": "Display capabilities provided by the package"
-        },
-        {
-          "name": ["--recommends"],
-          "description": "Display capabilities recommended by the package"
-        },
-        {
-          "name": ["--requires"],
-          "description": "Display capabilities that the package depends on"
-        },
-        {
-          "name": ["--requires-pre"],
-          "description": "Display capabilities that the package depends on for running a %pre script"
-        },
-        {
-          "name": ["--suggests"],
-          "description": "Display capabilities suggested by the package"
-        },
-        {
-          "name": ["--supplements"],
-          "description": "Display capabilities supplemented by the package"
-        },
-        {
-          "name": ["--tree"],
-          "description": "Display a recursive tree of packages with capabilities specified by one of the following supplementary options: --whatrequires, --requires, --conflicts, --enhances, --suggests, --provides, --supplements, --recommends."
-        },
-        {
-          "name": ["--deplist"],
-          "description": "Produce a list of all direct dependencies and what packages provide those dependencies for the given packages"
-        },
-        {
-          "name": ["--nvr"],
-          "description": "Show found packages in the name-version-release format"
-        },
-        {
-          "name": ["--nevra"],
-          "description": "Show found packages in the name-epoch:version-release.architecture format"
-        },
-        {
-          "name": ["--envra"],
-          "description": "Show found packages in the epoch:name-version-release.architecture format"
-        },
-        {
-          "name": ["--qf", "--queryformat"],
-          "description": "Custom display format"
-        },
-        {
-          "name": ["--recursive"],
-          "description": "Query packages recursively. Has to be used with --whatrequires <REQ> (optionally with --alldeps, but not with --exactdeps) or with --requires <REQ> --resolve."
-        },
-        {
-          "name": ["--resolve"],
-          "description": "Resolve capabilities to originating package(s)"
-        }
-      ]
-    },
-    {
-      "name": "repository-packages",
-      "description": "Run commands on top of all packages in the given repository",
-      "args": {
-        "name": "repoid"
-      },
-      "subcommands": [
-        {
-          "name": "check-update",
-          "description": "Non-interactively checks if updates of the specified packages in the repository are available"
-        },
-        {
-          "name": "info",
-          "description": "List packages",
-          "options": [
-            {
-              "name": "--all",
-              "description": "List all related packages"
-            },
-            {
-              "name": "--installed",
-              "description": "List packages installed from the repository"
-            },
-            {
-              "name": "--available",
-              "description": "List packages available in the repository but not currently installed on the system"
-            },
-            {
-              "name": "--extras",
-              "description": "List packages installed from the repository that are not available in any repository"
-            },
-            {
-              "name": "--obsoletes",
-              "description": "List packages in the repository that obsolete packages installed on the system"
-            },
-            {
-              "name": "--recent",
-              "description": "List packages recently added into the repository"
-            },
-            {
-              "name": "--upgrades",
-              "description": "List packages in the repository that upgrade packages installed on the system"
-            }
-          ]
-        },
-        {
-          "name": "install",
-          "description": "Install packages matching the given package spec from the repository"
-        },
-        {
-          "name": "list",
-          "options": [
-            {
-              "name": "--all",
-              "description": "List all related packages"
-            },
-            {
-              "name": "--installed",
-              "description": "List packages installed from the repository"
-            },
-            {
-              "name": "--available",
-              "description": "List packages available in the repository but not currently installed on the system"
-            },
-            {
-              "name": "--extras",
-              "description": "List packages installed from the repository that are not available in any repository"
-            },
-            {
-              "name": "--obsoletes",
-              "description": "List packages in the repository that obsolete packages installed on the system"
-            },
-            {
-              "name": "--recent",
-              "description": "List packages recently added into the repository"
-            },
-            {
-              "name": "--upgrades",
-              "description": "List packages in the repository that upgrade packages installed on the system"
-            }
-          ]
-        },
-        {
-          "name": "move-to",
-          "description": "Reinstall all those packages that are available in the repository"
-        },
-        {
-          "name": "reinstall",
-          "description": "Run the reinstall-old subcommand. If it fails, run the move-to subcommand"
-        },
-        {
-          "name": "reinstall-old",
-          "description": "Reinstall all those packages that were installed from the repository and simultaneously are available in the repository"
-        },
-        {
-          "name": "remove",
-          "description": "Remove all packages installed from the repository along with any packages depending on the packages being removed"
-        },
-        {
-          "name": "remove-or-distro-sync",
-          "description": "Select all packages installed from the repository. Upgrade, downgrade or keep those of them that are available in another repository to match the latest version available there and remove the others along with any packages depending on the packages being removed"
-        },
-        {
-          "name": "remove-or-reinstall",
-          "description": "Select all packages installed from the repository. Reinstall those of them that are available in another repository and remove the others along with any packages depending on the packages being removed"
-        },
-        {
-          "name": "upgrade",
-          "description": "Update all packages to the highest resolvable version available in the repository"
-        },
-        {
-          "name": "upgrade-to",
-          "description": "A deprecated alias for the upgrade subcommand"
-        }
-      ]
-    },
-    {
-      "name": ["search", "se"],
-      "description": "Search package metadata for keywords",
-      "options": [
-        {
-          "name": "--all",
-          "description": "Lists packages that match at least one of the keys"
-        }
-      ]
-    },
-    {
-      "name": ["shell", "sh"],
-      "description": "Open an interactive shell for conducting multiple commands during a single execution of DNF"
-    },
-    {
-      "name": "swap",
-      "description": "Remove spec and install spec in one transaction"
-    },
-    {
-      "name": ["updateinfo", "upif"],
-      "description": "Display information about update advisories",
-      "options": [
-        {
-          "name": "--summary",
-          "description": "Diplays counts of advisory types"
-        },
-        {
-          "name": "--list",
-          "description": "List of advisories"
-        },
-        {
-          "name": "--info",
-          "description": "Detailed information"
-        }
-      ]
-    },
-    {
-      "name": ["upgrade", "up"],
-      "description": "Updates the given package(s) (or all if none is given) to the latest version"
-    },
-    {
-      "name": ["upgrade-minimal", "up-min"],
-      "description": "Updates package(s) (or all if none is given) to the latest available version that provides a bugfix, enhancement, or a fix for a security issue"
-    }
-  ],
-  "options": [
-    {
-      "name": "-4",
-      "description": "Resolve to IPv4 addresses only"
-    },
-    {
-      "name": "-6",
-      "description": "Resolve to IPv6 addresses only"
-    }
-  ]
+    ]
 }

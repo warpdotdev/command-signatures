@@ -18,6 +18,8 @@ Match the formatting conventions used in the command's `--help` output. For exam
 
 Run `cargo test` to verify the spec deserializes correctly and any referenced `generatorName`s exist.
 
+Format the JSON spec with `npm run format -- command-signatures/json/<command>.json`.
+
 ## Reference Examples
 
 - **Simple spec with generator**: `json/kill.json` + `src/generators/kill.rs` — minimal example showing `generatorName` usage for process and signal completions
