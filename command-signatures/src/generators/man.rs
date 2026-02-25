@@ -39,7 +39,7 @@ pub fn generator() -> CommandSignatureGenerators {
             |output| {
                 output
                     .split('\n')
-                    .filter(|&line| (!line.is_empty() && !line.starts_with('/')))
+                    .filter(|&line| !line.is_empty() && !line.starts_with('/'))
                     .map(|line| Suggestion::with_description(line.trim(), "Man page"))
                     .collect_ordered_results()
             },

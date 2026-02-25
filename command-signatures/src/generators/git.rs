@@ -456,7 +456,7 @@ fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
     output
         .split('\n')
         .unique()
-        .filter(|&line| (!line.is_empty()))
+        .filter(|&line| !line.is_empty())
         .map(|line| {
             Suggestion::with_description(line.trim(), "Branch").with_icon(IconType::GitBranch)
         })
@@ -671,7 +671,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 |output| {
                     output
                         .lines()
-                        .filter(|&line| (!line.is_empty())).map(|line| Suggestion::with_description(line, "tag"))
+                        .filter(|&line| !line.is_empty()).map(|line| Suggestion::with_description(line, "tag"))
                         .collect_ordered_results()
                 },
             ),
