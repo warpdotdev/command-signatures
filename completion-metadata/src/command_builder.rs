@@ -17,7 +17,7 @@ enum CommandPart {
 }
 
 impl CommandPart {
-    fn command(&self, shell: Shell) -> Cow<str> {
+    fn command(&self, shell: Shell) -> Cow<'_, str> {
         match self {
             CommandPart::SingleCommand(command) => command.into(),
             CommandPart::And(command_1, command_2) => format!(
@@ -94,7 +94,7 @@ impl CommandBuilder {
     }
 
     /// Returns the constructed command given the current shell type.
-    pub fn build(&self, shell: Shell) -> Cow<str> {
+    pub fn build(&self, shell: Shell) -> Cow<'_, str> {
         self.0.command(shell)
     }
 }

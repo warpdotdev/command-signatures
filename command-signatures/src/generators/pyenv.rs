@@ -18,7 +18,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     output
                         .split('\n')
                         .skip(1)
-                        .filter(|&line| (!line.is_empty()))
+                        .filter(|&line| !line.is_empty())
                         .map(|line| Suggestion::new(line.trim()))
                         .collect_unordered_results()
                 },
@@ -29,7 +29,7 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::script(CommandBuilder::single_command("pyenv versions"), |output| {
                 output
                     .split('\n')
-                    .filter(|&line| (!line.is_empty()))
+                    .filter(|&line| !line.is_empty())
                     .map(|line| {
                         if RE.is_match(line) {
                             Suggestion::new(line.replace('*', "").trim())

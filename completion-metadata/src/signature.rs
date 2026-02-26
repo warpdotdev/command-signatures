@@ -104,7 +104,7 @@ fn is_long_hand_flag(name: &str) -> bool {
 impl Signature {
     /// Returns a list of the short-hand flags.
     // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
-    pub fn short_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag> + '_ {
+    pub fn short_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag<'_>> + '_ {
         self.options
             .iter()
             .flat_map(|options| options.iter())
@@ -119,7 +119,7 @@ impl Signature {
 
     /// Returns a list of long-hand flags.
     // TODO(alokedesai): Investigate why these are stored in `Vec` instead of precomputed.
-    pub fn long_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag> + '_ {
+    pub fn long_hand_flags(&self) -> impl Iterator<Item = AnnotatedFlag<'_>> + '_ {
         self.options
             .iter()
             .flat_map(|options| options.iter())

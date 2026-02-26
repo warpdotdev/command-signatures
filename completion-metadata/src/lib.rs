@@ -101,7 +101,7 @@ impl PathSuggestionType {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Priority {
     /// Ordering for suggestions that can be ordered above or below all of the other suggestions
     /// (e.g. the current branch should be the first suggestion that shows up)
@@ -111,13 +111,8 @@ pub enum Priority {
     Local(Importance),
 
     /// No special priority
+    #[default]
     Default,
-}
-
-impl Default for Priority {
-    fn default() -> Self {
-        Self::Default
-    }
 }
 
 impl Priority {
