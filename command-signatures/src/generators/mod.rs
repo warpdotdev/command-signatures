@@ -41,6 +41,7 @@ mod screen;
 mod ssh;
 mod tar;
 mod terraform;
+mod timedatectl;
 mod tmux;
 mod tmuxinator;
 
@@ -86,6 +87,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         kubecolor::generator(),
         kill::generator(),
         killall::generator(),
+        timedatectl::generator(),
         tmuxinator::generator(),
         tmux::generator(),
         node::generator(),
