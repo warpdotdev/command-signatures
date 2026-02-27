@@ -1,0 +1,158 @@
+{
+    "name": "timedatectl",
+    "description": "Control the system time and date",
+    "subcommands": [
+        {
+            "name": "status",
+            "description": "Show current time settings"
+        },
+        {
+            "name": "show",
+            "description": "Show properties of systemd-timedated"
+        },
+        {
+            "name": "set-time",
+            "description": "Set system time",
+            "args": {
+                "name": "time",
+                "description": "Time to set (format: '2012-10-30 18:17:16')"
+            }
+        },
+        {
+            "name": "set-timezone",
+            "description": "Set system time zone",
+            "args": {
+                "name": "timezone",
+                "description": "Timezone to set",
+                "generators": {
+                    "script": [
+                        "timedatectl",
+                        "list-timezones"
+                    ],
+                    "postProcess": "function(out){return out.trim().split('\\n').map(function(tz){return {name:tz}})}"
+                }
+            }
+        },
+        {
+            "name": "list-timezones",
+            "description": "Show known time zones"
+        },
+        {
+            "name": "set-local-rtc",
+            "description": "Control whether RTC is in local time",
+            "args": {
+                "name": "bool",
+                "description": "Whether RTC is in local time",
+                "suggestions": [
+                    "true",
+                    "false"
+                ]
+            }
+        },
+        {
+            "name": "set-ntp",
+            "description": "Control network time sync",
+            "args": {
+                "name": "bool",
+                "description": "Whether network time sync is enabled",
+                "suggestions": [
+                    "true",
+                    "false"
+                ]
+            }
+        },
+        {
+            "name": "timesync-status",
+            "description": "Show status of systemd-timesyncd"
+        },
+        {
+            "name": "show-timesync",
+            "description": "Show properties of systemd-timesyncd"
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show this help message",
+            "isPersistent": true,
+            "priority": 40
+        },
+        {
+            "name": "--version",
+            "description": "Show package version",
+            "priority": 40
+        },
+        {
+            "name": "--no-pager",
+            "description": "Do not pipe output into a pager",
+            "isPersistent": true
+        },
+        {
+            "name": "--no-ask-password",
+            "description": "Do not prompt for password",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-H",
+                "--host"
+            ],
+            "description": "Operate on remote host",
+            "isPersistent": true,
+            "args": {
+                "name": "host",
+                "description": "Remote host to operate on"
+            }
+        },
+        {
+            "name": [
+                "-M",
+                "--machine"
+            ],
+            "description": "Operate on local container",
+            "isPersistent": true,
+            "args": {
+                "name": "container",
+                "description": "Local container to operate on"
+            }
+        },
+        {
+            "name": "--adjust-system-clock",
+            "description": "Adjust system clock when changing local RTC mode",
+            "isPersistent": true
+        },
+        {
+            "name": "--monitor",
+            "description": "Monitor status of systemd-timesyncd",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-p",
+                "--property"
+            ],
+            "description": "Show only properties by this name",
+            "isPersistent": true,
+            "args": {
+                "name": "name",
+                "description": "Property name to show"
+            }
+        },
+        {
+            "name": [
+                "-a",
+                "--all"
+            ],
+            "description": "Show all properties",
+            "isPersistent": true
+        },
+        {
+            "name": "--value",
+            "description": "Only show properties with values",
+            "isPersistent": true
+        }
+    ]
+}
