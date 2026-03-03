@@ -1,0 +1,532 @@
+{
+    "name": "wsl",
+    "description": "Windows Subsystem for Linux",
+    "subcommands": [
+        {
+            "name": "--install",
+            "description": "Install a Windows Subsystem for Linux distribution",
+            "args": {
+                "name": "Distro",
+                "isOptional": true,
+                "generatorName": "online_distros"
+            },
+            "options": [
+                {
+                    "name": [
+                        "--distribution",
+                        "-d"
+                    ],
+                    "description": "Specify the distribution to install",
+                    "args": {
+                        "name": "Distro",
+                        "generatorName": "online_distros"
+                    }
+                },
+                {
+                    "name": "--enable-wsl1",
+                    "description": "Enable WSL1 support"
+                },
+                {
+                    "name": "--fixed-vhd",
+                    "description": "Create a fixed-size disk to store the distribution"
+                },
+                {
+                    "name": [
+                        "--from-file",
+                        "-f"
+                    ],
+                    "description": "Install a distribution from a local file",
+                    "args": {
+                        "name": "Path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--legacy",
+                    "description": "Use the legacy distribution manifest"
+                },
+                {
+                    "name": [
+                        "--location",
+                        "-l"
+                    ],
+                    "description": "Set the install path for the distribution",
+                    "args": {
+                        "name": "Location",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "Set the name of the distribution",
+                    "args": {
+                        "name": "Name"
+                    }
+                },
+                {
+                    "name": "--no-distribution",
+                    "description": "Only install the required optional components, does not install a distribution"
+                },
+                {
+                    "name": [
+                        "--no-launch",
+                        "-n"
+                    ],
+                    "description": "Do not launch the distribution after install"
+                },
+                {
+                    "name": "--version",
+                    "description": "Specifies the version to use for the new distribution",
+                    "args": {
+                        "name": "Version",
+                        "suggestions": [
+                            "1",
+                            "2"
+                        ]
+                    }
+                },
+                {
+                    "name": "--vhd-size",
+                    "description": "Specifies the size of the disk to store the distribution",
+                    "args": {
+                        "name": "MemoryString"
+                    }
+                },
+                {
+                    "name": "--web-download",
+                    "description": "Download the distribution from the internet instead of the Microsoft Store"
+                }
+            ]
+        },
+        {
+            "name": "--manage",
+            "description": "Changes distro specific options",
+            "args": {
+                "name": "Distro",
+                "generatorName": "distros"
+            },
+            "options": [
+                {
+                    "name": [
+                        "--move",
+                        "-m"
+                    ],
+                    "description": "Move the distribution to a new location",
+                    "args": {
+                        "name": "Location",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "--set-sparse",
+                        "-s"
+                    ],
+                    "description": "Set the VHD of distro to be sparse, allowing disk space to be automatically reclaimed",
+                    "args": {
+                        "name": "true|false",
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
+                },
+                {
+                    "name": "--set-default-user",
+                    "description": "Set the default user of the distribution",
+                    "args": {
+                        "name": "Username"
+                    }
+                },
+                {
+                    "name": [
+                        "--resize",
+                        "-r"
+                    ],
+                    "description": "Resize the disk of the distribution to the specified size",
+                    "args": {
+                        "name": "MemoryString"
+                    }
+                },
+                {
+                    "name": "--allow-unsafe",
+                    "description": "Allow unsafe operations"
+                }
+            ]
+        },
+        {
+            "name": "--mount",
+            "description": "Attaches and mounts a physical or virtual disk in all WSL 2 distributions",
+            "args": {
+                "name": "Disk",
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "--vhd",
+                    "description": "Specifies that <Disk> refers to a virtual hard disk"
+                },
+                {
+                    "name": [
+                        "--bare",
+                        "-b"
+                    ],
+                    "description": "Attach the disk to WSL2, but don't mount it"
+                },
+                {
+                    "name": [
+                        "--name",
+                        "-n"
+                    ],
+                    "description": "Mount the disk using a custom name for the mountpoint",
+                    "args": {
+                        "name": "Name"
+                    }
+                },
+                {
+                    "name": [
+                        "--type",
+                        "-t"
+                    ],
+                    "description": "Filesystem to use when mounting a disk, if not specified defaults to ext4",
+                    "args": {
+                        "name": "Type",
+                        "suggestions": [
+                            "ext4",
+                            "ext3",
+                            "ext2",
+                            "xfs",
+                            "btrfs",
+                            "ntfs",
+                            "fat32",
+                            "vfat"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "--options",
+                        "-o"
+                    ],
+                    "description": "Additional mount options",
+                    "args": {
+                        "name": "Options"
+                    }
+                },
+                {
+                    "name": [
+                        "--partition",
+                        "-p"
+                    ],
+                    "description": "Index of the partition to mount, if not specified defaults to the whole disk",
+                    "args": {
+                        "name": "Index"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "--unmount",
+            "description": "Unmounts and detaches a disk from all WSL2 distributions. Unmounts all disks if called without argument",
+            "args": {
+                "name": "Disk",
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--export",
+            "description": "Exports the distribution to a tar file. The filename can be - for stdout",
+            "args": [
+                {
+                    "name": "Distro",
+                    "generatorName": "distros"
+                },
+                {
+                    "name": "FileName",
+                    "template": "filepaths"
+                }
+            ],
+            "options": [
+                {
+                    "name": "--vhd",
+                    "description": "Export as a VHD file"
+                },
+                {
+                    "name": "--format",
+                    "description": "Specifies the export format",
+                    "args": {
+                        "name": "Format",
+                        "suggestions": [
+                            "tar",
+                            "tar.gz",
+                            "tar.xz",
+                            "vhd"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "--import",
+            "description": "Imports the specified tar file as a new distribution. The filename can be - for stdin",
+            "args": [
+                {
+                    "name": "Distro"
+                },
+                {
+                    "name": "InstallLocation",
+                    "template": "folders"
+                },
+                {
+                    "name": "FileName",
+                    "template": "filepaths"
+                }
+            ],
+            "options": [
+                {
+                    "name": "--version",
+                    "description": "Specifies the version to use for the new distribution",
+                    "args": {
+                        "name": "Version",
+                        "suggestions": [
+                            "1",
+                            "2"
+                        ]
+                    }
+                },
+                {
+                    "name": "--vhd",
+                    "description": "Specifies that the provided file is a .vhd or .vhdx file, not a tar file"
+                }
+            ]
+        },
+        {
+            "name": "--import-in-place",
+            "description": "Imports the specified VHD file as a new distribution. The VHD must be formatted with the ext4 filesystem type",
+            "args": [
+                {
+                    "name": "Distro"
+                },
+                {
+                    "name": "FileName",
+                    "template": "filepaths"
+                }
+            ]
+        },
+        {
+            "name": [
+                "--list",
+                "-l"
+            ],
+            "description": "Lists distributions",
+            "options": [
+                {
+                    "name": "--all",
+                    "description": "List all distributions, including those currently being installed or uninstalled"
+                },
+                {
+                    "name": "--running",
+                    "description": "List only distributions that are currently running"
+                },
+                {
+                    "name": [
+                        "--quiet",
+                        "-q"
+                    ],
+                    "description": "Only show distribution names"
+                },
+                {
+                    "name": [
+                        "--verbose",
+                        "-v"
+                    ],
+                    "description": "Show detailed information about all distributions"
+                },
+                {
+                    "name": [
+                        "--online",
+                        "-o"
+                    ],
+                    "description": "Displays a list of available distributions for install"
+                }
+            ]
+        },
+        {
+            "name": [
+                "--set-default",
+                "-s",
+                "--setdefault"
+            ],
+            "description": "Sets the distribution as the default",
+            "args": {
+                "name": "Distro",
+                "generatorName": "distros"
+            }
+        },
+        {
+            "name": "--set-version",
+            "description": "Changes the version of the specified distribution",
+            "args": [
+                {
+                    "name": "Distro",
+                    "generatorName": "distros"
+                },
+                {
+                    "name": "Version",
+                    "suggestions": [
+                        "1",
+                        "2"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "--set-default-version",
+            "description": "Changes the default install version for new distributions",
+            "args": {
+                "name": "Version",
+                "suggestions": [
+                    "1",
+                    "2"
+                ]
+            }
+        },
+        {
+            "name": [
+                "--terminate",
+                "-t"
+            ],
+            "description": "Terminates the specified distribution",
+            "args": {
+                "name": "Distro",
+                "generatorName": "distros"
+            }
+        },
+        {
+            "name": "--unregister",
+            "description": "Unregisters the distribution and deletes the root filesystem",
+            "args": {
+                "name": "Distro",
+                "generatorName": "distros"
+            }
+        },
+        {
+            "name": "--shutdown",
+            "description": "Immediately terminates all running distributions and the WSL 2 lightweight utility virtual machine",
+            "options": [
+                {
+                    "name": "--force",
+                    "description": "Terminate the WSL 2 virtual machine even if an operation is in progress. Can cause data loss"
+                }
+            ]
+        },
+        {
+            "name": "--update",
+            "description": "Update the Windows Subsystem for Linux package",
+            "options": [
+                {
+                    "name": "--pre-release",
+                    "description": "Download a pre-release version if available"
+                },
+                {
+                    "name": "--web-download",
+                    "description": "Download from the internet instead of the Microsoft Store"
+                }
+            ]
+        },
+        {
+            "name": "--status",
+            "description": "Show the status of Windows Subsystem for Linux"
+        },
+        {
+            "name": "--help",
+            "description": "Display usage information"
+        },
+        {
+            "name": [
+                "--version",
+                "-v"
+            ],
+            "description": "Display version information"
+        },
+        {
+            "name": "--uninstall",
+            "description": "Uninstalls the Windows Subsystem for Linux package from this machine"
+        },
+        {
+            "name": "--debug-shell",
+            "description": "Open a WSL2 debug shell for diagnostics purposes"
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "--distribution",
+                "-d"
+            ],
+            "description": "Run the specified distribution",
+            "args": {
+                "name": "DistroName",
+                "generatorName": "distros"
+            }
+        },
+        {
+            "name": "--distribution-id",
+            "description": "Run the specified distribution ID",
+            "args": {
+                "name": "DistroGuid"
+            }
+        },
+        {
+            "name": [
+                "--user",
+                "-u"
+            ],
+            "description": "Run as the specified user",
+            "args": {
+                "name": "UserName"
+            }
+        },
+        {
+            "name": [
+                "--exec",
+                "-e"
+            ],
+            "description": "Execute the specified command without using the default Linux shell",
+            "args": {
+                "name": "CommandLine",
+                "isVariadic": true
+            }
+        },
+        {
+            "name": "--shell-type",
+            "description": "Execute the specified command with the provided shell type",
+            "args": {
+                "name": "Type",
+                "suggestions": [
+                    "standard",
+                    "login",
+                    "none"
+                ]
+            }
+        },
+        {
+            "name": "--cd",
+            "description": "Sets the specified directory as the current working directory",
+            "args": {
+                "name": "Directory",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--system",
+            "description": "Launches a shell for the system distribution"
+        }
+    ],
+    "args": {
+        "name": "CommandLine",
+        "isOptional": true,
+        "isVariadic": true
+    }
+}

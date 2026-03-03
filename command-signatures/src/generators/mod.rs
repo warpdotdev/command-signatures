@@ -43,6 +43,7 @@ mod tar;
 mod terraform;
 mod tmux;
 mod tmuxinator;
+mod wsl;
 
 /// Returns dynamic command signature data, keyed on the command the data corresponds to.
 pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
@@ -99,6 +100,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::clear_variable_generator(),
         powershell::set_variable_generator(),
         powershell::remove_variable_generator(),
+        wsl::generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))
