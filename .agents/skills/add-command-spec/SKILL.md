@@ -14,6 +14,18 @@ description: Guide for adding new command completion specs to warp-command-signa
 
 Match the formatting conventions used in the command's `--help` output. For example, if the help text uses `UPPER_CASE` for positional argument names, use the same casing in the spec's argument `name` field.
 
+### Documenting Argument Formats
+
+If an argument has a specific format (date, time, pattern, etc.), document it in the argument's `description` field. This helps users understand the expected input format.
+
+Example:
+```json
+"args": {
+    "name": "TIME",
+    "description": "Time to set (format: \"YYYY-MM-DD HH:MM:SS\")"
+}
+```
+
 ## Validation
 
 Run `cargo test` to verify the spec deserializes correctly and any referenced `generatorName`s exist.
