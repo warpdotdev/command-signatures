@@ -21,17 +21,9 @@ jobs:
       run: npm ci
     - name: Check JSON formatting
       run: npm run format:check
-  lint:
+  presubmit:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Run cargo fmt
-      run: cargo fmt -p warp-command-signatures -p warp-completion-metadata --check
-    - name: Run cargo clippy
-      run: cargo clippy -p warp-command-signatures -p warp-completion-metadata --all-targets --all-features -- -D warnings
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Run tests
-      run: cargo test --verbose
+    - name: Run presubmit
+      run: script/presubmit

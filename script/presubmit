@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "==> cargo fmt"
+cargo fmt -p warp-command-signatures -p warp-completion-metadata --check
+
+echo "==> cargo clippy"
+cargo clippy -p warp-command-signatures -p warp-completion-metadata --all-targets --all-features -- -D warnings
+
+echo "==> cargo test"
+cargo test --verbose

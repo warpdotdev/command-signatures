@@ -28,7 +28,7 @@ Example:
 
 ## Validation
 
-Run `cargo test` to verify the spec deserializes correctly and any referenced `generatorName`s exist.
+Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
 Format the JSON spec with `npm run format -- command-signatures/json/<command>.json`.
 
