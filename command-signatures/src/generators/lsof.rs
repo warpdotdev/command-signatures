@@ -52,17 +52,16 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "users",
             Generator::script(
-                CommandBuilder::single_command("cat /etc/passwd"),
+                // Cross-platform: getent (Linux) -> dscl (macOS) -> /etc/passwd (fallback)
+                CommandBuilder::single_command(
+                    "sh -c 'if command -v getent >/dev/null 2>&1; then getent passwd | cut -d: -f1; elif command -v dscl >/dev/null 2>&1; then dscl . -list /Users; else cut -d: -f1 /etc/passwd; fi'",
+                ),
                 |output| {
                     output
                         .trim()
                         .lines()
-                        .filter(|line| !line.starts_with('#'))
-                        .filter_map(|line| {
-                            line.split(':')
-                                .next()
-                                .map(|name| Suggestion::with_description(name, "User"))
-                        })
+                        .filter(|line| !line.is_empty() && !line.starts_with('_') && !line.starts_with('#'))
+                        .map(|name| Suggestion::with_description(name.trim(), "User"))
                         .collect_unordered_results()
                 },
             ),
