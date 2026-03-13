@@ -14,12 +14,14 @@ description: Guide for adding new command completion specs to warp-command-signa
 
 When implementing generator commands, ensure they work across all applicable platforms where the command exists. For example, a UNIX-only command should work on both macOS and Linux, not just the platform being used for development.
 
-**Common pitfalls:**
+### Common pitfalls
+
 - Commands that work differently across platforms (for example, user lookup via `dscl` on macOS vs `getent` on Linux)
 - Commands with different output formats across platforms
 - Hardcoded paths that differ between systems
 
-**Solutions:**
+### Solutions
+
 - Identify which platforms the command supports
 - Use platform detection (for example, `uname`) to handle cross-platform differences
 - Implement platform-specific logic in the generator when behavior differs across systems
