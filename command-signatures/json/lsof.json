@@ -1,0 +1,336 @@
+{
+    "name": "lsof",
+    "description": "List open files",
+    "options": [
+        {
+            "name": [
+                "-?",
+                "-h"
+            ],
+            "description": "Print help and exit"
+        },
+        {
+            "name": "-a",
+            "description": "Causes list selections to be ANDed"
+        },
+        {
+            "name": "-A",
+            "description": "Use alternative name list file",
+            "args": {
+                "name": "name_list_file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-b",
+            "description": "Avoid kernel functions that might block: lstat, readlink, stat"
+        },
+        {
+            "name": "-c",
+            "description": "Select listing for processes whose command begins with c (^ to negate, /c/[bix] for regex)",
+            "args": {
+                "name": "c",
+                "generatorName": "process_names"
+            }
+        },
+        {
+            "name": "+c",
+            "insertValue": "+c {cursor}",
+            "description": "Set COMMAND column width (default 9)",
+            "args": {
+                "name": "w"
+            }
+        },
+        {
+            "name": "-C",
+            "description": "Do not report any pathname component from kernel's name cache"
+        },
+        {
+            "name": "-D",
+            "description": "Control use of the device cache file",
+            "args": {
+                "name": "function",
+                "suggestions": [
+                    {
+                        "name": "?",
+                        "description": "Report device cache file paths"
+                    },
+                    {
+                        "name": "b",
+                        "description": "Build the device cache file"
+                    },
+                    {
+                        "name": "i",
+                        "description": "Ignore the device cache file"
+                    },
+                    {
+                        "name": "r",
+                        "description": "Read the device cache file"
+                    },
+                    {
+                        "name": "u",
+                        "description": "Read and update the device cache file"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "+d",
+            "insertValue": "+d {cursor}",
+            "description": "Search for all open instances of directory s and the files and directories it contains at its top level",
+            "args": {
+                "name": "s",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "-d",
+            "description": "Specifies a list of file descriptors to exclude (^) or include in the output listing",
+            "args": {
+                "name": "s"
+            }
+        },
+        {
+            "name": "+D",
+            "insertValue": "+D {cursor}",
+            "description": "Search for all open instances of directory D and all the files and directories it contains to its complete depth (SLOW)",
+            "args": {
+                "name": "D",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "+E",
+            "insertValue": "+E",
+            "description": "Display endpoint info and files"
+        },
+        {
+            "name": "-E",
+            "description": "Display endpoint info"
+        },
+        {
+            "name": "-F",
+            "description": "Select output fields for other programs to parse (-F? for help)",
+            "args": {
+                "name": "f",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "+f",
+            "insertValue": "+f {cursor}",
+            "description": "Enable path name-based kernel lookups for file system names"
+        },
+        {
+            "name": "-f",
+            "description": "Disable path name-based kernel lookups for file names"
+        },
+        {
+            "name": "-g",
+            "description": "Exclude (^) or select and print process group IDs",
+            "args": {
+                "name": "s",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-i",
+            "description": "Select listing of IPv[46] files (format: [46][proto][@host|addr][:svc_list|port_list])",
+            "args": {
+                "name": "i",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-K",
+            "description": "List or ignore tasks (kernel threads)",
+            "args": {
+                "name": "i",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-l",
+            "description": "Convert UIDs to login names"
+        },
+        {
+            "name": "+L",
+            "insertValue": "+L {cursor}",
+            "description": "List link counts below the specified number",
+            "args": {
+                "name": "l",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-L",
+            "description": "Suppress link count listing",
+            "args": {
+                "name": "l",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "+m",
+            "insertValue": "+m {cursor}",
+            "description": "Use or create mount supplement file",
+            "args": {
+                "name": "m",
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "+M",
+            "insertValue": "+M",
+            "description": "Enable portMap registration"
+        },
+        {
+            "name": "-M",
+            "description": "Disable portMap registration"
+        },
+        {
+            "name": "-n",
+            "description": "Do not convert network numbers to host names"
+        },
+        {
+            "name": "-N",
+            "description": "Select listing of NFS files"
+        },
+        {
+            "name": "-o",
+            "description": "List file offset or set offset digits",
+            "args": {
+                "name": "o",
+                "description": "Number of decimal digits for file offset (default 8)",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-O",
+            "description": "Bypass overhead avoiding strategy (RISKY)"
+        },
+        {
+            "name": "-P",
+            "description": "Do not convert port numbers to port names"
+        },
+        {
+            "name": "-p",
+            "description": "Exclude (^) or select processes by PID",
+            "args": {
+                "name": "s",
+                "generatorName": "pids"
+            }
+        },
+        {
+            "name": "-Q",
+            "description": "Allow failed search to occur without error"
+        },
+        {
+            "name": "-R",
+            "description": "Print parent PID (PPID)"
+        },
+        {
+            "name": "+r",
+            "insertValue": "+r {cursor}",
+            "description": "Repeat listing every t seconds until no open files found (format: t[m<fmt>])",
+            "args": {
+                "name": "t",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-r",
+            "description": "Repeat listing every t seconds forever (format: t[m<fmt>])",
+            "args": {
+                "name": "t",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-s",
+            "description": "List file size or exclude (^)/select protocol states by name (format: p:s where p is TCP or UDP)",
+            "args": {
+                "name": "p:s",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-S",
+            "description": "Set stat timeout in seconds (default 15)",
+            "args": {
+                "name": "t",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-t",
+            "description": "Produce terse output (PIDs only, no header)"
+        },
+        {
+            "name": "-T",
+            "description": "Disable TCP/TPI info or select Fl, Q, St info (format: fqs)",
+            "args": {
+                "name": "fqs",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-U",
+            "description": "Select listing of Unix domain socket files"
+        },
+        {
+            "name": "-u",
+            "description": "Exclude (^) or select by login name or UID",
+            "args": {
+                "name": "s",
+                "generatorName": "users"
+            }
+        },
+        {
+            "name": "-v",
+            "description": "List version information"
+        },
+        {
+            "name": "-V",
+            "description": "Indicate unsuccessfully searched-for items"
+        },
+        {
+            "name": "+w",
+            "insertValue": "+w",
+            "description": "Enable warnings"
+        },
+        {
+            "name": "-w",
+            "description": "Suppress warnings"
+        },
+        {
+            "name": "-X",
+            "description": "Skip reporting of TCP, UDP, and UDPLITE files"
+        },
+        {
+            "name": "-x",
+            "description": "Cross over file systems or symbolic links when using +d or +D",
+            "args": {
+                "name": "fl",
+                "description": "f to cross file systems, l to cross symbolic links",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-Z",
+            "description": "Specify SELinux security context",
+            "args": {
+                "name": "Z",
+                "isOptional": true
+            }
+        }
+    ],
+    "args": {
+        "name": "names",
+        "description": "Named files or file systems to select",
+        "isOptional": true,
+        "isVariadic": true,
+        "template": "filepaths"
+    }
+}

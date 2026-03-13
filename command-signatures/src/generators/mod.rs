@@ -25,6 +25,7 @@ mod kubecolor;
 mod kubectl;
 mod kubectx;
 mod kubens;
+mod lsof;
 mod make;
 mod man;
 mod ng;
@@ -87,6 +88,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         kubecolor::generator(),
         kill::generator(),
         killall::generator(),
+        lsof::generator(),
         tmuxinator::generator(),
         timedatectl::generator(),
         tmux::generator(),
