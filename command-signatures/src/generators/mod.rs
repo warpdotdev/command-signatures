@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::iter::FromIterator;
 use warp_completion_metadata::DynamicCompletionData;
 
+mod common;
+
 /// Used for debian-based package managers like apt-get, aptitude, etc.
 mod apt;
 mod bazel;
