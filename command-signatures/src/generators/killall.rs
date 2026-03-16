@@ -2,24 +2,11 @@ use warp_completion_metadata::{
     CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
+use super::common;
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("killall")
-        .add_generator(
-            "user_name",
-            Generator::script(
-                CommandBuilder::pipe(
-                    CommandBuilder::single_command("dscl . -list /Users"),
-                    CommandBuilder::single_command("grep -v '^_'"),
-                ),
-                |output| {
-                    output
-                        .trim()
-                        .lines()
-                        .map(Suggestion::new)
-                        .collect_unordered_results()
-                },
-            ),
-        )
+        .add_generator("user_name", common::users_generator())
         .add_generator(
             "process_name",
             Generator::script(

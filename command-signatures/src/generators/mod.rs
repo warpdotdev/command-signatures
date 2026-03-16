@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::iter::FromIterator;
 use warp_completion_metadata::DynamicCompletionData;
 
+mod common;
+
 /// Used for debian-based package managers like apt-get, aptitude, etc.
 mod apt;
 mod bazel;
@@ -25,6 +27,7 @@ mod kubecolor;
 mod kubectl;
 mod kubectx;
 mod kubens;
+mod lsof;
 mod make;
 mod man;
 mod ng;
@@ -87,6 +90,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         kubecolor::generator(),
         kill::generator(),
         killall::generator(),
+        lsof::generator(),
         tmuxinator::generator(),
         timedatectl::generator(),
         tmux::generator(),
