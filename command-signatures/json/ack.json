@@ -1,0 +1,528 @@
+{
+    "name": "ack",
+    "description": "Search for PATTERN in each source file in the tree from the current directory on down",
+    "args": [
+        {
+            "name": "PATTERN"
+        },
+        {
+            "name": "FILES OR DIRECTORIES",
+            "isOptional": true,
+            "isVariadic": true,
+            "template": "filepaths"
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "-i",
+                "--ignore-case"
+            ],
+            "description": "Ignore case distinctions in PATTERN"
+        },
+        {
+            "name": [
+                "-S",
+                "--smart-case"
+            ],
+            "description": "Ignore case distinctions in PATTERN, only if PATTERN contains no upper case. Ignored if -i or -I are specified"
+        },
+        {
+            "name": "--nosmart-case",
+            "description": "Disable smart-case"
+        },
+        {
+            "name": [
+                "-I",
+                "--no-ignore-case"
+            ],
+            "description": "Turns on case-sensitivity in PATTERN. Negates -i and --smart-case"
+        },
+        {
+            "name": [
+                "-v",
+                "--invert-match"
+            ],
+            "description": "Invert match: select non-matching lines"
+        },
+        {
+            "name": [
+                "-w",
+                "--word-regexp"
+            ],
+            "description": "Force PATTERN to match only whole words"
+        },
+        {
+            "name": [
+                "-Q",
+                "--literal"
+            ],
+            "description": "Quote all metacharacters; PATTERN is literal"
+        },
+        {
+            "name": "--range-start",
+            "description": "Specify PATTERN as the start of a match range",
+            "args": {
+                "name": "PATTERN"
+            }
+        },
+        {
+            "name": "--range-end",
+            "description": "Specify PATTERN as the end of a match range",
+            "args": {
+                "name": "PATTERN"
+            }
+        },
+        {
+            "name": "--match",
+            "description": "Specify PATTERN explicitly. Typically omitted",
+            "args": {
+                "name": "PATTERN"
+            }
+        },
+        {
+            "name": "--not",
+            "description": "Specifies PATTERN that must not be found on the line for a match to occur",
+            "isRepeatable": true,
+            "args": {
+                "name": "PATTERN"
+            }
+        },
+        {
+            "name": "--lines",
+            "description": "Only print line(s) NUM of each file",
+            "args": {
+                "name": "NUM"
+            }
+        },
+        {
+            "name": [
+                "-l",
+                "--files-with-matches"
+            ],
+            "description": "Print filenames with at least one match",
+            "exclusiveOn": [
+                "-L",
+                "--files-without-matches"
+            ]
+        },
+        {
+            "name": [
+                "-L",
+                "--files-without-matches"
+            ],
+            "description": "Print filenames with no matches",
+            "exclusiveOn": [
+                "-l",
+                "--files-with-matches"
+            ]
+        },
+        {
+            "name": "--output",
+            "description": "Output the evaluation of Perl expression for each line (turns off text highlighting)",
+            "args": {
+                "name": "expr"
+            }
+        },
+        {
+            "name": "-o",
+            "description": "Show only the part of a line matching PATTERN. Same as --output='$&'"
+        },
+        {
+            "name": "--passthru",
+            "description": "Print all lines, whether matching or not"
+        },
+        {
+            "name": [
+                "-m",
+                "--max-count"
+            ],
+            "description": "Stop searching in each file after NUM matches",
+            "args": {
+                "name": "NUM"
+            }
+        },
+        {
+            "name": "-1",
+            "description": "Stop searching after one match of any kind"
+        },
+        {
+            "name": [
+                "-H",
+                "--with-filename"
+            ],
+            "description": "Print the filename for each match (default: on unless explicitly searching a single file)"
+        },
+        {
+            "name": [
+                "-h",
+                "--no-filename"
+            ],
+            "description": "Suppress the prefixing filename on output"
+        },
+        {
+            "name": [
+                "-c",
+                "--count"
+            ],
+            "description": "Print filenames and count of matching lines"
+        },
+        {
+            "name": "--column",
+            "description": "Show the column number of the first match"
+        },
+        {
+            "name": "--nocolumn",
+            "description": "Don't show the column number of the first match"
+        },
+        {
+            "name": [
+                "-A",
+                "--after-context"
+            ],
+            "description": "Print NUM lines of trailing context after matching lines",
+            "args": {
+                "name": "NUM"
+            }
+        },
+        {
+            "name": [
+                "-B",
+                "--before-context"
+            ],
+            "description": "Print NUM lines of leading context before matching lines",
+            "args": {
+                "name": "NUM"
+            }
+        },
+        {
+            "name": [
+                "-C",
+                "--context"
+            ],
+            "description": "Print NUM lines (default 2) of output context",
+            "args": {
+                "name": "NUM"
+            }
+        },
+        {
+            "name": "--print0",
+            "description": "Print null byte as separator between filenames, only works with -f, -g, -l, -L or -c"
+        },
+        {
+            "name": "-s",
+            "description": "Suppress error messages about nonexistent or unreadable files"
+        },
+        {
+            "name": "--pager",
+            "description": "Pipes all ack output through COMMAND",
+            "args": {
+                "name": "COMMAND"
+            }
+        },
+        {
+            "name": "--nopager",
+            "description": "Do not send output through a pager"
+        },
+        {
+            "name": "--heading",
+            "description": "Print a filename heading above each file's results (default: on when used interactively)"
+        },
+        {
+            "name": "--noheading",
+            "description": "Don't print a filename heading above each file's results"
+        },
+        {
+            "name": "--break",
+            "description": "Print a break between results from different files (default: on when used interactively)"
+        },
+        {
+            "name": "--nobreak",
+            "description": "Don't print a break between results from different files"
+        },
+        {
+            "name": "--group",
+            "description": "Same as --heading --break"
+        },
+        {
+            "name": "--nogroup",
+            "description": "Same as --noheading --nobreak"
+        },
+        {
+            "name": [
+                "-p",
+                "--proximate"
+            ],
+            "description": "Separate match output with blank lines unless they are within LINES lines from each other",
+            "args": {
+                "name": "LINES"
+            }
+        },
+        {
+            "name": "--underline",
+            "description": "Print a line of carets under the matched text"
+        },
+        {
+            "name": "--nounderline",
+            "description": "Don't print a line of carets under the matched text"
+        },
+        {
+            "name": "--color",
+            "description": "Highlight the matching text (default: on unless output is redirected)"
+        },
+        {
+            "name": "--nocolor",
+            "description": "Don't highlight the matching text"
+        },
+        {
+            "name": "--colour",
+            "description": "Highlight the matching text (default: on unless output is redirected)"
+        },
+        {
+            "name": "--nocolour",
+            "description": "Don't highlight the matching text"
+        },
+        {
+            "name": "--color-filename",
+            "description": "Set the color for filenames",
+            "args": {
+                "name": "COLOR"
+            }
+        },
+        {
+            "name": "--color-match",
+            "description": "Set the color for matches",
+            "args": {
+                "name": "COLOR"
+            }
+        },
+        {
+            "name": "--color-colno",
+            "description": "Set the color for column numbers",
+            "args": {
+                "name": "COLOR"
+            }
+        },
+        {
+            "name": "--color-lineno",
+            "description": "Set the color for line numbers",
+            "args": {
+                "name": "COLOR"
+            }
+        },
+        {
+            "name": "--help-colors",
+            "description": "Show a list of possible color combinations"
+        },
+        {
+            "name": "--help-rgb-colors",
+            "description": "Show a list of advanced RGB colors"
+        },
+        {
+            "name": "--flush",
+            "description": "Flush output immediately, even when ack is used non-interactively"
+        },
+        {
+            "name": "-f",
+            "description": "Only print the files selected, without searching. The PATTERN must not be specified"
+        },
+        {
+            "name": "-g",
+            "description": "Same as -f, but only select files matching PATTERN"
+        },
+        {
+            "name": "--sort-files",
+            "description": "Sort the found files lexically"
+        },
+        {
+            "name": "--show-types",
+            "description": "Show which types each file has"
+        },
+        {
+            "name": "--files-from",
+            "description": "Read the list of files to search from FILE",
+            "args": {
+                "name": "FILE",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-x",
+            "description": "Read the list of files to search from STDIN"
+        },
+        {
+            "name": "--ignore-dir",
+            "description": "Add directory to list of ignored dirs",
+            "isRepeatable": true,
+            "args": {
+                "name": "name",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--ignore-directory",
+            "description": "Add directory to list of ignored dirs (synonym for --ignore-dir)",
+            "isRepeatable": true,
+            "args": {
+                "name": "name",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--noignore-dir",
+            "description": "Remove directory from list of ignored dirs",
+            "isRepeatable": true,
+            "args": {
+                "name": "name",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--noignore-directory",
+            "description": "Remove directory from list of ignored dirs (synonym for --noignore-dir)",
+            "isRepeatable": true,
+            "args": {
+                "name": "name",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--ignore-file",
+            "description": "Add filter for ignoring files (format: FILTER:ARGS)",
+            "isRepeatable": true,
+            "args": {
+                "name": "FILTER:ARGS"
+            }
+        },
+        {
+            "name": [
+                "-r",
+                "-R",
+                "--recurse"
+            ],
+            "description": "Recurse into subdirectories (default: on)"
+        },
+        {
+            "name": [
+                "-n",
+                "--no-recurse"
+            ],
+            "description": "No descending into subdirectories"
+        },
+        {
+            "name": "--follow",
+            "description": "Follow symlinks"
+        },
+        {
+            "name": "--nofollow",
+            "description": "Don't follow symlinks (default)"
+        },
+        {
+            "name": [
+                "-t",
+                "--type"
+            ],
+            "description": "Include only X files, where X is a filetype (e.g. python, html, markdown)",
+            "isRepeatable": true,
+            "args": {
+                "name": "X"
+            }
+        },
+        {
+            "name": "-T",
+            "description": "Exclude X files, where X is a filetype",
+            "isRepeatable": true,
+            "args": {
+                "name": "X"
+            }
+        },
+        {
+            "name": [
+                "-k",
+                "--known-types"
+            ],
+            "description": "Include only files of types that ack recognizes"
+        },
+        {
+            "name": "--help-types",
+            "description": "Display all known types, and how they're defined"
+        },
+        {
+            "name": "--type-set",
+            "description": "Replaces definition of type (format: TYPE:FILTER:ARGS)",
+            "args": {
+                "name": "TYPE:FILTER:ARGS"
+            }
+        },
+        {
+            "name": "--type-add",
+            "description": "Add to definition of type (format: TYPE:FILTER:ARGS)",
+            "args": {
+                "name": "TYPE:FILTER:ARGS"
+            }
+        },
+        {
+            "name": "--type-del",
+            "description": "Removes all filters associated with type",
+            "args": {
+                "name": "TYPE"
+            }
+        },
+        {
+            "name": "--noenv",
+            "description": "Ignore environment variables and global ackrc files"
+        },
+        {
+            "name": "--ackrc",
+            "description": "Specify an ackrc file to use",
+            "args": {
+                "name": "filename",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--ignore-ack-defaults",
+            "description": "Ignore default definitions included with ack"
+        },
+        {
+            "name": "--create-ackrc",
+            "description": "Outputs a default ackrc for your customization to standard output"
+        },
+        {
+            "name": "--dump",
+            "description": "Dump information on which options are loaded and where they're defined"
+        },
+        {
+            "name": "--filter",
+            "description": "Force ack to treat standard input as a pipe"
+        },
+        {
+            "name": "--nofilter",
+            "description": "Force ack to treat standard input as a tty"
+        },
+        {
+            "name": "--help",
+            "description": "Show help"
+        },
+        {
+            "name": "--man",
+            "description": "Print the manual"
+        },
+        {
+            "name": "--version",
+            "description": "Display version and copyright"
+        },
+        {
+            "name": "--thpppt",
+            "description": "Bill the Cat"
+        },
+        {
+            "name": "--bar",
+            "description": "The warning admiral"
+        },
+        {
+            "name": "--cathy",
+            "description": "Chocolate! Chocolate! Chocolate!"
+        }
+    ]
+}
