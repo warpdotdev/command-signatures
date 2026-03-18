@@ -68,6 +68,8 @@ Format the JSON spec with `npm run format -- command-signatures/json/<command>.j
 
 Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
+To verify completions end-to-end in a real Warp session, use the **test-local-warp** skill, which covers building and running Warp against a local checkout of this repo. This requires computer use to be enabled since Warp is a GUI application.
+
 ## Reference Examples
 
 - **Simple spec with generator**: `json/kill.json` + `src/generators/kill.rs` — minimal example showing `generatorName` usage for process and signal completions
