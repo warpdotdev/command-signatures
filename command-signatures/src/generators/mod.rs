@@ -42,6 +42,7 @@ mod pyenv;
 mod react_native;
 mod screen;
 mod ssh;
+mod systemctl;
 mod tar;
 mod terraform;
 mod timedatectl;
@@ -80,6 +81,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         pyenv::generator(),
         react_native::generator(),
         ssh::generator(),
+        systemctl::generator(),
         tar::generator(),
         terraform::generator(),
         kubectx::generator(),
