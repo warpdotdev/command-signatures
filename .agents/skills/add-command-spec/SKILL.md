@@ -71,9 +71,10 @@ Run `script/presubmit` to verify formatting, linting, and tests all pass (this r
 To verify completions end-to-end in a real Warp session, use the **test-local-warp** skill, which covers building and running Warp against a local checkout of this repo.
 This requires computer use to be enabled since Warp is a GUI application.
 Use this when adding generators to make sure they produce reasonable candidates.
-You should produce only 1 screenshot per generator added. You do not need to scroll down the entire menu of candidates, the first few are sufficient for the screenshot.
-You also do not need to zoom in.
-Attach the screenshot(s) to your pull request.
+If you are running unsupervised (autonomy level is `UNSUPERVISED`), this step is required.
+Produce screenshots for each generator added so that a human can review them. You do not need to zoom in.
+We only need screenshots for generator functions. Things like sub-commands and options are already well tested.
+When running supervised, skip this step.
 
 ## Reference Examples
 
