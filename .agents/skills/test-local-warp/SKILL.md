@@ -42,12 +42,8 @@ cargo run --features fast_dev
 
 ### 3. Verify changes
 
-Open the locally-built Warp and test completions for the commands you modified. Type the command and trigger tab completion to confirm specs and generators behave as expected.
+Open the locally-built Warp and test completions for the commands you modified. Type the command and use the Tab key to trigger the completion menu to confirm specs and generators behave as expected.
 
 ### 4. Clean up
 
 Revert the `Cargo.toml` change in `warp-internal` before committing. The local path override should never be checked in.
-
-### 5. Release
-
-After your command-signatures PR is merged, update the `rev` in `warp-internal/Cargo.toml` to the new commit hash on `main` and open a PR in `warp-internal` to pick up the changes.
