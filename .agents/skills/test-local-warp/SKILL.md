@@ -44,6 +44,8 @@ cargo run --features fast_dev
 
 Open the locally-built Warp and test completions for the commands you modified. Type the command and use the Tab key to trigger the completion menu to confirm specs and generators behave as expected.
 
+> **Note:** The completions menu does not work with equal-sign-delimited options (e.g. `--foo=bar`). Always use space-delimited syntax when testing (e.g. `--foo bar`).
+
 ### 4. Clean up
 
 Revert the `Cargo.toml` change in `warp-internal` before committing. The local path override should never be checked in.
