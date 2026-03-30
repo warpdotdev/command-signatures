@@ -41,6 +41,7 @@ mod pip;
 mod powershell;
 mod pyenv;
 mod react_native;
+mod ros2;
 mod screen;
 mod ssh;
 mod systemctl;
@@ -99,6 +100,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         timedatectl::generator(),
         tmux::generator(),
         node::generator(),
+        ros2::generator(),
         screen::generator(),
         powershell::get_help_generator(),
         powershell::get_process_generator(),

@@ -1,0 +1,1760 @@
+{
+    "name": "ros2",
+    "description": "ROS 2 command line interface tools",
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show help message and exit"
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "action",
+            "description": "Various action related sub-commands",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "Output a list of action names",
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--show-types"
+                            ],
+                            "description": "Show action types"
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--count-action-clients"
+                            ],
+                            "description": "Display the number of action clients"
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--count-action-servers"
+                            ],
+                            "description": "Display the number of action servers"
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "description": "Output information about an action",
+                    "args": {
+                        "name": "action_name",
+                        "generatorName": "actions"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--show-types"
+                            ],
+                            "description": "Show action types"
+                        }
+                    ]
+                },
+                {
+                    "name": "send_goal",
+                    "description": "Send an action goal",
+                    "args": [
+                        {
+                            "name": "action_name",
+                            "generatorName": "actions"
+                        },
+                        {
+                            "name": "action_type",
+                            "generatorName": "interfaces"
+                        },
+                        {
+                            "name": "goal",
+                            "description": "Goal values in YAML format",
+                            "isOptional": true
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-f",
+                                "--feedback"
+                            ],
+                            "description": "Echo feedback messages for the goal"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "bag",
+            "description": "Various rosbag related sub-commands",
+            "subcommands": [
+                {
+                    "name": "record",
+                    "description": "Record topics to a bag file",
+                    "args": {
+                        "name": "topic",
+                        "description": "Topic name(s) to record",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--all"
+                            ],
+                            "description": "Record all topics"
+                        },
+                        {
+                            "name": [
+                                "-e",
+                                "--regex"
+                            ],
+                            "description": "Record only topics matching the provided regular expression",
+                            "args": {
+                                "name": "pattern"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-x",
+                                "--exclude"
+                            ],
+                            "description": "Exclude topics matching the provided regular expression",
+                            "args": {
+                                "name": "pattern"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--output"
+                            ],
+                            "description": "Destination of the bag file to create",
+                            "args": {
+                                "name": "output_path",
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": "--max-bag-size",
+                            "description": "Maximum bag file size in bytes (0 for unlimited)",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--max-bag-duration",
+                            "description": "Maximum bag file duration in seconds (0 for unlimited)",
+                            "args": {
+                                "name": "DURATION"
+                            }
+                        },
+                        {
+                            "name": "--no-discovery",
+                            "description": "Disable topic auto discovery while recording"
+                        },
+                        {
+                            "name": "--polling-interval",
+                            "description": "Topic polling interval in milliseconds for detection of new topics",
+                            "args": {
+                                "name": "INTERVAL"
+                            }
+                        },
+                        {
+                            "name": "--qos-profile-overrides-path",
+                            "description": "Path to a YAML file defining QoS profile overrides",
+                            "args": {
+                                "name": "path",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--include-hidden-topics",
+                            "description": "Record hidden topics"
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--storage"
+                            ],
+                            "description": "Storage identifier to be used",
+                            "args": {
+                                "name": "STORAGE_ID",
+                                "suggestions": [
+                                    "sqlite3",
+                                    "mcap"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--storage-config-file",
+                            "description": "Path to a YAML file defining storage specific configurations",
+                            "args": {
+                                "name": "path",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--compression-mode",
+                            "description": "Compression mode used for storage",
+                            "args": {
+                                "name": "COMPRESSION_MODE",
+                                "suggestions": [
+                                    "none",
+                                    "file",
+                                    "message"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--compression-format",
+                            "description": "Compression format/algorithm used for storage",
+                            "args": {
+                                "name": "COMPRESSION_FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--node-name",
+                            "description": "Name of the recording node",
+                            "args": {
+                                "name": "NODE_NAME"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "description": "Print information about a bag to the screen",
+                    "args": {
+                        "name": "bag_path",
+                        "template": "filepaths"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-v",
+                                "--verbose"
+                            ],
+                            "description": "Show extensive information about the bag"
+                        }
+                    ]
+                },
+                {
+                    "name": "play",
+                    "description": "Play back a bag file",
+                    "args": {
+                        "name": "bag_path",
+                        "template": "filepaths"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-s",
+                                "--storage"
+                            ],
+                            "description": "Storage identifier to be used",
+                            "args": {
+                                "name": "STORAGE_ID",
+                                "suggestions": [
+                                    "sqlite3",
+                                    "mcap"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--rate"
+                            ],
+                            "description": "Rate at which to play back messages",
+                            "args": {
+                                "name": "RATE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--loop"
+                            ],
+                            "description": "Enable loop playback"
+                        },
+                        {
+                            "name": "--start-offset",
+                            "description": "Starting time offset from the beginning of the bag in seconds",
+                            "args": {
+                                "name": "OFFSET"
+                            }
+                        },
+                        {
+                            "name": "--duration",
+                            "description": "Duration of playback in seconds",
+                            "args": {
+                                "name": "DURATION"
+                            }
+                        },
+                        {
+                            "name": "--topics",
+                            "description": "Topics to play back, separated by space",
+                            "args": {
+                                "name": "topic",
+                                "isVariadic": true,
+                                "generatorName": "topics"
+                            }
+                        },
+                        {
+                            "name": "--qos-profile-overrides-path",
+                            "description": "Path to a YAML file defining QoS profile overrides",
+                            "args": {
+                                "name": "path",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--read-ahead-queue-size",
+                            "description": "Size of the message read-ahead queue",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--clock",
+                            "description": "Publish to /clock at a specific frequency in Hz",
+                            "args": {
+                                "name": "FREQ"
+                            }
+                        },
+                        {
+                            "name": "--start-paused",
+                            "description": "Start playback paused"
+                        },
+                        {
+                            "name": "--storage-config-file",
+                            "description": "Path to a YAML file defining storage specific configurations",
+                            "args": {
+                                "name": "path",
+                                "template": "filepaths"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "convert",
+                    "description": "Given an input bag, write out a new bag with different settings",
+                    "args": [
+                        {
+                            "name": "input_uri",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "output_uri",
+                            "template": "filepaths"
+                        }
+                    ]
+                },
+                {
+                    "name": "reindex",
+                    "description": "Reconstruct the metadata file for a bag",
+                    "args": {
+                        "name": "bag_path",
+                        "template": "filepaths"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-s",
+                                "--storage"
+                            ],
+                            "description": "Storage identifier to be used",
+                            "args": {
+                                "name": "STORAGE_ID",
+                                "suggestions": [
+                                    "sqlite3",
+                                    "mcap"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "component",
+            "description": "Various component related sub-commands",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "Output a list of running containers and components"
+                },
+                {
+                    "name": "load",
+                    "description": "Load a component into a container node",
+                    "args": [
+                        {
+                            "name": "container_node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "plugin",
+                            "description": "Plugin name (package::ComponentClass)"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--node-name"
+                            ],
+                            "description": "Component node name",
+                            "args": {
+                                "name": "NODE_NAME"
+                            }
+                        },
+                        {
+                            "name": "--node-namespace",
+                            "description": "Component node namespace",
+                            "args": {
+                                "name": "NAMESPACE"
+                            }
+                        },
+                        {
+                            "name": "--log-level",
+                            "description": "Component node log level",
+                            "args": {
+                                "name": "LEVEL",
+                                "suggestions": [
+                                    "DEBUG",
+                                    "INFO",
+                                    "WARN",
+                                    "ERROR",
+                                    "FATAL"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--remap"
+                            ],
+                            "description": "Component node remapping rules in the 'from:=to' form",
+                            "args": {
+                                "name": "RULE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--param"
+                            ],
+                            "description": "Component node parameters in the 'name:=value' form",
+                            "args": {
+                                "name": "PARAM"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "standalone",
+                    "description": "Run a component into its own standalone container node",
+                    "args": [
+                        {
+                            "name": "package_name",
+                            "generatorName": "packages"
+                        },
+                        {
+                            "name": "plugin_name",
+                            "description": "Plugin name (package::ComponentClass)"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--node-name"
+                            ],
+                            "description": "Component node name",
+                            "args": {
+                                "name": "NODE_NAME"
+                            }
+                        },
+                        {
+                            "name": "--node-namespace",
+                            "description": "Component node namespace",
+                            "args": {
+                                "name": "NAMESPACE"
+                            }
+                        },
+                        {
+                            "name": "--log-level",
+                            "description": "Component node log level",
+                            "args": {
+                                "name": "LEVEL",
+                                "suggestions": [
+                                    "DEBUG",
+                                    "INFO",
+                                    "WARN",
+                                    "ERROR",
+                                    "FATAL"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--remap"
+                            ],
+                            "description": "Component node remapping rules in the 'from:=to' form",
+                            "args": {
+                                "name": "RULE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--param"
+                            ],
+                            "description": "Component node parameters in the 'name:=value' form",
+                            "args": {
+                                "name": "PARAM"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "types",
+                    "description": "Output a list of components registered in the ament index"
+                },
+                {
+                    "name": "unload",
+                    "description": "Unload a component from a container node",
+                    "args": [
+                        {
+                            "name": "container_node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "component_id",
+                            "description": "Unique ID of the component to unload"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "daemon",
+            "description": "Various daemon related sub-commands",
+            "subcommands": [
+                {
+                    "name": "start",
+                    "description": "Start the daemon if it is not running"
+                },
+                {
+                    "name": "status",
+                    "description": "Output the status of the daemon"
+                },
+                {
+                    "name": "stop",
+                    "description": "Stop the daemon if it is running"
+                }
+            ]
+        },
+        {
+            "name": "doctor",
+            "description": "Check ROS setup and other potential issues",
+            "options": [
+                {
+                    "name": [
+                        "-r",
+                        "--report"
+                    ],
+                    "description": "Print all warnings and errors"
+                },
+                {
+                    "name": [
+                        "-rf",
+                        "--report-failed"
+                    ],
+                    "description": "Print reports of failed checks only"
+                },
+                {
+                    "name": [
+                        "-iw",
+                        "--include-warnings"
+                    ],
+                    "description": "Include warnings as failed checks"
+                }
+            ]
+        },
+        {
+            "name": "extension_points",
+            "description": "Output a list of extension points",
+            "options": [
+                {
+                    "name": [
+                        "-a",
+                        "--all"
+                    ],
+                    "description": "Show extension points which failed to be imported"
+                },
+                {
+                    "name": [
+                        "-v",
+                        "--verbose"
+                    ],
+                    "description": "Show more information for each extension point"
+                }
+            ]
+        },
+        {
+            "name": "extensions",
+            "description": "Output a list of extensions",
+            "options": [
+                {
+                    "name": [
+                        "-a",
+                        "--all"
+                    ],
+                    "description": "Show extensions which failed to load or are incompatible"
+                },
+                {
+                    "name": [
+                        "-v",
+                        "--verbose"
+                    ],
+                    "description": "Show more information for each extension"
+                }
+            ]
+        },
+        {
+            "name": "interface",
+            "description": "Show information about ROS interfaces",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "List all interface types available",
+                    "options": [
+                        {
+                            "name": [
+                                "-m",
+                                "--only-msgs"
+                            ],
+                            "description": "Only list message types"
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--only-srvs"
+                            ],
+                            "description": "Only list service types"
+                        },
+                        {
+                            "name": [
+                                "-a",
+                                "--only-actions"
+                            ],
+                            "description": "Only list action types"
+                        }
+                    ]
+                },
+                {
+                    "name": "package",
+                    "description": "Output a list of available interface types within one package",
+                    "args": {
+                        "name": "package_name",
+                        "generatorName": "packages"
+                    }
+                },
+                {
+                    "name": "packages",
+                    "description": "Output a list of packages that provide interfaces"
+                },
+                {
+                    "name": "proto",
+                    "description": "Output an interface's prototype",
+                    "args": {
+                        "name": "type_name",
+                        "generatorName": "interfaces"
+                    }
+                },
+                {
+                    "name": "show",
+                    "description": "Output the interface definition",
+                    "args": {
+                        "name": "type_name",
+                        "generatorName": "interfaces"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--all-comments"
+                            ],
+                            "description": "Show all comments including whitespace-only and separator comments"
+                        },
+                        {
+                            "name": "--no-comments",
+                            "description": "Hide all comments"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "launch",
+            "description": "Run a launch file",
+            "args": [
+                {
+                    "name": "package_name",
+                    "generatorName": "packages"
+                },
+                {
+                    "name": "launch_file_name",
+                    "description": "Name of the launch file"
+                },
+                {
+                    "name": "launch_arguments",
+                    "description": "Arguments to pass to the launch file in 'key:=value' form",
+                    "isOptional": true,
+                    "isVariadic": true
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-n",
+                        "--noninteractive"
+                    ],
+                    "description": "Run the launch system non-interactively"
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--debug"
+                    ],
+                    "description": "Put the launch system in debug mode"
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--print",
+                        "--print-description"
+                    ],
+                    "description": "Print the launch description to the console without launching"
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--show-args",
+                        "--show-arguments"
+                    ],
+                    "description": "Show arguments that may be given to the launch file"
+                },
+                {
+                    "name": [
+                        "-a",
+                        "--show-all-subprocesses-output"
+                    ],
+                    "description": "Show all launched subprocesses output"
+                },
+                {
+                    "name": "--launch-prefix",
+                    "description": "Prefix command to prepend to all executables",
+                    "args": {
+                        "name": "LAUNCH_PREFIX"
+                    }
+                },
+                {
+                    "name": "--launch-prefix-filter",
+                    "description": "Regex to filter which executables the launch prefix applies to",
+                    "args": {
+                        "name": "LAUNCH_PREFIX_FILTER"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "lifecycle",
+            "description": "Various lifecycle related sub-commands",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "Output a list of available transitions for a lifecycle node",
+                    "args": {
+                        "name": "node_name",
+                        "generatorName": "nodes"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get the lifecycle state of one or more nodes",
+                    "args": {
+                        "name": "node_name",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "generatorName": "nodes"
+                    }
+                },
+                {
+                    "name": "nodes",
+                    "description": "Output a list of nodes with lifecycle"
+                },
+                {
+                    "name": "set",
+                    "description": "Trigger a lifecycle state transition for a node",
+                    "args": [
+                        {
+                            "name": "node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "transition",
+                            "suggestions": [
+                                "configure",
+                                "cleanup",
+                                "activate",
+                                "deactivate",
+                                "shutdown"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "multicast",
+            "description": "Various multicast related sub-commands",
+            "subcommands": [
+                {
+                    "name": "receive",
+                    "description": "Receive a single UDP multicast packet"
+                },
+                {
+                    "name": "send",
+                    "description": "Send a single UDP multicast packet"
+                }
+            ]
+        },
+        {
+            "name": "node",
+            "description": "Various node related sub-commands",
+            "subcommands": [
+                {
+                    "name": "info",
+                    "description": "Output information about a node",
+                    "args": {
+                        "name": "node_name",
+                        "generatorName": "nodes"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--all"
+                            ],
+                            "description": "Show all the info including hidden services and topics"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "Output a list of available nodes",
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--all"
+                            ],
+                            "description": "Show hidden nodes as well"
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--count-nodes"
+                            ],
+                            "description": "Only display the number of nodes discovered"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "param",
+            "description": "Various param related sub-commands",
+            "subcommands": [
+                {
+                    "name": "delete",
+                    "description": "Delete a parameter",
+                    "args": [
+                        {
+                            "name": "node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "parameter_name",
+                            "description": "Name of the parameter"
+                        }
+                    ]
+                },
+                {
+                    "name": "dump",
+                    "description": "Dump the parameters of a node to a YAML file",
+                    "args": {
+                        "name": "node_name",
+                        "generatorName": "nodes"
+                    },
+                    "options": [
+                        {
+                            "name": "--output-dir",
+                            "description": "Absolute path to save the generated parameters file",
+                            "args": {
+                                "name": "path",
+                                "template": "folders"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Get the value of a parameter",
+                    "args": [
+                        {
+                            "name": "node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "parameter_name",
+                            "description": "Name of the parameter"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--param-type"
+                            ],
+                            "description": "Show the parameter type"
+                        },
+                        {
+                            "name": [
+                                "-v",
+                                "--verbose"
+                            ],
+                            "description": "Show verbose output"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "Output a list of available parameters",
+                    "args": {
+                        "name": "node_name",
+                        "isOptional": true,
+                        "generatorName": "nodes"
+                    },
+                    "options": [
+                        {
+                            "name": "--param-prefixes",
+                            "description": "Only show parameters with the specified prefixes",
+                            "args": {
+                                "name": "prefix",
+                                "isVariadic": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "load",
+                    "description": "Load parameters from a file to a currently running node",
+                    "args": [
+                        {
+                            "name": "node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "parameter_file",
+                            "template": "filepaths"
+                        }
+                    ]
+                },
+                {
+                    "name": "set",
+                    "description": "Set the value of a parameter",
+                    "args": [
+                        {
+                            "name": "node_name",
+                            "generatorName": "nodes"
+                        },
+                        {
+                            "name": "parameter_name",
+                            "description": "Name of the parameter"
+                        },
+                        {
+                            "name": "value",
+                            "description": "Value of the parameter"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pkg",
+            "description": "Various package related sub-commands",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a new ROS 2 package",
+                    "args": {
+                        "name": "package_name",
+                        "description": "Name of the new package"
+                    },
+                    "options": [
+                        {
+                            "name": "--build-type",
+                            "description": "Build system to be used for the package",
+                            "args": {
+                                "name": "BUILD_TYPE",
+                                "suggestions": [
+                                    "ament_cmake",
+                                    "ament_python",
+                                    "cmake"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--dependencies",
+                            "description": "List of dependencies",
+                            "args": {
+                                "name": "dependency",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "Description of the package",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--destination-directory",
+                            "description": "Directory where the package will be created",
+                            "args": {
+                                "name": "path",
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": "--license",
+                            "description": "SPDX license identifier for the package",
+                            "args": {
+                                "name": "LICENSE"
+                            }
+                        },
+                        {
+                            "name": "--maintainer-email",
+                            "description": "Email address of the maintainer",
+                            "args": {
+                                "name": "EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--maintainer-name",
+                            "description": "Name of the maintainer",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "--node-name",
+                            "description": "Name of a sample node to generate",
+                            "args": {
+                                "name": "NODE_NAME"
+                            }
+                        },
+                        {
+                            "name": "--library-name",
+                            "description": "Name of a sample library to generate",
+                            "args": {
+                                "name": "LIBRARY_NAME"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "executables",
+                    "description": "Output a list of package specific executables",
+                    "args": {
+                        "name": "package_name",
+                        "isOptional": true,
+                        "generatorName": "packages"
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "Output a list of available packages",
+                    "options": [
+                        {
+                            "name": "--show-paths",
+                            "description": "Show the paths of the packages"
+                        }
+                    ]
+                },
+                {
+                    "name": "prefix",
+                    "description": "Output the prefix path of a package",
+                    "args": {
+                        "name": "package_name",
+                        "generatorName": "packages"
+                    }
+                },
+                {
+                    "name": "xml",
+                    "description": "Output the XML of the package manifest or a specific tag",
+                    "args": {
+                        "name": "package_name",
+                        "generatorName": "packages"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--tag"
+                            ],
+                            "description": "Only output the XML for the specific tag",
+                            "args": {
+                                "name": "TAG"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "run",
+            "description": "Run a package-specific executable",
+            "args": [
+                {
+                    "name": "package_name",
+                    "generatorName": "packages"
+                },
+                {
+                    "name": "executable_name",
+                    "generatorName": "executables"
+                },
+                {
+                    "name": "argv",
+                    "description": "Arbitrary arguments passed to the executable",
+                    "isOptional": true,
+                    "isVariadic": true
+                }
+            ],
+            "options": [
+                {
+                    "name": "--prefix",
+                    "description": "Prefix command to run before the executable",
+                    "args": {
+                        "name": "PREFIX"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "security",
+            "description": "Various security related sub-commands",
+            "subcommands": [
+                {
+                    "name": "create_keystore",
+                    "description": "Create a keystore",
+                    "args": {
+                        "name": "keystore_path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "create_enclave",
+                    "description": "Create an enclave",
+                    "args": [
+                        {
+                            "name": "keystore_path",
+                            "template": "folders"
+                        },
+                        {
+                            "name": "enclave_name",
+                            "description": "Name of the enclave to create"
+                        }
+                    ]
+                },
+                {
+                    "name": "create_permission",
+                    "description": "Create permission",
+                    "args": [
+                        {
+                            "name": "keystore_path",
+                            "template": "folders"
+                        },
+                        {
+                            "name": "enclave_name",
+                            "description": "Name of the enclave"
+                        },
+                        {
+                            "name": "policy_file",
+                            "template": "filepaths"
+                        }
+                    ]
+                },
+                {
+                    "name": "generate_artifacts",
+                    "description": "Generate security artifacts from a policy file",
+                    "options": [
+                        {
+                            "name": [
+                                "-k",
+                                "--keystore"
+                            ],
+                            "description": "Path to the keystore",
+                            "args": {
+                                "name": "path",
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--policy"
+                            ],
+                            "description": "Path to the policy file",
+                            "args": {
+                                "name": "path",
+                                "template": "filepaths"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "generate_policy",
+                    "description": "Generate a security policy from a running node",
+                    "args": {
+                        "name": "ros_graph_xml",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "list_keys",
+                    "description": "List keys in the keystore",
+                    "args": {
+                        "name": "keystore_path",
+                        "template": "folders"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "service",
+            "description": "Various service related sub-commands",
+            "subcommands": [
+                {
+                    "name": "call",
+                    "description": "Call a service",
+                    "args": [
+                        {
+                            "name": "service_name",
+                            "generatorName": "services"
+                        },
+                        {
+                            "name": "service_type",
+                            "generatorName": "interfaces"
+                        },
+                        {
+                            "name": "values",
+                            "description": "Service request values in YAML format",
+                            "isOptional": true
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-r",
+                                "--rate"
+                            ],
+                            "description": "Repeat the call at a specific rate in Hz",
+                            "args": {
+                                "name": "RATE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-t",
+                                "--timeout"
+                            ],
+                            "description": "Maximum time to wait for a service response in seconds",
+                            "args": {
+                                "name": "TIMEOUT"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "find",
+                    "description": "Output a list of available services of a given type",
+                    "args": {
+                        "name": "service_type",
+                        "generatorName": "interfaces"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--count"
+                            ],
+                            "description": "Only display the number of services discovered"
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "description": "Output information about a service",
+                    "args": {
+                        "name": "service_name",
+                        "generatorName": "services"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-v",
+                                "--verbose"
+                            ],
+                            "description": "Show full information about each service client and server"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "Output a list of available services",
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--show-types"
+                            ],
+                            "description": "Show service types"
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--count-services"
+                            ],
+                            "description": "Only display the number of services discovered"
+                        }
+                    ]
+                },
+                {
+                    "name": "type",
+                    "description": "Output a service's type",
+                    "args": {
+                        "name": "service_name",
+                        "generatorName": "services"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "test",
+            "description": "Run a ROS launch test",
+            "args": {
+                "name": "test_file",
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-s",
+                        "--show-args",
+                        "--show-arguments"
+                    ],
+                    "description": "Show arguments that may be given to the test file"
+                }
+            ]
+        },
+        {
+            "name": "topic",
+            "description": "Various topic related sub-commands",
+            "subcommands": [
+                {
+                    "name": "bw",
+                    "description": "Display bandwidth used by a topic",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": "--window",
+                            "description": "Window size in messages over which to calculate bandwidth",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delay",
+                    "description": "Display delay of a topic from header timestamp",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-w",
+                                "--window"
+                            ],
+                            "description": "Window size in messages over which to calculate delay",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "echo",
+                    "description": "Output messages from a topic",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--field"
+                            ],
+                            "description": "Echo a specified field of a message",
+                            "args": {
+                                "name": "FIELD"
+                            }
+                        },
+                        {
+                            "name": "--full-length",
+                            "description": "Output all elements for arrays, bytes, and string with a leading ellipsis"
+                        },
+                        {
+                            "name": "--truncate-length",
+                            "description": "Truncate arrays, bytes, and string fields to TRUNCATE_LENGTH",
+                            "args": {
+                                "name": "TRUNCATE_LENGTH"
+                            }
+                        },
+                        {
+                            "name": "--no-lost-messages",
+                            "description": "Don't report when a message is lost"
+                        },
+                        {
+                            "name": [
+                                "-n",
+                                "--times"
+                            ],
+                            "description": "Echo a message N times and exit",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": "--once",
+                            "description": "Print one message and exit"
+                        },
+                        {
+                            "name": "--qos-reliability",
+                            "description": "QoS reliability for the subscriber",
+                            "args": {
+                                "name": "QOS_RELIABILITY",
+                                "suggestions": [
+                                    "reliable",
+                                    "best_effort"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--qos-durability",
+                            "description": "QoS durability for the subscriber",
+                            "args": {
+                                "name": "QOS_DURABILITY",
+                                "suggestions": [
+                                    "volatile",
+                                    "transient_local"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--qos-depth",
+                            "description": "QoS history depth",
+                            "args": {
+                                "name": "QOS_DEPTH"
+                            }
+                        },
+                        {
+                            "name": "--qos-history",
+                            "description": "QoS history policy",
+                            "args": {
+                                "name": "QOS_HISTORY",
+                                "suggestions": [
+                                    "keep_last",
+                                    "keep_all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--raw",
+                            "description": "Echo the raw binary serialized representation"
+                        }
+                    ]
+                },
+                {
+                    "name": "find",
+                    "description": "Output a list of available topics of a given type",
+                    "args": {
+                        "name": "topic_type",
+                        "generatorName": "interfaces"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--count-topics"
+                            ],
+                            "description": "Only display the number of topics discovered"
+                        }
+                    ]
+                },
+                {
+                    "name": "hz",
+                    "description": "Print the average publishing rate of a topic",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-w",
+                                "--window"
+                            ],
+                            "description": "Window size in messages over which to calculate rate",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--filter",
+                            "description": "Only calculate rate for messages matching the filter expression",
+                            "args": {
+                                "name": "EXPR"
+                            }
+                        },
+                        {
+                            "name": "--wall-time",
+                            "description": "Calculate rate using wall time"
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "description": "Print information about a topic",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-v",
+                                "--verbose"
+                            ],
+                            "description": "Show full information about each publisher and subscriber"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "Output a list of available topics",
+                    "options": [
+                        {
+                            "name": [
+                                "-t",
+                                "--show-types"
+                            ],
+                            "description": "Show topic types"
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--count-topics"
+                            ],
+                            "description": "Only display the number of topics discovered"
+                        },
+                        {
+                            "name": [
+                                "-v",
+                                "--verbose"
+                            ],
+                            "description": "Show list of publishers and subscribers of each topic"
+                        },
+                        {
+                            "name": [
+                                "-a",
+                                "--include-hidden-topics"
+                            ],
+                            "description": "Consider hidden topics as well"
+                        }
+                    ]
+                },
+                {
+                    "name": "pub",
+                    "description": "Publish a message to a topic",
+                    "args": [
+                        {
+                            "name": "topic_name",
+                            "generatorName": "topics"
+                        },
+                        {
+                            "name": "msg_type",
+                            "generatorName": "interfaces"
+                        },
+                        {
+                            "name": "values",
+                            "description": "Message values in YAML format",
+                            "isOptional": true
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-r",
+                                "--rate"
+                            ],
+                            "description": "Publishing rate in Hz (default: 1)",
+                            "args": {
+                                "name": "RATE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-1",
+                                "--once"
+                            ],
+                            "description": "Publish one message and exit"
+                        },
+                        {
+                            "name": [
+                                "-t",
+                                "--times"
+                            ],
+                            "description": "Publish message N times",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-w",
+                                "--wait-matching-subscriptions"
+                            ],
+                            "description": "Wait until N matching subscriptions before publishing",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": "--qos-reliability",
+                            "description": "QoS reliability for the publisher",
+                            "args": {
+                                "name": "QOS_RELIABILITY",
+                                "suggestions": [
+                                    "reliable",
+                                    "best_effort"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--qos-durability",
+                            "description": "QoS durability for the publisher",
+                            "args": {
+                                "name": "QOS_DURABILITY",
+                                "suggestions": [
+                                    "volatile",
+                                    "transient_local"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--qos-depth",
+                            "description": "QoS history depth",
+                            "args": {
+                                "name": "QOS_DEPTH"
+                            }
+                        },
+                        {
+                            "name": "--qos-history",
+                            "description": "QoS history policy",
+                            "args": {
+                                "name": "QOS_HISTORY",
+                                "suggestions": [
+                                    "keep_last",
+                                    "keep_all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--keep-alive",
+                            "description": "Publish keep alive message N Hz",
+                            "args": {
+                                "name": "N"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "type",
+                    "description": "Print a topic's type",
+                    "args": {
+                        "name": "topic_name",
+                        "generatorName": "topics"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "wtf",
+            "description": "Alias for doctor",
+            "options": [
+                {
+                    "name": [
+                        "-r",
+                        "--report"
+                    ],
+                    "description": "Print all warnings and errors"
+                },
+                {
+                    "name": [
+                        "-rf",
+                        "--report-failed"
+                    ],
+                    "description": "Print reports of failed checks only"
+                },
+                {
+                    "name": [
+                        "-iw",
+                        "--include-warnings"
+                    ],
+                    "description": "Include warnings as failed checks"
+                }
+            ]
+        }
+    ]
+}
