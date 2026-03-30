@@ -5,10 +5,44 @@ description: Guide for adding new command completion specs to warp-command-signa
 
 # Adding a New Command Spec
 
-## Steps
+This skill covers the full lifecycle of writing a completion spec in warpdotdev/command-signatures: researching the command, implementing the spec, validating it, submitting a PR, and documenting learnings for future completion spec implementations.
 
-1. **Create JSON spec**: `command-signatures/json/<command>.json` following the [Fig completion spec schema](https://fig.io/docs/reference)
-2. **Create generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
+## Step 1: Research the Command
+
+Before writing any JSON, build a thorough picture of the command's subcommands, flags, and argument types. Commands often have more surface area than you'd expect — nested subcommands, platform-specific flags, mutually exclusive options. Investing time here prevents rework later.
+
+Use these strategies roughly in priority order:
+
+### Start with Fish shell completions
+
+Fish maintains high-quality, community-reviewed completion definitions at https://github.com/fish-shell/fish-shell/tree/master/share/completions — look for `<command>.fish`. These are thorough and well-structured, so they're the fastest way to get a comprehensive picture of a command's subcommands and flags. Read this file first.
+
+### Test with Fish shell completions
+
+You can also use Fish's completion engine to test output interactively:
+
+1. Install Fish if needed (`brew install fish` on UNIX)
+2. Run: `fish -c 'complete -C "<command> "'` to see top-level completions
+3. Drill into subcommands: `fish -c 'complete -C "<command> <subcommand> "'`
+
+For example, to inspect `gcloud compute ssh` completions: `fish -c 'complete -C "gcloud compute ssh w"'` (where `w` is the start of a known target).
+
+### Install and inspect the command directly
+
+Use the command's own documentation to fill gaps and verify what Fish reports. Install the command if it isn't already available, then:
+
+- Check the `man` page (pipe to `cat` to avoid the pager): `man <command> | cat`
+- Run `<command> --help` and `<command> help` at each subcommand level to discover nested structure
+- Run the command itself to observe real output — this matters for generators that parse command output
+
+### Use Fig specs as a last resort
+
+The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master/src has TypeScript specs for many commands (look for `<command>.ts`). These can help fill gaps, but they vary in quality and may be outdated — always verify against the command's own docs.
+
+## Step 2: Implement the Spec
+
+1. **Create the JSON spec**: `command-signatures/json/<command>.json` following the [Fig completion spec schema](https://fig.io/docs/reference)
+2. **Create a generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
 ## Platform Compatibility
 
@@ -68,13 +102,24 @@ Format the JSON spec with `npm run format -- command-signatures/json/<command>.j
 
 Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
-To verify completions end-to-end in a real Warp session, use the **test-local-warp** skill, which covers building and running Warp against a local checkout of this repo.
-This requires computer use to be enabled since Warp is a GUI application.
+To verify completions end-to-end in a real Warp session, use the **test-local-warp** skill, which covers building and running Warp against a local checkout of this repo. This requires computer use to be enabled since Warp is a GUI application.
 Use this when adding generators to make sure they produce reasonable candidates.
-If you are running unsupervised (autonomy level is `UNSUPERVISED`), this step is required.
 Produce screenshots for each generator added so that a human can review them. You do not need to zoom in.
 We only need screenshots for generator functions. Things like sub-commands and options are already well tested.
-When running supervised, skip this step.
+If you are running unsupervised (autonomy level is `UNSUPERVISED`), screenshot artifacts are required; the generator implementation will not be accepted without them. When running supervised, skip this step.
+
+## Submitting
+
+Ttile the branch: `lucie/test-command-spec-<command-name>`.
+Title the PR: **Add completion spec: `<command_name>`**.
+
+A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
+
+## Post-Completion Learnings
+
+If you encounter something genuinely surprising or novel while writing the spec that would help future completion spec writers — an undocumented edge case, a research strategy that saved significant time, a pattern that the existing guidance doesn't cover — update this skill file with what you learned. Open a separate PR titled **Post-completion learnings: `<command_name>`** with those changes.
+
+Skip this if the spec was straightforward and the existing guidance covered everything you needed. The goal is to help future spec implementers, not to generate busywork.
 
 ## Reference Examples
 
