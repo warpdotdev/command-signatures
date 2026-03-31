@@ -5,7 +5,7 @@ description: Guide for adding new command completion specs to warp-command-signa
 
 # Adding a New Command Spec
 
-This skill covers the full lifecycle of writing a completion spec in warpdotdev/command-signatures: researching the command, implementing the spec, validating it, submitting a PR, and documenting learnings for future completion spec implementations.
+This skill covers the full lifecycle of writing a completion spec in warpdotdev/command-signatures: researching the command, writing the spec, validating it, and submitting it.
 
 ## Step 1: Research the Command
 
@@ -44,17 +44,17 @@ The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master
 1. **Create the JSON spec**: `command-signatures/json/<command>.json` following the [Fig completion spec schema](https://fig.io/docs/reference)
 2. **Create a generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
-## Platform Compatibility
+### Platform Compatibility
 
 When implementing generator commands, ensure they work across all applicable platforms where the command exists. For example, a UNIX-only command should work on both macOS and Linux, not just the platform being used for development.
 
-### Common pitfalls
+#### Common pitfalls
 
 - Commands that work differently across platforms (for example, user lookup via `dscl` on macOS vs `getent` on Linux)
 - Commands with different output formats across platforms
 - Hardcoded paths that differ between systems
 
-### Solutions
+#### Solutions
 
 Identify which platforms the command needs to support.
 
@@ -69,7 +69,7 @@ Prioritize approaches in this order:
 
 Implement platform-specific logic in the generator only when behavior fundamentally differs across systems.
 
-## Generator Reusability
+### Generator Reusability
 
 Generators that are shared by multiple commands should live in `command-signatures/src/generators/common.rs`. Before implementing a new generator:
 
@@ -80,11 +80,11 @@ Generators that are shared by multiple commands should live in `command-signatur
 
 See `fn users_generator()` in `common.rs` as an example of a cross-platform generator used by multiple commands.
 
-## Style Guideline
+### Style Guideline
 
 Match the formatting conventions used in the command's `--help` output. For example, if the help text uses `UPPER_CASE` for positional argument names, use the same casing in the spec's argument `name` field.
 
-### Documenting Argument Formats
+#### Documenting Argument Formats
 
 If an argument has a specific format (date, time, pattern, etc.), document it in the argument's `description` field. This helps users understand the expected input format.
 
@@ -96,7 +96,7 @@ Example:
 }
 ```
 
-## Validation
+## Step 3: Validation
 
 Format the JSON spec with `npm run format -- command-signatures/json/<command>.json`.
 
@@ -107,11 +107,11 @@ Static sub-commands and options are already well-tested.
 Generators require end-to-end verification to make sure they produce reasonable candidates. To verify generator completions end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
 Use a local warp build to install and set up the command and test the newly-written generators. To trigger the completions menu, press the `tab` key. Remember that we're NOT testing autocomplete (ghost text), but rather testing completions, which are dropdown menus that appear next to the cursor. Take a screenshot to show each generator working; your work will not be accepted without it. You do not need to zoom in.
 
-## Submitting
+## Step 4: Submitting
 
 Title the branch according to the Linear issue, eg: `app-####/command-spec-<command-name>`.
 Title the PR: **Add completion spec: `<command full name> [short-name])`**, where `<command full name>` is the command's full, human-readable name (eg. "ripgrep"). `[short-name]` is the command's CLI invocation, if it exists, in parentheses (eg. "(rg)").
-For example, adding support for ripgrep would be done in a branch called `lucie/test-command-spec-rg` and a PR titled "Add completion spec: ripgrep (rg)".
+For example, adding support for openshift would be done in a branch called `app-3507/command-spec-openshift` and a PR titled "Add completion spec: openshift (oc)".
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
 
@@ -121,3 +121,6 @@ Attach screenshots for each generator in the PR body.
 
 - **Simple spec with generator**: `json/kill.json` + `src/generators/kill.rs` — minimal example showing `generatorName` usage for process and signal completions
 - **Complex spec with multiple generators**: `json/brew.json` + `src/generators/brew.rs` — shows subcommands, options, and multiple generators (`formulae_generator`, `services`, etc.)
+- **Context-aware generators and aliases**: `src/generators/git.rs` — demonstrates `command_from_tokens` (flag-dependent behavior) and `add_alias` (git alias expansion)
+- **Multi-command module with shared helpers**: `src/generators/npm.rs` — single module exporting generators for `npm`, `yarn`, and `pnpm`, reusing `get_scripts_generator()` and `dependencies_generator()`
+- **Parsing structured output**: `src/generators/cargo.rs` — generators that parse JSON from `cargo metadata` using serde deserialization
