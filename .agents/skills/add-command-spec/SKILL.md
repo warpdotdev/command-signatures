@@ -41,7 +41,7 @@ The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master
 
 ## Step 2: Implement the Spec
 
-1. **Create the JSON spec**: `command-signatures/json/<command>.json` following the [Fig completion spec schema](https://fig.io/docs/reference)
+1. **Create the JSON spec**: `command-signatures/json/<command>.json` following Fig's completion spec schema and the reference examples.
 2. **Create a generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
 ### Platform Compatibility
