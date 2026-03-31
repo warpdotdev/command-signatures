@@ -102,21 +102,20 @@ Format the JSON spec with `npm run format -- command-signatures/json/<command>.j
 
 Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
-To verify completions end-to-end in a real Warp session, use the **test-local-warp** skill, which covers building and running Warp against a local checkout of this repo. This requires computer use to be enabled since Warp is a GUI application.
-Use this when adding generators to make sure they produce reasonable candidates.
-Produce screenshots for each generator added so that a human can review them. You do not need to zoom in.
-We only need screenshots for generator functions. Things like sub-commands and options are already well tested.
-If you are running unsupervised (autonomy level is `UNSUPERVISED`), screenshot artifacts are required; the generator implementation will not be accepted without them. When running supervised, skip this step.
+Static sub-commands and options are already well-tested.
+
+Generators require end-to-end verification to make sure they produce reasonable candidates. To verify generator completions end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
+Use a local warp build to install and set up the command and test the newly-written generators. To trigger the completions menu, press the `tab` key. Remember that we're NOT testing autocomplete (ghost text), but rather testing completions, which are dropdown menus that appear next to the cursor. Take a screenshot to show each generator working; your work will not be accepted without it. You do not need to zoom in.
 
 ## Submitting
 
-Title the branch: `lucie/test-command-spec-<short-name>`.
-Title the PR: **Add completion spec: `<command full name> [short-name])`**.
-<command full name> is the command's full, human-readable name (eg. "ripgrep").
-[short-name] is the command's CLI invocation, if it exists, in parentheses (eg. "(rg)").
+Title the branch according to the Linear issue, eg: `app-####/command-spec-<command-name>`.
+Title the PR: **Add completion spec: `<command full name> [short-name])`**, where `<command full name>` is the command's full, human-readable name (eg. "ripgrep"). `[short-name]` is the command's CLI invocation, if it exists, in parentheses (eg. "(rg)").
 For example, adding support for ripgrep would be done in a branch called `lucie/test-command-spec-rg` and a PR titled "Add completion spec: ripgrep (rg)".
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
+
+Attach screenshots for each generator in the PR body.
 
 ## Reference Examples
 
