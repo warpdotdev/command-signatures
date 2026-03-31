@@ -110,16 +110,13 @@ If you are running unsupervised (autonomy level is `UNSUPERVISED`), screenshot a
 
 ## Submitting
 
-Ttile the branch: `lucie/test-command-spec-<command-name>`.
-Title the PR: **Add completion spec: `<command_name>`**.
+Title the branch: `lucie/test-command-spec-<short-name>`.
+Title the PR: **Add completion spec: `<command full name> [short-name])`**.
+<command full name> is the command's full, human-readable name (eg. "ripgrep").
+[short-name] is the command's CLI invocation, if it exists, in parentheses (eg. "(rg)").
+For example, adding support for ripgrep would be done in a branch called `lucie/test-command-spec-rg` and a PR titled "Add completion spec: ripgrep (rg)".
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
-
-## Post-Completion Learnings
-
-If you encounter something genuinely surprising or novel while writing the spec that would help future completion spec writers — an undocumented edge case, a research strategy that saved significant time, a pattern that the existing guidance doesn't cover — update this skill file with what you learned. Open a separate PR titled **Post-completion learnings: `<command_name>`** with those changes.
-
-Skip this if the spec was straightforward and the existing guidance covered everything you needed. The goal is to help future spec implementers, not to generate busywork.
 
 ## Reference Examples
 
