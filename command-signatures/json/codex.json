@@ -1,0 +1,2827 @@
+{
+    "name": "codex",
+    "description": "OpenAI Codex CLI - AI coding agent for the terminal",
+    "options": [
+        {
+            "name": [
+                "-c",
+                "--config"
+            ],
+            "description": "Override a configuration value (key=value, repeatable)",
+            "isRepeatable": true,
+            "args": {
+                "name": "key=value"
+            }
+        },
+        {
+            "name": "--enable",
+            "description": "Enable a feature flag (repeatable)",
+            "isRepeatable": true,
+            "args": {
+                "name": "FEATURE"
+            }
+        },
+        {
+            "name": "--disable",
+            "description": "Disable a feature flag (repeatable)",
+            "isRepeatable": true,
+            "args": {
+                "name": "FEATURE"
+            }
+        },
+        {
+            "name": "--remote",
+            "description": "Connect the TUI to a remote app server websocket endpoint",
+            "args": {
+                "name": "ADDR"
+            }
+        },
+        {
+            "name": "--remote-auth-token-env",
+            "description": "Environment variable containing the bearer token for a remote app server",
+            "args": {
+                "name": "ENV_VAR"
+            }
+        },
+        {
+            "name": [
+                "-i",
+                "--image"
+            ],
+            "description": "Attach image file(s) to the initial prompt",
+            "isRepeatable": true,
+            "args": {
+                "name": "FILE",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "-m",
+                "--model"
+            ],
+            "description": "Model the agent should use",
+            "args": {
+                "name": "MODEL"
+            }
+        },
+        {
+            "name": "--oss",
+            "description": "Use the local open source model provider (Ollama or LM Studio)"
+        },
+        {
+            "name": "--local-provider",
+            "description": "Specify which local provider to use with --oss",
+            "args": {
+                "name": "OSS_PROVIDER",
+                "suggestions": [
+                    "lmstudio",
+                    "ollama"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-p",
+                "--profile"
+            ],
+            "description": "Configuration profile from config.toml",
+            "args": {
+                "name": "CONFIG_PROFILE"
+            }
+        },
+        {
+            "name": [
+                "-s",
+                "--sandbox"
+            ],
+            "description": "Sandbox policy for model-generated shell commands",
+            "args": {
+                "name": "SANDBOX_MODE",
+                "suggestions": [
+                    "read-only",
+                    "workspace-write",
+                    "danger-full-access"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-a",
+                "--ask-for-approval"
+            ],
+            "description": "When the model requires human approval before executing a command",
+            "args": {
+                "name": "APPROVAL_POLICY",
+                "suggestions": [
+                    "untrusted",
+                    "on-request",
+                    "never"
+                ]
+            }
+        },
+        {
+            "name": "--full-auto",
+            "description": "Low-friction sandboxed automatic execution (workspace-write sandbox, on-request approvals)"
+        },
+        {
+            "name": [
+                "--dangerously-bypass-approvals-and-sandbox",
+                "--yolo"
+            ],
+            "description": "Skip all confirmation prompts and execute without sandboxing"
+        },
+        {
+            "name": [
+                "-C",
+                "--cd"
+            ],
+            "description": "Set the working directory for the agent",
+            "args": {
+                "name": "DIR",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--search",
+            "description": "Enable live web search"
+        },
+        {
+            "name": "--add-dir",
+            "description": "Grant additional directories write access alongside the main workspace",
+            "isRepeatable": true,
+            "args": {
+                "name": "DIR",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--no-alt-screen",
+            "description": "Disable alternate screen mode for the TUI"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print help"
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Print version"
+        }
+    ],
+    "args": {
+        "name": "PROMPT",
+        "description": "Optional user prompt to start the session",
+        "isOptional": true
+    },
+    "subcommands": [
+        {
+            "name": [
+                "exec",
+                "e"
+            ],
+            "description": "Run Codex non-interactively",
+            "args": {
+                "name": "PROMPT",
+                "description": "Initial instructions for the agent (use - to read from stdin)",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--image"
+                    ],
+                    "description": "Attach image file(s) to the initial prompt",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--model"
+                    ],
+                    "description": "Model the agent should use",
+                    "args": {
+                        "name": "MODEL"
+                    }
+                },
+                {
+                    "name": "--oss",
+                    "description": "Use open-source provider"
+                },
+                {
+                    "name": "--local-provider",
+                    "description": "Specify which local provider to use",
+                    "args": {
+                        "name": "OSS_PROVIDER",
+                        "suggestions": [
+                            "lmstudio",
+                            "ollama"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--sandbox"
+                    ],
+                    "description": "Sandbox policy for model-generated commands",
+                    "args": {
+                        "name": "SANDBOX_MODE",
+                        "suggestions": [
+                            "read-only",
+                            "workspace-write",
+                            "danger-full-access"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--profile"
+                    ],
+                    "description": "Configuration profile from config.toml",
+                    "args": {
+                        "name": "CONFIG_PROFILE"
+                    }
+                },
+                {
+                    "name": "--full-auto",
+                    "description": "Low-friction sandboxed automatic execution"
+                },
+                {
+                    "name": "--dangerously-bypass-approvals-and-sandbox",
+                    "description": "Skip all confirmation prompts and execute without sandboxing"
+                },
+                {
+                    "name": [
+                        "-C",
+                        "--cd"
+                    ],
+                    "description": "Set the workspace root before executing the task",
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--skip-git-repo-check",
+                    "description": "Allow running outside a Git repository"
+                },
+                {
+                    "name": "--add-dir",
+                    "description": "Additional writable directories alongside the primary workspace",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--ephemeral",
+                    "description": "Run without persisting session files to disk"
+                },
+                {
+                    "name": "--output-schema",
+                    "description": "Path to a JSON Schema file describing the expected final response shape",
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--color",
+                    "description": "Control ANSI color in stdout",
+                    "args": {
+                        "name": "COLOR",
+                        "suggestions": [
+                            "always",
+                            "never",
+                            "auto"
+                        ]
+                    }
+                },
+                {
+                    "name": "--json",
+                    "description": "Print newline-delimited JSON events instead of formatted text"
+                },
+                {
+                    "name": [
+                        "-o",
+                        "--output-last-message"
+                    ],
+                    "description": "Write the assistant's final message to a file",
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                },
+                {
+                    "name": [
+                        "-V",
+                        "--version"
+                    ],
+                    "description": "Print version"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "resume",
+                    "description": "Resume a previous exec session by ID or pick the most recent with --last",
+                    "args": [
+                        {
+                            "name": "SESSION_ID",
+                            "description": "Conversation/session ID (UUID) or thread name",
+                            "isOptional": true
+                        },
+                        {
+                            "name": "PROMPT",
+                            "description": "Prompt to send after resuming (use - to read from stdin)",
+                            "isOptional": true
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--last",
+                            "description": "Resume the most recent session without specifying an ID"
+                        },
+                        {
+                            "name": "--all",
+                            "description": "Show all sessions (disables cwd filtering)"
+                        },
+                        {
+                            "name": [
+                                "-i",
+                                "--image"
+                            ],
+                            "description": "Attach image(s) to the prompt sent after resuming",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FILE",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-m",
+                                "--model"
+                            ],
+                            "description": "Model the agent should use",
+                            "args": {
+                                "name": "MODEL"
+                            }
+                        },
+                        {
+                            "name": "--full-auto",
+                            "description": "Low-friction sandboxed automatic execution"
+                        },
+                        {
+                            "name": "--dangerously-bypass-approvals-and-sandbox",
+                            "description": "Skip all confirmation prompts and execute without sandboxing"
+                        },
+                        {
+                            "name": "--skip-git-repo-check",
+                            "description": "Allow running outside a Git repository"
+                        },
+                        {
+                            "name": "--ephemeral",
+                            "description": "Run without persisting session files to disk"
+                        },
+                        {
+                            "name": "--json",
+                            "description": "Print events to stdout as JSONL"
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--output-last-message"
+                            ],
+                            "description": "Write the agent's last message to a file",
+                            "args": {
+                                "name": "FILE",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "review",
+                    "description": "Run a code review against the current repository",
+                    "args": {
+                        "name": "PROMPT",
+                        "description": "Custom review instructions (use - to read from stdin)",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--uncommitted",
+                            "description": "Review staged, unstaged, and untracked changes"
+                        },
+                        {
+                            "name": "--base",
+                            "description": "Review changes against the given base branch",
+                            "args": {
+                                "name": "BRANCH"
+                            }
+                        },
+                        {
+                            "name": "--commit",
+                            "description": "Review the changes introduced by a commit",
+                            "args": {
+                                "name": "SHA"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-m",
+                                "--model"
+                            ],
+                            "description": "Model the agent should use",
+                            "args": {
+                                "name": "MODEL"
+                            }
+                        },
+                        {
+                            "name": "--title",
+                            "description": "Optional commit title to display in the review summary",
+                            "args": {
+                                "name": "TITLE"
+                            }
+                        },
+                        {
+                            "name": "--full-auto",
+                            "description": "Low-friction sandboxed automatic execution"
+                        },
+                        {
+                            "name": "--dangerously-bypass-approvals-and-sandbox",
+                            "description": "Skip all confirmation prompts and execute without sandboxing"
+                        },
+                        {
+                            "name": "--skip-git-repo-check",
+                            "description": "Allow running outside a Git repository"
+                        },
+                        {
+                            "name": "--ephemeral",
+                            "description": "Run without persisting session files to disk"
+                        },
+                        {
+                            "name": "--json",
+                            "description": "Print events to stdout as JSONL"
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--output-last-message"
+                            ],
+                            "description": "Write the agent's last message to a file",
+                            "args": {
+                                "name": "FILE",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "review",
+            "description": "Run a code review non-interactively",
+            "args": {
+                "name": "PROMPT",
+                "description": "Custom review instructions (use - to read from stdin)",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--uncommitted",
+                    "description": "Review staged, unstaged, and untracked changes"
+                },
+                {
+                    "name": "--base",
+                    "description": "Review changes against the given base branch",
+                    "args": {
+                        "name": "BRANCH"
+                    }
+                },
+                {
+                    "name": "--commit",
+                    "description": "Review the changes introduced by a commit",
+                    "args": {
+                        "name": "SHA"
+                    }
+                },
+                {
+                    "name": "--title",
+                    "description": "Optional commit title to display in the review summary",
+                    "args": {
+                        "name": "TITLE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "login",
+            "description": "Manage login",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--with-api-key",
+                    "description": "Read the API key from stdin"
+                },
+                {
+                    "name": "--device-auth",
+                    "description": "Use device authorization flow"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "status",
+                    "description": "Show login status",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "logout",
+            "description": "Remove stored authentication credentials",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "mcp",
+            "description": "Manage external MCP servers for Codex",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "List configured MCP servers",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--json",
+                            "description": "Output the configured servers as JSON"
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Display an MCP server configuration",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name of the MCP server to display"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--json",
+                            "description": "Output the server configuration as JSON"
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "add",
+                    "description": "Add an MCP server configuration",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name for the MCP server configuration"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--env",
+                            "description": "Environment variables to set when launching the server (KEY=VALUE)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "KEY=VALUE"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--url",
+                            "description": "URL for a streamable HTTP MCP server",
+                            "args": {
+                                "name": "URL"
+                            }
+                        },
+                        {
+                            "name": "--bearer-token-env-var",
+                            "description": "Environment variable to read for a bearer token",
+                            "args": {
+                                "name": "ENV_VAR"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove an MCP server configuration",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name of the MCP server configuration to remove"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "login",
+                    "description": "Authenticate with an MCP server via OAuth",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name of the MCP server to authenticate with"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--scopes",
+                            "description": "Comma-separated list of OAuth scopes to request",
+                            "args": {
+                                "name": "SCOPE,SCOPE"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "logout",
+                    "description": "Deauthenticate from an MCP server",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name of the MCP server to deauthenticate"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "mcp-server",
+            "description": "Start Codex as an MCP server (stdio)",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "app-server",
+            "description": "[experimental] Run the app server or related tooling",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--listen",
+                    "description": "Transport endpoint URL (stdio:// or ws://IP:PORT)",
+                    "args": {
+                        "name": "URL",
+                        "suggestions": ["stdio://"]
+                    }
+                },
+                {
+                    "name": "--analytics-default-enabled",
+                    "description": "Enable analytics by default"
+                },
+                {
+                    "name": "--ws-auth",
+                    "description": "Websocket auth mode for non-loopback listeners",
+                    "args": {
+                        "name": "MODE",
+                        "suggestions": [
+                            "capability-token",
+                            "signed-bearer-token"
+                        ]
+                    }
+                },
+                {
+                    "name": "--ws-token-file",
+                    "description": "Absolute path to the capability-token file",
+                    "args": {
+                        "name": "PATH",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--ws-shared-secret-file",
+                    "description": "Absolute path to the shared secret file for signed JWT bearer tokens",
+                    "args": {
+                        "name": "PATH",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--ws-issuer",
+                    "description": "Expected issuer for signed JWT bearer tokens",
+                    "args": {
+                        "name": "ISSUER"
+                    }
+                },
+                {
+                    "name": "--ws-audience",
+                    "description": "Expected audience for signed JWT bearer tokens",
+                    "args": {
+                        "name": "AUDIENCE"
+                    }
+                },
+                {
+                    "name": "--ws-max-clock-skew-seconds",
+                    "description": "Maximum clock skew when validating signed JWT bearer tokens",
+                    "args": {
+                        "name": "SECONDS"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "generate-ts",
+                    "description": "[experimental] Generate TypeScript bindings for the app server protocol",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--out"
+                            ],
+                            "description": "Output directory where .ts files will be written",
+                            "args": {
+                                "name": "DIR",
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--prettier"
+                            ],
+                            "description": "Path to the Prettier executable to format generated files",
+                            "args": {
+                                "name": "PRETTIER_BIN",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--experimental",
+                            "description": "Include experimental methods and fields in the generated output"
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "generate-json-schema",
+                    "description": "[experimental] Generate JSON Schema for the app server protocol",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--out"
+                            ],
+                            "description": "Output directory where the schema bundle will be written",
+                            "args": {
+                                "name": "DIR",
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--experimental",
+                            "description": "Include experimental methods and fields in the generated output"
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "completion",
+            "description": "Generate shell completion scripts",
+            "args": {
+                "name": "SHELL",
+                "description": "Shell to generate completions for",
+                "isOptional": true,
+                "suggestions": [
+                    "bash",
+                    "elvish",
+                    "fish",
+                    "powershell",
+                    "zsh"
+                ]
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "sandbox",
+            "description": "Run commands within a Codex-provided sandbox",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": [
+                        "macos",
+                        "seatbelt"
+                    ],
+                    "description": "Run a command under Seatbelt (macOS only)",
+                    "args": {
+                        "name": "COMMAND",
+                        "description": "Full command args to run under seatbelt",
+                        "isVariadic": true,
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--full-auto",
+                            "description": "Low-friction sandboxed automatic execution"
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--log-denials",
+                            "description": "Capture macOS sandbox denials via log stream and print them after exit"
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "linux",
+                        "landlock"
+                    ],
+                    "description": "Run a command under the Linux sandbox (bubblewrap by default)",
+                    "args": {
+                        "name": "COMMAND",
+                        "description": "Full command args to run under the Linux sandbox",
+                        "isVariadic": true,
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--full-auto",
+                            "description": "Low-friction sandboxed automatic execution"
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "windows",
+                    "description": "Run a command under Windows restricted token (Windows only)",
+                    "args": {
+                        "name": "COMMAND",
+                        "description": "Full command args to run under Windows restricted token sandbox",
+                        "isVariadic": true,
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--full-auto",
+                            "description": "Low-friction sandboxed automatic execution"
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "debug",
+            "description": "Debugging tools",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "app-server",
+                    "description": "Debug the app server",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "send-message-v2",
+                            "description": "Send a single V2 message through the built-in test client",
+                            "args": {
+                                "name": "USER_MESSAGE",
+                                "description": "Message text to send to app-server"
+                            },
+                            "options": [
+                                {
+                                    "name": [
+                                        "-c",
+                                        "--config"
+                                    ],
+                                    "description": "Override a configuration value (key=value, repeatable)",
+                                    "isRepeatable": true,
+                                    "args": {
+                                        "name": "key=value"
+                                    }
+                                },
+                                {
+                                    "name": "--enable",
+                                    "description": "Enable a feature flag (repeatable)",
+                                    "isRepeatable": true,
+                                    "args": {
+                                        "name": "FEATURE"
+                                    }
+                                },
+                                {
+                                    "name": "--disable",
+                                    "description": "Disable a feature flag (repeatable)",
+                                    "isRepeatable": true,
+                                    "args": {
+                                        "name": "FEATURE"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-h",
+                                        "--help"
+                                    ],
+                                    "description": "Print help"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": [
+                "apply",
+                "a"
+            ],
+            "description": "Apply the latest diff produced by Codex agent as a git apply to your local working tree",
+            "args": {
+                "name": "TASK_ID",
+                "description": "Task ID to apply"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "resume",
+            "description": "Resume a previous interactive session",
+            "args": [
+                {
+                    "name": "SESSION_ID",
+                    "description": "Conversation/session ID (UUID) or thread name",
+                    "isOptional": true
+                },
+                {
+                    "name": "PROMPT",
+                    "description": "Optional user prompt to start the session",
+                    "isOptional": true
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--last",
+                    "description": "Continue the most recent session without showing the picker"
+                },
+                {
+                    "name": "--all",
+                    "description": "Show all sessions (disables cwd filtering and shows CWD column)"
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--include-non-interactive",
+                    "description": "Include non-interactive sessions in the resume picker and --last selection"
+                },
+                {
+                    "name": "--remote",
+                    "description": "Connect the TUI to a remote app server websocket endpoint",
+                    "args": {
+                        "name": "ADDR"
+                    }
+                },
+                {
+                    "name": "--remote-auth-token-env",
+                    "description": "Environment variable containing the bearer token for a remote app server",
+                    "args": {
+                        "name": "ENV_VAR"
+                    }
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--image"
+                    ],
+                    "description": "Attach image file(s) to the initial prompt",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--model"
+                    ],
+                    "description": "Model the agent should use",
+                    "args": {
+                        "name": "MODEL"
+                    }
+                },
+                {
+                    "name": "--oss",
+                    "description": "Use the local open source model provider"
+                },
+                {
+                    "name": "--local-provider",
+                    "description": "Specify which local provider to use",
+                    "args": {
+                        "name": "OSS_PROVIDER",
+                        "suggestions": [
+                            "lmstudio",
+                            "ollama"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--profile"
+                    ],
+                    "description": "Configuration profile from config.toml",
+                    "args": {
+                        "name": "CONFIG_PROFILE"
+                    }
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--sandbox"
+                    ],
+                    "description": "Sandbox policy for model-generated shell commands",
+                    "args": {
+                        "name": "SANDBOX_MODE",
+                        "suggestions": [
+                            "read-only",
+                            "workspace-write",
+                            "danger-full-access"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-a",
+                        "--ask-for-approval"
+                    ],
+                    "description": "When the model requires human approval before executing a command",
+                    "args": {
+                        "name": "APPROVAL_POLICY",
+                        "suggestions": [
+                            "untrusted",
+                            "on-request",
+                            "never"
+                        ]
+                    }
+                },
+                {
+                    "name": "--full-auto",
+                    "description": "Low-friction sandboxed automatic execution"
+                },
+                {
+                    "name": "--dangerously-bypass-approvals-and-sandbox",
+                    "description": "Skip all confirmation prompts and execute without sandboxing"
+                },
+                {
+                    "name": [
+                        "-C",
+                        "--cd"
+                    ],
+                    "description": "Set the working directory for the agent",
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--search",
+                    "description": "Enable live web search"
+                },
+                {
+                    "name": "--add-dir",
+                    "description": "Additional writable directories alongside the primary workspace",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--no-alt-screen",
+                    "description": "Disable alternate screen mode for the TUI"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                },
+                {
+                    "name": [
+                        "-V",
+                        "--version"
+                    ],
+                    "description": "Print version"
+                }
+            ]
+        },
+        {
+            "name": "fork",
+            "description": "Fork a previous interactive session into a new thread",
+            "args": [
+                {
+                    "name": "SESSION_ID",
+                    "description": "Conversation/session ID (UUID) to fork",
+                    "isOptional": true
+                },
+                {
+                    "name": "PROMPT",
+                    "description": "Optional user prompt to start the session",
+                    "isOptional": true
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--last",
+                    "description": "Fork the most recent session without showing the picker"
+                },
+                {
+                    "name": "--all",
+                    "description": "Show all sessions (disables cwd filtering and shows CWD column)"
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--remote",
+                    "description": "Connect the TUI to a remote app server websocket endpoint",
+                    "args": {
+                        "name": "ADDR"
+                    }
+                },
+                {
+                    "name": "--remote-auth-token-env",
+                    "description": "Environment variable containing the bearer token for a remote app server",
+                    "args": {
+                        "name": "ENV_VAR"
+                    }
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--image"
+                    ],
+                    "description": "Attach image file(s) to the initial prompt",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--model"
+                    ],
+                    "description": "Model the agent should use",
+                    "args": {
+                        "name": "MODEL"
+                    }
+                },
+                {
+                    "name": "--oss",
+                    "description": "Use the local open source model provider"
+                },
+                {
+                    "name": "--local-provider",
+                    "description": "Specify which local provider to use",
+                    "args": {
+                        "name": "OSS_PROVIDER",
+                        "suggestions": [
+                            "lmstudio",
+                            "ollama"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--profile"
+                    ],
+                    "description": "Configuration profile from config.toml",
+                    "args": {
+                        "name": "CONFIG_PROFILE"
+                    }
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--sandbox"
+                    ],
+                    "description": "Sandbox policy for model-generated shell commands",
+                    "args": {
+                        "name": "SANDBOX_MODE",
+                        "suggestions": [
+                            "read-only",
+                            "workspace-write",
+                            "danger-full-access"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-a",
+                        "--ask-for-approval"
+                    ],
+                    "description": "When the model requires human approval before executing a command",
+                    "args": {
+                        "name": "APPROVAL_POLICY",
+                        "suggestions": [
+                            "untrusted",
+                            "on-request",
+                            "never"
+                        ]
+                    }
+                },
+                {
+                    "name": "--full-auto",
+                    "description": "Low-friction sandboxed automatic execution"
+                },
+                {
+                    "name": "--dangerously-bypass-approvals-and-sandbox",
+                    "description": "Skip all confirmation prompts and execute without sandboxing"
+                },
+                {
+                    "name": [
+                        "-C",
+                        "--cd"
+                    ],
+                    "description": "Set the working directory for the agent",
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--search",
+                    "description": "Enable live web search"
+                },
+                {
+                    "name": "--add-dir",
+                    "description": "Additional writable directories alongside the primary workspace",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "DIR",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--no-alt-screen",
+                    "description": "Disable alternate screen mode for the TUI"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                },
+                {
+                    "name": [
+                        "-V",
+                        "--version"
+                    ],
+                    "description": "Print version"
+                }
+            ]
+        },
+        {
+            "name": [
+                "cloud",
+                "cloud-tasks"
+            ],
+            "description": "[EXPERIMENTAL] Browse tasks from Codex Cloud and apply changes locally",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                },
+                {
+                    "name": [
+                        "-V",
+                        "--version"
+                    ],
+                    "description": "Print version"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "exec",
+                    "description": "Submit a new Codex Cloud task without launching the TUI",
+                    "args": {
+                        "name": "QUERY",
+                        "description": "Task prompt to run in Codex Cloud",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--env",
+                            "description": "Target environment identifier",
+                            "args": {
+                                "name": "ENV_ID"
+                            }
+                        },
+                        {
+                            "name": "--attempts",
+                            "description": "Number of assistant attempts (best-of-N)",
+                            "args": {
+                                "name": "ATTEMPTS"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--branch",
+                            "description": "Git branch to run in Codex Cloud (defaults to current branch)",
+                            "args": {
+                                "name": "BRANCH"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "status",
+                    "description": "Show the status of a Codex Cloud task",
+                    "args": {
+                        "name": "TASK_ID",
+                        "description": "Codex Cloud task identifier to inspect"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List Codex Cloud tasks",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--env",
+                            "description": "Filter tasks by environment identifier",
+                            "args": {
+                                "name": "ENV_ID"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "Maximum number of tasks to return (1-20)",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": "--cursor",
+                            "description": "Pagination cursor returned by a previous call",
+                            "args": {
+                                "name": "CURSOR"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--json",
+                            "description": "Emit JSON instead of plain text"
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "apply",
+                    "description": "Apply the diff for a Codex Cloud task locally",
+                    "args": {
+                        "name": "TASK_ID",
+                        "description": "Codex Cloud task identifier to apply"
+                    },
+                    "options": [
+                        {
+                            "name": "--attempt",
+                            "description": "Attempt number to apply (1-based)",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "diff",
+                    "description": "Show the unified diff for a Codex Cloud task",
+                    "args": {
+                        "name": "TASK_ID",
+                        "description": "Codex Cloud task identifier to display"
+                    },
+                    "options": [
+                        {
+                            "name": "--attempt",
+                            "description": "Attempt number to display (1-based)",
+                            "args": {
+                                "name": "N"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "features",
+            "description": "Inspect feature flags",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "List known features with their stage and effective state",
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "enable",
+                    "description": "Enable a feature in config.toml",
+                    "args": {
+                        "name": "FEATURE",
+                        "description": "Feature key to update (e.g. unified_exec)"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                },
+                {
+                    "name": "disable",
+                    "description": "Disable a feature in config.toml",
+                    "args": {
+                        "name": "FEATURE",
+                        "description": "Feature key to update (e.g. unified_exec)"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "execpolicy",
+            "description": "Execpolicy tooling",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Override a configuration value (key=value, repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Enable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Disable a feature flag (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "FEATURE"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "check",
+                    "description": "Check execpolicy files against a command",
+                    "args": {
+                        "name": "COMMAND",
+                        "description": "Command tokens to check against the policy",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--config"
+                            ],
+                            "description": "Override a configuration value (key=value, repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "key=value"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--rules"
+                            ],
+                            "description": "Paths to execpolicy rule files to evaluate (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "PATH",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--enable",
+                            "description": "Enable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--pretty",
+                            "description": "Pretty-print the JSON output"
+                        },
+                        {
+                            "name": "--disable",
+                            "description": "Disable a feature flag (repeatable)",
+                            "isRepeatable": true,
+                            "args": {
+                                "name": "FEATURE"
+                            }
+                        },
+                        {
+                            "name": "--resolve-host-executables",
+                            "description": "Resolve absolute program paths against basename rules"
+                        },
+                        {
+                            "name": [
+                                "-h",
+                                "--help"
+                            ],
+                            "description": "Print help"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
