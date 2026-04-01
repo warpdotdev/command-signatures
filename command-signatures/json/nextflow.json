@@ -1,0 +1,1408 @@
+{
+    "name": "nextflow",
+    "description": "A reactive workflow framework for writing data-driven computational pipelines",
+    "options": [
+        {
+            "name": "-C",
+            "description": "Use the specified configuration file(s) overriding any defaults",
+            "args": {
+                "name": "config files",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-D",
+            "description": "Set JVM properties",
+            "args": {
+                "name": "property=value"
+            }
+        },
+        {
+            "name": "-bg",
+            "description": "Execute Nextflow in background"
+        },
+        {
+            "name": [
+                "-c",
+                "-config"
+            ],
+            "description": "Add the specified file to the configuration set",
+            "args": {
+                "name": "config files",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-h",
+            "description": "Print available commands and options"
+        },
+        {
+            "name": "-log",
+            "description": "Set Nextflow log file path",
+            "args": {
+                "name": "log file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "-q",
+                "-quiet"
+            ],
+            "description": "Do not print information messages"
+        },
+        {
+            "name": "-remote-debug",
+            "description": "Enable JVM interactive remote debugging (experimental)"
+        },
+        {
+            "name": "-syslog",
+            "description": "Send logs to syslog server (e.g. localhost:514)",
+            "args": {
+                "name": "host:port"
+            }
+        },
+        {
+            "name": "-trace",
+            "description": "Enable trace level logging for the specified packages",
+            "args": {
+                "name": "packages"
+            }
+        },
+        {
+            "name": [
+                "-v",
+                "-version"
+            ],
+            "description": "Print the program version"
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "clean",
+            "description": "Clean up cache and work directories",
+            "args": {
+                "name": "run_name|session_id",
+                "isOptional": true,
+                "generatorName": "run_names"
+            },
+            "options": [
+                {
+                    "name": "-after",
+                    "description": "Clean up runs executed after the specified one",
+                    "args": {
+                        "name": "run name"
+                    }
+                },
+                {
+                    "name": "-before",
+                    "description": "Clean up runs executed before the specified one",
+                    "args": {
+                        "name": "run name"
+                    }
+                },
+                {
+                    "name": "-but",
+                    "description": "Clean up all runs except the specified one",
+                    "args": {
+                        "name": "run name"
+                    }
+                },
+                {
+                    "name": [
+                        "-n",
+                        "-dry-run"
+                    ],
+                    "description": "Print names of files to be removed without deleting them"
+                },
+                {
+                    "name": [
+                        "-f",
+                        "-force"
+                    ],
+                    "description": "Force clean command"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": [
+                        "-k",
+                        "-keep-logs"
+                    ],
+                    "description": "Removes only temporary files but retains execution log entries and metadata"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "-quiet"
+                    ],
+                    "description": "Do not print names of files removed"
+                }
+            ]
+        },
+        {
+            "name": "clone",
+            "description": "Clone a remote project into a folder",
+            "args": {
+                "name": "project"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-d",
+                        "-deep"
+                    ],
+                    "description": "Create a shallow clone of the specified depth",
+                    "args": {
+                        "name": "depth"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-hub",
+                    "description": "Service hub where the project is hosted",
+                    "args": {
+                        "name": "hub",
+                        "suggestions": [
+                            "github",
+                            "gitlab",
+                            "bitbucket"
+                        ]
+                    }
+                },
+                {
+                    "name": "-r",
+                    "description": "Revision to clone (git branch, tag, or commit SHA)",
+                    "args": {
+                        "name": "revision"
+                    }
+                },
+                {
+                    "name": "-user",
+                    "description": "Private repository user name",
+                    "args": {
+                        "name": "username"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "config",
+            "description": "Print the resolved pipeline configuration",
+            "args": {
+                "name": "project",
+                "isOptional": true,
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "-flat",
+                    "description": "Print config using flat notation"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-profile",
+                    "description": "Choose a configuration profile",
+                    "args": {
+                        "name": "profile"
+                    }
+                },
+                {
+                    "name": "-properties",
+                    "description": "Print config using Java properties notation"
+                },
+                {
+                    "name": [
+                        "-a",
+                        "-show-profiles"
+                    ],
+                    "description": "Show all configuration profiles"
+                },
+                {
+                    "name": "-sort",
+                    "description": "Sort config attributes"
+                },
+                {
+                    "name": "-value",
+                    "description": "Print the value of a config option, or fail if not defined",
+                    "args": {
+                        "name": "config option"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "console",
+            "description": "Launch the Nextflow interactive console (GUI REPL)"
+        },
+        {
+            "name": "drop",
+            "description": "Delete the local copy of a project",
+            "args": {
+                "name": "project",
+                "generatorName": "downloaded_projects"
+            },
+            "options": [
+                {
+                    "name": "-f",
+                    "description": "Delete the repository without taking care of local changes"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "fs",
+            "description": "Perform basic filesystem operations",
+            "subcommands": [
+                {
+                    "name": "cat",
+                    "description": "Print the contents of a file to standard output",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "copy",
+                        "cp"
+                    ],
+                    "description": "Copy a file or directory",
+                    "args": [
+                        {
+                            "name": "source",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "destination",
+                            "template": "filepaths"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "delete",
+                        "rm"
+                    ],
+                    "description": "Delete a file or directory",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "list",
+                        "ls"
+                    ],
+                    "description": "List a directory",
+                    "args": {
+                        "name": "directory",
+                        "template": "folders",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "move",
+                        "mv"
+                    ],
+                    "description": "Move a file or directory",
+                    "args": [
+                        {
+                            "name": "source",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "destination",
+                            "template": "filepaths"
+                        }
+                    ]
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "help",
+            "description": "Print the top-level help or specific help for a command",
+            "args": {
+                "name": "command",
+                "isOptional": true,
+                "suggestions": [
+                    "clean",
+                    "clone",
+                    "config",
+                    "console",
+                    "drop",
+                    "fs",
+                    "help",
+                    "info",
+                    "kuberun",
+                    "list",
+                    "log",
+                    "node",
+                    "plugin",
+                    "pull",
+                    "run",
+                    "secrets",
+                    "self-update",
+                    "view"
+                ]
+            },
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "info",
+            "description": "Print project and system runtime information",
+            "args": {
+                "name": "project",
+                "isOptional": true,
+                "generatorName": "downloaded_projects"
+            },
+            "options": [
+                {
+                    "name": "-d",
+                    "description": "Show detailed information"
+                },
+                {
+                    "name": "-dd",
+                    "description": "Show extra detailed information"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-o",
+                    "description": "Output format",
+                    "args": {
+                        "name": "format",
+                        "suggestions": [
+                            "text",
+                            "json"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "kuberun",
+            "description": "Execute a workflow in a Kubernetes cluster (experimental)",
+            "args": {
+                "name": "project",
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "-E",
+                    "description": "Exports all current system environment"
+                },
+                {
+                    "name": "-ansi-log",
+                    "description": "Enable/disable ANSI console logging",
+                    "args": {
+                        "name": "true|false",
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
+                },
+                {
+                    "name": "-bucket-dir",
+                    "description": "Remote bucket where intermediate result files are stored",
+                    "args": {
+                        "name": "remote bucket"
+                    }
+                },
+                {
+                    "name": "-cache",
+                    "description": "Enable/disable processes caching",
+                    "args": {
+                        "name": "true|false",
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
+                },
+                {
+                    "name": "-disable-jobs-cancellation",
+                    "description": "Prevent the cancellation of child jobs on execution termination"
+                },
+                {
+                    "name": "-dump-channels",
+                    "description": "Dump channels for debugging purpose",
+                    "args": {
+                        "name": "channel names",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-dump-hashes",
+                    "description": "Dump task hash keys for debugging purpose"
+                },
+                {
+                    "name": "-entry",
+                    "description": "Entry workflow name to be executed",
+                    "args": {
+                        "name": "workflow name"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-head-cpus",
+                    "description": "Specify number of CPUs requested for the Nextflow pod",
+                    "args": {
+                        "name": "cpus"
+                    }
+                },
+                {
+                    "name": "-head-image",
+                    "description": "Specify the container image for the Nextflow driver pod",
+                    "args": {
+                        "name": "image"
+                    }
+                },
+                {
+                    "name": "-head-memory",
+                    "description": "Specify amount of memory requested for the Nextflow pod",
+                    "args": {
+                        "name": "memory"
+                    }
+                },
+                {
+                    "name": "-head-prescript",
+                    "description": "Specify script to be run before the Nextflow pipeline starts",
+                    "args": {
+                        "name": "script"
+                    }
+                },
+                {
+                    "name": "-hub",
+                    "description": "Service hub where the project is hosted",
+                    "args": {
+                        "name": "hub",
+                        "suggestions": [
+                            "github",
+                            "gitlab",
+                            "bitbucket"
+                        ]
+                    }
+                },
+                {
+                    "name": "-latest",
+                    "description": "Pull latest changes before run"
+                },
+                {
+                    "name": "-lib",
+                    "description": "Library extension path",
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "-main-script",
+                    "description": "The script file to be executed when launching a project directory or repository",
+                    "args": {
+                        "name": "script file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-name",
+                    "description": "Assign a mnemonic name to the pipeline run",
+                    "args": {
+                        "name": "name"
+                    }
+                },
+                {
+                    "name": "-namespace",
+                    "description": "Specify the Kubernetes namespace to run into",
+                    "args": {
+                        "name": "namespace"
+                    }
+                },
+                {
+                    "name": "-offline",
+                    "description": "Do not check for remote project updates"
+                },
+                {
+                    "name": "-params-file",
+                    "description": "Load script parameters from a JSON/YAML file",
+                    "args": {
+                        "name": "params file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-plugins",
+                    "description": "Specify the plugins to be applied for this run",
+                    "args": {
+                        "name": "plugin ids"
+                    }
+                },
+                {
+                    "name": "-profile",
+                    "description": "Choose a configuration profile",
+                    "args": {
+                        "name": "profile"
+                    }
+                },
+                {
+                    "name": [
+                        "-qs",
+                        "-queue-size"
+                    ],
+                    "description": "Max number of processes that can be executed in parallel by each executor",
+                    "args": {
+                        "name": "number"
+                    }
+                },
+                {
+                    "name": "-resume",
+                    "description": "Execute the script using the cached results, useful to continue executions that was stopped by an error",
+                    "args": {
+                        "name": "session ID",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "-revision"
+                    ],
+                    "description": "Revision of the project to run (either a git branch, tag or commit SHA number)",
+                    "args": {
+                        "name": "revision"
+                    }
+                },
+                {
+                    "name": [
+                        "-stub-run",
+                        "-stub"
+                    ],
+                    "description": "Execute the workflow replacing process scripts with command stubs"
+                },
+                {
+                    "name": "-user",
+                    "description": "Private repository user name",
+                    "args": {
+                        "name": "username"
+                    }
+                },
+                {
+                    "name": "-v",
+                    "description": "Specify the Kubernetes volume claim to mount in the pod",
+                    "args": {
+                        "name": "volume claim:mount path"
+                    }
+                },
+                {
+                    "name": "-with-conda",
+                    "description": "Use the specified Conda environment package or file",
+                    "args": {
+                        "name": "environment",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-with-dag",
+                    "description": "Create pipeline DAG file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-docker",
+                    "description": "Enable process execution in a Docker container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-N",
+                        "-with-notification"
+                    ],
+                    "description": "Send a notification email on workflow completion to the specified recipients",
+                    "args": {
+                        "name": "email"
+                    }
+                },
+                {
+                    "name": "-with-podman",
+                    "description": "Enable process execution in a Podman container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-report",
+                    "description": "Create processes execution HTML report",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-singularity",
+                    "description": "Enable process execution in a Singularity container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-timeline",
+                    "description": "Create processes execution timeline file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-tower",
+                    "description": "Monitor workflow execution with Seqera Tower service",
+                    "args": {
+                        "name": "endpoint URL",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-trace",
+                    "description": "Create processes execution tracing file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-weblog",
+                    "description": "Send workflow status messages via HTTP to target URL",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "-without-docker",
+                    "description": "Disable process execution with Docker"
+                },
+                {
+                    "name": "-without-podman",
+                    "description": "Disable process execution in a Podman container"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "-work-dir"
+                    ],
+                    "description": "Directory where intermediate result files are stored",
+                    "args": {
+                        "name": "work dir",
+                        "template": "folders"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list",
+            "description": "List all downloaded projects",
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "log",
+            "description": "Print executions log and runtime information",
+            "args": {
+                "name": "run name",
+                "isOptional": true,
+                "generatorName": "run_names"
+            },
+            "options": [
+                {
+                    "name": "-after",
+                    "description": "Show log entries for runs executed after the specified one",
+                    "args": {
+                        "name": "run name"
+                    }
+                },
+                {
+                    "name": "-before",
+                    "description": "Show log entries for runs executed before the specified one",
+                    "args": {
+                        "name": "run name"
+                    }
+                },
+                {
+                    "name": [
+                        "-f",
+                        "-fields"
+                    ],
+                    "description": "Comma-separated list of fields to include in the printed log",
+                    "args": {
+                        "name": "fields"
+                    }
+                },
+                {
+                    "name": [
+                        "-F",
+                        "-filter"
+                    ],
+                    "description": "Filter log entries by a custom expression",
+                    "args": {
+                        "name": "filter expression"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": [
+                        "-l",
+                        "-list-fields"
+                    ],
+                    "description": "Show all available fields"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "-quiet"
+                    ],
+                    "description": "Show only run names"
+                },
+                {
+                    "name": "-s",
+                    "description": "Character used to separate column values",
+                    "args": {
+                        "name": "separator"
+                    }
+                },
+                {
+                    "name": [
+                        "-t",
+                        "-template"
+                    ],
+                    "description": "Text template used to each record in the log",
+                    "args": {
+                        "name": "template",
+                        "template": "filepaths"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "node",
+            "description": "Launch the Nextflow cluster worker daemon",
+            "options": [
+                {
+                    "name": "-bg",
+                    "description": "Start the cluster node daemon in background"
+                },
+                {
+                    "name": "-cluster.join",
+                    "description": "Join string for cluster (e.g. multicast address or file path)",
+                    "args": {
+                        "name": "join address"
+                    }
+                },
+                {
+                    "name": "-cluster.interface",
+                    "description": "Network interface to use for cluster communication",
+                    "args": {
+                        "name": "interface"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "plugin",
+            "description": "Manage and execute plugins",
+            "args": {
+                "name": "plugin command",
+                "isOptional": true
+            },
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install a plugin",
+                    "args": {
+                        "name": "plugin id"
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "pull",
+            "description": "Download or update a project",
+            "args": {
+                "name": "project"
+            },
+            "options": [
+                {
+                    "name": "-all",
+                    "description": "Update all downloaded projects"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-hub",
+                    "description": "Service hub where the project is hosted",
+                    "args": {
+                        "name": "hub",
+                        "suggestions": [
+                            "github",
+                            "gitlab",
+                            "bitbucket"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "-revision"
+                    ],
+                    "description": "Revision of the project to pull (git branch, tag, or commit SHA)",
+                    "args": {
+                        "name": "revision"
+                    }
+                },
+                {
+                    "name": "-user",
+                    "description": "Private repository user name",
+                    "args": {
+                        "name": "username"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "run",
+            "description": "Execute a pipeline project",
+            "args": {
+                "name": "project",
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "-E",
+                    "description": "Exports all current system environment"
+                },
+                {
+                    "name": "-ansi-log",
+                    "description": "Enable/disable ANSI console logging",
+                    "args": {
+                        "name": "true|false",
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
+                },
+                {
+                    "name": "-bucket-dir",
+                    "description": "Remote bucket where intermediate result files are stored",
+                    "args": {
+                        "name": "remote bucket"
+                    }
+                },
+                {
+                    "name": "-cache",
+                    "description": "Enable/disable processes caching",
+                    "args": {
+                        "name": "true|false",
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
+                },
+                {
+                    "name": "-disable-jobs-cancellation",
+                    "description": "Prevent the cancellation of child jobs on execution termination"
+                },
+                {
+                    "name": "-dump-channels",
+                    "description": "Dump channels for debugging purpose",
+                    "args": {
+                        "name": "channel names",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-dump-hashes",
+                    "description": "Dump task hash keys for debugging purpose"
+                },
+                {
+                    "name": "-entry",
+                    "description": "Entry workflow name to be executed",
+                    "args": {
+                        "name": "workflow name"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-hub",
+                    "description": "Service hub where the project is hosted",
+                    "args": {
+                        "name": "hub",
+                        "suggestions": [
+                            "github",
+                            "gitlab",
+                            "bitbucket"
+                        ]
+                    }
+                },
+                {
+                    "name": "-latest",
+                    "description": "Pull latest changes before run"
+                },
+                {
+                    "name": "-lib",
+                    "description": "Library extension path",
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "-main-script",
+                    "description": "The script file to be executed when launching a project directory or repository",
+                    "args": {
+                        "name": "script file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-name",
+                    "description": "Assign a mnemonic name to the pipeline run",
+                    "args": {
+                        "name": "name"
+                    }
+                },
+                {
+                    "name": "-offline",
+                    "description": "Do not check for remote project updates"
+                },
+                {
+                    "name": "-output-dir",
+                    "description": "Pipeline output directory",
+                    "args": {
+                        "name": "directory",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "-params-file",
+                    "description": "Load script parameters from a JSON/YAML file",
+                    "args": {
+                        "name": "params file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-plugins",
+                    "description": "Specify the plugins to be applied for this run (e.g. nf-amazon,nf-tower)",
+                    "args": {
+                        "name": "plugin ids"
+                    }
+                },
+                {
+                    "name": "-profile",
+                    "description": "Choose a configuration profile",
+                    "args": {
+                        "name": "profile"
+                    }
+                },
+                {
+                    "name": [
+                        "-qs",
+                        "-queue-size"
+                    ],
+                    "description": "Max number of processes that can be executed in parallel by each executor",
+                    "args": {
+                        "name": "number"
+                    }
+                },
+                {
+                    "name": "-resume",
+                    "description": "Execute the script using the cached results, useful to continue executions that was stopped by an error",
+                    "args": {
+                        "name": "session ID",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "-revision"
+                    ],
+                    "description": "Revision of the project to run (either a git branch, tag or commit SHA number)",
+                    "args": {
+                        "name": "revision"
+                    }
+                },
+                {
+                    "name": [
+                        "-stub-run",
+                        "-stub"
+                    ],
+                    "description": "Execute the workflow replacing process scripts with command stubs"
+                },
+                {
+                    "name": "-test",
+                    "description": "Test a script function with the name specified",
+                    "args": {
+                        "name": "test name"
+                    }
+                },
+                {
+                    "name": "-user",
+                    "description": "Private repository user name",
+                    "args": {
+                        "name": "username"
+                    }
+                },
+                {
+                    "name": "-with-apptainer",
+                    "description": "Enable process execution in an Apptainer container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-charliecloud",
+                    "description": "Enable process execution in a Charliecloud container runtime",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-conda",
+                    "description": "Use the specified Conda environment package or file",
+                    "args": {
+                        "name": "environment",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-with-dag",
+                    "description": "Create pipeline DAG file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-docker",
+                    "description": "Enable process execution in a Docker container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-N",
+                        "-with-notification"
+                    ],
+                    "description": "Send a notification email on workflow completion to the specified recipients",
+                    "args": {
+                        "name": "email"
+                    }
+                },
+                {
+                    "name": "-with-podman",
+                    "description": "Enable process execution in a Podman container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-report",
+                    "description": "Create processes execution HTML report",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-singularity",
+                    "description": "Enable process execution in a Singularity container",
+                    "args": {
+                        "name": "container image",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-timeline",
+                    "description": "Create processes execution timeline file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-tower",
+                    "description": "Monitor workflow execution with Seqera Tower service",
+                    "args": {
+                        "name": "endpoint URL",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-trace",
+                    "description": "Create processes execution tracing file",
+                    "args": {
+                        "name": "filename",
+                        "template": "filepaths",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "-with-weblog",
+                    "description": "Send workflow status messages via HTTP to target URL",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "-without-docker",
+                    "description": "Disable process execution with Docker"
+                },
+                {
+                    "name": "-without-podman",
+                    "description": "Disable process execution in a Podman container"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "-work-dir"
+                    ],
+                    "description": "Directory where intermediate result files are stored",
+                    "args": {
+                        "name": "work dir",
+                        "template": "folders"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "secrets",
+            "description": "Manage pipeline secrets",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "List all available secrets",
+                    "options": [
+                        {
+                            "name": [
+                                "-h",
+                                "-help"
+                            ],
+                            "description": "Print the command usage"
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Get a secret value",
+                    "args": {
+                        "name": "secret name"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-h",
+                                "-help"
+                            ],
+                            "description": "Print the command usage"
+                        }
+                    ]
+                },
+                {
+                    "name": "set",
+                    "description": "Create or update a secret",
+                    "args": {
+                        "name": "secret name"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-h",
+                                "-help"
+                            ],
+                            "description": "Print the command usage"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a secret",
+                    "args": {
+                        "name": "secret name"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-h",
+                                "-help"
+                            ],
+                            "description": "Print the command usage"
+                        }
+                    ]
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "self-update",
+            "description": "Update Nextflow runtime to the latest available version",
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                }
+            ]
+        },
+        {
+            "name": "view",
+            "description": "View project script file(s)",
+            "args": {
+                "name": "project",
+                "generatorName": "downloaded_projects"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "-help"
+                    ],
+                    "description": "Print the command usage"
+                },
+                {
+                    "name": "-l",
+                    "description": "List repository content"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "-quiet"
+                    ],
+                    "description": "Hide the script header"
+                }
+            ]
+        }
+    ]
+}
