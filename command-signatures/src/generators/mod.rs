@@ -43,6 +43,7 @@ mod powershell;
 mod pyenv;
 mod react_native;
 mod screen;
+mod sdk;
 mod ssh;
 mod systemctl;
 mod tar;
@@ -102,6 +103,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         tmux::generator(),
         node::generator(),
         screen::generator(),
+        sdk::generator(),
         powershell::get_help_generator(),
         powershell::get_process_generator(),
         powershell::debug_process_generator(),

@@ -1,0 +1,231 @@
+{
+    "name": "sdk",
+    "description": "SDKMAN! - The Software Development Kit Manager",
+    "subcommands": [
+        {
+            "name": [
+                "install",
+                "i"
+            ],
+            "description": "Install a candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "generatorName": "candidates"
+                },
+                {
+                    "name": "version",
+                    "isOptional": true,
+                    "generatorName": "available_versions"
+                },
+                {
+                    "name": "path",
+                    "isOptional": true,
+                    "template": "folders"
+                }
+            ]
+        },
+        {
+            "name": [
+                "uninstall",
+                "rm"
+            ],
+            "description": "Uninstall a candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "generatorName": "candidates"
+                },
+                {
+                    "name": "version",
+                    "generatorName": "installed_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "list",
+                "ls"
+            ],
+            "description": "List available candidates or candidate versions",
+            "args": {
+                "name": "candidate",
+                "isOptional": true,
+                "generatorName": "candidates"
+            }
+        },
+        {
+            "name": [
+                "use",
+                "u"
+            ],
+            "description": "Use a specific version in the current shell",
+            "args": [
+                {
+                    "name": "candidate",
+                    "generatorName": "candidates"
+                },
+                {
+                    "name": "version",
+                    "generatorName": "installed_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "default",
+                "d"
+            ],
+            "description": "Set the default candidate version for all shells",
+            "args": [
+                {
+                    "name": "candidate",
+                    "generatorName": "candidates"
+                },
+                {
+                    "name": "version",
+                    "isOptional": true,
+                    "generatorName": "installed_versions"
+                }
+            ]
+        },
+        {
+            "name": "home",
+            "description": "Output the path of a specific candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "generatorName": "candidates"
+                },
+                {
+                    "name": "version",
+                    "generatorName": "installed_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "current",
+                "c"
+            ],
+            "description": "Display the current default installed versions",
+            "args": {
+                "name": "candidate",
+                "isOptional": true,
+                "generatorName": "candidates"
+            }
+        },
+        {
+            "name": [
+                "upgrade",
+                "ug"
+            ],
+            "description": "Upgrade installed candidate versions",
+            "args": {
+                "name": "candidate",
+                "isOptional": true,
+                "generatorName": "candidates"
+            }
+        },
+        {
+            "name": "env",
+            "description": "Manage project-specific SDK versions via .sdkmanrc",
+            "args": {
+                "name": "command",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "init",
+                        "description": "Create a default .sdkmanrc file"
+                    },
+                    {
+                        "name": "install",
+                        "description": "Install and switch to versions in .sdkmanrc"
+                    },
+                    {
+                        "name": "clear",
+                        "description": "Reset all SDK versions to their defaults"
+                    }
+                ]
+            }
+        },
+        {
+            "name": [
+                "version",
+                "v"
+            ],
+            "description": "Display the current version of SDKMAN!"
+        },
+        {
+            "name": "selfupdate",
+            "description": "Update SDKMAN! itself",
+            "args": {
+                "name": "qualifier",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "force",
+                        "description": "Force a reinstallation of SDKMAN!"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "update",
+            "description": "Refresh the candidate metadata cache"
+        },
+        {
+            "name": "flush",
+            "description": "Flush SDKMAN! local state",
+            "args": {
+                "name": "target",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "tmp",
+                        "description": "Clean pre/post hooks and residual archives"
+                    },
+                    {
+                        "name": "metadata",
+                        "description": "Remove header metadata"
+                    },
+                    {
+                        "name": "version",
+                        "description": "Flush version files"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "config",
+            "description": "Open the SDKMAN! configuration file"
+        },
+        {
+            "name": [
+                "help",
+                "h"
+            ],
+            "description": "Display help information",
+            "args": {
+                "name": "subcommand",
+                "isOptional": true,
+                "suggestions": [
+                    "install",
+                    "uninstall",
+                    "list",
+                    "use",
+                    "default",
+                    "home",
+                    "env",
+                    "current",
+                    "upgrade",
+                    "version",
+                    "selfupdate",
+                    "update",
+                    "flush",
+                    "config"
+                ]
+            }
+        }
+    ]
+}
