@@ -35,6 +35,7 @@ mod node;
 mod npm;
 mod nx;
 mod pacman;
+mod pass;
 mod phpunit_watcher;
 mod pip;
 mod powershell;
@@ -74,6 +75,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         npm::yarn_generators(),
         nx::generator(),
         pacman::generator(),
+        pass::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
         pip::pip3_generator(),
