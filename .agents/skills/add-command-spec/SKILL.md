@@ -9,13 +9,14 @@ This skill covers the full lifecycle of writing a completion spec in warpdotdev/
 
 ## Step 1: Research the Command
 
-Before writing any JSON, build a thorough picture of the command's subcommands, flags, and argument types. Commands often have more surface area than you'd expect — nested subcommands, platform-specific flags, mutually exclusive options. Investing time here prevents rework later.
+Before writing any JSON, build a thorough picture of the command's subcommands, flags, and argument types. Commands often have more surface area than you'd expect — nested subcommands, platform-specific flags, mutually exclusive options. Note which commands and subcommands will need generators for dynamically generated completion options. Investing time here prevents rework later.
 
 Use these strategies roughly in priority order:
 
 ### Start with Fish shell completions
 
-Fish maintains high-quality, community-reviewed completion definitions at https://github.com/fish-shell/fish-shell/tree/master/share/completions — look for `<command>.fish`. These are thorough and well-structured, so they're the fastest way to get a comprehensive picture of a command's subcommands and flags. Read this file first.
+Fish maintains high-quality, community-reviewed completion definitions at https://github.com/fish-shell/fish-shell/tree/master/share/completions — look for `<command>.fish`. These completions are thorough and well-structured, so they're the fastest way to get a comprehensive picture of a command's subcommands, flags, and generators. Read this file first.
+Look for any generator functions referenced in each <command>.fish file in the `functions` directory at https://github.com/fish-shell/fish-shell/tree/master/share/functions/ . They are often named `__fish_<function_name>.fish`.
 
 ### Test with Fish shell completions
 
@@ -42,7 +43,7 @@ The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master
 ## Step 2: Implement the Spec
 
 1. **Create the JSON spec**: `command-signatures/json/<command>.json` following Fig's completion spec schema and the reference examples.
-2. **Create a generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
+2. **Create generators** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
 ### Platform Compatibility
 
@@ -102,9 +103,9 @@ Format the JSON spec with `npm run format -- command-signatures/json/<command>.j
 
 Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
-Static sub-commands and options are already well-tested.
+Static sub-commands, options and flags are already well-tested.
 
-Generators require end-to-end verification to make sure they produce reasonable candidates. To verify generator completions end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
+Perform end-to-end verification for each generator to make sure it produces reasonable candidates. To test generators end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
 Use a local warp build to install and set up the command and test the newly-written generators. To trigger the completions menu, press the `tab` key. Remember that we're NOT testing autocomplete (ghost text), but rather testing completions, which are dropdown menus that appear next to the cursor. Take a screenshot to show each generator working; your work will not be accepted without it. You do not need to zoom in.
 
 ## Step 4: Submitting
@@ -115,7 +116,7 @@ For example, adding support for openshift would be done in a branch called `app-
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
 
-Attach screenshots for each generator in the PR body.
+You MUST upload screenshots for each generator into the GitHub PR description.
 
 ## Reference Examples
 
