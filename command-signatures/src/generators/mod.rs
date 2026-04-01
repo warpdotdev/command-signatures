@@ -6,6 +6,7 @@ mod common;
 
 /// Used for debian-based package managers like apt-get, aptitude, etc.
 mod apt;
+mod asdf;
 mod bazel;
 mod bosh;
 mod brew;
@@ -52,6 +53,7 @@ mod tmuxinator;
 /// Returns dynamic command signature data, keyed on the command the data corresponds to.
 pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
     let command_signature_generators = [
+        asdf::generator(),
         apt::apt_get_generators(),
         apt::aptitude_generators(),
         bosh::generator(),
