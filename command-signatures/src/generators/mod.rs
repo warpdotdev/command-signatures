@@ -30,6 +30,7 @@ mod kubens;
 mod lsof;
 mod make;
 mod man;
+mod nextflow;
 mod ng;
 mod node;
 mod npm;
@@ -70,6 +71,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         make::generator(),
         man::generator(),
         ng::generator(),
+        nextflow::generator(),
         npm::npm_generators(),
         npm::yarn_generators(),
         nx::generator(),
