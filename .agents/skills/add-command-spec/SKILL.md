@@ -42,7 +42,7 @@ The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master
 ## Step 2: Implement the Spec
 
 1. **Create the JSON spec**: `command-signatures/json/<command>.json` following Fig's completion spec schema and the reference examples.
-2. **Create a generator** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
+2. **Create generators** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
 ### Platform Compatibility
 
@@ -102,9 +102,9 @@ Format the JSON spec with `npm run format -- command-signatures/json/<command>.j
 
 Run `script/presubmit` to verify formatting, linting, and tests all pass (this runs `cargo fmt --check`, `cargo clippy`, and `cargo test`).
 
-Static sub-commands and options are already well-tested.
+Static sub-commands, options and flags are already well-tested.
 
-Generators require end-to-end verification to make sure they produce reasonable candidates. To verify generator completions end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
+Perform end-to-end verification for each generator to make sure it produces reasonable candidates. To test generators end-to-end in a real Warp session, use the `test-local-warp` skill in `command-signatures/.agents/skills/test-local-warp/` which covers building and running Warp against a local checkout of the `command-signatures` repo. This requires computer use to be enabled since Warp is a GUI application.
 Use a local warp build to install and set up the command and test the newly-written generators. To trigger the completions menu, press the `tab` key. Remember that we're NOT testing autocomplete (ghost text), but rather testing completions, which are dropdown menus that appear next to the cursor. Take a screenshot to show each generator working; your work will not be accepted without it. You do not need to zoom in.
 
 ## Step 4: Submitting
@@ -115,7 +115,7 @@ For example, adding support for openshift would be done in a branch called `app-
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
 
-Attach screenshots for each generator in the PR body.
+You MUST upload screenshots for each generator into the GitHub PR description.
 
 ## Reference Examples
 
