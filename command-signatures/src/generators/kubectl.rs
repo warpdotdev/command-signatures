@@ -5,14 +5,14 @@ use warp_completion_metadata::{
     GeneratorResultsCollector, IconType, Suggestion,
 };
 
-enum KubetctlStatus {
+pub(super) enum KubetctlStatus {
     ConnectedToCluster,
     Other,
     GeneralError,
 }
 
 impl KubetctlStatus {
-    fn from_output(output: &str) -> Self {
+    pub(super) fn from_output(output: &str) -> Self {
         if output.contains("The connection to the server") {
             KubetctlStatus::ConnectedToCluster
         } else if output.contains("error:") {
@@ -24,7 +24,7 @@ impl KubetctlStatus {
 }
 
 /// Returns the value for the given `option_name`, which may be space delimited (--option value) or equals delimited (--option=value).
-fn space_or_equals_delimited_option_value<'a>(
+pub(super) fn space_or_equals_delimited_option_value<'a>(
     tokens: &'a [&str],
     option_name: &str,
 ) -> Option<&'a str> {
@@ -50,7 +50,10 @@ fn space_or_equals_delimited_option_value<'a>(
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
 /// kubeconfig file.
-fn kubectl_script(
+///
+/// `binary_name` is the CLI binary to invoke (e.g. "kubectl" or "oc").
+pub(super) fn kube_cli_script(
+    binary_name: &str,
     env_vars: &[String],
     tokens: &[&str],
     subcommand: CommandBuilder,
@@ -66,13 +69,21 @@ fn kubectl_script(
     let env_vars_str = env_vars.iter().join(" ");
     CommandBuilder::concat(
         CommandBuilder::single_command(format!(
-            "{env_vars_str} kubectl {kubeconfig_value}{namespace_value}"
+            "{env_vars_str} {binary_name} {kubeconfig_value}{namespace_value}"
         )),
         subcommand,
     )
 }
 
-fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
+fn kubectl_script(
+    env_vars: &[String],
+    tokens: &[&str],
+    subcommand: CommandBuilder,
+) -> CommandBuilder {
+    kube_cli_script("kubectl", env_vars, tokens, subcommand)
+}
+
+pub(super) fn kube_cli_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
     match KubetctlStatus::from_output(output) {
         KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
             GeneratorResults::default()
@@ -89,7 +100,10 @@ fn kubectl_post_process(output: &str, icon: Option<IconType>) -> GeneratorResult
     }
 }
 
-fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -> GeneratorResults {
+pub(super) fn kube_cli_builtin_complete_post_process(
+    output: &str,
+    icon: Option<IconType>,
+) -> GeneratorResults {
     match KubetctlStatus::from_output(output) {
         KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
             GeneratorResults::default()
@@ -110,7 +124,7 @@ fn kubectl_builtin_complete_post_process(output: &str, icon: Option<IconType>) -
 lazy_static! {
     pub(super) static ref RESOURCE_TYPE_GENERATOR: Generator = Generator::command_from_tokens(
         |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("api-resources -o name")),
-        |output| kubectl_post_process(output, None),
+        |output| kube_cli_post_process(output, None),
     );
     pub(super) static ref RUNNING_PODS_GENERATOR: Generator = Generator::command_from_tokens(
         |tokens, _, env_vars| {
@@ -120,27 +134,27 @@ lazy_static! {
                 CommandBuilder::single_command("get pods --field-selector=status.phase=Running -o name"),
             )
         },
-        |output| kubectl_post_process(output, Some(IconType::KubePod)),
+        |output| kube_cli_post_process(output, Some(IconType::KubePod)),
     );
     pub(super) static ref DEPLOYMENTS_GENERATOR: Generator = Generator::command_from_tokens(
         |tokens, _, env_vars| { kubectl_script(env_vars, tokens, CommandBuilder::single_command("get deployments -o custom-columns=:.metadata.name")) },
-        |output| kubectl_post_process(output, None),
+        |output| kube_cli_post_process(output, None),
     );
     pub(super) static ref NODE_GENERATOR: Generator = Generator::command_from_tokens(
         |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get nodes -o custom-columns=:.metadata.name")),
-        |output| kubectl_post_process(output, None),
+        |output| kube_cli_post_process(output, None),
     );
     pub(super) static ref CLUSTER_ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| {
                     kubectl_script(env_vars, tokens, CommandBuilder::single_command("get clusterroles -o custom-columns=:.metadata.name"))
                 },
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref ROLE_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get roles -o custom-columns=:.metadata.name")),
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref RESOURCE_GENERATOR: Generator =
             Generator::command_from_tokens(
@@ -162,12 +176,12 @@ lazy_static! {
                         None => CommandBuilder::single_command(""),
                     }
                 },
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref CONTEXT_GENERATOR: Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get-contexts -o name")),
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
@@ -187,7 +201,7 @@ lazy_static! {
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
             Generator::command_from_tokens(
@@ -214,7 +228,7 @@ lazy_static! {
                     }
                     kubectl_script(env_vars, tokens, CommandBuilder::single_command("api-resources -o name"))
                 },
-                |output| kubectl_post_process(output, None),
+                |output| kube_cli_post_process(output, None),
             );
     pub(super) static ref KUBECTL_BUILTIN_COMPLETION: Generator =
     Generator::command_from_tokens(
@@ -232,7 +246,7 @@ lazy_static! {
             CommandBuilder::pipe(CommandBuilder::single_command(generation_command.join(" ")), CommandBuilder::single_command("sed '$d'"))
 
         },
-        |output| kubectl_builtin_complete_post_process(output, None),
+        |output| kube_cli_builtin_complete_post_process(output, None),
     );
 }
 
