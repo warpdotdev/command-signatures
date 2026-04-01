@@ -1,0 +1,284 @@
+{
+    "name": "sdk",
+    "description": "SDKMAN! - The Software Development Kit Manager",
+    "subcommands": [
+        {
+            "name": [
+                "install",
+                "i"
+            ],
+            "description": "Install a candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "description": "SDK candidate to install",
+                    "generatorName": "sdk_candidates"
+                },
+                {
+                    "name": "version",
+                    "description": "Version to install (defaults to latest stable)",
+                    "isOptional": true,
+                    "generatorName": "sdk_versions"
+                },
+                {
+                    "name": "local-path",
+                    "description": "Path to a local installation",
+                    "isOptional": true,
+                    "template": "folders"
+                }
+            ]
+        },
+        {
+            "name": [
+                "uninstall",
+                "rm"
+            ],
+            "description": "Uninstall a candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "description": "SDK candidate to uninstall",
+                    "generatorName": "sdk_installed_candidates"
+                },
+                {
+                    "name": "version",
+                    "description": "Version to uninstall",
+                    "generatorName": "sdk_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "list",
+                "ls"
+            ],
+            "description": "List available candidates or candidate versions",
+            "args": {
+                "name": "candidate",
+                "description": "SDK candidate to list versions for",
+                "isOptional": true,
+                "generatorName": "sdk_candidates"
+            }
+        },
+        {
+            "name": [
+                "use",
+                "u"
+            ],
+            "description": "Use a candidate version in the current shell",
+            "args": [
+                {
+                    "name": "candidate",
+                    "description": "SDK candidate to use",
+                    "generatorName": "sdk_installed_candidates"
+                },
+                {
+                    "name": "version",
+                    "description": "Version to use",
+                    "generatorName": "sdk_versions"
+                }
+            ]
+        },
+        {
+            "name": "config",
+            "description": "Edit the SDKMAN configuration"
+        },
+        {
+            "name": [
+                "default",
+                "d"
+            ],
+            "description": "Set the default candidate version for all shells",
+            "args": [
+                {
+                    "name": "candidate",
+                    "description": "SDK candidate to set default for",
+                    "generatorName": "sdk_installed_candidates"
+                },
+                {
+                    "name": "version",
+                    "description": "Version to set as default",
+                    "isOptional": true,
+                    "generatorName": "sdk_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "home",
+                "h"
+            ],
+            "description": "Show the installation path of a candidate version",
+            "args": [
+                {
+                    "name": "candidate",
+                    "description": "SDK candidate",
+                    "generatorName": "sdk_installed_candidates"
+                },
+                {
+                    "name": "version",
+                    "description": "Version to show path for",
+                    "generatorName": "sdk_versions"
+                }
+            ]
+        },
+        {
+            "name": [
+                "env",
+                "e"
+            ],
+            "description": "Manage .sdkmanrc environment configuration",
+            "args": {
+                "name": "command",
+                "description": "Env subcommand",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "init",
+                        "description": "Initialize a .sdkmanrc file in the current directory",
+                        "type": "subcommand"
+                    },
+                    {
+                        "name": "install",
+                        "description": "Install SDKs specified in .sdkmanrc",
+                        "type": "subcommand"
+                    },
+                    {
+                        "name": "clear",
+                        "description": "Reset SDKs to their default versions",
+                        "type": "subcommand"
+                    }
+                ]
+            }
+        },
+        {
+            "name": [
+                "current",
+                "c"
+            ],
+            "description": "Display the current version of a candidate or all candidates",
+            "args": {
+                "name": "candidate",
+                "description": "SDK candidate to show current version for",
+                "isOptional": true,
+                "generatorName": "sdk_installed_candidates"
+            }
+        },
+        {
+            "name": [
+                "upgrade",
+                "ug"
+            ],
+            "description": "Show or perform upgrades for candidate versions",
+            "args": {
+                "name": "candidate",
+                "description": "SDK candidate to upgrade",
+                "isOptional": true,
+                "generatorName": "sdk_installed_candidates"
+            }
+        },
+        {
+            "name": [
+                "version",
+                "v"
+            ],
+            "description": "Display the current version of SDKMAN"
+        },
+        {
+            "name": [
+                "broadcast",
+                "b"
+            ],
+            "description": "Display the latest SDK release notifications"
+        },
+        {
+            "name": "help",
+            "description": "Show the SDKMAN help message",
+            "args": {
+                "name": "subcommand",
+                "description": "Subcommand to get help for",
+                "isOptional": true,
+                "suggestions": [
+                    "install",
+                    "uninstall",
+                    "list",
+                    "use",
+                    "config",
+                    "default",
+                    "home",
+                    "env",
+                    "current",
+                    "upgrade",
+                    "version",
+                    "broadcast",
+                    "help",
+                    "offline",
+                    "selfupdate",
+                    "update",
+                    "flush"
+                ]
+            }
+        },
+        {
+            "name": "offline",
+            "description": "Enable or disable offline mode",
+            "args": {
+                "name": "mode",
+                "description": "Enable or disable offline mode",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "enable",
+                        "description": "Enable offline mode"
+                    },
+                    {
+                        "name": "disable",
+                        "description": "Disable offline mode"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "selfupdate",
+            "description": "Update SDKMAN itself",
+            "args": {
+                "name": "force",
+                "description": "Force re-installation",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "force",
+                        "description": "Force re-installation of SDKMAN"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "update",
+            "description": "Refresh the candidate cache to discover new candidates"
+        },
+        {
+            "name": "flush",
+            "description": "Flush SDKMAN local state",
+            "args": {
+                "name": "target",
+                "description": "What to flush",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "tmp",
+                        "description": "Flush the temporary folder"
+                    },
+                    {
+                        "name": "metadata",
+                        "description": "Flush the candidate metadata cache"
+                    },
+                    {
+                        "name": "version",
+                        "description": "Flush the cached SDKMAN version"
+                    }
+                ]
+            }
+        }
+    ]
+}
