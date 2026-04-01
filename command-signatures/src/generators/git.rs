@@ -538,6 +538,63 @@ pub fn local_branches_generator() -> Generator {
     )
 }
 
+const FORCE_PREFIX_MARKER: &str = "__FORCE_PREFIX__";
+
+/// Wraps a command to prepend a force-prefix marker if the last token starts with `+`.
+/// This handles the `git push origin +<branch>` force-push refspec syntax where
+/// the `+` prefix would otherwise prevent branch name matching.
+fn with_force_prefix_detection(
+    tokens: &[&str],
+    has_trailing_whitespace: bool,
+    cmd: CommandBuilder,
+) -> CommandBuilder {
+    if !has_trailing_whitespace && tokens.last().is_some_and(|t| t.starts_with('+')) {
+        CommandBuilder::and(
+            CommandBuilder::single_command(format!("printf '{FORCE_PREFIX_MARKER}\\n'")),
+            cmd,
+        )
+    } else {
+        cmd
+    }
+}
+
+/// Strips the force-prefix marker from generator output, returning the prefix
+/// to prepend to suggestions and the remaining output.
+fn strip_force_prefix(out: &str) -> (&str, &str) {
+    let marker_line = format!("{FORCE_PREFIX_MARKER}\n");
+    match out.strip_prefix(marker_line.as_str()) {
+        Some(rest) => ("+", rest),
+        None => ("", out),
+    }
+}
+
+/// Prepends a string to the `exact_string` of every suggestion in the results.
+fn prepend_to_suggestions(prefix: &str, results: &mut GeneratorResults) {
+    if !prefix.is_empty() {
+        for suggestion in &mut results.suggestions {
+            suggestion.exact_string = format!("{prefix}{}", suggestion.exact_string);
+        }
+    }
+}
+
+fn post_process_push_refspec_branches(out: &str) -> GeneratorResults {
+    let (prefix, branch_output) = strip_force_prefix(out);
+    let mut results = post_process_branches(branch_output);
+    prepend_to_suggestions(prefix, &mut results);
+    results
+}
+
+fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
+    let (prefix, tag_output) = strip_force_prefix(out);
+    let mut results: GeneratorResults = tag_output
+        .lines()
+        .filter(|line| !line.is_empty())
+        .map(|line| Suggestion::with_description(format!("{prefix}{line}"), "tag"))
+        .collect_ordered_results();
+    prepend_to_suggestions("", &mut results);
+    results
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
         .add_generator("commits", commits_generator())
@@ -723,6 +780,39 @@ pub fn generator() -> CommandSignatureGenerators {
                 post_process_branches,
             ),
         )
+        // Generators for `git push` refspec arguments. These handle the `+` force-push prefix
+        // (e.g. `git push origin +branch`) by detecting it in the current token and prepending
+        // it to branch/tag suggestions so the completer's prefix matcher can match correctly.
+        .add_generator(
+            "push_refspec_branches",
+            Generator::command_from_tokens(
+                |tokens, has_trailing_whitespace, _| {
+                    with_force_prefix_detection(
+                        tokens,
+                        has_trailing_whitespace,
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks branch --no-color --sort=-committerdate",
+                        ),
+                    )
+                },
+                post_process_push_refspec_branches,
+            ),
+        )
+        .add_generator(
+            "push_refspec_tags",
+            Generator::command_from_tokens(
+                |tokens, has_trailing_whitespace, _| {
+                    with_force_prefix_detection(
+                        tokens,
+                        has_trailing_whitespace,
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks tag --list --sort=-committerdate",
+                        ),
+                    )
+                },
+                post_process_push_refspec_tags,
+            ),
+        )
         .add_alias(
             "alias",
             Alias::new(
@@ -754,7 +844,10 @@ pub fn generator() -> CommandSignatureGenerators {
 
 #[cfg(test)]
 mod tests {
-    use crate::generators::git::{post_process_branches, post_process_tracked_files};
+    use crate::generators::git::{
+        post_process_branches, post_process_push_refspec_branches, post_process_push_refspec_tags,
+        post_process_tracked_files,
+    };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
     };
@@ -854,6 +947,115 @@ mod tests {
                     },
                 ],
                 is_ordered: false,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_branches_without_force_prefix() {
+        // Without the __FORCE_PREFIX__ marker, results should match normal branch processing.
+        let command_output = "* main\n  feature/foo\n  develop";
+        assert_eq!(
+            post_process_push_refspec_branches(command_output),
+            post_process_branches(command_output),
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_branches_with_force_prefix() {
+        // With the __FORCE_PREFIX__ marker, all branch exact_strings should be prefixed with "+".
+        let command_output = "__FORCE_PREFIX__\n* main\n  feature/foo\n  develop";
+        let results = post_process_push_refspec_branches(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "+main".to_owned(),
+                        display_name: None,
+                        description: Some("Current branch".to_owned()),
+                        priority: Priority::most_important(),
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "+feature/foo".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "+develop".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_tags_without_force_prefix() {
+        let command_output = "v1.0.0\nv2.0.0";
+        let results = post_process_push_refspec_tags(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "v1.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "v2.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_tags_with_force_prefix() {
+        let command_output = "__FORCE_PREFIX__\nv1.0.0\nv2.0.0";
+        let results = post_process_push_refspec_tags(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "+v1.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "+v2.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
             }
         );
     }
