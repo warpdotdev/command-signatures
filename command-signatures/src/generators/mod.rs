@@ -34,6 +34,7 @@ mod ng;
 mod node;
 mod npm;
 mod nx;
+mod oc;
 mod pacman;
 mod phpunit_watcher;
 mod pip;
@@ -89,6 +90,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         cargo::generator(),
         kubectl::generator(),
         kubecolor::generator(),
+        oc::generator(),
         kill::generator(),
         killall::generator(),
         lsof::generator(),
