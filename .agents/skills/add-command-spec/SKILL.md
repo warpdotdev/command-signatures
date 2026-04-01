@@ -9,13 +9,14 @@ This skill covers the full lifecycle of writing a completion spec in warpdotdev/
 
 ## Step 1: Research the Command
 
-Before writing any JSON, build a thorough picture of the command's subcommands, flags, and argument types. Commands often have more surface area than you'd expect — nested subcommands, platform-specific flags, mutually exclusive options. Investing time here prevents rework later.
+Before writing any JSON, build a thorough picture of the command's subcommands, flags, and argument types. Commands often have more surface area than you'd expect — nested subcommands, platform-specific flags, mutually exclusive options. Note which commands and subcommands will need generators for dynamically generated completion options. Investing time here prevents rework later.
 
 Use these strategies roughly in priority order:
 
 ### Start with Fish shell completions
 
-Fish maintains high-quality, community-reviewed completion definitions at https://github.com/fish-shell/fish-shell/tree/master/share/completions — look for `<command>.fish`. These are thorough and well-structured, so they're the fastest way to get a comprehensive picture of a command's subcommands and flags. Read this file first.
+Fish maintains high-quality, community-reviewed completion definitions at https://github.com/fish-shell/fish-shell/tree/master/share/completions — look for `<command>.fish`. These completions are thorough and well-structured, so they're the fastest way to get a comprehensive picture of a command's subcommands, flags, and generators. Read this file first.
+Look for any generator functions referenced in each <command>.fish file in the `functions` directory at https://github.com/fish-shell/fish-shell/tree/master/share/functions/ . They are often named `__fish_<function_name>.fish`.
 
 ### Test with Fish shell completions
 
