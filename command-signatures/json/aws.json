@@ -1,6 +1,192 @@
 {
     "name": "aws",
-    "generateSpec": "_NuFrRa_generateSpec(s,o){return c(this,null,function*(){let t=(yield o(\"ls ~/.aws/credentials && ls ~/.aws/config\")).includes(\"No such file or directory\");return{name:\"aws\",subcommands:[{name:\"configure\",description:`Configure AWS CLI options. If this command is run with no\narguments, you will be prompted for configuration values such as your AWS\nAccess Key Id and your AWS Secret Access Key.  You can configure a named\nprofile using the \\`\\`--profile\\`\\` argument.  If your config file does not exist\n(the default location is \\`\\`~/.aws/config\\`\\`), the AWS CLI will create it\nfor you.  To keep an existing value, hit enter when prompted for the value.\nWhen you are prompted for information, the current value will be displayed in\n\\`\\`[brackets]\\`\\`.  If the config item has no value, it be displayed as\n\\`\\`[None]\\`\\`.  Note that the \\`\\`configure\\`\\` command only works with values from the\nconfig file.  It does not use any configuration values from environment\nvariables or the IAM role.\n\nNote: the values you provide for the AWS Access Key ID and the AWS Secret\nAccess Key will be written to the shared credentials file\n(\\`\\`~/.aws/credentials\\`\\`).\n\n\n=======================\nConfiguration Variables\n=======================\n\nThe following configuration variables are supported in the config file:\n\n* **aws_access_key_id** - The AWS access key part of your credentials\n* **aws_secret_access_key** - The AWS secret access key part of your credentials\n* **aws_session_token** - The session token part of your credentials (session tokens only)\n* **metadata_service_timeout** - The number of seconds to wait until the metadata service\n  request times out.  This is used if you are using an IAM role to provide\n  your credentials.\n* **metadata_service_num_attempts** - The number of attempts to try to retrieve\n  credentials.  If you know for certain you will be using an IAM role on an\n  Amazon EC2 instance, you can set this value to ensure any intermittent\n  failures are retried.  By default this value is 1.\n\nFor more information on configuration options, see \\`Configuring the AWS Command Line Interface\\`_ in the *AWS CLI User Guide*.\n\n.. _\\`Configuring the AWS Command Line Interface\\`: http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html\n`,loadSpec:\"aws/configure\",icon:\"fig://icon?type=alert\",priority:t?100:50}]}})}",
+    "description": "Universal Command Line Interface for Amazon Web Services",
+    "options": [
+        {
+            "name": "--debug",
+            "description": "Turn on debug logging",
+            "isPersistent": true
+        },
+        {
+            "name": "--endpoint-url",
+            "description": "Override command's default URL with the given URL",
+            "isPersistent": true,
+            "args": {
+                "name": "URL"
+            }
+        },
+        {
+            "name": "--no-verify-ssl",
+            "description": "Do not verify SSL certificates",
+            "isPersistent": true
+        },
+        {
+            "name": "--no-paginate",
+            "description": "Disable automatic pagination",
+            "isPersistent": true
+        },
+        {
+            "name": "--output",
+            "description": "The formatting style for command output",
+            "isPersistent": true,
+            "args": {
+                "name": "FORMAT",
+                "suggestions": [
+                    "json",
+                    "text",
+                    "table",
+                    "yaml",
+                    "yaml-stream"
+                ]
+            }
+        },
+        {
+            "name": "--query",
+            "description": "A JMESPath query to use in filtering the response data",
+            "isPersistent": true,
+            "args": {
+                "name": "EXPRESSION"
+            }
+        },
+        {
+            "name": "--profile",
+            "description": "Use a specific profile from your credential file",
+            "isPersistent": true,
+            "args": {
+                "name": "PROFILE",
+                "generatorName": "profiles"
+            }
+        },
+        {
+            "name": "--region",
+            "description": "The region to use. Overrides config/env settings",
+            "isPersistent": true,
+            "args": {
+                "name": "REGION",
+                "suggestions": [
+                    "us-east-1",
+                    "us-east-2",
+                    "us-west-1",
+                    "us-west-2",
+                    "af-south-1",
+                    "ap-east-1",
+                    "ap-south-1",
+                    "ap-south-2",
+                    "ap-southeast-1",
+                    "ap-southeast-2",
+                    "ap-southeast-3",
+                    "ap-southeast-4",
+                    "ap-northeast-1",
+                    "ap-northeast-2",
+                    "ap-northeast-3",
+                    "ca-central-1",
+                    "ca-west-1",
+                    "eu-central-1",
+                    "eu-central-2",
+                    "eu-west-1",
+                    "eu-west-2",
+                    "eu-west-3",
+                    "eu-south-1",
+                    "eu-south-2",
+                    "eu-north-1",
+                    "il-central-1",
+                    "me-south-1",
+                    "me-central-1",
+                    "sa-east-1"
+                ]
+            }
+        },
+        {
+            "name": "--version",
+            "description": "Display the version of this tool"
+        },
+        {
+            "name": "--color",
+            "description": "Turn on/off color output",
+            "isPersistent": true,
+            "args": {
+                "name": "MODE",
+                "suggestions": [
+                    "on",
+                    "off",
+                    "auto"
+                ]
+            }
+        },
+        {
+            "name": "--no-sign-request",
+            "description": "Do not sign requests. Credentials will not be loaded if this argument is provided",
+            "isPersistent": true
+        },
+        {
+            "name": "--ca-bundle",
+            "description": "The CA certificate bundle to use when verifying SSL certificates",
+            "isPersistent": true,
+            "args": {
+                "name": "PATH",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--cli-read-timeout",
+            "description": "The maximum socket read time in seconds",
+            "isPersistent": true,
+            "args": {
+                "name": "SECONDS"
+            }
+        },
+        {
+            "name": "--cli-connect-timeout",
+            "description": "The maximum socket connect time in seconds",
+            "isPersistent": true,
+            "args": {
+                "name": "SECONDS"
+            }
+        },
+        {
+            "name": "--cli-binary-format",
+            "description": "The formatting style to be used for binary blobs",
+            "isPersistent": true,
+            "args": {
+                "name": "FORMAT",
+                "suggestions": [
+                    "base64",
+                    "raw-in-base64-out"
+                ]
+            }
+        },
+        {
+            "name": "--no-cli-pager",
+            "description": "Disable cli pager for output",
+            "isPersistent": true
+        },
+        {
+            "name": "--cli-auto-prompt",
+            "description": "Automatically prompt for CLI input parameters",
+            "isPersistent": true
+        },
+        {
+            "name": "--no-cli-auto-prompt",
+            "description": "Disable automatically prompt for CLI input parameters",
+            "isPersistent": true
+        },
+        {
+            "name": "--cli-error-format",
+            "description": "The formatting style for error output",
+            "isPersistent": true,
+            "args": {
+                "name": "FORMAT",
+                "suggestions": [
+                    "legacy",
+                    "json",
+                    "yaml",
+                    "text",
+                    "table",
+                    "enhanced"
+                ]
+            }
+        }
+    ],
     "subcommands": [
         {
             "name": "accessanalyzer",
