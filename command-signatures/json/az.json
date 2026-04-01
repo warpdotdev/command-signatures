@@ -1,0 +1,3575 @@
+{
+    "name": "az",
+    "description": "Azure Command-Line Interface",
+    "options": [
+        {
+            "name": ["--debug"],
+            "description": "Increase logging verbosity to show all debug logs",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show this help message and exit",
+            "isPersistent": true
+        },
+        {
+            "name": ["--only-show-errors"],
+            "description": "Only show errors, suppressing warnings",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-o",
+                "--output"
+            ],
+            "description": "Output format",
+            "isPersistent": true,
+            "args": {
+                "name": "format",
+                "suggestions": [
+                    "json",
+                    "jsonc",
+                    "none",
+                    "table",
+                    "tsv",
+                    "yaml",
+                    "yamlc"
+                ]
+            }
+        },
+        {
+            "name": ["--query"],
+            "description": "JMESPath query string",
+            "isPersistent": true,
+            "args": {
+                "name": "JMESPATH"
+            }
+        },
+        {
+            "name": ["--subscription"],
+            "description": "Name or ID of subscription",
+            "isPersistent": true,
+            "args": {
+                "name": "subscription",
+                "generatorName": "subscriptions"
+            }
+        },
+        {
+            "name": ["--verbose"],
+            "description": "Increase logging verbosity. Use --debug for full debug logs",
+            "isPersistent": true
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "account",
+            "description": "Manage Azure subscription information",
+            "subcommands": [
+                {
+                    "name": "clear",
+                    "description": "Clear all subscriptions from the CLI's local cache"
+                },
+                {
+                    "name": "get-access-token",
+                    "description": "Get a token for utilities to access Azure",
+                    "options": [
+                        {
+                            "name": "--resource",
+                            "description": "Azure resource endpoint for the token request",
+                            "args": { "name": "resource" }
+                        },
+                        {
+                            "name": "--resource-type",
+                            "description": "Type of well-known resource",
+                            "args": {
+                                "name": "type",
+                                "suggestions": [
+                                    "aad-graph",
+                                    "arm",
+                                    "batch",
+                                    "data-lake",
+                                    "media",
+                                    "ms-graph",
+                                    "oss-rdbms"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-t",
+                                "--tenant"
+                            ],
+                            "description": "Tenant ID for which the token is acquired",
+                            "args": { "name": "tenant" }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "Get a list of subscriptions for the logged in account",
+                    "options": [
+                        {
+                            "name": "--all",
+                            "description": "List all subscriptions from all clouds, rather than just 'Enabled' ones"
+                        },
+                        {
+                            "name": "--refresh",
+                            "description": "Retrieve up-to-date subscriptions from server"
+                        }
+                    ]
+                },
+                {
+                    "name": "list-locations",
+                    "description": "List supported regions for the current subscription"
+                },
+                {
+                    "name": "set",
+                    "description": "Set a subscription to be the current active subscription",
+                    "options": [
+                        {
+                            "name": [
+                                "-s",
+                                "--subscription"
+                            ],
+                            "description": "Name or ID of subscription",
+                            "args": {
+                                "name": "subscription",
+                                "generatorName": "subscriptions"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Get the details of a subscription"
+                },
+                {
+                    "name": "lock",
+                    "description": "Manage Azure subscription level locks",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a subscription lock"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a subscription lock"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List lock information in the subscription"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Show the details of a subscription lock"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a subscription lock"
+                        }
+                    ]
+                },
+                {
+                    "name": "management-group",
+                    "description": "Manage Azure Management Groups",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a new management group"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete an existing management group"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List all management groups"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get the details of the management group"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update an existing management group"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "acr",
+            "description": "Manage private registries with Azure Container Registries",
+            "subcommands": [
+                {
+                    "name": "build",
+                    "description": "Queues a quick build, providing streaming logs for an Azure Container Registry",
+                    "args": {
+                        "name": "SOURCE_LOCATION",
+                        "template": "folders"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-r",
+                                "--registry"
+                            ],
+                            "description": "The name of the container registry",
+                            "args": {
+                                "name": "registry",
+                                "generatorName": "acr_registries"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-t",
+                                "--image"
+                            ],
+                            "description": "The name and tag of the image using the format: '-t repo/image:tag'",
+                            "args": { "name": "IMAGE_NAME" }
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--file"
+                            ],
+                            "description": "The relative path of the Dockerfile to the source code root folder",
+                            "args": {
+                                "name": "Dockerfile",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--platform",
+                            "description": "The platform where build/task is run (e.g., 'linux')",
+                            "args": { "name": "platform" }
+                        },
+                        {
+                            "name": "--no-push",
+                            "description": "Indicates whether the image built should be pushed to the registry"
+                        }
+                    ]
+                },
+                {
+                    "name": "create",
+                    "description": "Create an Azure Container Registry",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the container registry",
+                            "args": { "name": "REGISTRY_NAME" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": "--sku",
+                            "description": "The SKU of the container registry",
+                            "args": {
+                                "name": "SKU",
+                                "suggestions": [
+                                    "Basic",
+                                    "Standard",
+                                    "Premium"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": "--admin-enabled",
+                            "description": "Indicates whether the admin user is enabled",
+                            "args": {
+                                "name": "enabled",
+                                "suggestions": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete an Azure Container Registry"
+                },
+                {
+                    "name": "list",
+                    "description": "List all the container registries under the current subscription",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "login",
+                    "description": "Log in to an Azure Container Registry through Docker or Podman",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the container registry",
+                            "args": {
+                                "name": "registry",
+                                "generatorName": "acr_registries"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Get the details of an Azure Container Registry",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the container registry",
+                            "args": {
+                                "name": "registry",
+                                "generatorName": "acr_registries"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update an Azure Container Registry"
+                },
+                {
+                    "name": "repository",
+                    "description": "Manage repositories for Azure Container Registries"
+                },
+                {
+                    "name": "credential",
+                    "description": "Manage login credentials for Azure Container Registries"
+                },
+                {
+                    "name": "task",
+                    "description": "Manage a collection of steps for building, testing and OS & Framework patching container images"
+                },
+                {
+                    "name": "webhook",
+                    "description": "Manage webhooks for Azure Container Registries"
+                },
+                {
+                    "name": "network-rule",
+                    "description": "Manage network rules for Azure Container Registries"
+                },
+                {
+                    "name": "identity",
+                    "description": "Manage service identities for a container registry"
+                },
+                {
+                    "name": "config",
+                    "description": "Configure policies for Azure Container Registries"
+                },
+                {
+                    "name": "cache",
+                    "description": "Manage cache rules in Azure Container Registries"
+                },
+                {
+                    "name": "token",
+                    "description": "Manage tokens for an Azure Container Registry"
+                },
+                {
+                    "name": "scope-map",
+                    "description": "Manage scope access maps for Azure Container Registries"
+                },
+                {
+                    "name": "replication",
+                    "description": "Manage geo-replicated regions of Azure Container Registries"
+                },
+                {
+                    "name": "encryption",
+                    "description": "Manage container registry encryption"
+                }
+            ]
+        },
+        {
+            "name": "ad",
+            "description": "Manage Microsoft Entra ID entities needed for Azure RBAC through Microsoft Graph API",
+            "subcommands": [
+                {
+                    "name": "app",
+                    "description": "Manage Microsoft Entra applications",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create an application"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete an application"
+                        },
+                        { "name": "list", "description": "List applications" },
+                        {
+                            "name": "show",
+                            "description": "Get the details of an application"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update an application"
+                        }
+                    ]
+                },
+                {
+                    "name": "group",
+                    "description": "Manage Microsoft Entra groups",
+                    "subcommands": [
+                        { "name": "create", "description": "Create a group" },
+                        { "name": "delete", "description": "Delete a group" },
+                        { "name": "list", "description": "List groups" },
+                        {
+                            "name": "show",
+                            "description": "Get the details of a group"
+                        }
+                    ]
+                },
+                {
+                    "name": "sp",
+                    "description": "Manage Microsoft Entra service principals",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a service principal"
+                        },
+                        {
+                            "name": "create-for-rbac",
+                            "description": "Create a service principal and configure its access to Azure resources"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a service principal"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List service principals"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get the details of a service principal"
+                        }
+                    ]
+                },
+                {
+                    "name": "user",
+                    "description": "Manage Microsoft Entra users",
+                    "subcommands": [
+                        { "name": "create", "description": "Create a user" },
+                        { "name": "delete", "description": "Delete a user" },
+                        { "name": "list", "description": "List users" },
+                        {
+                            "name": "show",
+                            "description": "Get the details of a user"
+                        },
+                        { "name": "update", "description": "Update a user" }
+                    ]
+                },
+                {
+                    "name": "signed-in-user",
+                    "description": "Show graph information about current signed-in user in CLI"
+                }
+            ]
+        },
+        {
+            "name": "advisor",
+            "description": "Manage Azure Advisor"
+        },
+        {
+            "name": "afd",
+            "description": "Manage Azure Front Door Standard/Premium"
+        },
+        {
+            "name": "aks",
+            "description": "Azure Kubernetes Service",
+            "subcommands": [
+                {
+                    "name": "browse",
+                    "description": "Show the dashboard for a Kubernetes cluster in a web browser",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "create",
+                    "description": "Create a new managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--node-count"
+                            ],
+                            "description": "Number of nodes in the Kubernetes node pool (default: 3)",
+                            "args": { "name": "count" }
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--node-vm-size"
+                            ],
+                            "description": "Size of Virtual Machines to create as Kubernetes nodes",
+                            "args": { "name": "size" }
+                        },
+                        {
+                            "name": [
+                                "-k",
+                                "--kubernetes-version"
+                            ],
+                            "description": "Version of Kubernetes to use for creating the cluster",
+                            "args": { "name": "version" }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": "--enable-managed-identity",
+                            "description": "Using a system assigned managed identity to manage cluster resource group"
+                        },
+                        {
+                            "name": "--generate-ssh-keys",
+                            "description": "Generate SSH public and private key files if missing"
+                        },
+                        {
+                            "name": "--network-plugin",
+                            "description": "The Kubernetes network plugin to use",
+                            "args": {
+                                "name": "plugin",
+                                "suggestions": [
+                                    "azure",
+                                    "kubenet",
+                                    "none"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--no-ssh-key",
+                            "description": "Do not use or create a local SSH key"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-y",
+                                "--yes"
+                            ],
+                            "description": "Do not prompt for confirmation"
+                        }
+                    ]
+                },
+                {
+                    "name": "get-credentials",
+                    "description": "Get access credentials for a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": "--admin",
+                            "description": "Get cluster administrator credentials"
+                        },
+                        {
+                            "name": "--overwrite-existing",
+                            "description": "Overwrite any existing cluster entry with the same name"
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--file"
+                            ],
+                            "description": "Kubernetes configuration file to update",
+                            "args": { "name": "file", "template": "filepaths" }
+                        }
+                    ]
+                },
+                {
+                    "name": "get-upgrades",
+                    "description": "Get the upgrade versions available for a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "get-versions",
+                    "description": "Get the versions available for creating a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        }
+                    ]
+                },
+                {
+                    "name": "install-cli",
+                    "description": "Download and install kubectl, the Kubernetes command-line tool"
+                },
+                {
+                    "name": "list",
+                    "description": "List managed Kubernetes clusters",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "scale",
+                    "description": "Scale the node pool in a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--node-count"
+                            ],
+                            "description": "Number of nodes in the Kubernetes node pool",
+                            "args": { "name": "count" }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Show the details for a managed Kubernetes cluster",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update a managed Kubernetes cluster"
+                },
+                {
+                    "name": "upgrade",
+                    "description": "Upgrade a managed Kubernetes cluster to a newer version"
+                },
+                {
+                    "name": "enable-addons",
+                    "description": "Enable Kubernetes addons",
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--addons"
+                            ],
+                            "description": "Names of addons to enable",
+                            "args": { "name": "addons" }
+                        },
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the managed cluster",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "aks_clusters"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "disable-addons",
+                    "description": "Disable Kubernetes addons"
+                },
+                {
+                    "name": "rotate-certs",
+                    "description": "Rotate certificates and keys on a managed Kubernetes cluster"
+                },
+                {
+                    "name": "nodepool",
+                    "description": "Commands to manage node pools in Kubernetes kubernetes cluster"
+                },
+                {
+                    "name": "mesh",
+                    "description": "Commands to manage Azure Service Mesh"
+                },
+                {
+                    "name": "command",
+                    "description": "Invoke or get result of a command on a managed Kubernetes cluster"
+                },
+                {
+                    "name": "maintenanceconfiguration",
+                    "description": "Commands to manage maintenance configurations in managed Kubernetes cluster"
+                }
+            ]
+        },
+        {
+            "name": "ams",
+            "description": "Manage Azure Media Services resources"
+        },
+        {
+            "name": "apim",
+            "description": "Manage Azure API Management services"
+        },
+        {
+            "name": "appconfig",
+            "description": "Manage App Configurations"
+        },
+        {
+            "name": "appservice",
+            "description": "Manage Appservice"
+        },
+        {
+            "name": "aro",
+            "description": "Manage Azure Red Hat OpenShift clusters"
+        },
+        {
+            "name": "backup",
+            "description": "Manage Azure Backups"
+        },
+        {
+            "name": "batch",
+            "description": "Manage Azure Batch"
+        },
+        {
+            "name": "bicep",
+            "description": "Bicep CLI command group",
+            "subcommands": [
+                {
+                    "name": "build",
+                    "description": "Build a Bicep file",
+                    "args": { "name": "FILE", "template": "filepaths" }
+                },
+                {
+                    "name": "build-params",
+                    "description": "Build .bicepparam file",
+                    "args": { "name": "FILE", "template": "filepaths" }
+                },
+                {
+                    "name": "decompile",
+                    "description": "Attempt to decompile an ARM template file to a Bicep file",
+                    "args": { "name": "FILE", "template": "filepaths" }
+                },
+                {
+                    "name": "decompile-params",
+                    "description": "Decompile a parameters .json file to .bicepparam"
+                },
+                {
+                    "name": "format",
+                    "description": "Format a Bicep file",
+                    "args": { "name": "FILE", "template": "filepaths" }
+                },
+                {
+                    "name": "generate-params",
+                    "description": "Generate parameters file for a Bicep file"
+                },
+                { "name": "install", "description": "Install Bicep CLI" },
+                {
+                    "name": "lint",
+                    "description": "Lint a Bicep file",
+                    "args": { "name": "FILE", "template": "filepaths" }
+                },
+                {
+                    "name": "list-versions",
+                    "description": "List out all available versions of Bicep CLI"
+                },
+                {
+                    "name": "publish",
+                    "description": "Publish a bicep file to a remote module registry"
+                },
+                {
+                    "name": "restore",
+                    "description": "Restore external modules for a bicep file"
+                },
+                { "name": "uninstall", "description": "Uninstall Bicep CLI" },
+                {
+                    "name": "upgrade",
+                    "description": "Upgrade Bicep CLI to the latest version"
+                },
+                {
+                    "name": "version",
+                    "description": "Show the installed version of Bicep CLI"
+                }
+            ]
+        },
+        {
+            "name": "billing",
+            "description": "Manage Azure Billing"
+        },
+        {
+            "name": "bot",
+            "description": "Manage Microsoft Azure Bot Service"
+        },
+        {
+            "name": "cache",
+            "description": "Commands to manage CLI objects cached using the --defer argument"
+        },
+        {
+            "name": "capacity",
+            "description": "Manage capacity"
+        },
+        {
+            "name": "cdn",
+            "description": "Manage Azure Content Delivery Networks (CDNs)"
+        },
+        {
+            "name": "cloud",
+            "description": "Manage registered Azure clouds"
+        },
+        {
+            "name": "cognitiveservices",
+            "description": "Manage Azure Cognitive Services accounts"
+        },
+        {
+            "name": "compute-fleet",
+            "description": "Manage for Azure Compute Fleet"
+        },
+        {
+            "name": "compute-recommender",
+            "description": "Manage sku/zone/region recommender info for compute resources"
+        },
+        {
+            "name": "config",
+            "description": "Manage Azure CLI configuration",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get a configuration",
+                    "args": { "name": "KEY", "isOptional": true }
+                },
+                {
+                    "name": "set",
+                    "description": "Set a configuration",
+                    "args": { "name": "KEY_VALUE", "isVariadic": true }
+                },
+                {
+                    "name": "unset",
+                    "description": "Unset a configuration",
+                    "args": { "name": "KEY", "isVariadic": true }
+                },
+                {
+                    "name": "param-persist",
+                    "description": "Manage parameter persistence"
+                }
+            ]
+        },
+        {
+            "name": "connection",
+            "description": "Commands to manage Service Connector local connections"
+        },
+        {
+            "name": "consumption",
+            "description": "Manage consumption of Azure resources"
+        },
+        {
+            "name": "container",
+            "description": "Manage Azure Container Instances",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a container group",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The container group name",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": "--image",
+                            "description": "The container image name",
+                            "args": { "name": "image" }
+                        },
+                        {
+                            "name": "--cpu",
+                            "description": "The required number of CPU cores of the containers (default: 1)",
+                            "args": { "name": "cores" }
+                        },
+                        {
+                            "name": "--memory",
+                            "description": "The required memory of the containers in GB (default: 1.5)",
+                            "args": { "name": "memory" }
+                        },
+                        {
+                            "name": "--ports",
+                            "description": "A list of ports to open",
+                            "args": { "name": "ports" }
+                        },
+                        {
+                            "name": "--ip-address",
+                            "description": "The IP address type of the container group",
+                            "args": {
+                                "name": "type",
+                                "suggestions": [
+                                    "Public",
+                                    "Private",
+                                    "None"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--os-type",
+                            "description": "The OS type of the containers",
+                            "args": {
+                                "name": "type",
+                                "suggestions": [
+                                    "Linux",
+                                    "Windows"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-e",
+                                "--environment-variables"
+                            ],
+                            "description": "A list of environment variable for the container",
+                            "args": { "name": "env_vars" }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        }
+                    ]
+                },
+                { "name": "delete", "description": "Delete a container group" },
+                {
+                    "name": "exec",
+                    "description": "Execute a command from within a running container"
+                },
+                {
+                    "name": "export",
+                    "description": "Export a container group in yaml format"
+                },
+                { "name": "list", "description": "List container groups" },
+                {
+                    "name": "logs",
+                    "description": "Examine the logs for a container in a container group"
+                },
+                {
+                    "name": "restart",
+                    "description": "Restarts all containers in a container group"
+                },
+                {
+                    "name": "show",
+                    "description": "Get the details of a container group"
+                },
+                {
+                    "name": "start",
+                    "description": "Starts all containers in a container group"
+                },
+                {
+                    "name": "stop",
+                    "description": "Stops all containers in a container group"
+                },
+                {
+                    "name": "attach",
+                    "description": "Attach local standard output and error streams to a container in a container group"
+                }
+            ]
+        },
+        {
+            "name": "containerapp",
+            "description": "Manage Azure Container Apps",
+            "subcommands": [
+                { "name": "create", "description": "Create a container app" },
+                { "name": "delete", "description": "Delete a container app" },
+                { "name": "list", "description": "List container apps" },
+                {
+                    "name": "show",
+                    "description": "Show details of a container app"
+                },
+                { "name": "update", "description": "Update a container app" },
+                {
+                    "name": "up",
+                    "description": "Create or update a container app as well as any associated resources"
+                },
+                {
+                    "name": "browse",
+                    "description": "Open a containerapp in the browser"
+                },
+                {
+                    "name": "env",
+                    "description": "Commands to manage Container Apps environments"
+                },
+                {
+                    "name": "job",
+                    "description": "Commands to manage Container Apps jobs"
+                },
+                {
+                    "name": "ingress",
+                    "description": "Commands to manage ingress and traffic-splitting"
+                },
+                {
+                    "name": "revision",
+                    "description": "Commands to manage revisions"
+                },
+                {
+                    "name": "secret",
+                    "description": "Commands to manage secrets"
+                },
+                {
+                    "name": "identity",
+                    "description": "Commands to manage managed identities"
+                },
+                {
+                    "name": "registry",
+                    "description": "Commands to manage container registry information"
+                },
+                { "name": "dapr", "description": "Commands to manage Dapr" },
+                { "name": "logs", "description": "Show container app logs" }
+            ]
+        },
+        {
+            "name": "cosmosdb",
+            "description": "Manage Azure Cosmos DB database accounts"
+        },
+        {
+            "name": "data-boundary",
+            "description": "Data boundary operations"
+        },
+        {
+            "name": "databoxedge",
+            "description": "Manage device with databoxedge"
+        },
+        {
+            "name": "deployment",
+            "description": "Manage Azure Resource Manager template deployment at subscription scope",
+            "subcommands": [
+                {
+                    "name": "group",
+                    "description": "Manage Azure Resource Manager template deployment at resource group",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Start a deployment at resource group",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-g",
+                                        "--resource-group"
+                                    ],
+                                    "description": "The resource group to create deployment at",
+                                    "args": {
+                                        "name": "group",
+                                        "generatorName": "resource_groups"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-n",
+                                        "--name"
+                                    ],
+                                    "description": "The deployment name",
+                                    "args": { "name": "name" }
+                                },
+                                {
+                                    "name": "--template-file",
+                                    "description": "The path to the template file",
+                                    "args": {
+                                        "name": "file",
+                                        "template": "filepaths"
+                                    }
+                                },
+                                {
+                                    "name": "--template-uri",
+                                    "description": "The URI to the template file",
+                                    "args": { "name": "uri" }
+                                },
+                                {
+                                    "name": "--parameters",
+                                    "description": "Supply deployment parameter values",
+                                    "args": {
+                                        "name": "params",
+                                        "template": "filepaths"
+                                    }
+                                },
+                                {
+                                    "name": "--mode",
+                                    "description": "The deployment mode",
+                                    "args": {
+                                        "name": "mode",
+                                        "suggestions": [
+                                            "Complete",
+                                            "Incremental"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a deployment at resource group"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List deployments at resource group"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Show a deployment at resource group"
+                        },
+                        {
+                            "name": "validate",
+                            "description": "Validate whether a template is valid at resource group"
+                        },
+                        {
+                            "name": "wait",
+                            "description": "Place the CLI in a waiting state until a deployment condition is met"
+                        },
+                        {
+                            "name": "what-if",
+                            "description": "Execute a deployment What-If operation at resource group scope"
+                        }
+                    ]
+                },
+                {
+                    "name": "sub",
+                    "description": "Manage Azure Resource Manager template deployment at subscription scope"
+                },
+                {
+                    "name": "mg",
+                    "description": "Manage Azure Resource Manager template deployment at management group"
+                },
+                {
+                    "name": "tenant",
+                    "description": "Manage Azure Resource Manager template deployment at tenant scope"
+                },
+                {
+                    "name": "operation",
+                    "description": "Manage deployment operations at subscription scope"
+                }
+            ]
+        },
+        {
+            "name": "deployment-scripts",
+            "description": "Manage deployment scripts at subscription or resource group scope"
+        },
+        {
+            "name": "disk",
+            "description": "Manage Azure Managed Disks",
+            "subcommands": [
+                { "name": "create", "description": "Create a managed disk" },
+                { "name": "delete", "description": "Delete a managed disk" },
+                { "name": "list", "description": "List managed disks" },
+                {
+                    "name": "show",
+                    "description": "Get information about a disk"
+                },
+                { "name": "update", "description": "Update a managed disk" },
+                {
+                    "name": "grant-access",
+                    "description": "Grant a resource access to a managed disk"
+                },
+                {
+                    "name": "revoke-access",
+                    "description": "Revoke a resource's read access to a managed disk"
+                },
+                {
+                    "name": "wait",
+                    "description": "Place the CLI in a waiting state until a condition is met"
+                }
+            ]
+        },
+        {
+            "name": "disk-access",
+            "description": "Manage disk access resources"
+        },
+        {
+            "name": "disk-encryption-set",
+            "description": "Disk Encryption Set resource"
+        },
+        {
+            "name": "dls",
+            "description": "Manage Data Lake Store accounts and filesystems"
+        },
+        {
+            "name": "dms",
+            "description": "Manage Azure Data Migration Service (classic) instances"
+        },
+        {
+            "name": "eventgrid",
+            "description": "Manage Azure Event Grid topics, domains, domain topics, system topics"
+        },
+        {
+            "name": "eventhubs",
+            "description": "Eventhubs"
+        },
+        {
+            "name": "extension",
+            "description": "Manage and update CLI extensions",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add an extension",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of extension",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "available_extensions"
+                            }
+                        },
+                        {
+                            "name": "--source",
+                            "description": "Filepath or URL to an extension",
+                            "args": {
+                                "name": "source",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--version",
+                            "description": "The specific version of an extension",
+                            "args": { "name": "version" }
+                        },
+                        {
+                            "name": [
+                                "-y",
+                                "--yes"
+                            ],
+                            "description": "Do not prompt for confirmation"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List the installed extensions"
+                },
+                {
+                    "name": "list-available",
+                    "description": "List publicly available extensions"
+                },
+                {
+                    "name": "list-versions",
+                    "description": "List available versions for an extension",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of extension",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "available_extensions"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove an extension",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of extension",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "installed_extensions"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Show an extension",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of extension",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "installed_extensions"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update an extension",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of extension",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "installed_extensions"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "feature",
+            "description": "Manage resource provider features"
+        },
+        {
+            "name": "functionapp",
+            "description": "Manage function apps",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a function app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the new function app",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--storage-account"
+                            ],
+                            "description": "Provide a string value of a Storage Account in the provided Resource Group",
+                            "args": {
+                                "name": "account",
+                                "generatorName": "storage_accounts"
+                            }
+                        },
+                        {
+                            "name": "--consumption-plan-location",
+                            "description": "Geographic location where Function App will be hosted",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": "--runtime",
+                            "description": "The functions runtime stack",
+                            "args": {
+                                "name": "runtime",
+                                "suggestions": [
+                                    "dotnet",
+                                    "dotnet-isolated",
+                                    "java",
+                                    "node",
+                                    "powershell",
+                                    "python",
+                                    "custom"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--runtime-version",
+                            "description": "The version of the functions runtime stack",
+                            "args": { "name": "version" }
+                        },
+                        {
+                            "name": "--os-type",
+                            "description": "Set the OS type for the app to be created",
+                            "args": {
+                                "name": "type",
+                                "suggestions": [
+                                    "Linux",
+                                    "Windows"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--functions-version",
+                            "description": "The functions app version",
+                            "args": { "name": "version", "suggestions": ["4"] }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a function app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the function app",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "functionapps"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List function apps",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list-runtimes",
+                    "description": "List available built-in stacks which can be used for function apps"
+                },
+                { "name": "restart", "description": "Restart a function app" },
+                {
+                    "name": "show",
+                    "description": "Get the details of a function app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the function app",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "functionapps"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                { "name": "start", "description": "Start a function app" },
+                { "name": "stop", "description": "Stop a function app" },
+                { "name": "config", "description": "Configure a function app" },
+                {
+                    "name": "deployment",
+                    "description": "Manage function app deployments"
+                },
+                {
+                    "name": "identity",
+                    "description": "Manage web app's managed identity"
+                },
+                { "name": "keys", "description": "Manage function app keys" },
+                { "name": "log", "description": "Manage function app logs" },
+                {
+                    "name": "plan",
+                    "description": "Manage App Service Plans for an Azure Function"
+                }
+            ]
+        },
+        {
+            "name": "group",
+            "description": "Manage resource groups and template deployments",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a new resource group",
+                    "options": [
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of the new resource group",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": "--tags",
+                            "description": "Space-separated tags: key[=value] [key[=value] ...]",
+                            "args": { "name": "tags" }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a resource group",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-y",
+                                "--yes"
+                            ],
+                            "description": "Do not prompt for confirmation"
+                        },
+                        {
+                            "name": "--no-wait",
+                            "description": "Do not wait for the long-running operation to finish"
+                        }
+                    ]
+                },
+                {
+                    "name": "exists",
+                    "description": "Check if a resource group exists",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "export",
+                    "description": "Captures a resource group as a template",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List resource groups",
+                    "options": [
+                        {
+                            "name": "--tag",
+                            "description": "A single tag in 'key[=value]' format",
+                            "args": { "name": "tag" }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Gets a resource group",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update a resource group",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name",
+                                "--resource-group",
+                                "-g"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": "--tags",
+                            "description": "Space-separated tags: key[=value] [key[=value] ...]",
+                            "args": { "name": "tags" }
+                        }
+                    ]
+                },
+                {
+                    "name": "wait",
+                    "description": "Place the CLI in a waiting state until a condition of the resource group is met"
+                },
+                {
+                    "name": "lock",
+                    "description": "Manage Azure resource group locks",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a resource group lock"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a resource group lock"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List lock information in the resource group"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Show the details of a resource group lock"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a resource group lock"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "hdinsight",
+            "description": "Manage HDInsight resources"
+        },
+        {
+            "name": "identity",
+            "description": "Manage Managed Identity"
+        },
+        {
+            "name": "image",
+            "description": "Manage custom virtual machine images"
+        },
+        {
+            "name": "iot",
+            "description": "Manage Internet of Things (IoT) assets"
+        },
+        {
+            "name": "keyvault",
+            "description": "Manage KeyVault keys, secrets, and certificates",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a Vault or HSM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the Vault",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": "--sku",
+                            "description": "Required. SKU details",
+                            "args": {
+                                "name": "SKU",
+                                "suggestions": [
+                                    "standard",
+                                    "premium"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--enable-rbac-authorization",
+                            "description": "Enable RBAC authorization for the vault",
+                            "args": {
+                                "name": "enabled",
+                                "suggestions": [
+                                    "true",
+                                    "false"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a Vault or HSM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the Vault",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "keyvaults"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List Vaults and/or HSMs",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Show details of a Vault or HSM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the Vault",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "keyvaults"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update the properties of a Vault"
+                },
+                {
+                    "name": "purge",
+                    "description": "Permanently delete the specified Vault or HSM"
+                },
+                { "name": "recover", "description": "Recover a Vault or HSM" },
+                {
+                    "name": "list-deleted",
+                    "description": "Get information about the deleted Vaults or HSMs in a subscription"
+                },
+                {
+                    "name": "set-policy",
+                    "description": "Update security policy settings for a Key Vault"
+                },
+                {
+                    "name": "delete-policy",
+                    "description": "Delete security policy settings for a Key Vault"
+                },
+                {
+                    "name": "check-name",
+                    "description": "Check that the given name is valid and is not already in use"
+                },
+                {
+                    "name": "secret",
+                    "description": "Manage secrets",
+                    "subcommands": [
+                        {
+                            "name": "set",
+                            "description": "Create a secret or update a secret in a KeyVault"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get a specified secret from a given key vault"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List secrets in a specified key vault"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete all versions of a secret"
+                        },
+                        {
+                            "name": "backup",
+                            "description": "Backs up the specified secret"
+                        },
+                        {
+                            "name": "restore",
+                            "description": "Restores a backed up secret to a vault"
+                        },
+                        {
+                            "name": "download",
+                            "description": "Download a secret from a KeyVault"
+                        },
+                        {
+                            "name": "purge",
+                            "description": "Permanently deletes the specified secret"
+                        },
+                        {
+                            "name": "recover",
+                            "description": "Recovers the deleted secret to the latest version"
+                        },
+                        {
+                            "name": "list-deleted",
+                            "description": "Lists deleted secrets for the specified vault"
+                        },
+                        {
+                            "name": "list-versions",
+                            "description": "List all versions of the specified secret"
+                        },
+                        {
+                            "name": "set-attributes",
+                            "description": "Updates the attributes associated with a specified secret"
+                        }
+                    ]
+                },
+                {
+                    "name": "key",
+                    "description": "Manage keys",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a new key, stores it, then returns key parameters and attributes"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get a key's public part"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List keys in the specified Vault or HSM"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a key of any type from storage in Vault or HSM"
+                        },
+                        {
+                            "name": "backup",
+                            "description": "Request that a backup of the specified key be downloaded"
+                        },
+                        {
+                            "name": "restore",
+                            "description": "Restore a backed up key to a Vault or HSM"
+                        },
+                        {
+                            "name": "import",
+                            "description": "Import a private key"
+                        },
+                        {
+                            "name": "download",
+                            "description": "Download the public part of a stored key"
+                        },
+                        {
+                            "name": "encrypt",
+                            "description": "Encrypt an arbitrary sequence of bytes using an encryption key"
+                        },
+                        {
+                            "name": "decrypt",
+                            "description": "Decrypt a single block of encrypted data"
+                        },
+                        {
+                            "name": "purge",
+                            "description": "Permanently delete the specified key"
+                        },
+                        {
+                            "name": "recover",
+                            "description": "Recover the deleted key to its latest version"
+                        },
+                        {
+                            "name": "list-deleted",
+                            "description": "List the deleted keys in the specified Vault or HSM"
+                        },
+                        {
+                            "name": "list-versions",
+                            "description": "List the identifiers and properties of a key's versions"
+                        }
+                    ]
+                },
+                {
+                    "name": "certificate",
+                    "description": "Manage certificates",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a Key Vault certificate"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Gets information about a certificate"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List certificates in a specified key vault"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Deletes a certificate from a specified key vault"
+                        },
+                        {
+                            "name": "import",
+                            "description": "Import a certificate into KeyVault"
+                        },
+                        {
+                            "name": "download",
+                            "description": "Download the public portion of a Key Vault certificate"
+                        },
+                        {
+                            "name": "backup",
+                            "description": "Backs up the specified certificate"
+                        },
+                        {
+                            "name": "restore",
+                            "description": "Restores a backed up certificate to a vault"
+                        },
+                        {
+                            "name": "purge",
+                            "description": "Permanently deletes the specified deleted certificate"
+                        },
+                        {
+                            "name": "recover",
+                            "description": "Recover a deleted certificate to its latest version"
+                        },
+                        {
+                            "name": "get-default-policy",
+                            "description": "Get the default policy for self-signed certificates"
+                        }
+                    ]
+                },
+                {
+                    "name": "network-rule",
+                    "description": "Manage network ACLs for vault or managed hsm"
+                },
+                {
+                    "name": "role",
+                    "description": "Manage user roles for access control"
+                },
+                { "name": "backup", "description": "Manage full HSM backup" },
+                { "name": "restore", "description": "Manage full HSM restore" }
+            ]
+        },
+        {
+            "name": "lab",
+            "description": "Manage azure devtest labs"
+        },
+        {
+            "name": "lock",
+            "description": "Manage Azure locks"
+        },
+        {
+            "name": "logicapp",
+            "description": "Manage logic apps"
+        },
+        {
+            "name": "managed-cassandra",
+            "description": "Azure Managed Cassandra"
+        },
+        {
+            "name": "managedapp",
+            "description": "Manage template solutions provided and maintained by ISVs"
+        },
+        {
+            "name": "managedservices",
+            "description": "Manage the registration assignments and definitions in Azure"
+        },
+        {
+            "name": "maps",
+            "description": "Manage Azure Maps"
+        },
+        {
+            "name": "mariadb",
+            "description": "Manage Azure Database for MariaDB servers"
+        },
+        {
+            "name": "monitor",
+            "description": "Manage the Azure Monitor Service",
+            "subcommands": [
+                {
+                    "name": "action-group",
+                    "description": "Manage action groups"
+                },
+                {
+                    "name": "activity-log",
+                    "description": "Manage activity logs"
+                },
+                {
+                    "name": "autoscale",
+                    "description": "Manage autoscale settings"
+                },
+                {
+                    "name": "diagnostic-settings",
+                    "description": "Manage service diagnostic settings"
+                },
+                {
+                    "name": "log-analytics",
+                    "description": "Manage Azure log analytics"
+                },
+                {
+                    "name": "metrics",
+                    "description": "View Azure resource metrics"
+                },
+                {
+                    "name": "log-profiles",
+                    "description": "Manage log profiles"
+                },
+                {
+                    "name": "dashboard",
+                    "description": "Manage Dashboard with Grafana resources"
+                },
+                { "name": "account", "description": "Manage monitor account" },
+                {
+                    "name": "private-link-scope",
+                    "description": "Manage monitor private link scope resource"
+                }
+            ]
+        },
+        {
+            "name": "mysql",
+            "description": "Manage Azure Database for MySQL servers"
+        },
+        {
+            "name": "netappfiles",
+            "description": "Manage Azure NetApp Files (ANF) Resources"
+        },
+        {
+            "name": "network",
+            "description": "Manage Azure Network resources",
+            "subcommands": [
+                {
+                    "name": "application-gateway",
+                    "description": "Manage application-level routing and load balancing services"
+                },
+                {
+                    "name": "asg",
+                    "description": "Manage application security groups (ASGs)"
+                },
+                { "name": "dns", "description": "Manage DNS domains in Azure" },
+                {
+                    "name": "express-route",
+                    "description": "Manage dedicated private network fiber connections to Azure"
+                },
+                {
+                    "name": "lb",
+                    "description": "Manage and configure load balancers"
+                },
+                { "name": "nic", "description": "Manage network interfaces" },
+                {
+                    "name": "nsg",
+                    "description": "Manage Azure Network Security Groups (NSGs)",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a network security group"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a network security group"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List network security groups"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get information about a network security group"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a network security group"
+                        },
+                        {
+                            "name": "rule",
+                            "description": "Manage network security group rules"
+                        }
+                    ]
+                },
+                {
+                    "name": "private-dns",
+                    "description": "Manage Private DNS domains in Azure"
+                },
+                {
+                    "name": "private-endpoint",
+                    "description": "Manage private endpoints"
+                },
+                {
+                    "name": "public-ip",
+                    "description": "Manage public IP addresses"
+                },
+                { "name": "route-table", "description": "Manage route tables" },
+                {
+                    "name": "vnet",
+                    "description": "Manage Azure Virtual Networks",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a virtual network"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a virtual network"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List virtual networks"
+                        },
+                        {
+                            "name": "show",
+                            "description": "Get the details of a virtual network"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a virtual network"
+                        },
+                        {
+                            "name": "subnet",
+                            "description": "Manage subnets in an Azure Virtual Network",
+                            "subcommands": [
+                                {
+                                    "name": "create",
+                                    "description": "Create a subnet"
+                                },
+                                {
+                                    "name": "delete",
+                                    "description": "Delete a subnet"
+                                },
+                                {
+                                    "name": "list",
+                                    "description": "List the subnets in a virtual network"
+                                },
+                                {
+                                    "name": "show",
+                                    "description": "Show details of a subnet"
+                                },
+                                {
+                                    "name": "update",
+                                    "description": "Update a subnet"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "peering",
+                            "description": "Manage peering connections between Azure Virtual Networks"
+                        }
+                    ]
+                },
+                {
+                    "name": "vnet-gateway",
+                    "description": "Use an Azure Virtual Network Gateway to establish secure, cross-premises connectivity"
+                },
+                { "name": "nat", "description": "Manage NAT resources" },
+                {
+                    "name": "traffic-manager",
+                    "description": "Manage the routing of incoming traffic"
+                },
+                {
+                    "name": "network-watcher",
+                    "description": "Manage network watcher and its sub-resources"
+                },
+                {
+                    "name": "private-link-service",
+                    "description": "Manage private link services"
+                },
+                {
+                    "name": "local-gateway",
+                    "description": "Manage local gateways"
+                }
+            ]
+        },
+        {
+            "name": "policy",
+            "description": "Manage resources defined and used by the Azure Policy service"
+        },
+        {
+            "name": "postgres",
+            "description": "Manage Azure Database for PostgreSQL"
+        },
+        {
+            "name": "ppg",
+            "description": "Manage Proximity Placement Groups"
+        },
+        {
+            "name": "private-link",
+            "description": "Private-link association CLI command group"
+        },
+        {
+            "name": "provider",
+            "description": "Manage resource providers"
+        },
+        {
+            "name": "redis",
+            "description": "Manage dedicated Redis caches for your Azure applications"
+        },
+        {
+            "name": "relay",
+            "description": "Manage Azure Relay Service namespaces, WCF relays, hybrid connections, and rules"
+        },
+        {
+            "name": "resource",
+            "description": "Manage Azure resources"
+        },
+        {
+            "name": "resourcemanagement",
+            "description": "Resourcemanagement CLI command group"
+        },
+        {
+            "name": "restore-point",
+            "description": "Manage restore point with res"
+        },
+        {
+            "name": "role",
+            "description": "Manage Azure role-based access control (Azure RBAC)",
+            "subcommands": [
+                {
+                    "name": "assignment",
+                    "description": "Manage role assignments",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a new role assignment for a user, group, or service principal",
+                            "options": [
+                                {
+                                    "name": "--assignee",
+                                    "description": "Represent a user, group, or service principal",
+                                    "args": { "name": "assignee" }
+                                },
+                                {
+                                    "name": "--role",
+                                    "description": "Role name or id",
+                                    "args": { "name": "role" }
+                                },
+                                {
+                                    "name": "--scope",
+                                    "description": "Scope at which the role assignment or definition applies to",
+                                    "args": { "name": "scope" }
+                                },
+                                {
+                                    "name": [
+                                        "-g",
+                                        "--resource-group"
+                                    ],
+                                    "description": "Name of resource group",
+                                    "args": {
+                                        "name": "group",
+                                        "generatorName": "resource_groups"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete role assignments"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List role assignments"
+                        }
+                    ]
+                },
+                {
+                    "name": "definition",
+                    "description": "Manage role definitions",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a custom role definition"
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a role definition"
+                        },
+                        {
+                            "name": "list",
+                            "description": "List role definitions"
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a role definition"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "search",
+            "description": "Manage Search"
+        },
+        {
+            "name": "security",
+            "description": "Manage your security posture with Microsoft Defender for Cloud"
+        },
+        {
+            "name": "servicebus",
+            "description": "Servicebus"
+        },
+        {
+            "name": "sf",
+            "description": "Manage and administer Azure Service Fabric clusters"
+        },
+        {
+            "name": "sig",
+            "description": "Manage shared image gallery"
+        },
+        {
+            "name": "signalr",
+            "description": "Manage Azure SignalR Service"
+        },
+        {
+            "name": "snapshot",
+            "description": "Manage point-in-time copies of managed disks, native blobs, or other snapshots"
+        },
+        {
+            "name": "sql",
+            "description": "Manage Azure SQL Databases and Data Warehouses",
+            "subcommands": [
+                { "name": "db", "description": "Manage databases" },
+                { "name": "dw", "description": "Manage data warehouses" },
+                {
+                    "name": "elastic-pool",
+                    "description": "Manage elastic pools"
+                },
+                {
+                    "name": "failover-group",
+                    "description": "Manage SQL Failover Groups"
+                },
+                { "name": "mi", "description": "Manage SQL managed instances" },
+                {
+                    "name": "midb",
+                    "description": "Manage SQL Managed Instance databases"
+                },
+                { "name": "server", "description": "Manage SQL servers" },
+                { "name": "vm", "description": "Manage SQL virtual machines" },
+                {
+                    "name": "virtual-cluster",
+                    "description": "Manage SQL virtual clusters"
+                }
+            ]
+        },
+        {
+            "name": "sshkey",
+            "description": "Manage ssh public key with vm"
+        },
+        {
+            "name": "stack",
+            "description": "A deployment stack is a native Azure resource type that enables you to perform operations on a resource collection as an atomic unit"
+        },
+        {
+            "name": "staticwebapp",
+            "description": "Manage static apps"
+        },
+        {
+            "name": "storage",
+            "description": "Manage Azure Cloud Storage resources",
+            "subcommands": [
+                {
+                    "name": "account",
+                    "description": "Manage storage accounts",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a storage account",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-n",
+                                        "--name"
+                                    ],
+                                    "description": "The storage account name",
+                                    "args": { "name": "name" }
+                                },
+                                {
+                                    "name": [
+                                        "-g",
+                                        "--resource-group"
+                                    ],
+                                    "description": "Name of resource group",
+                                    "args": {
+                                        "name": "group",
+                                        "generatorName": "resource_groups"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-l",
+                                        "--location"
+                                    ],
+                                    "description": "Location",
+                                    "args": { "name": "location" }
+                                },
+                                {
+                                    "name": "--sku",
+                                    "description": "The storage account SKU",
+                                    "args": {
+                                        "name": "SKU",
+                                        "suggestions": [
+                                            "Standard_LRS",
+                                            "Standard_GRS",
+                                            "Standard_RAGRS",
+                                            "Standard_ZRS",
+                                            "Premium_LRS",
+                                            "Premium_ZRS"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--kind",
+                                    "description": "The storage account type",
+                                    "args": {
+                                        "name": "kind",
+                                        "suggestions": [
+                                            "BlobStorage",
+                                            "BlockBlobStorage",
+                                            "FileStorage",
+                                            "Storage",
+                                            "StorageV2"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a storage account",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-n",
+                                        "--name"
+                                    ],
+                                    "description": "The storage account name",
+                                    "args": {
+                                        "name": "name",
+                                        "generatorName": "storage_accounts"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-g",
+                                        "--resource-group"
+                                    ],
+                                    "description": "Name of resource group",
+                                    "args": {
+                                        "name": "group",
+                                        "generatorName": "resource_groups"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "list",
+                            "description": "List storage accounts",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-g",
+                                        "--resource-group"
+                                    ],
+                                    "description": "Name of resource group",
+                                    "args": {
+                                        "name": "group",
+                                        "generatorName": "resource_groups"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "show",
+                            "description": "Show storage account properties",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-n",
+                                        "--name"
+                                    ],
+                                    "description": "The storage account name",
+                                    "args": {
+                                        "name": "name",
+                                        "generatorName": "storage_accounts"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update the properties of a storage account"
+                        },
+                        {
+                            "name": "keys",
+                            "description": "Manage storage account keys"
+                        },
+                        {
+                            "name": "network-rule",
+                            "description": "Manage network rules"
+                        }
+                    ]
+                },
+                {
+                    "name": "blob",
+                    "description": "Manage object storage for unstructured data (blobs)"
+                },
+                {
+                    "name": "container",
+                    "description": "Manage blob storage containers"
+                },
+                { "name": "file", "description": "Manage file shares" },
+                { "name": "share", "description": "Manage file shares" },
+                { "name": "queue", "description": "Manage storage queues" },
+                {
+                    "name": "table",
+                    "description": "Manage NoSQL key-value storage"
+                },
+                {
+                    "name": "fs",
+                    "description": "Manage file systems in Azure Data Lake Storage Gen2 account"
+                },
+                {
+                    "name": "cors",
+                    "description": "Manage storage service Cross-Origin Resource Sharing (CORS)"
+                },
+                {
+                    "name": "directory",
+                    "description": "Manage file storage directories"
+                },
+                {
+                    "name": "entity",
+                    "description": "Manage table storage entities"
+                },
+                {
+                    "name": "logging",
+                    "description": "Manage storage service logging information"
+                },
+                {
+                    "name": "message",
+                    "description": "Manage queue storage messages"
+                },
+                {
+                    "name": "metrics",
+                    "description": "Manage storage service metrics"
+                },
+                {
+                    "name": "copy",
+                    "description": "Copy files or directories to or from Azure storage",
+                    "args": { "name": "source", "template": "filepaths" }
+                },
+                {
+                    "name": "remove",
+                    "description": "Delete blobs or files from Azure Storage"
+                }
+            ]
+        },
+        {
+            "name": "synapse",
+            "description": "Manage and operate Synapse Workspace, Spark Pool, SQL Pool"
+        },
+        {
+            "name": "tag",
+            "description": "Tag Management on a resource"
+        },
+        {
+            "name": "term",
+            "description": "Manage marketplace agreement with marketplaceordering"
+        },
+        {
+            "name": "ts",
+            "description": "Manage template specs at subscription or resource group scope"
+        },
+        {
+            "name": "vm",
+            "description": "Manage Linux or Windows virtual machines",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create an Azure Virtual Machine",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the virtual machine",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": "--image",
+                            "description": "The name of the operating system image (URN alias, URN, or URI)",
+                            "args": { "name": "image" }
+                        },
+                        {
+                            "name": "--size",
+                            "description": "The VM size to be created",
+                            "args": { "name": "size" }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--location"
+                            ],
+                            "description": "Location",
+                            "args": { "name": "location" }
+                        },
+                        {
+                            "name": "--admin-username",
+                            "description": "Username for the VM",
+                            "args": { "name": "username" }
+                        },
+                        {
+                            "name": "--admin-password",
+                            "description": "Password for the VM if authentication type is 'Password'",
+                            "args": { "name": "password" }
+                        },
+                        {
+                            "name": "--ssh-key-values",
+                            "description": "Space-separated list of SSH public keys or public key file paths",
+                            "args": { "name": "keys" }
+                        },
+                        {
+                            "name": "--authentication-type",
+                            "description": "Type of authentication to use with the VM",
+                            "args": {
+                                "name": "type",
+                                "suggestions": [
+                                    "password",
+                                    "ssh",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--generate-ssh-keys",
+                            "description": "Generate SSH public and private key files if missing"
+                        },
+                        {
+                            "name": "--vnet-name",
+                            "description": "Name of the virtual network",
+                            "args": { "name": "vnet" }
+                        },
+                        {
+                            "name": "--subnet",
+                            "description": "The name of the subnet",
+                            "args": { "name": "subnet" }
+                        },
+                        {
+                            "name": "--nsg",
+                            "description": "The name to use when creating a new Network Security Group",
+                            "args": { "name": "nsg" }
+                        },
+                        {
+                            "name": "--public-ip-address",
+                            "description": "Name of the public IP address",
+                            "args": { "name": "address" }
+                        },
+                        {
+                            "name": "--tags",
+                            "description": "Space-separated tags: key[=value] [key[=value] ...]",
+                            "args": { "name": "tags" }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a virtual machine",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-y",
+                                "--yes"
+                            ],
+                            "description": "Do not prompt for confirmation"
+                        }
+                    ]
+                },
+                {
+                    "name": "deallocate",
+                    "description": "Deallocate a VM so that computing resources are no longer allocated",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List details of Virtual Machines",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-d",
+                                "--show-details"
+                            ],
+                            "description": "Show public ip address, FQDN, and power states"
+                        }
+                    ]
+                },
+                {
+                    "name": "list-ip-addresses",
+                    "description": "List IP addresses associated with a VM"
+                },
+                {
+                    "name": "list-sizes",
+                    "description": "List available sizes for VMs"
+                },
+                {
+                    "name": "restart",
+                    "description": "Restart a VM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Get the details of a VM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-d",
+                                "--show-details"
+                            ],
+                            "description": "Show public ip address, FQDN, and power states"
+                        }
+                    ]
+                },
+                {
+                    "name": "start",
+                    "description": "Start a stopped VM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "stop",
+                    "description": "Power off (stop) a running VM",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "The name of the Virtual Machine",
+                            "args": { "name": "name", "generatorName": "vms" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update the properties of a VM"
+                },
+                {
+                    "name": "capture",
+                    "description": "Capture information for a stopped VM"
+                },
+                {
+                    "name": "convert",
+                    "description": "Convert a VM with unmanaged disks to use managed disks"
+                },
+                {
+                    "name": "generalize",
+                    "description": "Mark a VM as generalized, allowing it to be imaged for multiple deployments"
+                },
+                {
+                    "name": "get-instance-view",
+                    "description": "Get instance information about a VM"
+                },
+                {
+                    "name": "auto-shutdown",
+                    "description": "Manage auto-shutdown for VM"
+                },
+                {
+                    "name": "wait",
+                    "description": "Place the CLI in a waiting state until a condition of the VM is met"
+                },
+                {
+                    "name": "disk",
+                    "description": "Manage the managed data disks attached to a VM"
+                },
+                { "name": "nic", "description": "Manage network interfaces" },
+                {
+                    "name": "extension",
+                    "description": "Manage extensions on VMs"
+                },
+                {
+                    "name": "identity",
+                    "description": "Manage service identities of a VM"
+                },
+                {
+                    "name": "image",
+                    "description": "Information on available virtual machine images"
+                },
+                {
+                    "name": "run-command",
+                    "description": "Manage run commands on a Virtual Machine"
+                },
+                {
+                    "name": "boot-diagnostics",
+                    "description": "Troubleshoot the startup of an Azure Virtual Machine"
+                },
+                {
+                    "name": "encryption",
+                    "description": "Manage encryption of VM disks"
+                },
+                {
+                    "name": "host",
+                    "description": "Manage Dedicated Hosts for Virtual Machines"
+                },
+                {
+                    "name": "availability-set",
+                    "description": "Group resources into availability sets"
+                },
+                { "name": "secret", "description": "Manage VM secrets" },
+                {
+                    "name": "user",
+                    "description": "Manage user accounts for a VM"
+                },
+                {
+                    "name": "diagnostics",
+                    "description": "Configure the Azure Virtual Machine diagnostics extension"
+                }
+            ]
+        },
+        {
+            "name": "vmss",
+            "description": "Manage groupings of virtual machines in an Azure Virtual Machine Scale Set (VMSS)"
+        },
+        {
+            "name": "webapp",
+            "description": "Manage web apps",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a web app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the new web app",
+                            "args": { "name": "name" }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--plan"
+                            ],
+                            "description": "Name or resource id of the app service plan",
+                            "args": { "name": "plan" }
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--runtime"
+                            ],
+                            "description": "Canonical web runtime in the format of Framework:Version",
+                            "args": { "name": "runtime" }
+                        },
+                        {
+                            "name": "--startup-file",
+                            "description": "Linux only. The web's startup file",
+                            "args": { "name": "file" }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a web app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the web app",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "webapps"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List web apps",
+                    "options": [
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list-runtimes",
+                    "description": "List available built-in stacks which can be used for web apps"
+                },
+                {
+                    "name": "show",
+                    "description": "Get the details of a web app",
+                    "options": [
+                        {
+                            "name": [
+                                "-n",
+                                "--name"
+                            ],
+                            "description": "Name of the web app",
+                            "args": {
+                                "name": "name",
+                                "generatorName": "webapps"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-g",
+                                "--resource-group"
+                            ],
+                            "description": "Name of resource group",
+                            "args": {
+                                "name": "group",
+                                "generatorName": "resource_groups"
+                            }
+                        }
+                    ]
+                },
+                { "name": "restart", "description": "Restart a web app" },
+                { "name": "start", "description": "Start a web app" },
+                { "name": "stop", "description": "Stop a web app" },
+                {
+                    "name": "browse",
+                    "description": "Open a web app in a browser"
+                },
+                {
+                    "name": "deploy",
+                    "description": "Deploys a provided artifact to Azure Web Apps",
+                    "options": [
+                        {
+                            "name": "--src-path",
+                            "description": "Path of the artifact to be deployed",
+                            "args": { "name": "path", "template": "filepaths" }
+                        }
+                    ]
+                },
+                {
+                    "name": "up",
+                    "description": "Create a webapp and deploy code from a local workspace to the app"
+                },
+                { "name": "ssh", "description": "SSH to a web container" },
+                { "name": "config", "description": "Configure a web app" },
+                {
+                    "name": "deployment",
+                    "description": "Manage web app deployments"
+                },
+                {
+                    "name": "identity",
+                    "description": "Manage web app's managed identity"
+                },
+                { "name": "log", "description": "Manage web app logs" },
+                {
+                    "name": "auth",
+                    "description": "Manage webapp authentication and authorization"
+                },
+                {
+                    "name": "cors",
+                    "description": "Manage Cross-Origin Resource Sharing (CORS)"
+                },
+                {
+                    "name": "traffic-routing",
+                    "description": "Manage traffic routing for web apps"
+                },
+                {
+                    "name": "vnet-integration",
+                    "description": "Methods that list, add, and remove virtual network integrations"
+                }
+            ]
+        },
+        {
+            "name": "configure",
+            "description": "Manage Azure CLI configuration. This command is interactive"
+        },
+        {
+            "name": "feedback",
+            "description": "Send feedback to the Azure CLI Team"
+        },
+        {
+            "name": "find",
+            "description": "AI robot to provide usage examples based on Azure documentation",
+            "args": {
+                "name": "QUERY",
+                "description": "Query string for AI knowledge base",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "interactive",
+            "description": "Start interactive mode"
+        },
+        {
+            "name": "login",
+            "description": "Log in to Azure",
+            "options": [
+                {
+                    "name": "--allow-no-subscriptions",
+                    "description": "Support accessing tenants without subscriptions"
+                },
+                {
+                    "name": "--certificate",
+                    "description": "PEM file with key and public certificate",
+                    "args": { "name": "certificate", "template": "filepaths" }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--password"
+                    ],
+                    "description": "User password or service principal secret. Will prompt if not given",
+                    "args": { "name": "password" }
+                },
+                {
+                    "name": "--service-principal",
+                    "description": "Log in with a service principal"
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--tenant"
+                    ],
+                    "description": "The Microsoft Entra tenant, must be provided when using a service principal",
+                    "args": { "name": "tenant" }
+                },
+                {
+                    "name": "--use-device-code",
+                    "description": "Use device code flow"
+                },
+                {
+                    "name": [
+                        "-u",
+                        "--username"
+                    ],
+                    "description": "User name or service principal client ID",
+                    "args": { "name": "username" }
+                },
+                {
+                    "name": "--identity",
+                    "description": "Log in using the Virtual Machine's managed identity"
+                },
+                {
+                    "name": "--federated-token",
+                    "description": "Federated token for OIDC token exchange",
+                    "args": { "name": "token" }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Used in the /authorize request",
+                    "args": { "name": "scope" }
+                }
+            ]
+        },
+        {
+            "name": "logout",
+            "description": "Log out to remove access to Azure subscriptions"
+        },
+        {
+            "name": "rest",
+            "description": "Invoke a custom request",
+            "options": [
+                {
+                    "name": [
+                        "-u",
+                        "--url"
+                    ],
+                    "description": "Request URL",
+                    "args": { "name": "URL" }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--method"
+                    ],
+                    "description": "HTTP request method",
+                    "args": {
+                        "name": "method",
+                        "suggestions": [
+                            "delete",
+                            "get",
+                            "head",
+                            "options",
+                            "patch",
+                            "post",
+                            "put"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-b",
+                        "--body"
+                    ],
+                    "description": "Request body",
+                    "args": { "name": "body" }
+                },
+                {
+                    "name": "--headers",
+                    "description": "Space-separated headers in KEY=VALUE format",
+                    "args": { "name": "headers" }
+                },
+                {
+                    "name": "--uri-parameters",
+                    "description": "Space-separated queries in KEY=VALUE format",
+                    "args": { "name": "params" }
+                }
+            ]
+        },
+        {
+            "name": "survey",
+            "description": "Take Azure CLI survey"
+        },
+        {
+            "name": "upgrade",
+            "description": "Upgrade Azure CLI and extensions",
+            "options": [
+                {
+                    "name": "--all",
+                    "description": "Enable updating extensions as well"
+                },
+                {
+                    "name": [
+                        "-y",
+                        "--yes"
+                    ],
+                    "description": "Do not prompt for checking release notes"
+                }
+            ]
+        },
+        {
+            "name": "version",
+            "description": "Show the versions of Azure CLI modules and extensions in JSON format by default"
+        }
+    ]
+}
