@@ -1,0 +1,697 @@
+{
+    "name": "codex",
+    "description": "OpenAI's coding agent for the terminal",
+    "args": {
+        "name": "PROMPT",
+        "description": "Optional text instruction to start the session",
+        "isOptional": true
+    },
+    "options": [
+        {
+            "name": [
+                "--image",
+                "-i"
+            ],
+            "description": "Attach one or more image files to the initial prompt",
+            "isRepeatable": true,
+            "args": {
+                "name": "path",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "--model",
+                "-m"
+            ],
+            "description": "Override the model set in configuration",
+            "args": {
+                "name": "model"
+            }
+        },
+        {
+            "name": "--oss",
+            "description": "Use the local open source model provider (requires Ollama)"
+        },
+        {
+            "name": [
+                "--profile",
+                "-p"
+            ],
+            "description": "Configuration profile name to load from ~/.codex/config.toml",
+            "args": {
+                "name": "profile"
+            }
+        },
+        {
+            "name": [
+                "--sandbox",
+                "-s"
+            ],
+            "description": "Select the sandbox policy for model-generated shell commands",
+            "args": {
+                "name": "policy",
+                "suggestions": [
+                    "read-only",
+                    "workspace-write",
+                    "danger-full-access"
+                ]
+            }
+        },
+        {
+            "name": [
+                "--ask-for-approval",
+                "-a"
+            ],
+            "description": "Control when Codex pauses for human approval before running a command",
+            "args": {
+                "name": "mode",
+                "suggestions": [
+                    "untrusted",
+                    "on-request",
+                    "never"
+                ]
+            }
+        },
+        {
+            "name": "--full-auto",
+            "description": "Shortcut for --ask-for-approval on-request and --sandbox workspace-write"
+        },
+        {
+            "name": [
+                "--dangerously-bypass-approvals-and-sandbox",
+                "--yolo"
+            ],
+            "description": "Run every command without approvals or sandboxing"
+        },
+        {
+            "name": [
+                "--cd",
+                "-C"
+            ],
+            "description": "Set the working directory before processing your request",
+            "args": {
+                "name": "path",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--search",
+            "description": "Enable live web search"
+        },
+        {
+            "name": "--add-dir",
+            "description": "Grant additional directories write access alongside the main workspace",
+            "isRepeatable": true,
+            "args": {
+                "name": "path",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--no-alt-screen",
+            "description": "Disable alternate screen mode for the TUI"
+        },
+        {
+            "name": "--enable",
+            "description": "Force-enable a feature flag",
+            "isRepeatable": true,
+            "args": {
+                "name": "feature"
+            }
+        },
+        {
+            "name": "--disable",
+            "description": "Force-disable a feature flag",
+            "isRepeatable": true,
+            "args": {
+                "name": "feature"
+            }
+        },
+        {
+            "name": [
+                "--config",
+                "-c"
+            ],
+            "description": "Override configuration values (key=value)",
+            "isRepeatable": true,
+            "args": {
+                "name": "key=value"
+            }
+        },
+        {
+            "name": "--version",
+            "description": "Display the Codex CLI version"
+        },
+        {
+            "name": "--help",
+            "description": "Display help information"
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "exec",
+            "description": "Run Codex non-interactively",
+            "args": {
+                "name": "PROMPT",
+                "description": "Initial instruction for the task (use - to read from stdin)",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "--image",
+                        "-i"
+                    ],
+                    "description": "Attach images to the first message",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "--model",
+                        "-m"
+                    ],
+                    "description": "Override the configured model for this run",
+                    "args": {
+                        "name": "model"
+                    }
+                },
+                {
+                    "name": "--oss",
+                    "description": "Use the local open source provider (requires Ollama)"
+                },
+                {
+                    "name": [
+                        "--sandbox",
+                        "-s"
+                    ],
+                    "description": "Sandbox policy for model-generated commands",
+                    "args": {
+                        "name": "policy",
+                        "suggestions": [
+                            "read-only",
+                            "workspace-write",
+                            "danger-full-access"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "--profile",
+                        "-p"
+                    ],
+                    "description": "Select a configuration profile defined in config.toml",
+                    "args": {
+                        "name": "profile"
+                    }
+                },
+                {
+                    "name": "--full-auto",
+                    "description": "Apply the low-friction automation preset"
+                },
+                {
+                    "name": [
+                        "--dangerously-bypass-approvals-and-sandbox",
+                        "--yolo"
+                    ],
+                    "description": "Bypass approval prompts and sandboxing"
+                },
+                {
+                    "name": [
+                        "--cd",
+                        "-C"
+                    ],
+                    "description": "Set the workspace root before executing the task",
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--skip-git-repo-check",
+                    "description": "Allow running outside a Git repository"
+                },
+                {
+                    "name": "--ephemeral",
+                    "description": "Run without persisting session rollout files to disk"
+                },
+                {
+                    "name": "--output-schema",
+                    "description": "JSON Schema file describing the expected final response shape",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--color",
+                    "description": "Control ANSI color in stdout",
+                    "args": {
+                        "name": "when",
+                        "suggestions": [
+                            "always",
+                            "never",
+                            "auto"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "--json",
+                        "--experimental-json"
+                    ],
+                    "description": "Print newline-delimited JSON events instead of formatted text"
+                },
+                {
+                    "name": [
+                        "--output-last-message",
+                        "-o"
+                    ],
+                    "description": "Write the assistant's final message to a file",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "--config",
+                        "-c"
+                    ],
+                    "description": "Inline configuration override (repeatable)",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "key=value"
+                    }
+                },
+                {
+                    "name": "--search",
+                    "description": "Enable live web search"
+                },
+                {
+                    "name": "--add-dir",
+                    "description": "Grant additional directories write access",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--enable",
+                    "description": "Force-enable a feature flag",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "feature"
+                    }
+                },
+                {
+                    "name": "--disable",
+                    "description": "Force-disable a feature flag",
+                    "isRepeatable": true,
+                    "args": {
+                        "name": "feature"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "resume",
+                    "description": "Resume a previous exec session",
+                    "args": {
+                        "name": "SESSION_ID",
+                        "description": "Session ID to resume (omit to use --last)",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "--last",
+                            "description": "Resume the most recent session from the current working directory"
+                        },
+                        {
+                            "name": "--all",
+                            "description": "Include sessions outside the current working directory"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "login",
+            "description": "Authenticate Codex using ChatGPT OAuth, device auth, or an API key",
+            "options": [
+                {
+                    "name": "--api-key",
+                    "description": "Authenticate with an API key",
+                    "args": {
+                        "name": "key"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "logout",
+            "description": "Remove stored authentication credentials",
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "completion",
+            "description": "Generate shell completion scripts",
+            "args": {
+                "name": "shell",
+                "suggestions": [
+                    "bash",
+                    "zsh",
+                    "fish",
+                    "powershell"
+                ]
+            },
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "resume",
+            "description": "Continue a previous interactive session",
+            "args": {
+                "name": "SESSION_ID",
+                "description": "Session ID to resume (omit to pick from a list)",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": "--last",
+                    "description": "Resume the most recent session from the current working directory"
+                },
+                {
+                    "name": "--all",
+                    "description": "Include sessions outside the current working directory"
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "fork",
+            "description": "Fork a previous interactive session into a new thread",
+            "args": {
+                "name": "SESSION_ID",
+                "description": "Session ID to fork",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": "--last",
+                    "description": "Fork the most recent session"
+                },
+                {
+                    "name": "--all",
+                    "description": "Include sessions outside the current working directory"
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": [
+                "apply",
+                "a"
+            ],
+            "description": "Apply the latest diff from a Codex Cloud task to your local working tree",
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": [
+                "cloud",
+                "cloud-tasks"
+            ],
+            "description": "Browse or execute Codex Cloud tasks from the terminal",
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ],
+            "subcommands": [
+                {
+                    "name": "exec",
+                    "description": "Start a new Codex Cloud task",
+                    "args": {
+                        "name": "PROMPT",
+                        "description": "Task prompt",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "--env",
+                            "description": "Environment ID to use",
+                            "args": {
+                                "name": "ENV_ID"
+                            }
+                        },
+                        {
+                            "name": "--attempts",
+                            "description": "Number of best-of-N runs (1-4)",
+                            "args": {
+                                "name": "n",
+                                "suggestions": [
+                                    "1",
+                                    "2",
+                                    "3",
+                                    "4"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "features",
+            "description": "List feature flags and persistently enable or disable them",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "Show known feature flags, their maturity stage, and effective state"
+                },
+                {
+                    "name": "enable",
+                    "description": "Persistently enable a feature flag",
+                    "args": {
+                        "name": "feature",
+                        "description": "Feature flag name"
+                    }
+                },
+                {
+                    "name": "disable",
+                    "description": "Persistently disable a feature flag",
+                    "args": {
+                        "name": "feature",
+                        "description": "Feature flag name"
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "mcp",
+            "description": "Manage Model Context Protocol servers",
+            "subcommands": [
+                {
+                    "name": "list",
+                    "description": "List configured MCP servers"
+                },
+                {
+                    "name": "add",
+                    "description": "Add an MCP server",
+                    "args": {
+                        "name": "server",
+                        "description": "Server name or URL"
+                    }
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove an MCP server",
+                    "args": {
+                        "name": "server",
+                        "description": "Server name"
+                    }
+                },
+                {
+                    "name": "authenticate",
+                    "description": "Authenticate with an MCP server",
+                    "args": {
+                        "name": "server",
+                        "description": "Server name"
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "mcp-server",
+            "description": "Run Codex itself as an MCP server over stdio",
+            "options": [
+                {
+                    "name": "--listen",
+                    "description": "Transport listener URL",
+                    "args": {
+                        "name": "url",
+                        "suggestions": [
+                            "stdio://",
+                            "ws://127.0.0.1:8080"
+                        ]
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "app",
+            "description": "Launch the Codex desktop app (macOS only)",
+            "args": {
+                "name": "PATH",
+                "description": "Workspace path to open",
+                "isOptional": true,
+                "template": "folders"
+            },
+            "options": [
+                {
+                    "name": "--download-url",
+                    "description": "Override the Codex desktop DMG download URL",
+                    "args": {
+                        "name": "url"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "app-server",
+            "description": "Launch the Codex app server for local development or debugging",
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "execpolicy",
+            "description": "Evaluate execpolicy rule files to check if a command would be allowed",
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "sandbox",
+            "description": "Run commands inside Codex-provided sandboxes",
+            "subcommands": [
+                {
+                    "name": [
+                        "macos",
+                        "seatbelt"
+                    ],
+                    "description": "Run a command inside the macOS seatbelt sandbox",
+                    "options": [
+                        {
+                            "name": "--full-auto",
+                            "description": "Use the full-auto sandbox profile"
+                        },
+                        {
+                            "name": "--log-denials",
+                            "description": "Log sandbox denial events"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "linux",
+                        "landlock"
+                    ],
+                    "description": "Run a command inside the Linux Landlock sandbox",
+                    "options": [
+                        {
+                            "name": "--full-auto",
+                            "description": "Use the full-auto sandbox profile"
+                        }
+                    ]
+                }
+            ],
+            "options": [
+                {
+                    "name": "--help",
+                    "description": "Display help information"
+                }
+            ]
+        },
+        {
+            "name": "debug",
+            "description": "Debug utilities",
+            "subcommands": [
+                {
+                    "name": "app-server",
+                    "description": "Debug app-server utilities",
+                    "subcommands": [
+                        {
+                            "name": "send-message-v2",
+                            "description": "Send a single V2 message through the built-in test client",
+                            "args": {
+                                "name": "USER_MESSAGE",
+                                "description": "Message text to send"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
