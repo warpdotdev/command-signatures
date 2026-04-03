@@ -529,16 +529,30 @@ pub fn commits_generator() -> Generator {
     )
 }
 
-pub fn local_branches_generator() -> Generator {
-    Generator::script(
-        CommandBuilder::single_command(
-            "git --no-optional-locks branch --no-color --sort=-committerdate",
-        ),
-        post_process_branches,
+fn local_branches_command() -> CommandBuilder {
+    CommandBuilder::single_command(
+        "git --no-optional-locks branch --no-color --sort=-committerdate",
     )
 }
 
+fn tags_command() -> CommandBuilder {
+    CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-creatordate")
+}
+
+pub fn local_branches_generator() -> Generator {
+    Generator::script(local_branches_command(), post_process_branches)
+}
+
+fn post_process_tags(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .filter(|line| !line.is_empty())
+        .map(|line| Suggestion::with_description(line, "tag"))
+        .collect_ordered_results()
+}
+
 const FORCE_PREFIX_MARKER: &str = "__FORCE_PREFIX__";
+const FORCE_PREFIX_MARKER_LINE: &str = concat!("__FORCE_PREFIX__", "\n");
 
 /// Wraps a command to prepend a force-prefix marker if the last token starts with `+`.
 /// This handles the `git push origin +<branch>` force-push refspec syntax where
@@ -561,8 +575,7 @@ fn with_force_prefix_detection(
 /// Strips the force-prefix marker from generator output, returning the prefix
 /// to prepend to suggestions and the remaining output.
 fn strip_force_prefix(out: &str) -> (&str, &str) {
-    let marker_line = format!("{FORCE_PREFIX_MARKER}\n");
-    match out.strip_prefix(marker_line.as_str()) {
+    match out.strip_prefix(FORCE_PREFIX_MARKER_LINE) {
         Some(rest) => ("+", rest),
         None => ("", out),
     }
@@ -586,12 +599,8 @@ fn post_process_push_refspec_branches(out: &str) -> GeneratorResults {
 
 fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
     let (prefix, tag_output) = strip_force_prefix(out);
-    let mut results: GeneratorResults = tag_output
-        .lines()
-        .filter(|line| !line.is_empty())
-        .map(|line| Suggestion::with_description(format!("{prefix}{line}"), "tag"))
-        .collect_ordered_results();
-    prepend_to_suggestions("", &mut results);
+    let mut results = post_process_tags(tag_output);
+    prepend_to_suggestions(prefix, &mut results);
     results
 }
 
@@ -721,18 +730,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     .collect_unordered_results()
             }),
         )
-        .add_generator(
-            "tags",
-            Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-committerdate"),
-                |output| {
-                    output
-                        .lines()
-                        .filter(|&line| !line.is_empty()).map(|line| Suggestion::with_description(line, "tag"))
-                        .collect_ordered_results()
-                },
-            ),
-        )
+        .add_generator("tags", Generator::script(tags_command(), post_process_tags))
         .add_generator(
             "files_for_staging",
             Generator::script(
@@ -774,7 +772,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     if tokens.contains(&"-r") || tokens.contains(&"--remotes") {
                         CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate")
                     } else {
-                        CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate")
+                        local_branches_command()
                     }
                 },
                 post_process_branches,
@@ -790,9 +788,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     with_force_prefix_detection(
                         tokens,
                         has_trailing_whitespace,
-                        CommandBuilder::single_command(
-                            "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        ),
+                        local_branches_command(),
                     )
                 },
                 post_process_push_refspec_branches,
@@ -805,9 +801,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     with_force_prefix_detection(
                         tokens,
                         has_trailing_whitespace,
-                        CommandBuilder::single_command(
-                            "git --no-optional-locks tag --list --sort=-committerdate",
-                        ),
+                        tags_command(),
                     )
                 },
                 post_process_push_refspec_tags,
@@ -846,7 +840,7 @@ pub fn generator() -> CommandSignatureGenerators {
 mod tests {
     use crate::generators::git::{
         post_process_branches, post_process_push_refspec_branches, post_process_push_refspec_tags,
-        post_process_tracked_files,
+        post_process_tags, post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
@@ -949,6 +943,49 @@ mod tests {
                 is_ordered: false,
             }
         );
+    }
+
+    #[test]
+    fn test_post_process_tags() {
+        let command_output = "v1.0.0\nv2.0.0\nv0.1.0";
+        assert_eq!(
+            post_process_tags(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "v1.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "v2.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "v0.1.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_post_process_tags_filters_empty_lines() {
+        let command_output = "v1.0.0\n\nv2.0.0\n";
+        assert_eq!(post_process_tags(command_output).suggestions.len(), 2);
     }
 
     #[test]
