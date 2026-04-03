@@ -12,10 +12,7 @@
                     "args": [
                         {
                             "name": "name",
-                            "generators": {
-                                "script": "/bin/ls -1 ~/.asdf/repository/plugins",
-                                "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                            }
+                            "generatorName": "available_plugins"
                         },
                         {
                             "name": "git-url",
@@ -48,10 +45,7 @@
                     "description": "Remove plugin and package versions",
                     "args": {
                         "name": "name",
-                        "generators": {
-                            "script": "asdf plugin-list",
-                            "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                        }
+                        "generatorName": "installed_plugins"
                     }
                 },
                 {
@@ -85,10 +79,7 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "/bin/ls -1 ~/.asdf/repository/plugins",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "available_plugins"
                 },
                 {
                     "name": "git-url",
@@ -125,10 +116,7 @@
             "description": "Remove plugin and package versions",
             "args": {
                 "name": "name",
-                "generators": {
-                    "script": "asdf plugin-list",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                }
+                "generatorName": "installed_plugins"
             }
         },
         {
@@ -160,10 +148,7 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    },
+                    "generatorName": "installed_plugins",
                     "isOptional": true
                 },
                 {
@@ -174,14 +159,7 @@
                             "isDangerous": true
                         }
                     ],
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list-all ${e[e.length-2]}`",
-                        "cache": {
-                            "ttl": 3600000
-                        },
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))",
-                        "getQueryTerm": "_NuFrRa_n=>n.includes(\"latest\")?n.slice(n.indexOf(\":\")+1):n"
-                    },
+                    "generatorName": "all_versions",
                     "isOptional": true
                 }
             ]
@@ -192,17 +170,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "installed_versions",
                     "isOptional": true
                 }
             ]
@@ -213,10 +185,7 @@
             "args": {
                 "name": "name",
                 "isOptional": true,
-                "generators": {
-                    "script": "asdf plugin-list",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                }
+                "generatorName": "installed_plugins"
             }
         },
         {
@@ -225,17 +194,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "installed_versions",
                     "isOptional": true
                 }
             ]
@@ -245,10 +208,7 @@
             "description": "Display path to an executable",
             "args": {
                 "name": "command",
-                "generators": {
-                    "script": "/bin/ls -1 ~/.asdf/shims",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Shim name\",priority:76,icon:\"fig://icon?type=command\"},n))"
-                }
+                "generatorName": "shims"
             }
         },
         {
@@ -257,17 +217,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    }
+                    "generatorName": "installed_versions"
                 }
             ]
         },
@@ -277,17 +231,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    }
+                    "generatorName": "installed_versions"
                 }
             ]
         },
@@ -297,17 +245,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    }
+                    "generatorName": "installed_versions"
                 }
             ]
         },
@@ -317,17 +259,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "installed_versions",
                     "isOptional": true
                 }
             ]
@@ -337,10 +273,7 @@
             "description": "List installed versions of a package",
             "args": {
                 "name": "name",
-                "generators": {
-                    "script": "asdf plugin-list",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                }
+                "generatorName": "installed_plugins"
             },
             "subcommands": [
                 {
@@ -350,17 +283,11 @@
                     "args": [
                         {
                             "name": "name",
-                            "generators": {
-                                "script": "asdf plugin-list",
-                                "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                            }
+                            "generatorName": "installed_plugins"
                         },
                         {
                             "name": "version",
-                            "generators": {
-                                "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                                "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                            },
+                            "generatorName": "all_versions",
                             "isOptional": true
                         }
                     ]
@@ -373,17 +300,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "all_versions",
                     "isOptional": true
                 }
             ]
@@ -394,17 +315,11 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    }
+                    "generatorName": "installed_plugins"
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "installed_versions",
                     "isOptional": true
                 }
             ]
@@ -414,10 +329,7 @@
             "description": "Executes the command shim for the current version",
             "args": {
                 "name": "command",
-                "generators": {
-                    "script": "/bin/ls -1 ~/.asdf/shims",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Shim name\",priority:76,icon:\"fig://icon?type=command\"},n))"
-                },
+                "generatorName": "shims",
                 "isCommand": true
             }
         },
@@ -426,10 +338,7 @@
             "description": "Prints or runs an executable under a command environment",
             "args": {
                 "name": "command",
-                "generators": {
-                    "script": "/bin/ls -1 ~/.asdf/shims",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Shim name\",priority:76,icon:\"fig://icon?type=command\"},n))"
-                }
+                "generatorName": "shims"
             }
         },
         {
@@ -442,18 +351,12 @@
             "args": [
                 {
                     "name": "name",
-                    "generators": {
-                        "script": "asdf plugin-list",
-                        "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Plugin name\",priority:76,icon:\"fig://icon?type=package\"},n))"
-                    },
+                    "generatorName": "installed_plugins",
                     "isOptional": true
                 },
                 {
                     "name": "version",
-                    "generators": {
-                        "script": "_NuFrRa_e=>`asdf list ${e[e.length-2]}`",
-                        "postProcess": "_NuFrRa_e=>e.split(`\n`).reverse().map(t=>a({name:`${t}`.trim(),description:\"Plugin version\",priority:76,icon:\"fig://icon?type=commit\"},n))"
-                    },
+                    "generatorName": "installed_versions",
                     "isOptional": true
                 }
             ]
@@ -467,10 +370,7 @@
                     "description": "List for given command which plugins and versions provide it",
                     "args": {
                         "name": "command",
-                        "generators": {
-                            "script": "/bin/ls -1 ~/.asdf/shims",
-                            "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Shim name\",priority:76,icon:\"fig://icon?type=command\"},n))"
-                        }
+                        "generatorName": "shims"
                     }
                 }
             ]
@@ -480,10 +380,7 @@
             "description": "List for given command which plugins and versions provide it",
             "args": {
                 "name": "command",
-                "generators": {
-                    "script": "/bin/ls -1 ~/.asdf/shims",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>a({name:`${e}`,description:\"Shim name\",priority:76,icon:\"fig://icon?type=command\"},n))"
-                }
+                "generatorName": "shims"
             }
         },
         {

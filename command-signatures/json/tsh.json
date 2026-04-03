@@ -12,10 +12,7 @@
             "args": {
                 "name": "user@hostname",
                 "description": "Address of remote machine to log into",
-                "generators": {
-                    "script": "tsh ls --format=json",
-                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>({name:n.spec.hostname,description:`Access expires: ${n.metadata.expires}`}))"
-                }
+                "generatorName": "nodes"
             },
             "options": [
                 {
@@ -483,10 +480,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -494,10 +488,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -605,10 +596,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -616,10 +604,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -727,10 +712,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -738,10 +720,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -848,10 +827,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -859,10 +835,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -971,10 +944,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -982,10 +952,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1093,10 +1060,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1104,10 +1068,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1216,10 +1177,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -1227,10 +1185,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -1338,10 +1293,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1349,10 +1301,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1460,10 +1409,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1471,10 +1417,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1584,10 +1527,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -1595,10 +1535,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -1707,10 +1644,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1718,10 +1652,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1829,10 +1760,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1840,10 +1768,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -1951,10 +1876,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -1962,10 +1884,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -2072,10 +1991,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -2083,10 +1999,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -2194,10 +2107,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -2205,10 +2115,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -2317,10 +2224,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -2328,10 +2232,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -2441,10 +2342,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -2452,10 +2350,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -2563,10 +2458,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -2574,10 +2466,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -2685,10 +2574,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -2696,10 +2582,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -2807,10 +2690,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -2818,10 +2698,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -2929,10 +2806,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -2940,10 +2814,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -3051,10 +2922,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -3062,10 +2930,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -3173,10 +3038,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -3184,10 +3046,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -3295,10 +3154,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -3306,10 +3162,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -3417,10 +3270,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -3428,10 +3278,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -3543,10 +3390,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -3554,10 +3398,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -3665,10 +3506,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -3676,10 +3514,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -3787,10 +3622,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -3798,10 +3630,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -3909,10 +3738,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -3920,10 +3746,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4029,10 +3852,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -4040,10 +3860,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -4155,10 +3972,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4166,10 +3980,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4277,10 +4088,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4288,10 +4096,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4399,10 +4204,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4410,10 +4212,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4521,10 +4320,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4532,10 +4328,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4643,10 +4436,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4654,10 +4444,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -4763,10 +4550,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -4774,10 +4558,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -4889,10 +4670,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -4900,10 +4678,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -5011,10 +4786,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -5022,10 +4794,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -5133,10 +4902,7 @@
                             "description": "SSH proxy address",
                             "args": {
                                 "name": "Teleport proxy address",
-                                "generators": {
-                                    "script": "tsh clusters --format=json",
-                                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                                }
+                                "generatorName": "clusters"
                             }
                         },
                         {
@@ -5144,10 +4910,7 @@
                             "description": "SSH proxy user",
                             "args": {
                                 "name": "user",
-                                "generators": {
-                                    "script": "tsh status --format json",
-                                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                                }
+                                "generatorName": "status_user"
                             }
                         },
                         {
@@ -5253,10 +5016,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -5264,10 +5024,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -5375,10 +5132,7 @@
                     "description": "SSH proxy address",
                     "args": {
                         "name": "Teleport proxy address",
-                        "generators": {
-                            "script": "tsh clusters --format=json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                        }
+                        "generatorName": "clusters"
                     }
                 },
                 {
@@ -5386,10 +5140,7 @@
                     "description": "SSH proxy user",
                     "args": {
                         "name": "user",
-                        "generators": {
-                            "script": "tsh status --format json",
-                            "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                        }
+                        "generatorName": "status_user"
                     }
                 },
                 {
@@ -5495,10 +5246,7 @@
             "description": "SSH proxy address",
             "args": {
                 "name": "Teleport proxy address",
-                "generators": {
-                    "script": "tsh clusters --format=json",
-                    "postProcess": "_NuFrRa_t=>JSON.parse(t).map(n=>n.cluster_name)"
-                }
+                "generatorName": "clusters"
             }
         },
         {
@@ -5506,10 +5254,7 @@
             "description": "SSH proxy user",
             "args": {
                 "name": "user",
-                "generators": {
-                    "script": "tsh status --format json",
-                    "postProcess": "_NuFrRa_t=>[JSON.parse(t).active.username]"
-                }
+                "generatorName": "status_user"
             }
         },
         {

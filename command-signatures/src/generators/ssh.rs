@@ -3,6 +3,11 @@ use warp_completion_metadata::{
     GeneratorResultsCollector, Suggestion,
 };
 
+/// Shell command that reads ~/.ssh/config and all files referenced by Include directives.
+/// Include paths are resolved by replacing ~ with $HOME and treating relative paths as
+/// relative to ~/.ssh/. Glob patterns in Include paths are expanded by the shell.
+const SSH_CONFIG_CMD: &str = "cat ~/.ssh/config $(awk 'tolower($1)==\"include\"{for(i=2;i<=NF;i++){gsub(\"~\",ENVIRON[\"HOME\"],$i);if($i!~/^\\//)$i=ENVIRON[\"HOME\"]\"/.ssh/\"$i;print $i}}' ~/.ssh/config 2>/dev/null) 2>/dev/null";
+
 fn hosts(output: &str) -> GeneratorResults {
     output
         .lines()
@@ -22,11 +27,11 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("ssh")
         .add_generator(
             "hosts",
-            Generator::script(CommandBuilder::single_command("cat ~/.ssh/config"), hosts),
+            Generator::script(CommandBuilder::single_command(SSH_CONFIG_CMD), hosts),
         )
         .add_generator(
             "addresses",
-            Generator::script(CommandBuilder::single_command("cat ~/.ssh/config"), hosts),
+            Generator::script(CommandBuilder::single_command(SSH_CONFIG_CMD), hosts),
         )
         .add_generator(
             "known_hosts",
