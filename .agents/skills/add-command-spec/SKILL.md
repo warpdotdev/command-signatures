@@ -116,7 +116,7 @@ For example, adding support for openshift would be done in a branch called `app-
 
 A consistent title convention makes it easy to scan PR history and understand what was added at a glance.
 
-You MUST upload screenshots for each generator into the GitHub PR description.
+You MUST upload screenshots for each generator into the GitHub PR description. Upload the images to GitHub user attachments using https://github.com/drogers0/gh-image or the workflow described at https://github.com/drogers0/gh-image/blob/edb302620a7888801d8d45f87d4a2c12e10c1704/documentation/github-image-upload-flow.md ; then, use the returned image URLs in the PR description to display the screenshots for each generator.
 
 ## Reference Examples
 
