@@ -5,11 +5,11 @@ use warp_completion_metadata::{
     GeneratorResultsCollector, IconType, Suggestion, TemplateFilter,
 };
 
-/// Post-processes the output for the `run_image_with_tags` generator.
+/// Post-processes the output for the `image_with_tags` generator.
 /// Handles two output modes:
 /// - JSON mode (normal): lines are JSON objects from `docker images --format '{{ json . }}'`
 /// - Tag mode: lines are space-separated `image:tag ID Size` from a filtered `docker image ls`
-fn post_process_run_image_with_tags(output: &str) -> GeneratorResults {
+fn post_process_image_with_tags(output: &str) -> GeneratorResults {
     if output.trim().is_empty() {
         return GeneratorResults::default();
     }
@@ -30,8 +30,11 @@ fn post_process_run_image_with_tags(output: &str) -> GeneratorResults {
                         docker_image_output.id,
                     ) {
                         Some(
-                            Suggestion::with_description(repo, format!("{}@{} -{}", id, tag, size))
-                                .with_icon(IconType::DockerImage),
+                            Suggestion::with_description(
+                                repo,
+                                format!("{}@{} - {}", id, tag, size),
+                            )
+                            .with_icon(IconType::DockerImage),
                         )
                     } else {
                         None
@@ -448,76 +451,7 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
-            "run_images",
-            Generator::script(
-                CommandBuilder::single_command("docker images --format '{{ json . }}'"),
-                |output| {
-                    if output.trim().is_empty() {
-                        return GeneratorResults::default();
-                    }
-
-                    output
-                        .lines()
-                        .filter_map(|image| {
-                            let docker_image_output: Result<DockerImageOutput> =
-                                serde_json::from_str(image);
-                            if let Ok(docker_image_output) = docker_image_output {
-                                if let (Some(repo), Some(size), Some(tag), Some(id)) = (
-                                    docker_image_output.repository,
-                                    docker_image_output.size,
-                                    docker_image_output.tag,
-                                    docker_image_output.id,
-                                ) {
-                                    Some(
-                                        Suggestion::with_description(
-                                            repo,
-                                            format!("{}@{} -{}", id, tag, size),
-                                        )
-                                        .with_icon(IconType::DockerImage),
-                                    )
-                                } else {
-                                    None
-                                }
-                            } else {
-                                log::info!(
-                                    "Unable to deserialize docker image output with err {:?}",
-                                    docker_image_output.err().unwrap()
-                                );
-                                None
-                            }
-                        })
-                        .collect_unordered_results()
-                },
-            ),
-        )
-        .add_generator(
-            "docker_image_with_tag_and_size",
-            Generator::script(
-                CommandBuilder::single_command(
-                    "docker images --format '{{.Repository}} {{.Size}} {{.Tag}} {{.ID}}'",
-                ),
-                |output| {
-                    output
-                        .split('\n')
-                        .filter_map(|line| {
-                            let words: Vec<&str> = line.split(' ').collect();
-                            (words.len() >= 4).then(|| {
-                                let id = words[1];
-                                let tag = words[2];
-                                let size = words[3];
-                                Suggestion::with_description(
-                                    words[0],
-                                    format!("{}@{} - {}", id, tag, size),
-                                )
-                                .with_icon(IconType::DockerImage)
-                            })
-                        })
-                        .collect_unordered_results()
-                },
-            ),
-        )
-        .add_generator(
-            "run_image_with_tags",
+            "image_with_tags",
             Generator::command_from_tokens(
                 |tokens, has_trailing_whitespace, _| {
                     let last_token = if has_trailing_whitespace {
@@ -537,7 +471,7 @@ pub fn generator() -> CommandSignatureGenerators {
                     }
                     CommandBuilder::single_command("docker images --format '{{ json . }}'")
                 },
-                post_process_run_image_with_tags,
+                post_process_image_with_tags,
             ),
         )
         .add_filter(
