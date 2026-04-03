@@ -3,9 +3,74 @@
     "description": "Graphite.dev CLI",
     "subcommands": [
         {
+            "name": "abort",
+            "description": "Abort the current Graphite command halted by a rebase conflict",
+            "options": [
+                {
+                    "name": [
+                        "--force",
+                        "-f"
+                    ],
+                    "description": "Do not prompt for confirmation; abort immediately"
+                }
+            ]
+        },
+        {
+            "name": [
+                "absorb",
+                "ab"
+            ],
+            "description": "Amend staged changes to the relevant commits in the current stack",
+            "options": [
+                {
+                    "name": [
+                        "--all",
+                        "-a"
+                    ],
+                    "description": "Stage all unstaged changes before absorbing"
+                },
+                {
+                    "name": [
+                        "--dry-run",
+                        "-d"
+                    ],
+                    "description": "Print which commits the hunks would be absorbed into, but do not actually absorb them"
+                },
+                {
+                    "name": [
+                        "--force",
+                        "-f"
+                    ],
+                    "description": "Do not prompt for confirmation; apply the hunks to the commits immediately"
+                },
+                {
+                    "name": [
+                        "--patch",
+                        "-p"
+                    ],
+                    "description": "Pick hunks to stage before absorbing"
+                }
+            ]
+        },
+        {
+            "name": "add",
+            "description": "git add passthrough",
+            "args": {
+                "name": "args",
+                "description": "git add arguments",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": ["filepaths"]
+            }
+        },
+        {
             "name": "aliases",
             "description": "Edit your command aliases",
             "options": [
+                {
+                    "name": "--legacy",
+                    "description": "Append legacy aliases to your configuration"
+                },
                 {
                     "name": "--reset",
                     "description": "Reset your alias configuration"
@@ -40,6 +105,16 @@
             "priority": 50
         },
         {
+            "name": "cherry-pick",
+            "description": "git cherry-pick passthrough",
+            "args": {
+                "name": "args",
+                "description": "git cherry-pick arguments",
+                "isOptional": true,
+                "isVariadic": true
+            }
+        },
+        {
             "name": [
                 "checkout",
                 "co"
@@ -48,16 +123,37 @@
             "args": {
                 "name": "branch",
                 "generatorName": "local_branches",
-                "description": "Name of branch to checkout",
+                "description": "The branch to checkout",
                 "isOptional": true
             },
             "options": [
                 {
                     "name": [
+                        "--all",
+                        "-a"
+                    ],
+                    "description": "Show branches across all configured trunks in interactive selection"
+                },
+                {
+                    "name": [
                         "--show-untracked",
                         "-u"
                     ],
-                    "description": "Include untracked branched in interactive selection"
+                    "description": "Include untracked branches in interactive selection"
+                },
+                {
+                    "name": [
+                        "--stack",
+                        "-s"
+                    ],
+                    "description": "Only show ancestors and descendants of the current branch in interactive selection"
+                },
+                {
+                    "name": [
+                        "--trunk",
+                        "-t"
+                    ],
+                    "description": "Checkout the current trunk"
                 }
             ]
         },
@@ -91,30 +187,45 @@
                 "create",
                 "c"
             ],
-            "description": "Create a new branch stacked on top of the current branch and commit staged changes. If no branch name is specified but a commit message is passed, generate a branch name from the commit message",
+            "description": "Create a new branch stacked on top of the current branch and commit staged changes. If no branch name is specified, generate a branch name from the commit message",
             "args": {
                 "name": "name",
-                "description": "Branch name",
+                "description": "The name of the new branch",
                 "isOptional": true
             },
             "options": [
                 {
-                    "name": [
-                        "--message",
-                        "-m"
-                    ],
-                    "description": "Commit staged changes on the new branch with this message",
-                    "args": {
-                        "name": "message",
-                        "description": "Commit message"
-                    }
+                    "name": "--ai",
+                    "description": "Automatically AI-generate the branch name and the commit message (if unset)"
                 },
                 {
                     "name": [
                         "--all",
                         "-a"
                     ],
-                    "description": "Stage all unstaged changes on the new branch with this message"
+                    "description": "Stage all unstaged changes before creating the branch, including to untracked files"
+                },
+                {
+                    "name": [
+                        "--insert",
+                        "-i"
+                    ],
+                    "description": "Insert this branch between the current branch and its child"
+                },
+                {
+                    "name": [
+                        "--message",
+                        "-m"
+                    ],
+                    "description": "Specify a commit message",
+                    "args": {
+                        "name": "message",
+                        "description": "Commit message"
+                    }
+                },
+                {
+                    "name": "--no-ai",
+                    "description": "Do not automatically AI-generate the branch name and the commit message. Takes precedence over --ai"
                 },
                 {
                     "name": [
@@ -125,10 +236,17 @@
                 },
                 {
                     "name": [
-                        "--insert",
-                        "-i"
+                        "--update",
+                        "-u"
                     ],
-                    "description": "When true, any existing children of the current branch will become children of the new branch"
+                    "description": "Stage all updates to tracked files before creating the branch"
+                },
+                {
+                    "name": [
+                        "--verbose",
+                        "-v"
+                    ],
+                    "description": "Show unified diff between the HEAD commit and what would be committed at the bottom of the commit message template"
                 }
             ]
         },
@@ -138,21 +256,50 @@
                 "delete",
                 "dl"
             ],
-            "description": "Delete a branch and its corresponding Graphite metadata",
+            "description": "Delete a branch and its Graphite metadata. Children will be restacked onto the parent branch",
             "args": {
                 "name": "name",
                 "generatorName": "local_branches",
-                "description": "Branch name"
+                "description": "The name of the branch to delete",
+                "isOptional": true
             },
             "options": [
+                {
+                    "name": [
+                        "--close",
+                        "-c"
+                    ],
+                    "description": "Close associated pull requests on GitHub"
+                },
+                {
+                    "name": "--downstack",
+                    "description": "Also delete any ancestors of the specified branch"
+                },
                 {
                     "name": [
                         "--force",
                         "-f"
                     ],
                     "description": "Delete the branch even if it is not merged or closed"
+                },
+                {
+                    "name": "--upstack",
+                    "description": "Also delete any children of the specified branch"
                 }
             ]
+        },
+        {
+            "name": "demo",
+            "description": "Run interactive demos to learn how to use the Graphite CLI",
+            "args": {
+                "name": "demoName",
+                "description": "Demo to run",
+                "isOptional": true,
+                "suggestions": [
+                    "pull-request",
+                    "stack"
+                ]
+            }
         },
         { "name": "docs", "description": "Show the Graphite CLI docs" },
         {
@@ -180,20 +327,19 @@
         },
         {
             "name": "feedback",
-            "description": "Commands for providing feedback and debug state",
+            "description": "Post feedback directly to the Graphite maintainers",
             "args": {
                 "name": "message",
-                "description": "Post a string directly to the maintainers' Slack so they can drown in praise, factor in your feedback, laugh at your jokes, cry at your insults, or fall victim to Slack injection attacks",
+                "description": "Positive or constructive feedback for the Graphite team",
                 "isOptional": true
             },
             "options": [
                 {
-                    "name": "--print-debug-context",
-                    "description": "Print a debug summary of your repository. Useful for creating bug report details"
-                },
-                {
-                    "name": "--with-debug-context",
-                    "description": "Include a blob of json describing your repo's state to help with debugging. Run 'gt feedback debug-context' to see what would be included"
+                    "name": [
+                        "--with-debug-context",
+                        "-d"
+                    ],
+                    "description": "Include logs from the past 24 hours in your feedback"
                 }
             ]
         },
@@ -215,23 +361,67 @@
             ]
         },
         {
-            "name": "get",
-            "description": "Get branches from trunk to the specified branch from remote, prompting the user to resolve conflicts. If no branch is provided, get downstack from the current branch",
+            "name": "freeze",
+            "description": "Freeze specified branch and branches downstack of it. Freezing prevents local modifications including restacks. Undo with gt unfreeze",
             "args": {
                 "name": "branch",
                 "generatorName": "local_branches",
-                "description": "Branch to get from remote",
+                "description": "The branch to freeze. Defaults to the current branch",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "get",
+            "description": "Sync branches from trunk to the given branch from remote, prompting the user to resolve conflicts. If no branch is provided, sync the current stack",
+            "args": {
+                "name": "branch",
+                "generatorName": "local_branches",
+                "description": "Branch or PR number to get from remote",
                 "isOptional": true
             },
             "options": [
+                {
+                    "name": [
+                        "--downstack",
+                        "-d"
+                    ],
+                    "description": "When syncing a branch that already exists locally, don't sync upstack branches"
+                },
                 {
                     "name": [
                         "--force",
                         "-f"
                     ],
                     "description": "Overwrite all fetched branches with remote source of truth"
+                },
+                {
+                    "name": "--restack",
+                    "description": "Restack any branches in the stack that can be restacked without conflicts (true by default; skip with --no-restack)"
+                },
+                {
+                    "name": [
+                        "--unfrozen",
+                        "-U"
+                    ],
+                    "description": "Checkout new branches as unfrozen (allow local edits)"
+                },
+                {
+                    "name": [
+                        "--remote-upstack",
+                        "-u"
+                    ],
+                    "description": "Include upstack PRs when fetching PR information from remote"
                 }
             ]
+        },
+        {
+            "name": "guide",
+            "description": "Read extended guides on how to use the gt program",
+            "args": {
+                "name": "title",
+                "description": "Guide title",
+                "isOptional": true
+            }
         },
         {
             "name": [
@@ -239,6 +429,12 @@
                 "i"
             ],
             "description": "Display information about the current branch",
+            "args": {
+                "name": "branch",
+                "generatorName": "local_branches",
+                "description": "The branch to show info for. Defaults to the current branch",
+                "isOptional": true
+            },
             "options": [
                 {
                     "name": [
@@ -345,7 +541,10 @@
             ]
         },
         {
-            "name": "merge",
+            "name": [
+                "merge",
+                "mg"
+            ],
             "description": "Merge the pull requests associated with all branches from trunk to the current branch via Graphite",
             "options": [
                 {
@@ -392,6 +591,16 @@
                 {
                     "name": "--interactive-rebase",
                     "description": "Ignore all other flags and start a git interactive rebase on the commits in this branch"
+                },
+                {
+                    "name": "--into",
+                    "description": "Amend staged changes into a downstack branch",
+                    "args": {
+                        "name": "branch",
+                        "generatorName": "local_branches",
+                        "description": "Branch to amend into",
+                        "isOptional": true
+                    }
                 },
                 {
                     "name": [
@@ -446,7 +655,7 @@
         },
         {
             "name": "pop",
-            "description": "Delete the current branch but reaint the state of files in the working tree"
+            "description": "Delete the current branch but retain the state of files in the working tree"
         },
         {
             "name": "pr",
@@ -753,7 +962,22 @@
                 }
             ]
         },
-        { "name": "trunk", "description": "Switch to the trunk branch" },
+        {
+            "name": "trunk",
+            "description": "Switch to the trunk branch",
+            "options": [
+                {
+                    "name": "--add",
+                    "description": "Configure an additional trunk branch",
+                    "args": {
+                        "name": "branch",
+                        "generatorName": "local_branches",
+                        "description": "Branch to add as a trunk",
+                        "isOptional": true
+                    }
+                }
+            ]
+        },
         {
             "name": [
                 "untrack",
@@ -814,6 +1038,20 @@
                     "description": "Do not prompt for confirmation; undo the most recent command immediately"
                 }
             ]
+        },
+        {
+            "name": "unfreeze",
+            "description": "Unfreeze a previously frozen branch to allow local modifications",
+            "args": {
+                "name": "branch",
+                "generatorName": "local_branches",
+                "description": "The branch to unfreeze. Defaults to the current branch",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "unlink",
+            "description": "Unlink a branch from the currently associated pull request"
         }
     ],
     "options": [
