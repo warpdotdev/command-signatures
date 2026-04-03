@@ -8,6 +8,7 @@ mod common;
 mod apt;
 mod asdf;
 mod aws;
+mod az;
 mod bazel;
 mod bosh;
 mod brew;
@@ -65,6 +66,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         asdf::generator(),
         apt::apt_get_generators(),
         apt::aptitude_generators(),
+        az::generator(),
         bosh::generator(),
         brew::generator(),
         conda::generator(),
