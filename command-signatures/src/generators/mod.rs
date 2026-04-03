@@ -52,6 +52,7 @@ mod terraform;
 mod timedatectl;
 mod tmux;
 mod tmuxinator;
+mod tsh;
 
 /// Returns dynamic command signature data, keyed on the command the data corresponds to.
 pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
@@ -102,6 +103,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         systemctl::generator(),
         timedatectl::generator(),
         tmux::generator(),
+        tsh::generator(),
         node::generator(),
         ros2::generator(),
         screen::generator(),
