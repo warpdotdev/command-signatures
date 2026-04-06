@@ -46,18 +46,29 @@ fn space_or_equals_delimited_option_value<'a>(
     })
 }
 
+/// Returns the value of a given `key` from a list of environment variables formatted as
+/// `KEY=VALUE`.
+fn env_var_value<'a>(env_vars: &'a [String], key: &str) -> Option<&'a str> {
+    let prefix = format!("{key}=");
+    env_vars.iter().find_map(|env| env.strip_prefix(&prefix))
+}
+
 /// Returns a command string to run the given `subcommand` string with the same `--namespace` and/or
 /// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
 /// scopes down suggestions to be more helpful based on the already-specified namespace or
-/// kubeconfig file.
+/// kubeconfig file. Also reads the `KUBECONFIG` environment variable if `--kubeconfig` is not
+/// explicitly specified in the tokens.
 fn kubectl_script(
     env_vars: &[String],
     tokens: &[&str],
     subcommand: CommandBuilder,
 ) -> CommandBuilder {
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
+        .or_else(|| env_var_value(env_vars, "KUBECONFIG"))
         .map(|value| format!("--kubeconfig={value} "))
-        .unwrap_or_else(|| "".to_owned());
+        // Fall back to the $KUBECONFIG shell variable, which is set when session environment
+        // variables are forwarded to the child process.
+        .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
         .map(|value| format!("--namespace={value} "))
@@ -253,4 +264,98 @@ pub fn generator() -> CommandSignatureGenerators {
             "kubectl_builtin_completion",
             KUBECTL_BUILTIN_COMPLETION.clone(),
         )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use warp_completion_metadata::Shell;
+
+    #[test]
+    fn test_kubeconfig_from_flag_in_tokens() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--kubeconfig",
+            "/path/to/config",
+            "config",
+            "use-context",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("config get-contexts -o name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--kubeconfig=/path/to/config"),
+            "Expected --kubeconfig flag from tokens, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_kubeconfig_from_env_vars() {
+        let env_vars = vec!["KUBECONFIG=/tmp/kube-test/config".to_string()];
+        let tokens = vec!["kubectl", "config", "use-context"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("config get-contexts -o name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--kubeconfig=/tmp/kube-test/config"),
+            "Expected --kubeconfig from KUBECONFIG env var, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_kubeconfig_flag_takes_precedence_over_env_var() {
+        let env_vars = vec!["KUBECONFIG=/env/path/config".to_string()];
+        let tokens = vec![
+            "kubectl",
+            "--kubeconfig",
+            "/flag/path/config",
+            "config",
+            "use-context",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("config get-contexts -o name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--kubeconfig=/flag/path/config"),
+            "Expected --kubeconfig from flag (not env var), got: {built}"
+        );
+        assert!(
+            !built.contains("--kubeconfig=/env/path/config"),
+            "Should not contain env var value when flag is present, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_kubeconfig_fallback_to_shell_variable() {
+        let env_vars: Vec<String> = vec![];
+        let tokens = vec!["kubectl", "config", "use-context"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("config get-contexts -o name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("${KUBECONFIG:+--kubeconfig="),
+            "Expected $KUBECONFIG shell variable fallback, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_env_var_value_finds_key() {
+        let env_vars = vec!["FOO=bar".to_string(), "KUBECONFIG=/my/config".to_string()];
+        assert_eq!(env_var_value(&env_vars, "KUBECONFIG"), Some("/my/config"));
+        assert_eq!(env_var_value(&env_vars, "FOO"), Some("bar"));
+        assert_eq!(env_var_value(&env_vars, "MISSING"), None);
+    }
 }
