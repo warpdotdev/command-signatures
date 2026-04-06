@@ -13,6 +13,7 @@ mod bazel;
 mod bosh;
 mod brew;
 mod cargo;
+mod claude;
 mod codex;
 mod conda;
 mod defaults;
@@ -104,6 +105,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         kubens::generator(),
         bazel::generator(),
         cargo::generator(),
+        claude::generator(),
         codex::generator(),
         kubectl::generator(),
         kubecolor::generator(),
