@@ -48,6 +48,7 @@ mod powershell;
 mod pyenv;
 mod react_native;
 mod ros2;
+mod scp;
 mod screen;
 mod sdk;
 mod ssh;
@@ -95,6 +96,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         npm::pnpm_generators(),
         pyenv::generator(),
         react_native::generator(),
+        scp::generator(),
         ssh::generator(),
         tar::generator(),
         terraform::generator(),
