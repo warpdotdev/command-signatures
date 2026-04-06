@@ -551,32 +551,57 @@ fn post_process_tags(output: &str) -> GeneratorResults {
         .collect_ordered_results()
 }
 
-const FORCE_PREFIX_MARKER: &str = "__FORCE_PREFIX__";
-const FORCE_PREFIX_MARKER_LINE: &str = concat!("__FORCE_PREFIX__", "\n");
+const REFSPEC_PREFIX_MARKER: &str = "__REFSPEC_PREFIX__";
 
-/// Wraps a command to prepend a force-prefix marker if the last token starts with `+`.
-/// This handles the `git push origin +<branch>` force-push refspec syntax where
-/// the `+` prefix would otherwise prevent branch name matching.
-fn with_force_prefix_detection(
-    tokens: &[&str],
-    has_trailing_whitespace: bool,
-    cmd: CommandBuilder,
-) -> CommandBuilder {
-    if !has_trailing_whitespace && tokens.last().is_some_and(|t| t.starts_with('+')) {
-        CommandBuilder::and(
-            CommandBuilder::single_command(format!("printf '{FORCE_PREFIX_MARKER}\\n'")),
-            cmd,
-        )
-    } else {
-        cmd
+/// Detects a refspec prefix (`+`, `:`, or `+:`) on the last token.
+/// Returns the prefix string, or empty if none is detected.
+fn detect_refspec_prefix(tokens: &[&str], has_trailing_whitespace: bool) -> &'static str {
+    if has_trailing_whitespace {
+        return "";
+    }
+    match tokens.last() {
+        Some(t) if t.starts_with('+') && t[1..].starts_with(':') => "+:",
+        Some(t) if t.starts_with('+') => "+",
+        Some(t) if t.starts_with(':') => ":",
+        _ => "",
     }
 }
 
-/// Strips the force-prefix marker from generator output, returning the prefix
-/// to prepend to suggestions and the remaining output.
-fn strip_force_prefix(out: &str) -> (&str, &str) {
-    match out.strip_prefix(FORCE_PREFIX_MARKER_LINE) {
-        Some(rest) => ("+", rest),
+/// Wraps a command to prepend a refspec-prefix marker when the last token starts
+/// with `+`, `:`, or `+:`. This handles git refspec syntax where a prefix would
+/// otherwise prevent branch/tag name matching.
+///
+/// When the prefix contains `:` (delete refspec), `colon_cmd` is used instead of
+/// `default_cmd` so the generator can surface remote refs rather than local ones.
+fn with_refspec_prefix_detection(
+    tokens: &[&str],
+    has_trailing_whitespace: bool,
+    default_cmd: CommandBuilder,
+    colon_cmd: CommandBuilder,
+) -> CommandBuilder {
+    let prefix = detect_refspec_prefix(tokens, has_trailing_whitespace);
+    if prefix.is_empty() {
+        return default_cmd;
+    }
+    let cmd = if prefix.contains(':') {
+        colon_cmd
+    } else {
+        default_cmd
+    };
+    CommandBuilder::and(
+        CommandBuilder::single_command(format!("printf '{REFSPEC_PREFIX_MARKER}{prefix}\\n'")),
+        cmd,
+    )
+}
+
+/// Strips the refspec-prefix marker from generator output, returning the prefix
+/// string to prepend to suggestions and the remaining output.
+fn strip_refspec_prefix(out: &str) -> (&str, &str) {
+    match out.strip_prefix(REFSPEC_PREFIX_MARKER) {
+        Some(rest) => match rest.split_once('\n') {
+            Some((prefix, remaining)) => (prefix, remaining),
+            None => ("", out),
+        },
         None => ("", out),
     }
 }
@@ -590,15 +615,26 @@ fn prepend_to_suggestions(prefix: &str, results: &mut GeneratorResults) {
     }
 }
 
+fn remote_branch_names_command() -> CommandBuilder {
+    CommandBuilder::single_command(
+        r#"git for-each-ref --format="%(refname:strip=3)" --sort="refname:strip=3" "refs/remotes/**""#,
+    )
+}
+
 fn post_process_push_refspec_branches(out: &str) -> GeneratorResults {
-    let (prefix, branch_output) = strip_force_prefix(out);
-    let mut results = post_process_branches(branch_output);
+    let (prefix, branch_output) = strip_refspec_prefix(out);
+    let mut results = if prefix.contains(':') {
+        // `:` prefix means delete — surface remote branch names.
+        post_process_git_for_each_ref(branch_output)
+    } else {
+        post_process_branches(branch_output)
+    };
     prepend_to_suggestions(prefix, &mut results);
     results
 }
 
 fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
-    let (prefix, tag_output) = strip_force_prefix(out);
+    let (prefix, tag_output) = strip_refspec_prefix(out);
     let mut results = post_process_tags(tag_output);
     prepend_to_suggestions(prefix, &mut results);
     results
@@ -778,17 +814,20 @@ pub fn generator() -> CommandSignatureGenerators {
                 post_process_branches,
             ),
         )
-        // Generators for `git push` refspec arguments. These handle the `+` force-push prefix
-        // (e.g. `git push origin +branch`) by detecting it in the current token and prepending
-        // it to branch/tag suggestions so the completer's prefix matcher can match correctly.
+        // Generators for `git push` refspec arguments. These handle refspec prefixes:
+        // `+` for force-push, `:` for deleting a remote ref, and `+:` for force-delete.
+        // The prefix is detected in the current token and prepended to branch/tag suggestions
+        // so the completer's prefix matcher can match correctly. When `:` is present, remote
+        // branches are suggested instead of local branches.
         .add_generator(
             "push_refspec_branches",
             Generator::command_from_tokens(
                 |tokens, has_trailing_whitespace, _| {
-                    with_force_prefix_detection(
+                    with_refspec_prefix_detection(
                         tokens,
                         has_trailing_whitespace,
                         local_branches_command(),
+                        remote_branch_names_command(),
                     )
                 },
                 post_process_push_refspec_branches,
@@ -798,9 +837,10 @@ pub fn generator() -> CommandSignatureGenerators {
             "push_refspec_tags",
             Generator::command_from_tokens(
                 |tokens, has_trailing_whitespace, _| {
-                    with_force_prefix_detection(
+                    with_refspec_prefix_detection(
                         tokens,
                         has_trailing_whitespace,
+                        tags_command(),
                         tags_command(),
                     )
                 },
@@ -839,8 +879,8 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{
-        post_process_branches, post_process_push_refspec_branches, post_process_push_refspec_tags,
-        post_process_tags, post_process_tracked_files,
+        detect_refspec_prefix, post_process_branches, post_process_push_refspec_branches,
+        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
@@ -989,8 +1029,33 @@ mod tests {
     }
 
     #[test]
-    fn test_push_refspec_branches_without_force_prefix() {
-        // Without the __FORCE_PREFIX__ marker, results should match normal branch processing.
+    fn test_detect_refspec_prefix() {
+        assert_eq!(
+            detect_refspec_prefix(&["git", "push", "origin", "+main"], false),
+            "+"
+        );
+        assert_eq!(
+            detect_refspec_prefix(&["git", "push", "origin", ":main"], false),
+            ":"
+        );
+        assert_eq!(
+            detect_refspec_prefix(&["git", "push", "origin", "+:main"], false),
+            "+:"
+        );
+        assert_eq!(
+            detect_refspec_prefix(&["git", "push", "origin", "main"], false),
+            ""
+        );
+        // Trailing whitespace means no prefix (user finished the token).
+        assert_eq!(
+            detect_refspec_prefix(&["git", "push", "origin", "+main"], true),
+            ""
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_branches_without_prefix() {
+        // Without any marker, results should match normal branch processing.
         let command_output = "* main\n  feature/foo\n  develop";
         assert_eq!(
             post_process_push_refspec_branches(command_output),
@@ -1000,8 +1065,8 @@ mod tests {
 
     #[test]
     fn test_push_refspec_branches_with_force_prefix() {
-        // With the __FORCE_PREFIX__ marker, all branch exact_strings should be prefixed with "+".
-        let command_output = "__FORCE_PREFIX__\n* main\n  feature/foo\n  develop";
+        // With the `+` refspec prefix marker, all branch exact_strings should be prefixed with "+".
+        let command_output = "__REFSPEC_PREFIX__+\n* main\n  feature/foo\n  develop";
         let results = post_process_push_refspec_branches(command_output);
         assert_eq!(
             results,
@@ -1038,7 +1103,79 @@ mod tests {
     }
 
     #[test]
-    fn test_push_refspec_tags_without_force_prefix() {
+    fn test_push_refspec_branches_with_colon_prefix() {
+        // With the `:` refspec prefix marker, output is from `git for-each-ref` (remote branches)
+        // and all suggestions should be prefixed with ":".
+        let command_output = "__REFSPEC_PREFIX__:\nmain\nfeature/foo\ndevelop";
+        let results = post_process_push_refspec_branches(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: ":main".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: ":feature/foo".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: ":develop".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_branches_with_force_colon_prefix() {
+        // With the `+:` refspec prefix marker (force-delete), output is from `git for-each-ref`
+        // and all suggestions should be prefixed with "+:".
+        let command_output = "__REFSPEC_PREFIX__+:\nmain\nfeature/bar";
+        let results = post_process_push_refspec_branches(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "+:main".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "+:feature/bar".to_owned(),
+                        display_name: None,
+                        description: Some("Branch".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_tags_without_prefix() {
         let command_output = "v1.0.0\nv2.0.0";
         let results = post_process_push_refspec_tags(command_output);
         assert_eq!(
@@ -1069,7 +1206,7 @@ mod tests {
 
     #[test]
     fn test_push_refspec_tags_with_force_prefix() {
-        let command_output = "__FORCE_PREFIX__\nv1.0.0\nv2.0.0";
+        let command_output = "__REFSPEC_PREFIX__+\nv1.0.0\nv2.0.0";
         let results = post_process_push_refspec_tags(command_output);
         assert_eq!(
             results,
@@ -1085,6 +1222,36 @@ mod tests {
                     },
                     Suggestion {
                         exact_string: "+v2.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
+    }
+
+    #[test]
+    fn test_push_refspec_tags_with_colon_prefix() {
+        let command_output = "__REFSPEC_PREFIX__:\nv1.0.0\nv2.0.0";
+        let results = post_process_push_refspec_tags(command_output);
+        assert_eq!(
+            results,
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: ":v1.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("tag".to_owned()),
+                        priority: Priority::Default,
+                        icon: None,
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: ":v2.0.0".to_owned(),
                         display_name: None,
                         description: Some("tag".to_owned()),
                         priority: Priority::Default,
