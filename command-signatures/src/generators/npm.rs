@@ -212,6 +212,39 @@ fn workspace_generator() -> Generator {
     )
 }
 
+/// Returns actual workspace names for yarn projects by parsing the output of
+/// `yarn workspaces info`. The output wraps a JSON object in extra text
+/// (version header and "Done" footer), so we extract the JSON between the first
+/// `{` and last `}` and use the top-level keys as workspace names.
+fn yarn_workspace_names_generator() -> Generator {
+    Generator::script(
+        CommandBuilder::single_command("yarn workspaces info 2>/dev/null"),
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
+
+            let start_index = output.find('{');
+            let end_index = output.rfind('}');
+
+            if let (Some(start), Some(end)) = (start_index, end_index) {
+                let json_str = &output[start..=end];
+                let workspaces: std::result::Result<HashMap<String, Value>, _> =
+                    serde_json::from_str(json_str);
+
+                if let Ok(workspaces) = workspaces {
+                    return workspaces
+                        .into_keys()
+                        .map(|name| Suggestion::with_description(name, "Workspace"))
+                        .collect_unordered_results();
+                }
+            }
+
+            GeneratorResults::default()
+        },
+    )
+}
+
 fn script_alias_generator() -> Alias {
     Alias::new(
         |_| "cat $(npm prefix)/package.json".to_string(),
@@ -262,6 +295,10 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
         .add_generator("dependencies_generator", dependencies_generator())
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator(
+            "workspace_names_generator",
+            yarn_workspace_names_generator(),
+        )
+        .add_generator(
             "all_dependencies_generator",
             Generator::script(
                 CommandBuilder::single_command("yarn list --depth=0 --json"),
@@ -302,7 +339,7 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
 
 #[cfg(test)]
 mod tests {
-    use crate::generators::npm::workspace_generator;
+    use crate::generators::npm::{workspace_generator, yarn_workspace_names_generator};
     use warp_completion_metadata::{GeneratorResults, Suggestion};
 
     #[test]
@@ -336,6 +373,44 @@ mod tests {
                 suggestions: vec![Suggestion::with_description("packages/*", "Workspaces")],
                 is_ordered: false
             }
+        );
+    }
+
+    #[test]
+    pub fn test_yarn_workspace_names_generator() {
+        // Simulates the output of `yarn workspaces info` in yarn v1
+        let output = r#"yarn workspaces v1.22.19
+{
+  "@myorg/package-a": {
+    "location": "packages/package-a",
+    "workspaceDependencies": [],
+    "mismatchedWorkspaceDependencies": []
+  },
+  "@myorg/package-b": {
+    "location": "packages/package-b",
+    "workspaceDependencies": ["@myorg/package-a"],
+    "mismatchedWorkspaceDependencies": []
+  }
+}
+Done in 0.03s."#;
+        let result = yarn_workspace_names_generator().on_complete(output);
+        assert_eq!(result.suggestions.len(), 2);
+        assert!(!result.is_ordered);
+
+        let names: Vec<&str> = result
+            .suggestions
+            .iter()
+            .map(|s| s.exact_string.as_str())
+            .collect();
+        assert!(names.contains(&"@myorg/package-a"));
+        assert!(names.contains(&"@myorg/package-b"));
+    }
+
+    #[test]
+    pub fn test_yarn_workspace_names_generator_empty_output() {
+        assert_eq!(
+            yarn_workspace_names_generator().on_complete(""),
+            GeneratorResults::default()
         );
     }
 }
