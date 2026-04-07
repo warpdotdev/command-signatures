@@ -775,6 +775,27 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
+            "tracked_files",
+            Generator::script(
+                CommandBuilder::single_command("git --no-optional-locks ls-files"),
+                |output| {
+                    let output = filter_messages(output);
+                    if output.starts_with("fatal:") {
+                        return GeneratorResults::default();
+                    }
+
+                    output
+                        .lines()
+                        .filter(|line| !line.is_empty())
+                        .map(|file| {
+                            Suggestion::with_description(file, "Tracked file")
+                                .with_icon(IconType::File)
+                        })
+                        .collect_unordered_results()
+                },
+            ),
+        )
+        .add_generator(
             "settings_generator",
             Generator::script(CommandBuilder::single_command("git config --get-regexp '.*'"), |output| {
                 output
