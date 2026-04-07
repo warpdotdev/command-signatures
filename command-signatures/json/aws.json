@@ -565,8 +565,1770 @@
         },
         {
             "name": "ec2",
-            "description": "Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS Cloud. Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you've defined. Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: AmazonEC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    AWS VPN: AWS VPN product page, AWS VPN documentation",
-            "loadSpec": "aws/ec2"
+            "description": "Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS Cloud",
+            "subcommands": [
+                {
+                    "name": "describe-instances",
+                    "description": "Describes the specified instances or all instances",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The instance IDs",
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters (e.g. Name=instance-type,Values=t2.micro)",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "Total number of items to return",
+                            "args": {
+                                "name": "INTEGER"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "run-instances",
+                    "description": "Launches the specified number of instances using an AMI for which you have permissions",
+                    "options": [
+                        {
+                            "name": "--image-id",
+                            "description": "The ID of the AMI",
+                            "args": {
+                                "name": "IMAGE_ID",
+                                "generatorName": "ec2_images"
+                            }
+                        },
+                        {
+                            "name": "--instance-type",
+                            "description": "The instance type",
+                            "args": {
+                                "name": "INSTANCE_TYPE",
+                                "suggestions": [
+                                    "t2.nano",
+                                    "t2.micro",
+                                    "t2.small",
+                                    "t2.medium",
+                                    "t2.large",
+                                    "t2.xlarge",
+                                    "t2.2xlarge",
+                                    "t3.nano",
+                                    "t3.micro",
+                                    "t3.small",
+                                    "t3.medium",
+                                    "t3.large",
+                                    "t3.xlarge",
+                                    "t3.2xlarge",
+                                    "m5.large",
+                                    "m5.xlarge",
+                                    "m5.2xlarge",
+                                    "m5.4xlarge",
+                                    "c5.large",
+                                    "c5.xlarge",
+                                    "c5.2xlarge",
+                                    "r5.large",
+                                    "r5.xlarge",
+                                    "r5.2xlarge"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--count",
+                            "description": "Number of instances to launch (default: 1)",
+                            "args": {
+                                "name": "COUNT"
+                            }
+                        },
+                        {
+                            "name": "--key-name",
+                            "description": "The name of the key pair",
+                            "args": {
+                                "name": "KEY_NAME",
+                                "generatorName": "ec2_key_pairs"
+                            }
+                        },
+                        {
+                            "name": "--security-group-ids",
+                            "description": "The IDs of the security groups",
+                            "args": {
+                                "name": "SECURITY_GROUP_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--security-groups",
+                            "description": "The names of the security groups",
+                            "args": {
+                                "name": "GROUP_NAME",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--subnet-id",
+                            "description": "The ID of the subnet to launch the instance into",
+                            "args": {
+                                "name": "SUBNET_ID",
+                                "generatorName": "ec2_subnets"
+                            }
+                        },
+                        {
+                            "name": "--user-data",
+                            "description": "The user data script for the instance (use file:// prefix for files)",
+                            "args": {
+                                "name": "USER_DATA",
+                                "template": "filepaths"
+                            }
+                        },
+                        {
+                            "name": "--block-device-mappings",
+                            "description": "The block device mapping",
+                            "args": {
+                                "name": "BLOCK_DEVICE_MAPPINGS"
+                            }
+                        },
+                        {
+                            "name": "--iam-instance-profile",
+                            "description": "The IAM instance profile",
+                            "args": {
+                                "name": "IAM_INSTANCE_PROFILE"
+                            }
+                        },
+                        {
+                            "name": "--tag-specifications",
+                            "description": "The tags to apply to the resources during launch",
+                            "args": {
+                                "name": "TAG_SPECIFICATIONS"
+                            }
+                        },
+                        {
+                            "name": "--placement",
+                            "description": "The placement for the instance",
+                            "args": {
+                                "name": "PLACEMENT"
+                            }
+                        },
+                        {
+                            "name": "--monitoring",
+                            "description": "Specifies whether detailed monitoring is enabled",
+                            "args": {
+                                "name": "MONITORING"
+                            }
+                        },
+                        {
+                            "name": "--private-ip-address",
+                            "description": "The primary IPv4 address",
+                            "args": {
+                                "name": "IP_ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "--ebs-optimized",
+                            "description": "Indicates whether the instance is optimized for Amazon EBS I/O"
+                        },
+                        {
+                            "name": "--no-ebs-optimized",
+                            "description": "Do not optimize for Amazon EBS I/O"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        },
+                        {
+                            "name": "--disable-api-termination",
+                            "description": "Enable termination protection"
+                        },
+                        {
+                            "name": "--enable-api-termination",
+                            "description": "Disable termination protection"
+                        },
+                        {
+                            "name": "--instance-initiated-shutdown-behavior",
+                            "description": "Indicates whether an instance stops or terminates when you initiate shutdown",
+                            "args": {
+                                "name": "BEHAVIOR",
+                                "suggestions": [
+                                    "stop",
+                                    "terminate"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--metadata-options",
+                            "description": "The metadata options for the instance",
+                            "args": {
+                                "name": "METADATA_OPTIONS"
+                            }
+                        },
+                        {
+                            "name": "--network-interfaces",
+                            "description": "The network interfaces to associate with the instance",
+                            "args": {
+                                "name": "NETWORK_INTERFACES"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "start-instances",
+                    "description": "Starts an Amazon EBS-backed instance that you've previously stopped",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_stopped_instances"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "stop-instances",
+                    "description": "Stops an Amazon EBS-backed instance",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_running_instances"
+                            }
+                        },
+                        {
+                            "name": "--force",
+                            "description": "Forces the instances to stop without graceful shutdown"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "terminate-instances",
+                    "description": "Shuts down the specified instances. Terminated instances remain visible for a short period",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "reboot-instances",
+                    "description": "Requests a reboot of the specified instances",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_running_instances"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "modify-instance-attribute",
+                    "description": "Modifies the specified attribute of the specified instance",
+                    "options": [
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--instance-type",
+                            "description": "Changes the instance type",
+                            "args": {
+                                "name": "INSTANCE_TYPE"
+                            }
+                        },
+                        {
+                            "name": "--disable-api-termination",
+                            "description": "Enable or disable termination protection",
+                            "args": {
+                                "name": "VALUE"
+                            }
+                        },
+                        {
+                            "name": "--groups",
+                            "description": "Replaces the security groups of the instance with the specified security groups",
+                            "args": {
+                                "name": "GROUP_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-security-groups",
+                    "description": "Describes the specified security groups or all of your security groups",
+                    "options": [
+                        {
+                            "name": "--group-ids",
+                            "description": "The IDs of the security groups",
+                            "args": {
+                                "name": "GROUP_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--group-names",
+                            "description": "The names of the security groups",
+                            "args": {
+                                "name": "GROUP_NAME",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-security-group",
+                    "description": "Creates a security group",
+                    "options": [
+                        {
+                            "name": "--group-name",
+                            "description": "The name of the security group",
+                            "isRequired": true,
+                            "args": {
+                                "name": "GROUP_NAME"
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "A description for the security group",
+                            "isRequired": true,
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--vpc-id",
+                            "description": "The ID of the VPC",
+                            "args": {
+                                "name": "VPC_ID",
+                                "generatorName": "ec2_vpcs"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete-security-group",
+                    "description": "Deletes a security group",
+                    "options": [
+                        {
+                            "name": "--group-id",
+                            "description": "The ID of the security group",
+                            "args": {
+                                "name": "GROUP_ID",
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--group-name",
+                            "description": "The name of the security group",
+                            "args": {
+                                "name": "GROUP_NAME"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "authorize-security-group-ingress",
+                    "description": "Adds the specified inbound rules to a security group",
+                    "options": [
+                        {
+                            "name": "--group-id",
+                            "description": "The ID of the security group",
+                            "args": {
+                                "name": "GROUP_ID",
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--group-name",
+                            "description": "The name of the security group",
+                            "args": {
+                                "name": "GROUP_NAME"
+                            }
+                        },
+                        {
+                            "name": "--protocol",
+                            "description": "The IP protocol name or number",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "-1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--port",
+                            "description": "The port number or range (e.g. 22 or 8000-9000)",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "--cidr",
+                            "description": "The IPv4 CIDR range",
+                            "args": {
+                                "name": "CIDR"
+                            }
+                        },
+                        {
+                            "name": "--source-group",
+                            "description": "The source security group ID",
+                            "args": {
+                                "name": "SOURCE_GROUP",
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--ip-permissions",
+                            "description": "The sets of IP permissions",
+                            "args": {
+                                "name": "IP_PERMISSIONS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "authorize-security-group-egress",
+                    "description": "Adds the specified outbound rules to a VPC security group",
+                    "options": [
+                        {
+                            "name": "--group-id",
+                            "description": "The ID of the security group",
+                            "isRequired": true,
+                            "args": {
+                                "name": "GROUP_ID",
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--protocol",
+                            "description": "The IP protocol name or number",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "-1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--port",
+                            "description": "The port number or range",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "--cidr",
+                            "description": "The IPv4 CIDR range",
+                            "args": {
+                                "name": "CIDR"
+                            }
+                        },
+                        {
+                            "name": "--ip-permissions",
+                            "description": "The sets of IP permissions",
+                            "args": {
+                                "name": "IP_PERMISSIONS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "revoke-security-group-ingress",
+                    "description": "Removes the specified inbound rules from a security group",
+                    "options": [
+                        {
+                            "name": "--group-id",
+                            "description": "The ID of the security group",
+                            "args": {
+                                "name": "GROUP_ID",
+                                "generatorName": "ec2_security_groups"
+                            }
+                        },
+                        {
+                            "name": "--group-name",
+                            "description": "The name of the security group",
+                            "args": {
+                                "name": "GROUP_NAME"
+                            }
+                        },
+                        {
+                            "name": "--protocol",
+                            "description": "The IP protocol name or number",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "-1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--port",
+                            "description": "The port number or range",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "--cidr",
+                            "description": "The IPv4 CIDR range",
+                            "args": {
+                                "name": "CIDR"
+                            }
+                        },
+                        {
+                            "name": "--ip-permissions",
+                            "description": "The sets of IP permissions",
+                            "args": {
+                                "name": "IP_PERMISSIONS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-key-pairs",
+                    "description": "Describes the specified key pairs or all of your key pairs",
+                    "options": [
+                        {
+                            "name": "--key-names",
+                            "description": "The key pair names",
+                            "args": {
+                                "name": "KEY_NAME",
+                                "isVariadic": true,
+                                "generatorName": "ec2_key_pairs"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-key-pair",
+                    "description": "Creates an ED25519 or 2048-bit RSA key pair with the specified name",
+                    "options": [
+                        {
+                            "name": "--key-name",
+                            "description": "A unique name for the key pair",
+                            "isRequired": true,
+                            "args": {
+                                "name": "KEY_NAME"
+                            }
+                        },
+                        {
+                            "name": "--key-type",
+                            "description": "The type of key pair",
+                            "args": {
+                                "name": "KEY_TYPE",
+                                "suggestions": [
+                                    "rsa",
+                                    "ed25519"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--key-format",
+                            "description": "The format of the key pair",
+                            "args": {
+                                "name": "KEY_FORMAT",
+                                "suggestions": [
+                                    "pem",
+                                    "ppk"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete-key-pair",
+                    "description": "Deletes the specified key pair",
+                    "options": [
+                        {
+                            "name": "--key-name",
+                            "description": "The name of the key pair",
+                            "args": {
+                                "name": "KEY_NAME",
+                                "generatorName": "ec2_key_pairs"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-images",
+                    "description": "Describes the specified images (AMIs, AKIs, and ARIs)",
+                    "options": [
+                        {
+                            "name": "--image-ids",
+                            "description": "The image IDs",
+                            "args": {
+                                "name": "IMAGE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_images"
+                            }
+                        },
+                        {
+                            "name": "--owners",
+                            "description": "Filters the images by the owner (e.g. self, amazon, aws-marketplace)",
+                            "args": {
+                                "name": "OWNER",
+                                "isVariadic": true,
+                                "suggestions": [
+                                    "self",
+                                    "amazon",
+                                    "aws-marketplace"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-image",
+                    "description": "Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance",
+                    "options": [
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--name",
+                            "description": "A name for the new image",
+                            "isRequired": true,
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "A description for the new image",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--no-reboot",
+                            "description": "Do not shut down the instance before creating the image"
+                        },
+                        {
+                            "name": "--reboot",
+                            "description": "Shut down the instance before creating the image"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "deregister-image",
+                    "description": "Deregisters the specified AMI",
+                    "options": [
+                        {
+                            "name": "--image-id",
+                            "description": "The ID of the AMI",
+                            "isRequired": true,
+                            "args": {
+                                "name": "IMAGE_ID",
+                                "generatorName": "ec2_images"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-volumes",
+                    "description": "Describes the specified EBS volumes or all of your EBS volumes",
+                    "options": [
+                        {
+                            "name": "--volume-ids",
+                            "description": "The volume IDs",
+                            "args": {
+                                "name": "VOLUME_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_volumes"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-volume",
+                    "description": "Creates an EBS volume that can be attached to an instance in the same Availability Zone",
+                    "options": [
+                        {
+                            "name": "--availability-zone",
+                            "description": "The Availability Zone in which to create the volume",
+                            "isRequired": true,
+                            "args": {
+                                "name": "AVAILABILITY_ZONE"
+                            }
+                        },
+                        {
+                            "name": "--size",
+                            "description": "The size of the volume, in GiBs",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--snapshot-id",
+                            "description": "The snapshot from which to create the volume",
+                            "args": {
+                                "name": "SNAPSHOT_ID",
+                                "generatorName": "ec2_snapshots"
+                            }
+                        },
+                        {
+                            "name": "--volume-type",
+                            "description": "The volume type",
+                            "args": {
+                                "name": "VOLUME_TYPE",
+                                "suggestions": [
+                                    "gp2",
+                                    "gp3",
+                                    "io1",
+                                    "io2",
+                                    "st1",
+                                    "sc1",
+                                    "standard"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--iops",
+                            "description": "The number of I/O operations per second",
+                            "args": {
+                                "name": "IOPS"
+                            }
+                        },
+                        {
+                            "name": "--encrypted",
+                            "description": "Specifies whether the volume should be encrypted"
+                        },
+                        {
+                            "name": "--no-encrypted",
+                            "description": "Do not encrypt the volume"
+                        },
+                        {
+                            "name": "--tag-specifications",
+                            "description": "The tags to apply to the volume",
+                            "args": {
+                                "name": "TAG_SPECIFICATIONS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "attach-volume",
+                    "description": "Attaches an EBS volume to a running or stopped instance",
+                    "options": [
+                        {
+                            "name": "--volume-id",
+                            "description": "The ID of the EBS volume",
+                            "isRequired": true,
+                            "args": {
+                                "name": "VOLUME_ID",
+                                "generatorName": "ec2_volumes"
+                            }
+                        },
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--device",
+                            "description": "The device name (e.g. /dev/sdh or xvdh)",
+                            "isRequired": true,
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "detach-volume",
+                    "description": "Detaches an EBS volume from an instance",
+                    "options": [
+                        {
+                            "name": "--volume-id",
+                            "description": "The ID of the volume",
+                            "isRequired": true,
+                            "args": {
+                                "name": "VOLUME_ID",
+                                "generatorName": "ec2_volumes"
+                            }
+                        },
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--device",
+                            "description": "The device name",
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "--force",
+                            "description": "Forces detachment"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete-volume",
+                    "description": "Deletes the specified EBS volume",
+                    "options": [
+                        {
+                            "name": "--volume-id",
+                            "description": "The ID of the volume",
+                            "isRequired": true,
+                            "args": {
+                                "name": "VOLUME_ID",
+                                "generatorName": "ec2_volumes"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-snapshots",
+                    "description": "Describes the specified EBS snapshots",
+                    "options": [
+                        {
+                            "name": "--snapshot-ids",
+                            "description": "The snapshot IDs",
+                            "args": {
+                                "name": "SNAPSHOT_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_snapshots"
+                            }
+                        },
+                        {
+                            "name": "--owner-ids",
+                            "description": "Filters the snapshots by owner",
+                            "args": {
+                                "name": "OWNER_ID",
+                                "isVariadic": true,
+                                "suggestions": [
+                                    "self",
+                                    "amazon"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-snapshot",
+                    "description": "Creates a snapshot of an EBS volume",
+                    "options": [
+                        {
+                            "name": "--volume-id",
+                            "description": "The ID of the EBS volume",
+                            "isRequired": true,
+                            "args": {
+                                "name": "VOLUME_ID",
+                                "generatorName": "ec2_volumes"
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "A description for the snapshot",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--tag-specifications",
+                            "description": "The tags to apply to the snapshot",
+                            "args": {
+                                "name": "TAG_SPECIFICATIONS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete-snapshot",
+                    "description": "Deletes the specified snapshot",
+                    "options": [
+                        {
+                            "name": "--snapshot-id",
+                            "description": "The ID of the EBS snapshot",
+                            "isRequired": true,
+                            "args": {
+                                "name": "SNAPSHOT_ID",
+                                "generatorName": "ec2_snapshots"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-vpcs",
+                    "description": "Describes one or more of your VPCs",
+                    "options": [
+                        {
+                            "name": "--vpc-ids",
+                            "description": "The VPC IDs",
+                            "args": {
+                                "name": "VPC_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_vpcs"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-subnets",
+                    "description": "Describes one or more of your subnets",
+                    "options": [
+                        {
+                            "name": "--subnet-ids",
+                            "description": "The subnet IDs",
+                            "args": {
+                                "name": "SUBNET_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_subnets"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "allocate-address",
+                    "description": "Allocates an Elastic IP address to your AWS account",
+                    "options": [
+                        {
+                            "name": "--domain",
+                            "description": "Set to vpc to allocate the address for use with instances in a VPC",
+                            "args": {
+                                "name": "DOMAIN",
+                                "suggestions": [
+                                    "vpc",
+                                    "standard"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "associate-address",
+                    "description": "Associates an Elastic IP address with an instance or a network interface",
+                    "options": [
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--allocation-id",
+                            "description": "The allocation ID for the Elastic IP address",
+                            "args": {
+                                "name": "ALLOCATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--public-ip",
+                            "description": "The Elastic IP address",
+                            "args": {
+                                "name": "PUBLIC_IP"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-addresses",
+                    "description": "Describes the specified Elastic IP addresses",
+                    "options": [
+                        {
+                            "name": "--public-ips",
+                            "description": "One or more Elastic IP addresses",
+                            "args": {
+                                "name": "PUBLIC_IP",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--allocation-ids",
+                            "description": "One or more allocation IDs",
+                            "args": {
+                                "name": "ALLOCATION_ID",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "release-address",
+                    "description": "Releases the specified Elastic IP address",
+                    "options": [
+                        {
+                            "name": "--allocation-id",
+                            "description": "The allocation ID",
+                            "args": {
+                                "name": "ALLOCATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--public-ip",
+                            "description": "The Elastic IP address",
+                            "args": {
+                                "name": "PUBLIC_IP"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "create-tags",
+                    "description": "Adds or overwrites only the specified tags for the specified Amazon EC2 resources",
+                    "options": [
+                        {
+                            "name": "--resources",
+                            "description": "The IDs of the resources",
+                            "isRequired": true,
+                            "args": {
+                                "name": "RESOURCE_ID",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--tags",
+                            "description": "The tags (e.g. Key=Name,Value=MyInstance)",
+                            "isRequired": true,
+                            "args": {
+                                "name": "TAGS",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "delete-tags",
+                    "description": "Deletes the specified set of tags from the specified set of resources",
+                    "options": [
+                        {
+                            "name": "--resources",
+                            "description": "The IDs of the resources",
+                            "isRequired": true,
+                            "args": {
+                                "name": "RESOURCE_ID",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--tags",
+                            "description": "The tags to delete",
+                            "args": {
+                                "name": "TAGS",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-tags",
+                    "description": "Describes the specified tags for your EC2 resources",
+                    "options": [
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--max-results",
+                            "description": "The maximum number of results to return",
+                            "args": {
+                                "name": "MAX_RESULTS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor-instances",
+                    "description": "Enables detailed monitoring for a running instance",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_running_instances"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "unmonitor-instances",
+                    "description": "Disables detailed monitoring for a running instance",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The IDs of the instances",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_running_instances"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "copy-image",
+                    "description": "Initiates the copy of an AMI from the specified source Region to the current Region",
+                    "options": [
+                        {
+                            "name": "--source-image-id",
+                            "description": "The ID of the AMI to copy",
+                            "isRequired": true,
+                            "args": {
+                                "name": "IMAGE_ID"
+                            }
+                        },
+                        {
+                            "name": "--source-region",
+                            "description": "The name of the Region that contains the AMI to copy",
+                            "isRequired": true,
+                            "args": {
+                                "name": "REGION"
+                            }
+                        },
+                        {
+                            "name": "--name",
+                            "description": "The name of the new AMI",
+                            "isRequired": true,
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "A description for the new AMI",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "copy-snapshot",
+                    "description": "Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3",
+                    "options": [
+                        {
+                            "name": "--source-snapshot-id",
+                            "description": "The ID of the EBS snapshot to copy",
+                            "isRequired": true,
+                            "args": {
+                                "name": "SNAPSHOT_ID"
+                            }
+                        },
+                        {
+                            "name": "--source-region",
+                            "description": "The ID of the Region that contains the snapshot to be copied",
+                            "isRequired": true,
+                            "args": {
+                                "name": "REGION"
+                            }
+                        },
+                        {
+                            "name": "--description",
+                            "description": "A description for the EBS snapshot",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--encrypted",
+                            "description": "Encrypt the snapshot"
+                        },
+                        {
+                            "name": "--no-encrypted",
+                            "description": "Do not encrypt the snapshot"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-instance-types",
+                    "description": "Describes the details of the instance types that are offered in a location",
+                    "options": [
+                        {
+                            "name": "--instance-types",
+                            "description": "The instance types",
+                            "args": {
+                                "name": "INSTANCE_TYPE",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-availability-zones",
+                    "description": "Describes the Availability Zones and Local Zones that are available to you",
+                    "options": [
+                        {
+                            "name": "--zone-names",
+                            "description": "The names of the Availability Zones",
+                            "args": {
+                                "name": "ZONE_NAME",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-regions",
+                    "description": "Describes the Regions that are enabled for your account",
+                    "options": [
+                        {
+                            "name": "--region-names",
+                            "description": "The names of the Regions",
+                            "args": {
+                                "name": "REGION_NAME",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-instance-status",
+                    "description": "Describes the status of the specified instances or all of your instances",
+                    "options": [
+                        {
+                            "name": "--instance-ids",
+                            "description": "The instance IDs",
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "isVariadic": true,
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--include-all-instances",
+                            "description": "Include all instances, not just running ones"
+                        },
+                        {
+                            "name": "--no-include-all-instances",
+                            "description": "Only include running instances"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "get-console-output",
+                    "description": "Gets the console output for the specified instance",
+                    "options": [
+                        {
+                            "name": "--instance-id",
+                            "description": "The ID of the instance",
+                            "isRequired": true,
+                            "args": {
+                                "name": "INSTANCE_ID",
+                                "generatorName": "ec2_instances"
+                            }
+                        },
+                        {
+                            "name": "--latest",
+                            "description": "Return only the latest console output"
+                        },
+                        {
+                            "name": "--no-latest",
+                            "description": "Return all console output"
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                },
+                {
+                    "name": "describe-network-interfaces",
+                    "description": "Describes one or more of your network interfaces",
+                    "options": [
+                        {
+                            "name": "--network-interface-ids",
+                            "description": "The network interface IDs",
+                            "args": {
+                                "name": "NETWORK_INTERFACE_ID",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--filters",
+                            "description": "The filters",
+                            "args": {
+                                "name": "FILTERS"
+                            }
+                        },
+                        {
+                            "name": "--dry-run",
+                            "description": "Check permissions without making the request"
+                        },
+                        {
+                            "name": "--no-dry-run",
+                            "description": "Do not check permissions"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "ec2-instance-connect",

@@ -8,6 +8,8 @@ mod common;
 mod apt;
 mod asdf;
 mod aws;
+#[cfg(test)]
+mod aws_tests;
 mod az;
 mod bazel;
 mod bosh;
