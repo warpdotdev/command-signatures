@@ -1,6 +1,6 @@
 use itertools::Itertools;
 use lazy_static::lazy_static;
-use serde_json::{Result, Value};
+use serde_json::Value;
 use std::collections::HashMap;
 use warp_completion_metadata::{
     CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
@@ -8,34 +8,18 @@ use warp_completion_metadata::{
 };
 
 lazy_static! {
-    /// Command that computes the `nx` workspace targets by executing `nx graph --file`.
-    /// `nx graph` supports printing to stdout, but older versions of `nx` (before 19.20) had a bug
-    /// where the output of `nx graph` could be truncated when printing to stdout (see https://github.com/nrwl/nx/issues/18689
-    /// for more details).
-    /// The workaround here is to write the output to a tmpfile and then `cat` that tmpfile. We execute
-    /// this within a sh shell to ensure we are running in an environment where we can run POSIX-shell
-    /// compliant commands to generate the output, even if the user is running a non-POSIX compliant
-    /// shell (such as fish).
-    static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder = CommandBuilder::and(
-        CommandBuilder::single_command_and_ignore_stderr(
-            "sh -c 'temp=$(mktemp -u).json && nx graph --file $temp"
-        ),
-        CommandBuilder::single_command("cat $temp && rm $temp'")
+    /// Command that retrieves the Nx project graph with target information.
+    ///
+    /// Uses `nx graph --print` (Nx 19.20+) which outputs JSON to stdout.
+    /// Falls back to `nx graph --file` with a tmpfile for older Nx versions
+    /// (avoids a truncation bug in stdout output, see
+    /// https://github.com/nrwl/nx/issues/18689).
+    static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder = CommandBuilder::single_command(
+        "sh -c \"nx graph --print 2>/dev/null || { temp=\\$(mktemp -u).json && nx graph --file \\$temp 2>/dev/null && cat \\$temp && rm -f \\$temp; }\""
     );
 }
 
-#[derive(Debug, serde::Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct NxOutput {
-    projects: HashMap<String, NxProject>,
-}
-
-#[derive(Debug, serde::Deserialize)]
-#[serde(rename_all = "camelCase")]
-struct NxProject {
-    project_type: String,
-}
-
+/// Parsed output from `nx graph --print` / `nx graph --file`.
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct NXGraphFile {
@@ -62,25 +46,6 @@ struct NXData {
     targets: HashMap<String, Value>,
 }
 
-fn process_workspace_json(
-    output: &str,
-    filter_fn: fn(project: &(String, NxProject)) -> bool,
-) -> GeneratorResults {
-    let json_output: Result<NxOutput> = serde_json::from_str(output);
-    match json_output {
-        Ok(output) => output
-            .projects
-            .into_iter()
-            .filter(filter_fn)
-            .map(|(name, _)| Suggestion::new(name))
-            .collect_unordered_results(),
-        Err(e) => {
-            log::info!("Unable to deserialize nx output: {:?}", e);
-            GeneratorResults::default()
-        }
-    }
-}
-
 fn process_generators(output: &str) -> GeneratorResults {
     output
         .split('\n')
@@ -88,35 +53,64 @@ fn process_generators(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
+/// Parse the output of `nx show projects` (one project name per line) into suggestions.
+fn process_project_list(output: &str) -> GeneratorResults {
+    output
+        .trim()
+        .lines()
+        .filter(|line| !line.is_empty())
+        .map(|line| Suggestion::new(line.trim()))
+        .collect_unordered_results()
+}
+
+/// Parse the project graph output into `project:target` suggestions.
+fn process_workspace_targets(output: &str) -> GeneratorResults {
+    let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
+        return GeneratorResults::default();
+    };
+
+    let suggestions = parsed_output
+        .graph
+        .nodes
+        .into_values()
+        .flat_map(|node| {
+            node.data.targets.into_keys().map(move |target| {
+                let name = format!("{}:{target}", node.name);
+                Suggestion::with_description(name, "nx target")
+            })
+        })
+        .unique();
+    GeneratorResults {
+        suggestions: suggestions.collect(),
+        is_ordered: false,
+    }
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("nx")
         .add_generator(
             "apps",
             Generator::script(
-                CommandBuilder::single_command("cat workspace.json"),
-                |output| {
-                    process_workspace_json(output, |(name, project)| {
-                        project.project_type == "application" && !name.ends_with("-e2e")
-                    })
-                },
+                CommandBuilder::single_command(
+                    "sh -c \"nx show projects --type app 2>/dev/null | grep -v -- '-e2e\\$'\"",
+                ),
+                process_project_list,
             ),
         )
         .add_generator(
             "e2e_apps",
             Generator::script(
-                CommandBuilder::single_command("cat workspace.json"),
-                |output| {
-                    process_workspace_json(output, |(name, project)| {
-                        project.project_type == "application" && name.ends_with("-e2e")
-                    })
-                },
+                CommandBuilder::single_command(
+                    "sh -c \"nx show projects --type e2e 2>/dev/null || nx show projects --type app 2>/dev/null | grep -- '-e2e\\$'\"",
+                ),
+                process_project_list,
             ),
         )
         .add_generator(
             "apps_and_libs",
             Generator::script(
-                CommandBuilder::single_command("cat workspace.json"),
-                |output| process_workspace_json(output, |_| true),
+                CommandBuilder::single_command("nx show projects"),
+                process_project_list,
             ),
         )
         .add_generator(
@@ -135,27 +129,10 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "workspace_targets",
-            Generator::script(NX_WORKSPACE_TARGETS_COMMAND.clone(), |output| {
-                let Ok(parsed_output) = serde_json::from_str::<NXGraphFile>(output) else {
-                    return GeneratorResults::default();
-                };
-
-                let suggestions = parsed_output
-                    .graph
-                    .nodes
-                    .into_values()
-                    .flat_map(|node| {
-                        node.data.targets.into_keys().map(move |target| {
-                            let name = format!("{}:{target}", node.name);
-                            Suggestion::with_description(name, "nx target")
-                        })
-                    })
-                    .unique();
-                GeneratorResults {
-                    suggestions: suggestions.collect(),
-                    is_ordered: false,
-                }
-            }),
+            Generator::script(
+                NX_WORKSPACE_TARGETS_COMMAND.clone(),
+                process_workspace_targets,
+            ),
         )
         .add_generator(
             "installed_plugins",
