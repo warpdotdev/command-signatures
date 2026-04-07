@@ -2,7 +2,7 @@ use warp_completion_metadata::{
     CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
 
-fn parse_ec2_ids<'a>(
+pub(super) fn parse_ec2_ids<'a>(
     output: &'a str,
     description: &'a str,
 ) -> impl Iterator<Item = Suggestion> + 'a {
