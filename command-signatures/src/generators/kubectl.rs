@@ -358,4 +358,92 @@ mod tests {
         assert_eq!(env_var_value(&env_vars, "FOO"), Some("bar"));
         assert_eq!(env_var_value(&env_vars, "MISSING"), None);
     }
+
+    #[test]
+    fn test_namespace_short_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "-n", "kube-system", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--namespace=kube-system"),
+            "Expected --namespace=kube-system from -n flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_namespace_long_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--namespace", "kube-system", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--namespace=kube-system"),
+            "Expected --namespace=kube-system from --namespace flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_namespace_flag_after_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "get", "-n", "kube-system", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--namespace=kube-system"),
+            "Expected --namespace=kube-system from -n flag after subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_and_namespace_flags_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--context",
+            "staging-cluster",
+            "-n",
+            "project1",
+            "get",
+            "pods",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--namespace=project1"),
+            "Expected --namespace=project1, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_namespace_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--namespace=kube-system", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--namespace=kube-system"),
+            "Expected --namespace=kube-system from equals syntax, got: {built}"
+        );
+    }
 }
