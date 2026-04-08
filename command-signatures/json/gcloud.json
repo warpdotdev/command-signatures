@@ -1,6 +1,162 @@
 {
     "name": "gcloud",
     "description": "Manage Google Cloud Platform resources and developer workflow",
+    "options": [
+        {
+            "name": "--account",
+            "description": "Google Cloud Platform user account to use for invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "ACCOUNT",
+                "generatorName": "gcloud_accounts"
+            }
+        },
+        {
+            "name": "--configuration",
+            "description": "The configuration to use for this command invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "CONFIGURATION",
+                "generatorName": "gcloud_configurations"
+            }
+        },
+        {
+            "name": "--flags-file",
+            "description": "A YAML or JSON file that specifies a --flag:value dictionary",
+            "isPersistent": true,
+            "args": {
+                "name": "YAML_FILE",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--flatten",
+            "description": "Flatten name[] output resource slices in KEY into separate records",
+            "isPersistent": true,
+            "args": {
+                "name": "KEY"
+            }
+        },
+        {
+            "name": "--format",
+            "description": "Set the format for printing command output resources",
+            "isPersistent": true,
+            "args": {
+                "name": "FORMAT",
+                "suggestions": [
+                    "config",
+                    "csv",
+                    "default",
+                    "diff",
+                    "disable",
+                    "flattened",
+                    "get",
+                    "json",
+                    "list",
+                    "multi",
+                    "none",
+                    "object",
+                    "table",
+                    "text",
+                    "value",
+                    "yaml"
+                ]
+            }
+        },
+        {
+            "name": "--help",
+            "description": "Display detailed help",
+            "isPersistent": true
+        },
+        {
+            "name": "--project",
+            "description": "The Google Cloud Platform project ID to use for this invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "PROJECT_ID",
+                "generatorName": "gcloud_projects"
+            }
+        },
+        {
+            "name": "--quiet",
+            "description": "Disable all interactive prompts",
+            "isPersistent": true
+        },
+        {
+            "name": "-q",
+            "description": "Disable all interactive prompts",
+            "isPersistent": true
+        },
+        {
+            "name": "--verbosity",
+            "description": "Override the default verbosity for this command",
+            "isPersistent": true,
+            "args": {
+                "name": "VERBOSITY",
+                "suggestions": [
+                    "debug",
+                    "info",
+                    "warning",
+                    "error",
+                    "critical",
+                    "none"
+                ]
+            }
+        },
+        {
+            "name": "--impersonate-service-account",
+            "description": "For this invocation, all API requests will be made as the given service account",
+            "isPersistent": true,
+            "args": {
+                "name": "SERVICE_ACCOUNT_EMAIL"
+            }
+        },
+        {
+            "name": "--log-http",
+            "description": "Log all HTTP server requests and responses to stderr",
+            "isPersistent": true
+        },
+        {
+            "name": "--trace-token",
+            "description": "Token used to route traces of service requests for investigation of issues",
+            "isPersistent": true,
+            "args": {
+                "name": "TRACE_TOKEN"
+            }
+        },
+        {
+            "name": "--user-output-enabled",
+            "description": "Print user intended output to the console",
+            "isPersistent": true
+        },
+        {
+            "name": "--billing-project",
+            "description": "The Google Cloud Platform project that will be charged quota for operations",
+            "isPersistent": true,
+            "args": {
+                "name": "BILLING_PROJECT",
+                "generatorName": "gcloud_projects"
+            }
+        },
+        {
+            "name": "--zone",
+            "description": "The Google Cloud zone to use for this invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "ZONE",
+                "generatorName": "gcloud_zones"
+            }
+        },
+        {
+            "name": "--region",
+            "description": "The Google Cloud region to use for this invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "REGION",
+                "generatorName": "gcloud_regions"
+            }
+        }
+    ],
     "subcommands": [
         {
             "name": "access-context-manager",
@@ -80,7 +236,47 @@
         {
             "name": "components",
             "description": "List, install, update, or remove Google Cloud SDK components",
-            "loadSpec": "gcloud/components"
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install one or more Cloud SDK components",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be installed",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components"
+                    }
+                },
+                {
+                    "name": "reinstall",
+                    "description": "Reinstall the Cloud SDK with the same components you have now"
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove one or more installed components",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be removed",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components"
+                    }
+                },
+                {
+                    "name": "update",
+                    "description": "Update all of your installed components to the latest version",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be updated",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List the status of all Cloud SDK components"
+                }
+            ]
         },
         {
             "name": "composer",
