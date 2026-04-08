@@ -182,7 +182,7 @@ lazy_static! {
             );
     pub(super) static ref CLUSTER_GENERATOR: Generator =
             Generator::command_from_tokens(
-                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get_clusters")),
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get-clusters")),
                 |output| match KubetctlStatus::from_output(output) {
                     KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
                         GeneratorResults::default()
