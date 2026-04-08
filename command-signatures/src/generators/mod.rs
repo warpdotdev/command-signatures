@@ -64,6 +64,9 @@ mod tmux;
 mod tmuxinator;
 mod tsh;
 
+/// Used for gcloud and gsutil completions.
+mod gcloud;
+
 /// Returns dynamic command signature data, keyed on the command the data corresponds to.
 pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData> {
     let command_signature_generators = [
@@ -135,6 +138,8 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::clear_variable_generator(),
         powershell::set_variable_generator(),
         powershell::remove_variable_generator(),
+        gcloud::gcloud_generators(),
+        gcloud::gsutil_generators(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))

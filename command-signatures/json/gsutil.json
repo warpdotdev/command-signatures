@@ -1,0 +1,1896 @@
+{
+    "name": "gsutil",
+    "description": "Cloud Storage command line tool",
+    "options": [
+        {
+            "name": "-D",
+            "description": "Show HTTP requests/headers and additional debug info",
+            "isPersistent": true
+        },
+        {
+            "name": "-DD",
+            "description": "Same as -D, plus HTTP upstream payload",
+            "isPersistent": true
+        },
+        {
+            "name": "-h",
+            "description": "Specify additional HTTP headers",
+            "isPersistent": true,
+            "args": {
+                "name": "HEADER:VALUE"
+            }
+        },
+        {
+            "name": "-i",
+            "description": "Impersonate a service account",
+            "isPersistent": true,
+            "args": {
+                "name": "SERVICE_ACCOUNT"
+            }
+        },
+        {
+            "name": "-m",
+            "description": "Perform operations in parallel (multi-threaded/multi-processing)",
+            "isPersistent": true
+        },
+        {
+            "name": "-o",
+            "description": "Override boto configuration values (format: section:flag=value)",
+            "isPersistent": true,
+            "args": {
+                "name": "SECTION:FLAG=VALUE"
+            }
+        },
+        {
+            "name": "-q",
+            "description": "Quiet mode; only report errors",
+            "isPersistent": true
+        },
+        {
+            "name": "-u",
+            "description": "Specify a user project to be billed for the request",
+            "isPersistent": true,
+            "args": {
+                "name": "PROJECT_ID",
+                "generatorName": "gcloud_projects"
+            }
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "acl",
+            "description": "Get, set, or change bucket and/or object ACLs",
+            "subcommands": [
+                {
+                    "name": "ch",
+                    "description": "Change bucket and/or object ACLs",
+                    "options": [
+                        {
+                            "name": "-d",
+                            "description": "Remove all access for specified entity",
+                            "args": {
+                                "name": "ENTITY"
+                            }
+                        },
+                        {
+                            "name": "-f",
+                            "description": "Continue silently on failures"
+                        },
+                        {
+                            "name": "-g",
+                            "description": "Grant access to a group",
+                            "args": {
+                                "name": "GROUP:PERMISSION"
+                            }
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Grant access to a project group",
+                            "args": {
+                                "name": "PROJECT:PERMISSION"
+                            }
+                        },
+                        {
+                            "name": "-r",
+                            "description": "Apply recursively to all objects under the URL"
+                        },
+                        {
+                            "name": "-u",
+                            "description": "Grant access to a user",
+                            "args": {
+                                "name": "USER:PERMISSION"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get the ACL for a bucket or object",
+                    "args": {
+                        "name": "URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the ACL on a bucket or object",
+                    "options": [
+                        {
+                            "name": "-f",
+                            "description": "Continue silently on failures"
+                        },
+                        {
+                            "name": "-r",
+                            "description": "Apply recursively to all objects under the URL"
+                        }
+                    ],
+                    "args": [
+                        {
+                            "name": "ACL_FILE_OR_CANNED_ACL",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "autoclass",
+            "description": "Configure Autoclass feature",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the Autoclass configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the Autoclass configuration for a bucket",
+                    "args": [
+                        {
+                            "name": "ENABLED",
+                            "suggestions": [
+                                "on",
+                                "off"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cat",
+            "description": "Concatenate object content to stdout",
+            "options": [
+                {
+                    "name": "-h",
+                    "description": "Display object headers"
+                },
+                {
+                    "name": "-r",
+                    "description": "Specify byte range (format: OFFSET-END)",
+                    "args": {
+                        "name": "RANGE",
+                        "description": "Byte range (format: OFFSET-END)"
+                    }
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "compose",
+            "description": "Concatenate a sequence of objects into a new composite object",
+            "args": {
+                "name": "SOURCE_AND_DESTINATION_URLS",
+                "description": "Source objects followed by destination composite object URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "config",
+            "description": "Obtain credentials and create configuration file",
+            "options": [
+                {
+                    "name": "-a",
+                    "description": "Prompt for all config data"
+                },
+                {
+                    "name": "-b",
+                    "description": "Back up existing .boto configuration"
+                },
+                {
+                    "name": "-e",
+                    "description": "Write config for service account credentials"
+                },
+                {
+                    "name": "-f",
+                    "description": "Overwrite existing config without prompting"
+                },
+                {
+                    "name": "-n",
+                    "description": "Create a config file without launching a browser"
+                },
+                {
+                    "name": "-o",
+                    "description": "Write the configuration to the specified file",
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-r",
+                    "description": "Prompt for refresh token"
+                },
+                {
+                    "name": "-s",
+                    "description": "Prompt for Google Cloud scope"
+                },
+                {
+                    "name": "-w",
+                    "description": "Write IAM token to boto config"
+                }
+            ]
+        },
+        {
+            "name": "cors",
+            "description": "Get or set a CORS configuration for one or more buckets",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the CORS configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the CORS configuration for one or more buckets",
+                    "args": [
+                        {
+                            "name": "CORS_JSON_FILE",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cp",
+            "description": "Copy files and objects",
+            "options": [
+                {
+                    "name": "-A",
+                    "description": "Copy all object versions"
+                },
+                {
+                    "name": "-c",
+                    "description": "Continue uploading/downloading remaining files on errors"
+                },
+                {
+                    "name": "-D",
+                    "description": "Copy in daisy-chain mode (for cross-provider copies)"
+                },
+                {
+                    "name": "-e",
+                    "description": "Exclude symlinks"
+                },
+                {
+                    "name": "-I",
+                    "description": "Read list of source URLs from stdin"
+                },
+                {
+                    "name": "-j",
+                    "description": "Apply gzip transport encoding to file extensions",
+                    "args": {
+                        "name": "EXTENSIONS",
+                        "description": "Comma-separated list of file extensions"
+                    }
+                },
+                {
+                    "name": "-J",
+                    "description": "Apply gzip transport encoding to all files"
+                },
+                {
+                    "name": "-L",
+                    "description": "Output a manifest log file",
+                    "args": {
+                        "name": "LOG_FILE",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-n",
+                    "description": "No-clobber; do not overwrite existing files"
+                },
+                {
+                    "name": "-p",
+                    "description": "Preserve ACLs (requires default project)"
+                },
+                {
+                    "name": "-P",
+                    "description": "Preserve POSIX attributes"
+                },
+                {
+                    "name": "-r",
+                    "description": "Copy an entire directory tree recursively"
+                },
+                {
+                    "name": "-R",
+                    "description": "Copy an entire directory tree recursively (same as -r)"
+                },
+                {
+                    "name": "-s",
+                    "description": "Specify storage class for destination object",
+                    "args": {
+                        "name": "STORAGE_CLASS",
+                        "suggestions": [
+                            "STANDARD",
+                            "NEARLINE",
+                            "COLDLINE",
+                            "ARCHIVE"
+                        ]
+                    }
+                },
+                {
+                    "name": "-U",
+                    "description": "Skip unsupported object types"
+                },
+                {
+                    "name": "-v",
+                    "description": "Print version-specific URL of each object"
+                },
+                {
+                    "name": "-z",
+                    "description": "Apply gzip content-encoding to file extensions",
+                    "args": {
+                        "name": "EXTENSIONS",
+                        "description": "Comma-separated list of file extensions"
+                    }
+                },
+                {
+                    "name": "-Z",
+                    "description": "Apply gzip content-encoding to all files"
+                }
+            ],
+            "args": {
+                "name": "SOURCE_AND_DESTINATION",
+                "isVariadic": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "defacl",
+            "description": "Get, set, or change default ACL on buckets",
+            "subcommands": [
+                {
+                    "name": "ch",
+                    "description": "Change default object ACLs for a bucket",
+                    "options": [
+                        {
+                            "name": "-d",
+                            "description": "Remove default access for specified entity",
+                            "args": {
+                                "name": "ENTITY"
+                            }
+                        },
+                        {
+                            "name": "-g",
+                            "description": "Grant default access to a group",
+                            "args": {
+                                "name": "GROUP:PERMISSION"
+                            }
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Grant default access to a project group",
+                            "args": {
+                                "name": "PROJECT:PERMISSION"
+                            }
+                        },
+                        {
+                            "name": "-u",
+                            "description": "Grant default access to a user",
+                            "args": {
+                                "name": "USER:PERMISSION"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get default object ACL for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set default object ACL on a bucket",
+                    "args": [
+                        {
+                            "name": "ACL_FILE_OR_CANNED_ACL",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "defstorageclass",
+            "description": "Get or set the default storage class on buckets",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the default storage class for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the default storage class for a bucket",
+                    "args": [
+                        {
+                            "name": "STORAGE_CLASS",
+                            "suggestions": [
+                                "STANDARD",
+                                "NEARLINE",
+                                "COLDLINE",
+                                "ARCHIVE"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "du",
+            "description": "Display object size usage",
+            "options": [
+                {
+                    "name": "-0",
+                    "description": "End each output line with a NUL character"
+                },
+                {
+                    "name": "-a",
+                    "description": "Include non-current object versions"
+                },
+                {
+                    "name": "-c",
+                    "description": "Include a grand total"
+                },
+                {
+                    "name": "-e",
+                    "description": "Exclude pattern from results",
+                    "args": {
+                        "name": "PATTERN"
+                    }
+                },
+                {
+                    "name": "-h",
+                    "description": "Print sizes in human-readable format"
+                },
+                {
+                    "name": "-s",
+                    "description": "Display only a summary total for each argument"
+                },
+                {
+                    "name": "-X",
+                    "description": "Exclude patterns listed in file",
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "hash",
+            "description": "Calculate file hashes",
+            "options": [
+                {
+                    "name": "-c",
+                    "description": "Calculate CRC32c hash"
+                },
+                {
+                    "name": "-h",
+                    "description": "Output as hex digest instead of Base64"
+                },
+                {
+                    "name": "-m",
+                    "description": "Calculate MD5 hash"
+                }
+            ],
+            "args": {
+                "name": "FILE_OR_URL",
+                "isVariadic": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "help",
+            "description": "Get help about commands and topics",
+            "args": {
+                "name": "COMMAND_OR_TOPIC",
+                "isOptional": true,
+                "suggestions": [
+                    "acl",
+                    "autoclass",
+                    "cat",
+                    "compose",
+                    "config",
+                    "cors",
+                    "cp",
+                    "defacl",
+                    "defstorageclass",
+                    "du",
+                    "hash",
+                    "help",
+                    "hmac",
+                    "iam",
+                    "kms",
+                    "label",
+                    "lifecycle",
+                    "logging",
+                    "ls",
+                    "mb",
+                    "mv",
+                    "notification",
+                    "pap",
+                    "perfdiag",
+                    "rb",
+                    "requesterpays",
+                    "retention",
+                    "rewrite",
+                    "rm",
+                    "rpo",
+                    "rsync",
+                    "setmeta",
+                    "signurl",
+                    "stat",
+                    "ubla",
+                    "update",
+                    "version",
+                    "versioning",
+                    "web",
+                    "acls",
+                    "crc32c",
+                    "creds",
+                    "dev",
+                    "encoding",
+                    "metadata",
+                    "naming",
+                    "options",
+                    "prod",
+                    "security",
+                    "shim",
+                    "support",
+                    "versions"
+                ]
+            }
+        },
+        {
+            "name": "hmac",
+            "description": "CRUD operations on service account HMAC keys",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a service account HMAC key",
+                    "options": [
+                        {
+                            "name": "-p",
+                            "description": "Specify the project in which to create the key",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a service account HMAC key",
+                    "options": [
+                        {
+                            "name": "-p",
+                            "description": "Specify the project to use",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "ACCESS_ID"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get a service account HMAC key",
+                    "options": [
+                        {
+                            "name": "-p",
+                            "description": "Specify the project to use",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "ACCESS_ID"
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List service account HMAC keys",
+                    "options": [
+                        {
+                            "name": "-l",
+                            "description": "Long listing format"
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Specify the project to use",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        },
+                        {
+                            "name": "-u",
+                            "description": "Filter by service account email",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update a service account HMAC key",
+                    "options": [
+                        {
+                            "name": "-e",
+                            "description": "Print the etag for the key"
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Specify the project to use",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        },
+                        {
+                            "name": "-s",
+                            "description": "Set the state of the key",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "ACTIVE",
+                                    "INACTIVE"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "ACCESS_ID"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "iam",
+            "description": "Get, set, or change bucket and/or object IAM permissions",
+            "subcommands": [
+                {
+                    "name": "ch",
+                    "description": "Change IAM permissions on a bucket or object",
+                    "options": [
+                        {
+                            "name": "-d",
+                            "description": "Remove IAM permissions for specified member and role",
+                            "args": {
+                                "name": "MEMBER:ROLE"
+                            }
+                        },
+                        {
+                            "name": "-f",
+                            "description": "Continue silently on failures"
+                        },
+                        {
+                            "name": "-r",
+                            "description": "Apply recursively to all objects under the URL"
+                        }
+                    ],
+                    "args": {
+                        "name": "URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get the IAM policy for a bucket or object",
+                    "args": {
+                        "name": "URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the IAM policy for a bucket or object",
+                    "args": [
+                        {
+                            "name": "POLICY_FILE",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "kms",
+            "description": "Configure Cloud KMS encryption",
+            "subcommands": [
+                {
+                    "name": "authorize",
+                    "description": "Authorize a project to use a KMS key",
+                    "options": [
+                        {
+                            "name": "-k",
+                            "description": "Fully qualified KMS key resource name",
+                            "args": {
+                                "name": "KMS_KEY"
+                            }
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Project to be billed for the request",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "encryption",
+                    "description": "Get or set the KMS encryption configuration for a bucket",
+                    "options": [
+                        {
+                            "name": "-d",
+                            "description": "Clear the default KMS key"
+                        },
+                        {
+                            "name": "-k",
+                            "description": "Set the default KMS key",
+                            "args": {
+                                "name": "KMS_KEY"
+                            }
+                        },
+                        {
+                            "name": "-w",
+                            "description": "Display warning for non-KMS encrypted objects"
+                        }
+                    ],
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "serviceaccount",
+                    "description": "Show the service account for a project used for KMS",
+                    "options": [
+                        {
+                            "name": "-p",
+                            "description": "Project to use",
+                            "args": {
+                                "name": "PROJECT_ID",
+                                "generatorName": "gcloud_projects"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "label",
+            "description": "Get, set, or change the label configuration of a bucket",
+            "subcommands": [
+                {
+                    "name": "ch",
+                    "description": "Change label configuration of a bucket",
+                    "options": [
+                        {
+                            "name": "-d",
+                            "description": "Delete a label",
+                            "args": {
+                                "name": "LABEL_KEY"
+                            }
+                        },
+                        {
+                            "name": "-l",
+                            "description": "Set a label (KEY:VALUE)",
+                            "args": {
+                                "name": "KEY:VALUE"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "get",
+                    "description": "Get label configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set label configuration for a bucket",
+                    "args": [
+                        {
+                            "name": "LABEL_JSON_FILE",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "lifecycle",
+            "description": "Get or set lifecycle configuration for a bucket",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get lifecycle configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set lifecycle configuration on a bucket",
+                    "args": [
+                        {
+                            "name": "LIFECYCLE_CONFIG_FILE",
+                            "template": "filepaths"
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "logging",
+            "description": "Configure or retrieve logging on buckets",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the logging configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set logging configuration on a bucket",
+                    "subcommands": [
+                        {
+                            "name": "off",
+                            "description": "Disable logging on a bucket",
+                            "args": {
+                                "name": "BUCKET_URL",
+                                "isVariadic": true,
+                                "generatorName": "gcs_buckets"
+                            }
+                        },
+                        {
+                            "name": "on",
+                            "description": "Enable logging on a bucket",
+                            "options": [
+                                {
+                                    "name": "-b",
+                                    "description": "Logging bucket",
+                                    "args": {
+                                        "name": "LOG_BUCKET",
+                                        "generatorName": "gcs_buckets"
+                                    }
+                                },
+                                {
+                                    "name": "-o",
+                                    "description": "Log object prefix",
+                                    "args": {
+                                        "name": "PREFIX"
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "BUCKET_URL",
+                                "isVariadic": true,
+                                "generatorName": "gcs_buckets"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "ls",
+            "description": "List providers, buckets, or objects",
+            "options": [
+                {
+                    "name": "-a",
+                    "description": "Include non-current object versions"
+                },
+                {
+                    "name": "-b",
+                    "description": "List bucket attributes (not contents)"
+                },
+                {
+                    "name": "-d",
+                    "description": "List matching objects as directory entries"
+                },
+                {
+                    "name": "-e",
+                    "description": "Include ETag in long listing"
+                },
+                {
+                    "name": "-h",
+                    "description": "Print sizes in human-readable format"
+                },
+                {
+                    "name": "-l",
+                    "description": "Long listing format (size, date, URL)"
+                },
+                {
+                    "name": "-L",
+                    "description": "Full listing format (includes metadata)"
+                },
+                {
+                    "name": "-p",
+                    "description": "Specify the project to list buckets from",
+                    "args": {
+                        "name": "PROJECT_ID",
+                        "generatorName": "gcloud_projects"
+                    }
+                },
+                {
+                    "name": "-r",
+                    "description": "List recursively"
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "mb",
+            "description": "Make buckets",
+            "options": [
+                {
+                    "name": "-b",
+                    "description": "Uniform bucket-level access setting",
+                    "args": {
+                        "name": "SETTING",
+                        "suggestions": [
+                            "on",
+                            "off"
+                        ]
+                    }
+                },
+                {
+                    "name": "-c",
+                    "description": "Storage class for the bucket",
+                    "args": {
+                        "name": "STORAGE_CLASS",
+                        "suggestions": [
+                            "STANDARD",
+                            "NEARLINE",
+                            "COLDLINE",
+                            "ARCHIVE"
+                        ]
+                    }
+                },
+                {
+                    "name": "-k",
+                    "description": "Default Cloud KMS key for the bucket",
+                    "args": {
+                        "name": "KMS_KEY"
+                    }
+                },
+                {
+                    "name": "-l",
+                    "description": "Location for the bucket",
+                    "args": {
+                        "name": "LOCATION"
+                    }
+                },
+                {
+                    "name": "-p",
+                    "description": "Project ID for the bucket",
+                    "args": {
+                        "name": "PROJECT_ID",
+                        "generatorName": "gcloud_projects"
+                    }
+                },
+                {
+                    "name": "--autoclass",
+                    "description": "Enable Autoclass for the bucket"
+                },
+                {
+                    "name": "--pap",
+                    "description": "Public access prevention setting",
+                    "args": {
+                        "name": "SETTING",
+                        "suggestions": [
+                            "enforced",
+                            "inherited"
+                        ]
+                    }
+                },
+                {
+                    "name": "--placement",
+                    "description": "Two regions for dual-region bucket",
+                    "args": {
+                        "name": "REGION1,REGION2"
+                    }
+                },
+                {
+                    "name": "--retention",
+                    "description": "Retention period (e.g., 1y, 365d, 52w)",
+                    "args": {
+                        "name": "PERIOD"
+                    }
+                },
+                {
+                    "name": "--rpo",
+                    "description": "Recovery point objective for dual-region buckets",
+                    "args": {
+                        "name": "RPO",
+                        "suggestions": [
+                            "ASYNC_TURBO",
+                            "DEFAULT"
+                        ]
+                    }
+                }
+            ],
+            "args": {
+                "name": "BUCKET_URL",
+                "isVariadic": true
+            }
+        },
+        {
+            "name": "mv",
+            "description": "Move/rename objects",
+            "options": [
+                {
+                    "name": "-p",
+                    "description": "Preserve ACLs"
+                }
+            ],
+            "args": {
+                "name": "SOURCE_AND_DESTINATION",
+                "isVariadic": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "notification",
+            "description": "Configure object change notification",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a notification configuration on a bucket",
+                    "options": [
+                        {
+                            "name": "-e",
+                            "description": "Event type to notify on",
+                            "args": {
+                                "name": "EVENT_TYPE",
+                                "suggestions": [
+                                    "OBJECT_FINALIZE",
+                                    "OBJECT_METADATA_UPDATE",
+                                    "OBJECT_DELETE",
+                                    "OBJECT_ARCHIVE"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "-f",
+                            "description": "Notification payload format",
+                            "args": {
+                                "name": "FORMAT",
+                                "suggestions": [
+                                    "json",
+                                    "none"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "-m",
+                            "description": "Custom attribute (KEY:VALUE)",
+                            "args": {
+                                "name": "KEY:VALUE"
+                            }
+                        },
+                        {
+                            "name": "-p",
+                            "description": "Object name prefix filter",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "-s",
+                            "description": "Skip topic creation",
+                            "args": {
+                                "name": "SKIP_TOPIC_SETUP"
+                            }
+                        },
+                        {
+                            "name": "-t",
+                            "description": "Cloud Pub/Sub topic name",
+                            "args": {
+                                "name": "TOPIC"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete notification configurations on a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List notification configurations on a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "pap",
+            "description": "Configure public access prevention",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the public access prevention setting for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the public access prevention setting for a bucket",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "enforced",
+                                "inherited"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "perfdiag",
+            "description": "Run performance diagnostic",
+            "options": [
+                {
+                    "name": "-n",
+                    "description": "Number of objects to use",
+                    "args": {
+                        "name": "NUM_OBJECTS"
+                    }
+                },
+                {
+                    "name": "-c",
+                    "description": "Number of processes to use",
+                    "args": {
+                        "name": "NUM_PROCESSES"
+                    }
+                },
+                {
+                    "name": "-k",
+                    "description": "Number of threads per process",
+                    "args": {
+                        "name": "NUM_THREADS"
+                    }
+                },
+                {
+                    "name": "-p",
+                    "description": "Number of parallelism",
+                    "args": {
+                        "name": "PARALLELISM"
+                    }
+                },
+                {
+                    "name": "-s",
+                    "description": "Object size (e.g., 1K, 1M)",
+                    "args": {
+                        "name": "SIZE"
+                    }
+                },
+                {
+                    "name": "-t",
+                    "description": "Comma-separated list of diagnostic tests to run",
+                    "args": {
+                        "name": "TESTS",
+                        "suggestions": [
+                            "lat",
+                            "list",
+                            "rthru",
+                            "wthru"
+                        ]
+                    }
+                },
+                {
+                    "name": "-o",
+                    "description": "Write output JSON to file",
+                    "args": {
+                        "name": "FILE",
+                        "template": "filepaths"
+                    }
+                }
+            ],
+            "args": {
+                "name": "BUCKET_URL",
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "rb",
+            "description": "Remove buckets",
+            "options": [
+                {
+                    "name": "-f",
+                    "description": "Continue silently on errors"
+                }
+            ],
+            "args": {
+                "name": "BUCKET_URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "requesterpays",
+            "description": "Enable or disable requester pays for one or more buckets",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get requester pays configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set requester pays configuration on a bucket",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "on",
+                                "off"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "retention",
+            "description": "Provides utilities to interact with Retention Policy feature",
+            "subcommands": [
+                {
+                    "name": "clear",
+                    "description": "Clear retention policy on one or more buckets",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "event-default",
+                    "description": "Set default event-based hold on a bucket",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "set",
+                                "release"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                },
+                {
+                    "name": "event",
+                    "description": "Set or release event-based hold on objects",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "set",
+                                "release"
+                            ]
+                        },
+                        {
+                            "name": "URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Get the retention policy for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "lock",
+                    "description": "Lock the retention policy on one or more buckets",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set a retention policy on one or more buckets",
+                    "args": [
+                        {
+                            "name": "RETENTION_PERIOD",
+                            "description": "Retention period (e.g., 1y, 365d, 52w, 8760h)"
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                },
+                {
+                    "name": "temp",
+                    "description": "Set or release temporary hold on objects",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "set",
+                                "release"
+                            ]
+                        },
+                        {
+                            "name": "URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "rewrite",
+            "description": "Rewrite objects",
+            "options": [
+                {
+                    "name": "-f",
+                    "description": "Continue silently on failures"
+                },
+                {
+                    "name": "-k",
+                    "description": "Set the encryption key for destination objects",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "-O",
+                    "description": "Rewrite objects regardless of encryption key"
+                },
+                {
+                    "name": "-r",
+                    "description": "Apply recursively to all objects under the URL"
+                },
+                {
+                    "name": "-s",
+                    "description": "Rewrite objects to the specified storage class",
+                    "args": {
+                        "name": "STORAGE_CLASS",
+                        "suggestions": [
+                            "STANDARD",
+                            "NEARLINE",
+                            "COLDLINE",
+                            "ARCHIVE"
+                        ]
+                    }
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "rm",
+            "description": "Remove objects",
+            "options": [
+                {
+                    "name": "-a",
+                    "description": "Delete all versions of an object"
+                },
+                {
+                    "name": "-f",
+                    "description": "Continue silently on errors"
+                },
+                {
+                    "name": "-I",
+                    "description": "Read list of URLs from stdin"
+                },
+                {
+                    "name": "-r",
+                    "description": "Remove an entire directory tree recursively"
+                },
+                {
+                    "name": "-R",
+                    "description": "Remove an entire directory tree recursively (same as -r)"
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "rpo",
+            "description": "Configure replication",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the recovery point objective for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the recovery point objective for a bucket",
+                    "args": [
+                        {
+                            "name": "RPO",
+                            "suggestions": [
+                                "ASYNC_TURBO",
+                                "DEFAULT"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "rsync",
+            "description": "Synchronize content of two buckets/directories",
+            "options": [
+                {
+                    "name": "-C",
+                    "description": "Continue synchronizing even if errors are encountered"
+                },
+                {
+                    "name": "-d",
+                    "description": "Delete extra files in destination not in source"
+                },
+                {
+                    "name": "-e",
+                    "description": "Exclude objects matching pattern",
+                    "args": {
+                        "name": "PATTERN"
+                    }
+                },
+                {
+                    "name": "-j",
+                    "description": "Apply gzip transport encoding to file extensions",
+                    "args": {
+                        "name": "EXTENSIONS"
+                    }
+                },
+                {
+                    "name": "-J",
+                    "description": "Apply gzip transport encoding to all files"
+                },
+                {
+                    "name": "-n",
+                    "description": "Dry run; list what would be copied/deleted"
+                },
+                {
+                    "name": "-p",
+                    "description": "Preserve ACLs"
+                },
+                {
+                    "name": "-P",
+                    "description": "Preserve POSIX attributes"
+                },
+                {
+                    "name": "-r",
+                    "description": "Synchronize recursively"
+                },
+                {
+                    "name": "-R",
+                    "description": "Synchronize recursively (same as -r)"
+                },
+                {
+                    "name": "-U",
+                    "description": "Skip unsupported object types"
+                },
+                {
+                    "name": "-u",
+                    "description": "Skip files that are newer in destination"
+                },
+                {
+                    "name": "-x",
+                    "description": "Exclude objects matching regex pattern",
+                    "args": {
+                        "name": "REGEX"
+                    }
+                }
+            ],
+            "args": [
+                {
+                    "name": "SOURCE_URL",
+                    "template": "filepaths"
+                },
+                {
+                    "name": "DESTINATION_URL",
+                    "template": "filepaths"
+                }
+            ]
+        },
+        {
+            "name": "setmeta",
+            "description": "Set metadata on already uploaded objects",
+            "options": [
+                {
+                    "name": "-h",
+                    "description": "Specify metadata header (HEADER:VALUE)",
+                    "args": {
+                        "name": "HEADER:VALUE"
+                    }
+                },
+                {
+                    "name": "-r",
+                    "description": "Apply recursively to all objects under the URL"
+                }
+            ],
+            "args": {
+                "name": "URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "signurl",
+            "description": "Create a signed URL",
+            "options": [
+                {
+                    "name": "-c",
+                    "description": "Content type for the signed URL",
+                    "args": {
+                        "name": "CONTENT_TYPE"
+                    }
+                },
+                {
+                    "name": "-d",
+                    "description": "Duration for the signed URL (e.g., 10m, 1h, 1d)",
+                    "args": {
+                        "name": "DURATION"
+                    }
+                },
+                {
+                    "name": "-m",
+                    "description": "HTTP method for the signed URL",
+                    "args": {
+                        "name": "METHOD",
+                        "suggestions": [
+                            "GET",
+                            "PUT",
+                            "DELETE",
+                            "HEAD",
+                            "RESUMABLE"
+                        ]
+                    }
+                },
+                {
+                    "name": "-p",
+                    "description": "Password for the PKCS12 key file",
+                    "args": {
+                        "name": "PASSWORD"
+                    }
+                },
+                {
+                    "name": "-r",
+                    "description": "Specify the region for the signed URL",
+                    "args": {
+                        "name": "REGION"
+                    }
+                },
+                {
+                    "name": "-u",
+                    "description": "Use service account credentials"
+                }
+            ],
+            "args": [
+                {
+                    "name": "KEY_FILE",
+                    "template": "filepaths"
+                },
+                {
+                    "name": "URL",
+                    "isVariadic": true,
+                    "generatorName": "gcs_buckets"
+                }
+            ]
+        },
+        {
+            "name": "stat",
+            "description": "Display object status",
+            "args": {
+                "name": "URL",
+                "isVariadic": true,
+                "generatorName": "gcs_buckets"
+            }
+        },
+        {
+            "name": "ubla",
+            "description": "Configure Uniform bucket-level access",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get Uniform bucket-level access setting for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set Uniform bucket-level access for a bucket",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "on",
+                                "off"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "update",
+            "description": "Update to the latest gsutil release",
+            "options": [
+                {
+                    "name": "-n",
+                    "description": "No prompt; non-interactive mode"
+                }
+            ]
+        },
+        {
+            "name": "version",
+            "description": "Print version info about gsutil",
+            "options": [
+                {
+                    "name": "-l",
+                    "description": "Long form; print additional information"
+                }
+            ]
+        },
+        {
+            "name": "versioning",
+            "description": "Enable or suspend versioning for one or more buckets",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the versioning configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the versioning configuration for a bucket",
+                    "args": [
+                        {
+                            "name": "SETTING",
+                            "suggestions": [
+                                "on",
+                                "off"
+                            ]
+                        },
+                        {
+                            "name": "BUCKET_URL",
+                            "isVariadic": true,
+                            "generatorName": "gcs_buckets"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "web",
+            "description": "Set a website configuration for a bucket",
+            "subcommands": [
+                {
+                    "name": "get",
+                    "description": "Get the website configuration for a bucket",
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "generatorName": "gcs_buckets"
+                    }
+                },
+                {
+                    "name": "set",
+                    "description": "Set the website configuration for a bucket",
+                    "options": [
+                        {
+                            "name": "-e",
+                            "description": "404 (not found) page",
+                            "args": {
+                                "name": "ERROR_PAGE"
+                            }
+                        },
+                        {
+                            "name": "-m",
+                            "description": "Index (main) page suffix",
+                            "args": {
+                                "name": "MAIN_PAGE_SUFFIX"
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "BUCKET_URL",
+                        "isVariadic": true,
+                        "generatorName": "gcs_buckets"
+                    }
+                }
+            ]
+        }
+    ]
+}
