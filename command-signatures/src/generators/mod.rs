@@ -14,6 +14,7 @@ mod az;
 mod bazel;
 mod bosh;
 mod brew;
+mod bun;
 mod cargo;
 mod claude;
 mod codex;
@@ -74,6 +75,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         az::generator(),
         bosh::generator(),
         brew::generator(),
+        bun::generator(),
         conda::generator(),
         defaults::generator(),
         dnf::generator(),

@@ -314,14 +314,8 @@
             "description": "Run a package.json script or executable",
             "args": {
                 "name": "script",
-                "generators": {
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "cacheByDirectory": true
-                    },
-                    "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                    "postProcess": "function(e,[t]){if(e.trim()==\"\")return[];try{let n=JSON.parse(e),i=n.scripts,a=n.fig||{};if(i)return Object.entries(i).map(([s,p])=>{let c=t===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",o=a[s];return J({name:s,icon:c,description:p},o)})}catch(n){console.error(n)}return[]}"
-                }
+                "description": "Script to run from your package.json",
+                "generatorName": "get_scripts_generator"
             }
         },
         {
@@ -688,10 +682,8 @@
             ],
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_e=>e===\"-g\"||e===\"--global\"",
-                    "custom": "function(e,t){return L(this,null,function*(){var n,i;if(!e.includes(\"-g\")&&!e.includes(\"--global\")){let a=yield t(\"cat $(npm prefix)/package.json\"),s=JSON.parse(a),p=(n=s.dependencies)!=null?n:{},c=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,c,o),Object.keys(p).filter(d=>!e.some(f=>f===d)).map(d=>({name:d,icon:\"\\u{1F4E6}\",description:p[d]?\"dependency\":o[d]?\"optionalDependency\":\"devDependency\"}))}else return(yield t(\"ls -1 `npm root -g`\")).split(`\n`).map(s=>({name:s,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                }
+                "description": "Package to remove",
+                "generatorName": "dependencies_generator"
             }
         },
         {

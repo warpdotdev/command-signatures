@@ -3,27 +3,11 @@ use warp_completion_metadata::{
     GeneratorResultsCollector, Suggestion,
 };
 
+use crate::generators::common::{dependencies_generator, get_scripts_generator, PackageJsonInfo};
 use crate::generators::git::post_process_branches;
 use serde::Deserialize;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
-
-/// Helper struct used for deserializing a npm/yarn package.json file into the necessary fields
-/// needed for generators.
-#[derive(Deserialize)]
-struct PackageJsonInfo {
-    #[serde(default)]
-    dependencies: HashMap<String, String>,
-
-    #[serde(default)]
-    dev_dependencies: HashMap<String, String>,
-
-    #[serde(default)]
-    optional_dependencies: HashMap<String, String>,
-
-    #[serde(default)]
-    scripts: HashMap<String, String>,
-}
 
 /// Helper struct used for deserializing an npm package.json file. Useful for deserializing a field
 /// from a npm package.json file where the schema differs from the yarn package.json file.
@@ -47,31 +31,6 @@ struct YarnListInfoData {
 #[derive(Deserialize)]
 struct YarnListInfoTree {
     name: String,
-}
-
-fn get_scripts_generator() -> Generator {
-    Generator::script(
-        CommandBuilder::single_command(
-            "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-        ),
-        |output| {
-            if output.trim().is_empty() {
-                return GeneratorResults::default();
-            }
-
-            let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
-
-            if let Ok(package_info) = package_info {
-                package_info
-                    .scripts
-                    .into_iter()
-                    .map(|(key, value)| Suggestion::with_description(key, value))
-                    .collect_unordered_results()
-            } else {
-                GeneratorResults::default()
-            }
-        },
-    )
 }
 
 /// Returns the list of executables located within the `node_modules` directory.
@@ -145,46 +104,6 @@ fn get_global_packages_generator() -> Generator {
                 .chain(package_info.dev_dependencies.keys())
                 .map(Suggestion::new)
                 .collect_unordered_results()
-        },
-    )
-}
-
-fn dependencies_generator() -> Generator {
-    Generator::script(
-        CommandBuilder::single_command(
-            "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-        ),
-        |output| {
-            if output.trim().is_empty() {
-                return GeneratorResults::default();
-            }
-
-            let package_info: Result<PackageJsonInfo> = serde_json::from_str(output);
-            let package_info = match package_info {
-                Err(_) => return GeneratorResults::default(),
-                Ok(package_info) => package_info,
-            };
-
-            let mut suggestions = package_info
-                .dependencies
-                .into_keys()
-                .map(|key| Suggestion::with_description(key, "dependency"))
-                .collect::<Vec<Suggestion>>();
-
-            suggestions.extend(
-                package_info
-                    .dev_dependencies
-                    .into_keys()
-                    .map(|key| Suggestion::with_description(key, "devDependency")),
-            );
-
-            suggestions.extend(
-                package_info
-                    .optional_dependencies
-                    .into_keys()
-                    .map(|key| Suggestion::with_description(key, "optionalDependency")),
-            );
-            suggestions.into_iter().collect_unordered_results()
         },
     )
 }
