@@ -1,3 +1,6 @@
+use std::collections::HashMap;
+
+use serde_json::Value;
 use warp_completion_metadata::{
     CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
     GeneratorResultsCollector, Suggestion,
@@ -34,13 +37,31 @@ pub fn generator() -> CommandSignatureGenerators {
 
                     output
                         .split('\n')
+                        .filter(|line| !line.trim().is_empty())
                         .map(|address| {
                             Suggestion::with_description(
                                 address.replace("* ", "").trim(),
-                                "Address",
+                                "resource",
                             )
                         })
                         .collect_unordered_results()
+                },
+            ),
+        )
+        .add_generator(
+            "output_list",
+            Generator::script(
+                CommandBuilder::single_command("terraform output -json"),
+                |output| {
+                    let parsed: Result<HashMap<String, Value>, _> = serde_json::from_str(output);
+
+                    match parsed {
+                        Ok(outputs) => outputs
+                            .into_keys()
+                            .map(|name| Suggestion::with_description(name, "output"))
+                            .collect_unordered_results(),
+                        Err(_) => GeneratorResults::default(),
+                    }
                 },
             ),
         )
