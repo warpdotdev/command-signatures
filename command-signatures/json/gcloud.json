@@ -137,6 +137,24 @@
                 "name": "BILLING_PROJECT",
                 "generatorName": "gcloud_projects"
             }
+        },
+        {
+            "name": "--zone",
+            "description": "The Google Cloud zone to use for this invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "ZONE",
+                "generatorName": "gcloud_zones"
+            }
+        },
+        {
+            "name": "--region",
+            "description": "The Google Cloud region to use for this invocation",
+            "isPersistent": true,
+            "args": {
+                "name": "REGION",
+                "generatorName": "gcloud_regions"
+            }
         }
     ],
     "subcommands": [
@@ -218,7 +236,47 @@
         {
             "name": "components",
             "description": "List, install, update, or remove Google Cloud SDK components",
-            "loadSpec": "gcloud/components"
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install one or more Cloud SDK components",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be installed",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components"
+                    }
+                },
+                {
+                    "name": "reinstall",
+                    "description": "Reinstall the Cloud SDK with the same components you have now"
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove one or more installed components",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be removed",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components"
+                    }
+                },
+                {
+                    "name": "update",
+                    "description": "Update all of your installed components to the latest version",
+                    "args": {
+                        "name": "COMPONENT-IDS",
+                        "description": "The IDs of the components to be updated",
+                        "isVariadic": true,
+                        "generatorName": "gcloud_components",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List the status of all Cloud SDK components"
+                }
+            ]
         },
         {
             "name": "composer",
