@@ -3252,8 +3252,1072 @@
         },
         {
             "name": "s3",
-            "description": "This section explains prominent concepts and notations in the set of high-level S3 commands provided.\n\nPath Argument Type\n++++++++++++++++++\n\nWhenever using a command, at least one path argument must be specified.  There\nare two types of path arguments: ``LocalPath`` and ``S3Uri``.\n\n``LocalPath``: represents the path of a local file or directory.  It can be\nwritten as an absolute path or relative path.\n\n``S3Uri``: represents the location of a S3 object, prefix, or bucket.  This\nmust be written in the form ``s3://mybucket/mykey`` where ``mybucket`` is\nthe specified S3 bucket, ``mykey`` is the specified S3 key.  The path argument\nmust begin with ``s3://`` in order to denote that the path argument refers to\na S3 object. Note that prefixes are separated by forward slashes. For\nexample, if the S3 object ``myobject`` had the prefix ``myprefix``, the\nS3 key would be ``myprefix/myobject``, and if the object was in the bucket\n``mybucket``, the ``S3Uri`` would be ``s3://mybucket/myprefix/myobject``.\n\n``S3Uri`` also supports S3 access points. To specify an access point, this\nvalue must be of the form ``s3://<access-point-arn>/<key>``. For example if\nthe access point ``myaccesspoint`` to be used has the ARN:\n``arn:aws:s3:us-west-2:123456789012:accesspoint/myaccesspoint`` and the object\nbeing accessed has the key ``mykey``, then the ``S3URI`` used must be:\n``s3://arn:aws:s3:us-west-2:123456789012:accesspoint/myaccesspoint/mykey``.\nSimilar to bucket names, you can also use prefixes with access point ARNs for\nthe ``S3Uri``. For example:\n``s3://arn:aws:s3:us-west-2:123456789012:accesspoint/myaccesspoint/myprefix/``\n\nThe higher level ``s3`` commands do **not** support access point object ARNs.\nFor example, if the following was specified:\n``s3://arn:aws:s3:us-west-2:123456789012:accesspoint/myaccesspoint/object/mykey``\nthe ``S3URI`` will resolve to the object key ``object/mykey``\n\n\n\nOrder of Path Arguments\n+++++++++++++++++++++++\n\nEvery command takes one or two positional path arguments.  The first path\nargument represents the source, which is the local file/directory or S3\nobject/prefix/bucket that is being referenced.  If there is a second path\nargument, it represents the destination, which is the local file/directory\nor S3 object/prefix/bucket that is being operated on.  Commands with only\none path argument do not have a destination because the operation is being\nperformed only on the source.\n\n\nSingle Local File and S3 Object Operations\n++++++++++++++++++++++++++++++++++++++++++\n\nSome commands perform operations only on single files and S3 objects.  The\nfollowing commands are single file/object operations if no ``--recursive``\nflag is provided.\n\n    * ``cp``\n    * ``mv``\n    * ``rm``\n\nFor this type of operation, the first path argument, the source, must exist\nand be a local file or S3 object.  The second path argument, the destination,\ncan be the name of a local file, local directory, S3 object, S3 prefix,\nor S3 bucket.\n\nThe destination is indicated as a local directory, S3 prefix, or S3 bucket\nif it ends with a forward slash or back slash.  The use of slash depends\non the path argument type.  If the path argument is a ``LocalPath``,\nthe type of slash is the separator used by the operating system.  If the\npath is a ``S3Uri``, the forward slash must always be used.  If a slash\nis at the end of the destination, the destination file or object will\nadopt the name of the source file or object.  Otherwise, if there is no\nslash at the end, the file or object will be saved under the name provided.\nSee examples in ``cp`` and ``mv`` to illustrate this description.\n\n\nDirectory and S3 Prefix Operations\n++++++++++++++++++++++++++++++++++\n\nSome commands only perform operations on the contents of a local directory\nor S3 prefix/bucket.  Adding or omitting a forward slash or back slash to\nthe end of any path argument, depending on its type, does not affect the\nresults of the operation.  The following commands will always result in\na directory or S3 prefix/bucket operation:\n\n* ``sync``\n* ``mb``\n* ``rb``\n* ``ls``\n\n\nUse of Exclude and Include Filters\n++++++++++++++++++++++++++++++++++\n\nCurrently, there is no support for the use of UNIX style wildcards in\na command's path arguments.  However, most commands have ``--exclude \"<value>\"``\nand ``--include \"<value>\"`` parameters that can achieve the desired result.\nThese parameters perform pattern matching to either exclude or include\na particular file or object.  The following pattern symbols are supported.\n\n    * ``*``: Matches everything\n    * ``?``: Matches any single character\n    * ``[sequence]``: Matches any character in ``sequence``\n    * ``[!sequence]``: Matches any character not in ``sequence``\n\nAny number of these parameters can be passed to a command.  You can do this by\nproviding an ``--exclude`` or ``--include`` argument multiple times, e.g.\n``--include \"*.txt\" --include \"*.png\"``.\nWhen there are multiple filters, the rule is the filters that appear later in\nthe command take precedence over filters that appear earlier in the command.\nFor example, if the filter parameters passed to the command were\n\n::\n\n    --exclude \"*\" --include \"*.txt\"\n\nAll files will be excluded from the command except for files ending with\n``.txt``  However, if the order of the filter parameters was changed to\n\n::\n\n    --include \"*.txt\" --exclude \"*\"\n\nAll files will be excluded from the command.\n\nEach filter is evaluated against the **source directory**.  If the source\nlocation is a file instead of a directory, the directory containing the file is\nused as the source directory.  For example, suppose you had the following\ndirectory structure::\n\n    /tmp/foo/\n      .git/\n      |---config\n      |---description\n      foo.txt\n      bar.txt\n      baz.jpg\n\nIn the command ``aws s3 sync /tmp/foo s3://bucket/`` the source directory is\n``/tmp/foo``.  Any include/exclude filters will be evaluated with the source\ndirectory prepended.  Below are several examples to demonstrate this.\n\nGiven the directory structure above and the command\n``aws s3 cp /tmp/foo s3://bucket/ --recursive --exclude \".git/*\"``, the\nfiles ``.git/config`` and ``.git/description`` will be excluded from the\nfiles to upload because the exclude filter ``.git/*`` will have the source\nprepended to the filter.  This means that::\n\n    /tmp/foo/.git/* -> /tmp/foo/.git/config       (matches, should exclude)\n    /tmp/foo/.git/* -> /tmp/foo/.git/description  (matches, should exclude)\n    /tmp/foo/.git/* -> /tmp/foo/foo.txt  (does not match, should include)\n    /tmp/foo/.git/* -> /tmp/foo/bar.txt  (does not match, should include)\n    /tmp/foo/.git/* -> /tmp/foo/baz.jpg  (does not match, should include)\n\nThe command ``aws s3 cp /tmp/foo/ s3://bucket/ --recursive --exclude \"ba*\"``\nwill exclude ``/tmp/foo/bar.txt`` and ``/tmp/foo/baz.jpg``::\n\n    /tmp/foo/ba* -> /tmp/foo/.git/config      (does not match, should include)\n    /tmp/foo/ba* -> /tmp/foo/.git/description (does not match, should include)\n    /tmp/foo/ba* -> /tmp/foo/foo.txt          (does not match, should include)\n    /tmp/foo/ba* -> /tmp/foo/bar.txt  (matches, should exclude)\n    /tmp/foo/ba* -> /tmp/foo/baz.jpg  (matches, should exclude)\n\n\nNote that, by default, *all files are included*.  This means that\nproviding **only** an ``--include`` filter will not change what\nfiles are transferred.  ``--include`` will only re-include files that\nhave been excluded from an ``--exclude`` filter.  If you only want\nto upload files with a particular extension, you need to first exclude\nall files, then re-include the files with the particular extension.\nThis command will upload **only** files ending with ``.jpg``::\n\n    aws s3 cp /tmp/foo/ s3://bucket/ --recursive --exclude \"*\" --include \"*.jpg\"\n\nIf you wanted to include both ``.jpg`` files as well as ``.txt`` files you\ncan run::\n\n    aws s3 cp /tmp/foo/ s3://bucket/ --recursive \\\n        --exclude \"*\" --include \"*.jpg\" --include \"*.txt\"\n",
-            "loadSpec": "aws/s3"
+            "description": "High-level S3 commands for managing objects and buckets",
+            "subcommands": [
+                {
+                    "name": "cp",
+                    "description": "Copies a local file or S3 object to another location locally or in S3",
+                    "args": {
+                        "name": "paths",
+                        "description": "<LocalPath> <S3Uri> or <S3Uri> <LocalPath> or <S3Uri> <S3Uri>",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--dryrun",
+                            "description": "Displays the operations that would be performed without actually running them"
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Does not display the operations performed from the specified command"
+                        },
+                        {
+                            "name": "--include",
+                            "description": "Don't exclude files or objects in the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--exclude",
+                            "description": "Exclude all files or objects from the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--acl",
+                            "description": "Sets the ACL for the object when the command is performed",
+                            "args": {
+                                "name": "ACL",
+                                "suggestions": [
+                                    "private",
+                                    "public-read",
+                                    "public-read-write",
+                                    "authenticated-read",
+                                    "aws-exec-read",
+                                    "bucket-owner-read",
+                                    "bucket-owner-full-control",
+                                    "log-delivery-write"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--follow-symlinks",
+                            "description": "Symbolic links are followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-follow-symlinks",
+                            "description": "Symbolic links are not followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-guess-mime-type",
+                            "description": "Do not try to guess the mime type for uploaded files"
+                        },
+                        {
+                            "name": "--sse",
+                            "description": "Specifies server-side encryption of the object in S3",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256",
+                                    "aws:kms"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c",
+                            "description": "Specifies server-side encryption using customer provided keys",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-key",
+                            "description": "The customer-provided encryption key to use to server-side encrypt the object in S3",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--sse-kms-key-id",
+                            "description": "The customer-managed AWS KMS key ID for server-side encryption",
+                            "args": {
+                                "name": "KEY_ID"
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source",
+                            "description": "Specifies the algorithm to use when decrypting the source object",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source-key",
+                            "description": "Specifies the customer-provided encryption key for decrypting the source object",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--storage-class",
+                            "description": "The type of storage to use for the object",
+                            "args": {
+                                "name": "CLASS",
+                                "suggestions": [
+                                    "STANDARD",
+                                    "REDUCED_REDUNDANCY",
+                                    "STANDARD_IA",
+                                    "ONEZONE_IA",
+                                    "INTELLIGENT_TIERING",
+                                    "GLACIER",
+                                    "DEEP_ARCHIVE",
+                                    "GLACIER_IR"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--grants",
+                            "description": "Grant specific permissions to individual users or groups",
+                            "args": {
+                                "name": "GRANT",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--website-redirect",
+                            "description": "Redirects requests for this object to another object or external URL",
+                            "args": {
+                                "name": "URL"
+                            }
+                        },
+                        {
+                            "name": "--content-type",
+                            "description": "Specify an explicit content type for this operation",
+                            "args": {
+                                "name": "MIME_TYPE"
+                            }
+                        },
+                        {
+                            "name": "--cache-control",
+                            "description": "Specifies caching behavior along the request/reply chain",
+                            "args": {
+                                "name": "DIRECTIVE"
+                            }
+                        },
+                        {
+                            "name": "--content-disposition",
+                            "description": "Specifies presentational information for the object",
+                            "args": {
+                                "name": "VALUE"
+                            }
+                        },
+                        {
+                            "name": "--content-encoding",
+                            "description": "Specifies what content encodings have been applied to the object",
+                            "args": {
+                                "name": "ENCODING"
+                            }
+                        },
+                        {
+                            "name": "--content-language",
+                            "description": "The language the content is in",
+                            "args": {
+                                "name": "LANGUAGE"
+                            }
+                        },
+                        {
+                            "name": "--expires",
+                            "description": "The date and time at which the object is no longer cacheable",
+                            "args": {
+                                "name": "TIMESTAMP"
+                            }
+                        },
+                        {
+                            "name": "--source-region",
+                            "description": "Specifies the region of the source bucket when transferring between S3 buckets",
+                            "args": {
+                                "name": "REGION"
+                            }
+                        },
+                        {
+                            "name": "--only-show-errors",
+                            "description": "Only errors and warnings are displayed"
+                        },
+                        {
+                            "name": "--no-progress",
+                            "description": "File transfer progress is not displayed"
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The number of results to return in each response to a list operation",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--ignore-glacier-warnings",
+                            "description": "Turns off glacier warnings"
+                        },
+                        {
+                            "name": "--force-glacier-transfer",
+                            "description": "Forces a transfer request on all Glacier objects"
+                        },
+                        {
+                            "name": "--request-payer",
+                            "description": "Confirms that the requester knows that they will be charged for the request",
+                            "args": {
+                                "name": "PAYER",
+                                "suggestions": [
+                                    "requester"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-mode",
+                            "description": "To retrieve the checksum, this mode must be enabled",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "ENABLED"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-algorithm",
+                            "description": "Indicates the algorithm used to create the checksum for the object",
+                            "args": {
+                                "name": "ALGORITHM",
+                                "suggestions": [
+                                    "CRC32",
+                                    "CRC32C",
+                                    "SHA1",
+                                    "SHA256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--metadata",
+                            "description": "A map of metadata to store with the objects in S3",
+                            "args": {
+                                "name": "MAP"
+                            }
+                        },
+                        {
+                            "name": "--metadata-directive",
+                            "description": "Specifies whether the metadata is copied from the source object or replaced",
+                            "args": {
+                                "name": "DIRECTIVE",
+                                "suggestions": [
+                                    "COPY",
+                                    "REPLACE"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--expected-size",
+                            "description": "Expected size of a stream in bytes (needed for streams larger than 50GB)",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--recursive",
+                            "description": "Command is performed on all files or objects under the specified directory or prefix"
+                        },
+                        {
+                            "name": "--case-conflict",
+                            "description": "Configures behavior when downloading multiple objects whose keys differ only by case",
+                            "args": {
+                                "name": "BEHAVIOR",
+                                "suggestions": [
+                                    "error",
+                                    "warn",
+                                    "skip",
+                                    "ignore"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ls",
+                    "description": "List S3 objects and common prefixes under a prefix or all S3 buckets",
+                    "args": {
+                        "name": "S3Uri",
+                        "isOptional": true,
+                        "generatorName": "s3_buckets"
+                    },
+                    "options": [
+                        {
+                            "name": "--recursive",
+                            "description": "Command is performed on all files or objects under the specified directory or prefix"
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The number of results to return in each response to a list operation",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--human-readable",
+                            "description": "Displays file sizes in human readable format"
+                        },
+                        {
+                            "name": "--summarize",
+                            "description": "Displays summary information (number of objects, total size)"
+                        },
+                        {
+                            "name": "--request-payer",
+                            "description": "Confirms that the requester knows that they will be charged for the request",
+                            "args": {
+                                "name": "PAYER",
+                                "suggestions": [
+                                    "requester"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--bucket-name-prefix",
+                            "description": "Limits the response to bucket names that begin with the specified prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "--bucket-region",
+                            "description": "Limits the response to buckets located in the specified region",
+                            "args": {
+                                "name": "REGION"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mb",
+                    "description": "Creates an S3 bucket",
+                    "args": {
+                        "name": "S3Uri",
+                        "description": "s3://BUCKET_NAME"
+                    },
+                    "options": [
+                        {
+                            "name": "--tags",
+                            "description": "Tags to add to the bucket (format: --tags key value)",
+                            "args": {
+                                "name": "KEY VALUE",
+                                "isVariadic": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "mv",
+                    "description": "Moves a local file or S3 object to another location locally or in S3",
+                    "args": {
+                        "name": "paths",
+                        "description": "<LocalPath> <S3Uri> or <S3Uri> <LocalPath> or <S3Uri> <S3Uri>",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--dryrun",
+                            "description": "Displays the operations that would be performed without actually running them"
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Does not display the operations performed from the specified command"
+                        },
+                        {
+                            "name": "--include",
+                            "description": "Don't exclude files or objects in the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--exclude",
+                            "description": "Exclude all files or objects from the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--acl",
+                            "description": "Sets the ACL for the object when the command is performed",
+                            "args": {
+                                "name": "ACL",
+                                "suggestions": [
+                                    "private",
+                                    "public-read",
+                                    "public-read-write",
+                                    "authenticated-read",
+                                    "aws-exec-read",
+                                    "bucket-owner-read",
+                                    "bucket-owner-full-control",
+                                    "log-delivery-write"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--follow-symlinks",
+                            "description": "Symbolic links are followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-follow-symlinks",
+                            "description": "Symbolic links are not followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-guess-mime-type",
+                            "description": "Do not try to guess the mime type for uploaded files"
+                        },
+                        {
+                            "name": "--sse",
+                            "description": "Specifies server-side encryption of the object in S3",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256",
+                                    "aws:kms"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c",
+                            "description": "Specifies server-side encryption using customer provided keys",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-key",
+                            "description": "The customer-provided encryption key to use to server-side encrypt the object in S3",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--sse-kms-key-id",
+                            "description": "The customer-managed AWS KMS key ID for server-side encryption",
+                            "args": {
+                                "name": "KEY_ID"
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source",
+                            "description": "Specifies the algorithm to use when decrypting the source object",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source-key",
+                            "description": "Specifies the customer-provided encryption key for decrypting the source object",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--storage-class",
+                            "description": "The type of storage to use for the object",
+                            "args": {
+                                "name": "CLASS",
+                                "suggestions": [
+                                    "STANDARD",
+                                    "REDUCED_REDUNDANCY",
+                                    "STANDARD_IA",
+                                    "ONEZONE_IA",
+                                    "INTELLIGENT_TIERING",
+                                    "GLACIER",
+                                    "DEEP_ARCHIVE",
+                                    "GLACIER_IR"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--grants",
+                            "description": "Grant specific permissions to individual users or groups",
+                            "args": {
+                                "name": "GRANT",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--website-redirect",
+                            "description": "Redirects requests for this object to another object or external URL",
+                            "args": {
+                                "name": "URL"
+                            }
+                        },
+                        {
+                            "name": "--content-type",
+                            "description": "Specify an explicit content type for this operation",
+                            "args": {
+                                "name": "MIME_TYPE"
+                            }
+                        },
+                        {
+                            "name": "--cache-control",
+                            "description": "Specifies caching behavior along the request/reply chain",
+                            "args": {
+                                "name": "DIRECTIVE"
+                            }
+                        },
+                        {
+                            "name": "--content-disposition",
+                            "description": "Specifies presentational information for the object",
+                            "args": {
+                                "name": "VALUE"
+                            }
+                        },
+                        {
+                            "name": "--content-encoding",
+                            "description": "Specifies what content encodings have been applied to the object",
+                            "args": {
+                                "name": "ENCODING"
+                            }
+                        },
+                        {
+                            "name": "--content-language",
+                            "description": "The language the content is in",
+                            "args": {
+                                "name": "LANGUAGE"
+                            }
+                        },
+                        {
+                            "name": "--expires",
+                            "description": "The date and time at which the object is no longer cacheable",
+                            "args": {
+                                "name": "TIMESTAMP"
+                            }
+                        },
+                        {
+                            "name": "--source-region",
+                            "description": "Specifies the region of the source bucket when transferring between S3 buckets",
+                            "args": {
+                                "name": "REGION"
+                            }
+                        },
+                        {
+                            "name": "--only-show-errors",
+                            "description": "Only errors and warnings are displayed"
+                        },
+                        {
+                            "name": "--no-progress",
+                            "description": "File transfer progress is not displayed"
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The number of results to return in each response to a list operation",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--ignore-glacier-warnings",
+                            "description": "Turns off glacier warnings"
+                        },
+                        {
+                            "name": "--force-glacier-transfer",
+                            "description": "Forces a transfer request on all Glacier objects"
+                        },
+                        {
+                            "name": "--request-payer",
+                            "description": "Confirms that the requester knows that they will be charged for the request",
+                            "args": {
+                                "name": "PAYER",
+                                "suggestions": [
+                                    "requester"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-mode",
+                            "description": "To retrieve the checksum, this mode must be enabled",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "ENABLED"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-algorithm",
+                            "description": "Indicates the algorithm used to create the checksum for the object",
+                            "args": {
+                                "name": "ALGORITHM",
+                                "suggestions": [
+                                    "CRC32",
+                                    "CRC32C",
+                                    "SHA1",
+                                    "SHA256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--metadata",
+                            "description": "A map of metadata to store with the objects in S3",
+                            "args": {
+                                "name": "MAP"
+                            }
+                        },
+                        {
+                            "name": "--metadata-directive",
+                            "description": "Specifies whether the metadata is copied from the source object or replaced",
+                            "args": {
+                                "name": "DIRECTIVE",
+                                "suggestions": [
+                                    "COPY",
+                                    "REPLACE"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--recursive",
+                            "description": "Command is performed on all files or objects under the specified directory or prefix"
+                        },
+                        {
+                            "name": "--validate-same-s3-paths",
+                            "description": "Resolves the source and destination S3 URIs to verify the file is not being moved onto itself"
+                        },
+                        {
+                            "name": "--case-conflict",
+                            "description": "Configures behavior when downloading multiple objects whose keys differ only by case",
+                            "args": {
+                                "name": "BEHAVIOR",
+                                "suggestions": [
+                                    "error",
+                                    "warn",
+                                    "skip",
+                                    "ignore"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "presign",
+                    "description": "Generate a pre-signed URL for an Amazon S3 object",
+                    "args": {
+                        "name": "S3Uri",
+                        "description": "s3://BUCKET/KEY"
+                    },
+                    "options": [
+                        {
+                            "name": "--expires-in",
+                            "description": "Number of seconds until the pre-signed URL expires (default: 3600)",
+                            "args": {
+                                "name": "SECONDS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "rb",
+                    "description": "Deletes an empty S3 bucket",
+                    "args": {
+                        "name": "S3Uri",
+                        "description": "s3://BUCKET_NAME",
+                        "generatorName": "s3_buckets"
+                    },
+                    "options": [
+                        {
+                            "name": "--force",
+                            "description": "Deletes all objects in the bucket including the bucket itself"
+                        }
+                    ]
+                },
+                {
+                    "name": "rm",
+                    "description": "Deletes an S3 object",
+                    "args": {
+                        "name": "S3Uri",
+                        "description": "s3://BUCKET/KEY"
+                    },
+                    "options": [
+                        {
+                            "name": "--dryrun",
+                            "description": "Displays the operations that would be performed without actually running them"
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Does not display the operations performed from the specified command"
+                        },
+                        {
+                            "name": "--recursive",
+                            "description": "Command is performed on all files or objects under the specified directory or prefix"
+                        },
+                        {
+                            "name": "--request-payer",
+                            "description": "Confirms that the requester knows that they will be charged for the request",
+                            "args": {
+                                "name": "PAYER",
+                                "suggestions": [
+                                    "requester"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--include",
+                            "description": "Don't exclude files or objects in the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--exclude",
+                            "description": "Exclude all files or objects from the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--only-show-errors",
+                            "description": "Only errors and warnings are displayed"
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The number of results to return in each response to a list operation",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "sync",
+                    "description": "Syncs directories and S3 prefixes",
+                    "args": {
+                        "name": "paths",
+                        "description": "<LocalPath> <S3Uri> or <S3Uri> <LocalPath> or <S3Uri> <S3Uri>",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--dryrun",
+                            "description": "Displays the operations that would be performed without actually running them"
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Does not display the operations performed from the specified command"
+                        },
+                        {
+                            "name": "--include",
+                            "description": "Don't exclude files or objects in the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--exclude",
+                            "description": "Exclude all files or objects from the command that match the specified pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "--acl",
+                            "description": "Sets the ACL for the object when the command is performed",
+                            "args": {
+                                "name": "ACL",
+                                "suggestions": [
+                                    "private",
+                                    "public-read",
+                                    "public-read-write",
+                                    "authenticated-read",
+                                    "aws-exec-read",
+                                    "bucket-owner-read",
+                                    "bucket-owner-full-control",
+                                    "log-delivery-write"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--follow-symlinks",
+                            "description": "Symbolic links are followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-follow-symlinks",
+                            "description": "Symbolic links are not followed when uploading to S3"
+                        },
+                        {
+                            "name": "--no-guess-mime-type",
+                            "description": "Do not try to guess the mime type for uploaded files"
+                        },
+                        {
+                            "name": "--sse",
+                            "description": "Specifies server-side encryption of the object in S3",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256",
+                                    "aws:kms"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c",
+                            "description": "Specifies server-side encryption using customer provided keys",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-key",
+                            "description": "The customer-provided encryption key to use to server-side encrypt the object in S3",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--sse-kms-key-id",
+                            "description": "The customer-managed AWS KMS key ID for server-side encryption",
+                            "args": {
+                                "name": "KEY_ID"
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source",
+                            "description": "Specifies the algorithm to use when decrypting the source object",
+                            "args": {
+                                "name": "METHOD",
+                                "suggestions": [
+                                    "AES256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sse-c-copy-source-key",
+                            "description": "Specifies the customer-provided encryption key for decrypting the source object",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--storage-class",
+                            "description": "The type of storage to use for the object",
+                            "args": {
+                                "name": "CLASS",
+                                "suggestions": [
+                                    "STANDARD",
+                                    "REDUCED_REDUNDANCY",
+                                    "STANDARD_IA",
+                                    "ONEZONE_IA",
+                                    "INTELLIGENT_TIERING",
+                                    "GLACIER",
+                                    "DEEP_ARCHIVE",
+                                    "GLACIER_IR"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--grants",
+                            "description": "Grant specific permissions to individual users or groups",
+                            "args": {
+                                "name": "GRANT",
+                                "isVariadic": true
+                            }
+                        },
+                        {
+                            "name": "--website-redirect",
+                            "description": "Redirects requests for this object to another object or external URL",
+                            "args": {
+                                "name": "URL"
+                            }
+                        },
+                        {
+                            "name": "--content-type",
+                            "description": "Specify an explicit content type for this operation",
+                            "args": {
+                                "name": "MIME_TYPE"
+                            }
+                        },
+                        {
+                            "name": "--cache-control",
+                            "description": "Specifies caching behavior along the request/reply chain",
+                            "args": {
+                                "name": "DIRECTIVE"
+                            }
+                        },
+                        {
+                            "name": "--content-disposition",
+                            "description": "Specifies presentational information for the object",
+                            "args": {
+                                "name": "VALUE"
+                            }
+                        },
+                        {
+                            "name": "--content-encoding",
+                            "description": "Specifies what content encodings have been applied to the object",
+                            "args": {
+                                "name": "ENCODING"
+                            }
+                        },
+                        {
+                            "name": "--content-language",
+                            "description": "The language the content is in",
+                            "args": {
+                                "name": "LANGUAGE"
+                            }
+                        },
+                        {
+                            "name": "--expires",
+                            "description": "The date and time at which the object is no longer cacheable",
+                            "args": {
+                                "name": "TIMESTAMP"
+                            }
+                        },
+                        {
+                            "name": "--source-region",
+                            "description": "Specifies the region of the source bucket when transferring between S3 buckets",
+                            "args": {
+                                "name": "REGION"
+                            }
+                        },
+                        {
+                            "name": "--only-show-errors",
+                            "description": "Only errors and warnings are displayed"
+                        },
+                        {
+                            "name": "--no-progress",
+                            "description": "File transfer progress is not displayed"
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The number of results to return in each response to a list operation",
+                            "args": {
+                                "name": "SIZE"
+                            }
+                        },
+                        {
+                            "name": "--ignore-glacier-warnings",
+                            "description": "Turns off glacier warnings"
+                        },
+                        {
+                            "name": "--force-glacier-transfer",
+                            "description": "Forces a transfer request on all Glacier objects"
+                        },
+                        {
+                            "name": "--request-payer",
+                            "description": "Confirms that the requester knows that they will be charged for the request",
+                            "args": {
+                                "name": "PAYER",
+                                "suggestions": [
+                                    "requester"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-mode",
+                            "description": "To retrieve the checksum, this mode must be enabled",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "ENABLED"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--checksum-algorithm",
+                            "description": "Indicates the algorithm used to create the checksum for the object",
+                            "args": {
+                                "name": "ALGORITHM",
+                                "suggestions": [
+                                    "CRC32",
+                                    "CRC32C",
+                                    "SHA1",
+                                    "SHA256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--metadata",
+                            "description": "A map of metadata to store with the objects in S3",
+                            "args": {
+                                "name": "MAP"
+                            }
+                        },
+                        {
+                            "name": "--metadata-directive",
+                            "description": "Specifies whether the metadata is copied from the source object or replaced",
+                            "args": {
+                                "name": "DIRECTIVE",
+                                "suggestions": [
+                                    "COPY",
+                                    "REPLACE"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--case-conflict",
+                            "description": "Configures behavior when downloading multiple objects whose keys differ only by case",
+                            "args": {
+                                "name": "BEHAVIOR",
+                                "suggestions": [
+                                    "error",
+                                    "warn",
+                                    "skip",
+                                    "ignore"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--size-only",
+                            "description": "Makes the size of each key the only criteria used to decide whether to sync"
+                        },
+                        {
+                            "name": "--exact-timestamps",
+                            "description": "When syncing from S3 to local, same-sized items will be ignored only when timestamps match exactly"
+                        },
+                        {
+                            "name": "--delete",
+                            "description": "Files that exist in the destination but not in the source are deleted during sync"
+                        }
+                    ]
+                },
+                {
+                    "name": "website",
+                    "description": "Set the website configuration for a bucket",
+                    "args": {
+                        "name": "S3Uri",
+                        "description": "s3://BUCKET_NAME",
+                        "generatorName": "s3_buckets"
+                    },
+                    "options": [
+                        {
+                            "name": "--index-document",
+                            "description": "A suffix appended to a request for a directory on the website endpoint",
+                            "args": {
+                                "name": "SUFFIX"
+                            }
+                        },
+                        {
+                            "name": "--error-document",
+                            "description": "The object key name to use when a 4XX class error occurs",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "deploy",

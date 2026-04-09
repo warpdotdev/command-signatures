@@ -1,6 +1,6 @@
 use warp_completion_metadata::Suggestion;
 
-use super::aws::parse_ec2_ids;
+use super::aws::{parse_ec2_ids, parse_s3_buckets};
 
 #[test]
 fn test_parse_ec2_instance_ids() {
@@ -67,4 +67,51 @@ fn test_parse_ec2_ids_preserves_description() {
 
     let results: Vec<Suggestion> = parse_ec2_ids(output, "Key pair").collect();
     assert_eq!(results[0].description.as_deref(), Some("Key pair"));
+}
+
+#[test]
+fn test_parse_s3_buckets_typical_output() {
+    let output = "2023-01-15 12:34:56 my-bucket\n2023-06-20 08:15:30 another-bucket\n";
+    let results: Vec<Suggestion> = parse_s3_buckets(output).collect();
+    assert_eq!(results.len(), 2);
+    assert_eq!(results[0].exact_string, "s3://my-bucket");
+    assert_eq!(results[0].description.as_deref(), Some("S3 bucket"));
+    assert_eq!(results[1].exact_string, "s3://another-bucket");
+    assert_eq!(results[1].description.as_deref(), Some("S3 bucket"));
+}
+
+#[test]
+fn test_parse_s3_buckets_empty_output() {
+    let results: Vec<Suggestion> = parse_s3_buckets("").collect();
+    assert!(results.is_empty());
+}
+
+#[test]
+fn test_parse_s3_buckets_whitespace_only() {
+    let results: Vec<Suggestion> = parse_s3_buckets("  \n\t  \n").collect();
+    assert!(results.is_empty());
+}
+
+#[test]
+fn test_parse_s3_buckets_single_bucket() {
+    let output = "2024-03-10 09:00:00 production-data\n";
+    let results: Vec<Suggestion> = parse_s3_buckets(output).collect();
+    assert_eq!(results.len(), 1);
+    assert_eq!(results[0].exact_string, "s3://production-data");
+}
+
+#[test]
+fn test_parse_s3_buckets_bucket_with_dots() {
+    let output = "2024-01-01 00:00:00 my.dotted.bucket.name\n";
+    let results: Vec<Suggestion> = parse_s3_buckets(output).collect();
+    assert_eq!(results.len(), 1);
+    assert_eq!(results[0].exact_string, "s3://my.dotted.bucket.name");
+}
+
+#[test]
+fn test_parse_s3_buckets_malformed_line() {
+    let output = "not-a-valid-line\n2023-01-15 12:34:56 valid-bucket\n";
+    let results: Vec<Suggestion> = parse_s3_buckets(output).collect();
+    assert_eq!(results.len(), 1);
+    assert_eq!(results[0].exact_string, "s3://valid-bucket");
 }

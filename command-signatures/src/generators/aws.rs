@@ -120,4 +120,30 @@ pub fn generator() -> CommandSignatureGenerators {
                 |output| parse_ec2_ids(output, "AMI").collect_unordered_results(),
             ),
         )
+        .add_generator(
+            "s3_buckets",
+            Generator::script(
+                CommandBuilder::single_command(
+                    "aws s3 ls --no-cli-pager 2>/dev/null",
+                ),
+                |output| parse_s3_buckets(output).collect_unordered_results(),
+            ),
+        )
+}
+
+pub(super) fn parse_s3_buckets(output: &str) -> impl Iterator<Item = Suggestion> + '_ {
+    output.trim().lines().filter_map(|line| {
+        // aws s3 ls output format: "2023-01-15 12:34:56 bucket-name"
+        let parts: Vec<&str> = line.splitn(3, ' ').collect();
+        if parts.len() == 3 {
+            let bucket_name = parts[2].trim();
+            if !bucket_name.is_empty() {
+                return Some(Suggestion::with_description(
+                    format!("s3://{bucket_name}"),
+                    "S3 bucket",
+                ));
+            }
+        }
+        None
+    })
 }
