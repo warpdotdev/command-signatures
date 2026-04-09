@@ -47,22 +47,28 @@ pub fn generator() -> CommandSignatureGenerators {
             "brew_info_generator",
             Generator::script(
                 CommandBuilder::single_command(
-                    "HBPATH=$(brew --repository); ls -1 $HBPATH/Library/Taps/homebrew/h\
-            omebrew-core/Formula $HBPATH/Library/Taps/homebrew/homebrew-cask/Casks",
+                    "sh -c 'brew formulae 2>/dev/null; brew casks 2>/dev/null'",
                 ),
                 |output| {
                     output
                         .trim()
                         .lines()
-                        .map(|line| {
-                            Suggestion::with_description(
-                                line.strip_suffix(".rb").unwrap_or_default(),
-                                "formula",
-                            )
-                        })
+                        .filter(|line| !line.is_empty())
+                        .map(|line| Suggestion::with_description(line, "Formula/Cask"))
                         .collect_unordered_results()
                 },
             ),
+        )
+        .add_generator(
+            "all_casks_generator",
+            Generator::script(CommandBuilder::single_command("brew casks"), |output| {
+                output
+                    .trim()
+                    .lines()
+                    .filter(|line| !line.is_empty())
+                    .map(|line| Suggestion::with_description(line, "Cask"))
+                    .collect_unordered_results()
+            }),
         )
         .add_generator(
             "uninstall_cask",
