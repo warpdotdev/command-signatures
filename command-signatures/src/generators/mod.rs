@@ -45,6 +45,7 @@ mod node;
 mod npm;
 mod nx;
 mod oc;
+mod openssl;
 mod pacman;
 mod pass;
 mod phpunit_watcher;
@@ -119,6 +120,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         kubectl::generator(),
         kubecolor::generator(),
         oc::generator(),
+        openssl::generator(),
         kill::generator(),
         killall::generator(),
         lsof::generator(),
