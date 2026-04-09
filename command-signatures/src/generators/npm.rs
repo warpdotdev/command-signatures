@@ -9,7 +9,26 @@ use serde::Deserialize;
 use serde_json::{Result, Value};
 use std::collections::HashMap;
 
-/// Helper struct used for deserializing an npm package.json file. Useful for deserializing a field
+/// Response from the npm registry search API (`/-/v1/search`).
+#[derive(Deserialize)]
+struct NpmSearchResponse {
+    #[serde(default)]
+    objects: Vec<NpmSearchObject>,
+}
+
+#[derive(Deserialize)]
+struct NpmSearchObject {
+    package: NpmSearchPackage,
+}
+
+#[derive(Deserialize)]
+struct NpmSearchPackage {
+    name: String,
+    #[serde(default)]
+    description: Option<String>,
+}
+
+/// Helper struct used for deserializing an npm package.json file.
 /// from a npm package.json file where the schema differs from the yarn package.json file.
 #[derive(Deserialize)]
 struct NpmPackageJsonInfo {
@@ -184,10 +203,70 @@ fn script_alias_generator() -> Alias {
     )
 }
 
+/// Searches the npm registry for packages matching the current input.
+/// Uses the official npm registry search endpoint.
+fn npm_registry_search_generator() -> Generator {
+    Generator::command_from_tokens(
+        |tokens, trailing_whitespace, _| {
+            // When there is trailing whitespace the user has not started typing
+            // the next package name yet, so there is nothing to search for.
+            let query = if trailing_whitespace {
+                ""
+            } else {
+                tokens.last().copied().unwrap_or("")
+            };
+
+            if query.is_empty() {
+                // No-op: produce empty output so the callback returns no suggestions.
+                CommandBuilder::single_command("printf ''")
+            } else {
+                // Sanitize the query to prevent shell injection: keep only
+                // characters that are valid in npm package names
+                // (alphanumeric, hyphen, dot, underscore, @, /).
+                let safe_query: String = query
+                    .chars()
+                    .filter(|c| c.is_alphanumeric() || "-.@/_".contains(*c))
+                    .collect();
+
+                if safe_query.is_empty() {
+                    CommandBuilder::single_command("printf ''")
+                } else {
+                    CommandBuilder::single_command(format!(
+                        "curl -sf 'https://registry.npmjs.org/-/v1/search?text={}&size=20'",
+                        safe_query
+                    ))
+                }
+            }
+        },
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
+
+            let response: std::result::Result<NpmSearchResponse, _> = serde_json::from_str(output);
+
+            match response {
+                Ok(response) => response
+                    .objects
+                    .into_iter()
+                    .map(|obj| {
+                        Suggestion::with_description(
+                            obj.package.name,
+                            obj.package.description.unwrap_or_default(),
+                        )
+                    })
+                    .collect_ordered_results(),
+                Err(_) => GeneratorResults::default(),
+            }
+        },
+    )
+}
+
 pub fn npm_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("npm")
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("workspace_generator", workspace_generator())
+        .add_generator("npm_registry_search", npm_registry_search_generator())
         .add_alias("script_alias", script_alias_generator())
 }
 
@@ -258,7 +337,9 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
 
 #[cfg(test)]
 mod tests {
-    use crate::generators::npm::{workspace_generator, yarn_workspace_names_generator};
+    use crate::generators::npm::{
+        npm_registry_search_generator, workspace_generator, yarn_workspace_names_generator,
+    };
     use warp_completion_metadata::{GeneratorResults, Suggestion};
 
     #[test]
@@ -331,5 +412,59 @@ Done in 0.03s."#;
             yarn_workspace_names_generator().on_complete(""),
             GeneratorResults::default()
         );
+    }
+
+    #[test]
+    pub fn test_npm_registry_search_generator() {
+        let output = r#"{
+            "objects": [
+                {
+                    "package": {
+                        "name": "express",
+                        "description": "Fast, unopinionated, minimalist web framework"
+                    }
+                },
+                {
+                    "package": {
+                        "name": "express-validator",
+                        "description": "Express middleware for validator"
+                    }
+                }
+            ]
+        }"#;
+        let result = npm_registry_search_generator().on_complete(output);
+        assert_eq!(result.suggestions.len(), 2);
+        assert!(result.is_ordered);
+        assert_eq!(result.suggestions[0].exact_string, "express");
+        assert_eq!(
+            result.suggestions[0].description.as_deref(),
+            Some("Fast, unopinionated, minimalist web framework")
+        );
+        assert_eq!(result.suggestions[1].exact_string, "express-validator");
+    }
+
+    #[test]
+    pub fn test_npm_registry_search_generator_empty_output() {
+        assert_eq!(
+            npm_registry_search_generator().on_complete(""),
+            GeneratorResults::default()
+        );
+    }
+
+    #[test]
+    pub fn test_npm_registry_search_generator_no_description() {
+        let output = r#"{
+            "objects": [
+                {
+                    "package": {
+                        "name": "my-package"
+                    }
+                }
+            ]
+        }"#;
+        let result = npm_registry_search_generator().on_complete(output);
+        assert_eq!(result.suggestions.len(), 1);
+        assert_eq!(result.suggestions[0].exact_string, "my-package");
+        assert_eq!(result.suggestions[0].description.as_deref(), Some(""));
     }
 }
