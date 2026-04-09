@@ -36,15 +36,6 @@ struct NpmPackageJsonInfo {
     workspaces: Vec<String>,
 }
 
-/// Helper struct used for deserializing the output of `pnpm list -r --depth -1 --json`.
-#[derive(Deserialize)]
-struct PnpmWorkspacePackage {
-    #[serde(default)]
-    name: String,
-    #[serde(default)]
-    version: String,
-}
-
 /// Helper struct that matches the output of running `yarn list --depth=0 --json`.
 #[derive(Deserialize)]
 struct YarnListInfo {
@@ -280,24 +271,37 @@ pub fn npm_generators() -> CommandSignatureGenerators {
 }
 
 fn workspace_packages_generator() -> Generator {
+    // Read workspace package names directly from the filesystem instead of
+    // running `pnpm list` — this avoids issues with corepack shims prompting
+    // for download confirmation in non-interactive generator subprocesses.
+    // Walks up to find pnpm-workspace.yaml, then finds all package.json files
+    // (excluding node_modules) and extracts name + version via sed.
     Generator::script(
-        CommandBuilder::single_command("pnpm list -r --depth -1 --json 2>/dev/null"),
+        CommandBuilder::single_command(
+            r#"r=$PWD; while [ "$r" != / ] && [ ! -f "$r/pnpm-workspace.yaml" ]; do r=$(dirname "$r"); done; if [ -f "$r/pnpm-workspace.yaml" ]; then find "$r" -maxdepth 4 -name package.json ! -path '*/node_modules/*' 2>/dev/null | while IFS= read -r f; do n=$(sed -n 's/.*"name" *: *"\([^"]*\)".*/\1/p' "$f" | head -1); v=$(sed -n 's/.*"version" *: *"\([^"]*\)".*/\1/p' "$f" | head -1); [ -n "$n" ] && printf '%s\t%s\n' "$n" "$v"; done; fi"#,
+        ),
         |output| {
             if output.trim().is_empty() {
                 return GeneratorResults::default();
             }
 
-            let packages: std::result::Result<Vec<PnpmWorkspacePackage>, _> =
-                serde_json::from_str(output);
-
-            match packages {
-                Ok(packages) => packages
-                    .into_iter()
-                    .filter(|pkg| !pkg.name.is_empty())
-                    .map(|pkg| Suggestion::with_description(pkg.name, format!("v{}", pkg.version)))
-                    .collect_unordered_results(),
-                Err(_) => GeneratorResults::default(),
-            }
+            output
+                .lines()
+                .filter_map(|line| {
+                    let mut parts = line.splitn(2, '\t');
+                    let name = parts.next()?.trim();
+                    if name.is_empty() {
+                        return None;
+                    }
+                    let version = parts.next().unwrap_or("").trim();
+                    let desc = if version.is_empty() {
+                        "workspace package".to_string()
+                    } else {
+                        format!("v{version}")
+                    };
+                    Some(Suggestion::with_description(name, desc))
+                })
+                .collect_unordered_results()
         },
     )
 }
@@ -453,26 +457,8 @@ Done in 0.03s."#;
 
     #[test]
     pub fn test_workspace_packages_generator() {
-        let output = r#"[
-  {
-    "name": "root",
-    "version": "1.0.0",
-    "path": "/tmp/test-workspace",
-    "private": false
-  },
-  {
-    "name": "@myorg/pkg-a",
-    "version": "1.0.0",
-    "path": "/tmp/test-workspace/packages/pkg-a",
-    "private": false
-  },
-  {
-    "name": "@myorg/pkg-b",
-    "version": "2.0.0",
-    "path": "/tmp/test-workspace/packages/pkg-b",
-    "private": false
-  }
-]"#;
+        // Tab-separated output: name\tversion
+        let output = "@myorg/pkg-a\t1.0.0\n@myorg/pkg-b\t2.0.0\nroot\t";
         let result = workspace_packages_generator().on_complete(output);
         assert_eq!(result.suggestions.len(), 3);
         assert!(!result.is_ordered);
@@ -485,6 +471,22 @@ Done in 0.03s."#;
         assert!(names.contains(&"root"));
         assert!(names.contains(&"@myorg/pkg-a"));
         assert!(names.contains(&"@myorg/pkg-b"));
+
+        // Verify scoped packages retain the @ prefix
+        let pkg_a = result
+            .suggestions
+            .iter()
+            .find(|s| s.exact_string == "@myorg/pkg-a")
+            .unwrap();
+        assert_eq!(pkg_a.description.as_deref(), Some("v1.0.0"));
+
+        // Verify packages without version get a fallback description
+        let root = result
+            .suggestions
+            .iter()
+            .find(|s| s.exact_string == "root")
+            .unwrap();
+        assert_eq!(root.description.as_deref(), Some("workspace package"));
     }
 
     #[test]
@@ -496,9 +498,10 @@ Done in 0.03s."#;
     }
 
     #[test]
-    pub fn test_workspace_packages_generator_invalid_json() {
+    pub fn test_workspace_packages_generator_no_packages() {
+        // No valid lines produces no suggestions
         assert_eq!(
-            workspace_packages_generator().on_complete("not json"),
+            workspace_packages_generator().on_complete("\t\n\n"),
             GeneratorResults::default()
         );
     }
