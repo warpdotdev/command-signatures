@@ -36,6 +36,15 @@ struct NpmPackageJsonInfo {
     workspaces: Vec<String>,
 }
 
+/// Helper struct used for deserializing the output of `pnpm list -r --depth -1 --json`.
+#[derive(Deserialize)]
+struct PnpmWorkspacePackage {
+    #[serde(default)]
+    name: String,
+    #[serde(default)]
+    version: String,
+}
+
 /// Helper struct that matches the output of running `yarn list --depth=0 --json`.
 #[derive(Deserialize)]
 struct YarnListInfo {
@@ -270,6 +279,29 @@ pub fn npm_generators() -> CommandSignatureGenerators {
         .add_alias("script_alias", script_alias_generator())
 }
 
+fn workspace_packages_generator() -> Generator {
+    Generator::script(
+        CommandBuilder::single_command("pnpm list -r --depth -1 --json 2>/dev/null"),
+        |output| {
+            if output.trim().is_empty() {
+                return GeneratorResults::default();
+            }
+
+            let packages: std::result::Result<Vec<PnpmWorkspacePackage>, _> =
+                serde_json::from_str(output);
+
+            match packages {
+                Ok(packages) => packages
+                    .into_iter()
+                    .filter(|pkg| !pkg.name.is_empty())
+                    .map(|pkg| Suggestion::with_description(pkg.name, format!("v{}", pkg.version)))
+                    .collect_unordered_results(),
+                Err(_) => GeneratorResults::default(),
+            }
+        },
+    )
+}
+
 pub fn pnpm_generators() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("pnpm")
         .add_generator(
@@ -281,6 +313,10 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
         )
         .add_generator("get_scripts_generator", get_scripts_generator())
         .add_generator("dependencies_generator", dependencies_generator())
+        .add_generator(
+            "workspace_packages_generator",
+            workspace_packages_generator(),
+        )
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
@@ -338,7 +374,8 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::npm::{
-        npm_registry_search_generator, workspace_generator, yarn_workspace_names_generator,
+        npm_registry_search_generator, workspace_generator, workspace_packages_generator,
+        yarn_workspace_names_generator,
     };
     use warp_completion_metadata::{GeneratorResults, Suggestion};
 
@@ -410,6 +447,58 @@ Done in 0.03s."#;
     pub fn test_yarn_workspace_names_generator_empty_output() {
         assert_eq!(
             yarn_workspace_names_generator().on_complete(""),
+            GeneratorResults::default()
+        );
+    }
+
+    #[test]
+    pub fn test_workspace_packages_generator() {
+        let output = r#"[
+  {
+    "name": "root",
+    "version": "1.0.0",
+    "path": "/tmp/test-workspace",
+    "private": false
+  },
+  {
+    "name": "@myorg/pkg-a",
+    "version": "1.0.0",
+    "path": "/tmp/test-workspace/packages/pkg-a",
+    "private": false
+  },
+  {
+    "name": "@myorg/pkg-b",
+    "version": "2.0.0",
+    "path": "/tmp/test-workspace/packages/pkg-b",
+    "private": false
+  }
+]"#;
+        let result = workspace_packages_generator().on_complete(output);
+        assert_eq!(result.suggestions.len(), 3);
+        assert!(!result.is_ordered);
+
+        let names: Vec<&str> = result
+            .suggestions
+            .iter()
+            .map(|s| s.exact_string.as_str())
+            .collect();
+        assert!(names.contains(&"root"));
+        assert!(names.contains(&"@myorg/pkg-a"));
+        assert!(names.contains(&"@myorg/pkg-b"));
+    }
+
+    #[test]
+    pub fn test_workspace_packages_generator_empty_output() {
+        assert_eq!(
+            workspace_packages_generator().on_complete(""),
+            GeneratorResults::default()
+        );
+    }
+
+    #[test]
+    pub fn test_workspace_packages_generator_invalid_json() {
+        assert_eq!(
+            workspace_packages_generator().on_complete("not json"),
             GeneratorResults::default()
         );
     }
