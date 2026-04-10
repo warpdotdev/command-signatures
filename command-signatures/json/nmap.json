@@ -1,0 +1,841 @@
+{
+    "name": "nmap",
+    "description": "Network exploration tool and security / port scanner",
+    "args": {
+        "name": "target",
+        "description": "Hostnames, IP addresses, networks, etc.",
+        "isVariadic": true,
+        "isOptional": true
+    },
+    "options": [
+        {
+            "name": "-iL",
+            "description": "Input from list of hosts/networks",
+            "args": {
+                "name": "inputfilename",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-iR",
+            "description": "Choose random targets",
+            "args": {
+                "name": "num hosts"
+            }
+        },
+        {
+            "name": "--exclude",
+            "description": "Exclude hosts/networks",
+            "args": {
+                "name": "host1[,host2][,host3],..."
+            }
+        },
+        {
+            "name": "--excludefile",
+            "description": "Exclude list from file",
+            "args": {
+                "name": "exclude_file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-sL",
+            "description": "List Scan - simply list targets to scan"
+        },
+        {
+            "name": "-sn",
+            "description": "Ping Scan - disable port scan"
+        },
+        {
+            "name": "-Pn",
+            "description": "Treat all hosts as online -- skip host discovery"
+        },
+        {
+            "name": "-PS",
+            "description": "TCP SYN discovery to given ports",
+            "args": {
+                "name": "portlist",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-PA",
+            "description": "TCP ACK discovery to given ports",
+            "args": {
+                "name": "portlist",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-PU",
+            "description": "UDP discovery to given ports",
+            "args": {
+                "name": "portlist",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-PY",
+            "description": "SCTP INIT discovery to given ports",
+            "args": {
+                "name": "portlist",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-PE",
+            "description": "ICMP echo request discovery probe"
+        },
+        {
+            "name": "-PP",
+            "description": "ICMP timestamp request discovery probe"
+        },
+        {
+            "name": "-PM",
+            "description": "ICMP netmask request discovery probe"
+        },
+        {
+            "name": "-PO",
+            "description": "IP Protocol Ping",
+            "args": {
+                "name": "protocol list",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-PR",
+            "description": "ARP Ping"
+        },
+        {
+            "name": "--disable-arp-ping",
+            "description": "No ARP or ND Ping"
+        },
+        {
+            "name": "--traceroute",
+            "description": "Trace hop path to each host"
+        },
+        {
+            "name": "-n",
+            "description": "Never do DNS resolution",
+            "exclusiveOn": ["-R"]
+        },
+        {
+            "name": "-R",
+            "description": "Always resolve DNS",
+            "exclusiveOn": ["-n"]
+        },
+        {
+            "name": "--system-dns",
+            "description": "Use OS's DNS resolver"
+        },
+        {
+            "name": "--dns-servers",
+            "description": "Specify custom DNS servers",
+            "args": {
+                "name": "serv1[,serv2],..."
+            }
+        },
+        {
+            "name": "-sS",
+            "description": "TCP SYN scan"
+        },
+        {
+            "name": "-sT",
+            "description": "TCP connect() scan"
+        },
+        {
+            "name": "-sU",
+            "description": "UDP scan"
+        },
+        {
+            "name": "-sY",
+            "description": "SCTP INIT scan"
+        },
+        {
+            "name": "-sN",
+            "description": "TCP Null scan"
+        },
+        {
+            "name": "-sF",
+            "description": "TCP FIN scan"
+        },
+        {
+            "name": "-sX",
+            "description": "TCP Xmas scan"
+        },
+        {
+            "name": "-sA",
+            "description": "TCP ACK scan"
+        },
+        {
+            "name": "-sW",
+            "description": "TCP Window scan"
+        },
+        {
+            "name": "-sM",
+            "description": "TCP Maimon scan"
+        },
+        {
+            "name": "--scanflags",
+            "description": "Customize TCP scan flags",
+            "args": {
+                "name": "flags"
+            }
+        },
+        {
+            "name": "-sZ",
+            "description": "SCTP COOKIE-ECHO scan"
+        },
+        {
+            "name": "-sI",
+            "description": "Idle scan",
+            "args": {
+                "name": "zombie host[:probeport]"
+            }
+        },
+        {
+            "name": "-sO",
+            "description": "IP protocol scan"
+        },
+        {
+            "name": "-b",
+            "description": "FTP bounce scan",
+            "args": {
+                "name": "FTP relay host"
+            }
+        },
+        {
+            "name": "-p",
+            "description": "Only scan specified ports (e.g. -p22; -p1-65535; -p U:53,T:21-25,80)",
+            "args": {
+                "name": "port ranges"
+            }
+        },
+        {
+            "name": "--exclude-ports",
+            "description": "Exclude the specified ports from scanning",
+            "args": {
+                "name": "port ranges"
+            }
+        },
+        {
+            "name": "-F",
+            "description": "Fast mode - Scan fewer ports than the default scan"
+        },
+        {
+            "name": "-r",
+            "description": "Scan ports sequentially - don't randomize"
+        },
+        {
+            "name": "--top-ports",
+            "description": "Scan <number> most common ports",
+            "args": {
+                "name": "number"
+            }
+        },
+        {
+            "name": "--port-ratio",
+            "description": "Scan ports more common than <ratio>",
+            "args": {
+                "name": "ratio"
+            }
+        },
+        {
+            "name": "-sV",
+            "description": "Probe open ports to determine service/version info"
+        },
+        {
+            "name": "--allports",
+            "description": "Don't exclude any ports from version detection"
+        },
+        {
+            "name": "--version-intensity",
+            "description": "Set version scan intensity (0-9)",
+            "args": {
+                "name": "level",
+                "suggestions": [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ]
+            }
+        },
+        {
+            "name": "--version-light",
+            "description": "Limit to most likely probes (intensity 2)"
+        },
+        {
+            "name": "--version-all",
+            "description": "Try every single probe (intensity 9)"
+        },
+        {
+            "name": "--version-trace",
+            "description": "Show detailed version scan activity (for debugging)"
+        },
+        {
+            "name": "-O",
+            "description": "Enable OS detection"
+        },
+        {
+            "name": "--osscan-limit",
+            "description": "Limit OS detection to promising targets"
+        },
+        {
+            "name": [
+                "--osscan-guess",
+                "--fuzzy"
+            ],
+            "description": "Guess OS more aggressively"
+        },
+        {
+            "name": "--max-os-tries",
+            "description": "Set the maximum number of OS detection tries against a target",
+            "args": {
+                "name": "tries"
+            }
+        },
+        {
+            "name": "-sC",
+            "description": "Script scan (equivalent to --script=default)"
+        },
+        {
+            "name": "--script",
+            "description": "Run specified scripts (comma-separated list of directories, script-files or script-categories)",
+            "args": {
+                "name": "scripts",
+                "generatorName": "nse_scripts"
+            }
+        },
+        {
+            "name": "--script-args",
+            "description": "Provide arguments to NSE scripts",
+            "args": {
+                "name": "n1=v1,[n2=v2,...]"
+            }
+        },
+        {
+            "name": "--script-args-file",
+            "description": "Load arguments to NSE scripts from a file",
+            "args": {
+                "name": "filename",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--script-trace",
+            "description": "Show all data sent and received by scripts"
+        },
+        {
+            "name": "--script-updatedb",
+            "description": "Update the script database"
+        },
+        {
+            "name": "--script-help",
+            "description": "Show help about scripts",
+            "args": {
+                "name": "scripts",
+                "generatorName": "nse_scripts"
+            }
+        },
+        {
+            "name": "-T",
+            "description": "Set timing template (higher is faster)",
+            "args": {
+                "name": "template",
+                "suggestions": [
+                    {
+                        "name": "0",
+                        "description": "paranoid timing"
+                    },
+                    {
+                        "name": "1",
+                        "description": "sneaky timing"
+                    },
+                    {
+                        "name": "2",
+                        "description": "polite timing"
+                    },
+                    {
+                        "name": "3",
+                        "description": "normal timing"
+                    },
+                    {
+                        "name": "4",
+                        "description": "aggressive timing"
+                    },
+                    {
+                        "name": "5",
+                        "description": "insane timing"
+                    },
+                    {
+                        "name": "paranoid",
+                        "description": "Template 0"
+                    },
+                    {
+                        "name": "sneaky",
+                        "description": "Template 1"
+                    },
+                    {
+                        "name": "polite",
+                        "description": "Template 2"
+                    },
+                    {
+                        "name": "normal",
+                        "description": "Template 3"
+                    },
+                    {
+                        "name": "aggressive",
+                        "description": "Template 4"
+                    },
+                    {
+                        "name": "insane",
+                        "description": "Template 5"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "--min-hostgroup",
+            "description": "Minimum parallel host scan group size",
+            "args": {
+                "name": "size"
+            }
+        },
+        {
+            "name": "--max-hostgroup",
+            "description": "Maximum parallel host scan group size",
+            "args": {
+                "name": "size"
+            }
+        },
+        {
+            "name": "--min-parallelism",
+            "description": "Minimum probe parallelization",
+            "args": {
+                "name": "numprobes"
+            }
+        },
+        {
+            "name": "--max-parallelism",
+            "description": "Maximum probe parallelization",
+            "args": {
+                "name": "numprobes"
+            }
+        },
+        {
+            "name": "--min-rtt-timeout",
+            "description": "Minimum probe round trip timeout",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--max-rtt-timeout",
+            "description": "Maximum probe round trip timeout",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--initial-rtt-timeout",
+            "description": "Initial probe round trip timeout",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--max-retries",
+            "description": "Caps number of port scan probe retransmissions",
+            "args": {
+                "name": "tries"
+            }
+        },
+        {
+            "name": "--host-timeout",
+            "description": "Give up on target after this long",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--script-timeout",
+            "description": "Set script execution timeout",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--scan-delay",
+            "description": "Adjust delay between probes",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--max-scan-delay",
+            "description": "Maximum delay between probes",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--min-rate",
+            "description": "Send packets no slower than <number> per second",
+            "args": {
+                "name": "number"
+            }
+        },
+        {
+            "name": "--max-rate",
+            "description": "Send packets no faster than <number> per second",
+            "args": {
+                "name": "number"
+            }
+        },
+        {
+            "name": "--defeat-rst-ratelimit",
+            "description": "Ignore ICMP-RST rate limits"
+        },
+        {
+            "name": "--defeat-icmp-ratelimit",
+            "description": "Ignore ICMP unreachable rate limits in UDP"
+        },
+        {
+            "name": "--nsock-engine",
+            "description": "Enforce use of a given nsock IO multiplexing engine",
+            "args": {
+                "name": "engine",
+                "suggestions": [
+                    "epoll",
+                    "kqueue",
+                    "poll",
+                    "select"
+                ]
+            }
+        },
+        {
+            "name": "-f",
+            "description": "Fragment packets (8 bytes per fragment, use twice for 16)"
+        },
+        {
+            "name": "--mtu",
+            "description": "Fragment packets with given MTU",
+            "args": {
+                "name": "val"
+            }
+        },
+        {
+            "name": "-D",
+            "description": "Cloak a scan with decoys",
+            "args": {
+                "name": "decoy1,decoy2[,ME],..."
+            }
+        },
+        {
+            "name": "-S",
+            "description": "Spoof source address",
+            "args": {
+                "name": "IP_Address"
+            }
+        },
+        {
+            "name": "-e",
+            "description": "Use specified network interface",
+            "args": {
+                "name": "iface",
+                "generatorName": "network_interfaces"
+            }
+        },
+        {
+            "name": [
+                "-g",
+                "--source-port"
+            ],
+            "description": "Use given source port number",
+            "args": {
+                "name": "portnum"
+            }
+        },
+        {
+            "name": "--proxies",
+            "description": "Relay connections through HTTP/SOCKS4 proxies",
+            "args": {
+                "name": "url1,[url2],..."
+            }
+        },
+        {
+            "name": "--data",
+            "description": "Append a custom payload to sent packets",
+            "args": {
+                "name": "hex string"
+            }
+        },
+        {
+            "name": "--data-string",
+            "description": "Append a custom ASCII string to sent packets",
+            "args": {
+                "name": "string"
+            }
+        },
+        {
+            "name": "--data-length",
+            "description": "Append random data to sent packets",
+            "args": {
+                "name": "num"
+            }
+        },
+        {
+            "name": "--ip-options",
+            "description": "Send packets with specified IP options",
+            "args": {
+                "name": "options",
+                "suggestions": [
+                    {
+                        "name": "S",
+                        "description": "Strict source routing"
+                    },
+                    {
+                        "name": "R",
+                        "description": "Record route"
+                    },
+                    {
+                        "name": "L",
+                        "description": "Loose source routing"
+                    },
+                    {
+                        "name": "T",
+                        "description": "Record internet timestamps"
+                    },
+                    {
+                        "name": "U",
+                        "description": "Record timestamps and IP addresses"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "--ttl",
+            "description": "Set IP time-to-live field",
+            "args": {
+                "name": "val"
+            }
+        },
+        {
+            "name": "--randomize-hosts",
+            "description": "Randomize target host order"
+        },
+        {
+            "name": "--spoof-mac",
+            "description": "Spoof your MAC address",
+            "args": {
+                "name": "mac address/prefix/vendor name"
+            }
+        },
+        {
+            "name": "--badsum",
+            "description": "Send packets with a bogus TCP/UDP/SCTP checksum"
+        },
+        {
+            "name": "--adler32",
+            "description": "Use deprecated Adler32 instead of CRC32C for SCTP checksums"
+        },
+        {
+            "name": "-oN",
+            "description": "Output scan in normal format",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-oX",
+            "description": "Output scan in XML format",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-oS",
+            "description": "Output scan in s|<rIpt kIddi3 format",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-oG",
+            "description": "Output scan in grepable format",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-oA",
+            "description": "Output in the three major formats at once",
+            "args": {
+                "name": "basename",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-v",
+            "description": "Increase verbosity level (use -vv or more for greater effect)",
+            "isRepeatable": true
+        },
+        {
+            "name": "-d",
+            "description": "Increase debugging level (use -dd or more for greater effect)",
+            "isRepeatable": true,
+            "args": {
+                "name": "level",
+                "isOptional": true,
+                "suggestions": [
+                    "0",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                    "6",
+                    "7",
+                    "8",
+                    "9"
+                ]
+            }
+        },
+        {
+            "name": "--reason",
+            "description": "Display the reason a port is in a particular state"
+        },
+        {
+            "name": "--stats-every",
+            "description": "Print periodic timing stats",
+            "args": {
+                "name": "time"
+            }
+        },
+        {
+            "name": "--packet-trace",
+            "description": "Show all packets sent and received"
+        },
+        {
+            "name": "--open",
+            "description": "Only show open (or possibly open) ports"
+        },
+        {
+            "name": "--iflist",
+            "description": "Print host interfaces and routes (for debugging)"
+        },
+        {
+            "name": "--append-output",
+            "description": "Append to rather than clobber specified output files"
+        },
+        {
+            "name": "--resume",
+            "description": "Resume an aborted scan",
+            "args": {
+                "name": "filename",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--noninteractive",
+            "description": "Disable runtime interactions via keyboard"
+        },
+        {
+            "name": "--stylesheet",
+            "description": "XSL stylesheet to transform XML output to HTML",
+            "args": {
+                "name": "path/URL",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--webxml",
+            "description": "Reference stylesheet from Nmap.Org for more portable XML"
+        },
+        {
+            "name": "--no-stylesheet",
+            "description": "Prevent associating of XSL stylesheet w/XML output"
+        },
+        {
+            "name": "-6",
+            "description": "Enable IPv6 scanning"
+        },
+        {
+            "name": "-A",
+            "description": "Enable OS detection, version detection, script scanning, and traceroute"
+        },
+        {
+            "name": "--datadir",
+            "description": "Specify custom Nmap data file location",
+            "args": {
+                "name": "dirname",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--servicedb",
+            "description": "Specify custom services file",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--versiondb",
+            "description": "Specify custom service probes file",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--send-eth",
+            "description": "Send using raw ethernet frames",
+            "exclusiveOn": ["--send-ip"]
+        },
+        {
+            "name": "--send-ip",
+            "description": "Send at raw IP level",
+            "exclusiveOn": ["--send-eth"]
+        },
+        {
+            "name": "--privileged",
+            "description": "Assume that the user is fully privileged",
+            "exclusiveOn": ["--unprivileged"]
+        },
+        {
+            "name": "--unprivileged",
+            "description": "Assume the user lacks raw socket privileges",
+            "exclusiveOn": ["--privileged"]
+        },
+        {
+            "name": "--release-memory",
+            "description": "Release memory before quitting"
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Print version number"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print help summary page"
+        }
+    ]
+}
