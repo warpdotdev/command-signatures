@@ -1,0 +1,247 @@
+{
+    "name": "sort",
+    "description": "Sort lines of text files",
+    "options": [
+        {
+            "name": [
+                "-b",
+                "--ignore-leading-blanks"
+            ],
+            "description": "Ignore leading blanks"
+        },
+        {
+            "name": [
+                "-d",
+                "--dictionary-order"
+            ],
+            "description": "Consider only blanks and alphanumeric characters"
+        },
+        {
+            "name": [
+                "-f",
+                "--ignore-case"
+            ],
+            "description": "Fold lower case to upper case characters"
+        },
+        {
+            "name": [
+                "-g",
+                "--general-numeric-sort"
+            ],
+            "description": "Compare according to general numerical value"
+        },
+        {
+            "name": [
+                "-i",
+                "--ignore-nonprinting"
+            ],
+            "description": "Consider only printable characters"
+        },
+        {
+            "name": [
+                "-M",
+                "--month-sort"
+            ],
+            "description": "Compare (unknown) < 'JAN' < ... < 'DEC'"
+        },
+        {
+            "name": [
+                "-h",
+                "--human-numeric-sort"
+            ],
+            "description": "Compare human readable numbers (e.g., 2K 1G)"
+        },
+        {
+            "name": [
+                "-n",
+                "--numeric-sort"
+            ],
+            "description": "Compare according to string numerical value"
+        },
+        {
+            "name": [
+                "-R",
+                "--random-sort"
+            ],
+            "description": "Shuffle, but group identical keys"
+        },
+        {
+            "name": "--random-source",
+            "description": "Get random bytes from FILE",
+            "args": {
+                "name": "FILE",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "-r",
+                "--reverse"
+            ],
+            "description": "Reverse the result of comparisons"
+        },
+        {
+            "name": "--sort",
+            "description": "Sort according to WORD",
+            "args": {
+                "name": "WORD",
+                "suggestions": [
+                    "general-numeric",
+                    "human-numeric",
+                    "month",
+                    "numeric",
+                    "random",
+                    "version"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-V",
+                "--version-sort"
+            ],
+            "description": "Natural sort of (version) numbers within text"
+        },
+        {
+            "name": "--batch-size",
+            "description": "Merge at most NMERGE inputs at once; for more use temp files",
+            "args": {
+                "name": "NMERGE"
+            }
+        },
+        {
+            "name": [
+                "-c",
+                "--check"
+            ],
+            "description": "Check for sorted input; do not sort"
+        },
+        {
+            "name": "-C",
+            "description": "Like -c, but do not report first bad line"
+        },
+        {
+            "name": "--compress-program",
+            "description": "Compress temporaries with PROG; decompress them with PROG -d",
+            "args": {
+                "name": "PROG"
+            }
+        },
+        {
+            "name": "--debug",
+            "description": "Annotate the part of the line used to sort, and warn about questionable usage to stderr"
+        },
+        {
+            "name": "--files0-from",
+            "description": "Read input from the files specified by NUL-terminated names in file F; if F is - then read names from standard input",
+            "args": {
+                "name": "F",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "-k",
+                "--key"
+            ],
+            "description": "Sort via a key; KEYDEF gives location and type (format: \"F[.C][OPTS][,F[.C][OPTS]]\")",
+            "args": {
+                "name": "KEYDEF"
+            }
+        },
+        {
+            "name": [
+                "-m",
+                "--merge"
+            ],
+            "description": "Merge already sorted files; do not sort"
+        },
+        {
+            "name": [
+                "-o",
+                "--output"
+            ],
+            "description": "Write result to FILE instead of standard output",
+            "args": {
+                "name": "FILE",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": [
+                "-s",
+                "--stable"
+            ],
+            "description": "Stabilize sort by disabling last-resort comparison"
+        },
+        {
+            "name": [
+                "-S",
+                "--buffer-size"
+            ],
+            "description": "Use SIZE for main memory buffer",
+            "args": {
+                "name": "SIZE"
+            }
+        },
+        {
+            "name": [
+                "-t",
+                "--field-separator"
+            ],
+            "description": "Use SEP instead of non-blank to blank transition",
+            "args": {
+                "name": "SEP"
+            }
+        },
+        {
+            "name": [
+                "-T",
+                "--temporary-directory"
+            ],
+            "description": "Use DIR for temporaries, not $TMPDIR or /tmp; multiple options specify multiple directories",
+            "args": {
+                "name": "DIR",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--parallel",
+            "description": "Change the number of sorts run concurrently to N",
+            "args": {
+                "name": "N"
+            }
+        },
+        {
+            "name": [
+                "-u",
+                "--unique"
+            ],
+            "description": "With -c, check for strict ordering; without -c, output only the first of an equal run"
+        },
+        {
+            "name": [
+                "-z",
+                "--zero-terminated"
+            ],
+            "description": "Line delimiter is NUL, not newline"
+        },
+        {
+            "name": "--help",
+            "description": "Display this help and exit"
+        },
+        {
+            "name": "--version",
+            "description": "Output version information and exit"
+        }
+    ],
+    "args": {
+        "name": "FILE",
+        "isOptional": true,
+        "isVariadic": true,
+        "template": [
+            "filepaths",
+            "folders"
+        ]
+    }
+}
