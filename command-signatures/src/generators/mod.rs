@@ -41,6 +41,7 @@ mod make;
 mod man;
 mod nextflow;
 mod ng;
+mod nmap;
 mod node;
 mod npm;
 mod nx;
@@ -95,6 +96,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         man::generator(),
         ng::generator(),
         nextflow::generator(),
+        nmap::generator(),
         npm::npm_generators(),
         npm::yarn_generators(),
         nx::generator(),
