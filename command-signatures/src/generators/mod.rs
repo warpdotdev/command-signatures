@@ -30,6 +30,7 @@ mod git;
 mod go;
 mod gt;
 mod heroku;
+mod ip;
 mod kill;
 mod killall;
 mod kubecolor;
@@ -91,6 +92,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         gt::generator(),
         go::generator(),
         heroku::generator(),
+        ip::generator(),
         make::generator(),
         man::generator(),
         ng::generator(),
