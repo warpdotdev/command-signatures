@@ -4636,6 +4636,76 @@
                     "description": "Include which files were altered and the relative number of lines that were added or deleted from each of them"
                 },
                 {
+                    "name": "--graph",
+                    "description": "Draw a text-based graphical representation of the commit history"
+                },
+                {
+                    "name": "--all",
+                    "description": "Pretend as if all the refs in refs/ are listed on the command line"
+                },
+                {
+                    "name": "--decorate",
+                    "description": "Print out the ref names of any commits that are shown",
+                    "args": {
+                        "name": "format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "short",
+                            "full",
+                            "auto",
+                            "no"
+                        ]
+                    }
+                },
+                {
+                    "name": "--no-decorate",
+                    "description": "Do not print ref names"
+                },
+                {
+                    "name": "--abbrev-commit",
+                    "description": "Show only a partial prefix of the full 40-byte commit object name"
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--max-count"
+                    ],
+                    "description": "Limit the number of commits to output",
+                    "args": {
+                        "name": "number"
+                    }
+                },
+                {
+                    "name": "--skip",
+                    "description": "Skip number commits before starting to show the commit output",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "number"
+                    }
+                },
+                {
+                    "name": [
+                        "--since",
+                        "--after"
+                    ],
+                    "description": "Show commits more recent than a specific date",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "date"
+                    }
+                },
+                {
+                    "name": [
+                        "--until",
+                        "--before"
+                    ],
+                    "description": "Show commits older than a specific date",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "date"
+                    }
+                },
+                {
                     "name": "--grep",
                     "description": "Search for commits with a commit message that matches <pattern>",
                     "requiresSeparator": true,
@@ -4650,6 +4720,135 @@
                     "args": {
                         "name": "pattern"
                     }
+                },
+                {
+                    "name": "--committer",
+                    "description": "Limit commits to ones with committer header lines that match <pattern>",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "pattern"
+                    }
+                },
+                {
+                    "name": "--all-match",
+                    "description": "Limit output to commits that match all given --grep filters"
+                },
+                {
+                    "name": "--invert-grep",
+                    "description": "Limit output to commits that do not match --grep pattern"
+                },
+                {
+                    "name": [
+                        "--format",
+                        "--pretty"
+                    ],
+                    "description": "Pretty-print the contents of the commit logs in a given format",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "format",
+                        "suggestions": [
+                            "oneline",
+                            "short",
+                            "medium",
+                            "full",
+                            "fuller",
+                            "reference",
+                            "email",
+                            "raw"
+                        ]
+                    }
+                },
+                {
+                    "name": "--date",
+                    "description": "Override the date format",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "format",
+                        "suggestions": [
+                            "relative",
+                            "local",
+                            "iso",
+                            "iso-strict",
+                            "rfc",
+                            "short",
+                            "raw",
+                            "human",
+                            "unix"
+                        ]
+                    }
+                },
+                {
+                    "name": "--first-parent",
+                    "description": "Follow only the first parent commit upon seeing a merge commit"
+                },
+                {
+                    "name": "--merges",
+                    "description": "Print only merge commits"
+                },
+                {
+                    "name": "--no-merges",
+                    "description": "Do not print commits with more than one parent"
+                },
+                {
+                    "name": "--reverse",
+                    "description": "Output the commits chosen to be shown in reverse order"
+                },
+                {
+                    "name": "--name-only",
+                    "description": "Show only names of changed files"
+                },
+                {
+                    "name": "--name-status",
+                    "description": "Show only names and status of changed files"
+                },
+                {
+                    "name": "--diff-filter",
+                    "description": "Select only files that are Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), etc.",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "filter",
+                        "suggestions": [
+                            "A",
+                            "C",
+                            "D",
+                            "M",
+                            "R",
+                            "T",
+                            "U",
+                            "X",
+                            "B"
+                        ]
+                    }
+                },
+                {
+                    "name": "-S",
+                    "description": "Look for differences that change the number of occurrences of the specified string",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "-G",
+                    "description": "Look for differences whose patch text contains added/removed lines that match <regex>",
+                    "args": {
+                        "name": "regex"
+                    }
+                },
+                {
+                    "name": "--left-right",
+                    "description": "Mark which side of a symmetric difference a commit is reachable from"
+                },
+                {
+                    "name": "--cherry-pick",
+                    "description": "Omit any commit that introduces the same change as another commit on the other side of a symmetric difference"
+                },
+                {
+                    "name": "--full-diff",
+                    "description": "Show the full diff for commits that touch the specified paths"
+                },
+                {
+                    "name": "--simplify-by-decoration",
+                    "description": "Commits that are referred by some branch or tag are selected"
                 }
             ],
             "args": [
