@@ -60,7 +60,10 @@ pub struct Parameter {
     pub name: String,
 
     #[serde(rename = "type")]
-    pub type_info: TypeInfo,
+    pub type_info: Option<TypeInfo>,
+
+    #[serde(rename = "parameterValue", default)]
+    pub param_value: String,
 
     #[serde(default)]
     pub description: Vec<Paragraph>,

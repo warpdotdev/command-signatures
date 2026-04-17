@@ -11,15 +11,23 @@ fn main() {
     println!("Getting all Cmdlet names...");
     let all_cmdlet_names =
         run_pwsh_command("Get-Command -Type Cmdlet | Select-Object -ExpandProperty Name");
-    let all_cmdlet_names = all_cmdlet_names.trim().split('\n').collect_vec();
+    let all_cmdlet_names = all_cmdlet_names.trim().lines().collect_vec();
 
-    println!("Parsing help pages for all Cmdlets...");
+    println!("Parsing help pages for {} Cmdlets...", all_cmdlet_names.len());
     let all_cmdlet_specs = all_cmdlet_names
         .par_iter()
-        .map(|cmdlet_name| {
+        .filter_map(|cmdlet_name| {
             let cmdlet_help_json =
-                run_pwsh_command(format!("Get-Help {cmdlet_name} | ConvertTo-Json -Depth 8"));
-            let cmdlet_help = serde_json::from_str::<CmdletHelp>(&cmdlet_help_json)
+                run_pwsh_command(format!("Get-Help {cmdlet_name} | Select-Object -First 1 | ConvertTo-Json -Depth 8"));
+            let cmdlet_help_json = cmdlet_help_json.trim();
+
+            // Some cmdlets have no help available — skip them.
+            if cmdlet_help_json.is_empty() {
+                eprintln!("Skipping {cmdlet_name}: no help output");
+                return None;
+            }
+
+            let cmdlet_help = serde_json::from_str::<CmdletHelp>(cmdlet_help_json)
                 .unwrap_or_else(|err| panic!("failed to deserialize {cmdlet_name} help: {err:?}"));
             let mut fig_command: Command = cmdlet_help.into();
 
@@ -27,7 +35,7 @@ fn main() {
                 panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)
             });
 
-            fig_command
+            Some(fig_command)
         })
         .collect::<Vec<Command>>();
 

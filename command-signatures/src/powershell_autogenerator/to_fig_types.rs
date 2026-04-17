@@ -9,6 +9,12 @@ use crate::{
     powershell_autogenerator::ParameterPosition,
 };
 
+fn clean_description(s: &str) -> String {
+    let s = s.replace("\r\n", " ").replace('\n', " ").replace('\r', " ");
+    let s = s.replace("**", "");
+    s.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
 impl From<CmdletHelp> for Command {
     fn from(cmdlet_help: CmdletHelp) -> Self {
         let parameters = &cmdlet_help.parameters.unwrap_or_default().parameter;
@@ -46,9 +52,13 @@ impl From<CmdletHelp> for Command {
                     .description
                     .iter()
                     .find(|param| !param.text.contains("> [!NOTE] >"))
-                    .map(|pg| pg.text.clone());
+                    .map(|pg| clean_description(&pg.text));
 
-                let type_name = &param.type_info.name;
+                let type_name = param
+                    .type_info
+                    .as_ref()
+                    .map(|t| t.name.as_str())
+                    .unwrap_or(&param.param_value);
 
                 // "Switches", i.e. a flag without an argument, are either "SwitchParameter",
                 // "System.Management.Automation.SwitchParameter", or "switch".
@@ -58,7 +68,7 @@ impl From<CmdletHelp> for Command {
                     vec![]
                 } else {
                     let arg = Arg {
-                        name: Some(type_name.clone()),
+                        name: Some(type_name.to_string()),
                         default: param.default_value.clone().map(StringOrNumber::String),
                         // TODO(CORE-2677) Recognize PowerShell array syntax.
                         is_variadic: false,
@@ -144,7 +154,7 @@ impl From<CmdletHelp> for Command {
             args,
             alias_generator: None,
             additional_suggestions: vec![],
-            description: Some(cmdlet_help.synopsis),
+            description: Some(clean_description(&cmdlet_help.synopsis)),
             is_dangerous: false,
             priority: None,
             hidden: false,
