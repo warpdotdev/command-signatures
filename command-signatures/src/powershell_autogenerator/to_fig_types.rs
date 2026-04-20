@@ -36,8 +36,19 @@ impl CmdletHelp {
         let mut options = parameters
             .iter()
             .map(|param| {
+                let metadata_aliases = metadata_by_name
+                    .get(param.name.as_str())
+                    .map(|metadata| metadata.aliases.as_slice())
+                    .unwrap_or(&[]);
                 let mut name = vec![format!("-{}", param.name)];
-                name.extend(param.aliases.iter().map(|alias| format!("-{}", alias)));
+                name.extend(
+                    param.aliases
+                        .iter()
+                        .chain(metadata_aliases.iter())
+                        .filter(|alias| !alias.is_empty() && alias.as_str() != param.name)
+                        .map(|alias| format!("-{}", alias))
+                        .unique(),
+                );
 
                 // For some reason, [`crate::powershell_autogenerator::Parameter::allowed_values`]
                 // is always None inside [`CmdletHelp::parameters`], but it is defined inside
