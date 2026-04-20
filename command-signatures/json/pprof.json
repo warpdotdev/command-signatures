@@ -1,0 +1,587 @@
+{
+    "name": "pprof",
+    "description": "Tool for visualization and analysis of profiling data (github.com/google/pprof)",
+    "parserDirectives": {
+        "flagsArePosixNoncompliant": true
+    },
+    "options": [
+        {
+            "name": "-callgrind",
+            "description": "Outputs a graph in callgrind format"
+        },
+        {
+            "name": "-comments",
+            "description": "Output all profile comments"
+        },
+        {
+            "name": "-disasm",
+            "description": "Output assembly listings annotated with samples",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-dot",
+            "description": "Outputs a graph in DOT format"
+        },
+        {
+            "name": "-eog",
+            "description": "Visualize graph through eog"
+        },
+        {
+            "name": "-evince",
+            "description": "Visualize graph through evince"
+        },
+        {
+            "name": "-gif",
+            "description": "Outputs a graph image in GIF format"
+        },
+        {
+            "name": "-gv",
+            "description": "Visualize graph through gv"
+        },
+        {
+            "name": "-kcachegrind",
+            "description": "Visualize report in KCachegrind"
+        },
+        {
+            "name": "-list",
+            "description": "Output annotated source for functions matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-pdf",
+            "description": "Outputs a graph in PDF format"
+        },
+        {
+            "name": "-peek",
+            "description": "Output callers/callees of functions matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-png",
+            "description": "Outputs a graph image in PNG format"
+        },
+        {
+            "name": "-proto",
+            "description": "Outputs the profile in compressed protobuf format"
+        },
+        {
+            "name": "-ps",
+            "description": "Outputs a graph in PS format"
+        },
+        {
+            "name": "-raw",
+            "description": "Outputs a text representation of the raw profile"
+        },
+        {
+            "name": "-svg",
+            "description": "Outputs a graph in SVG format"
+        },
+        {
+            "name": "-tags",
+            "description": "Outputs all tags in the profile"
+        },
+        {
+            "name": "-text",
+            "description": "Outputs top entries in text form"
+        },
+        {
+            "name": "-top",
+            "description": "Outputs top entries in text form"
+        },
+        {
+            "name": "-topproto",
+            "description": "Outputs top entries in compressed protobuf format"
+        },
+        {
+            "name": "-traces",
+            "description": "Outputs all profile samples in text form"
+        },
+        {
+            "name": "-tree",
+            "description": "Outputs a text rendering of call graph"
+        },
+        {
+            "name": "-web",
+            "description": "Visualize graph through web browser"
+        },
+        {
+            "name": "-weblist",
+            "description": "Display annotated source in a web browser",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-call_tree",
+            "description": "Create a context-sensitive call tree"
+        },
+        {
+            "name": "-compact_labels",
+            "description": "Show minimal headers"
+        },
+        {
+            "name": "-divide_by",
+            "description": "Ratio to divide all samples before visualization",
+            "args": {
+                "name": "ratio"
+            }
+        },
+        {
+            "name": "-drop_negative",
+            "description": "Ignore negative differences"
+        },
+        {
+            "name": "-edgefraction",
+            "description": "Hide edges below <f>*total",
+            "args": {
+                "name": "fraction"
+            }
+        },
+        {
+            "name": "-focus",
+            "description": "Restricts to samples going through a node matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-hide",
+            "description": "Skips nodes matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-ignore",
+            "description": "Skips paths going through any nodes matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-intel_syntax",
+            "description": "Show assembly in Intel syntax"
+        },
+        {
+            "name": "-mean",
+            "description": "Average sample value over first value (count)"
+        },
+        {
+            "name": "-nodecount",
+            "description": "Max number of nodes to show",
+            "args": {
+                "name": "n"
+            }
+        },
+        {
+            "name": "-nodefraction",
+            "description": "Hide nodes below <f>*total",
+            "args": {
+                "name": "fraction"
+            }
+        },
+        {
+            "name": "-noinlines",
+            "description": "Ignore inlines"
+        },
+        {
+            "name": "-normalize",
+            "description": "Scales profile based on the base profile"
+        },
+        {
+            "name": "-output",
+            "description": "Output filename for file-based outputs",
+            "args": {
+                "name": "file",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-prune_from",
+            "description": "Drops any functions below the matched frame",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-relative_percentages",
+            "description": "Show percentages relative to focused subgraph"
+        },
+        {
+            "name": "-sample_index",
+            "description": "Sample value to report (0-based index or name)",
+            "args": {
+                "name": "index_or_name",
+                "suggestions": [
+                    {
+                        "name": "inuse_space",
+                        "description": "Memory in use (bytes)"
+                    },
+                    {
+                        "name": "inuse_objects",
+                        "description": "Objects in use"
+                    },
+                    {
+                        "name": "alloc_space",
+                        "description": "Total memory allocated (bytes)"
+                    },
+                    {
+                        "name": "alloc_objects",
+                        "description": "Total objects allocated"
+                    },
+                    {
+                        "name": "cpu",
+                        "description": "CPU time"
+                    },
+                    {
+                        "name": "samples",
+                        "description": "Sample counts"
+                    },
+                    {
+                        "name": "contentions",
+                        "description": "Mutex/blocking contentions"
+                    },
+                    {
+                        "name": "delay",
+                        "description": "Blocking or mutex delay"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "-show",
+            "description": "Only show nodes matching regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-show_from",
+            "description": "Drops functions above the highest matched frame",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-showcolumns",
+            "description": "Show column numbers at the source code line level"
+        },
+        {
+            "name": "-source_path",
+            "description": "Search path for source files",
+            "args": {
+                "name": "path",
+                "template": [
+                    "folders"
+                ]
+            }
+        },
+        {
+            "name": "-tagfocus",
+            "description": "Restricts to samples with tags in range or matched by regexp",
+            "args": {
+                "name": "regexp_or_range"
+            }
+        },
+        {
+            "name": "-taghide",
+            "description": "Skip tags matching this regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-tagignore",
+            "description": "Discard samples with tags in range or matched by regexp",
+            "args": {
+                "name": "regexp_or_range"
+            }
+        },
+        {
+            "name": "-tagleaf",
+            "description": "Adds pseudo stack frames for labels key/value pairs at the callstack leaf"
+        },
+        {
+            "name": "-tagroot",
+            "description": "Adds pseudo stack frames for labels key/value pairs at the callstack root"
+        },
+        {
+            "name": "-tagshow",
+            "description": "Only consider tags matching this regexp",
+            "args": {
+                "name": "regexp"
+            }
+        },
+        {
+            "name": "-trim",
+            "description": "Honor nodefraction/edgefraction/nodecount defaults"
+        },
+        {
+            "name": "-trim_path",
+            "description": "Path to trim from source paths before search",
+            "args": {
+                "name": "path"
+            }
+        },
+        {
+            "name": "-unit",
+            "description": "Measurement units to display",
+            "args": {
+                "name": "unit",
+                "suggestions": [
+                    {
+                        "name": "auto"
+                    },
+                    {
+                        "name": "nanoseconds"
+                    },
+                    {
+                        "name": "microseconds"
+                    },
+                    {
+                        "name": "milliseconds"
+                    },
+                    {
+                        "name": "seconds"
+                    },
+                    {
+                        "name": "minutes"
+                    },
+                    {
+                        "name": "hours"
+                    },
+                    {
+                        "name": "bytes"
+                    },
+                    {
+                        "name": "kilobytes"
+                    },
+                    {
+                        "name": "megabytes"
+                    },
+                    {
+                        "name": "gigabytes"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "-functions",
+            "description": "Aggregate at the function level (granularity)"
+        },
+        {
+            "name": "-filefunctions",
+            "description": "Aggregate at the function level (granularity)"
+        },
+        {
+            "name": "-files",
+            "description": "Aggregate at the file level (granularity)"
+        },
+        {
+            "name": "-lines",
+            "description": "Aggregate at the source code line level (granularity)"
+        },
+        {
+            "name": "-addresses",
+            "description": "Aggregate at the address level (granularity)"
+        },
+        {
+            "name": "-cum",
+            "description": "Sort entries based on cumulative weight"
+        },
+        {
+            "name": "-flat",
+            "description": "Sort entries based on own weight"
+        },
+        {
+            "name": "-seconds",
+            "description": "Duration for time-based profile collection",
+            "args": {
+                "name": "seconds"
+            }
+        },
+        {
+            "name": "-timeout",
+            "description": "Timeout in seconds for profile collection",
+            "args": {
+                "name": "seconds"
+            }
+        },
+        {
+            "name": "-buildid",
+            "description": "Override build id for main binary",
+            "args": {
+                "name": "id"
+            }
+        },
+        {
+            "name": "-add_comment",
+            "description": "Free-form annotation to add to the profile (displayed on some reports or with pprof -comments)",
+            "args": {
+                "name": "text"
+            }
+        },
+        {
+            "name": "-diff_base",
+            "description": "Source of base profile for comparison",
+            "args": {
+                "name": "source",
+                "generatorName": "saved_profiles",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-base",
+            "description": "Source of base profile for profile subtraction",
+            "args": {
+                "name": "source",
+                "generatorName": "saved_profiles",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-symbolize",
+            "requiresSeparator": true,
+            "description": "Controls source of symbol information",
+            "args": {
+                "name": "mode",
+                "suggestions": [
+                    {
+                        "name": "none",
+                        "description": "Do not attempt symbolization"
+                    },
+                    {
+                        "name": "local",
+                        "description": "Examine only local binaries"
+                    },
+                    {
+                        "name": "fastlocal",
+                        "description": "Only get function names from local binaries"
+                    },
+                    {
+                        "name": "remote",
+                        "description": "Do not examine local binaries"
+                    },
+                    {
+                        "name": "force",
+                        "description": "Force re-symbolization"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "-tls_cert",
+            "description": "TLS client certificate file for fetching profile and symbols",
+            "args": {
+                "name": "file",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-tls_key",
+            "description": "TLS private key file for fetching profile and symbols",
+            "args": {
+                "name": "file",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-tls_ca",
+            "description": "TLS CA certs file for fetching profile and symbols",
+            "args": {
+                "name": "file",
+                "template": [
+                    "filepaths"
+                ]
+            }
+        },
+        {
+            "name": "-http",
+            "description": "Provide web interface at host:port (host defaults to localhost, port defaults to a random available port)",
+            "args": {
+                "name": "host:port",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "-no_browser",
+            "description": "Skip opening a browser for the interactive web UI"
+        },
+        {
+            "name": "-tools",
+            "description": "Search path for object tools",
+            "args": {
+                "name": "path",
+                "template": [
+                    "folders"
+                ]
+            }
+        },
+        {
+            "name": "-all_frames",
+            "description": "Ignore drop_frames and keep_frames regexps in the profile (rarely needed, mainly used for debugging pprof itself)"
+        },
+        {
+            "name": "-inuse_space",
+            "description": "Same as -sample_index=inuse_space"
+        },
+        {
+            "name": "-inuse_objects",
+            "description": "Same as -sample_index=inuse_objects"
+        },
+        {
+            "name": "-alloc_space",
+            "description": "Same as -sample_index=alloc_space"
+        },
+        {
+            "name": "-alloc_objects",
+            "description": "Same as -sample_index=alloc_objects"
+        },
+        {
+            "name": "-total_delay",
+            "description": "Same as -sample_index=delay"
+        },
+        {
+            "name": "-contentions",
+            "description": "Same as -sample_index=contentions"
+        },
+        {
+            "name": "-mean_delay",
+            "description": "Same as -mean -sample_index=delay"
+        },
+        {
+            "name": [
+                "-h",
+                "-help",
+                "--help"
+            ],
+            "description": "Show help for pprof"
+        }
+    ],
+    "args": {
+        "name": "source",
+        "description": "Binary and/or profile source(s): local profile file, URL like http://host/profile, or a saved profile",
+        "isVariadic": true,
+        "isOptional": true,
+        "generatorName": "saved_profiles",
+        "template": [
+            "filepaths"
+        ]
+    }
+}
