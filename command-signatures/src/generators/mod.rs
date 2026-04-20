@@ -52,6 +52,7 @@ mod pass;
 mod phpunit_watcher;
 mod pip;
 mod powershell;
+mod pprof;
 mod pyenv;
 mod react_native;
 mod ros2;
@@ -109,6 +110,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         pip::generator(),
         pip::pip3_generator(),
         npm::pnpm_generators(),
+        pprof::generator(),
         pyenv::generator(),
         react_native::generator(),
         scp::generator(),
