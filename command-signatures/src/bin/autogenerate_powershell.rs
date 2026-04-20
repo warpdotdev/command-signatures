@@ -15,7 +15,10 @@ fn main() {
         run_pwsh_command("Get-Command -Type Cmdlet | Select-Object -ExpandProperty Name");
     let all_cmdlet_names = all_cmdlet_names.trim().lines().collect_vec();
 
-    println!("Parsing help pages for {} Cmdlets...", all_cmdlet_names.len());
+    println!(
+        "Parsing help pages for {} Cmdlets...",
+        all_cmdlet_names.len()
+    );
     let all_cmdlet_specs = all_cmdlet_names
         .par_iter()
         .filter_map(|cmdlet_name| {
