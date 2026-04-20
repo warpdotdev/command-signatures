@@ -12,7 +12,7 @@ use crate::{
 };
 
 fn clean_description(s: &str) -> String {
-    let s = s.replace("\r\n", " ").replace('\n', " ").replace('\r', " ");
+    let s = s.replace(['\n', '\r'], " ");
     let s = s.replace("**", "");
     s.split_whitespace().collect::<Vec<_>>().join(" ")
 }
