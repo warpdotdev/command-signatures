@@ -1,0 +1,304 @@
+{
+  "name": "New-WindowsImage",
+  "options": [
+    {
+      "name": "-CapturePath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the drive or path to the Windows operating system that is to be captured to an image file."
+    },
+    {
+      "name": "-CheckIntegrity",
+      "description": "Detects and tracks .wim file corruption when used with the Add-WindowsImage, Dismount-WindowsImage, or Save-WindowsImage cmdlet. CheckIntegrity stops the operation if DISM detects that the .wim file is corrupted when used with the Expand-WindowsImage or Mount-WindowsImage cmdlet."
+    },
+    {
+      "name": "-CompressionType",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the type of compression used for the initial capture operation:"
+    },
+    {
+      "name": "-ConfigFilePath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the location of a configuration file that lists exclusions for image capture commands and compress commands. For more information, see [DISM Configuration List and WimScript.ini Files](https://go.microsoft.com/fwlink/?LinkID=313768) in the TechNet Library."
+    },
+    {
+      "name": "-Description",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the description of the image to be captured."
+    },
+    {
+      "name": "-ImagePath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the location of a WIM file."
+    },
+    {
+      "name": "-LogLevel",
+      "args": [
+        {
+          "name": "LogLevel",
+          "suggestions": [
+            {
+              "name": "Debug"
+            },
+            {
+              "name": "Errors"
+            },
+            {
+              "name": "Warnings"
+            },
+            {
+              "name": "WarningsInfo"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the maximum output level shown in the logs. The default log level is WarningsInfo. The accepted values are as follows:"
+    },
+    {
+      "name": "-LogPath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the full path and file name to log to. If not set, the default is `%WINDIR%\\Logs\\Dism\\dism.log`. In Windows PE, the default directory is the RAMDISK scratch space which can be as low as 32 MB. The log file will automatically be archived. The archived log file will be saved with .bak appended to the file name and a new log file will be generated. Each time the log file is archived the .bak file will be overwritten. When using a network share that is not joined to a domain, use the net use command together with domain credentials to set access permissions before you set the log path for the DISM log."
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of an image in a WIM file."
+    },
+    {
+      "name": "-NoRpFix",
+      "description": "Disables the reparse point tag fix. A reparse point is a file that contains a link to another file on the file system. If the parameter is not specified, reparse points that resolve to paths outside of the value specified by the *ImagePath* parameter will not be captured."
+    },
+    {
+      "name": "-ScratchDirectory",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies a temporary directory that will be used when extracting files for use during servicing. The directory must exist locally. If not specified, the `\\Windows\\%Temp%` directory will be used, with a subdirectory name of a randomly generated hexadecimal value for each run of DISM. Items in the scratch directory are deleted after each operation. You should not use a network share location as a scratch directory to expand a package (.cab or .msu file) for installation. The directory used for extracting files for temporary usage during servicing should be a local directory."
+    },
+    {
+      "name": "-Setbootable",
+      "description": "Marks a volume image as being a bootable image. This argument is available only for Windows PE images. Only one volume image can be marked as bootable in a .wim file."
+    },
+    {
+      "name": "-SupportEa",
+      "description": "Captures extended attributes. The switch must be explicitly specified to capture extended attributes. DISM captures extended attribute bits if they are set in the components to be captured in the WIM image. If the bits are not set, DISM won't set them. Only the inbox components of CAB packages and drivers will have these extended attribute bits, not the AppX package components or Win32 application components. Extended attributes with the prefix `$Kernel.` in their name are skipped because only user mode extended attributes are captured."
+    },
+    {
+      "name": "-Verify",
+      "description": "Checks for errors and file duplication. During an apply operation, for example, using the Add-WindowsImage cmdlet, the size and the hash of the file being applied are checked against the image file to verify they are both equal. During a capture operation, for example, when using the New-WindowsImage cmdlet, after the file is captured into a Windows image, the file is written to a temporary file and compared on a bit-by-bit basis with the original file."
+    },
+    {
+      "name": "-WIMBoot",
+      "description": "Specifies that the image will be formatted to install on a Windows Image Format Boot (WIMBoot) system."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [],
+  "description": "Captures an image of a drive to a new WIM file.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

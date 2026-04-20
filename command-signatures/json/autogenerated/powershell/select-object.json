@@ -2,13 +2,17 @@
   "name": "Select-Object",
   "options": [
     {
+      "name": "-CaseInsensitive",
+      "description": "By default, when you use the Unique parameter the cmdlet uses case-sensitive comparisons. When you use this parameter, the cmdlet uses case-insensitive comparisons."
+    },
+    {
       "name": "-ExcludeProperty",
       "args": [
         {
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies the properties that this cmdlet excludes from the operation. Wildcards are permitted.\n"
+      "description": "Specifies the properties that this cmdlet excludes from the operation. Wildcards are permitted."
     },
     {
       "name": "-ExpandProperty",
@@ -17,7 +21,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a property to select, and indicates that an attempt should be made to expand that property. If the input object pipeline doesn't have the property named, `Select-Object` returns an error.\n"
+      "description": "Specifies a property to select, and indicates that an attempt should be made to expand that property. If the input object pipeline doesn't have the property named, `Select-Object` returns an error. This parameter supports wildcards. However, the wildcard character must resolve to a single property name. If the wildcard character resolves to more than one property name, `Select-Object` returns an error."
     },
     {
       "name": "-First",
@@ -44,7 +48,7 @@
           "name": "System.Management.Automation.PSObject"
         }
       ],
-      "description": "Specifies objects to send to the cmdlet through the pipeline. This parameter enables you to pipe objects to `Select-Object`.\n"
+      "description": "Specifies objects to send to the cmdlet through the pipeline. This parameter enables you to pipe objects to `Select-Object`."
     },
     {
       "name": "-Last",
@@ -62,7 +66,7 @@
           "name": "System.Object[]"
         }
       ],
-      "description": "Specifies the properties to select. These properties are added as NoteProperty members to the output objects. Wildcards are permitted. If the input object doesn't have the property named, the value of the new NoteProperty is set to `$null`.\n"
+      "description": "Specifies the properties to select. These properties are added as NoteProperty members to the output objects. Wildcards are permitted. If the input object doesn't have the property named, the value of the new NoteProperty is set to `$null`."
     },
     {
       "name": "-Skip",
@@ -71,7 +75,7 @@
           "name": "System.Int32"
         }
       ],
-      "description": "Skips (doesn't select) the specified number of items. By default, the Skip parameter counts from the beginning of the collection of objects. If the command uses the Last parameter, it counts from the end of the collection.\n"
+      "description": "Skips (doesn't select) the specified number of items. By default, the Skip parameter counts from the beginning of the collection of objects. If the command uses the Last parameter, it counts from the end of the collection."
     },
     {
       "name": "-SkipIndex",
@@ -80,7 +84,7 @@
           "name": "System.Int32[]"
         }
       ],
-      "description": "Skips (doesn't select) the objects from an array based on their index values. Enter the indexes in a comma-separated list. Indexes in an array begin with 0, where 0 represents the first value and (n-1) represents the last value.\n"
+      "description": "Skips (doesn't select) the objects from an array based on their index values. Enter the indexes in a comma-separated list. Indexes in an array begin with 0, where 0 represents the first value and (n-1) represents the last value."
     },
     {
       "name": "-SkipLast",
@@ -89,15 +93,15 @@
           "name": "System.Int32"
         }
       ],
-      "description": "Skips (doesn't select) the specified number of items from the end of the list or array. Works in the same way as using Skip together with Last parameter.\n"
+      "description": "Skips (doesn't select) the specified number of items from the end of the list or array. Works in the same way as using Skip together with Last parameter."
     },
     {
       "name": "-Unique",
-      "description": "Specifies that if a subset of the input objects has identical properties and values, only a single member of the subset should be selected. Unique selects values after other filtering parameters are applied.\n"
+      "description": "Specifies that if a subset of the input objects has identical properties and values, only a single member of the subset should be selected."
     },
     {
       "name": "-Wait",
-      "description": "Indicates that the cmdlet turns off optimization. PowerShell runs commands in the order that they appear in the command pipeline and lets them generate all objects. By default, if you include a `Select-Object` command with the First or Index parameters in a command pipeline, PowerShell stops the command that generates the objects as soon as the selected number of objects is generated.\n"
+      "description": "Indicates that the cmdlet turns off optimization. PowerShell runs commands in the order that they appear in the command pipeline and lets them generate all objects. By default, if you include a `Select-Object` command with the First or Index parameters in a command pipeline, PowerShell stops the command that generates the objects as soon as the selected number of objects is generated."
     },
     {
       "name": [
@@ -273,7 +277,7 @@
   "args": [
     {
       "name": "-Property",
-      "description": "Specifies the properties to select. These properties are added as NoteProperty members to the output objects. Wildcards are permitted. If the input object doesn't have the property named, the value of the new NoteProperty is set to `$null`.\n"
+      "description": "Specifies the properties to select. These properties are added as NoteProperty members to the output objects. Wildcards are permitted. If the input object doesn't have the property named, the value of the new NoteProperty is set to `$null`."
     }
   ],
   "description": "Selects objects or object properties.",

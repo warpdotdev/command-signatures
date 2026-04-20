@@ -3,7 +3,11 @@
   "options": [
     {
       "name": "-AsByteStream",
-      "description": "Specifies that the content should be read as a stream of bytes. This parameter was introduced in PowerShell 6.0.\n"
+      "description": "Specifies that the content should be read as a stream of bytes. This parameter was introduced in PowerShell 6.0."
+    },
+    {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
     },
     {
       "name": "-Credential",
@@ -11,7 +15,8 @@
         {
           "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter isn't supported by any providers installed with PowerShell. > To impersonate another user, or elevate your credentials when running this cmdlet, > use [Invoke-Command](../Microsoft.PowerShell.Core/Invoke-Command.md)."
     },
     {
       "name": "-Encoding",
@@ -20,40 +25,42 @@
           "name": "System.Text.Encoding",
           "suggestions": [
             {
-              "name": "ASCII"
+              "name": "ansi"
             },
             {
-              "name": "BigEndianUnicode"
+              "name": "ascii"
             },
             {
-              "name": "BigEndianUTF32"
+              "name": "bigendianunicode"
             },
             {
-              "name": "OEM"
+              "name": "bigendianutf32"
             },
             {
-              "name": "Unicode"
+              "name": "oem"
             },
             {
-              "name": "UTF7"
+              "name": "unicode"
             },
             {
-              "name": "UTF8"
+              "name": "utf32"
             },
             {
-              "name": "UTF8BOM"
+              "name": "utf7"
             },
             {
-              "name": "UTF8NoBOM"
+              "name": "utf8"
             },
             {
-              "name": "UTF32"
+              "name": "utf8BOM"
+            },
+            {
+              "name": "utf8NoBOM"
             }
-          ],
-          "default": "UTF8NoBOM"
+          ]
         }
       ],
-      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`.\n"
+      "description": "Specifies the type of encoding for the target file. The default value is `utf8NoBOM`."
     },
     {
       "name": "-Exclude",
@@ -62,7 +69,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as ` .txt`. Wildcard characters are permitted. The Exclude * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcard characters are permitted. The Exclude parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
       "name": "-Filter",
@@ -71,7 +78,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in about_Wildcards (../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in [about_Wildcards](../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved."
     },
     {
       "name": "-Force",
@@ -84,25 +91,21 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `\" .txt\"`. Wildcard characters are permitted. The Include * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `\"*.txt\"`. Wildcard characters are permitted. The Include parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
     },
     {
       "name": "-NoNewline",
-      "description": "Indicates that this cmdlet doesn't add a new line or carriage return to the content.\n"
+      "description": "Indicates that this cmdlet doesn't add a new line or carriage return to the content."
     },
     {
       "name": "-PassThru",
@@ -125,7 +128,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies an alternative data stream for content. If the stream doesn't exist, this cmdlet creates it. Wildcard characters aren't supported. Stream is a dynamic parameter that the FileSystem provider adds to `Add-Content`. This parameter works only in file system drives.\n"
+      "description": "> [!NOTE] > This Parameter is only available on Windows."
     },
     {
       "name": "-Value",
@@ -135,20 +138,10 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the content to be added. Type a quoted string, such as **This data is for internal use only , or specify an object that contains content, such as the DateTime** object that `Get-Date` generates.\n"
+      "description": "Specifies the content to be added. Type a quoted string, such as This data is for internal use only, or specify an object that contains content, such as the DateTime object that `Get-Date` generates."
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Shows what would happen if the cmdlet runs. The cmdlet isn't run."
     },
     {
@@ -329,7 +322,7 @@
     },
     {
       "name": "-Value",
-      "description": "Specifies the content to be added. Type a quoted string, such as **This data is for internal use only , or specify an object that contains content, such as the DateTime** object that `Get-Date` generates.\n"
+      "description": "Specifies the content to be added. Type a quoted string, such as This data is for internal use only, or specify an object that contains content, such as the DateTime object that `Get-Date` generates."
     }
   ],
   "description": "Adds content to the specified items, such as adding words to a file.",

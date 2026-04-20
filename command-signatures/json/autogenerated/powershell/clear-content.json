@@ -2,13 +2,17 @@
   "name": "Clear-Content",
   "options": [
     {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter is not supported by any providers installed with PowerShell. To impersonate another > user, or elevate your credentials when running this cmdlet, use `Invoke-Command`."
     },
     {
       "name": "-Exclude",
@@ -42,11 +46,7 @@
       "description": "Specifies, as a string array, content that this cmdlet clears. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcards are permitted."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String[]"
@@ -63,7 +63,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name ( Path ) is optional."
+      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name (Path) is optional."
     },
     {
       "name": "-Stream",
@@ -72,20 +72,10 @@
           "name": "System.String"
         }
       ],
-      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows."
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
     },
     {
@@ -262,7 +252,7 @@
   "args": [
     {
       "name": "-Path",
-      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name ( Path ) is optional."
+      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name (Path) is optional."
     }
   ],
   "description": "Deletes the contents of an item, but does not delete the item.",

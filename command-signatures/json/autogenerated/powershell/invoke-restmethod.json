@@ -2,8 +2,12 @@
   "name": "Invoke-RestMethod",
   "options": [
     {
+      "name": "-AllowInsecureRedirect",
+      "description": "Allows redirecting from HTTPS to HTTP. By default, any request that's redirected from HTTPS to HTTP results in an error and the request is aborted to prevent unintentionally communicating in plain text over unencrypted connections. To override this behavior at your own risk, use the AllowInsecureRedirect parameter."
+    },
+    {
       "name": "-AllowUnencryptedAuthentication",
-      "description": "Allows sending of credentials and secrets over unencrypted connections. By default, supplying Credential or any Authentication option with a Uri that does not begin with `https://` will result in an error and the request will abort to prevent unintentionally communicating secrets in plain text over unencrypted connections. To override this behavior at your own risk, supply the AllowUnencryptedAuthentication parameter.\n"
+      "description": "Allows sending of credentials and secrets over unencrypted connections. By default, supplying Credential or any Authentication option with a Uri that doesn't begin with `https://` results in an error and the request aborts to prevent unintentionally communicating secrets in plain text over unencrypted connections. To override this behavior at your own risk, supply the AllowUnencryptedAuthentication parameter."
     },
     {
       "name": "-Authentication",
@@ -12,13 +16,13 @@
           "name": "Microsoft.PowerShell.Commands.WebAuthenticationType",
           "suggestions": [
             {
-              "name": "None"
-            },
-            {
               "name": "Basic"
             },
             {
               "name": "Bearer"
+            },
+            {
+              "name": "None"
             },
             {
               "name": "OAuth"
@@ -26,7 +30,7 @@
           ]
         }
       ],
-      "description": "Specifies the explicit authentication type to use for the request. The default is None . The Authentication parameter can't be used with the UseDefaultCredentials parameter.\n"
+      "description": "Specifies the explicit authentication type to use for the request. The default is None. The Authentication parameter can't be used with the UseDefaultCredentials parameter."
     },
     {
       "name": "-Body",
@@ -35,7 +39,7 @@
           "name": "System.Object"
         }
       ],
-      "description": "Specifies the body of the request. The body is the content of the request that follows the headers. You can also pipe a body value to `Invoke-RestMethod`.\n"
+      "description": "Specifies the body of the request. The body is the content of the request that follows the headers. You can also pipe a body value to `Invoke-RestMethod`."
     },
     {
       "name": "-Certificate",
@@ -44,7 +48,7 @@
           "name": "System.Security.Cryptography.X509Certificates.X509Certificate"
         }
       ],
-      "description": "Specifies the client certificate that is used for a secure web request. Enter a variable that contains a certificate or a command or expression that gets the certificate.\n"
+      "description": "Specifies the client certificate that's used for a secure web request. Enter a variable that contains a certificate or a command or expression that gets the certificate."
     },
     {
       "name": "-CertificateThumbprint",
@@ -53,7 +57,16 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to send the request. Enter the certificate thumbprint of the certificate.\n"
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to send the request. Enter the certificate thumbprint of the certificate."
+    },
+    {
+      "name": "-ConnectionTimeoutSeconds",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies how long the request can be pending before it times out. Enter a value in seconds. The default value, 0, specifies an indefinite time-out."
     },
     {
       "name": "-ContentType",
@@ -62,41 +75,34 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies the content type of the web request.\n"
+      "description": "Specifies the content type of the web request."
     },
     {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
       ],
-      "description": "Specifies a user account that has permission to send the request. The default is the current user.\n"
+      "description": "Specifies a user account that has permission to send the request. The default is the current user."
     },
     {
-      "name": [
-        "-CustomMethod",
-        "-CM"
-      ],
+      "name": "-CustomMethod",
       "args": [
         {
           "name": "System.String"
         }
       ],
       "isRequired": true,
-      "description": "Specifies custom method used for the web request. This can be used with the Request Method required by the endpoint is not an available option on the Method . Method and CustomMethod cannot be used together.\n"
+      "description": "Specifies custom method used for the web request. This can be used with the Request Method required by the endpoint isn't an available option on the Method. Method and CustomMethod can't be used together."
     },
     {
       "name": "-DisableKeepAlive",
-      "description": "Indicates that the cmdlet sets the KeepAlive value in the HTTP header to False. By default, KeepAlive is True. KeepAlive establishes a persistent connection to the server to facilitate subsequent requests."
+      "description": "Sets the KeepAlive value in the HTTP header to False. By default, KeepAlive is True. KeepAlive establishes a persistent connection to the server to facilitate subsequent requests."
     },
     {
-      "name": [
-        "-FollowRelLink",
-        "-FL"
-      ],
-      "description": "Indicates the cmdlet should follow relation links.\n"
+      "name": "-FollowRelLink",
+      "description": "Indicates the cmdlet should follow relation links."
     },
     {
       "name": "-Form",
@@ -105,7 +111,7 @@
           "name": "System.Collections.IDictionary"
         }
       ],
-      "description": "Converts a dictionary to a `multipart/form-data` submission. Form may not be used with Body . If ContentType will be ignored.\n"
+      "description": "Converts a dictionary to a `multipart/form-data` submission. Form may not be used with Body. The ContentType is ignored."
     },
     {
       "name": "-Headers",
@@ -114,7 +120,7 @@
           "name": "System.Collections.IDictionary"
         }
       ],
-      "description": "Specifies the headers of the web request. Enter a hash table or dictionary.\n"
+      "description": "Specifies the headers of the web request. Enter a hash table or dictionary."
     },
     {
       "name": "-HttpVersion",
@@ -123,7 +129,7 @@
           "name": "System.Version"
         }
       ],
-      "description": "Specifies the HTTP version used for the request. The default is `1.1`.\n"
+      "description": "Specifies the HTTP version used for the request. The default is `1.1`."
     },
     {
       "name": "-InFile",
@@ -132,20 +138,16 @@
           "name": "System.String"
         }
       ],
-      "description": "Gets the content of the web request from a file.\n"
+      "description": "Gets the content of the web request body from a file. Enter a path and filename. If you omit the path, the default is the current location."
     },
     {
-      "name": [
-        "-MaximumFollowRelLink",
-        "-ML"
-      ],
+      "name": "-MaximumFollowRelLink",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "Int32.MaxValue"
+          "name": "System.Int32"
         }
       ],
-      "description": "Specifies how many times to follow relation links if FollowRelLink is used. A smaller value may be needed if the REST api throttles due to too many requests. The default value is `[Int32]::MaxValue`. A value of 0 (zero) prevents following relation links."
+      "description": "Specifies how many times to follow relation links if FollowRelLink is used. A smaller value may be needed if the REST api throttles due to too many requests. The default value is `[int32]::MaxValue`. A value of 0 (zero) prevents following relation links."
     },
     {
       "name": "-MaximumRedirection",
@@ -163,7 +165,7 @@
           "name": "System.Int32"
         }
       ],
-      "description": "Specifies how many times PowerShell retries a connection when a failure code between 400 and 599, inclusive or 304 is received. Also, see the RetryIntervalSec parameter for specifying the number of seconds between retries."
+      "description": "Specifies how many times PowerShell retries a connection when a failure code between 400 and 599, inclusive or 304 is received. Also see RetryIntervalSec parameter for specifying the interval between retries."
     },
     {
       "name": "-Method",
@@ -175,10 +177,22 @@
               "name": "Default"
             },
             {
+              "name": "Delete"
+            },
+            {
               "name": "Get"
             },
             {
               "name": "Head"
+            },
+            {
+              "name": "Merge"
+            },
+            {
+              "name": "Options"
+            },
+            {
+              "name": "Patch"
             },
             {
               "name": "Post"
@@ -187,29 +201,26 @@
               "name": "Put"
             },
             {
-              "name": "Delete"
-            },
-            {
               "name": "Trace"
-            },
-            {
-              "name": "Options"
-            },
-            {
-              "name": "Merge"
-            },
-            {
-              "name": "Patch"
             }
           ]
         }
       ],
-      "description": "Specifies the method used for the web request. The acceptable values for this parameter are:\n"
+      "description": "Specifies the method used for the web request. The acceptable values for this parameter are:"
     },
     {
       "name": "-NoProxy",
       "isRequired": true,
-      "description": "Indicates that the cmdlet will not use a proxy to reach the destination.\n"
+      "description": "Indicates that the cmdlet won't use a proxy to reach the destination. Use this to bypass the proxy configured in your internet settings or specified in the environment."
+    },
+    {
+      "name": "-OperationTimeoutSeconds",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "This timeout applies to data reads within a stream, not to the stream time as a whole. The default value, 0, specifies an indefinite timeout."
     },
     {
       "name": "-OutFile",
@@ -218,15 +229,19 @@
           "name": "System.String"
         }
       ],
-      "description": "Saves the response body in the specified output file. Enter a path and filename. If you omit the path, the default is the current location. The name is treated as a literal path. Names that contain brackets (`[]`) must be enclosed in single quotes (`'`).\n"
+      "description": "By default, `Invoke-RestMethod` returns the results to the pipeline. When you use the OutFile parameter, the results are saved to the specified file and not returned to the pipeline. Enter a path and filename. To send the results to a file and to the pipeline, add the PassThru parameter."
     },
     {
       "name": "-PassThru",
-      "description": "This parameter is valid only when the OutFile parameter is also used in the command. The intent is to have the results written to the file and to the pipeline.\n"
+      "description": "This parameter is valid only when the OutFile parameter is also used in the command. The intent is to have the results written to the file and to the pipeline."
     },
     {
       "name": "-PreserveAuthorizationOnRedirect",
-      "description": "Indicates the cmdlet should preserve the `Authorization` header, when present, across redirections.\n"
+      "description": "Indicates the cmdlet should preserve the `Authorization` header, when present, across redirections."
+    },
+    {
+      "name": "-PreserveHttpMethodOnRedirect",
+      "description": "Indicates the cmdlet should preserve the method of the request across redirections."
     },
     {
       "name": "-Proxy",
@@ -235,7 +250,7 @@
           "name": "System.Uri"
         }
       ],
-      "description": "Uses a proxy server for the request, rather than connecting directly to the internet resource. Enter the Uniform Resource Identifier (URI) of a network proxy server.\n"
+      "description": "Uses a proxy server for the request, rather than connecting directly to the internet resource. Enter the Uniform Resource Identifier (URI) of a network proxy server."
     },
     {
       "name": "-ProxyCredential",
@@ -244,61 +259,54 @@
           "name": "System.Management.Automation.PSCredential"
         }
       ],
-      "description": "Specifies a user account that has permission to use the proxy server that is specified by the Proxy parameter. The default is the current user.\n"
+      "description": "Specifies a user account that has permission to use the proxy server that's specified by the Proxy parameter. The default is the current user."
     },
     {
       "name": "-ProxyUseDefaultCredentials",
-      "description": "Indicates that the cmdlet uses the credentials of the current user to access the proxy server that is specified by the Proxy parameter.\n"
+      "description": "Uses the credentials of the current user to access the proxy server that is specified by the Proxy parameter."
     },
     {
-      "name": [
-        "-ResponseHeadersVariable",
-        "-RHV"
-      ],
+      "name": "-ResponseHeadersVariable",
       "args": [
         {
           "name": "System.String"
         }
       ],
-      "description": "Creates a variable containing a Response Headers Dictionary. Enter a variable name without the dollar sign (`$`) symbol. The keys of the dictionary contain the field names and values of the Response Header returned by the web server.\n"
+      "description": "Creates a variable containing a Response Headers Dictionary. Enter a variable name without the dollar sign (`$`) symbol. The keys of the dictionary contain the field names and values of the Response Header returned by the web server."
     },
     {
       "name": "-Resume",
-      "description": "Performs a best effort attempt to resume downloading a partial file. The Resume parameter requires the OutFile parameter. Resume only operates on the size of the local file and remote file and performs no other validation that the local file and the remote file are the same.\n"
+      "description": "Performs a best effort attempt to resume downloading a partial file. The Resume parameter requires the OutFile parameter."
     },
     {
       "name": "-RetryIntervalSec",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "5"
+          "name": "System.Int32"
         }
       ],
-      "description": "Specifies the interval between retries for the connection when a failure code between 400 and 599, inclusive or 304 is received. The value must be between `1` and `[int]::MaxValue`.\n"
+      "description": "Specifies the interval between retries for the connection when a failure code between 400 and 599, inclusive or 304 is received. The value must be between `1` and `[int]::MaxValue`. When the failure code is 429 and the response includes the Retry-After property in its headers, the cmdlet uses that value for the retry interval, even if this parameter is specified."
     },
     {
-      "name": [
-        "-SessionVariable",
-        "-SV"
-      ],
+      "name": "-SessionVariable",
       "args": [
         {
           "name": "System.String"
         }
       ],
-      "description": "Creates a variable containing the web request session. Enter a variable name without the dollar sign (`$`) symbol.\n"
+      "description": "Creates a variable containing the web request session. Enter a variable name without the dollar sign (`$`) symbol."
     },
     {
       "name": "-SkipCertificateCheck",
-      "description": "Skips certificate validation checks that include all validations such as expiration, revocation, trusted root authority, etc.\n"
+      "description": "Skips certificate validation checks that include all validations such as expiration, revocation, trusted root authority, etc."
     },
     {
       "name": "-SkipHeaderValidation",
-      "description": "Indicates the cmdlet should add headers to the request without validation.\n"
+      "description": "Indicates the cmdlet should add headers to the request without validation."
     },
     {
       "name": "-SkipHttpErrorCheck",
-      "description": "This parameter causes the cmdlet to ignore HTTP error statuses and continue to process responses. The error responses are written to the pipeline just as if they were successful.\n"
+      "description": "This parameter causes the cmdlet to ignore HTTP error statuses and continue to process responses. The error responses are written to the pipeline just as if they were successful."
     },
     {
       "name": "-SslProtocol",
@@ -324,7 +332,7 @@
           ]
         }
       ],
-      "description": "Sets the SSL/TLS protocols that are permissible for the web request. By default all, SSL/TLS protocols supported by the system are allowed. SslProtocol allows for limiting to specific protocols for compliance purposes.\n"
+      "description": "Sets the SSL/TLS protocols that are permissible for the web request. By default all, SSL/TLS protocols supported by the system are allowed. SslProtocol allows for limiting to specific protocols for compliance purposes."
     },
     {
       "name": "-StatusCodeVariable",
@@ -333,16 +341,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Creates a variable containing a HTTP status code result of the request. Enter a variable name without the dollar sign (`$`) symbol.\n"
-    },
-    {
-      "name": "-TimeoutSec",
-      "args": [
-        {
-          "name": "System.Int32"
-        }
-      ],
-      "description": "Specifies how long the request can be pending before it times out. Enter a value in seconds. The default value, 0, specifies an indefinite time-out.\n"
+      "description": "Creates a variable containing a HTTP status code result of the request. Enter a variable name without the dollar sign (`$`) symbol."
     },
     {
       "name": "-Token",
@@ -351,7 +350,7 @@
           "name": "System.Security.SecureString"
         }
       ],
-      "description": "The OAuth or Bearer token to include in the request. Token is required by certain Authentication options. It can't be used independently. Token takes a `SecureString` that contains the token. To supply the token, manually use the following:\n"
+      "description": "The OAuth or Bearer token to include in the request. Token is required by certain Authentication options. It can't be used independently."
     },
     {
       "name": "-TransferEncoding",
@@ -377,7 +376,16 @@
           ]
         }
       ],
-      "description": "Specifies a value for the transfer-encoding HTTP response header. The acceptable values for this parameter are:\n"
+      "description": "Specifies a value for the transfer-encoding HTTP response header. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-UnixSocket",
+      "args": [
+        {
+          "name": "System.Net.Sockets.UnixDomainSocketEndPoint"
+        }
+      ],
+      "description": "Specifies the name of the Unix socket to connect to. This parameter is supported on Unix-based systems and Windows version 1803 and later. For more information about Windows support of Unix sockets, see the [Windows/WSL Interop with AF_UNIX](https://devblogs.microsoft.com/commandline/windowswsl-interop-with-af_unix/) blog post."
     },
     {
       "name": "-Uri",
@@ -387,11 +395,11 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the Uniform Resource Identifier (URI) of the internet resource to which the web request is sent. This parameter supports HTTP, HTTPS, FTP, and FILE values.\n"
+      "description": "Specifies the Uniform Resource Identifier (URI) of the internet resource to which the web request is sent. This parameter supports HTTP, HTTPS, FTP, and FILE values."
     },
     {
       "name": "-UseBasicParsing",
-      "description": "This parameter has been deprecated. Beginning with PowerShell 6.0.0, all Web requests use basic parsing only. This parameter is included for backwards compatibility only and any use of it will have no effect on the operation of the cmdlet."
+      "description": "This parameter has been deprecated. Beginning with PowerShell 6.0.0, all Web requests use basic parsing only. This parameter is included for backwards compatibility only. When used, it has no effect on the operation of the cmdlet."
     },
     {
       "name": "-UseDefaultCredentials",
@@ -404,7 +412,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a user agent string for the web request.\n"
+      "description": "Specifies a user agent string for the web request."
     },
     {
       "name": "-WebSession",
@@ -413,7 +421,7 @@
           "name": "Microsoft.PowerShell.Commands.WebRequestSession"
         }
       ],
-      "description": "Specifies a web request session. Enter the variable name, including the dollar sign (`$`).\n"
+      "description": "Specifies a web request session. Enter the variable name, including the dollar sign (`$`)."
     },
     {
       "name": [
@@ -589,7 +597,7 @@
   "args": [
     {
       "name": "-Uri",
-      "description": "Specifies the Uniform Resource Identifier (URI) of the internet resource to which the web request is sent. This parameter supports HTTP, HTTPS, FTP, and FILE values.\n"
+      "description": "Specifies the Uniform Resource Identifier (URI) of the internet resource to which the web request is sent. This parameter supports HTTP, HTTPS, FTP, and FILE values."
     }
   ],
   "description": "Sends an HTTP or HTTPS request to a RESTful web service.",

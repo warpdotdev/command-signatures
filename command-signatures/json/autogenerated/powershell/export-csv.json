@@ -3,17 +3,20 @@
   "options": [
     {
       "name": "-Append",
-      "description": "Use this parameter so that `Export-CSV` adds CSV output to the end of the specified file. Without this parameter, `Export-CSV` replaces the file contents without warning.\n"
+      "description": "Use this parameter so that `Export-Csv` adds CSV output to the end of the specified file. Without this parameter, `Export-Csv` replaces the file contents without warning."
+    },
+    {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
     },
     {
       "name": "-Delimiter",
       "args": [
         {
-          "name": "System.Char",
-          "default": "comma (,)"
+          "name": "System.Char"
         }
       ],
-      "description": "Specifies a delimiter to separate the property values. The default is a comma (`,`). Enter a character, such as a colon (`:`). To specify a semicolon (`;`), enclose it in quotation marks."
+      "description": "Specifies a delimiter to separate the property values. The default is a comma (`,`)."
     },
     {
       "name": "-Encoding",
@@ -22,51 +25,50 @@
           "name": "System.Text.Encoding",
           "suggestions": [
             {
-              "name": "ASCII"
+              "name": "ansi"
             },
             {
-              "name": "BigEndianUnicode"
+              "name": "ascii"
             },
             {
-              "name": "BigEndianUTF32"
+              "name": "bigendianunicode"
             },
             {
-              "name": "OEM"
+              "name": "bigendianutf32"
             },
             {
-              "name": "Unicode"
+              "name": "oem"
             },
             {
-              "name": "UTF7"
+              "name": "unicode"
             },
             {
-              "name": "UTF8"
+              "name": "utf32"
             },
             {
-              "name": "UTF8BOM"
+              "name": "utf7"
             },
             {
-              "name": "UTF8NoBOM"
+              "name": "utf8"
             },
             {
-              "name": "UTF32"
+              "name": "utf8BOM"
+            },
+            {
+              "name": "utf8NoBOM"
             }
-          ],
-          "default": "UTF8NoBOM"
+          ]
         }
       ],
-      "description": "Specifies the encoding for the exported CSV file. The default value is `utf8NoBOM`.\n"
+      "description": "Specifies the encoding for the exported CSV file. The default value is `utf8NoBOM`."
     },
     {
       "name": "-Force",
-      "description": "This parameter allows `Export-Csv` to overwrite files with the Read Only attribute.\n"
+      "description": "This parameter allows `Export-Csv` to overwrite files with the Read Only attribute."
     },
     {
-      "name": [
-        "-IncludeTypeInformation",
-        "-ITI"
-      ],
-      "description": "When this parameter is used the first line of the CSV output contains `#TYPE` followed by the fully qualified name of the object type. For example, `#TYPE System.Diagnostics.Process`.\n"
+      "name": "-IncludeTypeInformation",
+      "description": "When this parameter is used the first line of the CSV output contains `#TYPE` followed by the fully qualified name of the object type. For example, `#TYPE System.Diagnostics.Process`."
     },
     {
       "name": "-InputObject",
@@ -76,33 +78,27 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the objects to export as CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `Export-CSV`."
+      "description": "Specifies the objects to export as CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `Export-Csv`."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String"
         }
       ],
-      "description": "Specifies the path to the CSV output file. Unlike Path , the value of the LiteralPath parameter is used exactly as it is typed. No characters are interpreted as wildcards. If the path includes escape characters, use single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
+      "description": "Specifies the path to the CSV output file. Unlike Path, the value of the LiteralPath parameter is used exactly as it is typed. No characters are interpreted as wildcards. If the path includes escape characters, use single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
     },
     {
-      "name": [
-        "-NoClobber",
-        "-NoOverwrite"
-      ],
-      "description": "Use this parameter so that `Export-CSV` does not overwrite an existing file. By default, if the file exists in the specified path, `Export-CSV` overwrites the file without warning."
+      "name": "-NoClobber",
+      "description": "Use this parameter so that `Export-Csv` does not overwrite an existing file. By default, if the file exists in the specified path, `Export-Csv` overwrites the file without warning."
     },
     {
-      "name": [
-        "-NoTypeInformation",
-        "-NTI"
-      ],
+      "name": "-NoHeader",
+      "description": "When this parameter is used, the cmdlet doesn't write a header row containing the column names to the output."
+    },
+    {
+      "name": "-NoTypeInformation",
       "description": "Removes the `#TYPE` information header from the output. This parameter became the default in PowerShell 6.0 and is included for backwards compatibility."
     },
     {
@@ -115,10 +111,7 @@
       "description": "A required parameter that specifies the location to save the CSV output file."
     },
     {
-      "name": [
-        "-QuoteFields",
-        "-QF"
-      ],
+      "name": "-QuoteFields",
       "args": [
         {
           "name": "System.String[]"
@@ -131,30 +124,27 @@
       "description": "Uses the list separator for the current culture as the item delimiter. To find the list separator for a culture, use the following command: `(Get-Culture).TextInfo.ListSeparator`."
     },
     {
-      "name": [
-        "-UseQuotes",
-        "-UQ"
-      ],
+      "name": "-UseQuotes",
       "args": [
         {
           "name": "Microsoft.PowerShell.Commands.BaseCsvWritingCommand+QuoteKind",
-          "default": "Always"
+          "suggestions": [
+            {
+              "name": "Always"
+            },
+            {
+              "name": "AsNeeded"
+            },
+            {
+              "name": "Never"
+            }
+          ]
         }
       ],
-      "description": "Specifies when quotes are used in the CSV files. Possible values are:\n"
+      "description": "Specifies when quotes are used in the CSV files. Possible values are:"
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Prevents the cmdlet from being processed or making changes. The output shows what would happen if the cmdlet were run."
     },
     {
@@ -335,7 +325,7 @@
     },
     {
       "name": "-Delimiter",
-      "description": "Specifies a delimiter to separate the property values. The default is a comma (`,`). Enter a character, such as a colon (`:`). To specify a semicolon (`;`), enclose it in quotation marks."
+      "description": "Specifies a delimiter to separate the property values. The default is a comma (`,`)."
     }
   ],
   "description": "Converts objects into a series of character-separated value (CSV) strings and saves the strings to a file.",

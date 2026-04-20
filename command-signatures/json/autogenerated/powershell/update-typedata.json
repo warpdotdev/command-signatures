@@ -2,11 +2,7 @@
   "name": "Update-TypeData",
   "options": [
     {
-      "name": [
-        "-AppendPath",
-        "-PSPath",
-        "-Path"
-      ],
+      "name": "-AppendPath",
       "args": [
         {
           "name": "System.String[]"
@@ -15,13 +11,17 @@
       "description": "Specifies the path to optional `.ps1xml` files. The specified files are loaded in the order that they are listed after the built-in files are loaded. You can also pipe an AppendPath value to `Update-TypeData`."
     },
     {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-DefaultDisplayProperty",
       "args": [
         {
           "name": "System.String"
         }
       ],
-      "description": "Specifies the property of the type that is displayed by the `Format-Wide` cmdlet when no other properties are specified.\n"
+      "description": "Specifies the property of the type that is displayed by the `Format-Wide` cmdlet when no other properties are specified."
     },
     {
       "name": "-DefaultDisplayPropertySet",
@@ -30,7 +30,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies one or more properties of the type. These properties are displayed by the `Format-List`, `Format-Table`, and `Format-Custom` cmdlets when no other properties are specified.\n"
+      "description": "Specifies one or more properties of the type. These properties are displayed by the `Format-List`, `Format-Table`, and `Format-Custom` cmdlets when no other properties are specified."
     },
     {
       "name": "-DefaultKeyPropertySet",
@@ -39,11 +39,11 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies one or more properties of the type. These properties are used by the `Group-Object` and `Sort-Object` cmdlets when no other properties are specified.\n"
+      "description": "Specifies one or more properties of the type. These properties are used by the `Group-Object` and `Sort-Object` cmdlets when no other properties are specified."
     },
     {
       "name": "-Force",
-      "description": "Indicates that the cmdlet uses the specified type data, even if type data has already been specified for that type.\n"
+      "description": "Indicates that the cmdlet uses the specified type data, even if type data has already been specified for that type."
     },
     {
       "name": "-InheritPropertySerializationSet",
@@ -52,7 +52,7 @@
           "name": "System.Nullable`1[System.Boolean]"
         }
       ],
-      "description": "Indicates whether the set of properties that are serialized is inherited. The default value is `$Null`. The acceptable values for this parameter are:\n"
+      "description": "Indicates whether the set of properties that are serialized is inherited. The default value is `$null`. The acceptable values for this parameter are:"
     },
     {
       "name": "-MemberName",
@@ -61,7 +61,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies the name of a property or method.\n"
+      "description": "Specifies the name of a property or method."
     },
     {
       "name": "-MemberType",
@@ -70,27 +70,60 @@
           "name": "System.Management.Automation.PSMemberTypes",
           "suggestions": [
             {
-              "name": "NoteProperty"
-            },
-            {
               "name": "AliasProperty"
             },
             {
-              "name": "ScriptProperty"
+              "name": "All"
+            },
+            {
+              "name": "CodeMethod"
             },
             {
               "name": "CodeProperty"
             },
             {
+              "name": "Dynamic"
+            },
+            {
+              "name": "Event"
+            },
+            {
+              "name": "InferredProperty"
+            },
+            {
+              "name": "MemberSet"
+            },
+            {
+              "name": "Method"
+            },
+            {
+              "name": "Methods"
+            },
+            {
+              "name": "NoteProperty"
+            },
+            {
+              "name": "ParameterizedProperty"
+            },
+            {
+              "name": "Properties"
+            },
+            {
+              "name": "Property"
+            },
+            {
+              "name": "PropertySet"
+            },
+            {
               "name": "ScriptMethod"
             },
             {
-              "name": "CodeMethod"
+              "name": "ScriptProperty"
             }
           ]
         }
       ],
-      "description": "Specifies the type of the member to add or change.\n"
+      "description": "Specifies the type of the member to add or change."
     },
     {
       "name": "-PrependPath",
@@ -108,7 +141,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies the names of properties that are serialized. Use this parameter when the value of the SerializationMethod parameter is SpecificProperties ."
+      "description": "Specifies the names of properties that are serialized. Use this parameter when the value of the SerializationMethod parameter is SpecificProperties."
     },
     {
       "name": "-SecondValue",
@@ -117,17 +150,16 @@
           "name": "System.Object"
         }
       ],
-      "description": "Specifies additional values for AliasProperty , ScriptProperty , CodeProperty , or CodeMethod members.\n"
+      "description": "Specifies additional values for AliasProperty, ScriptProperty, CodeProperty, or CodeMethod members."
     },
     {
       "name": "-SerializationDepth",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "1"
+          "name": "System.Int32"
         }
       ],
-      "description": "Specifies how many levels of type objects are serialized as strings. The default value `1` serializes the object and its properties. A value of `0` serializes the object, but not its properties. A value of `2` serializes the object, its properties, and any objects in property values.\n"
+      "description": "Specifies how many levels of type objects are serialized as strings. The default value `1` serializes the object and its properties. A value of `0` serializes the object, but not its properties. A value of `2` serializes the object, its properties, and any objects in property values."
     },
     {
       "name": "-SerializationMethod",
@@ -136,7 +168,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a serialization method for the type. A serialization method determines which properties of the type are serialized and the technique that is used to serialize them. The acceptable values for this parameter are:\n"
+      "description": "Specifies a serialization method for the type. A serialization method determines which properties of the type are serialized and the technique that is used to serialize them. The acceptable values for this parameter are:"
     },
     {
       "name": "-StringSerializationSource",
@@ -154,7 +186,7 @@
           "name": "System.Type"
         }
       ],
-      "description": "Specifies the type to which object of this type are converted when they are deserialized.\n"
+      "description": "Specifies the type to which object of this type are converted when they are deserialized."
     },
     {
       "name": "-TypeAdapter",
@@ -163,7 +195,7 @@
           "name": "System.Type"
         }
       ],
-      "description": "Specifies the type of a type adapter, such as Microsoft.PowerShell.Cim.CimInstanceAdapter . A type adapter enables PowerShell to get the members of a type.\n"
+      "description": "Specifies the type of a type adapter, such as Microsoft.PowerShell.Cim.CimInstanceAdapter. A type adapter enables PowerShell to get the members of a type."
     },
     {
       "name": "-TypeConverter",
@@ -172,7 +204,7 @@
           "name": "System.Type"
         }
       ],
-      "description": "Specifies a type converter to convert values between different types. If a type converter is defined for a type, an instance of the type converter is used for the conversion.\n"
+      "description": "Specifies a type converter to convert values between different types. If a type converter is defined for a type, an instance of the type converter is used for the conversion."
     },
     {
       "name": "-TypeData",
@@ -182,7 +214,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies an array of type data that this cmdlet adds to the session. Enter a variable that contains a TypeData object or a command that gets a TypeData object, such as a `Get-TypeData` command. You can also pipe a TypeData object to `Update-TypeData`.\n"
+      "description": "Specifies an array of type data that this cmdlet adds to the session. Enter a variable that contains a TypeData object or a command that gets a TypeData object, such as a `Get-TypeData` command. You can also pipe a TypeData object to `Update-TypeData`."
     },
     {
       "name": "-TypeName",
@@ -192,7 +224,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the name of the type to extend.\n"
+      "description": "Specifies the name of the type to extend."
     },
     {
       "name": "-Value",
@@ -201,20 +233,10 @@
           "name": "System.Object"
         }
       ],
-      "description": "Specifies the value of the property or method.\n"
+      "description": "Specifies the value of the property or method."
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
     },
     {

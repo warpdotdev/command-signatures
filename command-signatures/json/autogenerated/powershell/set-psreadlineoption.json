@@ -5,220 +5,256 @@
       "name": "-AddToHistoryHandler",
       "args": [
         {
-          "name": "System.Func`2[System.String,System.Object]"
+          "name": "Func[string,Object]"
         }
-      ],
-      "description": "Specifies a ScriptBlock that controls how commands get added to PSReadLine history.\n"
+      ]
     },
     {
       "name": "-AnsiEscapeTimeout",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "100"
+          "name": "int"
         }
-      ],
-      "description": "This option is specific to Windows when input is redirected, for example, when running under `tmux` or `screen`.\n"
+      ]
     },
     {
       "name": "-BellStyle",
       "args": [
         {
-          "name": "Microsoft.PowerShell.BellStyle",
-          "default": "Audible"
+          "name": "BellStyle",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Visual"
+            },
+            {
+              "name": "Audible"
+            }
+          ]
         }
-      ],
-      "description": "Specifies how PSReadLine responds to various error and ambiguous conditions.\n"
+      ]
     },
     {
       "name": "-Colors",
       "args": [
         {
-          "name": "System.Collections.Hashtable"
+          "name": "hashtable"
         }
-      ],
-      "description": "The Colors parameter specifies various colors used by PSReadLine .\n"
+      ]
     },
     {
       "name": "-CommandValidationHandler",
       "args": [
         {
-          "name": "System.Action`1[System.Management.Automation.Language.CommandAst]"
+          "name": "Action[CommandAst]"
         }
-      ],
-      "description": "Specifies a ScriptBlock that is called from ValidateAndAcceptLine . If an exception is thrown, validation fails and the error is reported.\n"
+      ]
     },
     {
       "name": "-CompletionQueryItems",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "100"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the maximum number of completion items that are shown without prompting.\n"
+      ]
     },
     {
       "name": "-ContinuationPrompt",
       "args": [
         {
-          "name": "System.String",
-          "default": ">>"
+          "name": "string"
         }
-      ],
-      "description": "Specifies the string displayed at the beginning of the subsequent lines when multi-line input is entered. The default is double greater-than signs (`>>`). An empty string is valid."
+      ]
     },
     {
       "name": "-DingDuration",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "50ms"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the duration of the beep when BellStyle is set to Audible ."
+      ]
     },
     {
       "name": "-DingTone",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "1221"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the tone in Hertz (Hz) of the beep when BellStyle is set to Audible ."
+      ]
     },
     {
       "name": "-EditMode",
       "args": [
         {
-          "name": "Microsoft.PowerShell.EditMode",
-          "default": "Windows"
+          "name": "EditMode",
+          "suggestions": [
+            {
+              "name": "Windows"
+            },
+            {
+              "name": "Emacs"
+            },
+            {
+              "name": "Vi"
+            }
+          ]
         }
-      ],
-      "description": "Specifies the command line editing mode. Using this parameter resets any key bindings set by `Set-PSReadLineKeyHandler`.\n"
+      ]
+    },
+    {
+      "name": "-EnableScreenReaderMode"
     },
     {
       "name": "-ExtraPromptLineCount",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "0"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the number of extra lines.\n"
+      ]
     },
     {
-      "name": "-HistoryNoDuplicates",
-      "description": "This option controls the recall behavior. Duplicate commands are still added to the history file. When this option is set, only the most recent invocation appears when recalling commands. Repeated commands are added to history to preserve ordering during recall. However, you typically don't want to see the command multiple times when recalling or searching the history.\n"
+      "name": "-HistoryNoDuplicates"
     },
     {
       "name": "-HistorySavePath",
       "args": [
         {
-          "name": "System.String",
-          "default": "A file named $($Host.Name)_history.txt in $env:APPDATA\\Microsoft\\Windows\\PowerShell\\PSReadLine on Windows and $env:XDG_DATA_HOME/powershell/PSReadLine or $HOME/.local/share/powershell/PSReadLine on non-Windows platforms"
+          "name": "string"
         }
-      ],
-      "description": "Specifies the path to the file where history is saved. Computers running Windows or non-Windows platforms store the file in different locations. The filename is stored in a variable `$($Host.Name)_history.txt`, for example `ConsoleHost_history.txt`.\n"
+      ]
     },
     {
       "name": "-HistorySaveStyle",
       "args": [
         {
-          "name": "Microsoft.PowerShell.HistorySaveStyle",
-          "default": "SaveIncrementally"
+          "name": "HistorySaveStyle",
+          "suggestions": [
+            {
+              "name": "SaveIncrementally"
+            },
+            {
+              "name": "SaveAtExit"
+            },
+            {
+              "name": "SaveNothing"
+            }
+          ]
         }
-      ],
-      "description": "Specifies how PSReadLine saves history.\n"
+      ]
     },
     {
-      "name": "-HistorySearchCaseSensitive",
-      "description": "Specifies that history searching is case-sensitive in functions like ReverseSearchHistory or HistorySearchBackward .\n"
+      "name": "-HistorySearchCaseSensitive"
     },
     {
-      "name": "-HistorySearchCursorMovesToEnd",
-      "description": "Indicates that the cursor moves to the end of commands that you load from history by using a search. When this parameter is set to `$False`, the cursor remains at the position it was when you pressed the up or down arrows.\n"
+      "name": "-HistorySearchCursorMovesToEnd"
     },
     {
       "name": "-MaximumHistoryCount",
       "args": [
         {
-          "name": "System.Int32"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the maximum number of commands to save in PSReadLine history. PSReadLine history is separate from PowerShell history."
+      ]
     },
     {
       "name": "-MaximumKillRingCount",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "10"
+          "name": "int"
         }
-      ],
-      "description": "Specifies the maximum number of items stored in the kill ring."
+      ]
     },
     {
       "name": "-PredictionSource",
       "args": [
         {
-          "name": "Microsoft.PowerShell.PredictionSource"
+          "name": "PredictionSource",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "History"
+            },
+            {
+              "name": "Plugin"
+            },
+            {
+              "name": "HistoryAndPlugin"
+            }
+          ]
         }
-      ],
-      "description": "Specifies the source for PSReadLine to get predictive suggestions.\n"
+      ]
     },
     {
       "name": "-PredictionViewStyle",
       "args": [
         {
-          "name": "Microsoft.PowerShell.PredictionViewStyle",
-          "default": "InlineView"
+          "name": "PredictionViewStyle",
+          "suggestions": [
+            {
+              "name": "InlineView"
+            },
+            {
+              "name": "ListView"
+            }
+          ]
         }
-      ],
-      "description": "Sets the style for the display of the predictive text. The default is InlineView .\n"
+      ]
     },
     {
       "name": "-PromptText",
       "args": [
         {
-          "name": "System.String[]",
-          "default": ">"
+          "name": "string[]"
         }
-      ],
-      "description": "This parameter sets the value of the PromptText property. The default value is `\"> \"`. PSReadLine analyzes your prompt function to determine how to change only the color of part of your prompt. This analysis isn't 100% reliable. Use this option if PSReadLine is changing your prompt in unexpected ways. Include any trailing whitespace.\n"
+      ]
     },
     {
-      "name": "-ShowToolTips",
-      "description": "When displaying possible completions, tooltips are shown in the list of completions.\n"
+      "name": "-ShowToolTips"
+    },
+    {
+      "name": "-TerminateOrphanedConsoleApps"
     },
     {
       "name": "-ViModeChangeHandler",
       "args": [
         {
-          "name": "System.Management.Automation.ScriptBlock"
+          "name": "scriptblock"
         }
-      ],
-      "description": "When the ViModeIndicator is set to `Script`, the script block provided will be invoked every time the mode changes. The script block is provided one argument of type `ViMode`.\n"
+      ]
     },
     {
       "name": "-ViModeIndicator",
       "args": [
         {
-          "name": "Microsoft.PowerShell.ViModeStyle"
+          "name": "ViModeStyle",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Prompt"
+            },
+            {
+              "name": "Cursor"
+            },
+            {
+              "name": "Script"
+            }
+          ]
         }
-      ],
-      "description": "This option sets the visual indicator for the current Vi mode. Either insert mode or command mode.\n"
+      ]
     },
     {
       "name": "-WordDelimiters",
       "args": [
         {
-          "name": "System.String",
-          "default": ";:,.[]{}()/\\|^&*-=+'\"---"
+          "name": "string"
         }
-      ],
-      "description": "Specifies the characters that delimit words for functions like ForwardWord or KillWord ."
+      ]
     },
     {
       "name": [
@@ -392,7 +428,7 @@
     }
   ],
   "args": [],
-  "description": "Customizes the behavior of command line editing in PSReadLine .",
+  "description": "Set-PSReadLineOption [-EditMode <EditMode>] [-ContinuationPrompt <string>] [-HistoryNoDuplicates] [-AddToHistoryHandler <Func[string,Object]>] [-CommandValidationHandler <Action[CommandAst]>] [-HistorySearchCursorMovesToEnd] [-MaximumHistoryCount <int>] [-MaximumKillRingCount <int>] [-ShowToolTips] [-ExtraPromptLineCount <int>] [-DingTone <int>] [-DingDuration <int>] [-BellStyle <BellStyle>] [-CompletionQueryItems <int>] [-WordDelimiters <string>] [-HistorySearchCaseSensitive] [-HistorySaveStyle <HistorySaveStyle>] [-HistorySavePath <string>] [-AnsiEscapeTimeout <int>] [-PromptText <string[]>] [-ViModeIndicator <ViModeStyle>] [-ViModeChangeHandler <scriptblock>] [-PredictionSource <PredictionSource>] [-PredictionViewStyle <PredictionViewStyle>] [-Colors <hashtable>] [-TerminateOrphanedConsoleApps] [-EnableScreenReaderMode] [<CommonParameters>]",
   "parserDirectives": {
     "flagsArePosixNoncompliant": true,
     "flagsMatchUniquePrefix": true,

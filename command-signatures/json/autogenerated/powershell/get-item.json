@@ -3,16 +3,16 @@
   "options": [
     {
       "name": "-CodeSigningCert",
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter isn't supported by any providers installed with PowerShell. > To impersonate another user, or elevate your credentials when running this cmdlet, > use [Invoke-Command](../Microsoft.PowerShell.Core/Invoke-Command.md)."
     },
     {
       "name": "-DnsName",
@@ -21,11 +21,11 @@
           "name": "Microsoft.PowerShell.Commands.DnsNameRepresentation"
         }
       ],
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-DocumentEncryptionCert",
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-Eku",
@@ -34,7 +34,7 @@
           "name": "System.String"
         }
       ],
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-Exclude",
@@ -43,7 +43,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as ` .txt`. Wildcard characters are permitted. The Exclude * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcard characters are permitted. The Exclude parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
       "name": "-ExpiringInDays",
@@ -52,7 +52,7 @@
           "name": "System.Int32"
         }
       ],
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-Filter",
@@ -61,11 +61,11 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
     },
     {
       "name": "-Force",
-      "description": "Indicates that this cmdlet gets items that can't otherwise be accessed, such as hidden items. Implementation varies from provider to provider. For more information, see about_Providers (../Microsoft.PowerShell.Core/About/about_Providers.md). Even using the Force parameter, the cmdlet can't override security restrictions."
+      "description": "Indicates that this cmdlet gets items that can't otherwise be accessed, such as hidden items. Implementation varies from provider to provider. For more information, see [about_Providers](../Microsoft.PowerShell.Core/About/about_Providers.md). Even using the Force parameter, the cmdlet can't override security restrictions."
     },
     {
       "name": "-Include",
@@ -74,21 +74,17 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as ` .txt`. Wildcard characters are permitted. The Include * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcard characters are permitted. The Include parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
     },
     {
       "name": "-Path",
@@ -98,21 +94,20 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the path to an item. This cmdlet gets the item at the specified location. Wildcard characters are permitted. This parameter is required, but the parameter name Path is optional.\n"
+      "description": "Specifies the path to an item. This cmdlet gets the item at the specified location. Wildcard characters are permitted. This parameter is required, but the parameter name Path is optional."
     },
     {
       "name": "-SSLServerAuthentication",
-      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the Certificate provider. This parameter and the Certificate provider are only available on Windows."
     },
     {
       "name": "-Stream",
       "args": [
         {
-          "name": "System.String[]",
-          "default": "No alternate file streams"
+          "name": "System.String[]"
         }
       ],
-      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows.\n"
+      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows."
     },
     {
       "name": [
@@ -288,7 +283,7 @@
   "args": [
     {
       "name": "-Path",
-      "description": "Specifies the path to an item. This cmdlet gets the item at the specified location. Wildcard characters are permitted. This parameter is required, but the parameter name Path is optional.\n"
+      "description": "Specifies the path to an item. This cmdlet gets the item at the specified location. Wildcard characters are permitted. This parameter is required, but the parameter name Path is optional."
     }
   ],
   "description": "Gets the item at the specified location.",

@@ -1,0 +1,377 @@
+{
+  "name": "Receive-PSSession",
+  "options": [
+    {
+      "name": "-AllowRedirection",
+      "description": "Indicates that this cmdlet allows redirection of this connection to an alternate Uniform Resource Identifier (URI)."
+    },
+    {
+      "name": "-ApplicationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies an application. This cmdlet connects only to sessions that use the specified application."
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Credssp"
+            },
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "NegotiateWithImplicitCredential"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the mechanism that's used to authenticate the user credentials in the command to reconnect to a disconnected session. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to connect to the disconnected session. Enter the certificate thumbprint of the certificate."
+    },
+    {
+      "name": "-ComputerName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the computer on which the disconnected session is stored. Sessions are stored on the computer that's at the server-side, or receiving end of a connection. The default is the local computer."
+    },
+    {
+      "name": "-ConfigurationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of a session configuration. This cmdlet connects only to sessions that use the specified session configuration."
+    },
+    {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": "-ConnectionUri",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a URI that defines the connection endpoint that is used to reconnect to the disconnected session."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential"
+        }
+      ],
+      "description": "Specifies a user account that has permission to connect to the disconnected session. The default is the current user."
+    },
+    {
+      "name": "-Id",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the ID of a disconnected session. The Id parameter works only when the disconnected session was previously connected to the current session."
+    },
+    {
+      "name": "-InstanceId",
+      "args": [
+        {
+          "name": "System.Guid"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the instance ID of the disconnected session. The instance ID is a GUID that uniquely identifies a PSSession on a local or remote computer. The instance ID is stored in the InstanceId property of the PSSession."
+    },
+    {
+      "name": "-JobName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a friendly name for the job that `Receive-PSSession` returns."
+    },
+    {
+      "name": "-Name",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the friendly name of the disconnected session."
+    },
+    {
+      "name": "-OutTarget",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.Commands.OutTarget",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Host"
+            },
+            {
+              "name": "Job"
+            }
+          ]
+        }
+      ],
+      "description": "Determines how the session results are returned. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the remote computer's network port that's used to reconnect to the session. To connect to a remote computer, it must be listening on the port that the connection uses. The default ports are 5985, which is the WinRM port for HTTP, and 5986, which is the WinRM port for HTTPS."
+    },
+    {
+      "name": "-Session",
+      "args": [
+        {
+          "name": "System.Management.Automation.Runspaces.PSSession"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the disconnected session. Enter a variable that contains the PSSession or a command that creates or gets the PSSession, such as a `Get-PSSession` command."
+    },
+    {
+      "name": "-SessionOption",
+      "args": [
+        {
+          "name": "System.Management.Automation.Remoting.PSSessionOption"
+        }
+      ],
+      "description": "Specifies advanced options for the session. Enter a SessionOption object, such as one that you create by using the `New-PSSessionOption` cmdlet, or a hash table in which the keys are session option names and the values are session option values."
+    },
+    {
+      "name": "-UseSSL",
+      "description": "Indicates that this cmdlet uses the Secure Sockets Layer (SSL) protocol to connect to the disconnected session. By default, SSL isn't used."
+    },
+    {
+      "name": "-WhatIf",
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet isn't run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-ComputerName-Or-ConnectionUri-Or-Id-Or-Session"
+    }
+  ],
+  "description": "Gets results of commands in disconnected sessions",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

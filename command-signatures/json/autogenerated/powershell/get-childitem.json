@@ -29,6 +29,9 @@
               "name": "IntegrityStream"
             },
             {
+              "name": "None"
+            },
+            {
               "name": "Normal"
             },
             {
@@ -58,11 +61,11 @@
           ]
         }
       ],
-      "description": "Gets files and folders with the specified attributes. This parameter supports all attributes and lets you specify complex combinations of attributes.\n"
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": "-CodeSigningCert",
-      "description": "To get a list of certificates that have `Code Signing` in their EnhancedKeyUsageList property value, use the CodeSigningCert parameter."
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
       "name": "-Depth",
@@ -71,14 +74,11 @@
           "name": "System.UInt32"
         }
       ],
-      "description": "This parameter was added in PowerShell 5.0 and enables you to control the depth of recursion. By default, `Get-ChildItem` displays the contents of the parent directory. The Depth parameter determines the number of subdirectory levels that are included in the recursion and displays the contents.\n"
+      "description": "This parameter was added in PowerShell 5.0 and enables you to control the depth of recursion. By default, `Get-ChildItem` displays the contents of the parent directory. The Depth parameter determines the number of subdirectory levels that are included in the recursion and displays the contents."
     },
     {
-      "name": [
-        "-Directory",
-        "-ad"
-      ],
-      "description": "To get a list of directories, use the Directory parameter or the Attributes parameter with the Directory property. You can use the Recurse parameter with Directory ."
+      "name": "-Directory",
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": "-DnsName",
@@ -87,11 +87,11 @@
           "name": "Microsoft.PowerShell.Commands.DnsNameRepresentation"
         }
       ],
-      "description": "Specifies a domain name or name pattern to match with the DNSNameList property of certificates the cmdlet gets. The value of this parameter can either be `Unicode` or `ASCII`. Punycode values are converted to Unicode. Wildcard characters (`*`) are permitted.\n"
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
       "name": "-DocumentEncryptionCert",
-      "description": "To get a list of certificates that have `Document Encryption` in their EnhancedKeyUsageList property value, use the DocumentEncryptionCert parameter."
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
       "name": "-Eku",
@@ -100,7 +100,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies text or a text pattern to match with the EnhancedKeyUsageList property of certificates the cmdlet gets. Wildcard characters (` `) are permitted. The EnhancedKeyUsageList * property contains the friendly name and the OID fields of the EKU.\n"
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
       "name": "-Exclude",
@@ -109,7 +109,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies an array of one or more string patterns to be matched as the cmdlet gets child items. Any matching item is excluded from the output. Enter a path element or pattern, such as ` .txt` or `A `. Wildcard characters are accepted.\n"
+      "description": "Specifies an array of one or more string patterns to be matched as the cmdlet gets child items. Any matching item is excluded from the output. Enter a path element or pattern, such as `*.txt` or `A*`. Wildcard characters are accepted."
     },
     {
       "name": "-ExpiringInDays",
@@ -118,14 +118,11 @@
           "name": "System.Int32"
         }
       ],
-      "description": "Specifies that the cmdlet should only return certificates that are expiring in or before the specified number of days. A value of zero (`0`) gets certificates that have expired.\n"
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
-      "name": [
-        "-File",
-        "-af"
-      ],
-      "description": "To get a list of files, use the File parameter. You can use the Recurse parameter with File ."
+      "name": "-File",
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": "-Filter",
@@ -134,23 +131,19 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
     },
     {
       "name": "-FollowSymlink",
-      "description": "By default, the `Get-ChildItem` cmdlet displays symbolic links to directories found during recursion, but doesn't recurse into them. Use the FollowSymlink parameter to search the directories that target those symbolic links. The FollowSymlink is a dynamic parameter and is supported only in the FileSystem provider.\n"
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": "-Force",
-      "description": "Allows the cmdlet to get items that otherwise can't be accessed by the user, such as hidden or system files. The Force parameter doesn't override security restrictions. Implementation varies among providers. For more information, see about_Providers (../Microsoft.PowerShell.Core/About/about_Providers.md)."
+      "description": "Allows the cmdlet to get items that otherwise can't be accessed by the user, such as hidden or system files. The Force parameter doesn't override security restrictions. Implementation varies by provider. For more information, see [about_Providers](../Microsoft.PowerShell.Core/About/about_Providers.md)."
     },
     {
-      "name": [
-        "-Hidden",
-        "-ah",
-        "-h"
-      ],
-      "description": "To get only hidden items, use the Hidden parameter or the Attributes parameter with the Hidden property. By default, `Get-ChildItem` doesn't display hidden items. Use the Force parameter to get hidden items."
+      "name": "-Hidden",
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": "-Include",
@@ -159,21 +152,17 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies an array of one or more string patterns to be matched as the cmdlet gets child items. Any matching item is included in the output. Enter a path element or pattern, such as `\"*.txt\"`. Wildcard characters are permitted. The Include parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory.\n"
+      "description": "Specifies an array of one or more string patterns to be matched as the cmdlet gets child items. Any matching item is included in the output. Enter a path element or pattern, such as `\"*.txt\"`. Wildcard characters are permitted. The Include parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell to not interpret any characters as escape sequences.\n"
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell to not interpret any characters as escape sequences."
     },
     {
       "name": "-Name",
@@ -183,36 +172,26 @@
       "name": "-Path",
       "args": [
         {
-          "name": "System.String[]",
-          "default": "Current directory"
+          "name": "System.String[]"
         }
       ],
-      "description": "Specifies a path to one or more locations. Wildcards are accepted. The default location is the current directory (`.`)."
+      "description": "Specifies a path to one or more locations. If not specified, the default location is the current directory (`.`). Wildcards are accepted. Use care when using the Path parameter with the Recurse parameter. For more information, see the [NOTES](#notes) section of this article."
     },
     {
-      "name": [
-        "-ReadOnly",
-        "-ar"
-      ],
-      "description": "To get only read-only items, use the ReadOnly parameter or the Attributes parameter ReadOnly property."
+      "name": "-ReadOnly",
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
-      "name": [
-        "-Recurse",
-        "-s"
-      ],
+      "name": "-Recurse",
       "description": "Gets the items in the specified locations and in all child items of the locations."
     },
     {
       "name": "-SSLServerAuthentication",
-      "description": "To get a list of certificates that have `Server Authentication` in their EnhancedKeyUsageList property value, use the SSLServerAuthentication parameter."
+      "description": "> [!NOTE] > This parameter is only available in the > [Certificate](../Microsoft.PowerShell.Security/About/about_Certificate_Provider.md) provider."
     },
     {
-      "name": [
-        "-System",
-        "-as"
-      ],
-      "description": "Gets only system files and directories. To get only system files and folders, use the System parameter or Attributes parameter System property."
+      "name": "-System",
+      "description": "> [!NOTE] > This parameter is only available in the > [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider."
     },
     {
       "name": [
@@ -388,11 +367,11 @@
   "args": [
     {
       "name": "-Path",
-      "description": "Specifies a path to one or more locations. Wildcards are accepted. The default location is the current directory (`.`)."
+      "description": "Specifies a path to one or more locations. If not specified, the default location is the current directory (`.`). Wildcards are accepted. Use care when using the Path parameter with the Recurse parameter. For more information, see the [NOTES](#notes) section of this article."
     },
     {
       "name": "-Filter",
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports filters. Filters are more efficient than other parameters. The provider applies filter when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved. The filter string is passed to the .NET API to enumerate files. The API only supports `*` and `?` wildcards."
     }
   ],
   "description": "Gets the items and child items in one or more specified locations.",

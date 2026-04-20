@@ -2,16 +2,13 @@
   "name": "Start-Job",
   "options": [
     {
-      "name": [
-        "-ArgumentList",
-        "-Args"
-      ],
+      "name": "-ArgumentList",
       "args": [
         {
           "name": "System.Object[]"
         }
       ],
-      "description": "Specifies an array of arguments, or parameter values, for the script that is specified by the FilePath parameter or a command specified with the ScriptBlock parameter.\n"
+      "description": "Specifies an array of arguments, or parameter values, for the script that is specified by the FilePath parameter or a command specified with the ScriptBlock parameter."
     },
     {
       "name": "-Authentication",
@@ -20,41 +17,39 @@
           "name": "System.Management.Automation.Runspaces.AuthenticationMechanism",
           "suggestions": [
             {
-              "name": "Default"
-            },
-            {
               "name": "Basic"
             },
             {
-              "name": "Negotiate"
-            },
-            {
-              "name": "NegotiateWithImplicitCredential"
-            },
-            {
               "name": "Credssp"
+            },
+            {
+              "name": "Default"
             },
             {
               "name": "Digest"
             },
             {
               "name": "Kerberos"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "NegotiateWithImplicitCredential"
             }
-          ],
-          "default": "Default"
+          ]
         }
       ],
-      "description": "Specifies the mechanism that is used to authenticate user credentials.\n"
+      "description": "Specifies the mechanism that is used to authenticate user credentials."
     },
     {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
       ],
-      "description": "Specifies a user account that has permission to perform this action. If the Credential parameter isn't specified, the command uses the current user's credentials.\n"
+      "description": "Specifies a user account that has permission to perform this action. If the Credential parameter isn't specified, the command uses the current user's credentials."
     },
     {
       "name": "-DefinitionName",
@@ -64,7 +59,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the definition name of the job that this cmdlet starts. Use this parameter to start custom job types that have a definition name, such as scheduled jobs.\n"
+      "description": "Specifies the definition name of the job that this cmdlet starts. Use this parameter to start custom job types that have a definition name, such as scheduled jobs."
     },
     {
       "name": "-DefinitionPath",
@@ -73,7 +68,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies path of the definition for the job that this cmdlet starts. Enter the definition path. The concatenation of the values of the DefinitionPath and DefinitionName parameters is the fully qualified path of the job definition. Use this parameter to start custom job types that have a definition path, such as scheduled jobs.\n"
+      "description": "Specifies path of the definition for the job that this cmdlet starts. Enter the definition path. The concatenation of the values of the DefinitionPath and DefinitionName parameters is the fully qualified path of the job definition. Use this parameter to start custom job types that have a definition path, such as scheduled jobs."
     },
     {
       "name": "-FilePath",
@@ -83,7 +78,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies a local script that `Start-Job` runs as a background job. Enter the path and file name of the script or use the pipeline to send a script path to `Start-Job`. The script must be on the local computer or in a folder that the local computer can access.\n"
+      "description": "Specifies a local script that `Start-Job` runs as a background job. Enter the path and file name of the script or use the pipeline to send a script path to `Start-Job`. The script must be on the local computer or in a folder that the local computer can access."
     },
     {
       "name": "-InitializationScript",
@@ -92,7 +87,7 @@
           "name": "System.Management.Automation.ScriptBlock"
         }
       ],
-      "description": "Specifies commands that run before the job starts. To create a script block, enclose the commands in curly braces (`{}`).\n"
+      "description": "Specifies commands that run before the job starts. To create a scriptblock, enclose the commands in curly braces (`{}`)."
     },
     {
       "name": "-InputObject",
@@ -101,21 +96,17 @@
           "name": "System.Management.Automation.PSObject"
         }
       ],
-      "description": "Specifies input to the command. Enter a variable that contains the objects, or type a command or expression that generates the objects.\n"
+      "description": "Specifies input to the command. Enter a variable that contains the objects, or type a command or expression that generates the objects."
     },
     {
-      "name": [
-        "-LiteralPath",
-        "-PSPath",
-        "-LP"
-      ],
+      "name": "-LiteralPath",
       "args": [
         {
           "name": "System.String"
         }
       ],
       "isRequired": true,
-      "description": "Specifies a local script that this cmdlet runs as a background job. Enter the path of a script on the local computer.\n"
+      "description": "Specifies a local script that this cmdlet runs as a background job. Enter the path of a script on the local computer."
     },
     {
       "name": "-Name",
@@ -124,7 +115,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a friendly name for the new job. You can use the name to identify the job to other job cmdlets, such as the `Stop-Job` cmdlet.\n"
+      "description": "Specifies a friendly name for the new job. You can use the name to identify the job to other job cmdlets, such as the `Stop-Job` cmdlet."
     },
     {
       "name": "-PSVersion",
@@ -133,24 +124,21 @@
           "name": "System.Version"
         }
       ],
-      "description": "Specifies a version of PowerShell to use for running the job. When the value of PSVersion is 5.1 The job is run in a Windows PowerShell 5.1 session. For any other value, the job is run using the current version of PowerShell.\n"
+      "description": "Specifies a version of PowerShell to use for running the job. When the value of PSVersion is 5.1 The job is run in a Windows PowerShell 5.1 session. For any other value, the job is run using the current version of PowerShell."
     },
     {
       "name": "-RunAs32",
-      "description": "Beginning with PowerShell 7, the RunAs32 parameter doesn't work on 64-bit PowerShell (`pwsh`). If RunAs32 is specified in 64-bit PowerShell, `Start-Job` throws a terminating exception error. To start a 32-bit PowerShell (`pwsh`) process with RunAs32 , you need to have the 32-bit PowerShell installed.\n"
+      "description": "Beginning with PowerShell 7, the RunAs32 parameter doesn't work on 64-bit PowerShell (`pwsh`). If RunAs32 is specified in 64-bit PowerShell, `Start-Job` throws a terminating exception error. To start a 32-bit PowerShell (`pwsh`) process with RunAs32, you need to have the 32-bit PowerShell installed."
     },
     {
-      "name": [
-        "-ScriptBlock",
-        "-Command"
-      ],
+      "name": "-ScriptBlock",
       "args": [
         {
           "name": "System.Management.Automation.ScriptBlock"
         }
       ],
       "isRequired": true,
-      "description": "Specifies the commands to run in the background job. To create a script block, enclose the commands in curly braces (`{}`). Use the `$input` automatic variable to access the value of the InputObject parameter. This parameter is required."
+      "description": "Specifies the commands to run in the background job. To create a scriptblock, enclose the commands in curly braces (`{}`). Use the `$input` automatic variable to access the value of the InputObject parameter. This parameter is required."
     },
     {
       "name": "-Type",
@@ -159,17 +147,16 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies the custom type for jobs started by `Start-Job`. Enter a custom job type name, such as PSScheduledJob for scheduled jobs or PSWorkflowJob for workflows jobs. This parameter isn't valid for standard background jobs.\n"
+      "description": "Specifies the custom type for jobs started by `Start-Job`. Enter a custom job type name, such as PSScheduledJob for scheduled jobs or PSWorkflowJob for workflows jobs. This parameter isn't valid for standard background jobs."
     },
     {
       "name": "-WorkingDirectory",
       "args": [
         {
-          "name": "System.String",
-          "default": "$HOME on Unix (macOS, Linux) and $HOME\\Documents on Windows"
+          "name": "System.String"
         }
       ],
-      "description": "Specifies the initial working directory of the background job. If the parameter isn't specified, the job runs from the default location. The default location is the current working directory of the caller that started the job.\n"
+      "description": "Specifies the initial working directory of the background job. If the parameter isn't specified, the job runs from the default location. The default location is the current working directory of the caller that started the job."
     },
     {
       "name": [
@@ -351,7 +338,7 @@
     },
     {
       "name": "-Type",
-      "description": "Specifies the custom type for jobs started by `Start-Job`. Enter a custom job type name, such as PSScheduledJob for scheduled jobs or PSWorkflowJob for workflows jobs. This parameter isn't valid for standard background jobs.\n"
+      "description": "Specifies the custom type for jobs started by `Start-Job`. Enter a custom job type name, such as PSScheduledJob for scheduled jobs or PSWorkflowJob for workflows jobs. This parameter isn't valid for standard background jobs."
     }
   ],
   "description": "Starts a PowerShell background job.",

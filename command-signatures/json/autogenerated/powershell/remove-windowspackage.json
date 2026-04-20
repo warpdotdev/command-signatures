@@ -1,0 +1,278 @@
+{
+  "name": "Remove-WindowsPackage",
+  "options": [
+    {
+      "name": "-LogLevel",
+      "args": [
+        {
+          "name": "LogLevel",
+          "suggestions": [
+            {
+              "name": "Debug"
+            },
+            {
+              "name": "Errors"
+            },
+            {
+              "name": "Warnings"
+            },
+            {
+              "name": "WarningsInfo"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the maximum output level shown in the logs. The default log level is 3. The accepted values are as follows: - 1 = Errors only - 2 = Errors and warnings - 3 = Errors, warnings, and information - 4 = All of the information listed previously, plus debug output"
+    },
+    {
+      "name": "-LogPath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the full path and file name to log to. If not set, the default is `%WINDIR%\\Logs\\Dism\\dism.log`. In Windows PE, the default directory is the RAMDISK scratch space which can be as low as 32 MB. The log file will automatically be archived. The archived log file will be saved with .bak appended to the file name and a new log file will be generated. Each time the log file is archived the .bak file will be overwritten. When using a network share that is not joined to a domain, use the net use command together with domain credentials to set access permissions before you set the log path for the DISM log."
+    },
+    {
+      "name": "-NoRestart",
+      "description": "Suppresses reboot. If a reboot is not required, this command does nothing. This option will keep the application from prompting for a restart or keep it from restarting automatically."
+    },
+    {
+      "name": "-Online",
+      "isRequired": true,
+      "description": "Specifies that the action is to be taken on the operating system that is currently running on the local computer."
+    },
+    {
+      "name": "-PackageName",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the name of a package in the Windows image."
+    },
+    {
+      "name": "-PackagePath",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the path to a .cab file."
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the full path to the root directory of the offline Windows image that you will service. If the directory named Windows is not a subdirectory of the root directory, *WindowsDirectory* must be specified."
+    },
+    {
+      "name": "-ScratchDirectory",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies a temporary directory that will be used when extracting files for use during servicing. The directory must exist locally. If not specified, the `\\Windows\\%Temp%` directory will be used, with a subdirectory name of a randomly generated hexadecimal value for each run of DISM. Items in the scratch directory are deleted after each operation. You should not use a network share location as a scratch directory to expand a package (.cab or .msu file) for installation. The directory used for extracting files for temporary usage during servicing should be a local directory."
+    },
+    {
+      "name": "-SystemDrive",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the path to the location of the BootMgr files. This is necessary only when the BootMgr files are located on a partition other than the one that you are running the command from. Use -SystemDrive to service an installed Windows image from a Windows PE environment."
+    },
+    {
+      "name": "-WindowsDirectory",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the path to the Windows directory relative to the image path. This cannot be the full path to the Windows directory; it should be a relative path. If not specified, the default is the Windows directory in the root of the offline image directory."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [],
+  "description": "Removes a package from a Windows image.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

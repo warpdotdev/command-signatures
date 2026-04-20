@@ -2,6 +2,10 @@
   "name": "Stop-Job",
   "options": [
     {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Filter",
       "args": [
         {
@@ -9,36 +13,33 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies a hash table of conditions. This cmdlet stops jobs that satisfy every condition. Enter a hash table where the keys are job properties and the values are job property values.\n"
+      "description": "Specifies a hash table of conditions. This cmdlet stops jobs that satisfy every condition. Enter a hash table where the keys are job properties and the values are job property values."
     },
     {
       "name": "-Id",
       "args": [
         {
-          "name": "System.Int32[]",
-          "default": "All jobs"
+          "name": "System.Int32[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies the IDs of jobs that this cmdlet stops. The default is all jobs in the current session.\n"
+      "description": "Specifies the IDs of jobs that this cmdlet stops. The default is all jobs in the current session."
     },
     {
       "name": "-InstanceId",
       "args": [
         {
-          "name": "System.Guid[]",
-          "default": "All jobs"
+          "name": "System.Guid[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies the instance IDs of jobs that this cmdlet stops. The default is all jobs.\n"
+      "description": "Specifies the instance IDs of jobs that this cmdlet stops. The default is all jobs."
     },
     {
       "name": "-Job",
       "args": [
         {
-          "name": "System.Management.Automation.Job[]",
-          "default": "All jobs"
+          "name": "System.Management.Automation.Job[]"
         }
       ],
       "isRequired": true,
@@ -48,12 +49,11 @@
       "name": "-Name",
       "args": [
         {
-          "name": "System.String[]",
-          "default": "All jobs"
+          "name": "System.String[]"
         }
       ],
       "isRequired": true,
-      "description": "Specifies friendly names of jobs that this cmdlet stops. Enter the job names in a comma-separated list or use wildcard characters (`*`) to enter a job name pattern. By default, `Stop-Job` stops all jobs created in the current session.\n"
+      "description": "Specifies friendly names of jobs that this cmdlet stops. Enter the job names in a comma-separated list or use wildcard characters (`*`) to enter a job name pattern. By default, `Stop-Job` stops all jobs created in the current session."
     },
     {
       "name": "-PassThru",
@@ -66,57 +66,46 @@
           "name": "System.Management.Automation.JobState",
           "suggestions": [
             {
+              "name": "AtBreakpoint"
+            },
+            {
+              "name": "Blocked"
+            },
+            {
+              "name": "Completed"
+            },
+            {
+              "name": "Disconnected"
+            },
+            {
+              "name": "Failed"
+            },
+            {
               "name": "NotStarted"
             },
             {
               "name": "Running"
             },
             {
-              "name": "Completed"
-            },
-            {
-              "name": "Failed"
-            },
-            {
               "name": "Stopped"
-            },
-            {
-              "name": "Blocked"
-            },
-            {
-              "name": "Suspended"
-            },
-            {
-              "name": "Disconnected"
-            },
-            {
-              "name": "Suspending"
             },
             {
               "name": "Stopping"
             },
             {
-              "name": "AtBreakpoint"
+              "name": "Suspended"
+            },
+            {
+              "name": "Suspending"
             }
-          ],
-          "default": "All jobs"
+          ]
         }
       ],
       "isRequired": true,
-      "description": "Specifies a job state. This cmdlet stops only jobs in the specified state. The acceptable values for this parameter are:\n"
+      "description": "Specifies a job state. This cmdlet stops only jobs in the specified state. The acceptable values for this parameter are:"
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
     },
     {

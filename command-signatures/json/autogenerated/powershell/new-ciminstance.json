@@ -1,0 +1,287 @@
+{
+  "name": "New-CimInstance",
+  "options": [
+    {
+      "name": "-CimClass",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.CimClass"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a CIM class object that represents the type of the instance. Use the `Get-CimClass` cmdlet to retrieve the class declaration from a computer. Using this parameter results in better client side schema validations."
+    },
+    {
+      "name": "-CimSession",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.CimSession[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Runs the command using the specified CIM session. Enter a variable that contains the CIM session, or a command that creates or gets the CIM session, such as the `New-CimSession` or `Get-CimSession` cmdlets. For more information, see [about_CimSession](../Microsoft.PowerShell.Core/About/about_CimSession.md)."
+    },
+    {
+      "name": "-ClassName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the name of the CIM class of which the operation creates an instance. NOTE: You can use tab completion to browse the list of classes, because PowerShell gets a list of classes from the local WMI server to provide a list of class names."
+    },
+    {
+      "name": "-ClientOnly",
+      "description": "Indicates that the instance is only created in PowerShell without going to the CIM server. You can use this parameter to create an in-memory CIM instance for use in subsequent PowerShell operations."
+    },
+    {
+      "name": "-ComputerName",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the name of the computer on which you want to run the CIM operation. You can specify a fully qualified domain name (FQDN), a NetBIOS name, or an IP address."
+    },
+    {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": "-Key",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies the properties that are used as keys. CimSession and ComputerName cannot be used when Key is specified."
+    },
+    {
+      "name": "-Namespace",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the namespace of the class for the new instance. The default namespace is root/CIMV2. You can use tab completion to browse the list of namespaces, because PowerShell gets a list of namespaces from the local WMI server to provide the list of namespaces."
+    },
+    {
+      "name": "-OperationTimeoutSec",
+      "args": [
+        {
+          "name": "System.UInt32"
+        }
+      ],
+      "description": "Specifies the amount of time that the cmdlet waits for a response from the CIM server. By default, the value of this parameter is 0, which means that the cmdlet uses the default timeout value for the server. If the OperationTimeoutSec parameter is set to a value less than the robust connection retry timeout of 3 minutes, network failures that last more than the value of the OperationTimeoutSec parameter are not recoverable, because the operation on the server times out before the client can reconnect."
+    },
+    {
+      "name": "-Property",
+      "args": [
+        {
+          "name": "System.Collections.IDictionary"
+        }
+      ],
+      "description": "Specifies the properties of the CIM instance using a hash table (name-value pairs)."
+    },
+    {
+      "name": "-ResourceUri",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the resource uniform resource identifier (URI) of the resource class or instance. The URI is used to identify a specific type of resource, such as disks or processes, on a computer."
+    },
+    {
+      "name": "-WhatIf",
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-CimClass-Or-ClassName"
+    },
+    {
+      "name": "-Property",
+      "description": "Specifies the properties of the CIM instance using a hash table (name-value pairs)."
+    }
+  ],
+  "description": "Creates a CIM instance.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

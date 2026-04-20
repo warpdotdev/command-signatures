@@ -8,24 +8,31 @@
           "name": "Microsoft.PowerShell.PSResourceGet.UtilClasses.PSRepositoryInfo+APIVersion",
           "suggestions": [
             {
-              "name": "unknown"
+              "name": "ContainerRegistry"
             },
             {
-              "name": "v2"
+              "name": "Local"
             },
             {
-              "name": "v3"
+              "name": "NugetServer"
             },
             {
-              "name": "local"
+              "name": "Unknown"
             },
             {
-              "name": "nugetServer"
+              "name": "V2"
+            },
+            {
+              "name": "V3"
             }
           ]
         }
       ],
-      "description": "Specifies the API version used by the repository. Valid values are:\n"
+      "description": "Specifies the API version used by the repository. Valid values are:"
+    },
+    {
+      "name": "-Confirm",
+      "description": "Prompts you for confirmation before running the cmdlet."
     },
     {
       "name": "-CredentialInfo",
@@ -37,6 +44,15 @@
       "description": "A PSCredentialInfo object that includes the name of a vault and a secret that's stored in a Microsoft.PowerShell.SecretManagement store."
     },
     {
+      "name": "-CredentialProvider",
+      "args": [
+        {
+          "name": "Microsoft.PowerShell.PSResourceGet.UtilClasses.CredentialProviderType"
+        }
+      ],
+      "description": "This is a dynamic parameter that specifies the credential provider to use for the repository. This parameter is only available when the named repository is an Azure Artifacts feed. Valid values are:"
+    },
+    {
       "name": "-Name",
       "args": [
         {
@@ -44,7 +60,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the name of the repository to be modified.\n"
+      "description": "Specifies the name of the repository to be modified."
     },
     {
       "name": "-PassThru",
@@ -54,11 +70,10 @@
       "name": "-Priority",
       "args": [
         {
-          "name": "System.Int32",
-          "default": "50"
+          "name": "System.Int32"
         }
       ],
-      "description": "Specifies the priority ranking of the repository. Valid priority values range from 0 to 100. Lower values have a higher priority ranking. The default value is `50`.\n"
+      "description": "Specifies the priority ranking of the repository. Valid priority values range from 0 to 100. Lower values have a higher priority ranking. The default value is `50`."
     },
     {
       "name": "-Repository",
@@ -68,7 +83,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies an array of hashtables that contain repository information. Use this parameter to register multiple repositories at once. Each hashtable can only have keys associated with parameters for the NameParameterSet ."
+      "description": "Specifies an array of hashtables that contain repository information. Use this parameter to register multiple repositories at once. Each hashtable can only have keys associated with parameters for the NameParameterSet."
     },
     {
       "name": "-Trusted",
@@ -81,20 +96,10 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies the location of the repository to be registered. The value must use one of the following URI schemas:\n"
+      "description": "Specifies the location of the repository to be registered. The value must use one of the following URI schemas:"
     },
     {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
-    },
-    {
-      "name": [
-        "-WhatIf",
-        "-wi"
-      ],
+      "name": "-WhatIf",
       "description": "Shows what would happen if the cmdlet runs. The cmdlet isn't run."
     },
     {
@@ -271,7 +276,7 @@
   "args": [
     {
       "name": "-Name",
-      "description": "Specifies the name of the repository to be modified.\n"
+      "description": "Specifies the name of the repository to be modified."
     }
   ],
   "description": "Sets information for a registered repository.",
