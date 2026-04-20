@@ -4,7 +4,9 @@ use itertools::Itertools;
 use rayon::prelude::*;
 
 use warp_command_signatures::{
-    fig_types::Command, overrides::apply_overrides, powershell_autogenerator::CmdletHelp,
+    fig_types::Command,
+    overrides::apply_overrides,
+    powershell_autogenerator::{CmdletHelp, CmdletMetadataParameter},
 };
 
 fn main() {
@@ -29,7 +31,54 @@ fn main() {
 
             let cmdlet_help = serde_json::from_str::<CmdletHelp>(cmdlet_help_json)
                 .unwrap_or_else(|err| panic!("failed to deserialize {cmdlet_name} help: {err:?}"));
-            let mut fig_command: Command = cmdlet_help.into();
+            let cmdlet_metadata_json = run_pwsh_command(format!(
+                r#"$command = Get-Command -Name {cmdlet_name} -Type Cmdlet;
+@(
+    $command.Parameters.Values |
+        Select-Object Name,
+            @{{ Name = 'Aliases'; Expression = {{ @($_.Aliases) }} }},
+            @{{ Name = 'Suggestions'; Expression = {{
+                @(
+                    foreach ($attribute in $_.Attributes) {{
+                        if ($attribute -is [System.Management.Automation.ValidateSetAttribute]) {{
+                            $attribute.ValidValues
+                        }} elseif ($attribute.GetType().Name -eq 'ArgumentCompletionsAttribute') {{
+                            $attribute.Completions
+                        }} elseif ($attribute.GetType().Name -eq 'ArgumentEncodingCompletionsAttribute') {{
+                            $attribute.CompleteArgument(
+                                '{cmdlet_name}',
+                                $_.Name,
+                                '',
+                                [System.Management.Automation.Language.CommandAst]$null,
+                                $null
+                            ) | Select-Object -ExpandProperty CompletionText
+                        }}
+                    }}
+                    if ($_.ParameterType.IsEnum) {{
+                        [System.Enum]::GetNames($_.ParameterType)
+                    }} elseif (
+                        $_.ParameterType.IsGenericType -and
+                        $_.ParameterType.GetGenericTypeDefinition().FullName -eq 'System.Management.Automation.FlagsExpression`1'
+                    ) {{
+                        $enumType = $_.ParameterType.GenericTypeArguments[0]
+                        if ($enumType.IsEnum) {{
+                            [System.Enum]::GetNames($enumType)
+                        }}
+                    }}
+                ) | Where-Object {{ $_ }} | Sort-Object -Unique
+            }} }}
+) | ConvertTo-Json -Depth 8"#
+            ));
+            let cmdlet_metadata_json = cmdlet_metadata_json.trim();
+            let cmdlet_metadata = if cmdlet_metadata_json.is_empty() {
+                vec![]
+            } else {
+                serde_json::from_str::<Vec<CmdletMetadataParameter>>(cmdlet_metadata_json)
+                    .unwrap_or_else(|err| {
+                        panic!("failed to deserialize {cmdlet_name} metadata: {err:?}")
+                    })
+            };
+            let mut fig_command: Command = cmdlet_help.into_fig_command(&cmdlet_metadata);
 
             apply_overrides(&mut fig_command).unwrap_or_else(|err| {
                 panic!("unable to apply overrides for {}: {err:?}", cmdlet_name)

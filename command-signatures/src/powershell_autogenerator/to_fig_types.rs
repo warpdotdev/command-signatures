@@ -3,7 +3,9 @@ use std::{collections::HashMap, ops::Not};
 use itertools::Itertools;
 use warp_completion_metadata::fig_types::{ParserDirectives, StringOrNumber, Suggestion};
 
-use crate::powershell_autogenerator::{common_parameters::cmdlet_common_parameters, CmdletHelp};
+use crate::powershell_autogenerator::{
+    common_parameters::cmdlet_common_parameters, CmdletHelp, CmdletMetadataParameter,
+};
 use crate::{
     fig_types::{Arg, Command, CommandOption, NameOrSuggestion},
     powershell_autogenerator::ParameterPosition,
@@ -15,9 +17,14 @@ fn clean_description(s: &str) -> String {
     s.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
-impl From<CmdletHelp> for Command {
-    fn from(cmdlet_help: CmdletHelp) -> Self {
+impl CmdletHelp {
+    pub fn into_fig_command(self, cmdlet_metadata: &[CmdletMetadataParameter]) -> Command {
+        let cmdlet_help = self;
         let parameters = &cmdlet_help.parameters.unwrap_or_default().parameter;
+        let metadata_by_name = cmdlet_metadata
+            .iter()
+            .map(|param| (param.name.as_str(), param))
+            .collect::<HashMap<_, _>>();
         // In PowerShell, all options are first-and-foremost named options. _Some_ options may
         // instead be provided as positional args. As we loop through the named options, we'll
         // collect those in this HashMap. Why a HashMap? Sometimes, multiple different params may
@@ -47,6 +54,17 @@ impl From<CmdletHelp> for Command {
                                 .as_ref()
                                 .is_some_and(|values| !values.values.is_empty())
                     });
+                let suggestion_values = suggestions
+                    .and_then(|param| param.allowed_values.as_ref())
+                    .map(|values| values.values.clone())
+                    .filter(|values| !values.is_empty())
+                    .or_else(|| {
+                        metadata_by_name
+                            .get(param.name.as_str())
+                            .map(|metadata| metadata.suggestions.clone())
+                            .filter(|values| !values.is_empty())
+                    })
+                    .unwrap_or_default();
 
                 let description = param
                     .description
@@ -72,10 +90,7 @@ impl From<CmdletHelp> for Command {
                         default: param.default_value.clone().map(StringOrNumber::String),
                         // TODO(CORE-2677) Recognize PowerShell array syntax.
                         is_variadic: false,
-                        suggestions: suggestions
-                            .and_then(|param| param.allowed_values.as_ref())
-                            .map(|values| values.values.clone())
-                            .unwrap_or_default()
+                        suggestions: suggestion_values
                             .into_iter()
                             .map(|name| {
                                 NameOrSuggestion::Suggestion(Suggestion {
@@ -146,7 +161,7 @@ impl From<CmdletHelp> for Command {
             })
             .collect_vec();
 
-        Self {
+        Command {
             name: vec![cmdlet_help.name],
             // PowerShell cmdlets don't have subcommands.
             subcommands: vec![],

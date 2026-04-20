@@ -42,6 +42,19 @@ pub struct CmdletHelp {
     pub syntax: SyntaxInfo,
 }
 
+#[serde_as]
+#[derive(Debug, Deserialize, Default)]
+pub struct CmdletMetadataParameter {
+    #[serde(alias = "Name")]
+    pub name: String,
+    #[serde_as(deserialize_as = "DefaultOnNull<OneOrMany<_, PreferMany>>")]
+    #[serde(alias = "Aliases", default)]
+    pub aliases: Vec<String>,
+    #[serde_as(deserialize_as = "DefaultOnNull<OneOrMany<_, PreferMany>>")]
+    #[serde(alias = "Suggestions", default)]
+    pub suggestions: Vec<String>,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct Paragraph {
     #[serde(alias = "Text")]
