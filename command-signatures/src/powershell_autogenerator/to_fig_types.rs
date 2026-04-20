@@ -42,7 +42,8 @@ impl CmdletHelp {
                     .unwrap_or(&[]);
                 let mut name = vec![format!("-{}", param.name)];
                 name.extend(
-                    param.aliases
+                    param
+                        .aliases
                         .iter()
                         .chain(metadata_aliases.iter())
                         .filter(|alias| !alias.is_empty() && alias.as_str() != param.name)
