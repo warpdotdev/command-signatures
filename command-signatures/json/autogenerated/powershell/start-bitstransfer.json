@@ -1,0 +1,668 @@
+{
+  "name": "Start-BitsTransfer",
+  "options": [
+    {
+      "name": "-ACLFlags",
+      "args": [
+        {
+          "name": "ACLFlagValue",
+          "suggestions": [
+            {
+              "name": "DACL"
+            },
+            {
+              "name": "Group"
+            },
+            {
+              "name": "None"
+            },
+            {
+              "name": "Owner"
+            },
+            {
+              "name": "SACL"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the owner and access control list (ACL) information to maintain for the transfer job. Specify one or more of the following values:"
+    },
+    {
+      "name": "-Asynchronous",
+      "description": "Indicates that the cmdlet creates and processes BITS transfer job in the background. The command prompt reappears immediately after the BITS transfer job is created. The returned BitsJob object can be used to monitor status and progress."
+    },
+    {
+      "name": "-Authentication",
+      "args": [
+        {
+          "name": "String",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "Ntlm"
+            },
+            {
+              "name": "Passport"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the authentication mechanism to be used at the server. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-CertHash",
+      "args": [
+        {
+          "name": "Byte[]"
+        }
+      ],
+      "description": "Specifies a SHA1 hash that identifies the certificate."
+    },
+    {
+      "name": "-CertStoreLocation",
+      "args": [
+        {
+          "name": "CertStoreLocationValue",
+          "suggestions": [
+            {
+              "name": "CurrentService"
+            },
+            {
+              "name": "CurrentUser"
+            },
+            {
+              "name": "CurrentUserGroupPolicy"
+            },
+            {
+              "name": "LocalMachine"
+            },
+            {
+              "name": "LocalMachineEnterprise"
+            },
+            {
+              "name": "LocalMachineGroupPolicy"
+            },
+            {
+              "name": "Services"
+            },
+            {
+              "name": "Users"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the certificate store location to use for to look up the certificate. Valid values are:"
+    },
+    {
+      "name": "-CertStoreName",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the name of the certificate store. Valid values are:"
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": "-Credential",
+      "args": [
+        {
+          "name": "PSCredential"
+        }
+      ],
+      "description": "Specifies the credentials to use to authenticate the user to the server that is specified in the value of the *Source* parameter. The default is the current user."
+    },
+    {
+      "name": "-CustomHeaders",
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Specifies one or more custom HTTP headers to include in the request to the server. Specify an array of strings."
+    },
+    {
+      "name": "-CustomHeadersWriteOnly",
+      "description": "Indicates that the HTTP custom headers for this job are write-only."
+    },
+    {
+      "name": "-Description",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Describes the BITS transfer job. The description is limited to 1,024 characters."
+    },
+    {
+      "name": "-Destination",
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Specifies an array that contains the destination location and the names of the files that you want to transfer. The destination names are paired with the corresponding source file names. For example, the first file name specified in the *Source* parameter corresponds to the first file name in the *Destination* parameter, and the second file name in the *Source* parameter corresponds to the second file name in the *Destination* parameter. The *Source* and *Destination* parameters must have the same number of elements; otherwise, the command produces an error."
+    },
+    {
+      "name": "-DisplayName",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies a display name for the BITS transfer job. The display name provides a user-friendly way to differentiate BITS transfer jobs."
+    },
+    {
+      "name": "-Dynamic",
+      "description": "Indicates that the transfer uses the dynamic setting."
+    },
+    {
+      "name": "-HttpMethod",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies a method for the transfer other than the default method GET. If you specify GET, the parameter has no effect."
+    },
+    {
+      "name": "-MaxDownloadTime",
+      "args": [
+        {
+          "name": "Int32"
+        }
+      ],
+      "description": "Specifies the maximum time, in seconds, for transferring the files in a job. The default is 7,776,000 seconds or 90 days."
+    },
+    {
+      "name": "-NotifyCmdLine",
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Specifies a program to run after the job finishes or encounters an error. The program runs in the context of the user who runs this cmdlet."
+    },
+    {
+      "name": "-NotifyFlags",
+      "args": [
+        {
+          "name": "NotifyFlagValue"
+        }
+      ],
+      "description": "Specifies the type of event notification you want to receive, such as job transferred events. Valid values are:"
+    },
+    {
+      "name": "-Priority",
+      "args": [
+        {
+          "name": "String",
+          "suggestions": [
+            {
+              "name": "Foreground"
+            },
+            {
+              "name": "High"
+            },
+            {
+              "name": "Low"
+            },
+            {
+              "name": "Normal"
+            }
+          ]
+        }
+      ],
+      "description": "Sets the priority of the BITS transfer job, which affects bandwidth usage. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-ProxyAuthentication",
+      "args": [
+        {
+          "name": "String",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "Ntlm"
+            },
+            {
+              "name": "Passport"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the authentication mechanism to use at the Web proxy. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-ProxyBypass",
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Specifies a list of host names to use for a direct connection. The hosts in the list are tried in order until a successful connection is achieved. If you specify this parameter the cmdlet bypasses the proxy. If this parameter is used, the *ProxyUsage* parameter must be set to Override; otherwise, an error occurs."
+    },
+    {
+      "name": "-ProxyCredential",
+      "args": [
+        {
+          "name": "PSCredential"
+        }
+      ],
+      "description": "Specifies the credentials to use to authenticate the user at the proxy. You can use the Get-Credential cmdlet to create a value for this parameter."
+    },
+    {
+      "name": "-ProxyList",
+      "args": [
+        {
+          "name": "Uri[]"
+        }
+      ],
+      "description": "Specifies a list of proxies to use. The proxies in the list are tried in order until a successful connection is achieved. If this parameter is specified and *ProxyUsage* is set to a value other than Override, the cmdlet generates an error."
+    },
+    {
+      "name": "-ProxyUsage",
+      "args": [
+        {
+          "name": "String",
+          "suggestions": [
+            {
+              "name": "AutoDetect"
+            },
+            {
+              "name": "NoProxy"
+            },
+            {
+              "name": "Override"
+            },
+            {
+              "name": "SystemDefault"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the proxy usage settings. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-RetryInterval",
+      "args": [
+        {
+          "name": "Int32"
+        }
+      ],
+      "description": "Specifies the minimum length of time, in seconds, that BITS waits before an attempt to transfer the file after BITS encounters a transient error. The minimum allowed value is 60 seconds. If this value exceeds the RetryTimeout value from the BitsJob object, BITS does not retry the transfer. Instead, BITS sets the state of the BITS transfer job to the Error state."
+    },
+    {
+      "name": "-RetryTimeout",
+      "args": [
+        {
+          "name": "Int32"
+        }
+      ],
+      "description": "Specifies the length of time, in seconds, that BITS attempts to transfer the file after the first transient error occurs. Setting the retry period to 0 prevents retries and forces the job into the `BG_JOB_STATE_ERROR` state when an error occurs. If the retry period value exceeds the JobInactivityTimeout Group Policy setting (90-day default), BITS cancels the job after the JobInactivityTimeout Group Policy setting is exceeded."
+    },
+    {
+      "name": "-SecurityFlags",
+      "args": [
+        {
+          "name": "SecurityFlagValue",
+          "suggestions": [
+            {
+              "name": "EnableCRLCheck"
+            },
+            {
+              "name": "IgnoreCertCNInvalid"
+            },
+            {
+              "name": "IgnoreCertDateInvalid"
+            },
+            {
+              "name": "IgnoreCertWrongUsage"
+            },
+            {
+              "name": "IgnoreUnknownCA"
+            },
+            {
+              "name": "RedirectPolicyAllowHttpsToHttp"
+            },
+            {
+              "name": "RedirectPolicyAllowReport"
+            },
+            {
+              "name": "RedirectPolicyAllowSilent"
+            },
+            {
+              "name": "RedirectPolicyDisallow"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies security flags for the HTTP request."
+    },
+    {
+      "name": "-Source",
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the source location and the names of the files that you want to transfer. The source file names are paired with the corresponding destination file names. For example, the first file name specified in the *Source* parameter corresponds to the first file name in the *Destination* parameter, and the second file name in the *Source* parameter corresponds to the second file name in the *Destination* parameter. The *Source* and *Destination* parameters must have the same number of elements; otherwise, the command produces an error. You can use standard wildcard characters such as the asterisk (*) and the question mark (?). Or, you can use a range operator such as \"\\[a-r\\]\"."
+    },
+    {
+      "name": "-Suspended",
+      "description": "Indicates that the cmdlet suspends the BITS transfer job. If the *Suspended* parameter is not specified, the job automatically begins the transfer job. If the *Suspended* parameter is specified, the command prompt returns immediately after the BITS transfer job is created. You can use the Resume-BitsTransfer cmdlet to start the transfer job."
+    },
+    {
+      "name": "-TransferPolicy",
+      "args": [
+        {
+          "name": "CostStates",
+          "suggestions": [
+            {
+              "name": "Always"
+            },
+            {
+              "name": "BelowCap"
+            },
+            {
+              "name": "Capped"
+            },
+            {
+              "name": "IgnoreCongestion"
+            },
+            {
+              "name": "NearCap"
+            },
+            {
+              "name": "None"
+            },
+            {
+              "name": "NoSurcharge"
+            },
+            {
+              "name": "NotRoaming"
+            },
+            {
+              "name": "OverCapCharged"
+            },
+            {
+              "name": "OverCapThrottled"
+            },
+            {
+              "name": "PolicyUnrestricted"
+            },
+            {
+              "name": "Roaming"
+            },
+            {
+              "name": "Standard"
+            },
+            {
+              "name": "Unrestricted"
+            },
+            {
+              "name": "UsageBased"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the network cost states in which the transfer is allowed to be scheduled. The current cost state of the network is a bitmask that indicates the kinds of charges that would be incurred if a transfer was scheduled at this time. This cost state represents a bitmask; if the bit corresponding to the current network cost state is set, the transfer can be scheduled. If the bit corresponding to the current network cost state is not set, the transfer is ignored for scheduling purposes. You can submit any of the named values listed here, or add them together to provide a custom value."
+    },
+    {
+      "name": "-TransferType",
+      "args": [
+        {
+          "name": "String",
+          "suggestions": [
+            {
+              "name": "Download"
+            },
+            {
+              "name": "Upload"
+            },
+            {
+              "name": "UploadReply"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the BITS transfer job type. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-UseStoredCredential",
+      "args": [
+        {
+          "name": "AuthenticationTargetValue",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Proxy"
+            },
+            {
+              "name": "Server"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies that credentials stored in the Windows Credential Manager should be used for authentication when required for the specified target server type. If this parameter is not specified and a server requires authentication, then explicit credentials must be included by using the *Credential* or *ProxyCredential* parameters. This parameter is a flag parameter whose values can be added together to create the desired behavior."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-Source",
+      "description": "Specifies the source location and the names of the files that you want to transfer. The source file names are paired with the corresponding destination file names. For example, the first file name specified in the *Source* parameter corresponds to the first file name in the *Destination* parameter, and the second file name in the *Source* parameter corresponds to the second file name in the *Destination* parameter. The *Source* and *Destination* parameters must have the same number of elements; otherwise, the command produces an error. You can use standard wildcard characters such as the asterisk (*) and the question mark (?). Or, you can use a range operator such as \"\\[a-r\\]\"."
+    },
+    {
+      "name": "-Destination",
+      "description": "Specifies an array that contains the destination location and the names of the files that you want to transfer. The destination names are paired with the corresponding source file names. For example, the first file name specified in the *Source* parameter corresponds to the first file name in the *Destination* parameter, and the second file name in the *Source* parameter corresponds to the second file name in the *Destination* parameter. The *Source* and *Destination* parameters must have the same number of elements; otherwise, the command produces an error."
+    }
+  ],
+  "description": "Creates a BITS transfer job.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

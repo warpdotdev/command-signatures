@@ -2,13 +2,20 @@
   "name": "Clear-Content",
   "options": [
     {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter is not supported by any providers installed with PowerShell. To impersonate another > user, or elevate your credentials when running this cmdlet, use `Invoke-Command`."
     },
     {
       "name": "-Exclude",
@@ -63,7 +70,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name ( Path ) is optional."
+      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name (Path) is optional."
     },
     {
       "name": "-Stream",
@@ -72,14 +79,7 @@
           "name": "System.String"
         }
       ],
-      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows.\n"
-    },
-    {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
+      "description": "This is a dynamic parameter made available by the FileSystem provider. This parameter is only available on Windows."
     },
     {
       "name": [
@@ -262,7 +262,7 @@
   "args": [
     {
       "name": "-Path",
-      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name ( Path ) is optional."
+      "description": "Specifies the paths to the items from which content is deleted. Wildcards are permitted. The paths must be paths to items, not to containers. For example, you must specify a path to one or more files, not a path to a directory. Wildcards are permitted. This parameter is required, but the parameter name (Path) is optional."
     }
   ],
   "description": "Deletes the contents of an item, but does not delete the item.",

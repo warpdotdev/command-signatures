@@ -9,7 +9,48 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the JSON string to test for validity. Enter a variable that contains the string, or type a command or expression that gets the string. You can also pipe a string to `Test-Json`.\n"
+      "description": "Specifies the JSON string to test for validity. Enter a variable that contains the string, or type a command or expression that gets the string. You can also pipe a string to `Test-Json`."
+    },
+    {
+      "name": [
+        "-LiteralPath",
+        "-PSPath",
+        "-LP"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies a path to a JSON file. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
+    },
+    {
+      "name": "-Options",
+      "args": [
+        {
+          "name": "System.String[]",
+          "suggestions": [
+            {
+              "name": "AllowTrailingCommas"
+            },
+            {
+              "name": "IgnoreComments"
+            }
+          ]
+        }
+      ],
+      "description": "By default, `Test-Json` doesn't support JSON containing comments or trailing commas. This parameter allows you to specify options to change the default behavior. The following options are available:"
+    },
+    {
+      "name": "-Path",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the path to a JSON file. This cmdlet gets the item at the specified location. Wildcard characters are permitted but the pattern must resolve to a single file."
     },
     {
       "name": "-Schema",
@@ -18,7 +59,8 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a schema to validate the JSON input against. If passed, `Test-Json` validates that the JSON input conforms to the spec specified by the Schema parameter and return `$true` only if the input conforms to the provided schema.\n"
+      "isRequired": true,
+      "description": "Specifies a schema to validate the JSON input against. If passed, `Test-Json` validates that the JSON input conforms to the spec specified by the Schema parameter and return `$true` only if the input conforms to the provided schema."
     },
     {
       "name": "-SchemaFile",
@@ -27,7 +69,8 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a schema file used to validate the JSON input. When used, the `Test-Json` returns `$true` only if the JSON input conforms to the schema defined in the file specified by the SchemaFile parameter.\n"
+      "isRequired": true,
+      "description": "Specifies a schema file used to validate the JSON input. When used, the `Test-Json` returns `$true` only if the JSON input conforms to the schema defined in the file specified by the SchemaFile parameter."
     },
     {
       "name": [
@@ -202,12 +245,10 @@
   ],
   "args": [
     {
-      "name": "-Json",
-      "description": "Specifies the JSON string to test for validity. Enter a variable that contains the string, or type a command or expression that gets the string. You can also pipe a string to `Test-Json`.\n"
+      "name": "-Json-Or-LiteralPath-Or-Path"
     },
     {
-      "name": "-Schema",
-      "description": "Specifies a schema to validate the JSON input against. If passed, `Test-Json` validates that the JSON input conforms to the spec specified by the Schema parameter and return `$true` only if the input conforms to the provided schema.\n"
+      "name": "-Schema-Or-SchemaFile"
     }
   ],
   "description": "Tests whether a string is a valid JSON document",

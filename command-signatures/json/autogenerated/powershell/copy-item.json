@@ -2,27 +2,33 @@
   "name": "Copy-Item",
   "options": [
     {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Container",
-      "description": "Indicates that this cmdlet preserves container objects during the copy operation. By default, the Container parameter is set to True ."
+      "description": "Indicates that this cmdlet preserves container objects during the copy operation. By default, the Container parameter is set to True."
     },
     {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter isn't supported by any providers installed with PowerShell. > To impersonate another user, or elevate your credentials when running this cmdlet, > use [Invoke-Command](../Microsoft.PowerShell.Core/Invoke-Command.md)."
     },
     {
       "name": "-Destination",
       "args": [
         {
-          "name": "System.String",
-          "default": "Current directory"
+          "name": "System.String"
         }
       ],
-      "description": "Specifies the path to the new location. The default is the current directory.\n"
+      "description": "Specifies the path to the new location. The default is the current directory."
     },
     {
       "name": "-Exclude",
@@ -40,7 +46,7 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in about_Wildcards (../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in [about_Wildcards](../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they're retrieved."
     },
     {
       "name": "-Force",
@@ -53,7 +59,7 @@
           "name": "System.Management.Automation.Runspaces.PSSession"
         }
       ],
-      "description": "This is a dynamic parameter made available by the FileSystem provider.\n"
+      "description": "This is a dynamic parameter made available by the FileSystem provider."
     },
     {
       "name": "-Include",
@@ -76,7 +82,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it's typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks. Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
     },
     {
       "name": "-PassThru",
@@ -103,14 +109,7 @@
           "name": "System.Management.Automation.Runspaces.PSSession"
         }
       ],
-      "description": "This is a dynamic parameter made available by the FileSystem provider.\n"
-    },
-    {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
+      "description": "This is a dynamic parameter made available by the FileSystem provider."
     },
     {
       "name": [
@@ -297,7 +296,7 @@
     },
     {
       "name": "-Destination",
-      "description": "Specifies the path to the new location. The default is the current directory.\n"
+      "description": "Specifies the path to the new location. The default is the current directory."
     }
   ],
   "description": "Copies an item from one location to another.",

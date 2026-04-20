@@ -2,14 +2,20 @@
   "name": "New-ItemProperty",
   "options": [
     {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Credential",
       "args": [
         {
-          "name": "System.Management.Automation.PSCredential",
-          "default": "Current user"
+          "name": "System.Management.Automation.PSCredential"
         }
       ],
-      "description": "Specifies a user account that has permission to perform this action. The default is the current user.\n"
+      "description": "Specifies a user account that has permission to perform this action. The default is the current user."
     },
     {
       "name": "-Exclude",
@@ -18,7 +24,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as ` .txt`. Wildcard characters are permitted. The Exclude * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet excludes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcard characters are permitted. The Exclude parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
       "name": "-Filter",
@@ -27,11 +33,11 @@
           "name": "System.String"
         }
       ],
-      "description": "Specifies a filter to qualify the Path parameter. The FileSystem (../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md)provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in about_Wildcards (../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they are retrieved."
+      "description": "Specifies a filter to qualify the Path parameter. The [FileSystem](../Microsoft.PowerShell.Core/About/about_FileSystem_Provider.md) provider is the only installed PowerShell provider that supports the use of filters. You can find the syntax for the FileSystem filter language in [about_Wildcards](../Microsoft.PowerShell.Core/About/about_Wildcards.md). Filters are more efficient than other parameters, because the provider applies them when the cmdlet gets the objects rather than having PowerShell filter the objects after they are retrieved."
     },
     {
       "name": "-Force",
-      "description": "Forces the cmdlet to create a property on an object that cannot otherwise be accessed by the user. Implementation varies from provider to provider. For more information, see about_Providers (../Microsoft.PowerShell.Core/About/about_Providers.md)."
+      "description": "Forces the cmdlet to create a property on an object that cannot otherwise be accessed by the user. Implementation varies from provider to provider. For more information, see [about_Providers](../Microsoft.PowerShell.Core/About/about_Providers.md)."
     },
     {
       "name": "-Include",
@@ -40,7 +46,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as ` .txt`. Wildcard characters are permitted. The Include * parameter is effective only when the command includes the contents of an item, such as `C:\\Windows*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
+      "description": "Specifies, as a string array, an item or items that this cmdlet includes in the operation. The value of this parameter qualifies the Path parameter. Enter a path element or pattern, such as `*.txt`. Wildcard characters are permitted. The Include parameter is effective only when the command includes the contents of an item, such as `C:\\Windows\\*`, where the wildcard character specifies the contents of the `C:\\Windows` directory."
     },
     {
       "name": [
@@ -54,7 +60,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it is typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks (`'`). Single quotation marks tell PowerShell not to interpret any characters as escape sequences.\n"
+      "description": "Specifies a path to one or more locations. The value of LiteralPath is used exactly as it is typed. No characters are interpreted as wildcards. If the path includes escape characters, enclose it in single quotation marks (`'`). Single quotation marks tell PowerShell not to interpret any characters as escape sequences."
     },
     {
       "name": [
@@ -86,10 +92,10 @@
       ],
       "args": [
         {
-          "name": "Microsoft.Win32.RegistryValueKind"
+          "name": "System.String"
         }
       ],
-      "description": "This is a dynamic parameter made available by the Registry provider. The Registry provider and this parameter are only available on Windows.\n"
+      "description": "Specifies the type of property that this cmdlet adds. The acceptable values for this parameter are:"
     },
     {
       "name": "-Value",
@@ -99,13 +105,6 @@
         }
       ],
       "description": "Specifies the property value. If the property is a registry entry, this parameter specifies the value of the entry."
-    },
-    {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
     },
     {
       "name": [

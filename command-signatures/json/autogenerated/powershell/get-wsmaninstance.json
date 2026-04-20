@@ -1,0 +1,415 @@
+{
+  "name": "Get-WSManInstance",
+  "options": [
+    {
+      "name": "-ApplicationName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the application name in the connection. The default value of the ApplicationName parameter is WSMAN. The complete identifier for the remote endpoint is in the following format:"
+    },
+    {
+      "name": "-Associations",
+      "description": "Indicates that this cmdlet gets association instances, not associated instances. You can use this parameter only when the Dialect parameter has a value of Association."
+    },
+    {
+      "name": [
+        "-Authentication",
+        "-auth",
+        "-am"
+      ],
+      "args": [
+        {
+          "name": "Microsoft.WSMan.Management.AuthenticationMechanism",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "ClientCertificate"
+            },
+            {
+              "name": "Credssp"
+            },
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "None"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the authentication mechanism to be used at the server. The acceptable values for this parameter are:"
+    },
+    {
+      "name": [
+        "-BasePropertiesOnly",
+        "-UBPO",
+        "-Base"
+      ],
+      "description": "Indicates that this cmdlet enumerates only the properties that are part of the base class that is specified by the ResourceURI parameter. This parameter has no effect if the Shallow parameter is specified."
+    },
+    {
+      "name": "-CertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the digital public key certificate (X509) of a user account that has permission to perform this action. Enter the certificate thumbprint of the certificate."
+    },
+    {
+      "name": [
+        "-ComputerName",
+        "-CN"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the computer against which to run the management operation. The value can be a fully qualified domain name, a NetBIOS name, or an IP address. Use the local computer name, use localhost, or use a dot (`.`) to specify the local computer. The local computer is the default. When the remote computer is in a different domain from the user, you must use a fully qualified domain name must be used. You can pipe a value for this parameter to the cmdlet."
+    },
+    {
+      "name": [
+        "-ConnectionURI",
+        "-CURI",
+        "-CU"
+      ],
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "description": "Specifies the connection endpoint. The format of this string is as follows:"
+    },
+    {
+      "name": [
+        "-Credential",
+        "-cred",
+        "-c"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential"
+        }
+      ],
+      "description": "Specifies a user account that has permission to perform this action. The default is the current user. Type a user name, such as User01, Domain01\\User01, or User@Domain.com. Or, enter a PSCredential object, such as one returned by the `Get-Credential` cmdlet. When you type a user name, this cmdlet prompts you for a password."
+    },
+    {
+      "name": "-Dialect",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "description": "Specifies the dialect to use in the filter predicate. This can be any dialect that is supported by the remote service. The following aliases can be used for the dialect URI:"
+    },
+    {
+      "name": "-Enumerate",
+      "isRequired": true,
+      "description": "Indicates that this cmdlet returns all of the instances of a management resource."
+    },
+    {
+      "name": "-Filter",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the filter expression for the enumeration. If you specify this parameter, you must also specify Dialect."
+    },
+    {
+      "name": "-Fragment",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a section inside the instance that is to be updated or retrieved for the specified operation. For example, to get the status of a spooler service, specify the following:"
+    },
+    {
+      "name": [
+        "-OptionSet",
+        "-OS"
+      ],
+      "args": [
+        {
+          "name": "System.Collections.Hashtable"
+        }
+      ],
+      "description": "Specifies a set of switches to a service to modify or refine the nature of the request. These resemble switches used in command-line shells because they are service specific. Any number of options can be specified."
+    },
+    {
+      "name": "-Port",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the port to use when the client connects to the WinRM service. When the transport is HTTP, the default port is 80. When the transport is HTTPS, the default port is 443."
+    },
+    {
+      "name": [
+        "-ResourceURI",
+        "-RURI"
+      ],
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the URI of the resource class or instance. The URI identifies a specific type of resource, such as disks or processes, on a computer."
+    },
+    {
+      "name": [
+        "-ReturnType",
+        "-RT"
+      ],
+      "args": [
+        {
+          "name": "System.String",
+          "suggestions": [
+            {
+              "name": "epr"
+            },
+            {
+              "name": "object"
+            },
+            {
+              "name": "objectandepr"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the type of data to be returned. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-SelectorSet",
+      "args": [
+        {
+          "name": "System.Collections.Hashtable"
+        }
+      ],
+      "description": "Specifies a set of value pairs that are used to select particular management resource instances. The SelectorSet parameter is used when more than one instance of the resource exists. The value of the SelectorSet parameter must be a hash table."
+    },
+    {
+      "name": [
+        "-SessionOption",
+        "-SO"
+      ],
+      "args": [
+        {
+          "name": "Microsoft.WSMan.Management.SessionOption"
+        }
+      ],
+      "description": "Specifies extended options for the WS-Management session. Enter a SessionOption object that you create by using the New-WSManSessionOption cmdlet. For more information about the options that are available, type `Get-Help New-WSManSessionOption`."
+    },
+    {
+      "name": "-Shallow",
+      "description": "Indicates that this cmdlet returns only instances of the base class that is specified in the resource URI. If you do not specify this parameter, this cmdlet returns instances of the base class that is specified in the URI and in all its derived classes."
+    },
+    {
+      "name": [
+        "-UseSSL",
+        "-SSL"
+      ],
+      "description": "Specifies that the Secure Sockets Layer (SSL) protocol is used to establish a connection to the remote computer. By default, SSL is not used."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-ResourceURI",
+      "description": "Specifies the URI of the resource class or instance. The URI identifies a specific type of resource, such as disks or processes, on a computer."
+    }
+  ],
+  "description": "Displays management information for a resource instance specified by a Resource URI.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

@@ -1,0 +1,381 @@
+{
+  "name": "New-NetIPsecAuthProposal",
+  "options": [
+    {
+      "name": "-AccountMapping",
+      "description": "Specifies the enabled state for the IPsec certificate-to-account mapping. In certificate-to-account mapping, the Internet Key Exchange (IKE) and AuthIP protocols associate, or map, a user or computer certificate to a user or computer account in an Active Directory (AD) domain or forest, and then retrieves an access token, which includes the list of user security groups. This process ensures that the certificate offered by the IPsec peer corresponds to an active user or computer account in the domain, and that the certificate is one that should be used by that user or computer."
+    },
+    {
+      "name": "-Anonymous",
+      "isRequired": true,
+      "description": "Specifies anonymous authentication. Anonymous authentication means no authentication is performed. This method does not require identity to authenticate. It is equal to no authentication. This provides end-to-end security between hosts, but does not provide any authentication or authorization for which users and computers can connect. This method can be used for both phase 1 and phase 2 authentication."
+    },
+    {
+      "name": "-Authority",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies, for certificate authentication, the strong name, or X.509 string, of the Certification Authority (CA) that has issued the client certificates. This parameter is used for certificate authentication."
+    },
+    {
+      "name": "-AuthorityType",
+      "args": [
+        {
+          "name": "CertificateAuthorityType",
+          "suggestions": [
+            {
+              "name": "Intermediate"
+            },
+            {
+              "name": "Invalid"
+            },
+            {
+              "name": "Root"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies that certificates issued by intermediate CAs should be accepted. This parameter is used for certificate authentication. The acceptable values for this parameter are:: Root or Intermediate. The default value is Root. This parameter is supported in Windows Server® 2012."
+    },
+    {
+      "name": "-Cert",
+      "isRequired": true,
+      "description": "Specifies that certificate authentication is used. The *Authority* and *AuthorityType* parameters specify the certification authentication methods."
+    },
+    {
+      "name": "-ExcludeCAName",
+      "description": "Specifies that CA names are excluded. This can only be specified for phase 1 authentications."
+    },
+    {
+      "name": [
+        "-ExtendedKeyUsage",
+        "-EKUs"
+      ],
+      "args": [
+        {
+          "name": "String[]"
+        }
+      ],
+      "description": "Specifies list of object identifiers (OIDs) that would be used on the extended key usage (EKU) field of a certificate. When a CA issues a certificate, then the EKU specifies the intended purposes of the certificate. For instance, there are specific OIDs for client-server communications as well as secure email and code signing. An IPsec certificate can be selected or validated by EKU OID. There is a limit of `100` EKUs. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-FollowRenewal",
+      "description": "Specifies that certificate signing is automatically renewed. When the certificate is auto-renewed, the IPsec policy will not need to be updated. This parameter only works for authentication methods that define a thumb print with the *Thumbprint* parameter. This parameter only works, and is appropriate, for certificate selection methods. The default value is False. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-Health",
+      "description": "Specifies that the certificate is a health certificate. For phase 2 authentications, if the authentication method is only valid for computer certificates."
+    },
+    {
+      "name": "-Kerberos",
+      "isRequired": true,
+      "description": "Specifies that Kerberos is used. This method authenticates the identity of user or computer accounts by using [Kerberos Protocol Extensions](https://msdn.microsoft.com/library/cc233855.aspx)."
+    },
+    {
+      "name": "-Machine",
+      "isRequired": true,
+      "description": "Specifies that the computer principal should be authenticated rather than the user."
+    },
+    {
+      "name": "-Ntlm",
+      "isRequired": true,
+      "description": "Specifies that NTLM authentication is used."
+    },
+    {
+      "name": [
+        "-PreSharedKey",
+        "-PSK"
+      ],
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies that the given pre-shared key is used for authentication. The use of a pre-shared key is strongly discouraged, and is provided for interoperability and for conformance to IPsec standards. The pre-shared key is stored in plain text. The use of a more secure authentication method is strongly recommended."
+    },
+    {
+      "name": "-Proxy",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the fully qualified domain name (FQDN) of the Kerberos proxy to use when authenticating from a remote network. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-SelectionCriteria",
+      "description": "Specifies that the current certificate authentication proposal should be used to select the certificate as offering to remote peers. When using certificate criteria, exactly one proposal for selection and exactly one proposal for validation are needed. A single proposal can be used for both. If this parameter or the *ValidationCriteria* parameter is not specified, then the proposal is used for both. This parameter is supported in Windows Server 2012. The default value is False. If both this parameter and the *ValidationCriteria* parameter are set to False, then the configuration is not valid and both flags in a new phase 1 authentication set or phase 2 authentication are set to True."
+    },
+    {
+      "name": "-Signing",
+      "args": [
+        {
+          "name": "CertificateSigningAlgorithm",
+          "suggestions": [
+            {
+              "name": "ECDSA256"
+            },
+            {
+              "name": "ECDSA384"
+            },
+            {
+              "name": "Invalid"
+            },
+            {
+              "name": "RSA"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the certificate signing algorithm to accept. The acceptable values for this parameter are: RSA, ECDSA256, or ECDSA384. The default value is RSA."
+    },
+    {
+      "name": "-SubjectName",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Determines, if it is not null, how the certificate should be validated. A certification authority (CA) could put any string value into the Subject Name or Alternative Subject Name fields on a certificate, so there are no format requirements for this parameter. However, depending on the value of SubjectNameType, there are some general formats that are usually followed. Examine the certificates issued by the CA to find the exact formatting to use. If the *SubjectNameType* parameter is: - None: The Subject Name field on a certificate must be null. - DomainName: The Subject Name field on a certificate should generally take the format of a FQDN. The Alternative Subject Name field will be examined. - UserPrincipalName: The Subject Name field on a certificate should generally take the format of an service principal name (SPN). The Alternative Subject Name field will be examined. - EmailAddress: An email address, like `username@contoso.com`. The Alternative Subject Name field on a certificate will be examined. - CN, OU, O, DC: The values from an X.509 strong name. These will be parsed from the Subject Name field on a certificate. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-SubjectNameType",
+      "args": [
+        {
+          "name": "CertificateSubjectType",
+          "suggestions": [
+            {
+              "name": "CN"
+            },
+            {
+              "name": "DC"
+            },
+            {
+              "name": "DomainName"
+            },
+            {
+              "name": "EmailAddress"
+            },
+            {
+              "name": "None"
+            },
+            {
+              "name": "O"
+            },
+            {
+              "name": "OU"
+            },
+            {
+              "name": "UserPrincipalName"
+            }
+          ]
+        }
+      ],
+      "description": "Determines how the SubjectName field should be interpreted. The acceptable values for this parameter are: None, DomainName, UserPrincipalName, EmailAddress, CN, OU, O, or DC. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-Thumbprint",
+      "args": [
+        {
+          "name": "String"
+        }
+      ],
+      "description": "Specifies the thumbprint hashing to use for certification criteria. This is primarily intended for interoperability server-to-server authentication. This parameter cannot be combined with the *FollowRenewal* parameter. This parameter is supported in Windows Server 2012."
+    },
+    {
+      "name": "-User",
+      "isRequired": true,
+      "description": "Specifies that the computer should authenticate as the user account, rather than the computer. This parameter is valid with NTLM, Kerberos, Cert, or Proxy."
+    },
+    {
+      "name": "-ValidationCriteria",
+      "description": "For use with certificate criteria. Specifies that the current certificate auth proposal should be used to validate the certificate given by the remote peer. When using certificate criteria, exactly one proposal for selection and exactly one proposal for validation are needed. A single proposal can be used for both. If this parameter or the *SelectionCriteria* parameter is not specified, then the proposal is used for both. This parameter is supported in Windows Server 2012. The default value is False. If both this parameter and the *SelectionCriteria* parameter are set to False, then the configuration is not valid and both flags in a new phase 1 authentication set or phase 2 authentication are set to True."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-PreSharedKey",
+      "description": "Specifies that the given pre-shared key is used for authentication. The use of a pre-shared key is strongly discouraged, and is provided for interoperability and for conformance to IPsec standards. The pre-shared key is stored in plain text. The use of a more secure authentication method is strongly recommended."
+    }
+  ],
+  "description": "Creates a main mode authentication proposal that specifies a suite of authentication protocols to offer in IPsec main mode negotiations with other computers.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

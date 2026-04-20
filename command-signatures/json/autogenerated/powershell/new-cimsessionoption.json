@@ -1,0 +1,406 @@
+{
+  "name": "New-CimSessionOption",
+  "options": [
+    {
+      "name": "-Culture",
+      "args": [
+        {
+          "name": "System.Globalization.CultureInfo"
+        }
+      ],
+      "description": "Specifies the user interface culture to use for the CIM session. Specify the value for this parameter using one of the following formats:"
+    },
+    {
+      "name": "-EncodePortInServicePrincipalName",
+      "description": "Indicates that the Kerberos connection is connecting to a service whose service principal name (SPN) includes the service port number. This type of connection is not common."
+    },
+    {
+      "name": "-Encoding",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.Options.PacketEncoding",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Utf16"
+            },
+            {
+              "name": "Utf8"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the encoding used for the WsMan protocol. The acceptable values for this parameter are: Default, Utf8, or Utf16."
+    },
+    {
+      "name": "-HttpPrefix",
+      "args": [
+        {
+          "name": "System.Uri"
+        }
+      ],
+      "description": "Specifies the part of the HTTP URL after the computer name and port number. Changing this is not common. By default, the value of this parameter is /wsman."
+    },
+    {
+      "name": "-Impersonation",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.Options.ImpersonationType",
+          "suggestions": [
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Delegate"
+            },
+            {
+              "name": "Identify"
+            },
+            {
+              "name": "Impersonate"
+            },
+            {
+              "name": "None"
+            }
+          ]
+        }
+      ],
+      "description": "Creates a DCOM session to Windows Management Instrumentation (WMI) using impersonation."
+    },
+    {
+      "name": "-MaxEnvelopeSizeKB",
+      "args": [
+        {
+          "name": "System.UInt32"
+        }
+      ],
+      "description": "Specifies the size limit of WsMan XML messages for either direction."
+    },
+    {
+      "name": "-NoEncryption",
+      "description": "Specifies that data encryption is turned off."
+    },
+    {
+      "name": "-PacketIntegrity",
+      "description": "Specifies that the DCOM session created to WMI uses the Component Object Model (COM) _PacketIntegrity_ functionality. By default, all CIM sessions created using DCOM have the PacketIntegrity parameter set to True."
+    },
+    {
+      "name": "-PacketPrivacy",
+      "description": "Creates a DCOM session to WMI using the COM _PacketPrivacy_. By default, all CIM sessions created using DCOM have the PacketPrivacy parameter set to true."
+    },
+    {
+      "name": "-Protocol",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.CimCmdlets.ProtocolType",
+          "suggestions": [
+            {
+              "name": "Dcom"
+            },
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Wsman"
+            }
+          ]
+        }
+      ],
+      "isRequired": true,
+      "description": "Specifies the protocol to use. The acceptable values for this parameter are: Dcom, Default, or Wsman."
+    },
+    {
+      "name": "-ProxyAuthentication",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.Options.PasswordAuthenticationMechanism",
+          "suggestions": [
+            {
+              "name": "Basic"
+            },
+            {
+              "name": "CredSsp"
+            },
+            {
+              "name": "Default"
+            },
+            {
+              "name": "Digest"
+            },
+            {
+              "name": "Kerberos"
+            },
+            {
+              "name": "Negotiate"
+            },
+            {
+              "name": "NtlmDomain"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the authentication method to use for proxy resolution. The acceptable values for this parameter are: Default, Digest, Negotiate, Basic, Kerberos, NtlmDomain, or CredSsp."
+    },
+    {
+      "name": "-ProxyCertificateThumbprint",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the (x.509) digital public key certificate of a user account for proxy authentication. Enter the certificate thumbprint of the certificate. Certificates are used in client certificate-based authentication. They can only be mapped to local user accounts and they do not work with domain accounts."
+    },
+    {
+      "name": "-ProxyCredential",
+      "args": [
+        {
+          "name": "System.Management.Automation.PSCredential"
+        }
+      ],
+      "description": "Specifies the credentials to use for proxy authentication. Enter one of the following:"
+    },
+    {
+      "name": "-ProxyType",
+      "args": [
+        {
+          "name": "Microsoft.Management.Infrastructure.Options.ProxyType",
+          "suggestions": [
+            {
+              "name": "Auto"
+            },
+            {
+              "name": "InternetExplorer"
+            },
+            {
+              "name": "None"
+            },
+            {
+              "name": "WinHttp"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the host name resolution mechanism to use. The acceptable values for this parameter are: None, WinHttp, Auto, or InternetExplorer."
+    },
+    {
+      "name": "-SkipCACheck",
+      "description": "Indicates that when connecting over HTTPS, the client does not validate that the server certificate is signed by a trusted certification authority (CA)."
+    },
+    {
+      "name": "-SkipCNCheck",
+      "description": "Indicates that the certificate common name (CN) of the server does not need to match the hostname of the server. Use this parameter for remote operations only with trusted computers that use the HTTPS protocol."
+    },
+    {
+      "name": "-SkipRevocationCheck",
+      "description": "Indicates that the revocation check for server certificates is skipped. Use this parameter only for trusted computers."
+    },
+    {
+      "name": "-UICulture",
+      "args": [
+        {
+          "name": "System.Globalization.CultureInfo"
+        }
+      ],
+      "description": "Specifies the user interface culture to use for the CIM session. Specify the value for this parameter using one of the following formats:"
+    },
+    {
+      "name": "-UseSsl",
+      "description": "Indicates that SSL should be used to establish a connection to the remote computer. By default, SSL is not used. WsMan encrypts all content that is transmitted over the network, even when using HTTP."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [
+    {
+      "name": "-Protocol",
+      "description": "Specifies the protocol to use. The acceptable values for this parameter are: Dcom, Default, or Wsman.",
+      "suggestions": [
+        {
+          "name": "Dcom"
+        },
+        {
+          "name": "Default"
+        },
+        {
+          "name": "Wsman"
+        }
+      ]
+    }
+  ],
+  "description": "Specifies advanced options for the New-CimSession cmdlet.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}

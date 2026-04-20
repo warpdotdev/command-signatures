@@ -11,6 +11,13 @@
       "description": "Specifies the API key that you want to use to publish a resource to the online gallery."
     },
     {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
       "name": "-Credential",
       "args": [
         {
@@ -29,6 +36,25 @@
       "description": "Specifies the path where the NuGet package `.nupkg` file should be saved. This parameter can be used in conjunction with the Repository parameter to publish to a repository and also save the exact same package to the local file system."
     },
     {
+      "name": "-ModulePrefix",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "The value of the parameter is pre-pended to the package name. This information is only used for publishing and isn't included in the package metadata. The module prefix controls the visibility of the module, for example: `internal`, `public`, `staging`."
+    },
+    {
+      "name": "-NupkgPath",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "isRequired": true,
+      "description": "Path to the `.nupkg` file to be published. The `.nupkg` file could have been created by a previous run of `Publish-PSResource` with the DestinationPath parameter. Or, you can create the `.nupkg` file using the `Compress-PSResource` command."
+    },
+    {
       "name": "-Path",
       "args": [
         {
@@ -36,7 +62,7 @@
         }
       ],
       "isRequired": true,
-      "description": "The path to the module or script file or the path to a folder containing the module or script file to be published."
+      "description": "The path to the module or script file or the path to a folder containing the module or script file to be published. The cmdlet packages all files in the folder into a `.nupkg` file before publishing to the repository."
     },
     {
       "name": "-Proxy",
@@ -72,13 +98,6 @@
     {
       "name": "-SkipModuleManifestValidate",
       "description": "Skips validating the module manifest before publishing."
-    },
-    {
-      "name": [
-        "-Confirm",
-        "-cf"
-      ],
-      "description": "Prompts you for confirmation before running the cmdlet."
     },
     {
       "name": [
@@ -261,7 +280,7 @@
   "args": [
     {
       "name": "-Path",
-      "description": "The path to the module or script file or the path to a folder containing the module or script file to be published."
+      "description": "The path to the module or script file or the path to a folder containing the module or script file to be published. The cmdlet packages all files in the folder into a `.nupkg` file before publishing to the repository."
     }
   ],
   "description": "Publishes a specified module from the local computer to PSResource repository.",

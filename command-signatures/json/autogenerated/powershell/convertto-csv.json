@@ -5,18 +5,17 @@
       "name": "-Delimiter",
       "args": [
         {
-          "name": "System.Char",
-          "default": "comma (,)"
+          "name": "System.Char"
         }
       ],
-      "description": "Specifies the delimiter to separate the property values in CSV strings. The default is a comma (`,`). Enter a character, such as a colon (`:`). To specify a semicolon (`;`) enclose it in single quotation marks."
+      "description": "Specifies the delimiter to separate the property values in CSV strings. The default is a comma (`,`)."
     },
     {
       "name": [
         "-IncludeTypeInformation",
         "-ITI"
       ],
-      "description": "When this parameter is used the first line of the output contains `#TYPE` followed by the fully qualified name of the object type. For example, `#TYPE System.Diagnostics.Process`.\n"
+      "description": "When this parameter is used the first line of the output contains `#TYPE` followed by the fully qualified name of the object type. For example, `#TYPE System.Diagnostics.Process`."
     },
     {
       "name": "-InputObject",
@@ -26,7 +25,11 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the objects that are converted to CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `ConvertTo-CSV`."
+      "description": "Specifies the objects that are converted to CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `ConvertTo-Csv`."
+    },
+    {
+      "name": "-NoHeader",
+      "description": "When this parameter is used, the cmdlet doesn't write a header row containing the column names to the output."
     },
     {
       "name": [
@@ -59,10 +62,20 @@
       "args": [
         {
           "name": "Microsoft.PowerShell.Commands.BaseCsvWritingCommand+QuoteKind",
-          "default": "Always"
+          "suggestions": [
+            {
+              "name": "Always"
+            },
+            {
+              "name": "AsNeeded"
+            },
+            {
+              "name": "Never"
+            }
+          ]
         }
       ],
-      "description": "Specifies when quotes are used in the CSV files. Possible values are:\n"
+      "description": "Specifies when quotes are used in the CSV files. Possible values are:"
     },
     {
       "name": [
@@ -238,11 +251,11 @@
   "args": [
     {
       "name": "-InputObject",
-      "description": "Specifies the objects that are converted to CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `ConvertTo-CSV`."
+      "description": "Specifies the objects that are converted to CSV strings. Enter a variable that contains the objects or type a command or expression that gets the objects. You can also pipe objects to `ConvertTo-Csv`."
     },
     {
       "name": "-Delimiter",
-      "description": "Specifies the delimiter to separate the property values in CSV strings. The default is a comma (`,`). Enter a character, such as a colon (`:`). To specify a semicolon (`;`) enclose it in single quotation marks."
+      "description": "Specifies the delimiter to separate the property values in CSV strings. The default is a comma (`,`)."
     }
   ],
   "description": "Converts .NET objects into a series of character-separated value (CSV) strings.",

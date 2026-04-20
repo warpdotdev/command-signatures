@@ -8,7 +8,7 @@
           "name": "System.String[]"
         }
       ],
-      "description": "Specifies additional elements to append to the value of the Path parameter. The `ChildPath` parameter is still mandatory and must be specified as well.\n"
+      "description": "Specifies additional elements to append to the value of the Path parameter. The ChildPath parameter is still mandatory and must be specified as well. This parameter is specified with the `ValueFromRemainingArguments` property, which enables joining an indefinite number of paths."
     },
     {
       "name": "-ChildPath",
@@ -18,7 +18,7 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the elements to append to the value of the `Path` parameter. Wildcards are permitted. The `ChildPath` parameter is required, although the parameter name (\"ChildPath\") is optional."
+      "description": "Specifies the elements to append to the value of the `Path` parameter. Wildcards are permitted."
     },
     {
       "name": "-Credential",
@@ -26,7 +26,8 @@
         {
           "name": "System.Management.Automation.PSCredential"
         }
-      ]
+      ],
+      "description": "> [!NOTE] > This parameter isn't supported by any providers installed with PowerShell. To impersonate another > user, or elevate your credentials when running this cmdlet, use > [Invoke-Command](../Microsoft.PowerShell.Core/Invoke-Command.md)."
     },
     {
       "name": [
@@ -39,11 +40,11 @@
         }
       ],
       "isRequired": true,
-      "description": "Specifies the main path (or paths) to which the child-path is appended. Wildcards are permitted.\n"
+      "description": "Specifies the main path (or paths) to which the child-path is appended. The value of Path determines which provider joins the paths and adds the path delimiters. Wildcards are permitted."
     },
     {
       "name": "-Resolve",
-      "description": "Indicates that this cmdlet should attempt to resolve the joined path from the current provider.\n"
+      "description": "Indicates that this cmdlet should attempt to resolve the joined path from the current provider."
     },
     {
       "name": [
@@ -219,15 +220,15 @@
   "args": [
     {
       "name": "-Path",
-      "description": "Specifies the main path (or paths) to which the child-path is appended. Wildcards are permitted.\n"
+      "description": "Specifies the main path (or paths) to which the child-path is appended. The value of Path determines which provider joins the paths and adds the path delimiters. Wildcards are permitted."
     },
     {
       "name": "-ChildPath",
-      "description": "Specifies the elements to append to the value of the `Path` parameter. Wildcards are permitted. The `ChildPath` parameter is required, although the parameter name (\"ChildPath\") is optional."
+      "description": "Specifies the elements to append to the value of the `Path` parameter. Wildcards are permitted."
     },
     {
       "name": "-AdditionalChildPath",
-      "description": "Specifies additional elements to append to the value of the Path parameter. The `ChildPath` parameter is still mandatory and must be specified as well.\n"
+      "description": "Specifies additional elements to append to the value of the Path parameter. The ChildPath parameter is still mandatory and must be specified as well. This parameter is specified with the `ValueFromRemainingArguments` property, which enables joining an indefinite number of paths."
     }
   ],
   "description": "Combines a path and a child path into a single path.",

@@ -1,0 +1,645 @@
+{
+  "name": "New-SelfSignedCertificate",
+  "options": [
+    {
+      "name": "-AlternateSignatureAlgorithm",
+      "description": "Indicates that this cmdlet uses RSA-PSS (PKCSv2.1) or an elliptic curve cryptography (ECC) equivalent. If you do not specify this parameter, the cmdlet uses the default, RSA-PSS (PKCSv1.5) or an ECC equivalent."
+    },
+    {
+      "name": "-CertStoreLocation",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the certificate store in which to store the new certificate. If the current path is `Cert:\\CurrentUser` or `Cert:\\CurrentUser\\My`, the default store is `Cert:\\CurrentUser\\My`. If the current path is `Cert:\\LocalMachine` or `Cert:\\LocalMachine\\My`, the default store is `Cert:\\LocalMachine\\My`. Otherwise, you must specify `Cert:\\CurrentUser\\My` or `Cert:\\LocalMachine\\My` for this parameter. This parameter does not support other certificate stores."
+    },
+    {
+      "name": "-CloneCert",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.Certificate"
+        }
+      ],
+      "description": "Identifies the certificate to copy when creating a new certificate. The certificate being cloned can be identified by an X509 certificate or the file path in the certificate provider. When this parameter is used, all fields and extensions of the certificate will be inherited except the NotAfter and NotBefore fields and the public key. A new key of the same algorithm and length will be created. The default validity period will be the same as the certificate to copy, except that the NotBefore field will be set to ten minutes in the past."
+    },
+    {
+      "name": [
+        "-Confirm",
+        "-cf"
+      ],
+      "description": "Prompts you for confirmation before running the cmdlet."
+    },
+    {
+      "name": "-Container",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the container in which this cmdlet stores the key for the new certificate."
+    },
+    {
+      "name": "-CurveExport",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.CurveParametersExportType",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "CurveParameters"
+            },
+            {
+              "name": "CurveName"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies how the public key parameters for an elliptic curve key are represented in the new certificate. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-DnsName",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies one or more DNS names to put into the subject alternative name extension of the certificate when a certificate to be copied is not specified via the CloneCert parameter. The first DNS name is also saved as the Subject Name. If no signing certificate is specified, the first DNS name is also saved as the Issuer Name."
+    },
+    {
+      "name": "-ExistingKey",
+      "description": "Indicates that this cmdlet uses an existing key. If you do not specify this parameter, this cmdlet creates a new key. Creating a certificate from an existing key creates a new key with a new container."
+    },
+    {
+      "name": "-Extension",
+      "args": [
+        {
+          "name": "System.Security.Cryptography.X509Certificates.X509Extension[]"
+        }
+      ],
+      "description": "Specifies an array of certificate extensions, as X509Extension objects, that this cmdlet includes in the new certificate."
+    },
+    {
+      "name": "-FriendlyName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a friendly name for the new certificate."
+    },
+    {
+      "name": "-HardwareKeyUsage",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.HardwareKeyUsage[]",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "SignatureKey"
+            },
+            {
+              "name": "EncryptionKey"
+            },
+            {
+              "name": "GenericKey"
+            },
+            {
+              "name": "StorageKey"
+            },
+            {
+              "name": "IdentityKey"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies how a hardware key associated with the new certificate may be used. This parameter applies only when you specify the `Microsoft Platform Crypto Provider`. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-HashAlgorithm",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the hash algorithm to use to sign the new certificate. The default hash algorithm depends on the provider that stores the private key used to sign the new certificate."
+    },
+    {
+      "name": "-KeyAlgorithm",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the algorithm that creates the asymmetric keys that are associated with the new certificate. Available asymmetric key algorithms are RSA and Elliptic Curve Digital Signature Algorithms (ECDSA)."
+    },
+    {
+      "name": "-KeyDescription",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a description for the private key that is associated with the new certificate."
+    },
+    {
+      "name": "-KeyExportPolicy",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.KeyExportPolicy[]",
+          "suggestions": [
+            {
+              "name": "NonExportable"
+            },
+            {
+              "name": "ExportableEncrypted"
+            },
+            {
+              "name": "Exportable"
+            }
+          ],
+          "default": "ExportableEncrypted"
+        }
+      ],
+      "description": "Specifies the policy that governs the export of the private key that is associated with the certificate."
+    },
+    {
+      "name": "-KeyFriendlyName",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a friendly name for the private key that is associated with the new certificate."
+    },
+    {
+      "name": "-KeyLength",
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Specifies the length, in bits, of the key that is associated with the new certificate."
+    },
+    {
+      "name": "-KeyLocation",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the file system location where this cmdlet stores the private keys associated with the new certificate. Specify this parameter only when you specify the `Microsoft Platform Crypto Provider`."
+    },
+    {
+      "name": "-KeyProtection",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.KeyProtection[]",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Protect"
+            },
+            {
+              "name": "ProtectHigh"
+            },
+            {
+              "name": "ProtectFingerPrint"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the level of protection required to access the private key that is associated with the certificate. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-KeySpec",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.KeySpec",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "KeyExchange"
+            },
+            {
+              "name": "Signature"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies whether the private key associated with the new certificate can be used for signing, encryption, or both. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-KeyUsage",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.KeyUsage[]",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "EncipherOnly"
+            },
+            {
+              "name": "CRLSign"
+            },
+            {
+              "name": "CertSign"
+            },
+            {
+              "name": "KeyAgreement"
+            },
+            {
+              "name": "DataEncipherment"
+            },
+            {
+              "name": "KeyEncipherment"
+            },
+            {
+              "name": "NonRepudiation"
+            },
+            {
+              "name": "DigitalSignature"
+            },
+            {
+              "name": "DecipherOnly"
+            }
+          ],
+          "default": "DigitalSignature,KeyEncipherment"
+        }
+      ],
+      "description": "Specifies the key usages set in the key usage extension of the certificate. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-KeyUsageProperty",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.KeyUsageProperty[]",
+          "suggestions": [
+            {
+              "name": "None"
+            },
+            {
+              "name": "Decrypt"
+            },
+            {
+              "name": "Sign"
+            },
+            {
+              "name": "KeyAgreement"
+            },
+            {
+              "name": "All"
+            }
+          ]
+        }
+      ],
+      "description": "Specifies the key usages for the key usages property of the private key. The acceptable values for this parameter are:"
+    },
+    {
+      "name": "-NotAfter",
+      "args": [
+        {
+          "name": "System.DateTime"
+        }
+      ],
+      "description": "Specifies the date and time, as a DateTime object, that the certificate expires. To obtain a DateTime object, use the `Get-Date` cmdlet. The default value for this parameter is one year after the certificate was created."
+    },
+    {
+      "name": "-NotBefore",
+      "args": [
+        {
+          "name": "System.DateTime"
+        }
+      ],
+      "description": "Specifies the date and time, as a DateTime object, when the certificate becomes valid. The default value for this parameter is 10 minutes before the certificate was created."
+    },
+    {
+      "name": "-Pin",
+      "args": [
+        {
+          "name": "System.SecureString"
+        }
+      ],
+      "description": "Specifies the personal identification number (PIN) used to access the private key of the new certificate."
+    },
+    {
+      "name": "-Provider",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the KSP or CSP that this cmdlet uses to create the certificate. See Cryptographic Providers (/windows/desktop/SecCertEnroll/understanding-cryptographic-providers)for more information. Some acceptable values include:"
+    },
+    {
+      "name": "-Reader",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the smart card reader on which to store the private key for the new certificate."
+    },
+    {
+      "name": "-SecurityDescriptor",
+      "args": [
+        {
+          "name": "System.Security.AccessControl.FileSecurity"
+        }
+      ],
+      "description": "Specifies the private key security descriptor as a FileSecurity object. Read access is required to use the private key. This parameter does not apply to providers that do not support security descriptors on private keys, including the smart card CSP and smart card KSP."
+    },
+    {
+      "name": "-SerialNumber",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies a serial number, as a hexadecimal string, that is associated with the new certificate. If you do not specify this parameter, this cmdlet assigns a pseudo-randomly generated 16-byte value."
+    },
+    {
+      "name": "-Signer",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.Certificate"
+        }
+      ],
+      "description": "Specifies a Certificate object with which this cmdlet signs the new certificate. This value must be in the Personal certificate store of the user or device. This cmdlet must have read access to the private key of the certificate."
+    },
+    {
+      "name": "-SignerPin",
+      "args": [
+        {
+          "name": "System.SecureString"
+        }
+      ],
+      "description": "Specifies the PIN that is required to access the private key of the certificate that is used to sign the new certificate."
+    },
+    {
+      "name": "-SignerReader",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the name of the smart card reader that is used to sign the new certificate."
+    },
+    {
+      "name": "-SmimeCapabilities",
+      "description": "Indicates that the new certificate includes available encryption algorithms to a Secure/Multipurpose Internet Mail Extensions (S/MIME) capabilities extension."
+    },
+    {
+      "name": "-Subject",
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Specifies the string that appears in the subject of the new certificate. This cmdlet prefixes `CN=` to any value that does not contain an equal sign. For multiple subject relative distinguished names (also known as RDNs), separate each subject relative distinguished name with a comma (`,`). If the value of the relative distinguished name contains commas, separate each subject relative distinguished name with a semicolon (`;`)."
+    },
+    {
+      "name": "-SuppressOid",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies an array of object identifier (also known as OID) strings that identify default extensions to be removed from the new certificate."
+    },
+    {
+      "name": "-TestRoot",
+      "description": "Indicates that this cmdlet signs the new certificate by using a built-in test certificate. This cmdlet adds the built-in test certificate to the intermediate certification authority (CA) certificate store of the device."
+    },
+    {
+      "name": "-TextExtension",
+      "args": [
+        {
+          "name": "System.String[]"
+        }
+      ],
+      "description": "Specifies an array of certificate extensions, as strings, which this cmdlet includes in the new certificate. Each string must employ one of the following formats:"
+    },
+    {
+      "name": "-Type",
+      "args": [
+        {
+          "name": "Microsoft.CertificateServices.Commands.CertificateType",
+          "suggestions": [
+            {
+              "name": "Custom"
+            },
+            {
+              "name": "CodeSigningCert"
+            },
+            {
+              "name": "DocumentEncryptionCert"
+            },
+            {
+              "name": "SSLServerAuthentication"
+            },
+            {
+              "name": "DocumentEncryptionCertLegacyCsp"
+            }
+          ],
+          "default": "SSLServerAuthentication"
+        }
+      ],
+      "description": "Specifies the type of certificate that this cmdlet creates."
+    },
+    {
+      "name": [
+        "-WhatIf",
+        "-wi"
+      ],
+      "description": "Shows what would happen if the cmdlet runs. The cmdlet is not run."
+    },
+    {
+      "name": [
+        "-Debug",
+        "-db"
+      ],
+      "description": "Displays programmer-level detail about the operation done by the command. This parameter works only when the command generates a debugging message."
+    },
+    {
+      "name": [
+        "-ErrorAction",
+        "-ea"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a non-terminating error from the command. This parameter works only when the command generates a non-terminating error."
+    },
+    {
+      "name": [
+        "-ErrorVariable",
+        "-ev"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Error records are automatically stored in the `$Error` automatic variable. When you use the ErrorVariable parameter on a command, PowerShell also stores the error records emitted by the command in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-InformationAction",
+        "-infa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Within the command or script in which it's used, the InformationAction common parameter overrides the value of the `$InformationPreference` preference variable, which by default is set to SilentlyContinue."
+    },
+    {
+      "name": [
+        "-InformationVariable",
+        "-iv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "When you use the InformationVariable common parameter, information records are stored in the variable specified by the parameter."
+    },
+    {
+      "name": [
+        "-OutBuffer",
+        "-ob"
+      ],
+      "args": [
+        {
+          "name": "System.Int32"
+        }
+      ],
+      "description": "Determines the number of objects to accumulate in a buffer before any objects are sent through the pipeline. If you omit this parameter, objects are sent as they're generated."
+    },
+    {
+      "name": [
+        "-OutVariable",
+        "-ov"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores output objects from the command in the specified variable in addition to sending the output along the pipeline."
+    },
+    {
+      "name": [
+        "-PipelineVariable",
+        "-pv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "PipelineVariable allows access to the most recent value passed into the next pipeline segment by the command that uses this parameter. Any command in the pipeline can access the value using the named PipelineVariable. The value is assigned to the variable when it's passed into the next pipeline segment."
+    },
+    {
+      "name": [
+        "-ProgressAction",
+        "-proga"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how PowerShell responds to progress updates generated by a script, cmdlet, or provider, such as the progress bars generated by the Write-Progress cmdlet. The Write-Progress cmdlet creates progress bars that show a command's status."
+    },
+    {
+      "name": [
+        "-Verbose",
+        "-vb"
+      ],
+      "description": "Displays detailed information about the operation done by the command. This information resembles the information in a trace or in a transaction log. This parameter works only when the command generates a verbose message."
+    },
+    {
+      "name": [
+        "-WarningAction",
+        "-wa"
+      ],
+      "args": [
+        {
+          "name": "System.Management.Automation.ActionPreference",
+          "suggestions": [
+            "Break",
+            "Suspend",
+            "Ignore",
+            "Inquire",
+            "Continue",
+            "Stop",
+            "SilentlyContinue"
+          ]
+        }
+      ],
+      "description": "Determines how the cmdlet responds to a warning from the command. Continue is the default value. This parameter works only when the command generates a warning message."
+    },
+    {
+      "name": [
+        "-WarningVariable",
+        "-wv"
+      ],
+      "args": [
+        {
+          "name": "System.String"
+        }
+      ],
+      "description": "Stores warning records about the command in the specified variable."
+    }
+  ],
+  "args": [],
+  "description": "Creates a new self-signed certificate for testing purposes.",
+  "parserDirectives": {
+    "flagsArePosixNoncompliant": true,
+    "flagsMatchUniquePrefix": true,
+    "alwaysCaseInsensitive": true
+  }
+}
