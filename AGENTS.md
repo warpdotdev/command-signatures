@@ -6,7 +6,7 @@ This file provides guidance to agents when working with code in this repository.
 
 This repository provides command completion signatures ("specs") for Warp terminal. It contains two Rust crates:
 
-- **`warp-command-signatures`**: The main library that embeds and exposes command specs. Used as a dependency by `warp-internal`.
+- **`warp-command-signatures`**: The main library that embeds and exposes command specs. Used as a dependency by `warp-external`.
 - **`warp-completion-metadata`**: Core types for signatures, arguments, options, generators, and the Fig-compatible JSON schema.
 
 Repository-level agent skills are located in `.agents/skills/`. These provide specialized workflows for working with this codebase. Always use these skills when creating or editing command completion signatures.
