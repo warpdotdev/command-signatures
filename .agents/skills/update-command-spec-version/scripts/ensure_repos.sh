@@ -1,15 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
-WARP_INTERNAL_DIR="${HOME}/warp-internal"
+WARP_DIR="${HOME}/warp"
 CMD_SIGS_DIR="${HOME}/command-signatures"
 
-if [ -d "${WARP_INTERNAL_DIR}" ]; then
-    echo "Fetching warp-internal..." >&2
-    git -C "${WARP_INTERNAL_DIR}" fetch origin
+if [ -d "${WARP_DIR}" ]; then
+    echo "Fetching warp..." >&2
+    git -C "${WARP_DIR}" fetch origin
 else
-    echo "Cloning warp-internal..." >&2
-    git clone ssh://git@github.com/warpdotdev/warp-internal.git "${WARP_INTERNAL_DIR}"
+    echo "Cloning warp..." >&2
+    git clone ssh://git@github.com/warpdotdev/warp.git "${WARP_DIR}"
 fi
 
 if [ -d "${CMD_SIGS_DIR}" ]; then

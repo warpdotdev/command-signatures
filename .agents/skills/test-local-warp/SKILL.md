@@ -7,18 +7,18 @@ description: Test command-signatures changes locally by running Warp terminal ag
 
 ## Overview
 
-`warp-command-signatures` is consumed by `warp-internal` as a git dependency. To test changes locally, temporarily point `warp-internal` at a local checkout of this repo, then build and run Warp.
+`warp-command-signatures` is consumed by the `warp` app as a git dependency. To test changes locally, temporarily point `warp` at a local checkout of this repo, then build and run Warp.
 
 ## Prerequisites
 
-- A local checkout of both `warp-internal` and `command-signatures`.
+- A local checkout of both `warp` and `command-signatures`.
 - **Computer use must be enabled** — Warp is a GUI application, so verifying completions requires screen interaction.
 
 ## Steps
 
-### 1. Patch the dependency in warp-internal
+### 1. Patch the dependency in warp
 
-In the `warp-internal` repo's root `Cargo.toml`, find the `warp-command-signatures` line under `[workspace.dependencies]`:
+In the `warp` repo's root `Cargo.toml`, find the `warp-command-signatures` line under `[workspace.dependencies]`:
 
 ```toml
 warp-command-signatures = { git = "ssh://git@github.com/warpdotdev/command-signatures.git", rev = "...", default-features = false }
@@ -34,7 +34,7 @@ Note the nested `command-signatures/command-signatures` — the outer directory 
 
 ### 2. Build and run Warp
 
-From the `warp-internal` repo:
+From the `warp` repo:
 
 ```sh
 cargo run --features fast_dev
@@ -48,4 +48,4 @@ Open the locally-built Warp and test completions for the commands you modified. 
 
 ### 4. Clean up
 
-Revert the `Cargo.toml` change in `warp-internal` before committing. The local path override should never be checked in.
+Revert the `Cargo.toml` change in `warp` before committing. The local path override should never be checked in.

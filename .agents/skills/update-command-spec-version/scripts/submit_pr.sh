@@ -8,7 +8,7 @@ fi
 
 NEW_HASH="$1"
 PR_BODY_FILE="$2"
-WARP_INTERNAL_DIR="${HOME}/warp-internal"
+WARP_DIR="${HOME}/warp"
 SHORT_HASH="${NEW_HASH:0:8}"
 BRANCH_NAME="completions-bot/update-command-signatures-${SHORT_HASH}"
 PR_TITLE="[Completions] Bump command-signatures to ${SHORT_HASH}"
@@ -18,7 +18,7 @@ if [ ! -f "${PR_BODY_FILE}" ]; then
     exit 1
 fi
 
-cd "${WARP_INTERNAL_DIR}"
+cd "${WARP_DIR}"
 
 # Verify we're on the expected branch.
 CURRENT_BRANCH=$(git branch --show-current)

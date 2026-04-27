@@ -1,18 +1,18 @@
 ---
 name: update-command-spec-version
 description: >
-  Update the warp-command-signatures dependency hash in warp-internal to the latest commit from warpdotdev/command-signatures:main.
+  Update the warp-command-signatures dependency hash in warp to the latest commit from warpdotdev/command-signatures:main.
 ---
 
 # Update Command Spec Version
 
-This skill automates updating the `warp-command-signatures` git dependency in `warpdotdev/warp-internal` to the latest commit on `warpdotdev/command-signatures:main`, then opens a PR with a summary of what changed.
+This skill automates updating the `warp-command-signatures` git dependency in `warpdotdev/warp` to the latest commit on `warpdotdev/command-signatures:main`, then opens a PR with a summary of what changed.
 
 All scripts live in this skill's `scripts/` directory.
 
 ## Prerequisites
 
-- `gh` CLI authenticated with access to `warpdotdev/warp-internal` and `warpdotdev/command-signatures`
+- `gh` CLI authenticated with access to `warpdotdev/warp` and `warpdotdev/command-signatures`
 - SSH access to both repos (they use `ssh://git@github.com/warpdotdev/...`)
 - Python 3 (for `list_merged_prs.py`)
 - Rust toolchain with `cargo` (for updating `Cargo.lock`)
@@ -27,7 +27,7 @@ Run the scripts in order. The skill directory is wherever this SKILL.md lives; r
 bash <skill-dir>/scripts/ensure_repos.sh
 ```
 
-This clones or fetches both `~/warp-internal` and `~/command-signatures`.
+This clones or fetches both `~/warp` and `~/command-signatures`.
 
 ### 2. Get the current and latest hashes
 
@@ -54,11 +54,11 @@ Review the categorization. The script uses simple heuristics (titles starting wi
 bash <skill-dir>/scripts/update_and_branch.sh "$NEW_HASH"
 ```
 
-This checks out a new branch `completions-bot/update-command-signatures-<first 8 chars of NEW_HASH>` from `origin/master` in `~/warp-internal`, updates the `rev` in `Cargo.toml`, and syncs `Cargo.lock`.
+This checks out a new branch `completions-bot/update-command-signatures-<first 8 chars of NEW_HASH>` from `origin/master` in `~/warp`, updates the `rev` in `Cargo.toml`, and syncs `Cargo.lock`.
 
 ### 5. Compose the PR description
 
-Write a PR description following this structure (match the warp-internal PR template). Save it to a temp file, e.g. `/tmp/completions_pr_body.md`.
+Write a PR description following this structure (match the warp PR template). Save it to a temp file, e.g. `/tmp/completions_pr_body.md`.
 
 ```
 ## Description

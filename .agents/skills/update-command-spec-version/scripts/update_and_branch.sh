@@ -7,11 +7,11 @@ if [ $# -ne 1 ]; then
 fi
 
 NEW_HASH="$1"
-WARP_INTERNAL_DIR="${HOME}/warp-internal"
-CARGO_TOML="${WARP_INTERNAL_DIR}/Cargo.toml"
+WARP_DIR="${HOME}/warp"
+CARGO_TOML="${WARP_DIR}/Cargo.toml"
 BRANCH_NAME="completions-bot/update-command-signatures-${NEW_HASH:0:8}"
 
-cd "${WARP_INTERNAL_DIR}"
+cd "${WARP_DIR}"
 
 # Create a fresh branch from origin/master.
 git checkout -B "${BRANCH_NAME}" origin/master
