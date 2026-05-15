@@ -1,0 +1,104 @@
+{
+    "name": "pkill",
+    "description": "Find or signal processes by name",
+    "args": {
+        "name": "pattern",
+        "description": "Extended regular expression matched against process names, or full argument lists when -f is used",
+        "isVariadic": true,
+        "generatorName": "process_name"
+    },
+    "options": [
+        {
+            "name": "-F",
+            "description": "Restrict matches to a process whose PID is stored in the pidfile",
+            "args": {
+                "name": "pidfile",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "-G",
+            "description": "Restrict matches to processes with a real group ID in the comma-separated list",
+            "args": {
+                "name": "gid"
+            }
+        },
+        {
+            "name": "-I",
+            "description": "Request confirmation before attempting to signal each process"
+        },
+        {
+            "name": "-L",
+            "description": "Require the pidfile given with -F to be locked"
+        },
+        {
+            "name": "-P",
+            "description": "Restrict matches to processes with a parent process ID in the comma-separated list",
+            "args": {
+                "name": "ppid"
+            }
+        },
+        {
+            "name": "-U",
+            "description": "Restrict matches to processes with a real user ID in the comma-separated list",
+            "args": {
+                "name": "uid",
+                "generatorName": "user_name"
+            }
+        },
+        {
+            "name": "-a",
+            "description": "Include process ancestors in the match list"
+        },
+        {
+            "name": "-f",
+            "description": "Match against full argument lists instead of process names"
+        },
+        {
+            "name": "-g",
+            "description": "Restrict matches to processes with a process group ID in the comma-separated list",
+            "args": {
+                "name": "pgrp"
+            }
+        },
+        {
+            "name": "-i",
+            "description": "Ignore case distinctions"
+        },
+        {
+            "name": "-l",
+            "description": "Display the kill command used for each process killed"
+        },
+        {
+            "name": "-n",
+            "description": "Select only the newest matching process"
+        },
+        {
+            "name": "-o",
+            "description": "Select only the oldest matching process"
+        },
+        {
+            "name": "-t",
+            "description": "Restrict matches to processes associated with terminals in the comma-separated list",
+            "args": {
+                "name": "tty"
+            }
+        },
+        {
+            "name": "-u",
+            "description": "Restrict matches to processes with an effective user ID in the comma-separated list",
+            "args": {
+                "name": "euid",
+                "generatorName": "user_name"
+            }
+        },
+        {
+            "name": "-v",
+            "description": "Reverse the sense of the matching"
+        },
+        {
+            "name": "-x",
+            "description": "Require an exact match"
+        }
+    ]
+}
