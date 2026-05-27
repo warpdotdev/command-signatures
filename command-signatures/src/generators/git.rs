@@ -448,7 +448,9 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
     let mut suggestions: Vec<Suggestion> = Vec::new();
     let mut records = output.split('\0').filter(|r| !r.is_empty());
     while let Some(record) = records.next() {
-        let Some(path) = record.get(3..) else { continue };
+        let Some(path) = record.get(3..) else {
+            continue;
+        };
         if matches!(record.as_bytes().first(), Some(b'R') | Some(b'C')) {
             records.next();
         }
