@@ -442,9 +442,11 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
 
     // `git status --short -z` emits NUL-separated records of the form `XY <path>`
     // (two-byte status code + space + raw pathname, no C-style quoting). Renames
-    // and copies are emitted as two records: `R  <to>\0<from>\0` — the source
-    // path follows the destination and we skip it because that file no longer
-    // exists on disk.
+    // (`R`) and copies (`C`) span two records — `R  <to>\0<from>\0` — where the
+    // second record is the rename/copy *origin*. We surface only the first
+    // (the resulting `<to>` path) and skip the origin: for a rename the origin
+    // is gone, and for a copy the origin still exists but is unchanged, so in
+    // neither case is it a freshly changed file worth suggesting.
     let mut suggestions: Vec<Suggestion> = Vec::new();
     let mut records = output.split('\0').filter(|r| !r.is_empty());
     while let Some(record) = records.next() {
@@ -465,6 +467,36 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         suggestions,
         is_ordered: false,
     }
+}
+
+/// Post-processes `git diff [--cached] --diff-filter=AM --name-only -z` output
+/// for the `get_changed_or_tracked_files` generator.
+///
+/// That generator can't share the `git status --short -z` path used by
+/// `files_for_staging`: it needs to distinguish staged (index) changes from
+/// working-tree changes, and the only place that distinction is visible is the
+/// command itself (the post-processor receives stdout alone). Doing the
+/// distinction with `git status` would mean filtering NUL records in the shell,
+/// which requires GNU-only `sed -z`/`grep -z` and breaks on macOS. Letting git
+/// filter via `--diff-filter` keeps everything portable.
+///
+/// `--name-only -z` emits bare NUL-separated pathnames (no `XY ` status prefix,
+/// no C-style quoting), so each non-empty record is already a complete path.
+fn post_process_diff_name_only(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
+    output
+        .split('\0')
+        .filter(|path| !path.is_empty())
+        .map(|path| {
+            Suggestion::with_description(path, "Changed file")
+                .with_priority(Priority::Global(Importance::More(Order(100))))
+                .with_icon(IconType::File)
+        })
+        .collect_unordered_results()
 }
 
 fn post_process_git_for_each_ref(output: &str) -> GeneratorResults {
@@ -826,13 +858,22 @@ pub fn generator() -> CommandSignatureGenerators {
             "get_changed_or_tracked_files",
             Generator::command_from_tokens(
                 |tokens, _, _| {
+                    // Filter to Added/Modified paths with git itself (`--diff-filter`)
+                    // and emit NUL-separated bare pathnames (`--name-only -z`). This
+                    // avoids a `sed`/`grep` NUL filter, whose `-z` flag is GNU-only and
+                    // breaks on the BSD tools shipped with macOS. `--cached` inspects
+                    // the index (staged changes); without it, the working tree.
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --cached --diff-filter=AM --name-only -z",
+                        )
                     } else {
-                        CommandBuilder::pipe(CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --diff-filter=AM --name-only -z",
+                        )
                     }
                 },
-                post_process_tracked_files,
+                post_process_diff_name_only,
             ),
         )
         .add_generator(
@@ -915,8 +956,9 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{
-        detect_refspec_prefix, post_process_branches, post_process_push_refspec_branches,
-        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
+        detect_refspec_prefix, post_process_branches, post_process_diff_name_only,
+        post_process_push_refspec_branches, post_process_push_refspec_tags, post_process_tags,
+        post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
@@ -1105,6 +1147,55 @@ mod tests {
 
         assert_eq!(
             post_process_tracked_files(command_output),
+            GeneratorResults::default()
+        );
+    }
+
+    /// Regression coverage for the `get_changed_or_tracked_files` generator.
+    ///
+    /// It can't share the `git status --short -z` path used by
+    /// `files_for_staging`, because it needs to distinguish staged from
+    /// working-tree changes and that requires filtering NUL records — for which
+    /// the only portable tool is git itself (`sed -z`/`grep -z` are GNU-only and
+    /// break on macOS). It therefore runs `git diff [--cached] --diff-filter=AM
+    /// --name-only -z`, which emits bare NUL-separated pathnames with no `XY `
+    /// status prefix. The post-processor must yield one suggestion per record
+    /// and preserve spaces in pathnames.
+    #[test]
+    fn test_post_process_diff_name_only() {
+        // What `git diff --diff-filter=AM --name-only -z` emits.
+        let command_output = "app/src/features.rs\0app/src/new.rs\0dir with space/some file.rs\0";
+
+        assert_eq!(
+            post_process_diff_name_only(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    changed_file("app/src/features.rs"),
+                    changed_file("app/src/new.rs"),
+                    changed_file("dir with space/some file.rs"),
+                ],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Empty output (no changed files) yields no suggestions.
+    #[test]
+    fn test_post_process_diff_name_only_empty() {
+        assert_eq!(
+            post_process_diff_name_only(""),
+            GeneratorResults {
+                suggestions: vec![],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Fatal errors short-circuit to the default (empty, ordered) result.
+    #[test]
+    fn test_post_process_diff_name_only_fatal_error() {
+        assert_eq!(
+            post_process_diff_name_only("fatal: not a git repository\n"),
             GeneratorResults::default()
         );
     }
