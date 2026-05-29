@@ -440,13 +440,10 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         return GeneratorResults::default();
     }
 
-    // `git status --short -z` emits NUL-separated records of the form `XY <path>`
-    // (two-byte status code + space + raw pathname, no C-style quoting). Renames
-    // (`R`) and copies (`C`) span two records — `R  <to>\0<from>\0` — where the
-    // second record is the rename/copy *origin*. We surface only the first
-    // (the resulting `<to>` path) and skip the origin: for a rename the origin
-    // is gone, and for a copy the origin still exists but is unchanged, so in
-    // neither case is it a freshly changed file worth suggesting.
+    // Records are NUL-separated `XY <path>` (status code + space + raw pathname,
+    // no quoting). Renames (`R`) and copies (`C`) span two records,
+    // `R  <to>\0<from>\0`; we keep the `<to>` and skip the origin, which isn't a
+    // changed file (renamed away, or an unchanged copy source).
     let mut suggestions: Vec<Suggestion> = Vec::new();
     let mut records = output.split('\0').filter(|r| !r.is_empty());
     while let Some(record) = records.next() {
@@ -469,19 +466,8 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
     }
 }
 
-/// Post-processes `git diff [--cached] --diff-filter=AM --name-only -z` output
-/// for the `get_changed_or_tracked_files` generator.
-///
-/// That generator can't share the `git status --short -z` path used by
-/// `files_for_staging`: it needs to distinguish staged (index) changes from
-/// working-tree changes, and the only place that distinction is visible is the
-/// command itself (the post-processor receives stdout alone). Doing the
-/// distinction with `git status` would mean filtering NUL records in the shell,
-/// which requires GNU-only `sed -z`/`grep -z` and breaks on macOS. Letting git
-/// filter via `--diff-filter` keeps everything portable.
-///
-/// `--name-only -z` emits bare NUL-separated pathnames (no `XY ` status prefix,
-/// no C-style quoting), so each non-empty record is already a complete path.
+/// Parses `git diff --name-only -z` output: bare NUL-separated pathnames, one
+/// per changed file, with no status prefix or quoting.
 fn post_process_diff_name_only(output: &str) -> GeneratorResults {
     let output = filter_messages(output);
     if output.starts_with("fatal:") {
@@ -858,11 +844,6 @@ pub fn generator() -> CommandSignatureGenerators {
             "get_changed_or_tracked_files",
             Generator::command_from_tokens(
                 |tokens, _, _| {
-                    // Filter to Added/Modified paths with git itself (`--diff-filter`)
-                    // and emit NUL-separated bare pathnames (`--name-only -z`). This
-                    // avoids a `sed`/`grep` NUL filter, whose `-z` flag is GNU-only and
-                    // breaks on the BSD tools shipped with macOS. `--cached` inspects
-                    // the index (staged changes); without it, the working tree.
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
                         CommandBuilder::single_command(
                             "git --no-optional-locks diff --cached --diff-filter=AM --name-only -z",
@@ -1151,19 +1132,9 @@ mod tests {
         );
     }
 
-    /// Regression coverage for the `get_changed_or_tracked_files` generator.
-    ///
-    /// It can't share the `git status --short -z` path used by
-    /// `files_for_staging`, because it needs to distinguish staged from
-    /// working-tree changes and that requires filtering NUL records — for which
-    /// the only portable tool is git itself (`sed -z`/`grep -z` are GNU-only and
-    /// break on macOS). It therefore runs `git diff [--cached] --diff-filter=AM
-    /// --name-only -z`, which emits bare NUL-separated pathnames with no `XY `
-    /// status prefix. The post-processor must yield one suggestion per record
-    /// and preserve spaces in pathnames.
+    /// NUL-separated paths, including one with spaces, each become a suggestion.
     #[test]
     fn test_post_process_diff_name_only() {
-        // What `git diff --diff-filter=AM --name-only -z` emits.
         let command_output = "app/src/features.rs\0app/src/new.rs\0dir with space/some file.rs\0";
 
         assert_eq!(
