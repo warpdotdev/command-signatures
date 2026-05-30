@@ -23,6 +23,7 @@ mod defaults;
 mod dnf;
 mod docker;
 mod docker_compose;
+mod dotnet;
 mod firebase;
 mod flutter;
 mod gh;
@@ -86,6 +87,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         conda::generator(),
         defaults::generator(),
         dnf::generator(),
+        dotnet::generator(),
         docker::generator(),
         docker_compose::generator(),
         firebase::generator(),
