@@ -640,6 +640,43 @@ fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
     results
 }
 
+/// Builds the `git status` command backing `git add` file completions, scoped to the
+/// directory the user is currently typing into.
+///
+/// A plain `git status --short` collapses a wholly-untracked directory into a single
+/// `?? dir/` entry, so descending into it (`git add dir/<TAB>`) never surfaces the
+/// nested files and completion stalls at the directory (warp#10358). `--untracked-files=all`
+/// fixes that, but applied globally it would enumerate every untracked path in the repo —
+/// potentially 100k+ entries under an un-gitignored `node_modules`. So we only switch to
+/// `--untracked-files=all` once a directory prefix has been typed, and scope the walk to
+/// that subtree with a pathspec. An empty prefix (top-level `git add <TAB>`) stays on the
+/// cheap collapsed listing, where untracked directories still show up as `dir/`.
+fn files_for_staging_command(
+    tokens: &[&str],
+    trailing_whitespace: bool,
+    _env: &[String],
+) -> CommandBuilder {
+    let current_token = if trailing_whitespace {
+        ""
+    } else {
+        tokens.last().copied().unwrap_or("")
+    };
+
+    // The directory prefix is everything up to and including the last `/`. With no
+    // separator the user is still at the top level, where the collapsed listing is both
+    // correct and cheap, so leave `git status` in its default untracked mode.
+    let Some(dir_end) = current_token.rfind('/') else {
+        return CommandBuilder::single_command("git --no-optional-locks status --short");
+    };
+    let dir_prefix = &current_token[..=dir_end];
+
+    // Escape single quotes for safe embedding in the single-quoted pathspec.
+    let escaped_prefix = dir_prefix.replace('\'', "'\\''");
+    CommandBuilder::single_command(format!(
+        "git --no-optional-locks status --short --untracked-files=all -- '{escaped_prefix}'"
+    ))
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
         .add_generator("commits", commits_generator())
@@ -769,10 +806,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("tags", Generator::script(tags_command(), post_process_tags))
         .add_generator(
             "files_for_staging",
-            Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks status --short"),
-                post_process_tracked_files,
-            ),
+            Generator::command_from_tokens(files_for_staging_command, post_process_tracked_files),
         )
         .add_generator(
             "tracked_files",
@@ -900,11 +934,12 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{
-        detect_refspec_prefix, post_process_branches, post_process_push_refspec_branches,
-        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
+        detect_refspec_prefix, files_for_staging_command, post_process_branches,
+        post_process_push_refspec_branches, post_process_push_refspec_tags, post_process_tags,
+        post_process_tracked_files,
     };
     use warp_completion_metadata::{
-        GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
+        GeneratorResults, IconType, Importance, Order, Priority, Shell, Suggestion,
     };
 
     #[test]
@@ -1003,6 +1038,73 @@ mod tests {
                 ],
                 is_ordered: false,
             }
+        );
+    }
+
+    // With `--untracked-files=all`, git emits the full nested path for untracked files
+    // (`?? a/b/c.txt`) instead of collapsing to the directory, so completions surface the
+    // full path as a single suggestion.
+    #[test]
+    fn test_post_process_tracked_files_nested_untracked() {
+        let command_output = "?? some/nested/folder1/file1.txt";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![Suggestion {
+                    exact_string: "some/nested/folder1/file1.txt".to_owned(),
+                    display_name: None,
+                    description: Some("Changed file".to_owned()),
+                    priority: Priority::Global(Importance::More(Order(100))),
+                    icon: Some(IconType::File),
+                    is_hidden: false,
+                }],
+                is_ordered: false,
+            }
+        );
+    }
+
+    // Top-level `git add <TAB>` (trailing whitespace, no token to descend into) stays on
+    // the cheap collapsed listing so a giant untracked directory isn't enumerated up front.
+    #[test]
+    fn test_files_for_staging_top_level_uses_collapsed_status() {
+        let cmd = files_for_staging_command(&["git", "add"], true, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks status --short"
+        );
+    }
+
+    // A partial top-level token with no `/` is still at the top level, so it keeps the
+    // collapsed listing rather than expanding every untracked file in the repo.
+    #[test]
+    fn test_files_for_staging_no_directory_prefix_stays_collapsed() {
+        let cmd = files_for_staging_command(&["git", "add", "fil"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks status --short"
+        );
+    }
+
+    // warp#10358: once the user descends into a directory, `--untracked-files=all` lets
+    // git surface nested untracked files, scoped by a pathspec to just that subtree.
+    #[test]
+    fn test_files_for_staging_scopes_untracked_to_typed_directory() {
+        let cmd = files_for_staging_command(&["git", "add", "some/nested/folder1/"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks status --short --untracked-files=all -- 'some/nested/folder1/'"
+        );
+    }
+
+    // A partial filename inside a directory scopes the pathspec to the directory part;
+    // the completer's prefix matcher narrows the results to the typed filename.
+    #[test]
+    fn test_files_for_staging_uses_directory_part_of_partial_token() {
+        let cmd = files_for_staging_command(&["git", "add", "some/nested/fi"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks status --short --untracked-files=all -- 'some/nested/'"
         );
     }
 
