@@ -440,12 +440,45 @@ fn post_process_tracked_files(output: &str) -> GeneratorResults {
         return GeneratorResults::default();
     }
 
+    // Records are NUL-separated `XY <path>` (status code + space + raw pathname,
+    // no quoting). Renames (`R`) and copies (`C`) span two records,
+    // `R  <to>\0<from>\0`; we keep the `<to>` and skip the origin, which isn't a
+    // changed file (renamed away, or an unchanged copy source).
+    let mut suggestions: Vec<Suggestion> = Vec::new();
+    let mut records = output.split('\0').filter(|r| !r.is_empty());
+    while let Some(record) = records.next() {
+        let Some(path) = record.get(3..) else {
+            continue;
+        };
+        if matches!(record.as_bytes().first(), Some(b'R') | Some(b'C')) {
+            records.next();
+        }
+        suggestions.push(
+            Suggestion::with_description(path, "Changed file")
+                .with_priority(Priority::Global(Importance::More(Order(100))))
+                .with_icon(IconType::File),
+        );
+    }
+
+    GeneratorResults {
+        suggestions,
+        is_ordered: false,
+    }
+}
+
+/// Parses `git diff --name-only -z` output: bare NUL-separated pathnames, one
+/// per changed file, with no status prefix or quoting.
+fn post_process_diff_name_only(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
     output
-        .lines()
-        // The first non-whitespace string is just a character indicating the type of indexed file.
-        .filter_map(|file| file.split_whitespace().nth(1))
-        .map(|file| {
-            Suggestion::with_description(file, "Changed file")
+        .split('\0')
+        .filter(|path| !path.is_empty())
+        .map(|path| {
+            Suggestion::with_description(path, "Changed file")
                 .with_priority(Priority::Global(Importance::More(Order(100))))
                 .with_icon(IconType::File)
         })
@@ -770,7 +803,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "files_for_staging",
             Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks status --short"),
+                CommandBuilder::single_command("git --no-optional-locks status --short -z"),
                 post_process_tracked_files,
             ),
         )
@@ -812,12 +845,16 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --cached --diff-filter=AM --name-only -z",
+                        )
                     } else {
-                        CommandBuilder::pipe(CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --diff-filter=AM --name-only -z",
+                        )
                     }
                 },
-                post_process_tracked_files,
+                post_process_diff_name_only,
             ),
         )
         .add_generator(
@@ -900,8 +937,9 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{
-        detect_refspec_prefix, post_process_branches, post_process_push_refspec_branches,
-        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
+        detect_refspec_prefix, post_process_branches, post_process_diff_name_only,
+        post_process_push_refspec_branches, post_process_push_refspec_tags, post_process_tags,
+        post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
@@ -965,44 +1003,171 @@ mod tests {
         );
     }
 
+    fn changed_file(path: &str) -> Suggestion {
+        Suggestion {
+            exact_string: path.to_owned(),
+            display_name: None,
+            description: Some("Changed file".to_owned()),
+            priority: Priority::Global(Importance::More(Order(100))),
+            icon: Some(IconType::File),
+            is_hidden: false,
+        }
+    }
+
     #[test]
     fn test_post_process_tracked_files() {
-        let command_output = r"
-         M app/src/features.rs
-        M  app/src/launch_config_palette.rs
-         M app/src/workspace/mod.rs";
+        // `git status --short -z` output: NUL-separated records, each `XY <path>`.
+        let command_output =
+            " M app/src/features.rs\0M  app/src/launch_config_palette.rs\0 M app/src/workspace/mod.rs\0";
 
         assert_eq!(
             post_process_tracked_files(command_output),
             GeneratorResults {
                 suggestions: vec![
-                    Suggestion {
-                        exact_string: "app/src/features.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "app/src/launch_config_palette.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "app/src/workspace/mod.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
+                    changed_file("app/src/features.rs"),
+                    changed_file("app/src/launch_config_palette.rs"),
+                    changed_file("app/src/workspace/mod.rs"),
                 ],
                 is_ordered: false,
             }
+        );
+    }
+
+    /// Filenames with spaces must be preserved intact. Under `-z` git emits raw
+    /// bytes with no C-style quoting, so the parser must take everything after
+    /// the 3-byte `XY ` prefix rather than splitting on whitespace.
+    #[test]
+    fn test_post_process_tracked_files_with_spaces_in_path() {
+        // Untracked file `new file test.csv` under `-z`:
+        let command_output = "?? new file test.csv\0";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![changed_file("new file test.csv")],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Renames under `-z` are emitted as two records: `R  <to>\0<from>\0`.
+    /// We surface the destination only — the source no longer exists on disk.
+    #[test]
+    fn test_post_process_tracked_files_rename() {
+        let command_output = "R  new name.txt\0old name.txt\0 M other.rs\0";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![changed_file("new name.txt"), changed_file("other.rs")],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Copies (`C`) are formatted the same way as renames (`<to>\0<from>\0`)
+    /// and must skip the source record just like renames.
+    #[test]
+    fn test_post_process_tracked_files_copy() {
+        let command_output = "C  copied.txt\0source.txt\0";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![changed_file("copied.txt")],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Two renames in a row exercise the iterator-state interaction between
+    /// successive skip-source decisions.
+    #[test]
+    fn test_post_process_tracked_files_back_to_back_renames() {
+        let command_output = "R  a.rs\0a-old.rs\0R  b.rs\0b-old.rs\0";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![changed_file("a.rs"), changed_file("b.rs")],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// `git status --short -z` emits untracked directories with a trailing slash.
+    #[test]
+    fn test_post_process_tracked_files_untracked_directory() {
+        let command_output = "?? dir with space/\0";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults {
+                suggestions: vec![changed_file("dir with space/")],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Empty output yields no suggestions.
+    #[test]
+    fn test_post_process_tracked_files_empty() {
+        assert_eq!(
+            post_process_tracked_files(""),
+            GeneratorResults {
+                suggestions: vec![],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Fatal errors short-circuit to the default (empty, ordered) result.
+    #[test]
+    fn test_post_process_tracked_files_fatal_error() {
+        let command_output = "fatal: not a git repository\n";
+
+        assert_eq!(
+            post_process_tracked_files(command_output),
+            GeneratorResults::default()
+        );
+    }
+
+    /// NUL-separated paths, including one with spaces, each become a suggestion.
+    #[test]
+    fn test_post_process_diff_name_only() {
+        let command_output = "app/src/features.rs\0app/src/new.rs\0dir with space/some file.rs\0";
+
+        assert_eq!(
+            post_process_diff_name_only(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    changed_file("app/src/features.rs"),
+                    changed_file("app/src/new.rs"),
+                    changed_file("dir with space/some file.rs"),
+                ],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Empty output (no changed files) yields no suggestions.
+    #[test]
+    fn test_post_process_diff_name_only_empty() {
+        assert_eq!(
+            post_process_diff_name_only(""),
+            GeneratorResults {
+                suggestions: vec![],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Fatal errors short-circuit to the default (empty, ordered) result.
+    #[test]
+    fn test_post_process_diff_name_only_fatal_error() {
+        assert_eq!(
+            post_process_diff_name_only("fatal: not a git repository\n"),
+            GeneratorResults::default()
         );
     }
 
