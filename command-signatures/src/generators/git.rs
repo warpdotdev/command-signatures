@@ -640,17 +640,19 @@ fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
     results
 }
 
-/// Builds the `git status` command backing `git add` file completions, scoped to the
-/// directory the user is currently typing into.
+/// Builds the `git ls-files` command backing `git add` file completions, mirroring
+/// git's own completion (`__git_index_files` behind `_git_add` in git-completion.bash):
+/// a single `ls-files` invocation where `--others` surfaces untracked files (the
+/// warp#10358 fix), `--modified` covers tracked changes, and `--directory
+/// --no-empty-directory` collapses a wholly-untracked directory to one `dir/` entry at
+/// the top level so e.g. an un-gitignored `node_modules` is never enumerated up front.
 ///
-/// A plain `git status --short` collapses a wholly-untracked directory into a single
-/// `?? dir/` entry, so descending into it (`git add dir/<TAB>`) never surfaces the
-/// nested files and completion stalls at the directory (warp#10358). `--untracked-files=all`
-/// fixes that, but applied globally it would enumerate every untracked path in the repo —
-/// potentially 100k+ entries under an un-gitignored `node_modules`. So we only switch to
-/// `--untracked-files=all` once a directory prefix has been typed, and scope the walk to
-/// that subtree with a pathspec. An empty prefix (top-level `git add <TAB>`) stays on the
-/// cheap collapsed listing, where untracked directories still show up as `dir/`.
+/// Once the user descends into a directory (`git add some/nested/<TAB>`), the listing
+/// is scoped to that subtree with a pathspec and `--directory` is dropped: combined
+/// with a pathspec, `--directory` collapses a wholly-untracked subtree back to the
+/// pathspec itself (`ls-files ... --directory -- 'some/nested/'` prints just
+/// `some/nested/`), recreating the very stall this fixes. Without it git prints the
+/// full nested paths, and the walk stays bounded by the typed subtree.
 fn files_for_staging_command(
     tokens: &[&str],
     trailing_whitespace: bool,
@@ -664,17 +666,40 @@ fn files_for_staging_command(
 
     // The directory prefix is everything up to and including the last `/`. With no
     // separator the user is still at the top level, where the collapsed listing is both
-    // correct and cheap, so leave `git status` in its default untracked mode.
+    // correct and cheap.
     let Some(dir_end) = current_token.rfind('/') else {
-        return CommandBuilder::single_command("git --no-optional-locks status --short");
+        return CommandBuilder::single_command(
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory",
+        );
     };
     let dir_prefix = &current_token[..=dir_end];
 
     // Escape single quotes for safe embedding in the single-quoted pathspec.
     let escaped_prefix = dir_prefix.replace('\'', "'\\''");
     CommandBuilder::single_command(format!(
-        "git --no-optional-locks status --short --untracked-files=all -- '{escaped_prefix}'"
+        "git --no-optional-locks ls-files --exclude-standard --others --modified -- '{escaped_prefix}'"
     ))
+}
+
+/// Post-processes `ls-files` output for `files_for_staging`: clean one-per-line paths
+/// (untracked directories carry a trailing slash), so unlike
+/// `post_process_tracked_files` there is no status prefix to strip — stripping here
+/// would corrupt the filenames.
+fn post_process_files_for_staging(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
+    output
+        .lines()
+        .filter(|line| !line.is_empty())
+        .map(|file| {
+            Suggestion::with_description(file, "Changed file")
+                .with_priority(Priority::Global(Importance::More(Order(100))))
+                .with_icon(IconType::File)
+        })
+        .collect_unordered_results()
 }
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -806,7 +831,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("tags", Generator::script(tags_command(), post_process_tags))
         .add_generator(
             "files_for_staging",
-            Generator::command_from_tokens(files_for_staging_command, post_process_tracked_files),
+            Generator::command_from_tokens(files_for_staging_command, post_process_files_for_staging),
         )
         .add_generator(
             "tracked_files",
@@ -935,8 +960,8 @@ pub fn generator() -> CommandSignatureGenerators {
 mod tests {
     use crate::generators::git::{
         detect_refspec_prefix, files_for_staging_command, post_process_branches,
-        post_process_push_refspec_branches, post_process_push_refspec_tags, post_process_tags,
-        post_process_tracked_files,
+        post_process_files_for_staging, post_process_push_refspec_branches,
+        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Shell, Suggestion,
@@ -1041,37 +1066,55 @@ mod tests {
         );
     }
 
-    // With `--untracked-files=all`, git emits the full nested path for untracked files
-    // (`?? a/b/c.txt`) instead of collapsing to the directory, so completions surface the
-    // full path as a single suggestion.
+    // `ls-files` output is one clean path per line — no status prefix to strip. Untracked
+    // directories arrive collapsed with a trailing slash and pass through unchanged.
     #[test]
-    fn test_post_process_tracked_files_nested_untracked() {
-        let command_output = "?? some/nested/folder1/file1.txt";
+    fn test_post_process_files_for_staging() {
+        let command_output = "big/\nsome/nested/folder1/file1.txt\ntracked.txt";
 
         assert_eq!(
-            post_process_tracked_files(command_output),
+            post_process_files_for_staging(command_output),
             GeneratorResults {
-                suggestions: vec![Suggestion {
-                    exact_string: "some/nested/folder1/file1.txt".to_owned(),
-                    display_name: None,
-                    description: Some("Changed file".to_owned()),
-                    priority: Priority::Global(Importance::More(Order(100))),
-                    icon: Some(IconType::File),
-                    is_hidden: false,
-                }],
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "big/".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "some/nested/folder1/file1.txt".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "tracked.txt".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                ],
                 is_ordered: false,
             }
         );
     }
 
     // Top-level `git add <TAB>` (trailing whitespace, no token to descend into) stays on
-    // the cheap collapsed listing so a giant untracked directory isn't enumerated up front.
+    // the collapsed listing (`--directory --no-empty-directory`) so a giant untracked
+    // directory surfaces as one `dir/` entry instead of being enumerated up front.
     #[test]
-    fn test_files_for_staging_top_level_uses_collapsed_status() {
+    fn test_files_for_staging_top_level_uses_collapsed_listing() {
         let cmd = files_for_staging_command(&["git", "add"], true, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks status --short"
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
         );
     }
 
@@ -1082,18 +1125,19 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add", "fil"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks status --short"
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
         );
     }
 
-    // warp#10358: once the user descends into a directory, `--untracked-files=all` lets
-    // git surface nested untracked files, scoped by a pathspec to just that subtree.
+    // warp#10358: once the user descends into a directory, the pathspec scopes the walk
+    // to that subtree and `--directory` is dropped — keeping it would collapse a
+    // wholly-untracked subtree back to the pathspec itself and stall the completion.
     #[test]
     fn test_files_for_staging_scopes_untracked_to_typed_directory() {
         let cmd = files_for_staging_command(&["git", "add", "some/nested/folder1/"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks status --short --untracked-files=all -- 'some/nested/folder1/'"
+            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/folder1/'"
         );
     }
 
@@ -1104,7 +1148,7 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add", "some/nested/fi"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks status --short --untracked-files=all -- 'some/nested/'"
+            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/'"
         );
     }
 
