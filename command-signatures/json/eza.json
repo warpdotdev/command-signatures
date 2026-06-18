@@ -1,0 +1,664 @@
+{
+    "name": "eza",
+    "description": "A modern, maintained replacement for ls",
+    "args": {
+        "isVariadic": true,
+        "name": "files...",
+        "template": "filepaths"
+    },
+    "options": [
+        {
+            "description": "Show list of command-line options",
+            "name": [
+                "-?",
+                "--help"
+            ]
+        },
+        {
+            "description": "Show version of eza",
+            "name": [
+                "-v",
+                "--version"
+            ]
+        },
+        {
+            "description": "Display one entry per line",
+            "name": [
+                "-1",
+                "--oneline"
+            ]
+        },
+        {
+            "description": "Display extended file metadata as a table",
+            "name": [
+                "-l",
+                "--long"
+            ]
+        },
+        {
+            "description": "Display entries as a grid (default)",
+            "name": [
+                "-G",
+                "--grid"
+            ]
+        },
+        {
+            "description": "Sort the grid across, rather than downwards",
+            "name": [
+                "-x",
+                "--across"
+            ]
+        },
+        {
+            "description": "Recurse into directories",
+            "name": [
+                "-R",
+                "--recurse"
+            ]
+        },
+        {
+            "description": "Recurse into directories as a tree",
+            "name": [
+                "-T",
+                "--tree"
+            ]
+        },
+        {
+            "description": "Dereference symbolic links when displaying information",
+            "name": [
+                "-X",
+                "--dereference"
+            ]
+        },
+        {
+            "description": "Display type indicator by file names",
+            "name": [
+                "-F",
+                "--classify"
+            ],
+            "args": {
+                "name": "WHEN",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "always"
+                    },
+                    {
+                        "name": "auto"
+                    },
+                    {
+                        "name": "never"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "When to use terminal colours (always, auto, never)",
+            "name": [
+                "--color",
+                "--colour"
+            ],
+            "args": {
+                "name": "WHEN",
+                "suggestions": [
+                    {
+                        "name": "always"
+                    },
+                    {
+                        "name": "auto"
+                    },
+                    {
+                        "name": "automatic"
+                    },
+                    {
+                        "name": "never"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Highlight levels of 'field' distinctly",
+            "name": [
+                "--color-scale",
+                "--colour-scale"
+            ],
+            "args": {
+                "name": "field",
+                "isOptional": true,
+                "description": "Comma-separated list of all, age, size",
+                "suggestions": [
+                    {
+                        "name": "all"
+                    },
+                    {
+                        "name": "age"
+                    },
+                    {
+                        "name": "size"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Use gradient or fixed colors in --color-scale (fixed, gradient)",
+            "name": [
+                "--color-scale-mode",
+                "--colour-scale-mode"
+            ],
+            "args": {
+                "name": "MODE",
+                "suggestions": [
+                    {
+                        "name": "fixed"
+                    },
+                    {
+                        "name": "gradient"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "When to display icons (always, auto, never)",
+            "name": "--icons",
+            "args": {
+                "name": "WHEN",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "always"
+                    },
+                    {
+                        "name": "auto"
+                    },
+                    {
+                        "name": "automatic"
+                    },
+                    {
+                        "name": "never"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Don't quote file names with spaces",
+            "name": "--no-quotes"
+        },
+        {
+            "description": "When to display entries as hyperlinks (always, auto, never)",
+            "name": "--hyperlink",
+            "args": {
+                "name": "WHEN",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "always"
+                    },
+                    {
+                        "name": "auto"
+                    },
+                    {
+                        "name": "automatic"
+                    },
+                    {
+                        "name": "never"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Display entries with their absolute path (on, follow, off)",
+            "name": "--absolute",
+            "args": {
+                "name": "WHEN",
+                "isOptional": true,
+                "suggestions": [
+                    {
+                        "name": "on"
+                    },
+                    {
+                        "name": "follow"
+                    },
+                    {
+                        "name": "off"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Drill down into symbolic links that point to directories",
+            "name": "--follow-symlinks"
+        },
+        {
+            "description": "Set screen width in columns",
+            "name": [
+                "-w",
+                "--width"
+            ],
+            "args": {
+                "name": "COLS"
+            }
+        },
+        {
+            "description": "Show hidden and 'dot' files. Use this twice to also show the '.' and '..' directories",
+            "name": [
+                "-a",
+                "--all"
+            ],
+            "isRepeatable": 2
+        },
+        {
+            "description": "Equivalent to --all; included for compatibility with `ls -A`",
+            "name": [
+                "-A",
+                "--almost-all"
+            ]
+        },
+        {
+            "description": "List directories as files; don't list their contents",
+            "name": [
+                "-d",
+                "--treat-dirs-as-files"
+            ]
+        },
+        {
+            "description": "List only directories",
+            "name": [
+                "-D",
+                "--only-dirs"
+            ]
+        },
+        {
+            "description": "List only files",
+            "name": [
+                "-f",
+                "--only-files"
+            ]
+        },
+        {
+            "description": "Explicitly show symbolic links (for use with --only-dirs | --only-files)",
+            "name": "--show-symlinks"
+        },
+        {
+            "description": "Do not show symbolic links",
+            "name": "--no-symlinks"
+        },
+        {
+            "description": "Limit the depth of recursion",
+            "name": [
+                "-L",
+                "--level"
+            ],
+            "args": {
+                "name": "DEPTH",
+                "suggestions": [
+                    {
+                        "name": "1"
+                    },
+                    {
+                        "name": "2"
+                    },
+                    {
+                        "name": "3"
+                    },
+                    {
+                        "name": "4"
+                    },
+                    {
+                        "name": "5"
+                    },
+                    {
+                        "name": "6"
+                    },
+                    {
+                        "name": "7"
+                    },
+                    {
+                        "name": "8"
+                    },
+                    {
+                        "name": "9"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Reverse the sort order",
+            "name": [
+                "-r",
+                "--reverse"
+            ]
+        },
+        {
+            "description": "Which field to sort by",
+            "name": [
+                "-s",
+                "--sort"
+            ],
+            "args": {
+                "name": "SORT_FIELD",
+                "suggestions": [
+                    {
+                        "name": "name",
+                        "description": "Sort by filename"
+                    },
+                    {
+                        "name": "Name",
+                        "description": "Sort by filename (uppercase first)"
+                    },
+                    {
+                        "name": "filename",
+                        "description": "Sort by filename"
+                    },
+                    {
+                        "name": "Filename",
+                        "description": "Sort by filename (uppercase first)"
+                    },
+                    {
+                        "name": "size",
+                        "description": "Sort by file size"
+                    },
+                    {
+                        "name": "extension",
+                        "description": "Sort by file extension"
+                    },
+                    {
+                        "name": "Extension",
+                        "description": "Sort by file extension (uppercase first)"
+                    },
+                    {
+                        "name": "ext",
+                        "description": "Sort by file extension"
+                    },
+                    {
+                        "name": "Ext",
+                        "description": "Sort by file extension (uppercase first)"
+                    },
+                    {
+                        "name": "type",
+                        "description": "Sort by file type"
+                    },
+                    {
+                        "name": "modified",
+                        "description": "Sort by file modified time"
+                    },
+                    {
+                        "name": "date",
+                        "description": "Sort by file modified time"
+                    },
+                    {
+                        "name": "time",
+                        "description": "Sort by file modified time"
+                    },
+                    {
+                        "name": "age",
+                        "description": "Sort by file modified time (newest first)"
+                    },
+                    {
+                        "name": "new",
+                        "description": "Sort by file modified time (newest first)"
+                    },
+                    {
+                        "name": "newest",
+                        "description": "Sort by file modified time (newest first)"
+                    },
+                    {
+                        "name": "old",
+                        "description": "Sort by file modified time"
+                    },
+                    {
+                        "name": "oldest",
+                        "description": "Sort by file modified time"
+                    },
+                    {
+                        "name": "changed",
+                        "description": "Sort by changed time"
+                    },
+                    {
+                        "name": "accessed",
+                        "description": "Sort by file accessed time"
+                    },
+                    {
+                        "name": "created",
+                        "description": "Sort by file created time"
+                    },
+                    {
+                        "name": "inode",
+                        "description": "Sort by file inode"
+                    },
+                    {
+                        "name": "none",
+                        "description": "Do not sort files at all"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "List directories before other files",
+            "name": "--group-directories-first"
+        },
+        {
+            "description": "List directories after other files",
+            "name": "--group-directories-last"
+        },
+        {
+            "description": "Glob patterns (pipe-separated) of files to ignore",
+            "name": [
+                "-I",
+                "--ignore-glob"
+            ],
+            "args": {
+                "name": "GLOBS"
+            }
+        },
+        {
+            "description": "Ignore files mentioned in '.gitignore'",
+            "name": "--git-ignore"
+        },
+        {
+            "description": "List file sizes with binary prefixes",
+            "name": [
+                "-b",
+                "--binary"
+            ]
+        },
+        {
+            "description": "List file sizes in bytes, without any prefixes",
+            "name": [
+                "-B",
+                "--bytes"
+            ]
+        },
+        {
+            "description": "List each file's group",
+            "name": [
+                "-g",
+                "--group"
+            ]
+        },
+        {
+            "description": "Only show group if it has a different name from owner",
+            "name": "--smart-group"
+        },
+        {
+            "description": "Add a header row to each column",
+            "name": [
+                "-h",
+                "--header"
+            ]
+        },
+        {
+            "description": "List each file's number of hard links",
+            "name": [
+                "-H",
+                "--links"
+            ]
+        },
+        {
+            "description": "List each file's inode number",
+            "name": [
+                "-i",
+                "--inode"
+            ]
+        },
+        {
+            "description": "Show mount details (Linux and Mac only)",
+            "name": [
+                "-M",
+                "--mounts"
+            ]
+        },
+        {
+            "description": "List numeric user and group IDs",
+            "name": [
+                "-n",
+                "--numeric"
+            ]
+        },
+        {
+            "description": "List file flags (Mac, BSD, and Windows only)",
+            "name": [
+                "-O",
+                "--flags"
+            ]
+        },
+        {
+            "description": "Show size of allocated file system blocks",
+            "name": [
+                "-S",
+                "--blocksize"
+            ]
+        },
+        {
+            "description": "Which timestamp field to list (modified, accessed, created)",
+            "name": [
+                "-t",
+                "--time"
+            ],
+            "args": {
+                "name": "FIELD",
+                "suggestions": [
+                    {
+                        "name": "modified"
+                    },
+                    {
+                        "name": "accessed"
+                    },
+                    {
+                        "name": "created"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Use the modified timestamp field",
+            "name": [
+                "-m",
+                "--modified"
+            ]
+        },
+        {
+            "description": "Use the accessed timestamp field",
+            "name": [
+                "-u",
+                "--accessed"
+            ]
+        },
+        {
+            "description": "Use the created timestamp field",
+            "name": [
+                "-U",
+                "--created"
+            ]
+        },
+        {
+            "description": "Use the changed timestamp field",
+            "name": "--changed"
+        },
+        {
+            "description": "How to format timestamps (default, iso, long-iso, full-iso, relative, or a custom style '+<FORMAT>')",
+            "name": "--time-style",
+            "args": {
+                "name": "style",
+                "description": "A built-in style or a custom style like '+%Y-%m-%d %H:%M'",
+                "suggestions": [
+                    {
+                        "name": "default"
+                    },
+                    {
+                        "name": "iso"
+                    },
+                    {
+                        "name": "long-iso"
+                    },
+                    {
+                        "name": "full-iso"
+                    },
+                    {
+                        "name": "relative"
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Show the size of a directory as the size of all files and directories inside (unix only)",
+            "name": "--total-size"
+        },
+        {
+            "description": "List each file's permission in octal format",
+            "name": [
+                "-o",
+                "--octal-permissions"
+            ]
+        },
+        {
+            "description": "Suppress the permissions field",
+            "name": "--no-permissions"
+        },
+        {
+            "description": "Suppress the filesize field",
+            "name": "--no-filesize"
+        },
+        {
+            "description": "Suppress the user field",
+            "name": "--no-user"
+        },
+        {
+            "description": "Suppress the time field",
+            "name": "--no-time"
+        },
+        {
+            "description": "Read file names from stdin, one per line or other separator specified in environment",
+            "name": "--stdin"
+        },
+        {
+            "description": "List each file's Git status, if tracked or ignored",
+            "name": "--git"
+        },
+        {
+            "description": "Suppress Git status (always overrides --git, --git-repos, --git-repos-no-status)",
+            "name": "--no-git"
+        },
+        {
+            "description": "List root of git-tree status",
+            "name": "--git-repos"
+        },
+        {
+            "description": "List each git-repos branch name (much faster)",
+            "name": "--git-repos-no-status"
+        },
+        {
+            "description": "List each file's extended attributes and sizes",
+            "name": [
+                "-@",
+                "--extended"
+            ]
+        },
+        {
+            "description": "List each file's security context",
+            "name": [
+                "-Z",
+                "--context"
+            ]
+        }
+    ]
+}
