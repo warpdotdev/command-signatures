@@ -84,8 +84,10 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 /// `-include`, and `sinclude` directives, so that targets split across included files are
 /// surfaced (GNU make treats them as one unified ruleset).
 ///
-/// A POSIX-sh `visit()` function walks the include graph: it `cat`s a file, then uses a small
-/// `awk` program to extract that file's include paths and recurses into each. `awk` only extracts
+/// A POSIX-sh `visit()` function walks the include graph: it `cat`s a file (followed by an explicit
+/// newline, so a file without a trailing newline cannot merge its last line into the next included
+/// file's first line), then uses a small `awk` program to extract that file's include paths and
+/// recurses into each. `awk` only extracts
 /// the paths (it never opens them), and every path is passed to the shell as a quoted argument —
 /// never interpolated into a command — so a malicious Makefile cannot inject commands. The awk
 /// extractor only matches `include`/`-include`/`sinclude` directives indented with **spaces**, not
@@ -115,7 +117,7 @@ fn list_targets_post_process(output: &str) -> GeneratorResults {
 /// safely would require a shell (injection risk) or evaluating the Makefile. Absolute,
 /// home-relative, `..`-escaping, and symlink-escaping includes are intentionally not followed (see
 /// the security boundary above); their targets are simply not surfaced in completion.
-const LIST_TARGETS_COMMAND: &str = r##"root=$(pwd -P)||exit 0;command -v realpath >/dev/null 2>&1||{ cat [Mm]akefile 2>/dev/null;exit 0;};seen="|";visit(){ rp=$(realpath -- "$1" 2>/dev/null)||return 0;case "$rp" in "$root"|"$root"/*) ;; *) return 0;; esac;case "$seen" in *"|$rp|"*) return 0;; esac;seen="$seen$rp|";cat -- "$rp" 2>/dev/null;set -f;for inc in $(awk 'function safe(p){return p!~/^\//&&p!~/^~/&&p!~/(^|\/)\.\.(\/|$)/} /^ *[-s]?include[ \t]+/{match($0,/^ *[-s]?include[ \t]+/);rest=substr($0,RLENGTH+1);sub(/#.*/,"",rest);n=split(rest,parts,/[ \t]+/);for(i=1;i<=n;i++)if(parts[i]!=""&&safe(parts[i]))print parts[i]}' "$rp" 2>/dev/null);do set +f;visit "$inc";set -f;done;set +f;};for f in [Mm]akefile;do [ -e "$f" ]&&visit "$f";done"##;
+const LIST_TARGETS_COMMAND: &str = r##"root=$(pwd -P)||exit 0;command -v realpath >/dev/null 2>&1||{ cat [Mm]akefile 2>/dev/null;exit 0;};seen="|";visit(){ rp=$(realpath -- "$1" 2>/dev/null)||return 0;case "$rp" in "$root"|"$root"/*) ;; *) return 0;; esac;case "$seen" in *"|$rp|"*) return 0;; esac;seen="$seen$rp|";cat -- "$rp" 2>/dev/null;echo;set -f;for inc in $(awk 'function safe(p){return p!~/^\//&&p!~/^~/&&p!~/(^|\/)\.\.(\/|$)/} /^ *[-s]?include[ \t]+/{match($0,/^ *[-s]?include[ \t]+/);rest=substr($0,RLENGTH+1);sub(/#.*/,"",rest);n=split(rest,parts,/[ \t]+/);for(i=1;i<=n;i++)if(parts[i]!=""&&safe(parts[i]))print parts[i]}' "$rp" 2>/dev/null);do set +f;visit "$inc";set -f;done;set +f;};for f in [Mm]akefile;do [ -e "$f" ]&&visit "$f";done"##;
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("make").add_generator(
@@ -480,6 +482,38 @@ dmg: $(DMG_NAME)-native"#;
         assert!(
             !names.contains(&"leaked-symlink"),
             "an include resolving out of tree through a symlink must not be followed, got {names:?}"
+        );
+    }
+
+    /// `visit()` concatenates each makefile in the include graph back-to-back. A makefile that lacks
+    /// a final newline would otherwise merge its last line into the first line of the next included
+    /// file, so a target at the top of an included file is swallowed into the preceding line and
+    /// disappears from completion. Build a newline-less root Makefile whose last line is a recipe and
+    /// assert the included file's leading target still surfaces (the walker emits an explicit
+    /// separator after each file).
+    #[test]
+    fn test_list_targets_command_separates_files_without_trailing_newline() {
+        let results = run_list_targets_in(&[
+            (
+                // No trailing newline: the last line is a recipe, so without a separator `inc.mk`'s
+                // first line is appended to `\t@echo root` and parsed as part of that recipe line.
+                "Makefile",
+                "include inc.mk\nhelp: ## root help\n\t@echo root",
+            ),
+            (
+                "inc.mk",
+                "included-target: ## from an include\n\t@echo inc\n",
+            ),
+        ]);
+
+        let targets: Vec<&str> = results.iter().map(|(target, _)| target.as_str()).collect();
+        assert!(
+            targets.contains(&"help"),
+            "root target must surface, got {targets:?}"
+        );
+        assert!(
+            targets.contains(&"included-target"),
+            "a target at the top of an include reached from a newline-less Makefile must still surface, got {targets:?}"
         );
     }
 }
