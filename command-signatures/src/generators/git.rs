@@ -640,6 +640,68 @@ fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
     results
 }
 
+/// Builds the `git ls-files` command backing `git add` file completions, mirroring
+/// git's own completion (`__git_index_files` behind `_git_add` in git-completion.bash):
+/// a single `ls-files` invocation where `--others` surfaces untracked files (the
+/// warp#10358 fix), `--modified` covers tracked changes, and `--directory
+/// --no-empty-directory` collapses a wholly-untracked directory to one `dir/` entry at
+/// the top level so e.g. an un-gitignored `node_modules` is never enumerated up front.
+///
+/// Once the user descends into a directory (`git add some/nested/<TAB>`), the listing
+/// is scoped to that subtree with a pathspec and `--directory` is dropped: combined
+/// with a pathspec, `--directory` collapses a wholly-untracked subtree back to the
+/// pathspec itself (`ls-files ... --directory -- 'some/nested/'` prints just
+/// `some/nested/`), recreating the very stall this fixes. Without it git prints the
+/// full nested paths, and the walk stays bounded by the typed subtree.
+fn files_for_staging_command(
+    tokens: &[&str],
+    trailing_whitespace: bool,
+    _env: &[String],
+) -> CommandBuilder {
+    let current_token = if trailing_whitespace {
+        ""
+    } else {
+        tokens.last().copied().unwrap_or("")
+    };
+
+    // The directory prefix is everything up to and including the last `/`. With no
+    // separator the user is still at the top level, where the collapsed listing is both
+    // correct and cheap.
+    let Some(dir_end) = current_token.rfind('/') else {
+        return CommandBuilder::single_command(
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory",
+        );
+    };
+    let dir_prefix = &current_token[..=dir_end];
+
+    // Escape single quotes for safe embedding in the single-quoted pathspec.
+    let escaped_prefix = dir_prefix.replace('\'', "'\\''");
+    CommandBuilder::single_command(format!(
+        "git --no-optional-locks ls-files --exclude-standard --others --modified -- '{escaped_prefix}'"
+    ))
+}
+
+/// Post-processes `ls-files` output for `files_for_staging`: clean one-per-line paths
+/// (untracked directories carry a trailing slash), so unlike
+/// `post_process_tracked_files` there is no status prefix to strip — stripping here
+/// would corrupt the filenames.
+fn post_process_files_for_staging(output: &str) -> GeneratorResults {
+    let output = filter_messages(output);
+    if output.starts_with("fatal:") {
+        return GeneratorResults::default();
+    }
+
+    output
+        .lines()
+        .filter(|line| !line.is_empty())
+        .map(|file| {
+            Suggestion::with_description(file, "Changed file")
+                .with_priority(Priority::Global(Importance::More(Order(100))))
+                .with_icon(IconType::File)
+        })
+        .collect_unordered_results()
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("git")
         .add_generator("commits", commits_generator())
@@ -769,10 +831,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("tags", Generator::script(tags_command(), post_process_tags))
         .add_generator(
             "files_for_staging",
-            Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks status --short"),
-                post_process_tracked_files,
-            ),
+            Generator::command_from_tokens(files_for_staging_command, post_process_files_for_staging),
         )
         .add_generator(
             "tracked_files",
@@ -900,11 +959,12 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use crate::generators::git::{
-        detect_refspec_prefix, post_process_branches, post_process_push_refspec_branches,
+        detect_refspec_prefix, files_for_staging_command, post_process_branches,
+        post_process_files_for_staging, post_process_push_refspec_branches,
         post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
     };
     use warp_completion_metadata::{
-        GeneratorResults, IconType, Importance, Order, Priority, Suggestion,
+        GeneratorResults, IconType, Importance, Order, Priority, Shell, Suggestion,
     };
 
     #[test]
@@ -1003,6 +1063,92 @@ mod tests {
                 ],
                 is_ordered: false,
             }
+        );
+    }
+
+    // `ls-files` output is one clean path per line — no status prefix to strip. Untracked
+    // directories arrive collapsed with a trailing slash and pass through unchanged.
+    #[test]
+    fn test_post_process_files_for_staging() {
+        let command_output = "big/\nsome/nested/folder1/file1.txt\ntracked.txt";
+
+        assert_eq!(
+            post_process_files_for_staging(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "big/".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "some/nested/folder1/file1.txt".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "tracked.txt".to_owned(),
+                        display_name: None,
+                        description: Some("Changed file".to_owned()),
+                        priority: Priority::Global(Importance::More(Order(100))),
+                        icon: Some(IconType::File),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: false,
+            }
+        );
+    }
+
+    // Top-level `git add <TAB>` (trailing whitespace, no token to descend into) stays on
+    // the collapsed listing (`--directory --no-empty-directory`) so a giant untracked
+    // directory surfaces as one `dir/` entry instead of being enumerated up front.
+    #[test]
+    fn test_files_for_staging_top_level_uses_collapsed_listing() {
+        let cmd = files_for_staging_command(&["git", "add"], true, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
+        );
+    }
+
+    // A partial top-level token with no `/` is still at the top level, so it keeps the
+    // collapsed listing rather than expanding every untracked file in the repo.
+    #[test]
+    fn test_files_for_staging_no_directory_prefix_stays_collapsed() {
+        let cmd = files_for_staging_command(&["git", "add", "fil"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
+        );
+    }
+
+    // warp#10358: once the user descends into a directory, the pathspec scopes the walk
+    // to that subtree and `--directory` is dropped — keeping it would collapse a
+    // wholly-untracked subtree back to the pathspec itself and stall the completion.
+    #[test]
+    fn test_files_for_staging_scopes_untracked_to_typed_directory() {
+        let cmd = files_for_staging_command(&["git", "add", "some/nested/folder1/"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/folder1/'"
+        );
+    }
+
+    // A partial filename inside a directory scopes the pathspec to the directory part;
+    // the completer's prefix matcher narrows the results to the typed filename.
+    #[test]
+    fn test_files_for_staging_uses_directory_part_of_partial_token() {
+        let cmd = files_for_staging_command(&["git", "add", "some/nested/fi"], false, &[]);
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/'"
         );
     }
 
