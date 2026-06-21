@@ -205,7 +205,7 @@ fn script_alias_generator() -> Alias {
 
 /// Searches the npm registry for packages matching the current input.
 /// Uses the official npm registry search endpoint.
-fn npm_registry_search_generator() -> Generator {
+pub fn npm_registry_search_generator() -> Generator {
     Generator::command_from_tokens(
         |tokens, trailing_whitespace, _| {
             // When there is trailing whitespace the user has not started typing

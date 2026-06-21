@@ -1,0 +1,1886 @@
+{
+    "name": "vp",
+    "description": "Vite+ - a unified frontend build tool (dev/build/test/lint/fmt + package management + task runner)",
+    "args": {
+        "name": "task",
+        "generatorName": "vp_tasks_generator",
+        "isVariadic": true,
+        "isOptional": true
+    },
+    "options": [
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Print version"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print help",
+            "isPersistent": true
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "create",
+            "description": "Create a new project from a template (builtin, remote, local, or org scope)",
+            "args": {
+                "name": "template",
+                "isOptional": true,
+                "suggestions": [
+                    "vite:monorepo",
+                    "vite:application",
+                    "vite:library",
+                    "vite:generator"
+                ]
+            },
+            "options": [
+                {
+                    "name": "--directory",
+                    "description": "Target directory for the generated project",
+                    "args": {
+                        "name": "dir",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--agent",
+                    "description": "Write coding agent instructions to AGENTS.md, CLAUDE.md, etc.",
+                    "args": { "name": "name" }
+                },
+                {
+                    "name": "--editor",
+                    "description": "Write editor config files for the specified editor",
+                    "args": { "name": "name" }
+                },
+                {
+                    "name": [
+                        "--git",
+                        "--no-git"
+                    ],
+                    "description": "Initialize (or skip) a git repository"
+                },
+                {
+                    "name": [
+                        "--hooks",
+                        "--no-hooks"
+                    ],
+                    "description": "Set up (or skip) pre-commit hooks"
+                },
+                {
+                    "name": "--package-manager",
+                    "description": "Use specified package manager",
+                    "args": {
+                        "name": "name",
+                        "suggestions": [
+                            "pnpm",
+                            "npm",
+                            "yarn",
+                            "bun"
+                        ]
+                    }
+                },
+                {
+                    "name": "--verbose",
+                    "description": "Show detailed scaffolding output"
+                },
+                {
+                    "name": "--no-interactive",
+                    "description": "Run in non-interactive mode"
+                },
+                {
+                    "name": "--list",
+                    "description": "List all available templates"
+                }
+            ]
+        },
+        {
+            "name": "migrate",
+            "description": "Migrate standalone Vite/Vitest/Oxlint/Oxfmt/Prettier projects to Vite+",
+            "args": {
+                "name": "path",
+                "isOptional": true,
+                "template": "folders"
+            },
+            "options": [
+                {
+                    "name": "--agent",
+                    "description": "Write coding agent instructions",
+                    "args": { "name": "name" }
+                },
+                {
+                    "name": "--no-agent",
+                    "description": "Skip coding agent instructions"
+                },
+                {
+                    "name": "--editor",
+                    "description": "Write editor config files",
+                    "args": { "name": "name" }
+                },
+                {
+                    "name": "--no-editor",
+                    "description": "Skip editor config files"
+                },
+                {
+                    "name": [
+                        "--hooks",
+                        "--no-hooks"
+                    ],
+                    "description": "Set up (or skip) pre-commit hooks"
+                },
+                {
+                    "name": "--no-interactive",
+                    "description": "Run in non-interactive mode"
+                }
+            ]
+        },
+        {
+            "name": "config",
+            "description": "Configure Vite+ for the current project (hooks + agent integration)",
+            "options": [
+                {
+                    "name": "--hooks-dir",
+                    "description": "Custom hooks directory (default: .vite-hooks)",
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "staged",
+            "description": "Run linters on staged files using staged config from vite.config.ts",
+            "options": [
+                {
+                    "name": "--allow-empty",
+                    "description": "Allow empty commits when tasks revert all staged changes"
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--concurrent"
+                    ],
+                    "description": "Number of tasks to run concurrently, or false for serial",
+                    "args": { "name": "number|boolean" }
+                },
+                {
+                    "name": "--continue-on-error",
+                    "description": "Run all tasks to completion even if one fails"
+                },
+                {
+                    "name": "--cwd",
+                    "description": "Working directory to run all tasks in",
+                    "args": {
+                        "name": "path",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--debug"
+                    ],
+                    "description": "Enable debug output"
+                },
+                {
+                    "name": "--diff",
+                    "description": "Override the default --staged flag of git diff",
+                    "args": { "name": "string" }
+                },
+                {
+                    "name": "--diff-filter",
+                    "description": "Override the default --diff-filter=ACMR flag of git diff",
+                    "args": { "name": "string" }
+                },
+                {
+                    "name": "--fail-on-changes",
+                    "description": "Fail with exit code 1 when tasks modify tracked files"
+                },
+                {
+                    "name": "--hide-partially-staged",
+                    "description": "Hide unstaged changes from partially staged files"
+                },
+                {
+                    "name": "--hide-unstaged",
+                    "description": "Hide all unstaged changes before running tasks"
+                },
+                {
+                    "name": "--no-stash",
+                    "description": "Disable the backup stash"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Disable console output"
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--relative"
+                    ],
+                    "description": "Pass filepaths relative to cwd to tasks"
+                },
+                {
+                    "name": "--revert",
+                    "description": "Revert to original state in case of errors"
+                },
+                {
+                    "name": [
+                        "-v",
+                        "--verbose"
+                    ],
+                    "description": "Show task output even when tasks succeed"
+                }
+            ]
+        },
+        {
+            "name": [
+                "install",
+                "i"
+            ],
+            "description": "Install all dependencies, or add packages if package names are provided",
+            "args": {
+                "name": "packages",
+                "isVariadic": true,
+                "isOptional": true,
+                "debounce": true,
+                "generatorName": "npm_registry_search"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-P",
+                        "--prod"
+                    ],
+                    "description": "Do not install devDependencies"
+                },
+                {
+                    "name": [
+                        "-D",
+                        "--dev"
+                    ],
+                    "description": "Only install devDependencies (install) / Save to devDependencies (add)"
+                },
+                {
+                    "name": "--no-optional",
+                    "description": "Do not install optionalDependencies"
+                },
+                {
+                    "name": "--frozen-lockfile",
+                    "description": "Fail if lockfile needs to be updated (CI mode)"
+                },
+                {
+                    "name": "--no-frozen-lockfile",
+                    "description": "Allow lockfile updates"
+                },
+                {
+                    "name": "--lockfile-only",
+                    "description": "Only update lockfile, don't install"
+                },
+                {
+                    "name": "--prefer-offline",
+                    "description": "Use cached packages when available"
+                },
+                {
+                    "name": "--offline",
+                    "description": "Only use packages already in cache"
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Force reinstall all dependencies"
+                },
+                {
+                    "name": "--ignore-scripts",
+                    "description": "Do not run lifecycle scripts"
+                },
+                {
+                    "name": "--no-lockfile",
+                    "description": "Don't read or generate lockfile"
+                },
+                {
+                    "name": "--fix-lockfile",
+                    "description": "Fix broken lockfile entries (pnpm and yarn@2+ only)"
+                },
+                {
+                    "name": "--shamefully-hoist",
+                    "description": "Create flat node_modules (pnpm only)"
+                },
+                {
+                    "name": "--resolution-only",
+                    "description": "Re-run resolution for peer dependency analysis (pnpm only)"
+                },
+                {
+                    "name": "--silent",
+                    "description": "Suppress output"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo (can be used multiple times)",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Install in workspace root only"
+                },
+                {
+                    "name": [
+                        "-E",
+                        "--save-exact"
+                    ],
+                    "description": "Save exact version (only when adding packages)"
+                },
+                {
+                    "name": "--save-peer",
+                    "description": "Save to peerDependencies (only when adding packages)"
+                },
+                {
+                    "name": [
+                        "-O",
+                        "--save-optional"
+                    ],
+                    "description": "Save to optionalDependencies (only when adding packages)"
+                },
+                {
+                    "name": "--save-catalog",
+                    "description": "Save to the default catalog (only when adding packages)"
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Install globally (requires package names)"
+                },
+                {
+                    "name": "--node",
+                    "description": "Node.js version for global install (only with -g)",
+                    "args": { "name": "node" }
+                },
+                {
+                    "name": "--concurrency",
+                    "description": "Parallel global installs (only with -g)",
+                    "args": { "name": "concurrency" }
+                }
+            ]
+        },
+        {
+            "name": "env",
+            "description": "Manage Node.js versions",
+            "subcommands": [
+                {
+                    "name": "setup",
+                    "description": "Create or update shims in VP_HOME/bin",
+                    "options": [
+                        {
+                            "name": "--refresh",
+                            "description": "Refresh existing shims"
+                        },
+                        {
+                            "name": "--env-only",
+                            "description": "Only print env snippet, do not install shims"
+                        }
+                    ]
+                },
+                {
+                    "name": "on",
+                    "description": "Enable managed mode - shims always use vite-plus managed Node.js"
+                },
+                {
+                    "name": "off",
+                    "description": "Enable system-first mode - shims prefer system Node.js, fallback to managed"
+                },
+                {
+                    "name": "print",
+                    "description": "Print shell snippet to set environment for current session"
+                },
+                {
+                    "name": "default",
+                    "description": "Set or show the global default Node.js version",
+                    "args": {
+                        "name": "version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "lts",
+                            "latest",
+                            "22",
+                            "20",
+                            "18"
+                        ]
+                    }
+                },
+                {
+                    "name": "pin",
+                    "description": "Pin a Node.js version in the current directory (creates .node-version)",
+                    "args": {
+                        "name": "version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "lts",
+                            "latest",
+                            "22",
+                            "20",
+                            "18"
+                        ]
+                    },
+                    "options": [
+                        {
+                            "name": "--unpin",
+                            "description": "Remove the pin (alias for `env unpin`)"
+                        },
+                        {
+                            "name": "--no-install",
+                            "description": "Do not install the version"
+                        },
+                        { "name": "--force", "description": "Force re-pin" }
+                    ]
+                },
+                {
+                    "name": "unpin",
+                    "description": "Remove the .node-version file (alias for `pin --unpin`)"
+                },
+                {
+                    "name": "use",
+                    "description": "Use a specific Node.js version for this shell session",
+                    "args": {
+                        "name": "version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "lts",
+                            "latest",
+                            "22",
+                            "20",
+                            "18"
+                        ]
+                    },
+                    "options": [
+                        {
+                            "name": "--unset",
+                            "description": "Remove the session override"
+                        },
+                        {
+                            "name": "--no-install",
+                            "description": "Do not install the version"
+                        },
+                        {
+                            "name": "--silent-if-unchanged",
+                            "description": "Suppress output when version is unchanged"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "install",
+                        "i"
+                    ],
+                    "description": "Install a Node.js version",
+                    "args": {
+                        "name": "version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "lts",
+                            "latest",
+                            "22",
+                            "20",
+                            "18"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "uninstall",
+                        "uni"
+                    ],
+                    "description": "Uninstall a Node.js version",
+                    "args": { "name": "version" }
+                },
+                {
+                    "name": [
+                        "exec",
+                        "run"
+                    ],
+                    "description": "Execute a command with a specific Node.js version",
+                    "args": {
+                        "name": "command",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--node",
+                            "description": "Node.js version to use",
+                            "args": { "name": "node" }
+                        },
+                        {
+                            "name": "--npm",
+                            "description": "npm version to use",
+                            "args": { "name": "npm" }
+                        }
+                    ]
+                },
+                {
+                    "name": "current",
+                    "description": "Show current environment information",
+                    "options": [
+                        {
+                            "name": "--json",
+                            "description": "Output in JSON format"
+                        }
+                    ]
+                },
+                {
+                    "name": "doctor",
+                    "description": "Run diagnostics and show environment status"
+                },
+                {
+                    "name": "which",
+                    "description": "Show path to the tool that would be executed",
+                    "args": { "name": "tool" }
+                },
+                {
+                    "name": [
+                        "list",
+                        "ls"
+                    ],
+                    "description": "List locally installed Node.js versions",
+                    "options": [
+                        {
+                            "name": "--json",
+                            "description": "Output in JSON format"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "list-remote",
+                        "ls-remote"
+                    ],
+                    "description": "List available Node.js versions from the registry",
+                    "args": {
+                        "name": "pattern",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "--lts",
+                            "description": "List only LTS versions"
+                        },
+                        { "name": "--all", "description": "List all versions" },
+                        {
+                            "name": "--json",
+                            "description": "Output in JSON format"
+                        },
+                        {
+                            "name": "--sort",
+                            "description": "Sort order",
+                            "args": {
+                                "name": "sort",
+                                "suggestions": [
+                                    "asc",
+                                    "desc"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "dev",
+            "description": "Run the development server (forwards options to Vite)",
+            "args": {
+                "name": "root",
+                "isOptional": true,
+                "template": "folders"
+            },
+            "options": [
+                {
+                    "name": "--host",
+                    "description": "Specify hostname",
+                    "args": { "name": "host", "isOptional": true }
+                },
+                {
+                    "name": "--port",
+                    "description": "Specify port",
+                    "args": { "name": "port" }
+                },
+                {
+                    "name": "--open",
+                    "description": "Open browser on startup",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--strictPort",
+                    "description": "Exit if specified port is already in use"
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Use specified config file",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--base",
+                    "description": "Public base path",
+                    "args": { "name": "path" }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--mode"
+                    ],
+                    "description": "Set env mode",
+                    "args": { "name": "mode" }
+                }
+            ]
+        },
+        {
+            "name": "check",
+            "description": "Run format, lint, and type checks",
+            "args": {
+                "name": "paths",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "--fix",
+                    "description": "Auto-fix format and lint issues"
+                },
+                { "name": "--no-fmt", "description": "Skip format check" },
+                {
+                    "name": "--no-lint",
+                    "description": "Skip lint rules (type-check still runs if configured)"
+                },
+                {
+                    "name": "--no-error-on-unmatched-pattern",
+                    "description": "Do not error when pattern is unmatched"
+                }
+            ]
+        },
+        {
+            "name": "lint",
+            "description": "Lint code (forwards options to Oxlint)",
+            "args": {
+                "name": "paths",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "--tsconfig",
+                    "description": "TypeScript tsconfig path",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                { "name": "--fix", "description": "Fix issues when possible" },
+                {
+                    "name": "--type-aware",
+                    "description": "Enable rules requiring type info"
+                },
+                {
+                    "name": "--import-plugin",
+                    "description": "Enable import plugin"
+                },
+                { "name": "--rules", "description": "List registered rules" }
+            ]
+        },
+        {
+            "name": "fmt",
+            "description": "Format code (forwards options to Oxfmt)",
+            "args": {
+                "name": "paths",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": "--write",
+                    "description": "Format and write files in place"
+                },
+                {
+                    "name": "--check",
+                    "description": "Check if files are formatted"
+                },
+                {
+                    "name": "--list-different",
+                    "description": "List files that would change"
+                },
+                {
+                    "name": "--ignore-path",
+                    "description": "Path to ignore file(s)",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--threads",
+                    "description": "Number of threads to use",
+                    "args": { "name": "int" }
+                }
+            ]
+        },
+        {
+            "name": "test",
+            "description": "Run tests (forwards options to Vitest)",
+            "args": {
+                "name": "filters",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            },
+            "subcommands": [
+                { "name": "run", "description": "Run tests once" },
+                { "name": "watch", "description": "Run tests in watch mode" },
+                {
+                    "name": "dev",
+                    "description": "Run tests in development mode"
+                },
+                {
+                    "name": "related",
+                    "description": "Run tests related to changed files"
+                },
+                { "name": "bench", "description": "Run benchmarks" },
+                { "name": "init", "description": "Initialize Vitest config" },
+                { "name": "list", "description": "List matching tests" }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Path to config file",
+                    "args": {
+                        "name": "path",
+                        "template": "filepaths"
+                    }
+                },
+                { "name": [
+                        "-w",
+                        "--watch"
+                    ], "description": "Enable watch mode" },
+                {
+                    "name": [
+                        "-t",
+                        "--testNamePattern"
+                    ],
+                    "description": "Run tests matching regexp",
+                    "args": { "name": "pattern" }
+                },
+                { "name": "--ui", "description": "Enable UI" },
+                { "name": "--coverage", "description": "Enable coverage" },
+                {
+                    "name": "--reporter",
+                    "description": "Specify reporter",
+                    "args": {
+                        "name": "name",
+                        "suggestions": [
+                            "default",
+                            "verbose",
+                            "dot",
+                            "junit",
+                            "json",
+                            "html"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": [
+                "run",
+                "vpr"
+            ],
+            "description": "Run tasks. Task specifier is `packageName#taskName` or `taskName`. If omitted, lists all available tasks.",
+            "args": {
+                "name": "task_specifier",
+                "generatorName": "vp_tasks_generator",
+                "isVariadic": true,
+                "isOptional": true
+            "options": [
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Select all packages in the workspace"
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--transitive"
+                    ],
+                    "description": "Select the current package and its transitive dependencies"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Select the workspace root package"
+                },
+                {
+                    "name": [
+                        "-F",
+                        "--filter"
+                    ],
+                    "description": "Match packages by name, directory, or glob pattern",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--ignore-depends-on",
+                    "description": "Do not run dependencies specified in `dependsOn` fields"
+                },
+                {
+                    "name": [
+                        "-v",
+                        "--verbose"
+                    ],
+                    "description": "Show full detailed summary after execution"
+                },
+                {
+                    "name": "--last-details",
+                    "description": "Display the detailed summary of the last run"
+                }
+            ]
+        },
+        {
+            "name": "exec",
+            "description": "Execute a command from local node_modules/.bin",
+            "args": {
+                "name": "command",
+                "isVariadic": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Select all packages in the workspace"
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--transitive"
+                    ],
+                    "description": "Select the current package and its transitive dependencies"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Select the workspace root package"
+                },
+                {
+                    "name": [
+                        "-F",
+                        "--filter"
+                    ],
+                    "description": "Match packages by name, directory, or glob pattern",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--shell-mode"
+                    ],
+                    "description": "Execute the command within a shell environment"
+                },
+                {
+                    "name": "--parallel",
+                    "description": "Run concurrently without topological ordering"
+                },
+                {
+                    "name": "--reverse",
+                    "description": "Reverse execution order"
+                },
+                {
+                    "name": "--resume-from",
+                    "description": "Resume from a specific package",
+                    "args": {
+                        "name": "package",
+                        "generatorName": "workspace_packages_generator"
+                    }
+                },
+                {
+                    "name": "--report-summary",
+                    "description": "Save results to vp-exec-summary.json"
+                }
+            ]
+        },
+        {
+            "name": "node",
+            "description": "Run a Node.js script (shorthand for `env exec node`)",
+            "args": {
+                "name": "args",
+                "isVariadic": true
+            }
+        },
+        {
+            "name": "dlx",
+            "description": "Execute a package binary without installing it as a dependency",
+            "args": {
+                "name": "args",
+                "isVariadic": true,
+                "debounce": true,
+                "generatorName": "npm_registry_search"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-p",
+                        "--package"
+                    ],
+                    "description": "Package(s) to install before running",
+                    "args": {
+                        "name": "name",
+                        "isVariadic": true,
+                        "debounce": true,
+                        "generatorName": "npm_registry_search"
+                    }
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--shell-mode"
+                    ],
+                    "description": "Execute within a shell environment"
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--silent"
+                    ],
+                    "description": "Suppress all non-command output"
+                }
+            ]
+        },
+        {
+            "name": "cache",
+            "description": "Manage the task cache",
+            "subcommands": [
+                {
+                    "name": "clean",
+                    "description": "Clean up all the cache"
+                }
+            ]
+        },
+        {
+            "name": "build",
+            "description": "Build for production (forwards options to Vite)",
+            "args": {
+                "name": "root",
+                "isOptional": true,
+                "template": "folders"
+            },
+            "options": [
+                {
+                    "name": "--target",
+                    "description": "Transpile target",
+                    "args": { "name": "target" }
+                },
+                {
+                    "name": "--outDir",
+                    "description": "Output directory",
+                    "args": {
+                        "name": "dir",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--sourcemap",
+                    "description": "Output source maps",
+                    "args": { "name": "mode", "isOptional": true }
+                },
+                {
+                    "name": "--minify",
+                    "description": "Enable/disable minification",
+                    "args": { "name": "minifier", "isOptional": true }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--watch"
+                    ],
+                    "description": "Rebuild when files change"
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Use specified config file",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--mode"
+                    ],
+                    "description": "Set env mode",
+                    "args": { "name": "mode" }
+                }
+            ]
+        },
+        {
+            "name": "pack",
+            "description": "Build library (forwards options to tsdown)",
+            "args": {
+                "name": "files",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-f",
+                        "--format"
+                    ],
+                    "description": "Bundle format: esm, cjs, iife, umd",
+                    "args": {
+                        "name": "format",
+                        "suggestions": [
+                            "esm",
+                            "cjs",
+                            "iife",
+                            "umd"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--out-dir"
+                    ],
+                    "description": "Output directory",
+                    "args": {
+                        "name": "dir",
+                        "template": "folders"
+                    }
+                },
+                { "name": "--sourcemap", "description": "Generate source map" },
+                { "name": "--dts", "description": "Generate dts files" },
+                { "name": "--minify", "description": "Minify output" },
+                {
+                    "name": [
+                        "-w",
+                        "--watch"
+                    ],
+                    "description": "Watch mode",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "preview",
+            "description": "Preview production build (forwards options to Vite)",
+            "args": {
+                "name": "root",
+                "isOptional": true,
+                "template": "folders"
+            },
+            "options": [
+                {
+                    "name": "--host",
+                    "description": "Specify hostname",
+                    "args": { "name": "host", "isOptional": true }
+                },
+                {
+                    "name": "--port",
+                    "description": "Specify port",
+                    "args": { "name": "port" }
+                },
+                {
+                    "name": "--strictPort",
+                    "description": "Exit if specified port is already in use"
+                },
+                {
+                    "name": "--open",
+                    "description": "Open browser on startup",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--outDir",
+                    "description": "Output directory to preview",
+                    "args": {
+                        "name": "dir",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Use specified config file",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--mode"
+                    ],
+                    "description": "Set env mode",
+                    "args": { "name": "mode" }
+                }
+            ]
+        },
+        {
+            "name": "add",
+            "description": "Add packages to dependencies",
+            "args": {
+                "name": "packages",
+                "isVariadic": true,
+                "debounce": true,
+                "generatorName": "npm_registry_search"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-P",
+                        "--save-prod"
+                    ],
+                    "description": "Save to `dependencies` (default)"
+                },
+                {
+                    "name": [
+                        "-D",
+                        "--save-dev"
+                    ],
+                    "description": "Save to `devDependencies`"
+                },
+                {
+                    "name": "--save-peer",
+                    "description": "Save to `peerDependencies` and `devDependencies`"
+                },
+                {
+                    "name": [
+                        "-O",
+                        "--save-optional"
+                    ],
+                    "description": "Save to `optionalDependencies`"
+                },
+                {
+                    "name": [
+                        "-E",
+                        "--save-exact"
+                    ],
+                    "description": "Save exact version rather than semver range"
+                },
+                {
+                    "name": "--save-catalog-name",
+                    "description": "Save the new dependency to the specified catalog name",
+                    "args": { "name": "catalog_name" }
+                },
+                {
+                    "name": "--save-catalog",
+                    "description": "Save the new dependency to the default catalog"
+                },
+                {
+                    "name": "--allow-build",
+                    "description": "A list of package names allowed to run postinstall",
+                    "args": { "name": "names" }
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo (can be used multiple times)",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Add to workspace root"
+                },
+                {
+                    "name": "--workspace",
+                    "description": "Only add if package exists in workspace (pnpm-specific)"
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Install globally"
+                },
+                {
+                    "name": "--node",
+                    "description": "Node.js version to use for global installation (only with -g)",
+                    "args": { "name": "node" }
+                },
+                {
+                    "name": "--concurrency",
+                    "description": "Number of global package installs to run in parallel (only with -g)",
+                    "args": { "name": "concurrency" }
+                }
+            ]
+        },
+        {
+            "name": [
+                "remove",
+                "rm",
+                "un",
+                "uninstall"
+            ],
+            "description": "Remove packages from dependencies",
+            "args": {
+                "name": "packages",
+                "isVariadic": true,
+                "generatorName": "dependencies_generator"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-D",
+                        "--save-dev"
+                    ],
+                    "description": "Only remove from `devDependencies` (pnpm-specific)"
+                },
+                {
+                    "name": [
+                        "-O",
+                        "--save-optional"
+                    ],
+                    "description": "Only remove from `optionalDependencies` (pnpm-specific)"
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--save-prod"
+                    ],
+                    "description": "Only remove from `dependencies` (pnpm-specific)"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo (can be used multiple times)",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Remove from workspace root"
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Remove recursively from all workspace packages"
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Remove global packages"
+                },
+                {
+                    "name": "--dry-run",
+                    "description": "Preview what would be removed without actually removing (only with -g)"
+                }
+            ]
+        },
+        {
+            "name": [
+                "update",
+                "up"
+            ],
+            "description": "Update packages to their latest versions",
+            "args": {
+                "name": "packages",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "dependencies_generator"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-L",
+                        "--latest"
+                    ],
+                    "description": "Update to latest version (ignore semver range)"
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Update global packages"
+                },
+                {
+                    "name": "--concurrency",
+                    "description": "Number of global package updates to run in parallel (only with -g)",
+                    "args": { "name": "concurrency" }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Update recursively in all workspace packages"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo (can be used multiple times)",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Include workspace root"
+                },
+                {
+                    "name": [
+                        "-D",
+                        "--dev"
+                    ],
+                    "description": "Update only devDependencies"
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--prod"
+                    ],
+                    "description": "Update only dependencies (production)"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--interactive"
+                    ],
+                    "description": "Interactive mode"
+                },
+                {
+                    "name": "--no-optional",
+                    "description": "Don't update optionalDependencies"
+                },
+                {
+                    "name": "--no-save",
+                    "description": "Update lockfile only, don't modify package.json"
+                },
+                {
+                    "name": "--workspace",
+                    "description": "Only update if package exists in workspace (pnpm-specific)"
+                }
+            ]
+        },
+        {
+            "name": "dedupe",
+            "description": "Deduplicate dependencies by removing older versions",
+            "options": [
+                {
+                    "name": "--check",
+                    "description": "Check if deduplication would make changes"
+                }
+            ]
+        },
+        {
+            "name": "outdated",
+            "description": "Check for outdated packages",
+            "args": {
+                "name": "packages",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "dependencies_generator"
+            },
+            "options": [
+                {
+                    "name": "--long",
+                    "description": "Show extended information"
+                },
+                {
+                    "name": "--format",
+                    "description": "Output format: table (default), list, or json",
+                    "args": {
+                        "name": "format",
+                        "suggestions": [
+                            "table",
+                            "list",
+                            "json"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Check recursively across all workspaces"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Include workspace root"
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--prod"
+                    ],
+                    "description": "Only production and optional dependencies"
+                },
+                {
+                    "name": [
+                        "-D",
+                        "--dev"
+                    ],
+                    "description": "Only dev dependencies"
+                },
+                {
+                    "name": "--no-optional",
+                    "description": "Exclude optional dependencies"
+                },
+                {
+                    "name": "--compatible",
+                    "description": "Only show compatible versions"
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort results by field",
+                    "args": { "name": "field" }
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Check globally installed packages"
+                }
+            ]
+        },
+        {
+            "name": [
+                "list",
+                "ls"
+            ],
+            "description": "List installed packages (delegates to `vp pm list`)",
+            "args": {
+                "name": "pattern",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": "--depth",
+                    "description": "Max display depth of dependency tree",
+                    "args": { "name": "depth" }
+                },
+                { "name": "--json", "description": "Output in JSON format" },
+                {
+                    "name": "--long",
+                    "description": "Show extended information"
+                },
+                {
+                    "name": "--parseable",
+                    "description": "Show parseable output"
+                },
+                { "name": [
+                        "-P",
+                        "--prod"
+                    ], "description": "Only production and optional dependencies" },
+                { "name": [
+                        "-D",
+                        "--dev"
+                    ], "description": "Only dev dependencies" },
+                {
+                    "name": "--no-optional",
+                    "description": "Exclude optional dependencies"
+                },
+                {
+                    "name": "--exclude-peers",
+                    "description": "Exclude peer dependencies"
+                },
+                {
+                    "name": "--only-projects",
+                    "description": "Only show workspace projects"
+                },
+                {
+                    "name": "--find-by",
+                    "description": "Use a finder function defined in .pnpmfile.cjs",
+                    "args": { "name": "finder_name" }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Recurse through all workspace packages"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "List global packages"
+                }
+            ]
+        },
+        {
+            "name": [
+                "why",
+                "explain"
+            ],
+            "description": "Show why a package is installed",
+            "args": {
+                "name": "packages",
+                "isVariadic": true,
+                "generatorName": "dependencies_generator"
+            },
+            "options": [
+                { "name": "--json", "description": "Output in JSON format" },
+                {
+                    "name": "--long",
+                    "description": "Show extended information"
+                },
+                {
+                    "name": "--parseable",
+                    "description": "Show parseable output"
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Check recursively across all workspaces"
+                },
+                {
+                    "name": "--filter",
+                    "description": "Filter packages in monorepo",
+                    "args": {
+                        "name": "filter",
+                        "generatorName": "workspace_packages_generator",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--workspace-root"
+                    ],
+                    "description": "Check in workspace root"
+                },
+                { "name": [
+                        "-P",
+                        "--prod"
+                    ], "description": "Only production dependencies" },
+                { "name": [
+                        "-D",
+                        "--dev"
+                    ], "description": "Only dev dependencies" },
+                {
+                    "name": "--depth",
+                    "description": "Limit tree depth",
+                    "args": { "name": "depth" }
+                },
+                {
+                    "name": "--no-optional",
+                    "description": "Exclude optional dependencies"
+                },
+                { "name": [
+                        "-g",
+                        "--global"
+                    ], "description": "Check globally installed packages" },
+                {
+                    "name": "--exclude-peers",
+                    "description": "Exclude peer dependencies"
+                },
+                {
+                    "name": "--find-by",
+                    "description": "Use a finder function defined in .pnpmfile.cjs",
+                    "args": { "name": "finder_name" }
+                }
+            ]
+        },
+        {
+            "name": [
+                "info",
+                "view",
+                "show"
+            ],
+            "description": "View package information from the registry",
+            "args": {
+                "name": "package",
+                "debounce": true,
+                "generatorName": "npm_registry_search"
+            },
+            "options": [
+                { "name": "--json", "description": "Output in JSON format" }]
+        },
+        {
+            "name": [
+                "link",
+                "ln"
+            ],
+            "description": "Link packages for local development",
+            "args": {
+                "name": "package|dir",
+                "isOptional": true,
+                "generatorName": "dependencies_generator"
+            }
+        },
+        {
+            "name": "unlink",
+            "description": "Unlink packages",
+            "args": {
+                "name": "package|dir",
+                "isOptional": true,
+                "generatorName": "dependencies_generator"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Unlink in every workspace package"
+                }
+            ]
+        },
+        {
+            "name": "rebuild",
+            "description": "Rebuild native modules (delegates to `vp pm rebuild`)",
+            "args": {
+                "name": "packages",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "dependencies_generator"
+            }
+        },
+        {
+            "name": "pm",
+            "description": "Forward a command to the package manager",
+            "subcommands": [
+                {
+                    "name": "prune",
+                    "description": "Remove unnecessary packages"
+                },
+                {
+                    "name": "pack",
+                    "description": "Create a tarball of the package"
+                },
+                {
+                    "name": [
+                        "list",
+                        "ls"
+                    ],
+                    "description": "List installed packages",
+                    "args": {
+                        "name": "pattern",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "view",
+                        "info",
+                        "show"
+                    ],
+                    "description": "View package information from the registry",
+                    "args": {
+                        "name": "package",
+                        "debounce": true,
+                        "generatorName": "npm_registry_search"
+                    }
+                },
+                {
+                    "name": "publish",
+                    "description": "Publish package to registry"
+                },
+                {
+                    "name": [
+                        "owner",
+                        "author"
+                    ],
+                    "description": "Manage package owners"
+                },
+                { "name": "cache", "description": "Manage package cache" },
+                {
+                    "name": [
+                        "config",
+                        "c"
+                    ],
+                    "description": "Manage package manager configuration"
+                },
+                {
+                    "name": [
+                        "login",
+                        "adduser"
+                    ],
+                    "description": "Log in to a registry"
+                },
+                { "name": "logout", "description": "Log out from a registry" },
+                {
+                    "name": "whoami",
+                    "description": "Show the current logged in user"
+                },
+                {
+                    "name": "token",
+                    "description": "Manage authentication tokens"
+                },
+                { "name": "audit", "description": "Run a security audit" },
+                {
+                    "name": "dist-tag",
+                    "description": "Manage distribution tags"
+                },
+                {
+                    "name": "deprecate",
+                    "description": "Deprecate a package version"
+                },
+                {
+                    "name": "search",
+                    "description": "Search for packages in the registry"
+                },
+                {
+                    "name": [
+                        "rebuild",
+                        "rb"
+                    ],
+                    "description": "Rebuild native modules"
+                },
+                {
+                    "name": "fund",
+                    "description": "Show funding information for installed packages"
+                },
+                { "name": "ping", "description": "Ping the registry" }
+            ]
+        },
+        {
+            "name": "upgrade",
+            "description": "Update vp itself to the latest version",
+            "args": {
+                "name": "version",
+                "isOptional": true
+            },
+            "options": [
+                {
+                    "name": "--tag",
+                    "description": "npm dist-tag to install (default: \"latest\")",
+                    "args": { "name": "tag" }
+                },
+                {
+                    "name": "--check",
+                    "description": "Check for updates without installing"
+                },
+                {
+                    "name": "--rollback",
+                    "description": "Revert to the previously active version"
+                },
+                {
+                    "name": "--force",
+                    "description": "Force reinstall even if already on the target version"
+                },
+                { "name": "--silent", "description": "Suppress output" },
+                {
+                    "name": "--registry",
+                    "description": "Custom npm registry URL",
+                    "args": { "name": "registry" }
+                }
+            ]
+        },
+        {
+            "name": "implode",
+            "description": "Remove vp and all related data",
+            "options": [
+                {
+                    "name": [
+                        "-y",
+                        "--yes"
+                    ],
+                    "description": "Skip confirmation prompt"
+                }
+            ]
+        }
+    ]
+}

@@ -69,6 +69,7 @@ mod tmux;
 mod tmuxinator;
 mod tsh;
 mod uv;
+mod vp;
 
 /// Used for gcloud and gsutil completions.
 mod gcloud;
@@ -150,6 +151,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::set_variable_generator(),
         powershell::remove_variable_generator(),
         uv::generator(),
+        vp::generator(),
         gcloud::gcloud_generators(),
         gcloud::gsutil_generators(),
     ];
