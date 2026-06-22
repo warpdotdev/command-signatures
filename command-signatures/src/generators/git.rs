@@ -539,8 +539,23 @@ fn tags_command() -> CommandBuilder {
     CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-creatordate")
 }
 
+fn refs_command() -> CommandBuilder {
+    CommandBuilder::single_command(
+        r#"git --no-optional-locks for-each-ref --format="%(refname)" --sort="refname" "refs/**""#,
+    )
+}
+
 pub fn local_branches_generator() -> Generator {
     Generator::script(local_branches_command(), post_process_branches)
+}
+
+fn post_process_refs(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .unique()
+        .filter(|line| !line.is_empty())
+        .map(|line| Suggestion::with_description(line.trim(), "Ref").with_icon(IconType::GitBranch))
+        .collect_ordered_results()
 }
 
 fn post_process_tags(output: &str) -> GeneratorResults {
@@ -806,6 +821,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 post_process_git_for_each_ref,
             ),
         )
+        .add_generator("refs", Generator::script(refs_command(), post_process_refs))
         .add_generator("local_branches", local_branches_generator())
         .add_generator(
             "remotes",
@@ -961,7 +977,8 @@ mod tests {
     use crate::generators::git::{
         detect_refspec_prefix, files_for_staging_command, post_process_branches,
         post_process_files_for_staging, post_process_push_refspec_branches,
-        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
+        post_process_push_refspec_tags, post_process_refs, post_process_tags,
+        post_process_tracked_files,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Shell, Suggestion,
@@ -1193,6 +1210,45 @@ mod tests {
     fn test_post_process_tags_filters_empty_lines() {
         let command_output = "v1.0.0\n\nv2.0.0\n";
         assert_eq!(post_process_tags(command_output).suggestions.len(), 2);
+    }
+
+    #[test]
+    fn test_post_process_refs() {
+        let command_output =
+            "refs/heads/main\nrefs/remotes/origin/main\n\nrefs/tags/v1.0.0\nrefs/heads/main\n";
+
+        assert_eq!(
+            post_process_refs(command_output),
+            GeneratorResults {
+                suggestions: vec![
+                    Suggestion {
+                        exact_string: "refs/heads/main".to_owned(),
+                        display_name: None,
+                        description: Some("Ref".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "refs/remotes/origin/main".to_owned(),
+                        display_name: None,
+                        description: Some("Ref".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                    Suggestion {
+                        exact_string: "refs/tags/v1.0.0".to_owned(),
+                        display_name: None,
+                        description: Some("Ref".to_owned()),
+                        priority: Priority::Default,
+                        icon: Some(IconType::GitBranch),
+                        is_hidden: false,
+                    },
+                ],
+                is_ordered: true,
+            }
+        );
     }
 
     #[test]
