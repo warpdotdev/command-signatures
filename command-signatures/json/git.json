@@ -6603,6 +6603,91 @@
             }
         },
         {
+            "name": "update-ref",
+            "description": "Update the object name stored in a ref safely",
+            "options": [
+                {
+                    "name": "-m",
+                    "description": "Record the reason for the update in the ref log",
+                    "args": {
+                        "name": "reason"
+                    }
+                },
+                {
+                    "name": "-d",
+                    "description": "Delete the named ref after verifying the old value"
+                },
+                {
+                    "name": "--no-deref",
+                    "description": "Update the ref itself instead of the one it points to"
+                },
+                {
+                    "name": "--deref",
+                    "description": "Follow symbolic refs before updating"
+                },
+                {
+                    "name": "-z",
+                    "description": "Read NUL-terminated arguments from stdin"
+                },
+                {
+                    "name": [
+                        "--stdin",
+                        "--no-stdin"
+                    ],
+                    "description": "Read updates from stdin"
+                },
+                {
+                    "name": [
+                        "--create-reflog",
+                        "--no-create-reflog"
+                    ],
+                    "description": "Create a reflog for the ref"
+                },
+                {
+                    "name": [
+                        "-0",
+                        "--batch-updates",
+                        "--no-batch-updates"
+                    ],
+                    "description": "Batch reference updates"
+                }
+            ],
+            "args": [
+                {
+                    "name": "ref",
+                    "description": "Reference to update",
+                    "generatorName": "refs",
+                    "suggestions": [
+                        "HEAD"
+                    ]
+                },
+                {
+                    "name": "new-value",
+                    "description": "New object name or reference",
+                    "isOptional": true,
+                    "generatorName": [
+                        "refs",
+                        "commits"
+                    ],
+                    "suggestions": [
+                        "HEAD"
+                    ]
+                },
+                {
+                    "name": "old-value",
+                    "description": "Expected old object name or reference",
+                    "isOptional": true,
+                    "generatorName": [
+                        "refs",
+                        "commits"
+                    ],
+                    "suggestions": [
+                        "HEAD"
+                    ]
+                }
+            ]
+        },
+        {
             "name": "branch",
             "description": "List, create, or delete branches",
             "options": [
