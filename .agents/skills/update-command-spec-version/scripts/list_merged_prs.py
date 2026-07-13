@@ -24,8 +24,7 @@ def _resolve_repo_dir():
     """Infer the command-signatures repo root from this script's own location.
 
     These scripts live inside the command-signatures repo, so the enclosing
-    git worktree is always the right checkout — no fixed ~/command-signatures
-    assumption.
+    git worktree is always the right checkout.
     """
     script_dir = os.path.dirname(os.path.abspath(__file__))
     result = subprocess.run(

@@ -1,14 +1,12 @@
 #!/bin/bash
 # Shared repo-path resolution for the update-command-spec-version scripts.
 #
-# Rather than assuming fixed ~/warp and ~/command-signatures locations, both
-# repos are resolved dynamically:
 #   CMD_SIGS_DIR - the command-signatures repo, inferred from this script's own
 #                  location (these scripts live inside that repo), so it always
 #                  points at the checkout the skill ships from.
 #   WARP_DIR     - the warp repo, taken from the $WARP_DIR environment variable
-#                  when set; otherwise assumed to be a sibling of the
-#                  command-signatures repo (same parent directory, named "warp").
+#                  when set; otherwise a sibling of the command-signatures repo
+#                  (same parent directory, named "warp").
 
 # Directory this file lives in (resolved through symlinks).
 _COMMON_SH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
