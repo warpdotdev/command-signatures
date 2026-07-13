@@ -6,9 +6,11 @@ if [ $# -ne 2 ]; then
     exit 1
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
+
 NEW_HASH="$1"
 PR_BODY_FILE="$2"
-WARP_DIR="${HOME}/warp"
 SHORT_HASH="${NEW_HASH:0:8}"
 BRANCH_NAME="completions-bot/update-command-signatures-${SHORT_HASH}"
 PR_TITLE="[Completions] Bump command-signatures to ${SHORT_HASH}"

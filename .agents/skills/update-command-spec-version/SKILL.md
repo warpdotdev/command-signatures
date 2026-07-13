@@ -17,6 +17,18 @@ All scripts live in this skill's `scripts/` directory.
 - Python 3 (for `list_merged_prs.py`)
 - Rust toolchain with `cargo` (for updating `Cargo.lock`)
 
+## Repo locations
+
+The scripts resolve both repos dynamically (see `scripts/common.sh`) instead of
+assuming fixed `~/warp` / `~/command-signatures` paths:
+
+- **command-signatures** is inferred from the script location — these scripts
+  live inside the repo, so the enclosing git worktree is always used.
+- **warp** is taken from the `WARP_DIR` environment variable when set; otherwise
+  it is assumed to be a sibling of the command-signatures repo (same parent
+  directory, named `warp`). Export `WARP_DIR=/path/to/warp` if your checkout
+  lives elsewhere.
+
 ## Step-by-step procedure
 
 Run the scripts in order. The skill directory is wherever this SKILL.md lives; reference scripts relative to it.
@@ -27,7 +39,9 @@ Run the scripts in order. The skill directory is wherever this SKILL.md lives; r
 bash <skill-dir>/scripts/ensure_repos.sh
 ```
 
-This clones or fetches both `~/warp` and `~/command-signatures`.
+This fetches the command-signatures repo the scripts live in, and fetches (or
+clones, if missing) the warp repo resolved from `$WARP_DIR` or the sibling
+directory. See **Repo locations** above.
 
 ### 2. Get the current and latest hashes
 

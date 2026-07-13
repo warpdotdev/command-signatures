@@ -1,9 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-CMD_SIGS_DIR="${HOME}/command-signatures"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
 
-# After ensure_repos.sh has pulled, origin/main is up to date.
+# After ensure_repos.sh has fetched, origin/main is up to date.
 HASH=$(git -C "${CMD_SIGS_DIR}" rev-parse origin/main)
 
 if [ -z "${HASH}" ]; then

@@ -17,8 +17,32 @@ import subprocess
 import sys
 
 
-REPO_DIR = os.path.expanduser("~/command-signatures")
 GH_REPO = "warpdotdev/command-signatures"
+
+
+def _resolve_repo_dir():
+    """Infer the command-signatures repo root from this script's own location.
+
+    These scripts live inside the command-signatures repo, so the enclosing
+    git worktree is always the right checkout — no fixed ~/command-signatures
+    assumption.
+    """
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    result = subprocess.run(
+        ["git", "-C", script_dir, "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        print(
+            f"Error resolving command-signatures repo dir:\n{result.stderr}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+    return result.stdout.strip()
+
+
+REPO_DIR = _resolve_repo_dir()
 
 
 def run(cmd):

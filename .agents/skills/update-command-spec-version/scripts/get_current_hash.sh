@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-WARP_DIR="${HOME}/warp"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
 
 # Read Cargo.toml from origin/master so we don't depend on local checkout state.
 HASH=$(git -C "${WARP_DIR}" show origin/master:Cargo.toml \

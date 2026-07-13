@@ -6,8 +6,10 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/common.sh"
+
 NEW_HASH="$1"
-WARP_DIR="${HOME}/warp"
 CARGO_TOML="${WARP_DIR}/Cargo.toml"
 BRANCH_NAME="completions-bot/update-command-signatures-${NEW_HASH:0:8}"
 
