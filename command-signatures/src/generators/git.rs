@@ -434,18 +434,19 @@ pub fn filter_messages(out: &str) -> &str {
     }
 }
 
-fn post_process_tracked_files(output: &str) -> GeneratorResults {
+/// Parses `git diff --name-only -z` output: bare NUL-separated pathnames, one
+/// per changed file, with no status prefix or quoting.
+fn post_process_diff_name_only(output: &str) -> GeneratorResults {
     let output = filter_messages(output);
     if output.starts_with("fatal:") {
         return GeneratorResults::default();
     }
 
     output
-        .lines()
-        // The first non-whitespace string is just a character indicating the type of indexed file.
-        .filter_map(|file| file.split_whitespace().nth(1))
-        .map(|file| {
-            Suggestion::with_description(file, "Changed file")
+        .split('\0')
+        .filter(|path| !path.is_empty())
+        .map(|path| {
+            Suggestion::with_description(path, "Changed file")
                 .with_priority(Priority::Global(Importance::More(Order(100))))
                 .with_icon(IconType::File)
         })
@@ -653,6 +654,9 @@ fn post_process_push_refspec_tags(out: &str) -> GeneratorResults {
 /// pathspec itself (`ls-files ... --directory -- 'some/nested/'` prints just
 /// `some/nested/`), recreating the very stall this fixes. Without it git prints the
 /// full nested paths, and the walk stays bounded by the typed subtree.
+///
+/// `-z` makes the paths NUL-separated and raw: without it, `core.quotePath` C-quotes
+/// filenames containing non-ASCII or special characters, corrupting the suggestion.
 fn files_for_staging_command(
     tokens: &[&str],
     trailing_whitespace: bool,
@@ -669,7 +673,7 @@ fn files_for_staging_command(
     // correct and cheap.
     let Some(dir_end) = current_token.rfind('/') else {
         return CommandBuilder::single_command(
-            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory",
+            "git --no-optional-locks ls-files -z --exclude-standard --others --modified --directory --no-empty-directory",
         );
     };
     let dir_prefix = &current_token[..=dir_end];
@@ -677,14 +681,13 @@ fn files_for_staging_command(
     // Escape single quotes for safe embedding in the single-quoted pathspec.
     let escaped_prefix = dir_prefix.replace('\'', "'\\''");
     CommandBuilder::single_command(format!(
-        "git --no-optional-locks ls-files --exclude-standard --others --modified -- '{escaped_prefix}'"
+        "git --no-optional-locks ls-files -z --exclude-standard --others --modified -- '{escaped_prefix}'"
     ))
 }
 
-/// Post-processes `ls-files` output for `files_for_staging`: clean one-per-line paths
-/// (untracked directories carry a trailing slash), so unlike
-/// `post_process_tracked_files` there is no status prefix to strip — stripping here
-/// would corrupt the filenames.
+/// Post-processes `ls-files -z` output for `files_for_staging`: raw NUL-separated
+/// paths (untracked directories carry a trailing slash) with no status prefix and no
+/// quoting, so each record passes through as-is.
 fn post_process_files_for_staging(output: &str) -> GeneratorResults {
     let output = filter_messages(output);
     if output.starts_with("fatal:") {
@@ -692,8 +695,8 @@ fn post_process_files_for_staging(output: &str) -> GeneratorResults {
     }
 
     output
-        .lines()
-        .filter(|line| !line.is_empty())
+        .split('\0')
+        .filter(|path| !path.is_empty())
         .map(|file| {
             Suggestion::with_description(file, "Changed file")
                 .with_priority(Priority::Global(Importance::More(Order(100))))
@@ -871,12 +874,16 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::command_from_tokens(
                 |tokens, _, _| {
                     if tokens.contains(&"--staged") || tokens.contains(&"--cached") {
-                        CommandBuilder::pipe( CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/^M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --cached --diff-filter=AM --name-only -z",
+                        )
                     } else {
-                        CommandBuilder::pipe(CommandBuilder::single_command(r#"git --no-optional-locks status --short"#), CommandBuilder::single_command(r#"sed -ne '/M /p' -e '/A /p'"#))
+                        CommandBuilder::single_command(
+                            "git --no-optional-locks diff --diff-filter=AM --name-only -z",
+                        )
                     }
                 },
-                post_process_tracked_files,
+                post_process_diff_name_only,
             ),
         )
         .add_generator(
@@ -960,8 +967,8 @@ pub fn generator() -> CommandSignatureGenerators {
 mod tests {
     use crate::generators::git::{
         detect_refspec_prefix, files_for_staging_command, post_process_branches,
-        post_process_files_for_staging, post_process_push_refspec_branches,
-        post_process_push_refspec_tags, post_process_tags, post_process_tracked_files,
+        post_process_diff_name_only, post_process_files_for_staging,
+        post_process_push_refspec_branches, post_process_push_refspec_tags, post_process_tags,
     };
     use warp_completion_metadata::{
         GeneratorResults, IconType, Importance, Order, Priority, Shell, Suggestion,
@@ -1025,81 +1032,70 @@ mod tests {
         );
     }
 
+    fn changed_file(path: &str) -> Suggestion {
+        Suggestion {
+            exact_string: path.to_owned(),
+            display_name: None,
+            description: Some("Changed file".to_owned()),
+            priority: Priority::Global(Importance::More(Order(100))),
+            icon: Some(IconType::File),
+            is_hidden: false,
+        }
+    }
+
+    /// NUL-separated paths, including one with spaces, each become a suggestion.
     #[test]
-    fn test_post_process_tracked_files() {
-        let command_output = r"
-         M app/src/features.rs
-        M  app/src/launch_config_palette.rs
-         M app/src/workspace/mod.rs";
+    fn test_post_process_diff_name_only() {
+        let command_output = "app/src/features.rs\0app/src/new.rs\0dir with space/some file.rs\0";
 
         assert_eq!(
-            post_process_tracked_files(command_output),
+            post_process_diff_name_only(command_output),
             GeneratorResults {
                 suggestions: vec![
-                    Suggestion {
-                        exact_string: "app/src/features.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "app/src/launch_config_palette.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "app/src/workspace/mod.rs".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
+                    changed_file("app/src/features.rs"),
+                    changed_file("app/src/new.rs"),
+                    changed_file("dir with space/some file.rs"),
                 ],
                 is_ordered: false,
             }
         );
     }
 
-    // `ls-files` output is one clean path per line — no status prefix to strip. Untracked
-    // directories arrive collapsed with a trailing slash and pass through unchanged.
+    /// Empty output (no changed files) yields no suggestions.
+    #[test]
+    fn test_post_process_diff_name_only_empty() {
+        assert_eq!(
+            post_process_diff_name_only(""),
+            GeneratorResults {
+                suggestions: vec![],
+                is_ordered: false,
+            }
+        );
+    }
+
+    /// Fatal errors short-circuit to the default (empty, ordered) result.
+    #[test]
+    fn test_post_process_diff_name_only_fatal_error() {
+        assert_eq!(
+            post_process_diff_name_only("fatal: not a git repository\n"),
+            GeneratorResults::default()
+        );
+    }
+
+    // `ls-files -z` output is raw NUL-separated paths — no status prefix and no quoting,
+    // so spaces survive intact. Untracked directories arrive collapsed with a trailing
+    // slash and pass through unchanged.
     #[test]
     fn test_post_process_files_for_staging() {
-        let command_output = "big/\nsome/nested/folder1/file1.txt\ntracked.txt";
+        let command_output = "big/\0some/nested/folder1/file1.txt\0dir with space/some file.rs\0";
 
         assert_eq!(
             post_process_files_for_staging(command_output),
             GeneratorResults {
                 suggestions: vec![
-                    Suggestion {
-                        exact_string: "big/".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "some/nested/folder1/file1.txt".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
-                    Suggestion {
-                        exact_string: "tracked.txt".to_owned(),
-                        display_name: None,
-                        description: Some("Changed file".to_owned()),
-                        priority: Priority::Global(Importance::More(Order(100))),
-                        icon: Some(IconType::File),
-                        is_hidden: false,
-                    },
+                    changed_file("big/"),
+                    changed_file("some/nested/folder1/file1.txt"),
+                    changed_file("dir with space/some file.rs"),
                 ],
                 is_ordered: false,
             }
@@ -1114,7 +1110,7 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add"], true, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
+            "git --no-optional-locks ls-files -z --exclude-standard --others --modified --directory --no-empty-directory"
         );
     }
 
@@ -1125,7 +1121,7 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add", "fil"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks ls-files --exclude-standard --others --modified --directory --no-empty-directory"
+            "git --no-optional-locks ls-files -z --exclude-standard --others --modified --directory --no-empty-directory"
         );
     }
 
@@ -1137,7 +1133,7 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add", "some/nested/folder1/"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/folder1/'"
+            "git --no-optional-locks ls-files -z --exclude-standard --others --modified -- 'some/nested/folder1/'"
         );
     }
 
@@ -1148,7 +1144,7 @@ mod tests {
         let cmd = files_for_staging_command(&["git", "add", "some/nested/fi"], false, &[]);
         assert_eq!(
             cmd.build(Shell::Posix),
-            "git --no-optional-locks ls-files --exclude-standard --others --modified -- 'some/nested/'"
+            "git --no-optional-locks ls-files -z --exclude-standard --others --modified -- 'some/nested/'"
         );
     }
 
