@@ -62,6 +62,7 @@ mod screen;
 mod sdk;
 mod ssh;
 mod systemctl;
+mod talosctl;
 mod tar;
 mod terraform;
 mod timedatectl;
@@ -133,6 +134,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         lsof::generator(),
         tmuxinator::generator(),
         systemctl::generator(),
+        talosctl::generator(),
         timedatectl::generator(),
         tmux::generator(),
         tsh::generator(),
