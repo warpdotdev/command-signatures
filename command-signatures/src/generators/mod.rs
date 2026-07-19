@@ -52,6 +52,7 @@ mod pacman;
 mod pass;
 mod phpunit_watcher;
 mod pip;
+mod pkill;
 mod powershell;
 mod pprof;
 mod pyenv;
@@ -111,6 +112,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         phpunit_watcher::generator(),
         pip::generator(),
         pip::pip3_generator(),
+        pkill::generator(),
         npm::pnpm_generators(),
         pprof::generator(),
         pyenv::generator(),
