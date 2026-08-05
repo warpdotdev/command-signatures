@@ -1,8 +1,8 @@
-use lazy_static::lazy_static;
-use regex::Regex;
 use warp_completion_metadata::{
     CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
 };
+
+use super::common;
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("kill")
@@ -28,16 +28,5 @@ pub fn generator() -> CommandSignatureGenerators {
                 },
             ),
         )
-        .add_generator(
-            "signal_name",
-            Generator::script(CommandBuilder::single_command("env kill -l"), |output| {
-                RE.find_iter(output)
-                    .map(|capture| Suggestion::new(capture.as_str()))
-                    .collect_unordered_results()
-            }),
-        )
-}
-
-lazy_static! {
-    static ref RE: Regex = Regex::new(r"(\w+)").unwrap();
+        .add_generator("signal_name", common::signal_names_generator())
 }

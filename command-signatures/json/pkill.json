@@ -1,0 +1,253 @@
+{
+    "name": "pkill",
+    "description": "Signal processes selected by name and other attributes",
+    "args": {
+        "name": "pattern",
+        "description": "Extended regular expression matched against the process name (or the full command line with -f)",
+        "generatorName": "process_name"
+    },
+    "options": [
+        {
+            "name": "--signal",
+            "description": "Signal to send instead of TERM, as a name or number (procps-ng)",
+            "args": {
+                "name": "sig",
+                "generatorName": "signal_name"
+            }
+        },
+        {
+            "name": [
+                "-f",
+                "--full"
+            ],
+            "description": "Match against the full command line instead of just the process name"
+        },
+        {
+            "name": [
+                "-x",
+                "--exact"
+            ],
+            "description": "Match only processes whose name exactly equals the pattern"
+        },
+        {
+            "name": [
+                "-i",
+                "--ignore-case"
+            ],
+            "description": "Match case insensitively"
+        },
+        {
+            "name": [
+                "-n",
+                "--newest"
+            ],
+            "description": "Select only the most recently started matching process"
+        },
+        {
+            "name": [
+                "-o",
+                "--oldest"
+            ],
+            "description": "Select only the least recently started matching process"
+        },
+        {
+            "name": [
+                "-g",
+                "--pgroup"
+            ],
+            "description": "Match only processes in the listed process group IDs",
+            "args": {
+                "name": "PGID,..."
+            }
+        },
+        {
+            "name": [
+                "-G",
+                "--group"
+            ],
+            "description": "Match only processes whose real group ID is listed",
+            "args": {
+                "name": "GID,..."
+            }
+        },
+        {
+            "name": [
+                "-P",
+                "--parent"
+            ],
+            "description": "Match only child processes of the listed parents",
+            "args": {
+                "name": "PPID,..."
+            }
+        },
+        {
+            "name": [
+                "-s",
+                "--session"
+            ],
+            "description": "Match only processes in the listed session IDs",
+            "args": {
+                "name": "SID,..."
+            }
+        },
+        {
+            "name": [
+                "-t",
+                "--terminal"
+            ],
+            "description": "Match only processes attached to the listed controlling terminals",
+            "args": {
+                "name": "tty,..."
+            }
+        },
+        {
+            "name": [
+                "-u",
+                "--euid"
+            ],
+            "description": "Match only processes whose effective user ID is listed",
+            "args": {
+                "name": "user,...",
+                "generatorName": "user_name"
+            }
+        },
+        {
+            "name": [
+                "-U",
+                "--uid"
+            ],
+            "description": "Match only processes whose real user ID is listed",
+            "args": {
+                "name": "user,...",
+                "generatorName": "user_name"
+            }
+        },
+        {
+            "name": [
+                "-F",
+                "--pidfile"
+            ],
+            "description": "Restrict matches to the PIDs read from the given file",
+            "args": {
+                "name": "file",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": [
+                "-L",
+                "--logpidfile"
+            ],
+            "description": "Fail if the pidfile given with -F is not locked"
+        },
+        {
+            "name": [
+                "-c",
+                "--count"
+            ],
+            "description": "Print the number of matching processes (procps-ng)"
+        },
+        {
+            "name": [
+                "-e",
+                "--echo"
+            ],
+            "description": "Display the name and PID of each process signalled (procps-ng)"
+        },
+        {
+            "name": [
+                "-q",
+                "--queue"
+            ],
+            "description": "Integer value sent with the signal via sigqueue (procps-ng)",
+            "args": {
+                "name": "value"
+            }
+        },
+        {
+            "name": [
+                "-H",
+                "--require-handler"
+            ],
+            "description": "Match only processes with a handler installed for the signal (procps-ng)"
+        },
+        {
+            "name": [
+                "-O",
+                "--older"
+            ],
+            "description": "Match only processes started more than the given number of seconds ago (procps-ng)",
+            "args": {
+                "name": "seconds"
+            }
+        },
+        {
+            "name": [
+                "-r",
+                "--runstates"
+            ],
+            "description": "Match only processes in the given run states, e.g. D,S,Z (procps-ng)",
+            "args": {
+                "name": "D,R,S,Z,..."
+            }
+        },
+        {
+            "name": [
+                "-A",
+                "--ignore-ancestors"
+            ],
+            "description": "Exclude this process' ancestors from the matches (procps-ng)"
+        },
+        {
+            "name": "--cgroup",
+            "description": "Match only processes in the listed cgroup v2 names (procps-ng)",
+            "args": {
+                "name": "grp,..."
+            }
+        },
+        {
+            "name": "--ns",
+            "description": "Match only processes in the same namespaces as the given PID (procps-ng)",
+            "args": {
+                "name": "PID"
+            }
+        },
+        {
+            "name": "--nslist",
+            "description": "Namespaces considered by --ns: ipc, mnt, net, pid, user, uts (procps-ng)",
+            "args": {
+                "name": "ns,..."
+            }
+        },
+        {
+            "name": "-a",
+            "description": "Include this process' ancestors in the matches (BSD/macOS)"
+        },
+        {
+            "name": "-I",
+            "description": "Request confirmation before signalling each process (BSD/macOS)"
+        },
+        {
+            "name": "-S",
+            "description": "Search for matches among system processes (BSD/macOS)"
+        },
+        {
+            "name": "-v",
+            "description": "Select processes that do not match the pattern (BSD/macOS)"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Display help and exit"
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Display version information and exit"
+        }
+    ]
+}

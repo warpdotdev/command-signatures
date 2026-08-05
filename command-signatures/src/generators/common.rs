@@ -1,3 +1,5 @@
+use lazy_static::lazy_static;
+use regex::Regex;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use warp_completion_metadata::{
@@ -160,6 +162,62 @@ pub fn systemd_user_units_generator() -> Generator {
     Generator::script(systemd_units_command(true), systemd_units)
 }
 
+/// Parses `ps -o comm` output into suggestions naming the running executables.
+///
+/// macOS reports absolute executable paths where Linux reports bare names, so each
+/// line is reduced to its basename, which is what process-name matching expects.
+/// A header row is dropped for the `ps` implementations that print one even when
+/// the `comm=` format asks for none.
+pub fn process_names(output: &str) -> GeneratorResults {
+    let mut seen = HashSet::new();
+    output
+        .lines()
+        .filter_map(|line| {
+            let path = line.trim();
+            if path.is_empty() || path == "COMM" || path == "COMMAND" {
+                return None;
+            }
+            let name = path.rsplit_once('/').map_or(path, |(_, name)| name);
+            if name.is_empty() || !seen.insert(name.to_string()) {
+                return None;
+            }
+            Some(if name == path {
+                Suggestion::new(name)
+            } else {
+                Suggestion::with_description(name, path)
+            })
+        })
+        .collect_unordered_results()
+}
+
+/// Returns a cross-platform generator that lists the names of running processes.
+///
+/// Shared by the commands that select processes by name, such as `pkill` and `killall`.
+pub fn process_names_generator() -> Generator {
+    Generator::script(
+        CommandBuilder::pipe(
+            CommandBuilder::single_command("ps -A -o comm="),
+            CommandBuilder::single_command("sort -u"),
+        ),
+        process_names,
+    )
+}
+
+/// Parses `kill -l` output into signal-name suggestions.
+pub fn signal_names(output: &str) -> GeneratorResults {
+    SIGNAL_NAME
+        .find_iter(output)
+        .map(|capture| Suggestion::new(capture.as_str()))
+        .collect_unordered_results()
+}
+
+/// Returns a generator that lists the signal names accepted by the shell's `kill`.
+///
+/// Shared by the commands that take a signal, such as `kill` and `pkill`.
+pub fn signal_names_generator() -> Generator {
+    Generator::script(CommandBuilder::single_command("env kill -l"), signal_names)
+}
+
 /// Returns a cross-platform generator that lists local user names.
 ///
 /// Uses `getent passwd` on Linux, `dscl` on macOS, and falls back to `/etc/passwd`.
@@ -179,4 +237,8 @@ pub fn users_generator() -> Generator {
                 .collect_unordered_results()
         },
     )
+}
+
+lazy_static! {
+    static ref SIGNAL_NAME: Regex = Regex::new(r"(\w+)").unwrap();
 }
