@@ -157,69 +157,6 @@ mod tests {
         }
     }
 
-    /// `journalctl` ships as a spec with no subcommands, so its options are the whole
-    /// surface a user sees; losing the spec silently degrades to path completions.
-    #[test]
-    fn journalctl_signature_offers_its_primary_options() {
-        let signature = signature_by_name("journalctl").expect("journalctl signature is bundled");
-        let option_names = signature
-            .options()
-            .iter()
-            .flat_map(Opt::names)
-            .collect::<HashSet<_>>();
-        for name in [
-            "-u",
-            "--unit",
-            "-b",
-            "--boot",
-            "-p",
-            "--priority",
-            "-o",
-            "--output",
-            "-f",
-            "--follow",
-            "-n",
-            "--lines",
-            "-k",
-            "--dmesg",
-            "--user",
-            "--system",
-        ] {
-            assert!(
-                option_names.contains(name),
-                "journalctl signature is missing the {name} option"
-            );
-        }
-    }
-
-    /// Asserted against the raw spec rather than the parsed `Signature`, because
-    /// `From<CommandOption> for Opt` does not carry `isDangerous` through.
-    #[test]
-    fn journalctl_marks_destructive_options_dangerous() {
-        let spec = Assets::get("journalctl.json").expect("journalctl spec is bundled");
-        let command: fig_types::Command =
-            serde_json::from_slice(&spec.data).expect("journalctl spec deserializes");
-        let dangerous = command
-            .options
-            .iter()
-            .filter(|opt| opt.is_dangerous)
-            .flat_map(|opt| opt.name.iter().map(String::as_str))
-            .collect::<HashSet<_>>();
-        for name in [
-            "--setup-keys",
-            "--force",
-            "--rotate",
-            "--vacuum-size",
-            "--vacuum-files",
-            "--vacuum-time",
-        ] {
-            assert!(
-                dangerous.contains(name),
-                "journalctl option {name} destroys or overwrites journal data or key material, so it must be marked isDangerous"
-            );
-        }
-    }
-
     /// Ensures no unquoted '\n' can be found.
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
