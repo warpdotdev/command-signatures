@@ -32,6 +32,9 @@ mod go;
 mod gt;
 mod heroku;
 mod ip;
+mod journalctl;
+#[cfg(test)]
+mod journalctl_tests;
 mod kill;
 mod killall;
 mod kubecolor;
@@ -98,6 +101,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         go::generator(),
         heroku::generator(),
         ip::generator(),
+        journalctl::generator(),
         make::generator(),
         man::generator(),
         ng::generator(),

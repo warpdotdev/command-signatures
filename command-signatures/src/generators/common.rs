@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use warp_completion_metadata::{
     CommandBuilder, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
 };
@@ -114,6 +114,50 @@ pub fn dependencies_generator() -> Generator {
             suggestions.into_iter().collect_unordered_results()
         },
     )
+}
+
+/// Builds the command listing systemd unit names for the system or user manager.
+///
+/// Loaded units and installed unit files are merged so units that are not currently
+/// in memory are still offered; `awk` keeps the first line seen for each unit name.
+fn systemd_units_command(user_scope: bool) -> CommandBuilder {
+    let scope = if user_scope { " --user" } else { "" };
+    CommandBuilder::pipe(
+        CommandBuilder::single_command(format!(
+            "{{ systemctl{scope} list-units --full --no-legend --no-pager --plain --all; systemctl{scope} list-unit-files --full --no-legend --no-pager --plain --all; }}"
+        )),
+        CommandBuilder::single_command("awk '!seen[$1]++ { print }'"),
+    )
+}
+
+/// Parses `systemctl list-units` / `list-unit-files` output into unit-name suggestions,
+/// described by the state column when one is present.
+pub fn systemd_units(output: &str) -> GeneratorResults {
+    let mut seen = HashSet::new();
+    output
+        .lines()
+        .filter_map(|line| {
+            let mut parts = line.split_whitespace();
+            let name = parts.next()?;
+            if name.is_empty() || !seen.insert(name.to_string()) {
+                return None;
+            }
+            match parts.next() {
+                Some(state) => Some(Suggestion::with_description(name, state)),
+                None => Some(Suggestion::new(name)),
+            }
+        })
+        .collect_unordered_results()
+}
+
+/// Returns a generator that lists units known to the system service manager.
+pub fn systemd_units_generator() -> Generator {
+    Generator::script(systemd_units_command(false), systemd_units)
+}
+
+/// Returns a generator that lists units known to the calling user's service manager.
+pub fn systemd_user_units_generator() -> Generator {
+    Generator::script(systemd_units_command(true), systemd_units)
 }
 
 /// Returns a cross-platform generator that lists local user names.

@@ -1,0 +1,590 @@
+{
+    "name": "journalctl",
+    "description": "Query the journal",
+    "args": {
+        "name": "MATCHES",
+        "description": "Journal field match (format: \"FIELD=VALUE\"); \"+\" combines two match groups with OR",
+        "isOptional": true,
+        "isVariadic": true,
+        "generatorName": "journal_field_matches",
+        "suggestions": [
+            {
+                "name": "+",
+                "description": "Combine the surrounding matches with a logical OR"
+            }
+        ]
+    },
+    "options": [
+        {
+            "name": "--system",
+            "description": "Show the system journal",
+            "exclusiveOn": ["--user"]
+        },
+        {
+            "name": "--user",
+            "description": "Show the user journal for the current user",
+            "exclusiveOn": ["--system"]
+        },
+        {
+            "name": [
+                "-M",
+                "--machine"
+            ],
+            "description": "Operate on local container",
+            "args": {
+                "name": "CONTAINER"
+            }
+        },
+        {
+            "name": [
+                "-m",
+                "--merge"
+            ],
+            "description": "Show entries from all available journals"
+        },
+        {
+            "name": [
+                "-D",
+                "--directory"
+            ],
+            "description": "Show journal files from directory",
+            "args": {
+                "name": "PATH",
+                "template": ["folders"]
+            }
+        },
+        {
+            "name": "--file",
+            "description": "Show journal file",
+            "args": {
+                "name": "PATH",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": "--root",
+            "description": "Operate on an alternate filesystem root",
+            "args": {
+                "name": "PATH",
+                "template": ["folders"]
+            }
+        },
+        {
+            "name": "--image",
+            "description": "Operate on disk image as filesystem root",
+            "args": {
+                "name": "PATH",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": "--image-policy",
+            "description": "Specify disk image dissection policy",
+            "args": {
+                "name": "POLICY"
+            }
+        },
+        {
+            "name": "--namespace",
+            "description": "Show journal data from specified journal namespace",
+            "args": {
+                "name": "NAMESPACE"
+            }
+        },
+        {
+            "name": [
+                "-S",
+                "--since"
+            ],
+            "description": "Show entries not older than the specified date",
+            "args": {
+                "name": "DATE",
+                "description": "Timestamp (format: \"YYYY-MM-DD HH:MM:SS\"), a relative time such as \"-1h\", or a keyword",
+                "suggestions": [
+                    "yesterday",
+                    "today",
+                    "tomorrow",
+                    "now"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-U",
+                "--until"
+            ],
+            "description": "Show entries not newer than the specified date",
+            "args": {
+                "name": "DATE",
+                "description": "Timestamp (format: \"YYYY-MM-DD HH:MM:SS\"), a relative time such as \"-1h\", or a keyword",
+                "suggestions": [
+                    "yesterday",
+                    "today",
+                    "tomorrow",
+                    "now"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-c",
+                "--cursor"
+            ],
+            "description": "Show entries starting at the specified cursor",
+            "args": {
+                "name": "CURSOR"
+            }
+        },
+        {
+            "name": "--after-cursor",
+            "description": "Show entries after the specified cursor",
+            "args": {
+                "name": "CURSOR"
+            }
+        },
+        {
+            "name": "--cursor-file",
+            "description": "Show entries after cursor in FILE and update FILE",
+            "args": {
+                "name": "FILE",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": [
+                "-b",
+                "--boot"
+            ],
+            "description": "Show current boot or the specified boot",
+            "args": {
+                "name": "ID",
+                "description": "Boot offset (0 is the current boot, -1 the previous one) or a 128-bit boot ID",
+                "isOptional": true,
+                "generatorName": "boots"
+            }
+        },
+        {
+            "name": [
+                "-u",
+                "--unit"
+            ],
+            "description": "Show logs from the specified unit",
+            "isRepeatable": true,
+            "args": {
+                "name": "UNIT",
+                "generatorName": "units"
+            }
+        },
+        {
+            "name": "--user-unit",
+            "description": "Show logs from the specified user unit",
+            "isRepeatable": true,
+            "args": {
+                "name": "UNIT",
+                "generatorName": "user_units"
+            }
+        },
+        {
+            "name": [
+                "-t",
+                "--identifier"
+            ],
+            "description": "Show entries with the specified syslog identifier",
+            "isRepeatable": true,
+            "args": {
+                "name": "STRING",
+                "generatorName": "syslog_identifiers"
+            }
+        },
+        {
+            "name": [
+                "-p",
+                "--priority"
+            ],
+            "description": "Show entries with the specified priority",
+            "args": {
+                "name": "RANGE",
+                "description": "A single priority or a \"FROM..TO\" range, given by name or number",
+                "suggestions": [
+                    { "name": "emerg", "description": "0: system is unusable" },
+                    {
+                        "name": "alert",
+                        "description": "1: action must be taken immediately"
+                    },
+                    { "name": "crit", "description": "2: critical conditions" },
+                    { "name": "err", "description": "3: error conditions" },
+                    {
+                        "name": "warning",
+                        "description": "4: warning conditions"
+                    },
+                    {
+                        "name": "notice",
+                        "description": "5: normal but significant condition"
+                    },
+                    { "name": "info", "description": "6: informational" },
+                    {
+                        "name": "debug",
+                        "description": "7: debug-level messages"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "--facility",
+            "description": "Show entries with the specified facilities",
+            "args": {
+                "name": "FACILITY",
+                "description": "Comma-separated syslog facilities",
+                "suggestions": [
+                    { "name": "kern", "description": "Kernel messages" },
+                    { "name": "user", "description": "User-level messages" },
+                    { "name": "mail", "description": "Mail system" },
+                    { "name": "daemon", "description": "System daemons" },
+                    {
+                        "name": "auth",
+                        "description": "Security/authorization messages"
+                    },
+                    {
+                        "name": "syslog",
+                        "description": "Messages generated by syslogd"
+                    },
+                    { "name": "lpr", "description": "Line printer subsystem" },
+                    { "name": "news", "description": "Network news subsystem" },
+                    { "name": "uucp", "description": "UUCP subsystem" },
+                    { "name": "cron", "description": "Clock daemon" },
+                    {
+                        "name": "authpriv",
+                        "description": "Private security/authorization messages"
+                    },
+                    { "name": "ftp", "description": "FTP daemon" },
+                    { "name": "local0", "description": "Local use 0" },
+                    { "name": "local1", "description": "Local use 1" },
+                    { "name": "local2", "description": "Local use 2" },
+                    { "name": "local3", "description": "Local use 3" },
+                    { "name": "local4", "description": "Local use 4" },
+                    { "name": "local5", "description": "Local use 5" },
+                    { "name": "local6", "description": "Local use 6" },
+                    { "name": "local7", "description": "Local use 7" }
+                ]
+            }
+        },
+        {
+            "name": [
+                "-g",
+                "--grep"
+            ],
+            "description": "Show entries with MESSAGE matching PATTERN",
+            "args": {
+                "name": "PATTERN"
+            }
+        },
+        {
+            "name": "--case-sensitive",
+            "description": "Force case sensitive or insensitive matching",
+            "args": {
+                "name": "BOOL",
+                "isOptional": true,
+                "suggestions": [
+                    "yes",
+                    "no"
+                ]
+            }
+        },
+        {
+            "name": [
+                "-k",
+                "--dmesg"
+            ],
+            "description": "Show kernel message log from the current boot"
+        },
+        {
+            "name": [
+                "-o",
+                "--output"
+            ],
+            "description": "Change journal output mode",
+            "args": {
+                "name": "STRING",
+                "suggestions": [
+                    { "name": "short", "description": "Classic syslog format" },
+                    {
+                        "name": "short-full",
+                        "description": "Timestamps in the --since/--until format"
+                    },
+                    {
+                        "name": "short-iso",
+                        "description": "ISO 8601 wallclock timestamps"
+                    },
+                    {
+                        "name": "short-iso-precise",
+                        "description": "ISO 8601 timestamps with microseconds"
+                    },
+                    {
+                        "name": "short-precise",
+                        "description": "Classic format with microsecond timestamps"
+                    },
+                    {
+                        "name": "short-monotonic",
+                        "description": "Monotonic timestamps since boot"
+                    },
+                    {
+                        "name": "short-delta",
+                        "description": "Monotonic timestamps and the delta to the previous entry"
+                    },
+                    {
+                        "name": "short-unix",
+                        "description": "Seconds since the epoch"
+                    },
+                    {
+                        "name": "verbose",
+                        "description": "All fields with full structured data"
+                    },
+                    {
+                        "name": "export",
+                        "description": "Binary serialization suitable for transfer"
+                    },
+                    {
+                        "name": "json",
+                        "description": "One JSON object per entry"
+                    },
+                    {
+                        "name": "json-pretty",
+                        "description": "Multi-line JSON objects"
+                    },
+                    {
+                        "name": "json-sse",
+                        "description": "JSON wrapped for server-sent events"
+                    },
+                    {
+                        "name": "json-seq",
+                        "description": "JSON text sequences (RFC 7464)"
+                    },
+                    {
+                        "name": "cat",
+                        "description": "Message text only, without metadata"
+                    },
+                    {
+                        "name": "with-unit",
+                        "description": "Like short-full, prefixed with the unit"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "--output-fields",
+            "description": "Select fields to print in verbose/export/json modes",
+            "args": {
+                "name": "LIST",
+                "description": "Comma-separated journal field names",
+                "generatorName": "journal_fields"
+            }
+        },
+        {
+            "name": [
+                "-n",
+                "--lines"
+            ],
+            "description": "Number of journal entries to show",
+            "args": {
+                "name": "INTEGER",
+                "description": "Number of entries, \"all\", or \"+INTEGER\" to show entries from the start",
+                "isOptional": true
+            }
+        },
+        {
+            "name": [
+                "-r",
+                "--reverse"
+            ],
+            "description": "Show the newest entries first"
+        },
+        {
+            "name": "--show-cursor",
+            "description": "Print the cursor after all the entries"
+        },
+        {
+            "name": "--utc",
+            "description": "Express time in Coordinated Universal Time (UTC)"
+        },
+        {
+            "name": [
+                "-x",
+                "--catalog"
+            ],
+            "description": "Add message explanations where available"
+        },
+        {
+            "name": "--no-hostname",
+            "description": "Suppress output of hostname field"
+        },
+        {
+            "name": "--no-full",
+            "description": "Ellipsize fields"
+        },
+        {
+            "name": [
+                "-a",
+                "--all"
+            ],
+            "description": "Show all fields, including long and unprintable"
+        },
+        {
+            "name": [
+                "-f",
+                "--follow"
+            ],
+            "description": "Follow the journal"
+        },
+        {
+            "name": "--no-tail",
+            "description": "Show all lines, even in follow mode"
+        },
+        {
+            "name": "--truncate-newline",
+            "description": "Truncate entries by first newline character"
+        },
+        {
+            "name": [
+                "-q",
+                "--quiet"
+            ],
+            "description": "Do not show info messages and privilege warning"
+        },
+        {
+            "name": "--no-pager",
+            "description": "Do not pipe output into a pager"
+        },
+        {
+            "name": [
+                "-e",
+                "--pager-end"
+            ],
+            "description": "Immediately jump to the end in the pager"
+        },
+        {
+            "name": "--interval",
+            "description": "Time interval for changing the FSS sealing key",
+            "args": {
+                "name": "TIME"
+            }
+        },
+        {
+            "name": "--verify-key",
+            "description": "Specify FSS verification key",
+            "args": {
+                "name": "KEY"
+            }
+        },
+        {
+            "name": "--force",
+            "description": "Override of the FSS key pair with --setup-keys"
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Show this help text"
+        },
+        {
+            "name": "--version",
+            "description": "Show package version"
+        },
+        {
+            "name": [
+                "-N",
+                "--fields"
+            ],
+            "description": "List all field names currently used"
+        },
+        {
+            "name": [
+                "-F",
+                "--field"
+            ],
+            "description": "List all values that a specified field takes",
+            "args": {
+                "name": "FIELD",
+                "generatorName": "journal_fields"
+            }
+        },
+        {
+            "name": "--list-boots",
+            "description": "Show terse information about recorded boots"
+        },
+        {
+            "name": "--disk-usage",
+            "description": "Show total disk usage of all journal files"
+        },
+        {
+            "name": "--vacuum-size",
+            "description": "Reduce disk usage below specified size",
+            "isDangerous": true,
+            "args": {
+                "name": "BYTES",
+                "description": "Size with a K, M, G or T suffix (for example \"500M\")"
+            }
+        },
+        {
+            "name": "--vacuum-files",
+            "description": "Leave only the specified number of journal files",
+            "isDangerous": true,
+            "args": {
+                "name": "INT"
+            }
+        },
+        {
+            "name": "--vacuum-time",
+            "description": "Remove journal files older than specified time",
+            "isDangerous": true,
+            "args": {
+                "name": "TIME",
+                "description": "Time span with an s, m, h, days, months, weeks or years suffix (for example \"2weeks\")"
+            }
+        },
+        {
+            "name": "--verify",
+            "description": "Verify journal file consistency"
+        },
+        {
+            "name": "--sync",
+            "description": "Synchronize unwritten journal messages to disk"
+        },
+        {
+            "name": "--relinquish-var",
+            "description": "Stop logging to disk, log to temporary file system"
+        },
+        {
+            "name": "--smart-relinquish-var",
+            "description": "Similar, but NOP if log directory is on root mount"
+        },
+        {
+            "name": "--flush",
+            "description": "Flush all journal data from /run into /var"
+        },
+        {
+            "name": "--rotate",
+            "description": "Request immediate rotation of the journal files"
+        },
+        {
+            "name": "--header",
+            "description": "Show journal header information"
+        },
+        {
+            "name": "--list-catalog",
+            "description": "Show all message IDs in the catalog"
+        },
+        {
+            "name": "--dump-catalog",
+            "description": "Show entries in the message catalog"
+        },
+        {
+            "name": "--update-catalog",
+            "description": "Update the message catalog database"
+        },
+        {
+            "name": "--setup-keys",
+            "description": "Generate a new FSS key pair"
+        }
+    ]
+}

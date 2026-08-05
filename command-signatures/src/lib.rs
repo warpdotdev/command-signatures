@@ -157,6 +157,41 @@ mod tests {
         }
     }
 
+    /// `journalctl` ships as a spec with no subcommands, so its options are the whole
+    /// surface a user sees; losing the spec silently degrades to path completions.
+    #[test]
+    fn journalctl_signature_offers_its_primary_options() {
+        let signature = signature_by_name("journalctl").expect("journalctl signature is bundled");
+        let option_names = signature
+            .options()
+            .iter()
+            .flat_map(Opt::names)
+            .collect::<HashSet<_>>();
+        for name in [
+            "-u",
+            "--unit",
+            "-b",
+            "--boot",
+            "-p",
+            "--priority",
+            "-o",
+            "--output",
+            "-f",
+            "--follow",
+            "-n",
+            "--lines",
+            "-k",
+            "--dmesg",
+            "--user",
+            "--system",
+        ] {
+            assert!(
+                option_names.contains(name),
+                "journalctl signature is missing the {name} option"
+            );
+        }
+    }
+
     /// Ensures no unquoted '\n' can be found.
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
