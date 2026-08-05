@@ -4597,6 +4597,106 @@
             "skipGeneratorValidation": true
         },
         {
+            "name": "read-tree",
+            "description": "Read tree information into the index",
+            "options": [
+                {
+                    "name": "-m",
+                    "description": "Perform a merge, not just a read"
+                },
+                {
+                    "name": "--reset",
+                    "description": "Perform a merge and discard unmerged entries instead of failing"
+                },
+                {
+                    "name": "-u",
+                    "description": "Update the files in the working tree with the result of a successful merge"
+                },
+                {
+                    "name": "-i",
+                    "description": "Disable the working tree check when merging trees into a temporary index file"
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--dry-run"
+                    ],
+                    "description": "Check whether the command would error without updating the index or working tree"
+                },
+                {
+                    "name": "-v",
+                    "description": "Show the progress of checking files out"
+                },
+                {
+                    "name": "--trivial",
+                    "description": "Restrict three-way merges to cases that require no file-level merging"
+                },
+                {
+                    "name": "--aggressive",
+                    "description": "Resolve additional trivial three-way merge cases internally"
+                },
+                {
+                    "name": "--prefix",
+                    "description": "Read the named tree into the index under the specified directory prefix",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "prefix"
+                    }
+                },
+                {
+                    "name": "--index-output",
+                    "description": "Write the resulting index to the specified file instead of $GIT_INDEX_FILE",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--recurse-submodules",
+                    "description": "Update active submodules to the commits recorded in the superproject",
+                    "exclusiveOn": [
+                        "--no-recurse-submodules"
+                    ]
+                },
+                {
+                    "name": "--no-recurse-submodules",
+                    "description": "Do not update active submodules",
+                    "exclusiveOn": [
+                        "--recurse-submodules"
+                    ]
+                },
+                {
+                    "name": "--no-sparse-checkout",
+                    "description": "Disable sparse checkout support even if core.sparseCheckout is enabled"
+                },
+                {
+                    "name": "--empty",
+                    "description": "Empty the index instead of reading tree objects"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress feedback messages"
+                }
+            ],
+            "args": {
+                "name": "tree-ish",
+                "description": "Tree objects to read or merge",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": [
+                    "local_branches",
+                    "remote_branches",
+                    "refs_remote_branches",
+                    "tags"
+                ],
+                "skipGeneratorValidation": false
+            }
+        },
+        {
             "name": "log",
             "description": "Show commit logs",
             "options": [
