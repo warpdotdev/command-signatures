@@ -192,6 +192,34 @@ mod tests {
         }
     }
 
+    /// Asserted against the raw spec rather than the parsed `Signature`, because
+    /// `From<CommandOption> for Opt` does not carry `isDangerous` through.
+    #[test]
+    fn journalctl_marks_destructive_options_dangerous() {
+        let spec = Assets::get("journalctl.json").expect("journalctl spec is bundled");
+        let command: fig_types::Command =
+            serde_json::from_slice(&spec.data).expect("journalctl spec deserializes");
+        let dangerous = command
+            .options
+            .iter()
+            .filter(|opt| opt.is_dangerous)
+            .flat_map(|opt| opt.name.iter().map(String::as_str))
+            .collect::<HashSet<_>>();
+        for name in [
+            "--setup-keys",
+            "--force",
+            "--rotate",
+            "--vacuum-size",
+            "--vacuum-files",
+            "--vacuum-time",
+        ] {
+            assert!(
+                dangerous.contains(name),
+                "journalctl option {name} destroys or overwrites journal data or key material, so it must be marked isDangerous"
+            );
+        }
+    }
+
     /// Ensures no unquoted '\n' can be found.
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
