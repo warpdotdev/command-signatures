@@ -1,0 +1,546 @@
+{
+    "name": "tcpdump",
+    "description": "Dump traffic on a network",
+    "args": {
+        "name": "expression",
+        "description": "pcap-filter(7) expression selecting which packets to dump",
+        "isOptional": true,
+        "isVariadic": true,
+        "suggestions": [
+            {
+                "name": "host",
+                "description": "Match packets to or from the given host"
+            },
+            {
+                "name": "net",
+                "description": "Match packets to or from the given network (format: \"net/len\" or \"net mask netmask\")"
+            },
+            {
+                "name": "port",
+                "description": "Match packets to or from the given port"
+            },
+            {
+                "name": "portrange",
+                "description": "Match packets to or from the given port range (format: \"port1-port2\")"
+            },
+            {
+                "name": "src",
+                "description": "Restrict the following primitive to the source address"
+            },
+            {
+                "name": "dst",
+                "description": "Restrict the following primitive to the destination address"
+            },
+            {
+                "name": "ether",
+                "description": "Restrict the following primitive to link-level addresses"
+            },
+            {
+                "name": "proto",
+                "description": "Restrict the following primitive to a protocol number or name"
+            },
+            {
+                "name": "tcp",
+                "description": "Match TCP packets"
+            },
+            {
+                "name": "udp",
+                "description": "Match UDP packets"
+            },
+            {
+                "name": "icmp",
+                "description": "Match ICMP packets"
+            },
+            {
+                "name": "arp",
+                "description": "Match ARP packets"
+            },
+            {
+                "name": "ip",
+                "description": "Match IPv4 packets"
+            },
+            {
+                "name": "ip6",
+                "description": "Match IPv6 packets"
+            },
+            {
+                "name": "vlan",
+                "description": "Match 802.1Q VLAN packets, optionally with the given VLAN ID"
+            },
+            {
+                "name": "and",
+                "description": "Combine the surrounding primitives with a logical AND"
+            },
+            {
+                "name": "or",
+                "description": "Combine the surrounding primitives with a logical OR"
+            },
+            {
+                "name": "not",
+                "description": "Negate the following primitive"
+            }
+        ]
+    },
+    "options": [
+        {
+            "name": "-A",
+            "description": "Print each packet in ASCII"
+        },
+        {
+            "name": "-b",
+            "description": "Print the AS number in BGP packets in ASDOT notation"
+        },
+        {
+            "name": [
+                "-B",
+                "--buffer-size"
+            ],
+            "description": "Set the operating system capture buffer size",
+            "args": {
+                "name": "buffer_size",
+                "description": "Buffer size in KiB (1024 bytes)"
+            }
+        },
+        {
+            "name": "-c",
+            "description": "Exit after receiving count packets",
+            "args": {
+                "name": "count"
+            }
+        },
+        {
+            "name": "--count",
+            "description": "Print only the packet count when reading capture files"
+        },
+        {
+            "name": "-C",
+            "description": "Start a new savefile once the current one exceeds this size",
+            "args": {
+                "name": "file_size",
+                "description": "File size in MB (1,000,000 bytes)"
+            }
+        },
+        {
+            "name": "-d",
+            "description": "Dump the compiled packet-matching code in a human readable form"
+        },
+        {
+            "name": "-dd",
+            "description": "Dump the compiled packet-matching code as a C program fragment"
+        },
+        {
+            "name": "-ddd",
+            "description": "Dump the compiled packet-matching code as decimal numbers"
+        },
+        {
+            "name": [
+                "-D",
+                "--list-interfaces"
+            ],
+            "description": "Print the list of network interfaces available on the system"
+        },
+        {
+            "name": "-e",
+            "description": "Print the link-level header on each dump line"
+        },
+        {
+            "name": "-E",
+            "description": "Set the options for decrypting IPsec ESP packets",
+            "args": {
+                "name": "spi@ipaddr algo:secret",
+                "description": "Decryption parameters (format: \"algo:secret\", optionally prefixed with \"spi@ipaddr\")"
+            }
+        },
+        {
+            "name": "-f",
+            "description": "Print foreign IPv4 addresses numerically"
+        },
+        {
+            "name": "-F",
+            "description": "Use file as input for the filter expression",
+            "args": {
+                "name": "file",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": "-G",
+            "description": "Rotate the savefile given with -w every rotate_seconds seconds",
+            "args": {
+                "name": "rotate_seconds"
+            }
+        },
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print the version strings and a usage message"
+        },
+        {
+            "name": "--version",
+            "description": "Print the tcpdump and libpcap version strings"
+        },
+        {
+            "name": "-H",
+            "description": "Attempt to detect 802.11s draft mesh headers"
+        },
+        {
+            "name": [
+                "-i",
+                "--interface"
+            ],
+            "description": "Listen on the given interface",
+            "args": {
+                "name": "interface",
+                "description": "Interface name, \"any\" to capture on all of them, or the number reported by -D",
+                "generatorName": "interfaces"
+            }
+        },
+        {
+            "name": [
+                "-I",
+                "--monitor-mode"
+            ],
+            "description": "Put the interface in monitor mode (802.11 only)"
+        },
+        {
+            "name": "--immediate-mode",
+            "description": "Capture in immediate mode, delivering packets as they arrive"
+        },
+        {
+            "name": [
+                "-j",
+                "--time-stamp-type"
+            ],
+            "description": "Set the time stamp type for the capture",
+            "args": {
+                "name": "tstamp_type",
+                "description": "One of the types listed by -J for the interface",
+                "suggestions": [
+                    {
+                        "name": "host",
+                        "description": "Time stamp supplied by the host"
+                    },
+                    {
+                        "name": "host_lowprec",
+                        "description": "Low-precision host time stamp"
+                    },
+                    {
+                        "name": "host_hiprec",
+                        "description": "High-precision host time stamp"
+                    },
+                    {
+                        "name": "adapter",
+                        "description": "High-precision adapter time stamp, synced to the host"
+                    },
+                    {
+                        "name": "adapter_unsynced",
+                        "description": "High-precision adapter time stamp, not synced to the host"
+                    }
+                ]
+            }
+        },
+        {
+            "name": [
+                "-J",
+                "--list-time-stamp-types"
+            ],
+            "description": "List the time stamp types supported by the interface"
+        },
+        {
+            "name": "--time-stamp-precision",
+            "description": "Set the time stamp precision for the capture",
+            "args": {
+                "name": "tstamp_precision",
+                "suggestions": [
+                    {
+                        "name": "micro",
+                        "description": "Microsecond precision"
+                    },
+                    {
+                        "name": "nano",
+                        "description": "Nanosecond precision"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "--micro",
+            "description": "Shorthand for --time-stamp-precision=micro",
+            "exclusiveOn": ["--nano"]
+        },
+        {
+            "name": "--nano",
+            "description": "Shorthand for --time-stamp-precision=nano",
+            "exclusiveOn": ["--micro"]
+        },
+        {
+            "name": [
+                "-K",
+                "--dont-verify-checksums"
+            ],
+            "description": "Do not attempt to verify IP, TCP, or UDP checksums"
+        },
+        {
+            "name": "-l",
+            "description": "Make stdout line buffered"
+        },
+        {
+            "name": [
+                "-L",
+                "--list-data-link-types"
+            ],
+            "description": "List the data link types supported by the interface"
+        },
+        {
+            "name": "-m",
+            "description": "Load SMI MIB module definitions from file",
+            "args": {
+                "name": "module",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": "-M",
+            "description": "Use a shared secret for validating the digests of TCP-MD5 options",
+            "args": {
+                "name": "secret"
+            }
+        },
+        {
+            "name": "-n",
+            "description": "Do not convert host addresses to names"
+        },
+        {
+            "name": "-nn",
+            "description": "Do not convert protocol and port numbers to names either"
+        },
+        {
+            "name": "-N",
+            "description": "Do not print the domain name qualification of host names"
+        },
+        {
+            "name": [
+                "-#",
+                "--number"
+            ],
+            "description": "Print an optional packet number at the beginning of the line"
+        },
+        {
+            "name": [
+                "-O",
+                "--no-optimize"
+            ],
+            "description": "Do not run the packet-matching code optimizer"
+        },
+        {
+            "name": [
+                "-p",
+                "--no-promiscuous-mode"
+            ],
+            "description": "Do not put the interface into promiscuous mode"
+        },
+        {
+            "name": "--print",
+            "description": "Print parsed packet output even when writing packets with -w"
+        },
+        {
+            "name": [
+                "-Q",
+                "--direction"
+            ],
+            "description": "Choose the direction for which packets should be captured",
+            "args": {
+                "name": "direction",
+                "suggestions": [
+                    {
+                        "name": "in",
+                        "description": "Capture only incoming packets"
+                    },
+                    {
+                        "name": "out",
+                        "description": "Capture only outgoing packets"
+                    },
+                    {
+                        "name": "inout",
+                        "description": "Capture packets in both directions (the default)"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "-q",
+            "description": "Print less protocol information, so output lines are shorter"
+        },
+        {
+            "name": "-r",
+            "description": "Read packets from file",
+            "args": {
+                "name": "file",
+                "description": "Savefile written with -w, or \"-\" for standard input",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": [
+                "-S",
+                "--absolute-tcp-sequence-numbers"
+            ],
+            "description": "Print absolute, rather than relative, TCP sequence numbers"
+        },
+        {
+            "name": [
+                "-s",
+                "--snapshot-length"
+            ],
+            "description": "Snarf snaplen bytes of data from each packet",
+            "args": {
+                "name": "snaplen",
+                "description": "Bytes to capture per packet; 0 means the default of 262144"
+            }
+        },
+        {
+            "name": "-T",
+            "description": "Force packets selected by the expression to be interpreted as the given type",
+            "args": {
+                "name": "type",
+                "suggestions": [
+                    "aodv",
+                    "carp",
+                    "cnfp",
+                    "domain",
+                    "lmp",
+                    "pgm",
+                    "pgm_zmtp1",
+                    "ptp",
+                    "radius",
+                    "resp",
+                    "rpc",
+                    "rtcp",
+                    "rtp",
+                    "snmp",
+                    "someip",
+                    "tftp",
+                    "vat",
+                    "vxlan",
+                    "wb",
+                    "zmtp1"
+                ]
+            }
+        },
+        {
+            "name": "-t",
+            "description": "Do not print a timestamp on each dump line"
+        },
+        {
+            "name": "-tt",
+            "description": "Print the timestamp as seconds since the epoch on each dump line"
+        },
+        {
+            "name": "-ttt",
+            "description": "Print a delta between the current and the previous line"
+        },
+        {
+            "name": "-tttt",
+            "description": "Print the timestamp as a time of day preceded by the date"
+        },
+        {
+            "name": "-ttttt",
+            "description": "Print a delta between the current and the first line"
+        },
+        {
+            "name": "-u",
+            "description": "Print undecoded NFS handles"
+        },
+        {
+            "name": [
+                "-U",
+                "--packet-buffered"
+            ],
+            "description": "Write each packet to the savefile as it is captured"
+        },
+        {
+            "name": "-v",
+            "description": "Produce (slightly more) verbose output"
+        },
+        {
+            "name": "-vv",
+            "description": "Produce more verbose output than -v"
+        },
+        {
+            "name": "-vvv",
+            "description": "Produce more verbose output than -vv"
+        },
+        {
+            "name": "-V",
+            "description": "Read a list of savefile names from file",
+            "args": {
+                "name": "file",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": "-w",
+            "description": "Write the raw packets to file rather than printing them",
+            "args": {
+                "name": "file",
+                "description": "Savefile to create, or \"-\" for standard output",
+                "template": ["filepathsMayNotExist"]
+            }
+        },
+        {
+            "name": "-W",
+            "description": "Limit the number of files created by -C or -G",
+            "args": {
+                "name": "filecount"
+            }
+        },
+        {
+            "name": "-x",
+            "description": "Print the data of each packet in hex, without its link level header"
+        },
+        {
+            "name": "-xx",
+            "description": "Print the data of each packet in hex, including its link level header"
+        },
+        {
+            "name": "-X",
+            "description": "Print the data of each packet in hex and ASCII, without its link level header"
+        },
+        {
+            "name": "-XX",
+            "description": "Print the data of each packet in hex and ASCII, including its link level header"
+        },
+        {
+            "name": [
+                "-y",
+                "--linktype"
+            ],
+            "description": "Set the data link type to use while capturing packets",
+            "args": {
+                "name": "datalinktype",
+                "description": "One of the types listed by -L for the interface, such as \"EN10MB\""
+            }
+        },
+        {
+            "name": "-z",
+            "description": "Run \"command file\" after each savefile rotation",
+            "args": {
+                "name": "postrotate-command",
+                "template": ["filepaths"]
+            }
+        },
+        {
+            "name": [
+                "-Z",
+                "--relinquish-privileges"
+            ],
+            "description": "Drop privileges to the given user before opening any savefiles",
+            "args": {
+                "name": "user",
+                "generatorName": "user_name"
+            }
+        }
+    ]
+}

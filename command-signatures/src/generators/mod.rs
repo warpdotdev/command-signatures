@@ -35,6 +35,7 @@ mod ip;
 mod journalctl;
 #[cfg(test)]
 mod journalctl_tests;
+mod just;
 mod kill;
 mod killall;
 mod kubecolor;
@@ -69,6 +70,7 @@ mod sdk;
 mod ssh;
 mod systemctl;
 mod tar;
+mod tcpdump;
 mod terraform;
 mod timedatectl;
 mod tmux;
@@ -107,6 +109,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         heroku::generator(),
         ip::generator(),
         journalctl::generator(),
+        just::generator(),
         make::generator(),
         man::generator(),
         ng::generator(),
@@ -128,6 +131,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         scp::generator(),
         ssh::generator(),
         tar::generator(),
+        tcpdump::generator(),
         terraform::generator(),
         kubectx::generator(),
         kubens::generator(),
