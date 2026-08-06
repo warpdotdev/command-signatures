@@ -76,8 +76,6 @@ mod tmuxinator;
 mod tsh;
 mod uv;
 mod vagrant;
-#[cfg(test)]
-mod vagrant_tests;
 mod yc;
 
 /// Used for gcloud and gsutil completions.
