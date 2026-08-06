@@ -75,6 +75,7 @@ mod tmux;
 mod tmuxinator;
 mod tsh;
 mod uv;
+mod yc;
 
 /// Used for gcloud and gsutil completions.
 mod gcloud;
@@ -160,6 +161,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         uv::generator(),
         gcloud::gcloud_generators(),
         gcloud::gsutil_generators(),
+        yc::generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))
