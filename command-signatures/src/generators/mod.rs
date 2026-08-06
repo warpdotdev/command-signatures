@@ -15,6 +15,8 @@ mod bazel;
 mod bosh;
 mod brew;
 mod bun;
+#[cfg(test)]
+mod bun_tests;
 mod cargo;
 mod claude;
 mod codex;
