@@ -70,8 +70,6 @@ mod ssh;
 mod systemctl;
 mod tar;
 mod tcpdump;
-#[cfg(test)]
-mod tcpdump_tests;
 mod terraform;
 mod timedatectl;
 mod tmux;
