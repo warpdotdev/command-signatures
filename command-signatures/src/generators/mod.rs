@@ -75,6 +75,9 @@ mod tmux;
 mod tmuxinator;
 mod tsh;
 mod uv;
+mod vagrant;
+#[cfg(test)]
+mod vagrant_tests;
 mod yc;
 
 /// Used for gcloud and gsutil completions.
@@ -159,6 +162,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::set_variable_generator(),
         powershell::remove_variable_generator(),
         uv::generator(),
+        vagrant::generator(),
         gcloud::gcloud_generators(),
         gcloud::gsutil_generators(),
         yc::generator(),
