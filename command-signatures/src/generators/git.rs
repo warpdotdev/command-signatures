@@ -718,47 +718,49 @@ fn worktree_suggestion(path: &str, description: &str) -> Suggestion {
     Suggestion::with_description(path, description).with_icon(IconType::Folder)
 }
 
-/// Parses `git worktree list --porcelain` output into worktree suggestions.
+/// Parses `git worktree list --porcelain` output into worktree suggestions,
+/// excluding the main working tree.
 ///
 /// The porcelain format emits one record per worktree, records separated by a
 /// blank line. A record opens with a `worktree <path>` line and is followed by
 /// attribute lines: `branch refs/heads/<name>`, `detached`, or `bare`. The path
 /// is inserted (see `worktree_suggestion`) and the branch/state becomes the
-/// description. The listing order is preserved so the main worktree stays first.
+/// description.
+///
+/// The main working tree is always listed first and is skipped: it is an invalid
+/// target for `git worktree lock`/`unlock` (both reject it) and for `remove`/
+/// `move` (both refuse it), which are the only consumers of this generator, so
+/// suggesting it would only ever produce a command that fails.
 fn post_process_worktrees(output: &str) -> GeneratorResults {
     let output = filter_messages(output);
     if output.starts_with("fatal:") {
         return GeneratorResults::default();
     }
 
-    let mut suggestions = Vec::new();
-    let mut path: Option<&str> = None;
-    let mut description = String::new();
-
+    let mut records: Vec<(&str, String)> = Vec::new();
     for line in output.lines() {
         if let Some(rest) = line.strip_prefix("worktree ") {
-            if let Some(prev) = path.take() {
-                suggestions.push(worktree_suggestion(prev, &description));
+            records.push((rest.trim(), String::new()));
+        } else if let Some((_, description)) = records.last_mut() {
+            if let Some(branch) = line.strip_prefix("branch ") {
+                let branch = branch.trim();
+                *description = branch
+                    .strip_prefix("refs/heads/")
+                    .unwrap_or(branch)
+                    .to_owned();
+            } else if line.trim() == "detached" {
+                *description = "detached HEAD".to_owned();
+            } else if line.trim() == "bare" {
+                *description = "bare".to_owned();
             }
-            path = Some(rest.trim());
-            description.clear();
-        } else if let Some(branch) = line.strip_prefix("branch ") {
-            let branch = branch.trim();
-            description = branch
-                .strip_prefix("refs/heads/")
-                .unwrap_or(branch)
-                .to_owned();
-        } else if line.trim() == "detached" {
-            description = "detached HEAD".to_owned();
-        } else if line.trim() == "bare" {
-            description = "bare".to_owned();
         }
     }
-    if let Some(prev) = path.take() {
-        suggestions.push(worktree_suggestion(prev, &description));
-    }
 
-    suggestions.into_iter().collect_ordered_results()
+    records
+        .into_iter()
+        .skip(1)
+        .map(|(path, description)| worktree_suggestion(path, &description))
+        .collect_ordered_results()
 }
 
 pub fn worktrees_generator() -> Generator {
@@ -1270,26 +1272,37 @@ mod tests {
 
     // Real `git worktree list --porcelain` output: one record per worktree,
     // records separated by a blank line and a trailing blank line at the end.
-    // The path is inserted; the branch (stripped of `refs/heads/`) or the
-    // detached state becomes the description, in listing order (main first).
+    // The main worktree (listed first — `/tmp/wt-demo`) is excluded because it
+    // is an invalid target for the consuming subcommands; the remaining linked
+    // worktrees insert their path with the branch (stripped of `refs/heads/`)
+    // or detached state as the description, in listing order.
     #[test]
     fn test_post_process_worktrees() {
         let command_output = "worktree /tmp/wt-demo\nHEAD 847998979f929efd08cad0af6d10e9c22df3e16c\nbranch refs/heads/master\n\nworktree /tmp/wt-detached\nHEAD 847998979f929efd08cad0af6d10e9c22df3e16c\ndetached\n\nworktree /tmp/wt-feature\nHEAD 847998979f929efd08cad0af6d10e9c22df3e16c\nbranch refs/heads/feature\n\n";
 
+        let results = post_process_worktrees(command_output);
         assert_eq!(
-            post_process_worktrees(command_output),
+            results,
             GeneratorResults {
                 suggestions: vec![
-                    worktree("/tmp/wt-demo", "master"),
                     worktree("/tmp/wt-detached", "detached HEAD"),
                     worktree("/tmp/wt-feature", "feature"),
                 ],
                 is_ordered: true,
             }
         );
+        // Regression: the main worktree must never be suggested.
+        assert!(
+            !results
+                .suggestions
+                .iter()
+                .any(|s| s.exact_string == "/tmp/wt-demo"),
+            "main worktree must be excluded from suggestions"
+        );
     }
 
-    // A bare main worktree emits `bare` in place of HEAD/branch lines.
+    // A bare main worktree emits `bare` in place of HEAD/branch lines; it is
+    // still the first (main) record and is excluded, leaving only the linked one.
     #[test]
     fn test_post_process_worktrees_bare() {
         let command_output = "worktree /repo/bare\nbare\n\nworktree /repo/linked\nHEAD abc123\nbranch refs/heads/main\n\n";
@@ -1297,10 +1310,21 @@ mod tests {
         assert_eq!(
             post_process_worktrees(command_output),
             GeneratorResults {
-                suggestions: vec![
-                    worktree("/repo/bare", "bare"),
-                    worktree("/repo/linked", "main"),
-                ],
+                suggestions: vec![worktree("/repo/linked", "main")],
+                is_ordered: true,
+            }
+        );
+    }
+
+    // A repository with only the main worktree yields no suggestions.
+    #[test]
+    fn test_post_process_worktrees_only_main() {
+        let command_output = "worktree /repo/main\nHEAD abc123\nbranch refs/heads/main\n\n";
+
+        assert_eq!(
+            post_process_worktrees(command_output),
+            GeneratorResults {
+                suggestions: vec![],
                 is_ordered: true,
             }
         );
