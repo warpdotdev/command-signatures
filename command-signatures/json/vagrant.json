@@ -1,0 +1,2678 @@
+{
+    "name": "vagrant",
+    "description": "Build and manage reproducible virtual machine environments",
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print this help",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-v",
+                "--version"
+            ],
+            "description": "Display Vagrant version",
+            "isPersistent": true
+        },
+        {
+            "name": "--color",
+            "description": "Enable color output",
+            "isPersistent": true,
+            "exclusiveOn": ["--no-color"]
+        },
+        {
+            "name": "--no-color",
+            "description": "Disable color output",
+            "isPersistent": true,
+            "exclusiveOn": ["--color"]
+        },
+        {
+            "name": "--machine-readable",
+            "description": "Enable machine readable output",
+            "isPersistent": true
+        },
+        {
+            "name": "--debug",
+            "description": "Enable debug output",
+            "isPersistent": true
+        },
+        {
+            "name": "--timestamp",
+            "description": "Enable timestamps on log output",
+            "isPersistent": true
+        },
+        {
+            "name": "--debug-timestamp",
+            "description": "Enable debug output with timestamps",
+            "isPersistent": true
+        },
+        {
+            "name": "--no-tty",
+            "description": "Enable non-interactive output",
+            "isPersistent": true
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "autocomplete",
+            "description": "Manage autocomplete installation on host",
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install shell autocomplete for Vagrant",
+                    "args": {
+                        "name": "SHELL",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "suggestions": [
+                            "bash",
+                            "zsh"
+                        ]
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-b",
+                                "--bash"
+                            ],
+                            "description": "Install bash autocomplete"
+                        },
+                        {
+                            "name": [
+                                "-z",
+                                "--zsh"
+                            ],
+                            "description": "Install zsh autocomplete"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "box",
+            "description": "Manage boxes: installation, removal, etc",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a box to the local box catalog",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Vagrant Cloud box name, URL, local .box file, or local catalog .json file",
+                        "template": ["filepaths"]
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-c",
+                                "--clean"
+                            ],
+                            "description": "Clean any temporary download files"
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Overwrite an existing box if it exists"
+                        },
+                        {
+                            "name": "--insecure",
+                            "description": "Do not validate SSL certificates"
+                        },
+                        {
+                            "name": "--cacert",
+                            "description": "CA certificate for SSL download",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        },
+                        {
+                            "name": "--capath",
+                            "description": "CA certificate directory for SSL download",
+                            "args": {
+                                "name": "DIR",
+                                "template": ["folders"]
+                            }
+                        },
+                        {
+                            "name": "--cert",
+                            "description": "A client SSL cert, if needed",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        },
+                        {
+                            "name": "--location-trusted",
+                            "description": "Trust the 'Location' header from HTTP redirects and reuse the initial credentials"
+                        },
+                        {
+                            "name": [
+                                "-a",
+                                "--architecture"
+                            ],
+                            "description": "Architecture the box should satisfy",
+                            "args": {
+                                "name": "ARCH",
+                                "suggestions": [
+                                    "amd64",
+                                    "arm64",
+                                    "i386",
+                                    "unknown"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--provider",
+                            "description": "Provider the box should satisfy",
+                            "args": {
+                                "name": "PROVIDER",
+                                "suggestions": [
+                                    "virtualbox",
+                                    "vmware_desktop",
+                                    "vmware_fusion",
+                                    "vmware_workstation",
+                                    "hyperv",
+                                    "docker",
+                                    "libvirt",
+                                    "parallels"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--box-version",
+                            "description": "Constrain version of the added box",
+                            "args": {
+                                "name": "VERSION"
+                            }
+                        },
+                        {
+                            "name": "--checksum",
+                            "description": "Checksum for the box (only when adding a box file directly)",
+                            "args": {
+                                "name": "CHECKSUM"
+                            }
+                        },
+                        {
+                            "name": "--checksum-type",
+                            "description": "Checksum type (only when adding a box file directly)",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "md5",
+                                    "sha1",
+                                    "sha256"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--name",
+                            "description": "Name of the box (only when adding a box file directly)",
+                            "args": {
+                                "name": "BOX"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List all installed boxes",
+                    "options": [
+                        {
+                            "name": [
+                                "-i",
+                                "--box-info"
+                            ],
+                            "description": "Display additional information about the boxes"
+                        }
+                    ]
+                },
+                {
+                    "name": "outdated",
+                    "description": "Check whether a newer version of the boxes in use is available",
+                    "options": [
+                        {
+                            "name": "--global",
+                            "description": "Check all boxes installed"
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Force checks for latest box updates"
+                        },
+                        {
+                            "name": "--insecure",
+                            "description": "Do not validate SSL certificates"
+                        },
+                        {
+                            "name": "--cacert",
+                            "description": "CA certificate for SSL download",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        },
+                        {
+                            "name": "--capath",
+                            "description": "CA certificate directory for SSL download",
+                            "args": {
+                                "name": "DIR",
+                                "template": ["folders"]
+                            }
+                        },
+                        {
+                            "name": "--cert",
+                            "description": "A client SSL cert, if needed",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "prune",
+                    "description": "Remove old versions of installed boxes",
+                    "options": [
+                        {
+                            "name": [
+                                "-p",
+                                "--provider"
+                            ],
+                            "description": "The specific provider type for the boxes to destroy",
+                            "args": {
+                                "name": "PROVIDER",
+                                "suggestions": [
+                                    "virtualbox",
+                                    "vmware_desktop",
+                                    "vmware_fusion",
+                                    "vmware_workstation",
+                                    "hyperv",
+                                    "docker",
+                                    "libvirt",
+                                    "parallels"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-n",
+                                "--dry-run"
+                            ],
+                            "description": "Only print the boxes that would be removed"
+                        },
+                        {
+                            "name": "--name",
+                            "description": "The specific box name to check for outdated versions",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "vagrant_boxes"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Destroy without confirmation even when box is in use"
+                        },
+                        {
+                            "name": [
+                                "-k",
+                                "--keep-active-boxes"
+                            ],
+                            "description": "When combined with --force, keep boxes still actively in use"
+                        }
+                    ]
+                },
+                {
+                    "name": "remove",
+                    "description": "Remove a box from the local box catalog",
+                    "args": {
+                        "name": "NAME",
+                        "generatorName": "vagrant_boxes"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Remove without confirmation"
+                        },
+                        {
+                            "name": [
+                                "-a",
+                                "--architecture"
+                            ],
+                            "description": "The specific architecture for the box to remove",
+                            "args": {
+                                "name": "ARCH",
+                                "suggestions": [
+                                    "amd64",
+                                    "arm64",
+                                    "i386",
+                                    "unknown"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--provider",
+                            "description": "The specific provider type for the box to remove",
+                            "args": {
+                                "name": "PROVIDER",
+                                "suggestions": [
+                                    "virtualbox",
+                                    "vmware_desktop",
+                                    "vmware_fusion",
+                                    "vmware_workstation",
+                                    "hyperv",
+                                    "docker",
+                                    "libvirt",
+                                    "parallels"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--box-version",
+                            "description": "The specific version of the box to remove",
+                            "args": {
+                                "name": "VERSION"
+                            }
+                        },
+                        {
+                            "name": "--all",
+                            "description": "Remove all available versions of the box"
+                        },
+                        {
+                            "name": "--all-providers",
+                            "description": "Remove all providers within a version of the box"
+                        },
+                        {
+                            "name": "--all-architectures",
+                            "description": "Remove all architectures within a provider a version of the box"
+                        }
+                    ]
+                },
+                {
+                    "name": "repackage",
+                    "description": "Repackage an installed box into a .box file",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "generatorName": "vagrant_boxes"
+                        },
+                        {
+                            "name": "PROVIDER",
+                            "suggestions": [
+                                "virtualbox",
+                                "vmware_desktop",
+                                "vmware_fusion",
+                                "vmware_workstation",
+                                "hyperv",
+                                "docker",
+                                "libvirt",
+                                "parallels"
+                            ]
+                        },
+                        {
+                            "name": "VERSION"
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update the boxes in use in the current environment",
+                    "options": [
+                        {
+                            "name": "--box",
+                            "description": "Update a specific box",
+                            "args": {
+                                "name": "BOX",
+                                "generatorName": "vagrant_boxes"
+                            }
+                        },
+                        {
+                            "name": "--architecture",
+                            "description": "Update box with specific architecture",
+                            "args": {
+                                "name": "ARCHITECTURE",
+                                "suggestions": [
+                                    "amd64",
+                                    "arm64",
+                                    "i386",
+                                    "unknown"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--provider",
+                            "description": "Update box with specific provider",
+                            "args": {
+                                "name": "PROVIDER",
+                                "suggestions": [
+                                    "virtualbox",
+                                    "vmware_desktop",
+                                    "vmware_fusion",
+                                    "vmware_workstation",
+                                    "hyperv",
+                                    "docker",
+                                    "libvirt",
+                                    "parallels"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Overwrite an existing box if it exists"
+                        },
+                        {
+                            "name": "--insecure",
+                            "description": "Do not validate SSL certificates"
+                        },
+                        {
+                            "name": "--cacert",
+                            "description": "CA certificate for SSL download",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        },
+                        {
+                            "name": "--capath",
+                            "description": "CA certificate directory for SSL download",
+                            "args": {
+                                "name": "DIR",
+                                "template": ["folders"]
+                            }
+                        },
+                        {
+                            "name": "--cert",
+                            "description": "A client SSL cert, if needed",
+                            "args": {
+                                "name": "FILE",
+                                "template": ["filepaths"]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Show help for a box subcommand",
+                    "args": {
+                        "name": "SUBCOMMAND",
+                        "isOptional": true,
+                        "suggestions": [
+                            "add",
+                            "list",
+                            "outdated",
+                            "prune",
+                            "remove",
+                            "repackage",
+                            "update"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "cloud",
+            "description": "Manage everything related to Vagrant Cloud",
+            "subcommands": [
+                {
+                    "name": "auth",
+                    "description": "Authorization operations on Vagrant Cloud",
+                    "subcommands": [
+                        {
+                            "name": "login",
+                            "description": "Log in to Vagrant Cloud",
+                            "options": [
+                                {
+                                    "name": [
+                                        "-c",
+                                        "--check"
+                                    ],
+                                    "description": "Check if currently logged in"
+                                },
+                                {
+                                    "name": [
+                                        "-d",
+                                        "--description"
+                                    ],
+                                    "description": "Set description for the Vagrant Cloud token",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-t",
+                                        "--token"
+                                    ],
+                                    "description": "Set the Vagrant Cloud token",
+                                    "args": {
+                                        "name": "TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-u",
+                                        "--username"
+                                    ],
+                                    "description": "Vagrant Cloud username or email address",
+                                    "args": {
+                                        "name": "USERNAME_OR_EMAIL"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "logout",
+                            "description": "Log out of Vagrant Cloud"
+                        },
+                        {
+                            "name": "whoami",
+                            "description": "Display currently logged in user",
+                            "args": {
+                                "name": "TOKEN",
+                                "isOptional": true
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "box",
+                    "description": "Manage a Vagrant box entry on Vagrant Cloud",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create an empty box entry on Vagrant Cloud",
+                            "args": {
+                                "name": "organization/box-name"
+                            },
+                            "options": [
+                                {
+                                    "name": [
+                                        "-d",
+                                        "--description"
+                                    ],
+                                    "description": "Full description of the box",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-s",
+                                        "--short-description"
+                                    ],
+                                    "description": "Short description of the box",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-p",
+                                        "--private"
+                                    ],
+                                    "description": "Make box private",
+                                    "exclusiveOn": ["--no-private"]
+                                },
+                                {
+                                    "name": "--no-private",
+                                    "description": "Make box public",
+                                    "exclusiveOn": [
+                                        "-p",
+                                        "--private"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a box entry on Vagrant Cloud",
+                            "args": {
+                                "name": "organization/box-name"
+                            },
+                            "options": [
+                                {
+                                    "name": [
+                                        "-f",
+                                        "--force"
+                                    ],
+                                    "description": "Do not prompt for deletion confirmation",
+                                    "exclusiveOn": ["--no-force"]
+                                },
+                                {
+                                    "name": "--no-force",
+                                    "description": "Prompt for deletion confirmation",
+                                    "exclusiveOn": [
+                                        "-f",
+                                        "--force"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "show",
+                            "description": "Display a box's attributes on Vagrant Cloud",
+                            "args": {
+                                "name": "organization/box-name"
+                            },
+                            "options": [
+                                {
+                                    "name": "--architectures",
+                                    "description": "Filter results by architecture support (can be defined multiple times)",
+                                    "args": {
+                                        "name": "ARCH",
+                                        "suggestions": [
+                                            "amd64",
+                                            "arm64",
+                                            "i386",
+                                            "unknown"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--versions",
+                                    "description": "Display box information for a specific version (can be defined multiple times)",
+                                    "args": {
+                                        "name": "VERSION"
+                                    }
+                                },
+                                {
+                                    "name": "--providers",
+                                    "description": "Filter results by provider support (can be defined multiple times)",
+                                    "args": {
+                                        "name": "PROVIDER",
+                                        "suggestions": [
+                                            "virtualbox",
+                                            "vmware_desktop",
+                                            "vmware_fusion",
+                                            "vmware_workstation",
+                                            "hyperv",
+                                            "docker",
+                                            "libvirt",
+                                            "parallels"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--auth",
+                                    "description": "Authenticate with Vagrant Cloud if required before searching",
+                                    "exclusiveOn": ["--no-auth"]
+                                },
+                                {
+                                    "name": "--no-auth",
+                                    "description": "Do not authenticate with Vagrant Cloud before searching",
+                                    "exclusiveOn": ["--auth"]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a box entry on Vagrant Cloud",
+                            "args": {
+                                "name": "organization/box-name"
+                            },
+                            "options": [
+                                {
+                                    "name": [
+                                        "-d",
+                                        "--description"
+                                    ],
+                                    "description": "Full description of the box",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-s",
+                                        "--short-description"
+                                    ],
+                                    "description": "Short description of the box",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-p",
+                                        "--private"
+                                    ],
+                                    "description": "Make box private",
+                                    "exclusiveOn": ["--no-private"]
+                                },
+                                {
+                                    "name": "--no-private",
+                                    "description": "Make box public",
+                                    "exclusiveOn": [
+                                        "-p",
+                                        "--private"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "provider",
+                    "description": "Manage a Vagrant box's provider options",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a provider entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "provider-name",
+                                    "suggestions": [
+                                        "virtualbox",
+                                        "vmware_desktop",
+                                        "vmware_fusion",
+                                        "vmware_workstation",
+                                        "hyperv",
+                                        "docker",
+                                        "libvirt",
+                                        "parallels"
+                                    ]
+                                },
+                                {
+                                    "name": "version"
+                                },
+                                {
+                                    "name": "url",
+                                    "isOptional": true
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-a",
+                                        "--architecture"
+                                    ],
+                                    "description": "Architecture of guest box (defaults to current host architecture)",
+                                    "args": {
+                                        "name": "ARCH",
+                                        "suggestions": [
+                                            "amd64",
+                                            "arm64",
+                                            "i386",
+                                            "unknown"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-c",
+                                        "--checksum"
+                                    ],
+                                    "description": "Checksum of the box for this provider (requires --checksum-type)",
+                                    "args": {
+                                        "name": "CHECKSUM_VALUE"
+                                    },
+                                    "dependsOn": ["--checksum-type"]
+                                },
+                                {
+                                    "name": [
+                                        "-C",
+                                        "--checksum-type"
+                                    ],
+                                    "description": "Type of checksum used (requires --checksum)",
+                                    "args": {
+                                        "name": "TYPE",
+                                        "suggestions": [
+                                            "md5",
+                                            "sha1",
+                                            "sha256",
+                                            "sha384",
+                                            "sha512"
+                                        ]
+                                    },
+                                    "dependsOn": ["--checksum"]
+                                },
+                                {
+                                    "name": "--default-architecture",
+                                    "description": "Mark as default architecture for specific provider",
+                                    "exclusiveOn": ["--no-default-architecture"]
+                                },
+                                {
+                                    "name": "--no-default-architecture",
+                                    "description": "Do not mark as default architecture for specific provider",
+                                    "exclusiveOn": ["--default-architecture"]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a provider entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "provider-name",
+                                    "suggestions": [
+                                        "virtualbox",
+                                        "vmware_desktop",
+                                        "vmware_fusion",
+                                        "vmware_workstation",
+                                        "hyperv",
+                                        "docker",
+                                        "libvirt",
+                                        "parallels"
+                                    ]
+                                },
+                                {
+                                    "name": "version"
+                                },
+                                {
+                                    "name": "architecture",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "amd64",
+                                        "arm64",
+                                        "i386",
+                                        "unknown"
+                                    ]
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-f",
+                                        "--force"
+                                    ],
+                                    "description": "Force deletion of box version provider without confirmation",
+                                    "exclusiveOn": ["--no-force"]
+                                },
+                                {
+                                    "name": "--no-force",
+                                    "description": "Prompt before deleting the box version provider",
+                                    "exclusiveOn": [
+                                        "-f",
+                                        "--force"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a provider entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "provider-name",
+                                    "suggestions": [
+                                        "virtualbox",
+                                        "vmware_desktop",
+                                        "vmware_fusion",
+                                        "vmware_workstation",
+                                        "hyperv",
+                                        "docker",
+                                        "libvirt",
+                                        "parallels"
+                                    ]
+                                },
+                                {
+                                    "name": "version"
+                                },
+                                {
+                                    "name": "architecture",
+                                    "suggestions": [
+                                        "amd64",
+                                        "arm64",
+                                        "i386",
+                                        "unknown"
+                                    ]
+                                },
+                                {
+                                    "name": "url",
+                                    "isOptional": true
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-a",
+                                        "--architecture"
+                                    ],
+                                    "description": "Update architecture value of guest box",
+                                    "args": {
+                                        "name": "ARCH",
+                                        "suggestions": [
+                                            "amd64",
+                                            "arm64",
+                                            "i386",
+                                            "unknown"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "-c",
+                                        "--checksum"
+                                    ],
+                                    "description": "Checksum of the box for this provider (requires --checksum-type)",
+                                    "args": {
+                                        "name": "CHECKSUM_VALUE"
+                                    },
+                                    "dependsOn": ["--checksum-type"]
+                                },
+                                {
+                                    "name": [
+                                        "-C",
+                                        "--checksum-type"
+                                    ],
+                                    "description": "Type of checksum used (requires --checksum)",
+                                    "args": {
+                                        "name": "TYPE",
+                                        "suggestions": [
+                                            "md5",
+                                            "sha1",
+                                            "sha256",
+                                            "sha384",
+                                            "sha512"
+                                        ]
+                                    },
+                                    "dependsOn": ["--checksum"]
+                                },
+                                {
+                                    "name": "--default-architecture",
+                                    "description": "Mark as default architecture for specific provider",
+                                    "exclusiveOn": ["--no-default-architecture"]
+                                },
+                                {
+                                    "name": "--no-default-architecture",
+                                    "description": "Do not mark as default architecture for specific provider",
+                                    "exclusiveOn": ["--default-architecture"]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "upload",
+                            "description": "Upload a box file to Vagrant Cloud for a specific provider",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "provider-name",
+                                    "suggestions": [
+                                        "virtualbox",
+                                        "vmware_desktop",
+                                        "vmware_fusion",
+                                        "vmware_workstation",
+                                        "hyperv",
+                                        "docker",
+                                        "libvirt",
+                                        "parallels"
+                                    ]
+                                },
+                                {
+                                    "name": "version"
+                                },
+                                {
+                                    "name": "architecture",
+                                    "suggestions": [
+                                        "amd64",
+                                        "arm64",
+                                        "i386",
+                                        "unknown"
+                                    ]
+                                },
+                                {
+                                    "name": "box-file",
+                                    "template": ["filepaths"]
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-D",
+                                        "--direct"
+                                    ],
+                                    "description": "Upload asset directly to backend storage",
+                                    "exclusiveOn": ["--no-direct"]
+                                },
+                                {
+                                    "name": "--no-direct",
+                                    "description": "Upload asset through Vagrant Cloud",
+                                    "exclusiveOn": [
+                                        "-D",
+                                        "--direct"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "publish",
+                    "description": "Create and release a new Vagrant box on Vagrant Cloud",
+                    "args": [
+                        {
+                            "name": "organization/box-name"
+                        },
+                        {
+                            "name": "version"
+                        },
+                        {
+                            "name": "provider-name",
+                            "suggestions": [
+                                "virtualbox",
+                                "vmware_desktop",
+                                "vmware_fusion",
+                                "vmware_workstation",
+                                "hyperv",
+                                "docker",
+                                "libvirt",
+                                "parallels"
+                            ]
+                        },
+                        {
+                            "name": "provider-file",
+                            "isOptional": true,
+                            "template": ["filepaths"]
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--architecture"
+                            ],
+                            "description": "Architecture of guest box (defaults to current host architecture)",
+                            "args": {
+                                "name": "ARCH",
+                                "suggestions": [
+                                    "amd64",
+                                    "arm64",
+                                    "i386",
+                                    "unknown"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--url",
+                            "description": "Remote URL to download this provider (cannot be used with provider-file)",
+                            "args": {
+                                "name": "URL"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-d",
+                                "--description"
+                            ],
+                            "description": "Full description of box",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--version-description",
+                            "description": "Description of the version to create",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Disable confirmation to create or update box",
+                            "exclusiveOn": ["--no-force"]
+                        },
+                        {
+                            "name": "--no-force",
+                            "description": "Confirm before creating or updating the box",
+                            "exclusiveOn": [
+                                "-f",
+                                "--force"
+                            ]
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--private"
+                            ],
+                            "description": "Make box private",
+                            "exclusiveOn": ["--no-private"]
+                        },
+                        {
+                            "name": "--no-private",
+                            "description": "Make box public",
+                            "exclusiveOn": [
+                                "-p",
+                                "--private"
+                            ]
+                        },
+                        {
+                            "name": [
+                                "-r",
+                                "--release"
+                            ],
+                            "description": "Release box",
+                            "exclusiveOn": ["--no-release"]
+                        },
+                        {
+                            "name": "--no-release",
+                            "description": "Do not release box",
+                            "exclusiveOn": [
+                                "-r",
+                                "--release"
+                            ]
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--short-description"
+                            ],
+                            "description": "Short description of the box",
+                            "args": {
+                                "name": "DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-c",
+                                "--checksum"
+                            ],
+                            "description": "Checksum of the box for this provider (requires --checksum-type)",
+                            "args": {
+                                "name": "CHECKSUM_VALUE"
+                            },
+                            "dependsOn": ["--checksum-type"]
+                        },
+                        {
+                            "name": [
+                                "-C",
+                                "--checksum-type"
+                            ],
+                            "description": "Type of checksum used (requires --checksum)",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "md5",
+                                    "sha1",
+                                    "sha256",
+                                    "sha384",
+                                    "sha512"
+                                ]
+                            },
+                            "dependsOn": ["--checksum"]
+                        },
+                        {
+                            "name": "--direct-upload",
+                            "description": "Upload asset directly to backend storage",
+                            "exclusiveOn": ["--no-direct-upload"]
+                        },
+                        {
+                            "name": "--no-direct-upload",
+                            "description": "Upload asset through Vagrant Cloud",
+                            "exclusiveOn": ["--direct-upload"]
+                        },
+                        {
+                            "name": "--default-architecture",
+                            "description": "Mark as default architecture for specific provider",
+                            "exclusiveOn": ["--no-default-architecture"]
+                        },
+                        {
+                            "name": "--no-default-architecture",
+                            "description": "Do not mark as default architecture for specific provider",
+                            "exclusiveOn": ["--default-architecture"]
+                        }
+                    ]
+                },
+                {
+                    "name": "search",
+                    "description": "Search Vagrant Cloud for available boxes",
+                    "args": {
+                        "name": "query"
+                    },
+                    "options": [
+                        {
+                            "name": [
+                                "-a",
+                                "--architecture"
+                            ],
+                            "description": "Filter search results to a single architecture (defaults to all)",
+                            "args": {
+                                "name": "ARCH",
+                                "suggestions": [
+                                    "amd64",
+                                    "arm64",
+                                    "i386",
+                                    "unknown"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-j",
+                                "--json"
+                            ],
+                            "description": "Format results in JSON"
+                        },
+                        {
+                            "name": "--page",
+                            "description": "The page to display (default: 1)",
+                            "args": {
+                                "name": "PAGE"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-s",
+                                "--short"
+                            ],
+                            "description": "Show a simple list of box names"
+                        },
+                        {
+                            "name": [
+                                "-o",
+                                "--order"
+                            ],
+                            "description": "Order to display results (default: desc)",
+                            "args": {
+                                "name": "ORDER",
+                                "suggestions": [
+                                    "desc",
+                                    "asc"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "-l",
+                                "--limit"
+                            ],
+                            "description": "Max number of search results (default: 25)",
+                            "args": {
+                                "name": "LIMIT"
+                            }
+                        },
+                        {
+                            "name": [
+                                "-p",
+                                "--provider"
+                            ],
+                            "description": "Filter search results to a single provider (defaults to all)",
+                            "args": {
+                                "name": "PROVIDER",
+                                "suggestions": [
+                                    "virtualbox",
+                                    "vmware_desktop",
+                                    "vmware_fusion",
+                                    "vmware_workstation",
+                                    "hyperv",
+                                    "docker",
+                                    "libvirt",
+                                    "parallels"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--sort-by",
+                            "description": "Field to sort results on (default: downloads)",
+                            "args": {
+                                "name": "SORT",
+                                "suggestions": [
+                                    "created",
+                                    "downloads",
+                                    "updated"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--auth",
+                            "description": "Authenticate with Vagrant Cloud if required before searching",
+                            "exclusiveOn": ["--no-auth"]
+                        },
+                        {
+                            "name": "--no-auth",
+                            "description": "Do not authenticate with Vagrant Cloud before searching",
+                            "exclusiveOn": ["--auth"]
+                        }
+                    ]
+                },
+                {
+                    "name": "version",
+                    "description": "Manage a Vagrant box's versions",
+                    "subcommands": [
+                        {
+                            "name": "create",
+                            "description": "Create a version entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "version"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-d",
+                                        "--description"
+                                    ],
+                                    "description": "A description for this version",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "delete",
+                            "description": "Delete a version entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "version"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-f",
+                                        "--force"
+                                    ],
+                                    "description": "Force deletion without confirmation",
+                                    "exclusiveOn": ["--no-force"]
+                                },
+                                {
+                                    "name": "--no-force",
+                                    "description": "Prompt before deleting the version",
+                                    "exclusiveOn": [
+                                        "-f",
+                                        "--force"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "release",
+                            "description": "Release a version entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "version"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-f",
+                                        "--force"
+                                    ],
+                                    "description": "Release without confirmation",
+                                    "exclusiveOn": ["--no-force"]
+                                },
+                                {
+                                    "name": "--no-force",
+                                    "description": "Prompt before releasing the version",
+                                    "exclusiveOn": [
+                                        "-f",
+                                        "--force"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "revoke",
+                            "description": "Revoke a version entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "version"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-f",
+                                        "--force"
+                                    ],
+                                    "description": "Force revocation without confirmation",
+                                    "exclusiveOn": ["--no-force"]
+                                },
+                                {
+                                    "name": "--no-force",
+                                    "description": "Prompt before revoking the version",
+                                    "exclusiveOn": [
+                                        "-f",
+                                        "--force"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update",
+                            "description": "Update a version entry on Vagrant Cloud",
+                            "args": [
+                                {
+                                    "name": "organization/box-name"
+                                },
+                                {
+                                    "name": "version"
+                                }
+                            ],
+                            "options": [
+                                {
+                                    "name": [
+                                        "-d",
+                                        "--description"
+                                    ],
+                                    "description": "A description for this version",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "destroy",
+            "description": "Stop and delete all traces of the vagrant machine",
+            "args": {
+                "name": "name|id",
+                "description": "Machine name or id (defaults to every machine in the environment)",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Destroy without confirmation"
+                },
+                {
+                    "name": "--parallel",
+                    "description": "Enable parallelism if the provider supports it (automatically enables force)",
+                    "exclusiveOn": ["--no-parallel"]
+                },
+                {
+                    "name": "--no-parallel",
+                    "description": "Disable parallelism",
+                    "exclusiveOn": ["--parallel"]
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--graceful"
+                    ],
+                    "description": "Gracefully poweroff of VM"
+                }
+            ]
+        },
+        {
+            "name": "docker-exec",
+            "description": "Attach to an already-running docker container",
+            "args": [
+                {
+                    "name": "name",
+                    "isOptional": true,
+                    "generatorName": "vagrant_machines"
+                },
+                {
+                    "name": "command",
+                    "description": "Command to run inside the container, after a `--` separator",
+                    "isOptional": true,
+                    "isVariadic": true,
+                    "isCommand": true
+                }
+            ],
+            "options": [
+                {
+                    "name": "--detach",
+                    "description": "Run in the background",
+                    "exclusiveOn": ["--no-detach"]
+                },
+                {
+                    "name": "--no-detach",
+                    "description": "Run in the foreground",
+                    "exclusiveOn": ["--detach"]
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--interactive"
+                    ],
+                    "description": "Keep STDIN open even if not attached",
+                    "exclusiveOn": ["--no-interactive"]
+                },
+                {
+                    "name": "--no-interactive",
+                    "description": "Do not keep STDIN open",
+                    "exclusiveOn": [
+                        "-i",
+                        "--interactive"
+                    ]
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--tty"
+                    ],
+                    "description": "Allocate a pty",
+                    "exclusiveOn": ["--no-tty"]
+                },
+                {
+                    "name": [
+                        "-u",
+                        "--user"
+                    ],
+                    "description": "User or UID",
+                    "args": {
+                        "name": "USER"
+                    }
+                },
+                {
+                    "name": "--prefix",
+                    "description": "Prefix output with machine names",
+                    "exclusiveOn": ["--no-prefix"]
+                },
+                {
+                    "name": "--no-prefix",
+                    "description": "Do not prefix output with machine names",
+                    "exclusiveOn": ["--prefix"]
+                }
+            ]
+        },
+        {
+            "name": "docker-logs",
+            "description": "Output the logs from the Docker container",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--follow",
+                    "description": "Continue streaming in log output",
+                    "exclusiveOn": ["--no-follow"]
+                },
+                {
+                    "name": "--no-follow",
+                    "description": "Stop after the current log output",
+                    "exclusiveOn": ["--follow"]
+                },
+                {
+                    "name": "--prefix",
+                    "description": "Prefix output with machine names",
+                    "exclusiveOn": ["--no-prefix"]
+                },
+                {
+                    "name": "--no-prefix",
+                    "description": "Do not prefix output with machine names",
+                    "exclusiveOn": ["--prefix"]
+                }
+            ]
+        },
+        {
+            "name": "docker-run",
+            "description": "Run a one-off command in the context of a container",
+            "args": {
+                "name": "command",
+                "isOptional": true,
+                "isVariadic": true,
+                "isCommand": true
+            },
+            "options": [
+                {
+                    "name": "--detach",
+                    "description": "Run in the background",
+                    "exclusiveOn": ["--no-detach"]
+                },
+                {
+                    "name": "--no-detach",
+                    "description": "Run in the foreground",
+                    "exclusiveOn": ["--detach"]
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--tty"
+                    ],
+                    "description": "Allocate a pty",
+                    "exclusiveOn": ["--no-tty"]
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--rm"
+                    ],
+                    "description": "Remove container after execution",
+                    "exclusiveOn": ["--no-rm"]
+                },
+                {
+                    "name": "--no-rm",
+                    "description": "Keep container after execution",
+                    "exclusiveOn": [
+                        "-r",
+                        "--rm"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "global-status",
+            "description": "Output status of Vagrant environments for this user",
+            "options": [
+                {
+                    "name": "--prune",
+                    "description": "Prune invalid entries"
+                }
+            ]
+        },
+        {
+            "name": "halt",
+            "description": "Stop the vagrant machine",
+            "args": {
+                "name": "name|id",
+                "description": "Machine name or id (defaults to every machine in the environment)",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Force shut down (equivalent of pulling power)"
+                }
+            ]
+        },
+        {
+            "name": "help",
+            "description": "Show the help for a subcommand",
+            "args": {
+                "name": "COMMAND",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "init",
+            "description": "Initialize a new Vagrant environment by creating a Vagrantfile",
+            "args": [
+                {
+                    "name": "name",
+                    "description": "Box to use in the generated Vagrantfile",
+                    "isOptional": true,
+                    "generatorName": "vagrant_boxes"
+                },
+                {
+                    "name": "url",
+                    "description": "URL the box should be fetched from",
+                    "isOptional": true
+                }
+            ],
+            "options": [
+                {
+                    "name": "--box-version",
+                    "description": "Version of the box to add",
+                    "args": {
+                        "name": "VERSION"
+                    }
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Overwrite existing Vagrantfile"
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--minimal"
+                    ],
+                    "description": "Use minimal Vagrantfile template (no help comments). Ignored with --template"
+                },
+                {
+                    "name": "--output",
+                    "description": "Output path for the Vagrantfile ('-' for stdout)",
+                    "args": {
+                        "name": "FILE",
+                        "template": ["filepaths"]
+                    }
+                },
+                {
+                    "name": "--template",
+                    "description": "Path to custom Vagrantfile template",
+                    "args": {
+                        "name": "FILE",
+                        "template": ["filepaths"]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-commands",
+            "description": "Output all available Vagrant subcommands, even non-primary ones"
+        },
+        {
+            "name": "login",
+            "description": "Log in to Vagrant Cloud (deprecated alias for `vagrant cloud auth login`)",
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--check"
+                    ],
+                    "description": "Check if currently logged in"
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--description"
+                    ],
+                    "description": "Set description for the Vagrant Cloud token",
+                    "args": {
+                        "name": "DESCRIPTION"
+                    }
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--token"
+                    ],
+                    "description": "Set the Vagrant Cloud token",
+                    "args": {
+                        "name": "TOKEN"
+                    }
+                },
+                {
+                    "name": [
+                        "-u",
+                        "--username"
+                    ],
+                    "description": "Vagrant Cloud username or email address",
+                    "args": {
+                        "name": "USERNAME_OR_EMAIL"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "package",
+            "description": "Package a running vagrant environment into a box",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--base",
+                    "description": "Name of a VM in VirtualBox to package as a base box (VirtualBox only)",
+                    "args": {
+                        "name": "NAME"
+                    }
+                },
+                {
+                    "name": "--output",
+                    "description": "Name of the file to output",
+                    "args": {
+                        "name": "NAME",
+                        "template": ["filepaths"]
+                    }
+                },
+                {
+                    "name": "--include",
+                    "description": "Comma separated additional files to package with the box",
+                    "args": {
+                        "name": "FILE,FILE..",
+                        "template": ["filepaths"]
+                    }
+                },
+                {
+                    "name": "--info",
+                    "description": "Path to a custom info.json file containing additional box information",
+                    "args": {
+                        "name": "FILE",
+                        "template": ["filepaths"]
+                    }
+                },
+                {
+                    "name": "--vagrantfile",
+                    "description": "Vagrantfile to package with the box",
+                    "args": {
+                        "name": "FILE",
+                        "template": ["filepaths"]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "plugin",
+            "description": "Manage plugins: install, uninstall, update, etc",
+            "subcommands": [
+                {
+                    "name": "install",
+                    "description": "Install a plugin",
+                    "args": {
+                        "name": "name",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--entry-point",
+                            "description": "The name of the entry point file for loading the plugin",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "--plugin-clean-sources",
+                            "description": "Remove all plugin sources defined so far (including defaults)"
+                        },
+                        {
+                            "name": "--plugin-source",
+                            "description": "Add a RubyGems repository source",
+                            "args": {
+                                "name": "PLUGIN_SOURCE"
+                            }
+                        },
+                        {
+                            "name": "--plugin-version",
+                            "description": "Install a specific version of the plugin",
+                            "args": {
+                                "name": "PLUGIN_VERSION"
+                            }
+                        },
+                        {
+                            "name": "--local",
+                            "description": "Install plugin for local project only"
+                        },
+                        {
+                            "name": "--verbose",
+                            "description": "Enable verbose output for plugin installation"
+                        }
+                    ]
+                },
+                {
+                    "name": "license",
+                    "description": "Install a license for a proprietary Vagrant plugin",
+                    "args": [
+                        {
+                            "name": "name"
+                        },
+                        {
+                            "name": "license-file",
+                            "template": ["filepaths"]
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List installed plugins",
+                    "options": [
+                        {
+                            "name": "--local",
+                            "description": "Include local project plugins"
+                        }
+                    ]
+                },
+                {
+                    "name": "uninstall",
+                    "description": "Uninstall plugins",
+                    "args": {
+                        "name": "name",
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--local",
+                            "description": "Remove plugin from local project"
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update plugins",
+                    "args": {
+                        "name": "names",
+                        "isOptional": true,
+                        "isVariadic": true
+                    },
+                    "options": [
+                        {
+                            "name": "--local",
+                            "description": "Update plugin in local project"
+                        }
+                    ]
+                },
+                {
+                    "name": "repair",
+                    "description": "Repair installed plugins",
+                    "options": [
+                        {
+                            "name": "--local",
+                            "description": "Repair plugins in local project"
+                        }
+                    ]
+                },
+                {
+                    "name": "expunge",
+                    "description": "Remove all user installed plugin information",
+                    "options": [
+                        {
+                            "name": "--force",
+                            "description": "Do not prompt for confirmation"
+                        },
+                        {
+                            "name": "--local",
+                            "description": "Include plugins from local project for expunge"
+                        },
+                        {
+                            "name": "--local-only",
+                            "description": "Only expunge local project plugins"
+                        },
+                        {
+                            "name": "--global-only",
+                            "description": "Only expunge global plugins"
+                        },
+                        {
+                            "name": "--reinstall",
+                            "description": "Reinstall current plugins after expunge"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "port",
+            "description": "Display information about guest port mappings",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--guest",
+                    "description": "Output the host port that maps to the given guest port",
+                    "args": {
+                        "name": "PORT"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "powershell",
+            "description": "Connect to machine via PowerShell remoting",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--command"
+                    ],
+                    "description": "Execute a PowerShell command directly",
+                    "args": {
+                        "name": "COMMAND",
+                        "isCommand": true
+                    }
+                },
+                {
+                    "name": [
+                        "-e",
+                        "--elevated"
+                    ],
+                    "description": "Execute a PowerShell command with elevated permissions"
+                }
+            ]
+        },
+        {
+            "name": "provider",
+            "description": "Show provider for this environment",
+            "options": [
+                {
+                    "name": "--install",
+                    "description": "Install the provider if possible"
+                },
+                {
+                    "name": "--usable",
+                    "description": "Check if the named provider is usable"
+                }
+            ],
+            "args": {
+                "name": "PROVIDER",
+                "isOptional": true,
+                "suggestions": [
+                    "virtualbox",
+                    "vmware_desktop",
+                    "vmware_fusion",
+                    "vmware_workstation",
+                    "hyperv",
+                    "docker",
+                    "libvirt",
+                    "parallels"
+                ]
+            }
+        },
+        {
+            "name": "provision",
+            "description": "Provision the vagrant machine",
+            "args": {
+                "name": "vm-name",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--provision-with",
+                    "description": "Enable only certain provisioners, by type or by name",
+                    "args": {
+                        "name": "x,y,z"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "push",
+            "description": "Deploy code in this environment to a configured destination",
+            "args": {
+                "name": "strategy",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "rdp",
+            "description": "Connect to machine via RDP",
+            "args": [
+                {
+                    "name": "name|id",
+                    "isOptional": true,
+                    "generatorName": "vagrant_machines"
+                },
+                {
+                    "name": "extra args",
+                    "description": "Extra RDP client arguments, after a `--` separator",
+                    "isOptional": true,
+                    "isVariadic": true
+                }
+            ]
+        },
+        {
+            "name": "reload",
+            "description": "Restart vagrant machine, load new Vagrantfile configuration",
+            "args": {
+                "name": "vm-name",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--provision",
+                    "description": "Enable provisioning",
+                    "exclusiveOn": ["--no-provision"]
+                },
+                {
+                    "name": "--no-provision",
+                    "description": "Disable provisioning",
+                    "exclusiveOn": ["--provision"]
+                },
+                {
+                    "name": "--provision-with",
+                    "description": "Enable only certain provisioners, by type or by name",
+                    "args": {
+                        "name": "x,y,z"
+                    }
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Force shut down (equivalent of pulling power)"
+                }
+            ]
+        },
+        {
+            "name": "resume",
+            "description": "Resume a suspended vagrant machine",
+            "args": {
+                "name": "vm-name",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--provision",
+                    "description": "Enable provisioning",
+                    "exclusiveOn": ["--no-provision"]
+                },
+                {
+                    "name": "--no-provision",
+                    "description": "Disable provisioning",
+                    "exclusiveOn": ["--provision"]
+                },
+                {
+                    "name": "--provision-with",
+                    "description": "Enable only certain provisioners, by type or by name",
+                    "args": {
+                        "name": "x,y,z"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "rsync",
+            "description": "Sync rsync synced folders to remote machine",
+            "args": {
+                "name": "vm-name",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--rsync-chown",
+                    "description": "Use rsync to modify ownership",
+                    "exclusiveOn": ["--no-rsync-chown"]
+                },
+                {
+                    "name": "--no-rsync-chown",
+                    "description": "Do not use rsync to modify ownership",
+                    "exclusiveOn": ["--rsync-chown"]
+                }
+            ]
+        },
+        {
+            "name": "rsync-auto",
+            "description": "Sync rsync synced folders automatically when files change",
+            "args": {
+                "name": "vm-name",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--poll",
+                    "description": "Force polling filesystem (slow)",
+                    "exclusiveOn": ["--no-poll"]
+                },
+                {
+                    "name": "--no-poll",
+                    "description": "Do not force polling filesystem",
+                    "exclusiveOn": ["--poll"]
+                },
+                {
+                    "name": "--rsync-chown",
+                    "description": "Use rsync to modify ownership",
+                    "exclusiveOn": ["--no-rsync-chown"]
+                },
+                {
+                    "name": "--no-rsync-chown",
+                    "description": "Do not use rsync to modify ownership",
+                    "exclusiveOn": ["--rsync-chown"]
+                }
+            ]
+        },
+        {
+            "name": "snapshot",
+            "description": "Manage snapshots: saving, restoring, etc",
+            "subcommands": [
+                {
+                    "name": "delete",
+                    "description": "Delete a snapshot taken previously with snapshot save",
+                    "args": [
+                        {
+                            "name": "vm-name",
+                            "isOptional": true,
+                            "generatorName": "vagrant_machines"
+                        },
+                        {
+                            "name": "name"
+                        }
+                    ]
+                },
+                {
+                    "name": "list",
+                    "description": "List all snapshots taken for a machine",
+                    "args": {
+                        "name": "vm-name",
+                        "isOptional": true,
+                        "generatorName": "vagrant_machines"
+                    }
+                },
+                {
+                    "name": "pop",
+                    "description": "Restore state that was pushed onto the snapshot stack",
+                    "args": {
+                        "name": "vm-name",
+                        "isOptional": true,
+                        "generatorName": "vagrant_machines"
+                    },
+                    "options": [
+                        {
+                            "name": "--provision",
+                            "description": "Enable provisioning",
+                            "exclusiveOn": ["--no-provision"]
+                        },
+                        {
+                            "name": "--no-provision",
+                            "description": "Disable provisioning",
+                            "exclusiveOn": ["--provision"]
+                        },
+                        {
+                            "name": "--provision-with",
+                            "description": "Enable only certain provisioners, by type or by name",
+                            "args": {
+                                "name": "x,y,z"
+                            }
+                        },
+                        {
+                            "name": "--no-delete",
+                            "description": "Don't delete the snapshot after the restore"
+                        },
+                        {
+                            "name": "--no-start",
+                            "description": "Don't start the snapshot after the restore"
+                        }
+                    ]
+                },
+                {
+                    "name": "push",
+                    "description": "Take a snapshot and push it onto the stack of states",
+                    "args": {
+                        "name": "vm-name",
+                        "isOptional": true,
+                        "generatorName": "vagrant_machines"
+                    }
+                },
+                {
+                    "name": "restore",
+                    "description": "Restore a snapshot taken previously with snapshot save",
+                    "args": [
+                        {
+                            "name": "vm-name",
+                            "isOptional": true,
+                            "generatorName": "vagrant_machines"
+                        },
+                        {
+                            "name": "name"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "--provision",
+                            "description": "Enable provisioning",
+                            "exclusiveOn": ["--no-provision"]
+                        },
+                        {
+                            "name": "--no-provision",
+                            "description": "Disable provisioning",
+                            "exclusiveOn": ["--provision"]
+                        },
+                        {
+                            "name": "--provision-with",
+                            "description": "Enable only certain provisioners, by type or by name",
+                            "args": {
+                                "name": "x,y,z"
+                            }
+                        },
+                        {
+                            "name": "--no-start",
+                            "description": "Don't start the snapshot after the restore"
+                        }
+                    ]
+                },
+                {
+                    "name": "save",
+                    "description": "Take a snapshot of the current state of the machine",
+                    "args": [
+                        {
+                            "name": "vm-name",
+                            "isOptional": true,
+                            "generatorName": "vagrant_machines"
+                        },
+                        {
+                            "name": "name"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": [
+                                "-f",
+                                "--force"
+                            ],
+                            "description": "Replace snapshot without confirmation"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "ssh",
+            "description": "Connect to machine via SSH",
+            "args": [
+                {
+                    "name": "name|id",
+                    "isOptional": true,
+                    "generatorName": "vagrant_machines"
+                },
+                {
+                    "name": "extra ssh args",
+                    "description": "Extra ssh arguments, after a `--` separator",
+                    "isOptional": true,
+                    "isVariadic": true
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--command"
+                    ],
+                    "description": "Execute an SSH command directly",
+                    "args": {
+                        "name": "COMMAND",
+                        "isCommand": true
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--plain"
+                    ],
+                    "description": "Plain mode, leaves authentication up to user"
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--tty"
+                    ],
+                    "description": "Enable tty when executing an ssh command (default)",
+                    "exclusiveOn": ["--no-tty"]
+                }
+            ]
+        },
+        {
+            "name": "ssh-config",
+            "description": "Output OpenSSH valid configuration to connect to the machine",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--host",
+                    "description": "Name the host for the config",
+                    "args": {
+                        "name": "NAME"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "status",
+            "description": "Output status of the vagrant machine",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            }
+        },
+        {
+            "name": "suspend",
+            "description": "Suspend the machine",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-a",
+                        "--all-global"
+                    ],
+                    "description": "Suspend all running vms globally"
+                }
+            ]
+        },
+        {
+            "name": "up",
+            "description": "Start and provision the vagrant environment",
+            "args": {
+                "name": "name|id",
+                "description": "Machine name or id (defaults to every machine in the environment)",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--provision",
+                    "description": "Enable provisioning",
+                    "exclusiveOn": ["--no-provision"]
+                },
+                {
+                    "name": "--no-provision",
+                    "description": "Disable provisioning",
+                    "exclusiveOn": ["--provision"]
+                },
+                {
+                    "name": "--provision-with",
+                    "description": "Enable only certain provisioners, by type or by name",
+                    "args": {
+                        "name": "x,y,z"
+                    }
+                },
+                {
+                    "name": "--destroy-on-error",
+                    "description": "Destroy machine if any fatal error happens (default)",
+                    "exclusiveOn": ["--no-destroy-on-error"]
+                },
+                {
+                    "name": "--no-destroy-on-error",
+                    "description": "Keep machine if any fatal error happens",
+                    "exclusiveOn": ["--destroy-on-error"]
+                },
+                {
+                    "name": "--parallel",
+                    "description": "Enable parallelism if the provider supports it",
+                    "exclusiveOn": ["--no-parallel"]
+                },
+                {
+                    "name": "--no-parallel",
+                    "description": "Disable parallelism",
+                    "exclusiveOn": ["--parallel"]
+                },
+                {
+                    "name": "--provider",
+                    "description": "Back the machine with a specific provider",
+                    "args": {
+                        "name": "PROVIDER",
+                        "suggestions": [
+                            "virtualbox",
+                            "vmware_desktop",
+                            "vmware_fusion",
+                            "vmware_workstation",
+                            "hyperv",
+                            "docker",
+                            "libvirt",
+                            "parallels"
+                        ]
+                    }
+                },
+                {
+                    "name": "--install-provider",
+                    "description": "If possible, install the provider if it isn't installed",
+                    "exclusiveOn": ["--no-install-provider"]
+                },
+                {
+                    "name": "--no-install-provider",
+                    "description": "Do not install the provider if it isn't installed",
+                    "exclusiveOn": ["--install-provider"]
+                }
+            ]
+        },
+        {
+            "name": "upload",
+            "description": "Upload to machine via communicator",
+            "args": [
+                {
+                    "name": "source",
+                    "template": ["filepaths"]
+                },
+                {
+                    "name": "destination",
+                    "isOptional": true
+                },
+                {
+                    "name": "name|id",
+                    "isOptional": true,
+                    "generatorName": "vagrant_machines"
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-t",
+                        "--temporary"
+                    ],
+                    "description": "Upload source to temporary directory"
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--compress"
+                    ],
+                    "description": "Use gzip compression for upload"
+                },
+                {
+                    "name": [
+                        "-C",
+                        "--compression-type"
+                    ],
+                    "description": "Type of compression to use",
+                    "args": {
+                        "name": "TYPE",
+                        "suggestions": [
+                            "tgz",
+                            "zip"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "validate",
+            "description": "Validate the Vagrantfile",
+            "options": [
+                {
+                    "name": [
+                        "-p",
+                        "--ignore-provider"
+                    ],
+                    "description": "Ignore provider config options"
+                }
+            ]
+        },
+        {
+            "name": "version",
+            "description": "Print current and latest Vagrant version"
+        },
+        {
+            "name": "winrm",
+            "description": "Execute commands on a machine via WinRM",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-c",
+                        "--command"
+                    ],
+                    "description": "Execute a WinRM command directly",
+                    "args": {
+                        "name": "COMMAND",
+                        "isCommand": true
+                    }
+                },
+                {
+                    "name": [
+                        "-e",
+                        "--elevated"
+                    ],
+                    "description": "Run with elevated credentials"
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--shell"
+                    ],
+                    "description": "Use specified shell",
+                    "args": {
+                        "name": "SHELL",
+                        "suggestions": [
+                            "powershell",
+                            "cmd"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "winrm-config",
+            "description": "Output WinRM configuration to connect to the machine",
+            "args": {
+                "name": "name|id",
+                "isOptional": true,
+                "generatorName": "vagrant_machines"
+            },
+            "options": [
+                {
+                    "name": "--host",
+                    "description": "Name the host for the config",
+                    "args": {
+                        "name": "NAME"
+                    }
+                }
+            ]
+        }
+    ]
+}
