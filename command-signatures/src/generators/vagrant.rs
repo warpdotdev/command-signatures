@@ -10,41 +10,13 @@ use warp_completion_metadata::{
 /// reading that directory avoids paying `vagrant status`'s multi-second Ruby start-up on
 /// every keystroke. The provider level is what [`parse_machines`] turns into the
 /// suggestion's description.
-const MACHINES_POSIX: &str = "sh -c 'dir=$PWD; while [ -n \"$dir\" ]; do if [ -d \"$dir/.vagrant/machines\" ]; then cd \"$dir/.vagrant/machines\" && find . -mindepth 1 -maxdepth 2 -type d; break; fi; dir=${dir%/*}; done'";
-
-/// The PowerShell equivalent of [`MACHINES_POSIX`], emitting the same `./<machine>` and
-/// `./<machine>/<provider>` lines so both platforms share one parser.
-///
-/// The machine name is captured into `$n` and the provider directories are listed in a
-/// nested loop, rather than recursing and rewriting path separators, so the script needs
-/// no backslash literals and survives being passed through `cmd.exe`.
-const MACHINES_POWERSHELL: &str = "$d = $PWD.Path; while ($d) { $m = Join-Path $d '.vagrant/machines'; if (Test-Path -LiteralPath $m) { Get-ChildItem -LiteralPath $m -Directory | ForEach-Object { $n = $_.Name; './' + $n; Get-ChildItem -LiteralPath $_.FullName -Directory | ForEach-Object { './' + $n + '/' + $_.Name } }; break }; $d = Split-Path -Parent $d }";
+const MACHINES_COMMAND: &str = "sh -c 'dir=$PWD; while [ -n \"$dir\" ]; do if [ -d \"$dir/.vagrant/machines\" ]; then cd \"$dir/.vagrant/machines\" && find . -mindepth 1 -maxdepth 2 -type d; break; fi; dir=${dir%/*}; done'";
 
 /// Lists the box directories under the Vagrant home, honoring `$VAGRANT_HOME`.
 ///
 /// The resolved path is quoted so a home directory containing spaces stays a single
 /// argument to `ls` instead of being split into several.
-const BOXES_POSIX: &str = "sh -c 'ls -1 \"${VAGRANT_HOME:-$HOME/.vagrant.d}/boxes\"'";
-
-/// The PowerShell equivalent of [`BOXES_POSIX`].
-const BOXES_POWERSHELL: &str = "$h = $env:VAGRANT_HOME; if (-not $h) { $h = Join-Path $HOME '.vagrant.d' }; Get-ChildItem -LiteralPath (Join-Path $h 'boxes') -Directory -Name";
-
-/// Wraps a PowerShell script so it can be launched from `cmd.exe`.
-///
-/// `cmd.exe` leaves `$` alone and expands only `%VAR%`, so double-quoting the script keeps
-/// it intact as long as the script itself quotes with `'`.
-fn powershell_from_cmd_exe(script: &str) -> String {
-    format!("powershell -NoProfile -Command \"{script}\"")
-}
-
-/// Builds the shell-appropriate command for one of the two directory listings.
-fn per_shell_command(posix: &str, powershell: &str) -> CommandBuilder {
-    CommandBuilder::per_shell_and_ignore_stderr(
-        posix,
-        powershell,
-        powershell_from_cmd_exe(powershell),
-    )
-}
+const BOXES_COMMAND: &str = "sh -c 'ls -1 \"${VAGRANT_HOME:-$HOME/.vagrant.d}/boxes\"'";
 
 /// Parses the two-level `.vagrant/machines` listing into machine-name suggestions,
 /// described by the provider directory nested under each machine when there is one.
@@ -102,14 +74,14 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator(
             "vagrant_machines",
             Generator::script(
-                per_shell_command(MACHINES_POSIX, MACHINES_POWERSHELL),
+                CommandBuilder::single_command_and_ignore_stderr(MACHINES_COMMAND),
                 parse_machines,
             ),
         )
         .add_generator(
             "vagrant_boxes",
             Generator::script(
-                per_shell_command(BOXES_POSIX, BOXES_POWERSHELL),
+                CommandBuilder::single_command_and_ignore_stderr(BOXES_COMMAND),
                 parse_boxes,
             ),
         )
@@ -118,7 +90,122 @@ pub fn generator() -> CommandSignatureGenerators {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use warp_completion_metadata::Shell;
+
+    /// The subcommands `vagrant` exposes, per `vagrant list-commands`.
+    #[cfg(feature = "embed-signatures")]
+    const TOP_LEVEL_SUBCOMMANDS: [&str; 36] = [
+        "autocomplete",
+        "box",
+        "cloud",
+        "destroy",
+        "docker-exec",
+        "docker-logs",
+        "docker-run",
+        "global-status",
+        "halt",
+        "help",
+        "init",
+        "list-commands",
+        "login",
+        "package",
+        "plugin",
+        "port",
+        "powershell",
+        "provider",
+        "provision",
+        "push",
+        "rdp",
+        "reload",
+        "resume",
+        "rsync",
+        "rsync-auto",
+        "snapshot",
+        "ssh",
+        "ssh-config",
+        "status",
+        "suspend",
+        "up",
+        "upload",
+        "validate",
+        "version",
+        "winrm",
+        "winrm-config",
+    ];
+
+    /// The command groups whose own subcommands the spec has to keep completing.
+    #[cfg(feature = "embed-signatures")]
+    const NESTED_GROUPS: [(&str, &[&str]); 4] = [
+        (
+            "box",
+            &[
+                "add",
+                "help",
+                "list",
+                "outdated",
+                "prune",
+                "remove",
+                "repackage",
+                "update",
+            ],
+        ),
+        (
+            "cloud",
+            &["auth", "box", "provider", "publish", "search", "version"],
+        ),
+        (
+            "plugin",
+            &[
+                "expunge",
+                "install",
+                "license",
+                "list",
+                "repair",
+                "uninstall",
+                "update",
+            ],
+        ),
+        (
+            "snapshot",
+            &["delete", "list", "pop", "push", "restore", "save"],
+        ),
+    ];
+
+    #[cfg(feature = "embed-signatures")]
+    #[test]
+    fn test_vagrant_spec_covers_every_subcommand_and_nested_group() {
+        let vagrant = crate::signature_by_name("vagrant").expect("vagrant spec should be bundled");
+
+        let subcommands: Vec<&str> = vagrant
+            .subcommands()
+            .iter()
+            .map(|subcommand| subcommand.name.as_str())
+            .collect();
+        for name in TOP_LEVEL_SUBCOMMANDS {
+            assert!(
+                subcommands.contains(&name),
+                "`vagrant {name}` is missing from the spec"
+            );
+        }
+
+        for (group, expected) in NESTED_GROUPS {
+            let signature = vagrant
+                .subcommands()
+                .iter()
+                .find(|subcommand| subcommand.name == group)
+                .unwrap_or_else(|| panic!("`vagrant {group}` is missing from the spec"));
+            let nested: Vec<&str> = signature
+                .subcommands()
+                .iter()
+                .map(|subcommand| subcommand.name.as_str())
+                .collect();
+            for name in expected {
+                assert!(
+                    nested.contains(name),
+                    "`vagrant {group} {name}` is missing from the spec"
+                );
+            }
+        }
+    }
 
     #[test]
     fn test_parse_machines_describes_each_machine_by_its_provider() {
@@ -215,57 +302,12 @@ mod tests {
     }
 
     #[test]
-    fn test_machines_command_is_selected_per_shell() {
-        let command = per_shell_command(MACHINES_POSIX, MACHINES_POWERSHELL);
-
-        let posix = command.build(Shell::Posix);
-        assert!(posix.starts_with("sh -c "));
-        assert!(posix.contains("find . -mindepth 1 -maxdepth 2 -type d"));
-
-        let powershell = command.build(Shell::Powershell);
-        assert!(powershell.starts_with("$d = $PWD.Path"));
-        assert!(!powershell.contains("sh -c "));
-        assert!(!powershell.contains("find "));
-
-        let cmd_exe = command.build(Shell::CmdExe);
-        assert!(cmd_exe.starts_with("powershell -NoProfile -Command \""));
-        assert!(!cmd_exe.contains("sh -c "));
+    fn test_boxes_command_quotes_the_resolved_path() {
+        assert!(BOXES_COMMAND.contains("\"${VAGRANT_HOME:-$HOME/.vagrant.d}/boxes\""));
     }
 
-    #[test]
-    fn test_boxes_command_is_selected_per_shell() {
-        let command = per_shell_command(BOXES_POSIX, BOXES_POWERSHELL);
-
-        let posix = command.build(Shell::Posix);
-        assert!(posix.starts_with("sh -c "));
-        assert!(posix.contains("ls -1 "));
-
-        let powershell = command.build(Shell::Powershell);
-        assert!(powershell.contains("Get-ChildItem"));
-        assert!(!powershell.contains("sh -c "));
-        assert!(!powershell.contains("ls -1 "));
-
-        let cmd_exe = command.build(Shell::CmdExe);
-        assert!(cmd_exe.starts_with("powershell -NoProfile -Command \""));
-        assert!(cmd_exe.contains("Get-ChildItem"));
-    }
-
-    /// A `cmd.exe` wrapper only stays intact while the script quotes with `'`; an embedded
-    /// `"` would terminate the wrapper's own quoting and truncate the script.
-    #[test]
-    fn test_powershell_scripts_carry_no_double_quotes() {
-        for script in [MACHINES_POWERSHELL, BOXES_POWERSHELL] {
-            assert!(!script.contains('"'), "`{script}` contains a double quote");
-        }
-    }
-
-    #[test]
-    fn test_boxes_posix_command_quotes_the_resolved_path() {
-        assert!(BOXES_POSIX.contains("\"${VAGRANT_HOME:-$HOME/.vagrant.d}/boxes\""));
-    }
-
-    /// Runs the real POSIX listings against on-disk fixtures whose paths contain spaces,
-    /// which an unquoted expansion would split into separate arguments.
+    /// Runs the real listings against on-disk fixtures whose paths contain spaces, which
+    /// an unquoted expansion would split into separate arguments.
     #[cfg(unix)]
     mod posix_execution {
         use super::*;
@@ -299,7 +341,7 @@ mod tests {
             fs::create_dir_all(boxes.join("hashicorp-VAGRANTSLASH-bionic64")).unwrap();
             fs::create_dir_all(boxes.join("mybox")).unwrap();
 
-            let results = parse_boxes(&run(BOXES_POSIX, &root, &vagrant_home));
+            let results = parse_boxes(&run(BOXES_COMMAND, &root, &vagrant_home));
             let mut names: Vec<&str> = results
                 .suggestions
                 .iter()
@@ -320,7 +362,8 @@ mod tests {
             let nested = project.join("a nested").join("sub dir");
             fs::create_dir_all(&nested).unwrap();
 
-            let results = parse_machines(&run(MACHINES_POSIX, &nested, Path::new("/nonexistent")));
+            let results =
+                parse_machines(&run(MACHINES_COMMAND, &nested, Path::new("/nonexistent")));
             assert_eq!(results.suggestions.len(), 1);
             assert_eq!(results.suggestions[0].exact_string, "default");
             assert_eq!(
@@ -336,10 +379,10 @@ mod tests {
             let root = fixture_root("empty");
             let missing = Path::new("/nonexistent");
 
-            assert!(parse_machines(&run(MACHINES_POSIX, &root, missing))
+            assert!(parse_machines(&run(MACHINES_COMMAND, &root, missing))
                 .suggestions
                 .is_empty());
-            assert!(parse_boxes(&run(BOXES_POSIX, &root, missing))
+            assert!(parse_boxes(&run(BOXES_COMMAND, &root, missing))
                 .suggestions
                 .is_empty());
 

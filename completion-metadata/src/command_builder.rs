@@ -9,13 +9,6 @@ enum CommandPart {
     /// A single command.
     SingleCommand(String),
     SingleCommandWithStdErrIgnored(String),
-    /// One command per shell family, for data that cannot be read the same way everywhere.
-    /// All stderr output is ignored.
-    PerShellWithStdErrIgnored {
-        posix: String,
-        powershell: String,
-        cmd_exe: String,
-    },
     /// Two commands separated by an and (i.e. `A && B`)
     And(Box<CommandPart>, Box<CommandPart>),
     /// Two command separated by a pipe (i.e. `A | B`)
@@ -41,18 +34,6 @@ impl CommandPart {
             )
             .into(),
             CommandPart::SingleCommandWithStdErrIgnored(command) => {
-                format!("{command} {}", shell.ignore_stderr()).into()
-            }
-            CommandPart::PerShellWithStdErrIgnored {
-                posix,
-                powershell,
-                cmd_exe,
-            } => {
-                let command = match shell {
-                    Shell::Posix => posix,
-                    Shell::Powershell => powershell,
-                    Shell::CmdExe => cmd_exe,
-                };
                 format!("{command} {}", shell.ignore_stderr()).into()
             }
             CommandPart::Concat(first_command, second_command) => format!(
@@ -81,24 +62,6 @@ impl CommandBuilder {
     /// Constructs a new [`CommandBuilder`] for a single command where all stderr output is ignored.
     pub fn single_command_and_ignore_stderr(command: impl Into<String>) -> Self {
         Self(CommandPart::SingleCommandWithStdErrIgnored(command.into()))
-    }
-
-    /// Constructs a new [`CommandBuilder`] that runs a different command per shell family,
-    /// ignoring all stderr output.
-    ///
-    /// Most generators read their data with a POSIX pipeline that a Windows shell cannot
-    /// run at all. Selecting per shell keeps such a generator working in every session
-    /// instead of silently producing nothing outside of a POSIX shell.
-    pub fn per_shell_and_ignore_stderr(
-        posix: impl Into<String>,
-        powershell: impl Into<String>,
-        cmd_exe: impl Into<String>,
-    ) -> Self {
-        Self(CommandPart::PerShellWithStdErrIgnored {
-            posix: posix.into(),
-            powershell: powershell.into(),
-            cmd_exe: cmd_exe.into(),
-        })
     }
 
     /// Constructs a new [`CommandBuilder`] for a series of commands that should be and'd together
