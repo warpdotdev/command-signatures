@@ -132,6 +132,78 @@ fn is_recipe_name(token: &str) -> bool {
         && characters.all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '-')
 }
 
+/// How many of the tokens after an option belong to that option rather than to a recipe.
+#[derive(Clone, Copy)]
+enum OptionValues {
+    Exactly(usize),
+    /// The option's value list runs to the end of the command line.
+    Rest,
+}
+
+/// `just` options that take one value.
+const OPTIONS_TAKING_A_VALUE: &[&str] = &[
+    "--alias-style",
+    "--ceiling",
+    "--chooser",
+    "--color",
+    "--command-color",
+    "--completions",
+    "--cygpath",
+    "--dotenv-command",
+    "--dotenv-filename",
+    "--dotenv-path",
+    "--dump-format",
+    "--evaluate-format",
+    "--group",
+    "--indentation",
+    "--jobs",
+    "--justfile",
+    "--justfile-name",
+    "--list-heading",
+    "--list-prefix",
+    "--shell",
+    "--shell-arg",
+    "--tempdir",
+    "--timestamp-format",
+    "--working-directory",
+    "-E",
+    "-F",
+    "-d",
+    "-f",
+];
+
+/// `just` options whose remaining values run to the end of the command line.
+const OPTIONS_TAKING_THE_REST: &[&str] = &[
+    "--clean",
+    "--command",
+    "--evaluate",
+    "--list",
+    "--show",
+    "--usage",
+    "-c",
+    "-l",
+    "-s",
+];
+
+/// How many tokens `token` claims as its own values. A `--name=value` token carries its value
+/// inline and claims nothing after it.
+fn option_values(token: &str) -> Option<OptionValues> {
+    if token.contains('=') {
+        return None;
+    }
+    if token == "--set" {
+        // `--set <VARIABLE> <VALUE>`.
+        return Some(OptionValues::Exactly(2));
+    }
+    if OPTIONS_TAKING_A_VALUE.contains(&token) {
+        return Some(OptionValues::Exactly(1));
+    }
+    if OPTIONS_TAKING_THE_REST.contains(&token) {
+        return Some(OptionValues::Rest);
+    }
+    None
+}
+
 /// The arguments already committed before the cursor, with the `just` invocation itself dropped.
 /// Without trailing whitespace the final token is the partial word being completed, which is not
 /// yet an argument.
@@ -144,19 +216,42 @@ fn preceding_arguments<'a>(tokens: &'a [&'a str], has_trailing_whitespace: bool)
     committed.get(1..).unwrap_or_default()
 }
 
-fn context_line(preceding: &[&str]) -> String {
-    let start = preceding.len().saturating_sub(MAX_CONTEXT_TOKENS);
-    let tokens: Vec<&str> = preceding[start..]
-        .iter()
-        .map(|token| {
-            if is_recipe_name(token) {
-                *token
-            } else {
-                OPAQUE_TOKEN
+/// Rewrites the arguments into the tokens the callback matches against recipe names. A token that
+/// cannot name a recipe, and every token an option claims as its value, collapses to
+/// [`OPAQUE_TOKEN`]. That keeps arbitrary command-line text out of the generated shell command, and
+/// it stops a recipe-shaped option value — `just --justfile deploy <TAB>` — from being replayed as
+/// a chosen recipe. Positions are preserved one-for-one so the replay still counts arguments.
+fn relay_tokens<'a>(preceding: &[&'a str]) -> Vec<&'a str> {
+    let mut relayed = Vec::with_capacity(preceding.len());
+    let mut values_owed = 0usize;
+    let mut every_remaining_token_is_a_value = false;
+
+    for token in preceding {
+        let is_a_value = every_remaining_token_is_a_value || values_owed > 0;
+        values_owed = values_owed.saturating_sub(1);
+
+        if !is_a_value {
+            match option_values(token) {
+                Some(OptionValues::Exactly(count)) => values_owed = count,
+                Some(OptionValues::Rest) => every_remaining_token_is_a_value = true,
+                None => {}
             }
-        })
-        .collect();
-    format!("{CONTEXT_PREFIX} {}", tokens.join(" "))
+        }
+
+        relayed.push(if !is_a_value && is_recipe_name(token) {
+            *token
+        } else {
+            OPAQUE_TOKEN
+        });
+    }
+
+    relayed
+}
+
+fn context_line(preceding: &[&str]) -> String {
+    let relayed = relay_tokens(preceding);
+    let start = relayed.len().saturating_sub(MAX_CONTEXT_TOKENS);
+    format!("{CONTEXT_PREFIX} {}", relayed[start..].join(" "))
 }
 
 fn recipes_command(
@@ -272,10 +367,24 @@ fn is_indented(line: &str) -> bool {
     line.starts_with([' ', '\t'])
 }
 
+/// Pulls a recipe's aliases out of its `just --list` doc comment, where they are rendered as
+/// `[alias: d]` or `[aliases: d, dep]` — before the doc text under `--alias-style left`, after it
+/// under the default `right`. An alias invokes its target, so it binds the same arguments.
+fn aliases_in(doc: &str) -> impl Iterator<Item = &str> {
+    doc.split_once("[alias: ")
+        .or_else(|| doc.split_once("[aliases: "))
+        .and_then(|(_, rest)| rest.split_once(']'))
+        .into_iter()
+        .flat_map(|(names, _)| names.split(','))
+        .map(str::trim)
+        .filter(|name| !name.is_empty())
+}
+
 /// Parses `just --list` output, whose entries look like `    name PARAM="v" # doc` and are grouped
 /// under an unindented heading plus optional `[group]` sub-headings.
 fn parse_list(output: &str) -> Recipes {
     let mut recipes = Recipes::default();
+    let mut aliases: Vec<(String, Arity)> = Vec::new();
 
     for line in output.lines().filter(|line| is_indented(line)) {
         let line = line.trim();
@@ -307,7 +416,18 @@ fn parse_list(output: &str) -> Recipes {
             Arity::Bounded(parameters.len())
         };
 
+        aliases.extend(
+            doc.into_iter()
+                .flat_map(aliases_in)
+                .map(|alias| (alias.to_string(), arity)),
+        );
         recipes.add(name.to_string(), arity, Some(recipe_suggestion(name, doc)));
+    }
+
+    // A recipe of the same name always wins, so that a doc comment that merely reads like alias
+    // metadata cannot overwrite a real recipe's arity.
+    for (alias, arity) in aliases {
+        recipes.arities.entry(alias).or_insert(arity);
     }
 
     recipes
@@ -422,11 +542,11 @@ mod tests {
       "source": "/tmp/justdemo/justfile"
     }"#;
 
-    /// Real `just --list` output for the same justfile.
+    /// Real `just --list` output for the same justfile, with a second alias on `deploy`.
     const LIST_OUTPUT: &str = r#"Available recipes:
     build                        # Build the project [alias: b]
     clean *paths                 # Clean paths
-    deploy env                   # Deploy to an environment
+    deploy env                   # Deploy to an environment [aliases: d, dep]
     package target +files        # Package everything
     release version bump="patch" # Release
     test filter=""               # Run the test suite
@@ -437,6 +557,17 @@ mod tests {
 "#;
 
     const DUMP_RECIPE_NAMES: [&str; 6] = ["build", "clean", "deploy", "lint", "package", "release"];
+
+    const LIST_RECIPE_NAMES: [&str; 8] = [
+        "build",
+        "clean",
+        "deploy",
+        "lint",
+        "package",
+        "release",
+        "test",
+        "undocumented",
+    ];
 
     /// Mimics what the generator receives: the context line [`recipes_command`] prints for the
     /// tokens on the command line, followed by the recipe data one of its tiers produced.
@@ -595,6 +726,35 @@ mod tests {
         );
     }
 
+    /// An option's value can spell a recipe name — `just --justfile deploy <TAB>` names a justfile,
+    /// not the `deploy` recipe — so a value must never be replayed as a chosen recipe and shadow the
+    /// first recipe position.
+    #[test]
+    fn test_an_option_value_never_claims_the_recipe_position() {
+        for tokens in [
+            vec!["just", "--justfile", "deploy"],
+            vec!["just", "-f", "deploy"],
+            vec!["just", "--working-directory", "clean"],
+            vec!["just", "--set", "deploy", "package"],
+            vec!["just", "--command", "deploy", "clean"],
+        ] {
+            assert_eq!(
+                suggestions_after(&tokens, DUMP_JSON),
+                DUMP_RECIPE_NAMES,
+                "expected recipes after {tokens:?}"
+            );
+        }
+    }
+
+    /// A switch takes no value, so the recipe right after one still claims its parameter positions.
+    #[test]
+    fn test_a_switch_does_not_swallow_the_recipe_that_follows_it() {
+        assert!(suggestions_after(&["just", "--unstable", "deploy"], DUMP_JSON).is_empty());
+        assert!(
+            suggestions_after(&["just", "--justfile=./justfile", "deploy"], DUMP_JSON).is_empty()
+        );
+    }
+
     /// The partial word under the cursor has not been bound to the recipe yet, so it only counts as
     /// an argument once it is followed by whitespace.
     #[test]
@@ -613,7 +773,7 @@ mod tests {
             expected(&[
                 ("build", "Build the project [alias: b]"),
                 ("clean", "Clean paths"),
-                ("deploy", "Deploy to an environment"),
+                ("deploy", "Deploy to an environment [aliases: d, dep]"),
                 ("lint", "Just recipe"),
                 ("package", "Package everything"),
                 ("release", "Release"),
@@ -630,16 +790,39 @@ mod tests {
         assert!(suggestions_after(&["just", "clean", "dist", "target"], LIST_OUTPUT).is_empty());
         assert_eq!(
             suggestions_after(&["just", "deploy", "prod"], LIST_OUTPUT),
-            [
-                "build",
-                "clean",
-                "deploy",
-                "lint",
-                "package",
-                "release",
-                "test",
-                "undocumented"
-            ]
+            LIST_RECIPE_NAMES
+        );
+    }
+
+    /// `just --list` renders a recipe's aliases into its doc comment, so the fallback tier can bind
+    /// an alias to its target's arguments just like the JSON dump does.
+    #[test]
+    fn test_list_output_binds_an_alias_to_the_target_arity() {
+        for alias in ["d", "dep"] {
+            assert!(
+                suggestions_after(&["just", alias], LIST_OUTPUT).is_empty(),
+                "expected no suggestions at the parameter position of alias {alias:?}"
+            );
+            assert_eq!(
+                suggestions_after(&["just", alias, "prod"], LIST_OUTPUT),
+                LIST_RECIPE_NAMES
+            );
+        }
+        assert_eq!(
+            suggestions_after(&["just", "b"], LIST_OUTPUT),
+            LIST_RECIPE_NAMES
+        );
+    }
+
+    /// `--alias-style left` moves the alias metadata ahead of the doc text.
+    #[test]
+    fn test_list_output_binds_an_alias_rendered_before_the_doc_text() {
+        let output =
+            "Available recipes:\n    deploy env # [aliases: d, dep] Deploy to an environment\n";
+        assert!(suggestions_after(&["just", "d"], output).is_empty());
+        assert_eq!(
+            suggestions_after(&["just", "d", "prod"], output),
+            ["deploy"]
         );
     }
 
