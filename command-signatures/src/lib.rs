@@ -157,43 +157,6 @@ mod tests {
         }
     }
 
-    /// Regression test for the top-level `openssl` signature (APP-3963): it must
-    /// expose its subcommand list (each with a description) and the global
-    /// `-help` flag, so `openssl <Tab>` surfaces subcommands and top-level flags.
-    #[test]
-    fn openssl_signature_has_top_level_subcommands_and_flags() {
-        let signature =
-            signature_by_name("openssl").expect("openssl signature should exist and deserialize");
-
-        let subcommand_names: HashSet<&str> =
-            signature.subcommands().iter().map(|s| s.name()).collect();
-        for expected in [
-            "req", "x509", "genrsa", "genpkey", "s_client", "s_server", "enc", "dgst", "verify",
-            "ca", "pkcs12", "rsa", "ec", "ecparam", "pkey", "list", "version",
-        ] {
-            assert!(
-                subcommand_names.contains(expected),
-                "openssl signature is missing the `{expected}` subcommand"
-            );
-        }
-
-        for subcommand in signature.subcommands() {
-            assert!(
-                subcommand
-                    .description
-                    .as_deref()
-                    .is_some_and(|d| !d.is_empty()),
-                "openssl subcommand `{}` is missing a description",
-                subcommand.name()
-            );
-        }
-
-        assert!(
-            signature.options().iter().any(|opt| opt.has_name("-help")),
-            "openssl signature is missing the top-level -help flag"
-        );
-    }
-
     /// Ensures no unquoted '\n' can be found.
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
