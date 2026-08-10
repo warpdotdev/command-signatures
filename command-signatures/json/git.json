@@ -4655,6 +4655,11 @@
                 {
                     "name": "--recurse-submodules",
                     "description": "Update active submodules to the commits recorded in the superproject",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "checkout",
+                        "isOptional": true
+                    },
                     "exclusiveOn": [
                         "--no-recurse-submodules"
                     ]
@@ -4669,6 +4674,17 @@
                 {
                     "name": "--no-sparse-checkout",
                     "description": "Disable sparse checkout support even if core.sparseCheckout is enabled"
+                },
+                {
+                    "name": "--exclude-per-directory",
+                    "description": "Allow explicitly ignored files to be overwritten when updating the working tree",
+                    "requiresSeparator": true,
+                    "args": {
+                        "name": "gitignore",
+                        "suggestions": [
+                            ".gitignore"
+                        ]
+                    }
                 },
                 {
                     "name": "--empty",
