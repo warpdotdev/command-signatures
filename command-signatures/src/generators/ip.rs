@@ -35,6 +35,35 @@ fn interface_state(details: &str) -> Option<String> {
     Some(format!("Interface ({state})"))
 }
 
+/// Parses `ps -eo pid,comm` output (dropping the header row) into PID suggestions
+/// described by the process's command name.
+///
+/// Used for positions that accept the PID of an arbitrary running process, such as
+/// `ip netns attach NAME PID` and `ip netns identify [PID]` — these accept any
+/// process on the system, not one already associated with a namespace.
+fn parse_processes(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .skip(1) // drop the "PID COMMAND" header
+        .filter_map(|line| {
+            let mut parts = line.split_whitespace();
+            let pid = parts.next()?;
+            if pid.is_empty() {
+                return None;
+            }
+            let comm = parts.collect::<Vec<_>>().join(" ");
+            Some(Suggestion::with_description(
+                pid,
+                if comm.is_empty() {
+                    "Process".to_string()
+                } else {
+                    comm
+                },
+            ))
+        })
+        .collect_unordered_results()
+}
+
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("ip")
         .add_generator(
@@ -62,6 +91,13 @@ pub fn generator() -> CommandSignatureGenerators {
                 // `-o` keeps each interface on its own line so it can be parsed reliably.
                 CommandBuilder::single_command_and_ignore_stderr("ip -o link show"),
                 parse_interfaces,
+            ),
+        )
+        .add_generator(
+            "processes",
+            Generator::script(
+                CommandBuilder::single_command("ps -eo pid,comm"),
+                parse_processes,
             ),
         )
 }
@@ -113,5 +149,44 @@ mod tests {
     #[test]
     fn test_parse_interfaces_empty_output() {
         assert!(parse_interfaces("").suggestions.is_empty());
+    }
+
+    /// Real `ps -eo pid,comm` output on Linux.
+    const PS_OUTPUT: &str =
+        "    PID COMMAND\n      1 systemd\n    532 sshd\n    901 my long name\n";
+
+    #[test]
+    fn test_parse_processes_skips_the_header_row() {
+        let results = parse_processes(PS_OUTPUT);
+        let pids: Vec<&str> = results
+            .suggestions
+            .iter()
+            .map(|suggestion| suggestion.exact_string.as_str())
+            .collect();
+        assert_eq!(pids, vec!["1", "532", "901"]);
+    }
+
+    #[test]
+    fn test_parse_processes_describes_by_command_name() {
+        let results = parse_processes(PS_OUTPUT);
+        let descriptions: Vec<Option<&str>> = results
+            .suggestions
+            .iter()
+            .map(|suggestion| suggestion.description.as_deref())
+            .collect();
+        assert_eq!(
+            descriptions,
+            vec![Some("systemd"), Some("sshd"), Some("my long name")]
+        );
+    }
+
+    #[test]
+    fn test_parse_processes_empty_output() {
+        assert!(parse_processes("").suggestions.is_empty());
+    }
+
+    #[test]
+    fn test_parse_processes_header_only_output() {
+        assert!(parse_processes("    PID COMMAND\n").suggestions.is_empty());
     }
 }

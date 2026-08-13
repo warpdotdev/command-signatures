@@ -116,7 +116,125 @@
         },
         {
             "name": "netns",
-            "description": "Manage network namespaces"
+            "description": "Manage network namespaces",
+            "subcommands": [
+                {
+                    "name": [
+                        "list",
+                        "show",
+                        "lst"
+                    ],
+                    "description": "List all named network namespaces"
+                },
+                {
+                    "name": "add",
+                    "description": "Create a new named network namespace",
+                    "args": {
+                        "name": "NAME"
+                    }
+                },
+                {
+                    "name": "attach",
+                    "description": "Attach the network namespace of an existing process to a new name",
+                    "args": [
+                        {
+                            "name": "NAME"
+                        },
+                        {
+                            "name": "PID",
+                            "generatorName": "processes"
+                        }
+                    ]
+                },
+                {
+                    "name": "set",
+                    "description": "Assign an id to a peer network namespace; the id is only valid in the current network namespace",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "generatorName": "netns"
+                        },
+                        {
+                            "name": "NETNSID",
+                            "description": "'auto' to let the kernel choose an available id, or a non-negative integer",
+                            "suggestions": ["auto"]
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a named network namespace; omit NAME when using the global -all option to delete them all",
+                    "args": {
+                        "name": "NAME",
+                        "isOptional": true,
+                        "generatorName": "netns"
+                    }
+                },
+                {
+                    "name": "identify",
+                    "description": "Report the network namespace name for a process, defaulting to the current process",
+                    "args": {
+                        "name": "PID",
+                        "isOptional": true,
+                        "generatorName": "processes"
+                    }
+                },
+                {
+                    "name": "pids",
+                    "description": "List the process IDs whose primary network namespace is the given named namespace",
+                    "args": {
+                        "name": "NAME",
+                        "generatorName": "netns"
+                    }
+                },
+                {
+                    "name": "exec",
+                    "description": "Run a command in the given network namespace; omit NAME when using the global -all option to run it in every namespace",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "isOptional": true,
+                            "generatorName": "netns"
+                        },
+                        {
+                            "name": "cmd",
+                            "description": "Command (and its arguments) to run inside the namespace",
+                            "isCommand": true
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor",
+                    "description": "Report network namespace names as they are added and deleted"
+                },
+                {
+                    "name": "list-id",
+                    "description": "List namespace ids (nsid) assigned in the current network namespace; requires kernel support for RTM_GETNSID",
+                    "options": [
+                        {
+                            "name": "target-nsid",
+                            "description": "Show nsids of the network namespace identified by this nsid (from the current namespace) instead of the current namespace",
+                            "args": {
+                                "name": "POSITIVE-INT"
+                            }
+                        },
+                        {
+                            "name": "nsid",
+                            "description": "Only show this nsid; combine with target-nsid to convert a nsid from the current namespace into the corresponding nsid of the target namespace",
+                            "args": {
+                                "name": "POSITIVE-INT"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip netns"
+                }
+            ]
         },
         {
             "name": "nexthop",
