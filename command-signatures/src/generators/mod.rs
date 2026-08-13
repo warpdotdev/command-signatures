@@ -53,6 +53,7 @@ mod npm;
 mod nx;
 mod oc;
 mod pacman;
+mod paru;
 mod pass;
 mod phpunit_watcher;
 mod pip;
@@ -78,6 +79,7 @@ mod tmuxinator;
 mod tsh;
 mod uv;
 mod vagrant;
+mod yay;
 mod yc;
 
 /// Used for gcloud and gsutil completions.
@@ -119,6 +121,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         npm::yarn_generators(),
         nx::generator(),
         pacman::generator(),
+        paru::generator(),
         pass::generator(),
         phpunit_watcher::generator(),
         pip::generator(),
@@ -167,6 +170,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         vagrant::generator(),
         gcloud::gcloud_generators(),
         gcloud::gsutil_generators(),
+        yay::generator(),
         yc::generator(),
     ];
 

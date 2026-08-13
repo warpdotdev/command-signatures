@@ -3,7 +3,7 @@ use regex::Regex;
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use warp_completion_metadata::{
-    CommandBuilder, Generator, GeneratorResults, GeneratorResultsCollector, Suggestion,
+    CommandBuilder, Generator, GeneratorResults, GeneratorResultsCollector, Priority, Suggestion,
 };
 
 /// Shell command that reads ~/.ssh/config and all files referenced by Include directives.
@@ -241,4 +241,46 @@ pub fn users_generator() -> Generator {
 
 lazy_static! {
     static ref SIGNAL_NAME: Regex = Regex::new(r"(\w+)").unwrap();
+}
+
+/// Returns a generator that lists installed pacman packages (`pacman -Q`).
+///
+/// Shared by `pacman` and the AUR helpers that wrap it for installed-package queries, such as
+/// `yay` and `paru`.
+pub fn pacman_installed_packages_generator() -> Generator {
+    Generator::script(
+        CommandBuilder::pipe(
+            CommandBuilder::single_command("pacman -Q"),
+            CommandBuilder::single_command("awk '{print $1}'"),
+        ),
+        |output| {
+            output
+                .lines()
+                .map(|package_name| Suggestion::with_description(package_name, "package"))
+                .collect_unordered_results()
+        },
+    )
+}
+
+/// Returns a generator that lists pacman package archive files (`*.pkg.tar*`) in the current
+/// directory, for completing the local package file target of `-U`/`--upgrade`.
+///
+/// Shared by `pacman`, `yay`, and `paru`, which all accept the same archive formats.
+pub fn pacman_pkg_tar_files_in_cwd_generator() -> Generator {
+    Generator::script(
+        CommandBuilder::single_command(
+            r#"find . -maxdepth 1 -type f -name '*.pkg.tar' -o -name '*.pkg.tar.zst' -o -name '*.pkg.tar.gz' -o -name '*.pkg.tar.xz'"#,
+        ),
+        |output| {
+            // We should prioritize .pkg.tar files over the already installed packages.
+            output
+                .lines()
+                .filter(|file| !file.is_empty())
+                .map(|file| {
+                    Suggestion::with_description(file, ".pkg.tar file")
+                        .with_priority(Priority::most_important())
+                })
+                .collect_unordered_results()
+        },
+    )
 }
