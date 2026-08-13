@@ -3,7 +3,11 @@
     "description": "Show and manipulate routing, network devices, interfaces and tunnels",
     "subcommands": [
         {
-            "name": "address",
+            "name": [
+                "address",
+                "addr",
+                "a"
+            ],
             "description": "Protocol (IP or IPv6) address on a device",
             "subcommands": [
                 {
@@ -15,6 +19,13 @@
                         "isOptional": true
                     },
                     "subcommands": [
+                        {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
                         {
                             "name": [
                                 "peer",
@@ -51,7 +62,8 @@
                                     "global",
                                     "site",
                                     "link",
-                                    "host"
+                                    "host",
+                                    "nowhere"
                                 ]
                             }
                         },
@@ -152,6 +164,13 @@
                     },
                     "subcommands": [
                         {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
                             "name": [
                                 "peer",
                                 "remote"
@@ -187,7 +206,8 @@
                                     "global",
                                     "site",
                                     "link",
-                                    "host"
+                                    "host",
+                                    "nowhere"
                                 ]
                             }
                         },
@@ -285,6 +305,13 @@
                     },
                     "subcommands": [
                         {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
                             "name": [
                                 "peer",
                                 "remote"
@@ -320,7 +347,8 @@
                                     "global",
                                     "site",
                                     "link",
-                                    "host"
+                                    "host",
+                                    "nowhere"
                                 ]
                             }
                         },
@@ -421,6 +449,13 @@
                     },
                     "subcommands": [
                         {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
                             "name": [
                                 "peer",
                                 "remote"
@@ -456,7 +491,8 @@
                                     "global",
                                     "site",
                                     "link",
-                                    "host"
+                                    "host",
+                                    "nowhere"
                                 ]
                             }
                         },
@@ -566,6 +602,14 @@
                             }
                         },
                         {
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
                             "name": "scope",
                             "description": "Only match addresses with this scope",
                             "args": {
@@ -575,6 +619,7 @@
                                     "site",
                                     "link",
                                     "host",
+                                    "nowhere",
                                     "all"
                                 ]
                             }
@@ -681,37 +726,50 @@
                             "args": {
                                 "name": "TYPE",
                                 "suggestions": [
-                                    "bridge",
-                                    "bridge_slave",
+                                    "amt",
+                                    "bareudp",
                                     "bond",
                                     "bond_slave",
-                                    "can",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "dsa",
                                     "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
                                     "hsr",
                                     "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
                                     "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "macsec",
                                     "macvlan",
                                     "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
                                     "vcan",
                                     "veth",
                                     "vlan",
-                                    "vxlan",
-                                    "ip6tnl",
-                                    "ipip",
-                                    "sit",
-                                    "gre",
-                                    "gretap",
-                                    "erspan",
-                                    "ip6gre",
-                                    "ip6gretap",
-                                    "ip6erspan",
-                                    "vti",
                                     "vrf",
-                                    "nlmon",
-                                    "ipvlan",
-                                    "lowpan",
-                                    "geneve",
-                                    "macsec"
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm",
+                                    "virt_wifi"
                                 ]
                             }
                         },
@@ -730,6 +788,44 @@
                         {
                             "name": "novf",
                             "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
+                        },
+                        {
+                            "name": "stable-privacy",
+                            "description": "(IPv6 only) Only match addresses generated by the RFC 7217 stable-privacy address generator"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-dynamic",
+                            "description": "Inverse of \"dynamic\": only match addresses that are not dynamically assigned (i.e. permanent)"
+                        },
+                        {
+                            "name": "-permanent",
+                            "description": "Inverse of \"permanent\": only match addresses installed due to stateless address autoconfiguration"
+                        },
+                        {
+                            "name": "-primary",
+                            "description": "Inverse of \"primary\": only match secondary/temporary addresses"
+                        },
+                        {
+                            "name": "-secondary",
+                            "description": "Inverse of \"secondary\": only match primary (non-secondary/temporary) addresses"
+                        },
+                        {
+                            "name": "-temporary",
+                            "description": "(IPv6 only) Inverse of \"temporary\": only match non-temporary addresses"
+                        },
+                        {
+                            "name": "-tentative",
+                            "description": "(IPv6 only) Inverse of \"tentative\": only match addresses that have finished Duplicate Address Detection"
+                        },
+                        {
+                            "name": "-deprecated",
+                            "description": "(IPv6 only) Inverse of \"deprecated\": only match addresses whose preferred lifetime has not expired"
+                        },
+                        {
+                            "name": "-dadfailed",
+                            "description": "(IPv6 only) Inverse of \"dadfailed\": only match addresses that did not fail Duplicate Address Detection"
                         }
                     ]
                 },
@@ -751,6 +847,14 @@
                             }
                         },
                         {
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
                             "name": "scope",
                             "description": "Only match addresses with this scope",
                             "args": {
@@ -760,6 +864,7 @@
                                     "site",
                                     "link",
                                     "host",
+                                    "nowhere",
                                     "all"
                                 ]
                             }
@@ -866,37 +971,50 @@
                             "args": {
                                 "name": "TYPE",
                                 "suggestions": [
-                                    "bridge",
-                                    "bridge_slave",
+                                    "amt",
+                                    "bareudp",
                                     "bond",
                                     "bond_slave",
-                                    "can",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "dsa",
                                     "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
                                     "hsr",
                                     "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
                                     "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "macsec",
                                     "macvlan",
                                     "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
                                     "vcan",
                                     "veth",
                                     "vlan",
-                                    "vxlan",
-                                    "ip6tnl",
-                                    "ipip",
-                                    "sit",
-                                    "gre",
-                                    "gretap",
-                                    "erspan",
-                                    "ip6gre",
-                                    "ip6gretap",
-                                    "ip6erspan",
-                                    "vti",
                                     "vrf",
-                                    "nlmon",
-                                    "ipvlan",
-                                    "lowpan",
-                                    "geneve",
-                                    "macsec"
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm",
+                                    "virt_wifi"
                                 ]
                             }
                         },
@@ -915,12 +1033,50 @@
                         {
                             "name": "novf",
                             "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
+                        },
+                        {
+                            "name": "stable-privacy",
+                            "description": "(IPv6 only) Only match addresses generated by the RFC 7217 stable-privacy address generator"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-dynamic",
+                            "description": "Inverse of \"dynamic\": only match addresses that are not dynamically assigned (i.e. permanent)"
+                        },
+                        {
+                            "name": "-permanent",
+                            "description": "Inverse of \"permanent\": only match addresses installed due to stateless address autoconfiguration"
+                        },
+                        {
+                            "name": "-primary",
+                            "description": "Inverse of \"primary\": only match secondary/temporary addresses"
+                        },
+                        {
+                            "name": "-secondary",
+                            "description": "Inverse of \"secondary\": only match primary (non-secondary/temporary) addresses"
+                        },
+                        {
+                            "name": "-temporary",
+                            "description": "(IPv6 only) Inverse of \"temporary\": only match non-temporary addresses"
+                        },
+                        {
+                            "name": "-tentative",
+                            "description": "(IPv6 only) Inverse of \"tentative\": only match addresses that have finished Duplicate Address Detection"
+                        },
+                        {
+                            "name": "-deprecated",
+                            "description": "(IPv6 only) Inverse of \"deprecated\": only match addresses whose preferred lifetime has not expired"
+                        },
+                        {
+                            "name": "-dadfailed",
+                            "description": "(IPv6 only) Inverse of \"dadfailed\": only match addresses that did not fail Duplicate Address Detection"
                         }
                     ]
                 },
                 {
                     "name": "save",
-                    "description": "Print addresses matching the given selectors to stdout in a format suitable for 'ip address restore'",
+                    "description": "Print all addresses to stdout in a format suitable for 'ip address restore'; only the dev selector actually restricts the dump, all other filter-style keywords accepted by 'ip address show' have no effect here",
                     "args": {
                         "name": "IFNAME",
                         "description": "Device to match; the leading \"dev\" keyword is optional",
@@ -929,177 +1085,12 @@
                     },
                     "subcommands": [
                         {
-                            "name": "to",
-                            "description": "Only match addresses within this prefix",
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
                             "args": {
-                                "name": "PREFIX"
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
                             }
-                        },
-                        {
-                            "name": "scope",
-                            "description": "Only match addresses with this scope",
-                            "args": {
-                                "name": "SCOPE-ID",
-                                "suggestions": [
-                                    "global",
-                                    "site",
-                                    "link",
-                                    "host",
-                                    "all"
-                                ]
-                            }
-                        },
-                        {
-                            "name": "up",
-                            "description": "Only match addresses on running (UP) interfaces"
-                        },
-                        {
-                            "name": "down",
-                            "description": "Only match addresses on interfaces that are not running"
-                        },
-                        {
-                            "name": "label",
-                            "description": "Only match addresses whose label matches this shell-style glob pattern",
-                            "args": {
-                                "name": "PATTERN"
-                            }
-                        },
-                        {
-                            "name": "dynamic",
-                            "description": "(IPv6 only) Only match addresses installed due to stateless address autoconfiguration (the inverse of permanent)"
-                        },
-                        {
-                            "name": "permanent",
-                            "description": "(IPv6 only) Only match addresses that are not dynamically assigned"
-                        },
-                        {
-                            "name": "primary",
-                            "description": "Only match addresses that are not secondary/temporary (the inverse of secondary)"
-                        },
-                        {
-                            "name": "secondary",
-                            "description": "Only match IPv4 secondary or IPv6 temporary addresses"
-                        },
-                        {
-                            "name": "temporary",
-                            "description": "(IPv6 only) Only match temporary addresses generated for Privacy Extensions"
-                        },
-                        {
-                            "name": "tentative",
-                            "description": "(IPv6 only) Only match addresses that are still undergoing Duplicate Address Detection"
-                        },
-                        {
-                            "name": "deprecated",
-                            "description": "(IPv6 only) Only match addresses whose preferred lifetime has expired"
-                        },
-                        {
-                            "name": "dadfailed",
-                            "description": "(IPv6 only) Only match addresses that failed Duplicate Address Detection"
-                        },
-                        {
-                            "name": "nodad",
-                            "description": "(IPv6 only) Only match addresses configured to skip Duplicate Address Detection"
-                        },
-                        {
-                            "name": "optimistic",
-                            "description": "(IPv6 only) Only match addresses using the RFC 4429 optimistic Duplicate Address Detection variant"
-                        },
-                        {
-                            "name": "home",
-                            "description": "(IPv6 only) Only match addresses designated as the \"home address\" (RFC 6275)"
-                        },
-                        {
-                            "name": "mngtmpaddr",
-                            "description": "(IPv6 only) Only match addresses used as a template for kernel-managed temporary addresses"
-                        },
-                        {
-                            "name": "noprefixroute",
-                            "description": "Only match addresses configured without an automatic prefix route"
-                        },
-                        {
-                            "name": "autojoin",
-                            "description": "Only match addresses configured to auto-join their multicast group at the link layer"
-                        },
-                        {
-                            "name": "group",
-                            "description": "Only match addresses on devices in this interface group",
-                            "args": {
-                                "name": "GROUP"
-                            }
-                        },
-                        {
-                            "name": "master",
-                            "description": "Only match addresses on interfaces enslaved to this master device",
-                            "args": {
-                                "name": "DEVICE"
-                            }
-                        },
-                        {
-                            "name": "vrf",
-                            "description": "Only match addresses on interfaces enslaved to this VRF",
-                            "args": {
-                                "name": "NAME"
-                            }
-                        },
-                        {
-                            "name": "nomaster",
-                            "description": "Only match addresses on interfaces with no master device"
-                        },
-                        {
-                            "name": "type",
-                            "description": "Only match addresses on interfaces of this device type",
-                            "args": {
-                                "name": "TYPE",
-                                "suggestions": [
-                                    "bridge",
-                                    "bridge_slave",
-                                    "bond",
-                                    "bond_slave",
-                                    "can",
-                                    "dummy",
-                                    "hsr",
-                                    "ifb",
-                                    "ipoib",
-                                    "macvlan",
-                                    "macvtap",
-                                    "vcan",
-                                    "veth",
-                                    "vlan",
-                                    "vxlan",
-                                    "ip6tnl",
-                                    "ipip",
-                                    "sit",
-                                    "gre",
-                                    "gretap",
-                                    "erspan",
-                                    "ip6gre",
-                                    "ip6gretap",
-                                    "ip6erspan",
-                                    "vti",
-                                    "vrf",
-                                    "nlmon",
-                                    "ipvlan",
-                                    "lowpan",
-                                    "geneve",
-                                    "macsec"
-                                ]
-                            }
-                        },
-                        {
-                            "name": "proto",
-                            "description": "Only match addresses installed with this address protocol identifier",
-                            "args": {
-                                "name": "ADDRPROTO",
-                                "suggestions": [
-                                    "kernel_lo",
-                                    "kernel_ra",
-                                    "kernel_ll"
-                                ]
-                            }
-                        },
-                        {
-                            "name": "novf",
-                            "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
                         }
                     ]
                 },
