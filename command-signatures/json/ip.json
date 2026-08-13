@@ -81,7 +81,9 @@
                 {
                     "name": "stats",
                     "description": "Monitor interface statistics"
-                },
+                }
+            ],
+            "options": [
                 {
                     "name": "file",
                     "description": "Read events from a file instead of netlink",
@@ -725,12 +727,6 @@
                 {
                     "name": "prl",
                     "description": "Manage the potential router list for an ISATAP tunnel",
-                    "args": {
-                        "name": "NAME",
-                        "description": "Tunnel device name",
-                        "generatorName": "interfaces",
-                        "isOptional": true
-                    },
                     "options": [
                         {
                             "name": "prl-default",
@@ -746,18 +742,21 @@
                             "name": "prl-delete",
                             "description": "Remove a potential router list entry",
                             "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "ISATAP tunnel device to modify (required)",
+                            "args": {
+                                "name": "PHYS_DEV",
+                                "generatorName": "interfaces"
+                            },
+                            "isRequired": true
                         }
                     ]
                 },
                 {
                     "name": "6rd",
                     "description": "Configure IPv6 rapid deployment (6rd) parameters for a sit tunnel",
-                    "args": {
-                        "name": "NAME",
-                        "description": "Tunnel device name",
-                        "generatorName": "interfaces",
-                        "isOptional": true
-                    },
                     "options": [
                         {
                             "name": "6rd-prefix",
@@ -772,6 +771,15 @@
                         {
                             "name": "6rd-reset",
                             "description": "Reset 6rd parameters to their default values"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "sit tunnel device to modify (required)",
+                            "args": {
+                                "name": "PHYS_DEV",
+                                "generatorName": "interfaces"
+                            },
+                            "isRequired": true
                         }
                     ]
                 }
@@ -883,14 +891,28 @@
                                 {
                                     "name": "encap",
                                     "description": "Encapsulate ESP in UDP or TCP for NAT traversal",
-                                    "args": {
-                                        "name": "ENCAP-TYPE",
-                                        "suggestions": [
-                                            "espinudp",
-                                            "espinudp-nonike",
-                                            "espintcp"
-                                        ]
-                                    }
+                                    "args": [
+                                        {
+                                            "name": "ENCAP-TYPE",
+                                            "suggestions": [
+                                                "espinudp",
+                                                "espinudp-nonike",
+                                                "espintcp"
+                                            ]
+                                        },
+                                        {
+                                            "name": "SPORT",
+                                            "description": "Local encapsulation port"
+                                        },
+                                        {
+                                            "name": "DPORT",
+                                            "description": "Remote encapsulation port"
+                                        },
+                                        {
+                                            "name": "OADDR",
+                                            "description": "Original address before NAT"
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "if_id",
@@ -1485,7 +1507,9 @@
                         {
                             "name": "report",
                             "description": "Monitor xfrm report events"
-                        },
+                        }
+                    ],
+                    "options": [
                         {
                             "name": "nokeys",
                             "description": "Do not print key material for SA events"
