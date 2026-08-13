@@ -1567,6 +1567,14 @@
                     },
                     "subcommands": [
                         {
+                            "name": "dev",
+                            "description": "Device to display (alternative to the positional form)",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
                             "name": "group",
                             "description": "Only show devices in this interface group",
                             "args": {
@@ -1671,55 +1679,14 @@
                     "subcommands": [
                         {
                             "name": "type",
-                            "description": "Device type whose extended statistics to display; some types take further TYPE-specific arguments after the type name that are not modeled here",
+                            "description": "Device type whose extended statistics to display; only these types register an xstats callback upstream (checked in iplink_ifla_xstats/get_link_kind against each type's print_ifla_xstats), so this list is intentionally narrower than the general TYPE grammar",
                             "args": {
                                 "name": "TYPE",
                                 "suggestions": [
-                                    "amt",
-                                    "bareudp",
-                                    "batadv",
                                     "bond",
+                                    "bond_slave",
                                     "bridge",
-                                    "can",
-                                    "dsa",
-                                    "dummy",
-                                    "erspan",
-                                    "geneve",
-                                    "gre",
-                                    "gretap",
-                                    "gtp",
-                                    "hsr",
-                                    "ifb",
-                                    "ip6erspan",
-                                    "ip6gre",
-                                    "ip6gretap",
-                                    "ip6tnl",
-                                    "ipip",
-                                    "ipoib",
-                                    "ipvlan",
-                                    "ipvtap",
-                                    "lowpan",
-                                    "macsec",
-                                    "macvlan",
-                                    "macvtap",
-                                    "netdevsim",
-                                    "netkit",
-                                    "nlmon",
-                                    "pfcp",
-                                    "rmnet",
-                                    "sit",
-                                    "team",
-                                    "vcan",
-                                    "veth",
-                                    "virt_wifi",
-                                    "vlan",
-                                    "vrf",
-                                    "vti",
-                                    "vti6",
-                                    "vxcan",
-                                    "vxlan",
-                                    "wwan",
-                                    "xfrm"
+                                    "bridge_slave"
                                 ]
                             }
                         }
