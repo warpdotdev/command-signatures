@@ -81,6 +81,8 @@
                     "address",
                     "link",
                     "mroute",
+                    "maddress",
+                    "acaddress",
                     "neigh",
                     "netconf",
                     "nexthop",
@@ -166,7 +168,7 @@
                         },
                         {
                             "name": "dscp",
-                            "description": "Select the DSCP value (and optional mask) to match, e.g. \"dscp af11\" or \"dscp 0x0a/0x3f\"",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
                             "args": {
                                 "name": "DSCP[/MASK]"
                             }
@@ -256,7 +258,7 @@
                         },
                         {
                             "name": "flowlabel",
-                            "description": "Select the IPv6 flow label (and optional mask) to match",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
                             "args": {
                                 "name": "FLOWLABEL[/MASK]"
                             }
@@ -383,7 +385,7 @@
                         },
                         {
                             "name": "dscp",
-                            "description": "Select the DSCP value (and optional mask) to match, e.g. \"dscp af11\" or \"dscp 0x0a/0x3f\"",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
                             "args": {
                                 "name": "DSCP[/MASK]"
                             }
@@ -473,7 +475,7 @@
                         },
                         {
                             "name": "flowlabel",
-                            "description": "Select the IPv6 flow label (and optional mask) to match",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
                             "args": {
                                 "name": "FLOWLABEL[/MASK]"
                             }
@@ -600,6 +602,13 @@
                             }
                         },
                         {
+                            "name": "dscp",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
                             "name": "fwmark",
                             "description": "Select the fwmark value (and optional mask) to match, e.g. \"fwmark 0x1/0xff\"",
                             "args": {
@@ -680,6 +689,13 @@
                             "description": "Select the tunnel id to match, e.g. a GRE key",
                             "args": {
                                 "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
                             }
                         },
                         {
@@ -2150,6 +2166,14 @@
                     "name": "monitor",
                     "description": "Watch for xfrm netlink events",
                     "options": [
+                        {
+                            "name": "file",
+                            "description": "Read xfrm events from a file instead of listening on RTNETLINK",
+                            "args": {
+                                "name": "FILENAME",
+                                "template": "filepaths"
+                            }
+                        },
                         {
                             "name": "nokeys",
                             "description": "Do not print key material for SA-related events"
