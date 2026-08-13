@@ -107,8 +107,504 @@
             "description": "Rule in multicast routing policy database"
         },
         {
-            "name": "neighbour",
-            "description": "ARP or NDISC cache entry"
+            "name": [
+                "neigh",
+                "neighbour",
+                "neighbor"
+            ],
+            "description": "ARP or NDISC cache entry",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new neighbour entry",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "The protocol address (IPv4 or IPv6) of the neighbour; equivalent to 'to ADDRESS'",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "The protocol address of the neighbour, spelled out explicitly instead of given positionally",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "lladdr",
+                            "description": "The link layer address of the neighbour; can also be \"null\"",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Set the Neighbour Unreachability Detection (NUD) state of the entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Add a proxy neighbour entry for this address instead of a normal entry",
+                            "args": {
+                                "name": "ADDR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "The interface to which this neighbour is attached",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that the neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use, prompting the kernel to resolve it, or to refresh it if it already exists"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed so the kernel resolves it and periodically refreshes it to keep it in a resolved state"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller; the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may probe it and return it to the stale state if the probe is unconfirmed"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "The routing protocol that installed this neighbour entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a neighbour entry; takes the same arguments as 'add', except that lladdr and nud are ignored",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "The protocol address (IPv4 or IPv6) of the neighbour; equivalent to 'to ADDRESS'",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "The protocol address of the neighbour, spelled out explicitly instead of given positionally",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Delete a proxy neighbour entry for this address instead of a normal entry",
+                            "args": {
+                                "name": "ADDR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "The interface to which this neighbour is attached",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that the neighbour is a router"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller; the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "The routing protocol that installed this neighbour entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "change",
+                    "description": "Change an existing neighbour entry",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "The protocol address (IPv4 or IPv6) of the neighbour; equivalent to 'to ADDRESS'",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "The protocol address of the neighbour, spelled out explicitly instead of given positionally",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "lladdr",
+                            "description": "The link layer address of the neighbour; can also be \"null\"",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Set the Neighbour Unreachability Detection (NUD) state of the entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Change a proxy neighbour entry for this address instead of a normal entry",
+                            "args": {
+                                "name": "ADDR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "The interface to which this neighbour is attached",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that the neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use, prompting the kernel to resolve it, or to refresh it if it already exists"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed so the kernel resolves it and periodically refreshes it to keep it in a resolved state"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller; the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may probe it and return it to the stale state if the probe is unconfirmed"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "The routing protocol that installed this neighbour entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Add a new neighbour entry, or change an existing one",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "The protocol address (IPv4 or IPv6) of the neighbour; equivalent to 'to ADDRESS'",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "The protocol address of the neighbour, spelled out explicitly instead of given positionally",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "lladdr",
+                            "description": "The link layer address of the neighbour; can also be \"null\"",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Set the Neighbour Unreachability Detection (NUD) state of the entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Add or replace a proxy neighbour entry for this address instead of a normal entry",
+                            "args": {
+                                "name": "ADDR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "The interface to which this neighbour is attached",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that the neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use, prompting the kernel to resolve it, or to refresh it if it already exists"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed so the kernel resolves it and periodically refreshes it to keep it in a resolved state"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller; the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may probe it and return it to the stale state if the probe is unconfirmed"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "The routing protocol that installed this neighbour entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List neighbour entries; if no filters are given, all entries except for states none and noarp are shown",
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "Only list neighbours matching this address prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only list the neighbours attached to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only list the neighbours for the given VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only list neighbours attached to an interface with no master"
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "List neighbour proxies instead of normal entries"
+                        },
+                        {
+                            "name": "unused",
+                            "description": "Only list neighbours which are not currently in use"
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Only list neighbour entries in this state; may be given more than once",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed",
+                                    "all"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush neighbour entries; takes the same options as 'show', except that it does not run when no options are given and its default states to flush exclude permanent and noarp",
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "Only flush neighbours matching this address prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only flush the neighbours attached to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only flush the neighbours for the given VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only flush neighbours attached to an interface with no master"
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Flush neighbour proxies instead of normal entries"
+                        },
+                        {
+                            "name": "unused",
+                            "description": "Only flush neighbours which are not currently in use"
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Only flush neighbour entries in this state; may be given more than once",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed",
+                                    "all"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Look up a neighbour entry for a destination on a given device",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "The address of the neighbour to query; equivalent to 'to ADDRESS'",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "to",
+                            "description": "The address of the neighbour to query, spelled out explicitly instead of given positionally",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "The device to which the neighbour entry is attached (mandatory)",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Look up a proxy neighbour entry instead of a normal entry"
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip neigh"
+                }
+            ]
         },
         {
             "name": "netconf",
