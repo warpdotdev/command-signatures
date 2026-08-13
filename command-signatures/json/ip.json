@@ -68,7 +68,8 @@
                         {
                             "name": [
                                 "txqueuelen",
-                                "txqlen"
+                                "txqlen",
+                                "qlen"
                             ],
                             "description": "Transmit queue length of the new device",
                             "args": {
@@ -171,6 +172,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -257,6 +259,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -450,7 +453,8 @@
                         {
                             "name": [
                                 "txqueuelen",
-                                "txqlen"
+                                "txqlen",
+                                "qlen"
                             ],
                             "description": "Change the transmit queue length of the device",
                             "args": {
@@ -670,13 +674,17 @@
                         },
                         {
                             "name": "state",
-                            "description": "Virtual link state as seen by the virtual function selected by \"vf\"",
+                            "description": "Operational state to report for the device; after \"vf NUM\" this keyword instead sets the virtual link state seen by that virtual function (auto, enable or disable)",
                             "args": {
                                 "name": "STATE",
                                 "suggestions": [
-                                    "auto",
-                                    "enable",
-                                    "disable"
+                                    "unknown",
+                                    "notpresent",
+                                    "down",
+                                    "lowerlayerdown",
+                                    "testing",
+                                    "dormant",
+                                    "up"
                                 ]
                             }
                         },
@@ -846,6 +854,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bond_slave",
                                     "bridge",
@@ -960,6 +969,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bond_slave",
                                     "bridge",
@@ -1023,56 +1033,14 @@
                     "options": [
                         {
                             "name": "type",
-                            "description": "Type of devices to display extended statistics for",
+                            "description": "Type of devices to display extended statistics for; only bond and bridge devices and their slaves implement extended statistics",
                             "args": {
                                 "name": "TYPE",
                                 "suggestions": [
-                                    "amt",
-                                    "bareudp",
                                     "bond",
                                     "bond_slave",
                                     "bridge",
-                                    "bridge_slave",
-                                    "can",
-                                    "dsa",
-                                    "dummy",
-                                    "erspan",
-                                    "geneve",
-                                    "gre",
-                                    "gretap",
-                                    "gtp",
-                                    "hsr",
-                                    "ifb",
-                                    "ip6erspan",
-                                    "ip6gre",
-                                    "ip6gretap",
-                                    "ip6tnl",
-                                    "ipip",
-                                    "ipoib",
-                                    "ipvlan",
-                                    "ipvtap",
-                                    "lowpan",
-                                    "macsec",
-                                    "macvlan",
-                                    "macvtap",
-                                    "netdevsim",
-                                    "netkit",
-                                    "nlmon",
-                                    "pfcp",
-                                    "rmnet",
-                                    "sit",
-                                    "team",
-                                    "team_slave",
-                                    "vcan",
-                                    "veth",
-                                    "virt_wifi",
-                                    "vlan",
-                                    "vrf",
-                                    "vti",
-                                    "vxcan",
-                                    "vxlan",
-                                    "wwan",
-                                    "xfrm"
+                                    "bridge_slave"
                                 ]
                             }
                         }
@@ -1099,10 +1067,16 @@
                         {
                             "name": "add",
                             "description": "Add properties to a device",
+                            "args": {
+                                "name": "DEVICE",
+                                "description": "Device to modify",
+                                "generatorName": "network_interfaces",
+                                "isOptional": true
+                            },
                             "options": [
                                 {
                                     "name": "dev",
-                                    "description": "Device to modify (mandatory)",
+                                    "description": "Device to modify; the device is required but may also be given as a bare argument",
                                     "args": {
                                         "name": "DEVICE",
                                         "generatorName": "network_interfaces"
@@ -1111,6 +1085,7 @@
                                 {
                                     "name": "altname",
                                     "description": "Alternative name for the device; may be given more than once",
+                                    "isRepeatable": true,
                                     "args": {
                                         "name": "NAME"
                                     }
@@ -1118,15 +1093,18 @@
                             ]
                         },
                         {
-                            "name": [
-                                "del",
-                                "delete"
-                            ],
+                            "name": "del",
                             "description": "Remove properties from a device",
+                            "args": {
+                                "name": "DEVICE",
+                                "description": "Device to modify",
+                                "generatorName": "network_interfaces",
+                                "isOptional": true
+                            },
                             "options": [
                                 {
                                     "name": "dev",
-                                    "description": "Device to modify (mandatory)",
+                                    "description": "Device to modify; the device is required but may also be given as a bare argument",
                                     "args": {
                                         "name": "DEVICE",
                                         "generatorName": "network_interfaces"
@@ -1135,6 +1113,7 @@
                                 {
                                     "name": "altname",
                                     "description": "Alternative name for the device; may be given more than once",
+                                    "isRepeatable": true,
                                     "args": {
                                         "name": "NAME"
                                     }
@@ -1153,6 +1132,7 @@
                         "suggestions": [
                             "amt",
                             "bareudp",
+                            "batadv",
                             "bond",
                             "bond_slave",
                             "bridge",
