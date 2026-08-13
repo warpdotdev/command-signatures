@@ -5,7 +5,7 @@ use warp_completion_metadata::CommandSignatureGenerators;
 use super::kubectl::{
     CLUSTER_GENERATOR, CLUSTER_ROLE_GENERATOR, CONTEXT_GENERATOR, DEPLOYMENTS_GENERATOR,
     NAMESPACE_GENERATOR, NODE_GENERATOR, RESOURCE_GENERATOR, RESOURCE_TYPE_GENERATOR,
-    ROLE_GENERATOR, RUNNING_PODS_GENERATOR, TYPE_OR_TYPE_SLASH_NAME,
+    ROLE_GENERATOR, RUNNING_PODS_GENERATOR, TYPE_OR_TYPE_SLASH_NAME, USER_GENERATOR,
 };
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -19,6 +19,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("resource", RESOURCE_GENERATOR.clone())
         .add_generator("context", CONTEXT_GENERATOR.clone())
         .add_generator("cluster", CLUSTER_GENERATOR.clone())
+        .add_generator("user", USER_GENERATOR.clone())
         .add_generator("namespace", NAMESPACE_GENERATOR.clone())
         .add_generator("type_or_type_slash_name", TYPE_OR_TYPE_SLASH_NAME.clone())
 }
