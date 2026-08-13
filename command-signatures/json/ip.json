@@ -3579,6 +3579,14 @@
                     ]
                 },
                 {
+                    "name": "save",
+                    "description": "Print the multicast routing policy database to stdout in rtnetlink format, suitable for 'ip mrule restore'; takes no arguments"
+                },
+                {
+                    "name": "restore",
+                    "description": "Restore the multicast routing policy database from a dump previously produced by 'ip mrule save', read from stdin"
+                },
+                {
                     "name": "help",
                     "description": "Display help for ip mrule"
                 }
@@ -4456,7 +4464,47 @@
                             "description": "Create a nexthop group from a list of nexthop IDs and optional weights, e.g. '1/2,3'",
                             "args": {
                                 "name": "GROUP"
-                            }
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "fdb",
+                                    "description": "Restrict this nexthop group to FDB use; a FDB group can only contain FDB nexthops"
+                                },
+                                {
+                                    "name": "type",
+                                    "description": "Nexthop group algorithm",
+                                    "args": {
+                                        "name": "TYPE",
+                                        "suggestions": [
+                                            "mpath",
+                                            "resilient"
+                                        ]
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "buckets",
+                                            "description": "Number of hash buckets (resilient groups only)",
+                                            "args": {
+                                                "name": "BUCKETS"
+                                            }
+                                        },
+                                        {
+                                            "name": "idle_timer",
+                                            "description": "Seconds a bucket must be idle before it can be rebalanced (resilient groups only)",
+                                            "args": {
+                                                "name": "IDLE"
+                                            }
+                                        },
+                                        {
+                                            "name": "unbalanced_timer",
+                                            "description": "Seconds the group may stay unbalanced before a forced rebalance (resilient groups only)",
+                                            "args": {
+                                                "name": "UNBALANCED"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "type",
@@ -4578,7 +4626,47 @@
                             "description": "Nexthop group members, as a list of IDs and optional weights, e.g. '1/2,3'",
                             "args": {
                                 "name": "GROUP"
-                            }
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "fdb",
+                                    "description": "Restrict this nexthop group to FDB use; a FDB group can only contain FDB nexthops"
+                                },
+                                {
+                                    "name": "type",
+                                    "description": "Nexthop group algorithm",
+                                    "args": {
+                                        "name": "TYPE",
+                                        "suggestions": [
+                                            "mpath",
+                                            "resilient"
+                                        ]
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "buckets",
+                                            "description": "Number of hash buckets (resilient groups only)",
+                                            "args": {
+                                                "name": "BUCKETS"
+                                            }
+                                        },
+                                        {
+                                            "name": "idle_timer",
+                                            "description": "Seconds a bucket must be idle before it can be rebalanced (resilient groups only)",
+                                            "args": {
+                                                "name": "IDLE"
+                                            }
+                                        },
+                                        {
+                                            "name": "unbalanced_timer",
+                                            "description": "Seconds the group may stay unbalanced before a forced rebalance (resilient groups only)",
+                                            "args": {
+                                                "name": "UNBALANCED"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "type",
@@ -10738,6 +10826,30 @@
                             "args": {
                                 "name": "KEY"
                             }
+                        },
+                        {
+                            "name": "seq",
+                            "description": "Serialize packets in both directions (only GRE tunnels); unreliable, avoid using"
+                        },
+                        {
+                            "name": "iseq",
+                            "description": "Require that all input packets are serialized (only GRE tunnels)"
+                        },
+                        {
+                            "name": "oseq",
+                            "description": "Enable sequencing of outgoing packets (only GRE tunnels)"
+                        },
+                        {
+                            "name": "csum",
+                            "description": "Generate and require checksums for tunneled packets in both directions (only GRE tunnels)"
+                        },
+                        {
+                            "name": "icsum",
+                            "description": "Require that all input packets have a correct checksum (only GRE tunnels)"
+                        },
+                        {
+                            "name": "ocsum",
+                            "description": "Generate checksums for outgoing packets (only GRE tunnels)"
                         },
                         {
                             "name": "ttl",
