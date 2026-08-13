@@ -8,11 +8,213 @@
         },
         {
             "name": "addrlabel",
-            "description": "Label configuration for protocol address selection"
+            "description": "Label configuration for protocol address selection",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new IPv6 address label",
+                    "subcommands": [
+                        {
+                            "name": "prefix",
+                            "description": "IPv6 prefix (or address) this label applies to",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Restrict the label to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Label value to associate with the prefix",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete an IPv6 address label",
+                    "subcommands": [
+                        {
+                            "name": "prefix",
+                            "description": "IPv6 prefix (or address) of the label to delete",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Restrict the match to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Label value of the entry to delete",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List address labels; takes no arguments"
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush all address labels"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip addrlabel"
+                }
+            ]
         },
         {
             "name": "fou",
-            "description": "Foo-over-UDP receive port configuration"
+            "description": "Foo-over-UDP receive port configuration",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a FOU or GUE receive port",
+                    "subcommands": [
+                        {
+                            "name": "port",
+                            "description": "UDP port to listen for encapsulated packets on (mandatory)",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Inner IP protocol to decapsulate; required unless 'gue' is given",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "gre",
+                                    "ipip",
+                                    "sit"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "gue",
+                            "description": "Use Generic UDP Encapsulation (GUE) instead of a direct FOU port"
+                        },
+                        {
+                            "name": "local",
+                            "description": "Local address to bind the receive socket to",
+                            "args": {
+                                "name": "IFADDR"
+                            }
+                        },
+                        {
+                            "name": "peer",
+                            "description": "Restrict the port to a specific peer address",
+                            "args": {
+                                "name": "IFADDR"
+                            }
+                        },
+                        {
+                            "name": "peer_port",
+                            "description": "Restrict the port to a specific peer UDP port",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Bind the receive socket to this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-6",
+                            "description": "Create an IPv6 FOU or GUE port instead of IPv4"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a FOU or GUE receive port",
+                    "subcommands": [
+                        {
+                            "name": "port",
+                            "description": "UDP port of the receive port to delete (mandatory)",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "local",
+                            "description": "Local address the receive socket is bound to",
+                            "args": {
+                                "name": "IFADDR"
+                            }
+                        },
+                        {
+                            "name": "peer",
+                            "description": "Peer address the port is restricted to",
+                            "args": {
+                                "name": "IFADDR"
+                            }
+                        },
+                        {
+                            "name": "peer_port",
+                            "description": "Peer UDP port the port is restricted to",
+                            "args": {
+                                "name": "PORT"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Device the receive socket is bound to",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-6",
+                            "description": "Match an IPv6 FOU or GUE port instead of IPv4"
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "List configured FOU/GUE receive ports; takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip fou"
+                }
+            ]
         },
         {
             "name": "help",
@@ -20,15 +222,513 @@
         },
         {
             "name": "ila",
-            "description": "Manage identifier locator addressing (ILA)"
+            "description": "Manage identifier locator addressing (ILA)",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add an ILA mapping",
+                    "subcommands": [
+                        {
+                            "name": "loc_match",
+                            "description": "Locator to match on incoming packets (mandatory)",
+                            "args": {
+                                "name": "LOCATOR_MATCH"
+                            }
+                        },
+                        {
+                            "name": "loc",
+                            "description": "Locator to rewrite the matched locator to (mandatory)",
+                            "args": {
+                                "name": "LOCATOR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Restrict the mapping to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "csum-mode",
+                            "description": "Checksum handling mode for translated packets",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "adj-transport",
+                                    "neutral-map",
+                                    "neutral-map-auto",
+                                    "no-action"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ident-type",
+                            "description": "Identifier type used in the locator/identifier split",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "luid",
+                                    "use-format"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete an ILA mapping",
+                    "subcommands": [
+                        {
+                            "name": "loc_match",
+                            "description": "Locator to match for deletion (mandatory)",
+                            "args": {
+                                "name": "LOCATOR_MATCH"
+                            }
+                        },
+                        {
+                            "name": "loc",
+                            "description": "Locator of the mapping to delete",
+                            "args": {
+                                "name": "LOCATOR"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Device the mapping is restricted to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List ILA mappings; takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip ila"
+                }
+            ]
         },
         {
             "name": "ioam",
-            "description": "Manage in-situ OAM (IOAM)"
+            "description": "Manage in-situ OAM (IOAM)",
+            "subcommands": [
+                {
+                    "name": "namespace",
+                    "description": "Manage IOAM namespaces",
+                    "subcommands": [
+                        {
+                            "name": "show",
+                            "description": "List IOAM namespaces; takes no arguments"
+                        },
+                        {
+                            "name": "add",
+                            "description": "Add an IOAM namespace",
+                            "args": {
+                                "name": "ID",
+                                "description": "Namespace ID to add"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "data",
+                                    "description": "32-bit trace data value for this namespace",
+                                    "args": {
+                                        "name": "DATA32"
+                                    }
+                                },
+                                {
+                                    "name": "wide",
+                                    "description": "64-bit wide trace data value for this namespace",
+                                    "args": {
+                                        "name": "DATA64"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "del",
+                                "delete"
+                            ],
+                            "description": "Delete an IOAM namespace",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "set",
+                            "description": "Associate a schema with an IOAM namespace",
+                            "args": {
+                                "name": "ID"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "schema",
+                                    "description": "Schema ID to associate, or 'none' to clear it (mandatory)",
+                                    "args": {
+                                        "name": "SCHEMA_ID",
+                                        "suggestions": [
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "schema",
+                    "description": "Manage IOAM schemas",
+                    "subcommands": [
+                        {
+                            "name": "show",
+                            "description": "List IOAM schemas; takes no arguments"
+                        },
+                        {
+                            "name": "add",
+                            "description": "Add an IOAM schema",
+                            "args": [
+                                {
+                                    "name": "ID",
+                                    "description": "Schema ID to add"
+                                },
+                                {
+                                    "name": "DATA",
+                                    "description": "Schema data string"
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "del",
+                                "delete"
+                            ],
+                            "description": "Delete an IOAM schema",
+                            "args": {
+                                "name": "ID"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor",
+                    "description": "Monitor IOAM trace events; takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip ioam"
+                }
+            ]
         },
         {
             "name": "l2tp",
-            "description": "Tunnel ethernet over IP (L2TPv3)"
+            "description": "Tunnel ethernet over IP (L2TPv3)",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new L2TPv3 tunnel or session",
+                    "subcommands": [
+                        {
+                            "name": "tunnel",
+                            "description": "Create a new L2TPv3 tunnel",
+                            "subcommands": [
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "Local tunnel ID (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "peer_tunnel_id",
+                                        "ptid"
+                                    ],
+                                    "description": "Peer tunnel ID (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "remote",
+                                    "description": "Peer address of the tunnel (mandatory), or 'any'",
+                                    "args": {
+                                        "name": "ADDR"
+                                    }
+                                },
+                                {
+                                    "name": "local",
+                                    "description": "Local address of the tunnel (mandatory), or 'any'",
+                                    "args": {
+                                        "name": "ADDR"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Tunnel encapsulation type",
+                                    "args": {
+                                        "name": "TYPE",
+                                        "suggestions": [
+                                            "ip",
+                                            "udp"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "udp_sport",
+                                    "description": "Local UDP source port (mandatory for udp encapsulation)",
+                                    "args": {
+                                        "name": "PORT"
+                                    }
+                                },
+                                {
+                                    "name": "udp_dport",
+                                    "description": "Peer UDP destination port (mandatory for udp encapsulation)",
+                                    "args": {
+                                        "name": "PORT"
+                                    }
+                                },
+                                {
+                                    "name": "udp_csum",
+                                    "description": "Enable UDP checksums on this tunnel (IPv4 only)",
+                                    "args": {
+                                        "name": "STATE",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "udp6_csum_tx",
+                                    "description": "Enable UDP checksums on transmitted packets (IPv6 only)",
+                                    "args": {
+                                        "name": "STATE",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "udp6_csum_rx",
+                                    "description": "Require UDP checksums on received packets (IPv6 only)",
+                                    "args": {
+                                        "name": "STATE",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "session",
+                            "description": "Create a new session (pseudowire) within an existing tunnel",
+                            "subcommands": [
+                                {
+                                    "name": "name",
+                                    "description": "Name of the ethernet pseudowire device to create",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "ID of the tunnel this session belongs to (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "session_id",
+                                        "sid"
+                                    ],
+                                    "description": "Local session ID (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "peer_session_id",
+                                        "psid"
+                                    ],
+                                    "description": "Peer session ID (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "cookie",
+                                    "description": "Local cookie, as an 8 or 16 hex digit string",
+                                    "args": {
+                                        "name": "HEXSTR"
+                                    }
+                                },
+                                {
+                                    "name": "peer_cookie",
+                                    "description": "Peer cookie, as an 8 or 16 hex digit string",
+                                    "args": {
+                                        "name": "HEXSTR"
+                                    }
+                                },
+                                {
+                                    "name": "seq",
+                                    "description": "Enable sequence numbering for this session",
+                                    "args": {
+                                        "name": "DIRECTION",
+                                        "suggestions": [
+                                            "none",
+                                            "send",
+                                            "recv",
+                                            "both"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "l2spec_type",
+                                    "description": "Layer 2-specific sublayer header type",
+                                    "args": {
+                                        "name": "L2SPEC",
+                                        "suggestions": [
+                                            "default",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete an L2TPv3 tunnel or session",
+                    "subcommands": [
+                        {
+                            "name": "tunnel",
+                            "description": "Destroy a tunnel and all of its sessions",
+                            "subcommands": [
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "ID of the tunnel to destroy (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "session",
+                            "description": "Destroy a session",
+                            "subcommands": [
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "ID of the tunnel the session belongs to (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "session_id",
+                                        "sid"
+                                    ],
+                                    "description": "ID of the session to destroy (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List L2TPv3 tunnels or sessions",
+                    "subcommands": [
+                        {
+                            "name": "tunnel",
+                            "description": "List tunnels",
+                            "subcommands": [
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "Only show the tunnel with this ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "session",
+                            "description": "List sessions",
+                            "subcommands": [
+                                {
+                                    "name": [
+                                        "tunnel_id",
+                                        "tid"
+                                    ],
+                                    "description": "Only show sessions in this tunnel",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": [
+                                        "session_id",
+                                        "sid"
+                                    ],
+                                    "description": "Only show the session with this ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip l2tp"
+                }
+            ]
         },
         {
             "name": "link",
@@ -36,11 +736,487 @@
         },
         {
             "name": "macsec",
-            "description": "MACsec device configuration"
+            "description": "MACsec device configuration",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a transmit or receive secure association (SA), or a receive secure channel (SC)",
+                    "args": {
+                        "name": "DEV",
+                        "description": "MACsec device to modify (mandatory)"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "tx",
+                            "description": "Add a transmit SA",
+                            "subcommands": [
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the SA to add (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "pn",
+                                            "description": "Initial packet number",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "xpn",
+                                            "description": "Initial packet number for an Extended Packet Numbering cipher suite",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "salt",
+                                            "description": "96-bit salt, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SALT"
+                                            }
+                                        },
+                                        {
+                                            "name": "ssci",
+                                            "description": "Short SCI, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SSCI"
+                                            }
+                                        },
+                                        {
+                                            "name": "key",
+                                            "description": "Key identifier and key material for this SA (mandatory)",
+                                            "args": [
+                                                {
+                                                    "name": "ID"
+                                                },
+                                                {
+                                                    "name": "KEY"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "on",
+                                            "description": "Mark this SA as active"
+                                        },
+                                        {
+                                            "name": "off",
+                                            "description": "Mark this SA as inactive"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rx",
+                            "description": "Add a receive secure channel (SC), or a receive SA within one",
+                            "subcommands": [
+                                {
+                                    "name": "sci",
+                                    "description": "Secure Channel Identifier of the receive SC",
+                                    "args": {
+                                        "name": "SCI"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port component of the SCI (used together with 'address')",
+                                    "args": {
+                                        "name": "PORT"
+                                    }
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (used together with 'port')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    }
+                                },
+                                {
+                                    "name": "on",
+                                    "description": "Mark this receive SC as active"
+                                },
+                                {
+                                    "name": "off",
+                                    "description": "Mark this receive SC as inactive"
+                                },
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the receive SA to add (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "pn",
+                                            "description": "Initial packet number",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "xpn",
+                                            "description": "Initial packet number for an Extended Packet Numbering cipher suite",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "salt",
+                                            "description": "96-bit salt, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SALT"
+                                            }
+                                        },
+                                        {
+                                            "name": "ssci",
+                                            "description": "Short SCI, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SSCI"
+                                            }
+                                        },
+                                        {
+                                            "name": "key",
+                                            "description": "Key identifier and key material for this SA (mandatory)",
+                                            "args": [
+                                                {
+                                                    "name": "ID"
+                                                },
+                                                {
+                                                    "name": "KEY"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "on",
+                                            "description": "Mark this SA as active"
+                                        },
+                                        {
+                                            "name": "off",
+                                            "description": "Mark this SA as inactive"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "set",
+                    "description": "Update an existing transmit or receive SA, or receive SC",
+                    "args": {
+                        "name": "DEV",
+                        "description": "MACsec device to modify (mandatory)"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "tx",
+                            "description": "Update a transmit SA",
+                            "subcommands": [
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the SA to update (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "pn",
+                                            "description": "Packet number",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "xpn",
+                                            "description": "Packet number for an Extended Packet Numbering cipher suite",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "salt",
+                                            "description": "96-bit salt, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SALT"
+                                            }
+                                        },
+                                        {
+                                            "name": "ssci",
+                                            "description": "Short SCI, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SSCI"
+                                            }
+                                        },
+                                        {
+                                            "name": "on",
+                                            "description": "Mark this SA as active"
+                                        },
+                                        {
+                                            "name": "off",
+                                            "description": "Mark this SA as inactive"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rx",
+                            "description": "Update a receive SC, or a receive SA within one",
+                            "subcommands": [
+                                {
+                                    "name": "sci",
+                                    "description": "Secure Channel Identifier of the receive SC",
+                                    "args": {
+                                        "name": "SCI"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port component of the SCI (used together with 'address')",
+                                    "args": {
+                                        "name": "PORT"
+                                    }
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (used together with 'port')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    }
+                                },
+                                {
+                                    "name": "on",
+                                    "description": "Mark this receive SC as active"
+                                },
+                                {
+                                    "name": "off",
+                                    "description": "Mark this receive SC as inactive"
+                                },
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the receive SA to update (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "pn",
+                                            "description": "Packet number",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "xpn",
+                                            "description": "Packet number for an Extended Packet Numbering cipher suite",
+                                            "args": {
+                                                "name": "PN"
+                                            }
+                                        },
+                                        {
+                                            "name": "salt",
+                                            "description": "96-bit salt, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SALT"
+                                            }
+                                        },
+                                        {
+                                            "name": "ssci",
+                                            "description": "Short SCI, required for XPN cipher suites",
+                                            "args": {
+                                                "name": "SSCI"
+                                            }
+                                        },
+                                        {
+                                            "name": "on",
+                                            "description": "Mark this SA as active"
+                                        },
+                                        {
+                                            "name": "off",
+                                            "description": "Mark this SA as inactive"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a transmit or receive SA, or a receive SC",
+                    "args": {
+                        "name": "DEV",
+                        "description": "MACsec device to modify (mandatory)"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "tx",
+                            "description": "Delete a transmit SA",
+                            "subcommands": [
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the SA to delete (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rx",
+                            "description": "Delete a receive SC, or a receive SA within one",
+                            "subcommands": [
+                                {
+                                    "name": "sci",
+                                    "description": "Secure Channel Identifier of the receive SC to delete",
+                                    "args": {
+                                        "name": "SCI"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port component of the SCI (used together with 'address')",
+                                    "args": {
+                                        "name": "PORT"
+                                    }
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (used together with 'port')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    }
+                                },
+                                {
+                                    "name": "sa",
+                                    "description": "Association number of the receive SA to delete (0-3)",
+                                    "args": {
+                                        "name": "AN"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "List MACsec devices and their secure channels/associations",
+                    "args": {
+                        "name": "DEV",
+                        "description": "Only show this MACsec device",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "offload",
+                    "description": "Configure hardware offload for a MACsec device",
+                    "args": [
+                        {
+                            "name": "DEV",
+                            "description": "MACsec device to modify"
+                        },
+                        {
+                            "name": "OFFLOAD",
+                            "suggestions": [
+                                "off",
+                                "phy",
+                                "mac"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip macsec"
+                }
+            ]
         },
         {
             "name": "maddress",
-            "description": "Multicast address"
+            "description": "Multicast address",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a multicast (or layer-2) address on a device",
+                    "args": {
+                        "name": "MULTIADDR",
+                        "description": "Address to add; may optionally be preceded by the literal 'address' keyword"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to add the address on (mandatory)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "address",
+                            "description": "Explicit keyword preceding the address value",
+                            "args": {
+                                "name": "MULTIADDR"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a multicast (or layer-2) address from a device",
+                    "args": {
+                        "name": "MULTIADDR",
+                        "description": "Address to delete; may optionally be preceded by the literal 'address' keyword"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to delete the address from (mandatory)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "address",
+                            "description": "Explicit keyword preceding the address value",
+                            "args": {
+                                "name": "MULTIADDR"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List multicast addresses",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only show addresses for this device",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip maddress"
+                }
+            ]
         },
         {
             "name": "monitor",
@@ -96,15 +1272,551 @@
         },
         {
             "name": "mptcp",
-            "description": "Manage MPTCP path manager"
+            "description": "Manage MPTCP path manager",
+            "subcommands": [
+                {
+                    "name": "endpoint",
+                    "description": "Manage MPTCP endpoints",
+                    "subcommands": [
+                        {
+                            "name": "add",
+                            "description": "Add an MPTCP endpoint",
+                            "args": {
+                                "name": "ADDRESS"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "dev",
+                                    "description": "Bind the endpoint to this device",
+                                    "args": {
+                                        "name": "NAME",
+                                        "generatorName": "network_interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "id",
+                                    "description": "Explicit endpoint ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port to advertise with this endpoint (requires the 'signal' flag)",
+                                    "args": {
+                                        "name": "NR"
+                                    }
+                                },
+                                {
+                                    "name": "signal",
+                                    "description": "Announce this endpoint to the peer via an ADD_ADDR"
+                                },
+                                {
+                                    "name": "subflow",
+                                    "description": "Allow this endpoint to be used to create a new subflow"
+                                },
+                                {
+                                    "name": "backup",
+                                    "description": "Mark subflows using this endpoint as backup"
+                                },
+                                {
+                                    "name": "fullmesh",
+                                    "description": "Establish a full mesh of subflows to all peer addresses from this endpoint"
+                                },
+                                {
+                                    "name": "implicit",
+                                    "description": "Mark this endpoint as implicitly created from an incoming ADD_ADDR"
+                                },
+                                {
+                                    "name": "laminar",
+                                    "description": "Use laminar scheduling for subflows created from this endpoint (iproute2 6.13+)"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "change",
+                            "description": "Change the flags of an existing MPTCP endpoint",
+                            "args": {
+                                "name": "ADDRESS",
+                                "isOptional": true
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "id",
+                                    "description": "ID of the endpoint to change",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port of the endpoint to change",
+                                    "args": {
+                                        "name": "NR"
+                                    }
+                                },
+                                {
+                                    "name": "backup",
+                                    "description": "Mark subflows using this endpoint as backup"
+                                },
+                                {
+                                    "name": "nobackup",
+                                    "description": "Unmark subflows using this endpoint as backup"
+                                },
+                                {
+                                    "name": "fullmesh",
+                                    "description": "Establish a full mesh of subflows from this endpoint"
+                                },
+                                {
+                                    "name": "nofullmesh",
+                                    "description": "Stop establishing a full mesh of subflows from this endpoint"
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "del",
+                                "delete"
+                            ],
+                            "description": "Delete an MPTCP endpoint",
+                            "args": {
+                                "name": "ADDRESS",
+                                "isOptional": true
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "id",
+                                    "description": "ID of the endpoint to delete (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "show",
+                            "description": "List MPTCP endpoints",
+                            "subcommands": [
+                                {
+                                    "name": "id",
+                                    "description": "Only show the endpoint with this ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "flush",
+                            "description": "Remove all MPTCP endpoints; takes no arguments"
+                        }
+                    ]
+                },
+                {
+                    "name": "limits",
+                    "description": "Manage MPTCP resource limits",
+                    "subcommands": [
+                        {
+                            "name": "set",
+                            "description": "Set MPTCP resource limits",
+                            "subcommands": [
+                                {
+                                    "name": "subflows",
+                                    "description": "Maximum number of additional subflows to accept per connection",
+                                    "args": {
+                                        "name": "NR"
+                                    }
+                                },
+                                {
+                                    "name": "add_addr_accepted",
+                                    "description": "Maximum number of ADD_ADDR options to accept per connection",
+                                    "args": {
+                                        "name": "NR"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "show",
+                            "description": "Show MPTCP resource limits; takes no arguments"
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor",
+                    "description": "Monitor MPTCP path-manager events; takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip mptcp"
+                }
+            ]
         },
         {
             "name": "mroute",
-            "description": "Multicast routing cache entry"
+            "description": "Multicast routing cache entry",
+            "subcommands": [
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List multicast routing cache entries",
+                    "args": {
+                        "name": "PREFIX",
+                        "description": "Destination prefix to match (equivalent to 'to PREFIX')",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "to",
+                            "description": "Destination prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only show entries with this incoming interface",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Routing table to query",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default",
+                                    "all"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip mroute"
+                }
+            ]
         },
         {
             "name": "mrule",
-            "description": "Rule in multicast routing policy database"
+            "description": "Rule in multicast routing policy database",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Insert a new rule into the multicast routing policy database",
+                    "subcommands": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Select the source prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Select the destination prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Select the TOS (type of service) value to match",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Select the fwmark value (and optional mask) to match, e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Select the incoming interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Select the outgoing interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Priority (preference) of the rule; lower numbers are processed first and each rule should have a unique value",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Select potential l3mdev (VRF) rule"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Select the range of UIDs to match",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Routing table to look up when the selector matches",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Select rules installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "goto",
+                            "description": "Jump to the rule with the given priority instead of continuing sequentially",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "unicast",
+                            "description": "Rule type: return the route found in the referenced routing table (default)"
+                        },
+                        {
+                            "name": "blackhole",
+                            "description": "Rule type: silently drop matching packets"
+                        },
+                        {
+                            "name": "unreachable",
+                            "description": "Rule type: generate a \"Network is unreachable\" error for matching packets"
+                        },
+                        {
+                            "name": "prohibit",
+                            "description": "Rule type: generate a \"Communication is administratively prohibited\" error for matching packets"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a rule from the multicast routing policy database",
+                    "subcommands": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Select the source prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Select the destination prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Select the incoming interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Select the outgoing interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Priority (preference) of the rule to delete",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Select potential l3mdev (VRF) rule"
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Routing table referenced by the rule to delete",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List rules in the multicast routing policy database",
+                    "subcommands": [
+                        {
+                            "name": "from",
+                            "description": "Select the source prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Select the destination prefix to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Select the incoming interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Select the outgoing interface to match",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Routing table to filter by",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush (delete) all matching rules from the multicast routing policy database",
+                    "subcommands": [
+                        {
+                            "name": "from",
+                            "description": "Only flush rules matching this source prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Only flush rules matching this destination prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Only flush rules referencing this routing table",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip mrule"
+                }
+            ]
         },
         {
             "name": "neighbour",
@@ -112,7 +1824,31 @@
         },
         {
             "name": "netconf",
-            "description": "Network configuration monitoring"
+            "description": "Network configuration monitoring",
+            "subcommands": [
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List per-interface network configuration (forwarding, rp_filter, etc.)",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only show configuration for this device",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip netconf"
+                }
+            ]
         },
         {
             "name": "netns",
@@ -120,11 +1856,640 @@
         },
         {
             "name": "nexthop",
-            "description": "Manage nexthop objects"
+            "description": "Manage nexthop objects",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Create a new nexthop",
+                    "subcommands": [
+                        {
+                            "name": "id",
+                            "description": "Explicit ID for the new nexthop (mandatory)",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "via",
+                            "description": "Gateway address to reach through this nexthop",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Device to send packets out of",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Treat the gateway as directly attached, even if it isn't on-link"
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Encapsulate packets using this nexthop",
+                            "subcommands": [
+                                {
+                                    "name": "mpls",
+                                    "description": "Push an MPLS label stack",
+                                    "args": {
+                                        "name": "LABEL"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "blackhole",
+                            "description": "Silently drop packets routed through this nexthop"
+                        },
+                        {
+                            "name": "fdb",
+                            "description": "Restrict the nexthop to use by the bridge FDB"
+                        },
+                        {
+                            "name": "group",
+                            "description": "Create a nexthop group from a list of nexthop IDs and optional weights, e.g. '1/2,3'",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Algorithm used to select a nexthop from a group",
+                            "subcommands": [
+                                {
+                                    "name": "mpath",
+                                    "description": "Classic multipath hashing (default)"
+                                },
+                                {
+                                    "name": "resilient",
+                                    "description": "Resilient hashing with per-bucket assignment",
+                                    "subcommands": [
+                                        {
+                                            "name": "buckets",
+                                            "description": "Number of hash buckets in the group",
+                                            "args": {
+                                                "name": "BUCKETS"
+                                            }
+                                        },
+                                        {
+                                            "name": "idle_timer",
+                                            "description": "Seconds a bucket must be idle before it can be reassigned",
+                                            "args": {
+                                                "name": "IDLE"
+                                            }
+                                        },
+                                        {
+                                            "name": "unbalanced_timer",
+                                            "description": "Seconds the group can remain unbalanced before forcing reassignment",
+                                            "args": {
+                                                "name": "UNBALANCED"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that created this nexthop",
+                            "args": {
+                                "name": "ID",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "hw_stats",
+                            "description": "Enable or disable per-nexthop hardware statistics",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Replace an existing nexthop, creating it if it does not exist",
+                    "subcommands": [
+                        {
+                            "name": "id",
+                            "description": "ID of the nexthop to replace (mandatory)",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "via",
+                            "description": "Gateway address to reach through this nexthop",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Device to send packets out of",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Treat the gateway as directly attached, even if it isn't on-link"
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Encapsulate packets using this nexthop",
+                            "subcommands": [
+                                {
+                                    "name": "mpls",
+                                    "description": "Push an MPLS label stack",
+                                    "args": {
+                                        "name": "LABEL"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "blackhole",
+                            "description": "Silently drop packets routed through this nexthop"
+                        },
+                        {
+                            "name": "fdb",
+                            "description": "Restrict the nexthop to use by the bridge FDB"
+                        },
+                        {
+                            "name": "group",
+                            "description": "Nexthop group members, as a list of IDs and optional weights, e.g. '1/2,3'",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Algorithm used to select a nexthop from a group",
+                            "subcommands": [
+                                {
+                                    "name": "mpath",
+                                    "description": "Classic multipath hashing (default)"
+                                },
+                                {
+                                    "name": "resilient",
+                                    "description": "Resilient hashing with per-bucket assignment",
+                                    "subcommands": [
+                                        {
+                                            "name": "buckets",
+                                            "description": "Number of hash buckets in the group",
+                                            "args": {
+                                                "name": "BUCKETS"
+                                            }
+                                        },
+                                        {
+                                            "name": "idle_timer",
+                                            "description": "Seconds a bucket must be idle before it can be reassigned",
+                                            "args": {
+                                                "name": "IDLE"
+                                            }
+                                        },
+                                        {
+                                            "name": "unbalanced_timer",
+                                            "description": "Seconds the group can remain unbalanced before forcing reassignment",
+                                            "args": {
+                                                "name": "UNBALANCED"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that created this nexthop",
+                            "args": {
+                                "name": "ID",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "hw_stats",
+                            "description": "Enable or disable per-nexthop hardware statistics",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a nexthop",
+                    "subcommands": [
+                        {
+                            "name": "id",
+                            "description": "ID of the nexthop to delete (mandatory)",
+                            "args": {
+                                "name": "ID"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "list",
+                        "show",
+                        "lst"
+                    ],
+                    "description": "List nexthops",
+                    "subcommands": [
+                        {
+                            "name": "id",
+                            "description": "Only show the nexthop with this ID",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only show nexthops using this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only show nexthops in this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only show nexthops enslaved to this device",
+                            "args": {
+                                "name": "DEV"
+                            }
+                        },
+                        {
+                            "name": "groups",
+                            "description": "Only show nexthop groups"
+                        },
+                        {
+                            "name": "fdb",
+                            "description": "Only show FDB nexthops"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only show nexthops created by this routing protocol",
+                            "args": {
+                                "name": "ID",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Show a single nexthop",
+                    "subcommands": [
+                        {
+                            "name": "id",
+                            "description": "ID of the nexthop to show (mandatory)",
+                            "args": {
+                                "name": "ID"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Delete all matching nexthops",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only flush nexthops using this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only flush nexthops in this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only flush nexthops enslaved to this device",
+                            "args": {
+                                "name": "DEV"
+                            }
+                        },
+                        {
+                            "name": "groups",
+                            "description": "Only flush nexthop groups"
+                        },
+                        {
+                            "name": "fdb",
+                            "description": "Only flush FDB nexthops"
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only flush nexthops created by this routing protocol",
+                            "args": {
+                                "name": "ID",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "bucket",
+                    "description": "Inspect resilient nexthop group buckets",
+                    "subcommands": [
+                        {
+                            "name": [
+                                "list",
+                                "show",
+                                "lst"
+                            ],
+                            "description": "List resilient nexthop group buckets",
+                            "subcommands": [
+                                {
+                                    "name": "dev",
+                                    "description": "Only show buckets for groups using this device",
+                                    "args": {
+                                        "name": "DEV",
+                                        "generatorName": "network_interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "master",
+                                    "description": "Only show buckets for groups enslaved to this device",
+                                    "args": {
+                                        "name": "DEV"
+                                    }
+                                },
+                                {
+                                    "name": "id",
+                                    "description": "Only show buckets for this group ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "nhid",
+                                    "description": "Only show buckets currently using this nexthop ID",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "get",
+                            "description": "Show a single resilient nexthop group bucket",
+                            "subcommands": [
+                                {
+                                    "name": "id",
+                                    "description": "ID of the nexthop group (mandatory)",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "index",
+                                    "description": "Bucket index within the group (mandatory)",
+                                    "args": {
+                                        "name": "INDEX"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip nexthop"
+                }
+            ]
         },
         {
             "name": "ntable",
-            "description": "Manage the neighbor cache's operation"
+            "description": "Manage the neighbor cache's operation",
+            "subcommands": [
+                {
+                    "name": [
+                        "change",
+                        "chg"
+                    ],
+                    "description": "Change neighbor table (ARP/NDISC cache) parameters",
+                    "subcommands": [
+                        {
+                            "name": "name",
+                            "description": "Name of the neighbor table to modify, e.g. 'arp_cache' or 'ndisc_cache' (mandatory)",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Restrict the change to this device's per-device parameters",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "thresh1",
+                            "description": "Minimum number of entries to keep in the cache",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "thresh2",
+                            "description": "Number of entries at which the garbage collector starts being aggressive",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "thresh3",
+                            "description": "Maximum number of entries allowed in the cache",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "gc_int",
+                            "description": "Interval between garbage collection passes",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "base_reachable",
+                            "description": "Base value used to compute the random REACHABLE timeout",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "retrans",
+                            "description": "Interval between retransmitted probes",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "gc_stale",
+                            "description": "How often stale entries are checked for garbage collection",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "delay_probe",
+                            "description": "Delay before probing a STALE entry that is in active use",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "queue",
+                            "description": "Maximum number of packets queued per unresolved address",
+                            "args": {
+                                "name": "LEN"
+                            }
+                        },
+                        {
+                            "name": "app_probes",
+                            "description": "Maximum number of user-space probes to send",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "ucast_probes",
+                            "description": "Maximum number of unicast solicitations to send",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "mcast_probes",
+                            "description": "Maximum number of multicast/broadcast solicitations to send",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "mcast_reprobes",
+                            "description": "Maximum number of multicast/broadcast solicitations to re-send",
+                            "args": {
+                                "name": "VAL"
+                            }
+                        },
+                        {
+                            "name": "anycast_delay",
+                            "description": "Delay before replying to an anycast probe",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "proxy_delay",
+                            "description": "Delay before replying to a proxy ARP/NDP request",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        },
+                        {
+                            "name": "proxy_queue",
+                            "description": "Maximum number of packets queued for proxying per address",
+                            "args": {
+                                "name": "LEN"
+                            }
+                        },
+                        {
+                            "name": "locktime",
+                            "description": "Minimum time an entry stays PERMANENT/NOARP before being overwritten",
+                            "args": {
+                                "name": "MSEC"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List neighbor tables and their configuration",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only show the table for this device, or 'none' for entries with no device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Only show the table with this name",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip ntable"
+                }
+            ]
         },
         {
             "name": "route",
@@ -794,19 +3159,216 @@
         },
         {
             "name": "sr",
-            "description": "Manage IPv6 Segment Routing"
+            "description": "Manage IPv6 Segment Routing",
+            "subcommands": [
+                {
+                    "name": "hmac",
+                    "description": "Manage HMAC keys used to sign segment routing headers",
+                    "subcommands": [
+                        {
+                            "name": "show",
+                            "description": "List configured HMAC keys; takes no arguments"
+                        },
+                        {
+                            "name": "set",
+                            "description": "Add, update, or delete an HMAC key; prompts interactively for the secret",
+                            "args": [
+                                {
+                                    "name": "KEYID"
+                                },
+                                {
+                                    "name": "ALGO",
+                                    "suggestions": [
+                                        "sha1",
+                                        "sha256"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "tunsrc",
+                    "description": "Manage the default source address used for seg6 encapsulation",
+                    "subcommands": [
+                        {
+                            "name": "show",
+                            "description": "Show the current tunnel source address; takes no arguments"
+                        },
+                        {
+                            "name": "set",
+                            "description": "Set the tunnel source address",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip sr"
+                }
+            ]
         },
         {
-            "name": "tap",
-            "description": "Manage TUN/TAP devices"
-        },
-        {
-            "name": "tcpmetrics",
-            "description": "Manage TCP metrics"
+            "name": [
+                "tcpmetrics",
+                "tcp_metrics"
+            ],
+            "description": "Manage TCP metrics",
+            "subcommands": [
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List cached TCP metrics",
+                    "args": {
+                        "name": "PREFIX",
+                        "description": "Address (or prefix) to match, equivalent to 'address PREFIX'",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "address",
+                            "description": "Address (or prefix) to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "src",
+                                "source"
+                            ],
+                            "description": "Source address (or prefix) to match",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "delete",
+                        "remove"
+                    ],
+                    "description": "Delete the cached metrics for an address",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Address to delete, equivalent to 'address ADDRESS'"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "address",
+                            "description": "Address to delete",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush cached TCP metrics",
+                    "args": {
+                        "name": "PREFIX",
+                        "description": "Only flush entries matching this address (or prefix)",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "address",
+                            "description": "Only flush entries matching this address (or prefix)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "src",
+                                "source"
+                            ],
+                            "description": "Only flush entries matching this source address (or prefix)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip tcp_metrics"
+                }
+            ]
         },
         {
             "name": "token",
-            "description": "Manage tokenized interface identifiers"
+            "description": "Manage tokenized interface identifiers",
+            "subcommands": [
+                {
+                    "name": [
+                        "list",
+                        "lst",
+                        "show",
+                        "get"
+                    ],
+                    "description": "Show the IPv6 tokenized interface identifier for one or all devices",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only show the token for this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "set",
+                        "add"
+                    ],
+                    "description": "Set the IPv6 tokenized interface identifier for a device",
+                    "args": {
+                        "name": "TOKEN",
+                        "description": "IPv6 token (interface identifier) to configure"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to set the token on (mandatory)",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Remove the IPv6 tokenized interface identifier from a device",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to remove the token from (mandatory)",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip token"
+                }
+            ]
         },
         {
             "name": "tunnel",
@@ -1122,12 +3684,188 @@
             ]
         },
         {
-            "name": "tuntap",
-            "description": "Manage TUN/TAP devices"
+            "name": [
+                "tuntap",
+                "tap"
+            ],
+            "description": "Manage TUN/TAP devices",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Create a TUN or TAP device",
+                    "subcommands": [
+                        {
+                            "name": "mode",
+                            "description": "Device type to create (mandatory)",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "tun",
+                                    "tap"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device to create",
+                            "args": {
+                                "name": "PHYS_DEV"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Name of the device to create (alias for 'dev')",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "user",
+                            "description": "User (name or numeric ID) allowed to open the device",
+                            "args": {
+                                "name": "USER"
+                            }
+                        },
+                        {
+                            "name": "group",
+                            "description": "Group (name or numeric ID) allowed to open the device",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        },
+                        {
+                            "name": "one_queue",
+                            "description": "Enable the (legacy) single-queue mode"
+                        },
+                        {
+                            "name": "pi",
+                            "description": "Keep the protocol info (PI) header on packets"
+                        },
+                        {
+                            "name": "vnet_hdr",
+                            "description": "Enable the virtio-net header on packets"
+                        },
+                        {
+                            "name": "multi_queue",
+                            "description": "Create a multi-queue device"
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Destroy a TUN or TAP device",
+                    "subcommands": [
+                        {
+                            "name": "mode",
+                            "description": "Device type to destroy (mandatory)",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "tun",
+                                    "tap"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device to destroy",
+                            "args": {
+                                "name": "PHYS_DEV"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Name of the device to destroy (alias for 'dev')",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "user",
+                            "description": "User (name or numeric ID) associated with the device",
+                            "args": {
+                                "name": "USER"
+                            }
+                        },
+                        {
+                            "name": "group",
+                            "description": "Group (name or numeric ID) associated with the device",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List TUN/TAP devices; takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip tuntap"
+                }
+            ]
         },
         {
             "name": "vrf",
-            "description": "Manage virtual routing and forwarding devices"
+            "description": "Manage virtual routing and forwarding devices",
+            "subcommands": [
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List VRFs and their route table IDs",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Only show the route table ID for this VRF",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "exec",
+                    "description": "Run a command against a given VRF",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "description": "VRF to run the command in"
+                        },
+                        {
+                            "name": "CMD",
+                            "description": "Command (and arguments) to run",
+                            "isVariadic": true
+                        }
+                    ]
+                },
+                {
+                    "name": "identify",
+                    "description": "Show which VRF a process is associated with",
+                    "args": {
+                        "name": "PID",
+                        "description": "Process ID to look up; defaults to the current process",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "pids",
+                    "description": "List the processes associated with a VRF",
+                    "args": {
+                        "name": "NAME"
+                    }
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip vrf"
+                }
+            ]
         },
         {
             "name": "xfrm",
