@@ -200,7 +200,25 @@
                                     "boot",
                                     "static",
                                     "ra",
-                                    "dhcp"
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp"
                                 ]
                             }
                         }
@@ -226,6 +244,31 @@
                             }
                         },
                         {
+                            "name": "lladdr",
+                            "description": "The link layer address of the neighbour; accepted but ignored when deleting an entry",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "The Neighbour Unreachability Detection (NUD) state of the entry; accepted but ignored when deleting an entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
                             "name": "proxy",
                             "description": "Delete a proxy neighbour entry for this address instead of a normal entry",
                             "args": {
@@ -245,8 +288,20 @@
                             "description": "Indicate that the neighbour is a router"
                         },
                         {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use, prompting the kernel to resolve it, or to refresh it if it already exists"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed so the kernel resolves it and periodically refreshes it to keep it in a resolved state"
+                        },
+                        {
                             "name": "extern_learn",
                             "description": "Mark this entry as learned externally by a controller; the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may probe it and return it to the stale state if the probe is unconfirmed"
                         },
                         {
                             "name": "protocol",
@@ -258,7 +313,25 @@
                                     "boot",
                                     "static",
                                     "ra",
-                                    "dhcp"
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp"
                                 ]
                             }
                         }
@@ -350,7 +423,25 @@
                                     "boot",
                                     "static",
                                     "ra",
-                                    "dhcp"
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp"
                                 ]
                             }
                         }
@@ -442,7 +533,25 @@
                                     "boot",
                                     "static",
                                     "ra",
-                                    "dhcp"
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp"
                                 ]
                             }
                         }
@@ -508,6 +617,39 @@
                                     "all"
                                 ]
                             }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only list neighbours installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp",
+                                    "all"
+                                ]
+                            }
                         }
                     ]
                 },
@@ -564,6 +706,39 @@
                                     "delay",
                                     "probe",
                                     "failed",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only flush neighbours installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "unspec",
+                                    "redirect",
+                                    "gated",
+                                    "mrt",
+                                    "zebra",
+                                    "bird",
+                                    "dnrouted",
+                                    "xorp",
+                                    "ntk",
+                                    "keepalived",
+                                    "babel",
+                                    "ovn",
+                                    "openr",
+                                    "bgp",
+                                    "isis",
+                                    "ospf",
+                                    "rip",
+                                    "eigrp",
                                     "all"
                                 ]
                             }
