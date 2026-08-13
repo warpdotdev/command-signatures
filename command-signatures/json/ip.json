@@ -764,23 +764,7 @@
                 },
                 {
                     "name": "save",
-                    "description": "Print the routing policy database to stdout in a format suitable for 'ip rule restore'",
-                    "options": [
-                        {
-                            "name": "protocol",
-                            "description": "Select the originating protocol of the rules to save",
-                            "args": {
-                                "name": "PROTO",
-                                "suggestions": [
-                                    "kernel",
-                                    "boot",
-                                    "static",
-                                    "ra",
-                                    "dhcp"
-                                ]
-                            }
-                        }
-                    ]
+                    "description": "Print the routing policy database to stdout in a format suitable for 'ip rule restore'; takes no arguments"
                 },
                 {
                     "name": "restore",
@@ -939,8 +923,7 @@
                     "name": "change",
                     "description": "Change parameters of an existing tunnel device",
                     "args": {
-                        "name": "NAME",
-                        "generatorName": "network_interfaces"
+                        "name": "NAME"
                     },
                     "options": [
                         {
@@ -1040,8 +1023,7 @@
                     ],
                     "description": "Destroy a tunnel device",
                     "args": {
-                        "name": "NAME",
-                        "generatorName": "network_interfaces"
+                        "name": "NAME"
                     }
                 },
                 {
@@ -1049,116 +1031,54 @@
                     "description": "List tunnel devices and their parameters",
                     "args": {
                         "name": "NAME",
-                        "isOptional": true,
-                        "generatorName": "network_interfaces"
+                        "isOptional": true
                     }
                 },
                 {
                     "name": "prl",
-                    "description": "Manage the potential router list of an ISATAP tunnel",
-                    "subcommands": [
+                    "description": "Manage the potential router list of an ISATAP tunnel; dev is mandatory and exactly one of prl-default, prl-nodefault, or prl-delete may be given at a time",
+                    "options": [
                         {
-                            "name": "add",
-                            "description": "Add a potential or default router to an ISATAP tunnel's potential router list",
+                            "name": "dev",
+                            "description": "ISATAP tunnel device to modify (mandatory)",
                             "args": {
-                                "name": "NAME",
-                                "generatorName": "network_interfaces"
-                            },
-                            "options": [
-                                {
-                                    "name": "dev",
-                                    "description": "ISATAP tunnel device name (mandatory)",
-                                    "args": {
-                                        "name": "NAME",
-                                        "generatorName": "network_interfaces"
-                                    }
-                                },
-                                {
-                                    "name": "prl-default",
-                                    "description": "Add ADDR as a default router",
-                                    "args": {
-                                        "name": "ADDR"
-                                    }
-                                },
-                                {
-                                    "name": "prl-nodefault",
-                                    "description": "Add ADDR as a potential (non-default) router",
-                                    "args": {
-                                        "name": "ADDR"
-                                    }
-                                }
-                            ]
+                                "name": "NAME"
+                            }
                         },
                         {
-                            "name": "change",
-                            "description": "Change a router entry in an ISATAP tunnel's potential router list",
+                            "name": "prl-default",
+                            "description": "Add ADDR as a default router",
                             "args": {
-                                "name": "NAME",
-                                "generatorName": "network_interfaces"
-                            },
-                            "options": [
-                                {
-                                    "name": "dev",
-                                    "description": "ISATAP tunnel device name (mandatory)",
-                                    "args": {
-                                        "name": "NAME",
-                                        "generatorName": "network_interfaces"
-                                    }
-                                },
-                                {
-                                    "name": "prl-default",
-                                    "description": "Set ADDR as a default router",
-                                    "args": {
-                                        "name": "ADDR"
-                                    }
-                                },
-                                {
-                                    "name": "prl-nodefault",
-                                    "description": "Set ADDR as a potential (non-default) router",
-                                    "args": {
-                                        "name": "ADDR"
-                                    }
-                                }
-                            ]
+                                "name": "ADDR"
+                            }
                         },
                         {
-                            "name": [
-                                "delete",
-                                "del"
-                            ],
-                            "description": "Delete a router from an ISATAP tunnel's potential router list",
+                            "name": "prl-nodefault",
+                            "description": "Add ADDR as a potential (non-default) router",
                             "args": {
-                                "name": "NAME",
-                                "generatorName": "network_interfaces"
-                            },
-                            "options": [
-                                {
-                                    "name": "dev",
-                                    "description": "ISATAP tunnel device name (mandatory)",
-                                    "args": {
-                                        "name": "NAME",
-                                        "generatorName": "network_interfaces"
-                                    }
-                                },
-                                {
-                                    "name": "prl-delete",
-                                    "description": "Address of the router to remove",
-                                    "args": {
-                                        "name": "ADDR"
-                                    }
-                                }
-                            ]
+                                "name": "ADDR"
+                            }
+                        },
+                        {
+                            "name": "prl-delete",
+                            "description": "Remove ADDR from the potential router list",
+                            "args": {
+                                "name": "ADDR"
+                            }
                         }
                     ]
                 },
                 {
                     "name": "6rd",
-                    "description": "Configure 6rd (IPv6 rapid deployment) parameters on a sit tunnel",
-                    "args": {
-                        "name": "NAME",
-                        "generatorName": "network_interfaces"
-                    },
+                    "description": "Configure 6rd (IPv6 rapid deployment) parameters on a sit tunnel; dev is mandatory",
                     "options": [
+                        {
+                            "name": "dev",
+                            "description": "sit tunnel device to configure (mandatory)",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
                         {
                             "name": "6rd-prefix",
                             "description": "6rd IPv6 prefix advertised for automatic tunnel address derivation",
