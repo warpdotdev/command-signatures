@@ -5481,7 +5481,163 @@
                 },
                 {
                     "name": "save",
-                    "description": "Print the multicast routing policy database to stdout in rtnetlink format, suitable for 'ip mrule restore'; takes no arguments"
+                    "description": "Print the multicast routing policy database to stdout in rtnetlink format, suitable for 'ip mrule restore'; accepts the same selector filters as 'ip mrule flush' to save only matching rules",
+                    "subcommands": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Only save rules matching this source prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Only save rules matching this destination prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only save rules matching this TOS (type of service) value",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Only save rules matching this DSCP value, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Only save rules matching this fwmark value (and optional mask), e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only save rules matching this incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Only save rules matching this outgoing interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Only save the rule with this priority (preference)",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Only save potential l3mdev (VRF) rules"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Only save rules matching this range of UIDs",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Only save rules matching this IP protocol",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Only save rules matching this source port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Only save rules matching this destination port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Only save rules matching this tunnel id, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Only save rules matching this IPv6 flow label (and optional mask) (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
+                            }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Only save rules referencing this routing table",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Select the originating protocol of the rules to save",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "restore",
@@ -12251,6 +12407,10 @@
                     "description": "Flush (delete) all matching rules from the routing policy database, also printing the rules that were deleted",
                     "subcommands": [
                         {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
                             "name": "from",
                             "description": "Only flush rules matching this source prefix",
                             "args": {
@@ -12262,6 +12422,113 @@
                             "description": "Only flush rules matching this destination prefix",
                             "args": {
                                 "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only flush rules matching this TOS (type of service) value",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Only flush rules matching this DSCP value, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Only flush rules matching this fwmark value (and optional mask), e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only flush rules matching this incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Only flush rules matching this outgoing interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Only flush the rule with this priority (preference)",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Only flush potential l3mdev (VRF) rules"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Only flush rules matching this range of UIDs",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Only flush rules matching this IP protocol",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Only flush rules matching this source port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Only flush rules matching this destination port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Only flush rules matching this tunnel id, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Only flush rules matching this IPv6 flow label (and optional mask) (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
                             }
                         },
                         {
@@ -12297,7 +12564,163 @@
                 },
                 {
                     "name": "save",
-                    "description": "Print the routing policy database to stdout in a format suitable for 'ip rule restore'; takes no arguments"
+                    "description": "Print the routing policy database to stdout in a format suitable for 'ip rule restore'; accepts the same selector filters as 'ip rule flush' to save only matching rules",
+                    "subcommands": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Only save rules matching this source prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Only save rules matching this destination prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only save rules matching this TOS (type of service) value",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Only save rules matching this DSCP value, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Only save rules matching this fwmark value (and optional mask), e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only save rules matching this incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Only save rules matching this outgoing interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Only save the rule with this priority (preference)",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Only save potential l3mdev (VRF) rules"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Only save rules matching this range of UIDs",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Only save rules matching this IP protocol",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Only save rules matching this source port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Only save rules matching this destination port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Only save rules matching this tunnel id, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Only save rules matching this IPv6 flow label (and optional mask) (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
+                            }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Only save rules referencing this routing table",
+                            "args": {
+                                "name": "TABLE_ID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Select the originating protocol of the rules to save",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     "name": "restore",
