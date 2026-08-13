@@ -220,6 +220,23 @@ lazy_static! {
                         .collect_unordered_results(),
                 },
             );
+    pub(super) static ref USER_GENERATOR: Generator =
+            Generator::command_from_tokens(
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get-users")),
+                |output| match KubetctlStatus::from_output(output) {
+                    KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
+                        GeneratorResults::default()
+                    }
+                    // `config get-users` has no `-o name` form, so its "NAME" header has to be
+                    // filtered out of the suggestions.
+                    KubetctlStatus::Other => output
+                        .lines()
+                        .map(str::trim)
+                        .filter(|line| !line.is_empty() && *line != "NAME")
+                        .map(Suggestion::new)
+                        .collect_unordered_results(),
+                },
+            );
     pub(super) static ref NAMESPACE_GENERATOR:Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
@@ -283,6 +300,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("resource", RESOURCE_GENERATOR.clone())
         .add_generator("context", CONTEXT_GENERATOR.clone())
         .add_generator("cluster", CLUSTER_GENERATOR.clone())
+        .add_generator("user", USER_GENERATOR.clone())
         .add_generator("namespace", NAMESPACE_GENERATOR.clone())
         .add_generator("type_or_type_slash_name", TYPE_OR_TYPE_SLASH_NAME.clone())
         .add_generator(
