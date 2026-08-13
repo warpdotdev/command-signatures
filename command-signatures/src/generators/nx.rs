@@ -9,17 +9,6 @@ use warp_completion_metadata::{
 
 lazy_static! {
     /// Command that retrieves the Nx project graph with target information.
-    ///
-    /// Uses `nx graph --file=stdout`, which writes only the graph JSON to stdout (no
-    /// human-readable banner, unlike `nx graph --file <path>`, which prints a confirmation
-    /// banner alongside writing the file). Verified empirically to produce valid JSON across
-    /// Nx 20.x-23.x (see APP-5384).
-    ///
-    /// Earlier implementations tried `nx graph --print` first, but Nx 20.x/21.0 declare that
-    /// flag without consuming it: nx silently ignores it and starts the interactive
-    /// project-graph web server instead, which never exits, so no fallback ever gets a chance
-    /// to run. `--file=stdout` is understood by every Nx version this generator needs to
-    /// support, so no fallback is needed.
     static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder =
         CommandBuilder::single_command("nx graph --file=stdout");
 }
