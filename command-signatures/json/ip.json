@@ -81,9 +81,7 @@
                 {
                     "name": "stats",
                     "description": "Monitor interface statistics"
-                }
-            ],
-            "options": [
+                },
                 {
                     "name": "file",
                     "description": "Read events from a file instead of netlink",
@@ -150,7 +148,7 @@
                         "show"
                     ],
                     "description": "List rules",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the selector"
@@ -229,7 +227,7 @@
                 {
                     "name": "add",
                     "description": "Add a new rule",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the selector"
@@ -350,7 +348,7 @@
                 {
                     "name": "del",
                     "description": "Delete a rule",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the selector"
@@ -446,7 +444,7 @@
                 {
                     "name": "flush",
                     "description": "Remove rules matching the selector",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the selector"
@@ -517,7 +515,7 @@
                         "description": "Tunnel device name",
                         "isOptional": true
                     },
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "mode",
                             "description": "Tunneling protocol",
@@ -602,7 +600,7 @@
                         "generatorName": "interfaces",
                         "isOptional": true
                     },
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "mode",
                             "description": "Tunneling protocol",
@@ -686,20 +684,7 @@
                         "description": "Tunnel device name",
                         "generatorName": "interfaces",
                         "isOptional": true
-                    },
-                    "options": [
-                        {
-                            "name": "mode",
-                            "description": "Tunneling protocol",
-                            "args": { "name": "MODE", "suggestions": [
-                                    "gre",
-                                    "ipip",
-                                    "isatap",
-                                    "sit",
-                                    "vti"
-                                ] }
-                        }
-                    ]
+                    }
                 },
                 {
                     "name": "show",
@@ -709,25 +694,12 @@
                         "description": "Tunnel device name",
                         "generatorName": "interfaces",
                         "isOptional": true
-                    },
-                    "options": [
-                        {
-                            "name": "mode",
-                            "description": "Tunneling protocol",
-                            "args": { "name": "MODE", "suggestions": [
-                                    "gre",
-                                    "ipip",
-                                    "isatap",
-                                    "sit",
-                                    "vti"
-                                ] }
-                        }
-                    ]
+                    }
                 },
                 {
                     "name": "prl",
                     "description": "Manage the potential router list for an ISATAP tunnel",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "prl-default",
                             "description": "Add a default potential router list entry",
@@ -749,15 +721,14 @@
                             "args": {
                                 "name": "PHYS_DEV",
                                 "generatorName": "interfaces"
-                            },
-                            "isRequired": true
+                            }
                         }
                     ]
                 },
                 {
                     "name": "6rd",
                     "description": "Configure IPv6 rapid deployment (6rd) parameters for a sit tunnel",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "6rd-prefix",
                             "description": "IPv6 prefix to use for 6rd",
@@ -778,8 +749,7 @@
                             "args": {
                                 "name": "PHYS_DEV",
                                 "generatorName": "interfaces"
-                            },
-                            "isRequired": true
+                            }
                         }
                     ]
                 }
@@ -807,7 +777,7 @@
                                 "update"
                             ],
                             "description": "Add or update a security association",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the SA",
@@ -924,7 +894,7 @@
                         {
                             "name": "allocspi",
                             "description": "Allocate an SPI value for a new security association",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the SA",
@@ -986,7 +956,7 @@
                                 "get"
                             ],
                             "description": "Delete or display a security association",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the SA",
@@ -1026,7 +996,7 @@
                         {
                             "name": "deleteall",
                             "description": "Delete all security associations matching the given criteria",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the SA",
@@ -1092,7 +1062,7 @@
                         {
                             "name": "list",
                             "description": "List security associations",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "nokeys",
                                     "description": "Do not print key material"
@@ -1162,7 +1132,7 @@
                         {
                             "name": "flush",
                             "description": "Flush all security associations",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "proto",
                                     "description": "Limit the flush to this IPsec protocol",
@@ -1195,7 +1165,7 @@
                                 "update"
                             ],
                             "description": "Add or update a security policy",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source prefix to match",
@@ -1285,7 +1255,7 @@
                                 "get"
                             ],
                             "description": "Delete or display a security policy",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source prefix to match",
@@ -1349,7 +1319,7 @@
                                 "list"
                             ],
                             "description": "Delete or list all security policies matching the given criteria",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "nosock",
                                     "description": "Do not show socket policies"
@@ -1420,7 +1390,7 @@
                         {
                             "name": "flush",
                             "description": "Flush all security policies",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "ptype",
                                     "description": "Limit the flush to this policy type",
@@ -1438,7 +1408,7 @@
                         {
                             "name": "set",
                             "description": "Set the policy hash table thresholds",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "hthresh4",
                                     "description": "IPv4 hash table thresholds (left and right bits)",
@@ -1507,9 +1477,7 @@
                         {
                             "name": "report",
                             "description": "Monitor xfrm report events"
-                        }
-                    ],
-                    "options": [
+                        },
                         {
                             "name": "nokeys",
                             "description": "Do not print key material for SA events"
