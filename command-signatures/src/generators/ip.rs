@@ -35,6 +35,42 @@ fn interface_state(details: &str) -> Option<String> {
     Some(format!("Interface ({state})"))
 }
 
+/// Parses `ip tunnel show` output into tunnel-name suggestions.
+///
+/// Each configured tunnel gets its own line, shaped `<name>: <mode>/ip remote <addr> local
+/// <addr> ttl <ttl> [nopmtudisc] ...` (e.g. `gre1: gre/ip remote 10.0.0.2 local 10.0.0.1 ttl
+/// 255`). The encapsulation mode (the part before `/ip`) is folded into the suggestion's
+/// description so e.g. a GRE tunnel is distinguishable from a SIT one.
+///
+/// Only positions that reference an *existing* tunnel should use this -- `tunnel change`,
+/// `tunnel delete`, and `tunnel show`'s own optional NAME. `tunnel add`'s NAME names a tunnel
+/// being created, so nothing should be suggested there.
+fn parse_tunnels(output: &str) -> GeneratorResults {
+    output
+        .lines()
+        .filter_map(|line| {
+            let (name, rest) = line.split_once(':')?;
+            let name = name.trim();
+            if name.is_empty() {
+                return None;
+            }
+            Some(Suggestion::with_description(
+                name,
+                tunnel_mode(rest).unwrap_or_else(|| "IP tunnel".to_string()),
+            ))
+        })
+        .collect_ordered_results()
+}
+
+/// Describes a tunnel from its encapsulation mode, e.g. `gre/ip` becomes `gre tunnel`.
+fn tunnel_mode(rest: &str) -> Option<String> {
+    let mode = rest.trim().split('/').next()?.trim();
+    if mode.is_empty() {
+        return None;
+    }
+    Some(format!("{mode} tunnel"))
+}
+
 /// Parses `ps -eo pid,comm` output (dropping the header row) into PID suggestions
 /// described by the process's command name.
 ///
@@ -94,6 +130,13 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
+            "tunnel_interfaces",
+            Generator::script(
+                CommandBuilder::single_command_and_ignore_stderr("ip tunnel show"),
+                parse_tunnels,
+            ),
+        )
+        .add_generator(
             "processes",
             Generator::script(
                 CommandBuilder::single_command("ps -eo pid,comm"),
@@ -149,6 +192,53 @@ mod tests {
     #[test]
     fn test_parse_interfaces_empty_output() {
         assert!(parse_interfaces("").suggestions.is_empty());
+    }
+
+    /// Real `ip tunnel show` output on Linux.
+    const TUNNEL_OUTPUT: &str = "gre0: gre/ip remote any local any ttl inherit nopmtudisc\ntunl1: ip/ip remote 212.93.158.1 local 212.93.129.104 ttl inherit\nsit0: ipv6/ip remote any local any ttl 64 nopmtudisc\n";
+
+    #[test]
+    fn test_parse_tunnels_keeps_the_order_ip_reports() {
+        let results = parse_tunnels(TUNNEL_OUTPUT);
+        let names: Vec<&str> = results
+            .suggestions
+            .iter()
+            .map(|suggestion| suggestion.exact_string.as_str())
+            .collect();
+        assert_eq!(names, vec!["gre0", "tunl1", "sit0"]);
+        assert!(results.is_ordered);
+    }
+
+    #[test]
+    fn test_parse_tunnels_describes_by_mode() {
+        let results = parse_tunnels(TUNNEL_OUTPUT);
+        let descriptions: Vec<Option<&str>> = results
+            .suggestions
+            .iter()
+            .map(|suggestion| suggestion.description.as_deref())
+            .collect();
+        assert_eq!(
+            descriptions,
+            vec![Some("gre tunnel"), Some("ip tunnel"), Some("ipv6 tunnel"),]
+        );
+    }
+
+    #[test]
+    fn test_parse_tunnels_empty_output() {
+        assert!(parse_tunnels("").suggestions.is_empty());
+    }
+
+    #[test]
+    fn test_parse_tunnels_skips_malformed_lines() {
+        // A blank line and a line with no `:` separator (no valid tunnel name) should be
+        // skipped without producing a spurious suggestion.
+        let results = parse_tunnels("\ngarbage line with no colon\ngre0: gre/ip remote any local any ttl inherit nopmtudisc\n");
+        let names: Vec<&str> = results
+            .suggestions
+            .iter()
+            .map(|suggestion| suggestion.exact_string.as_str())
+            .collect();
+        assert_eq!(names, vec!["gre0"]);
     }
 
     /// Real `ps -eo pid,comm` output on Linux.
