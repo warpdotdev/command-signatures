@@ -57,19 +57,49 @@ fn space_or_equals_delimited_option_value<'a>(
     })
 }
 
-/// Escapes `value` for safe embedding inside the single, unquoted command string built by
-/// [`kubectl_script`], by wrapping it in single quotes and escaping any literal single quotes it
-/// contains (`'` becomes `'\''`: end the quoted string, emit an escaped literal quote, then reopen
-/// the quoted string). This is the same technique already used by `files_for_staging_command` in
-/// `git.rs` for the same class of hazard.
+/// Whether `value` is made up only of characters that every shell these generator commands are
+/// built for -- POSIX shells, PowerShell, and cmd.exe -- treats as ordinary literal text, so it
+/// needs no quoting at all.
 ///
-/// NOTE: this is only correct for POSIX-compatible shells (bash/zsh/fish). `kubectl_script`'s own
-/// `$KUBECONFIG` fallback below already assumes POSIX parameter-expansion syntax
-/// (`${VAR:+...}`), so this function has always implicitly required a POSIX-compatible shell.
-/// `GeneratorProcess::CommandFromTokens` (which is how every caller of `kubectl_script` is wired
-/// up) does not pass the actual runtime `Shell` to the function that builds this string, so there
-/// is no mechanism today to select a different quoting style per shell even if that changed.
-fn shell_quote(value: &str) -> String {
+/// Real kubeconfig names sit comfortably inside this set: `minikube`, `docker-desktop`,
+/// `gke_my-project_us-central1-a_prod`, `arn:aws:eks:us-east-1:1234:cluster/prod`,
+/// `admin@prod.local`, and POSIX config paths like `/home/me/.kube/config`.
+///
+/// The set is deliberately conservative. Notably it excludes the backslash, which cmd.exe and
+/// PowerShell treat literally but POSIX shells use as an escape, so a Windows-style path is
+/// quoted rather than passed through.
+fn is_safe_unquoted(value: &str) -> bool {
+    !value.is_empty()
+        && value.chars().all(|c| {
+            c.is_ascii_alphanumeric() || matches!(c, '.' | '_' | '-' | ':' | '/' | '@' | '+')
+        })
+}
+
+/// Renders `value` for safe embedding inside the single, unquoted command string built by
+/// [`kubectl_script`].
+///
+/// A value that satisfies [`is_safe_unquoted`] -- which is every ordinary kubeconfig name -- is
+/// interpolated bare, byte for byte as it was before any quoting existed here. That keeps the
+/// generated command correct on POSIX shells, PowerShell and cmd.exe alike, since there is nothing
+/// for any of them to interpret.
+///
+/// Anything else is wrapped in single quotes, with embedded single quotes escaped as `'\''` (end
+/// the quoted string, emit an escaped literal quote, then reopen it) -- the same technique
+/// `files_for_staging_command` in `git.rs` and the path prefix in `scp.rs` already use for this
+/// class of hazard. This is what closes the injection hazard: a context named
+/// `prod; touch /tmp/PWNED` cannot start a second command.
+///
+/// That quoted fallback is POSIX-shaped, and only POSIX-shaped, because there is no way to do
+/// better from here: `kubectl_script`'s own `$KUBECONFIG` fallback below already requires POSIX
+/// parameter expansion (`${VAR:+...}`), and `GeneratorProcess::CommandFromTokens` -- how every
+/// caller reaches this code -- is never handed the runtime `Shell`, so the quoting style cannot be
+/// selected per shell without threading `Shell` through that signature. Leaving the common case
+/// unquoted confines that limitation to values that would otherwise be an injection vector,
+/// instead of applying it to every kubectl completion on Windows.
+fn escape_forwarded_value(value: &str) -> String {
+    if is_safe_unquoted(value) {
+        return value.to_owned();
+    }
     format!("'{}'", value.replace('\'', r"'\''"))
 }
 
@@ -93,22 +123,22 @@ fn kubectl_script(
 ) -> CommandBuilder {
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .or_else(|| env_var_value(env_vars, "KUBECONFIG"))
-        .map(|value| format!("--kubeconfig={} ", shell_quote(value)))
+        .map(|value| format!("--kubeconfig={} ", escape_forwarded_value(value)))
         // Fall back to the $KUBECONFIG shell variable, which is set when session environment
         // variables are forwarded to the child process.
         .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
     let context_value = space_or_equals_delimited_option_value(tokens, "--context")
-        .map(|value| format!("--context={} ", shell_quote(value)))
+        .map(|value| format!("--context={} ", escape_forwarded_value(value)))
         .unwrap_or_else(|| "".to_owned());
     let cluster_value = space_or_equals_delimited_option_value(tokens, "--cluster")
-        .map(|value| format!("--cluster={} ", shell_quote(value)))
+        .map(|value| format!("--cluster={} ", escape_forwarded_value(value)))
         .unwrap_or_else(|| "".to_owned());
     let user_value = space_or_equals_delimited_option_value(tokens, "--user")
-        .map(|value| format!("--user={} ", shell_quote(value)))
+        .map(|value| format!("--user={} ", escape_forwarded_value(value)))
         .unwrap_or_else(|| "".to_owned());
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
-        .map(|value| format!("--namespace={} ", shell_quote(value)))
+        .map(|value| format!("--namespace={} ", escape_forwarded_value(value)))
         .unwrap_or_else(|| "".to_owned());
 
     let env_vars_str = env_vars.iter().join(" ");
@@ -341,7 +371,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig='/path/to/config'"),
+            built.contains("--kubeconfig=/path/to/config"),
             "Expected --kubeconfig flag from tokens, got: {built}"
         );
     }
@@ -357,7 +387,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig='/tmp/kube-test/config'"),
+            built.contains("--kubeconfig=/tmp/kube-test/config"),
             "Expected --kubeconfig from KUBECONFIG env var, got: {built}"
         );
     }
@@ -379,11 +409,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig='/flag/path/config'"),
+            built.contains("--kubeconfig=/flag/path/config"),
             "Expected --kubeconfig from flag (not env var), got: {built}"
         );
         assert!(
-            !built.contains("--kubeconfig='/env/path/config'"),
+            !built.contains("--kubeconfig=/env/path/config"),
             "Should not contain env var value when flag is present, got: {built}"
         );
     }
@@ -423,7 +453,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace='kube-system'"),
+            built.contains("--namespace=kube-system"),
             "Expected --namespace=kube-system from -n flag before subcommand, got: {built}"
         );
     }
@@ -439,7 +469,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace='kube-system'"),
+            built.contains("--namespace=kube-system"),
             "Expected --namespace=kube-system from --namespace flag before subcommand, got: {built}"
         );
     }
@@ -455,7 +485,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace='kube-system'"),
+            built.contains("--namespace=kube-system"),
             "Expected --namespace=kube-system from -n flag after subcommand, got: {built}"
         );
     }
@@ -479,11 +509,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='staging-cluster'"),
+            built.contains("--context=staging-cluster"),
             "Expected --context=staging-cluster, got: {built}"
         );
         assert!(
-            built.contains("--namespace='project1'"),
+            built.contains("--namespace=project1"),
             "Expected --namespace=project1, got: {built}"
         );
     }
@@ -499,7 +529,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace='kube-system'"),
+            built.contains("--namespace=kube-system"),
             "Expected --namespace=kube-system from equals syntax, got: {built}"
         );
     }
@@ -515,7 +545,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='staging-cluster'"),
+            built.contains("--context=staging-cluster"),
             "Expected --context=staging-cluster from --context flag before subcommand, got: {built}"
         );
     }
@@ -531,7 +561,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='staging-cluster'"),
+            built.contains("--context=staging-cluster"),
             "Expected --context=staging-cluster from equals syntax, got: {built}"
         );
     }
@@ -547,7 +577,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--cluster='prod-cluster'"),
+            built.contains("--cluster=prod-cluster"),
             "Expected --cluster=prod-cluster from --cluster flag before subcommand, got: {built}"
         );
     }
@@ -563,7 +593,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--cluster='prod-cluster'"),
+            built.contains("--cluster=prod-cluster"),
             "Expected --cluster=prod-cluster from equals syntax, got: {built}"
         );
     }
@@ -579,7 +609,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--user='jane-doe'"),
+            built.contains("--user=jane-doe"),
             "Expected --user=jane-doe from --user flag before subcommand, got: {built}"
         );
     }
@@ -595,7 +625,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--user='jane-doe'"),
+            built.contains("--user=jane-doe"),
             "Expected --user=jane-doe from equals syntax, got: {built}"
         );
     }
@@ -623,56 +653,99 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='staging-cluster'"),
+            built.contains("--context=staging-cluster"),
             "Expected --context=staging-cluster, got: {built}"
         );
         assert!(
-            built.contains("--cluster='prod-cluster'"),
+            built.contains("--cluster=prod-cluster"),
             "Expected --cluster=prod-cluster, got: {built}"
         );
         assert!(
-            built.contains("--user='jane-doe'"),
+            built.contains("--user=jane-doe"),
             "Expected --user=jane-doe, got: {built}"
         );
         assert!(
-            built.contains("--namespace='project1'"),
+            built.contains("--namespace=project1"),
             "Expected --namespace=project1, got: {built}"
         );
     }
 
-    // --- shell_quote: the escaping hazard classes called out in review ---
+    // --- escape_forwarded_value: the escaping hazard classes called out in review ---
 
+    /// An ordinary value needs no quoting at all, so it is interpolated bare. This is the case that
+    /// keeps the generated command correct on PowerShell and cmd.exe, where POSIX single quotes are
+    /// not stripped: they never see a quote, because there is nothing here to quote.
     #[test]
-    fn test_shell_quote_wraps_plain_value_in_single_quotes() {
-        assert_eq!(shell_quote("prod"), "'prod'");
+    fn test_escape_forwarded_value_leaves_plain_value_unquoted() {
+        assert_eq!(escape_forwarded_value("prod"), "prod");
+    }
+
+    /// The shapes real kubeconfig names take -- EKS ARNs, GKE names, POSIX paths, user@host -- all
+    /// stay unquoted, so this is the path virtually every completion takes.
+    #[test]
+    fn test_escape_forwarded_value_leaves_realistic_names_unquoted() {
+        for value in [
+            "minikube",
+            "docker-desktop",
+            "gke_my-project_us-central1-a_prod",
+            "arn:aws:eks:us-east-1:1234:cluster/prod",
+            "admin@prod.local",
+            "/home/me/.kube/config",
+            "kube-system",
+        ] {
+            assert_eq!(
+                escape_forwarded_value(value),
+                value,
+                "Expected `{value}` to need no quoting"
+            );
+        }
     }
 
     #[test]
-    fn test_shell_quote_preserves_whitespace_as_a_single_argument() {
-        assert_eq!(shell_quote("prod west"), "'prod west'");
+    fn test_escape_forwarded_value_preserves_whitespace_as_a_single_argument() {
+        assert_eq!(escape_forwarded_value("prod west"), "'prod west'");
     }
 
     #[test]
-    fn test_shell_quote_escapes_embedded_single_quote() {
-        assert_eq!(shell_quote("it's-prod"), r"'it'\''s-prod'");
+    fn test_escape_forwarded_value_escapes_embedded_single_quote() {
+        assert_eq!(escape_forwarded_value("it's-prod"), r"'it'\''s-prod'");
     }
 
     #[test]
-    fn test_shell_quote_prevents_variable_expansion() {
-        assert_eq!(shell_quote("$HOME"), "'$HOME'");
+    fn test_escape_forwarded_value_prevents_variable_expansion() {
+        assert_eq!(escape_forwarded_value("$HOME"), "'$HOME'");
     }
 
     #[test]
-    fn test_shell_quote_prevents_command_separator_injection() {
-        assert_eq!(shell_quote("prod; rm -rf /"), "'prod; rm -rf /'");
+    fn test_escape_forwarded_value_prevents_command_separator_injection() {
+        assert_eq!(escape_forwarded_value("prod; rm -rf /"), "'prod; rm -rf /'");
     }
 
     #[test]
-    fn test_shell_quote_handles_backticks_and_double_quotes_literally() {
-        assert_eq!(shell_quote(r#"`whoami`-"prod""#), r#"'`whoami`-"prod"'"#);
+    fn test_escape_forwarded_value_handles_backticks_and_double_quotes_literally() {
+        assert_eq!(
+            escape_forwarded_value(r#"`whoami`-"prod""#),
+            r#"'`whoami`-"prod"'"#
+        );
     }
 
-    // --- shell_quote flowing through kubectl_script's interpolation ---
+    /// An empty value is quoted so it stays a present-but-empty argument rather than vanishing.
+    #[test]
+    fn test_escape_forwarded_value_quotes_empty_value() {
+        assert_eq!(escape_forwarded_value(""), "''");
+    }
+
+    /// A Windows-style path contains a backslash, which POSIX shells would consume as an escape, so
+    /// it falls into the quoted branch rather than being passed through bare.
+    #[test]
+    fn test_escape_forwarded_value_quotes_backslash() {
+        assert_eq!(
+            escape_forwarded_value(r"C:\Users\me\.kube\config"),
+            r"'C:\Users\me\.kube\config'"
+        );
+    }
+
+    // --- escape_forwarded_value flowing through kubectl_script's interpolation ---
 
     #[test]
     fn test_context_value_with_command_separator_is_quoted_not_executed() {
@@ -783,11 +856,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='new'"),
+            built.contains("--context=new"),
             "Expected the last --context occurrence, matching kubectl's own flag-overwrite semantics, got: {built}"
         );
         assert!(
-            !built.contains("--context='old'"),
+            !built.contains("--context=old"),
             "Did not expect the superseded --context value to be forwarded, got: {built}"
         );
     }
@@ -803,11 +876,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='new'"),
+            built.contains("--context=new"),
             "Expected the last --context=... occurrence, got: {built}"
         );
         assert!(
-            !built.contains("--context='old'"),
+            !built.contains("--context=old"),
             "Did not expect the superseded --context value to be forwarded, got: {built}"
         );
     }
@@ -834,7 +907,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='real'"),
+            built.contains("--context=real"),
             "Expected the --context before the `--` terminator to still be forwarded, got: {built}"
         );
         assert!(
