@@ -68,7 +68,8 @@
                         {
                             "name": [
                                 "txqueuelen",
-                                "txqlen"
+                                "txqlen",
+                                "qlen"
                             ],
                             "description": "Transmit queue length of the new device",
                             "args": {
@@ -171,6 +172,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -208,6 +210,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -218,7 +221,10 @@
                     ]
                 },
                 {
-                    "name": "delete",
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
                     "description": "Delete a virtual link device",
                     "args": {
                         "name": "DEVICE",
@@ -253,6 +259,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -290,6 +297,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -333,7 +341,8 @@
                         {
                             "name": [
                                 "txqueuelen",
-                                "txqlen"
+                                "txqlen",
+                                "qlen"
                             ],
                             "description": "Transmit queue length of the device",
                             "args": {
@@ -436,6 +445,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -473,6 +483,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -529,6 +540,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bond_slave",
                                     "bridge",
@@ -569,6 +581,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -656,7 +669,8 @@
                         {
                             "name": [
                                 "txqueuelen",
-                                "txqlen"
+                                "txqlen",
+                                "qlen"
                             ],
                             "description": "Transmit queue length of the device",
                             "args": {
@@ -1120,6 +1134,360 @@
                             }
                         },
                         {
+                            "name": "inet",
+                            "description": "Set IPv4 device configuration (sysctl-equivalent) parameters for this device",
+                            "subcommands": [
+                                {
+                                    "name": "forwarding",
+                                    "description": "Enable or disable IPv4 forwarding on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "proxy_arp",
+                                    "description": "Enable or disable proxy ARP on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "accept_redirects",
+                                    "description": "Accept ICMP redirects on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "secure_redirects",
+                                    "description": "Only accept ICMP redirects for gateways listed as default gateways",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "send_redirects",
+                                    "description": "Send ICMP redirects to other hosts when this device is acting as a router",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "shared_media",
+                                    "description": "Assume the physical medium on this device supports sending ICMP redirects to the originating host",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "rp_filter",
+                                    "description": "Reverse path filtering mode used to validate the source address of incoming packets on this device",
+                                    "args": {
+                                        "name": "{0|1|2}",
+                                        "suggestions": [
+                                            "0",
+                                            "1",
+                                            "2"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "accept_source_route",
+                                    "description": "Accept packets with the IP source route option set on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "bootp_relay",
+                                    "description": "Accept packets with a non-local source address as if they originated locally, for BOOTP relaying through this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "log_martians",
+                                    "description": "Log packets with impossible (martian) source addresses received on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "tag",
+                                    "description": "Arbitrary numeric tag stored with this device's IPv4 configuration",
+                                    "args": {
+                                        "name": "TAG"
+                                    }
+                                },
+                                {
+                                    "name": "arp_filter",
+                                    "description": "Only reply to ARP requests for addresses this device would use to route the response",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "medium_id",
+                                    "description": "Physical medium identifier used to disambiguate proxy ARP entries shared across multiple devices",
+                                    "args": {
+                                        "name": "ID"
+                                    }
+                                },
+                                {
+                                    "name": "disable_xfrm",
+                                    "description": "Disable IPsec (xfrm) policy lookups for forwarded packets on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "disable_policy",
+                                    "description": "Disable IPv4 policy routing lookups for forwarded packets on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "force_igmp_version",
+                                    "description": "Force this device to use a specific IGMP protocol version instead of auto-negotiating",
+                                    "args": {
+                                        "name": "{0|1|2|3}",
+                                        "suggestions": [
+                                            "0",
+                                            "1",
+                                            "2",
+                                            "3"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "arp_announce",
+                                    "description": "Restrict which local source address is announced in ARP requests sent from this device",
+                                    "args": {
+                                        "name": "{0|1|2}",
+                                        "suggestions": [
+                                            "0",
+                                            "1",
+                                            "2"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "arp_ignore",
+                                    "description": "Control which local addresses reply to ARP requests received on this device",
+                                    "args": {
+                                        "name": "{0-8}",
+                                        "suggestions": [
+                                            "0",
+                                            "1",
+                                            "2",
+                                            "3",
+                                            "4",
+                                            "5",
+                                            "6",
+                                            "7",
+                                            "8"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "promote_secondaries",
+                                    "description": "Automatically promote a secondary address to primary when this device's primary address is removed",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "arp_accept",
+                                    "description": "Create new ARP/neighbour entries from unsolicited (gratuitous) ARP replies received on this device",
+                                    "args": {
+                                        "name": "{0|1|2}",
+                                        "suggestions": [
+                                            "0",
+                                            "1",
+                                            "2"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "arp_notify",
+                                    "description": "Send a gratuitous ARP request when this device comes up or its link-layer address changes",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "accept_local",
+                                    "description": "Accept incoming packets with a local source address arriving on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "src_vmark",
+                                    "description": "Use this device's VRF mark when selecting the source address for locally generated packets",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "proxy_arp_pvlan",
+                                    "description": "Enable proxy ARP for private VLAN (isolated switch port) semantics on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "route_localnet",
+                                    "description": "Allow routing to and from local addresses in the 127.0.0.0/8 range on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "bc_forwarding",
+                                    "description": "Forward broadcast packets received on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "igmpv2_unsolicited_report_interval",
+                                    "description": "Interval in milliseconds between unsolicited IGMPv2 membership reports sent on this device",
+                                    "args": {
+                                        "name": "INTERVAL"
+                                    }
+                                },
+                                {
+                                    "name": "igmpv3_unsolicited_report_interval",
+                                    "description": "Interval in milliseconds between unsolicited IGMPv3 membership reports sent on this device",
+                                    "args": {
+                                        "name": "INTERVAL"
+                                    }
+                                },
+                                {
+                                    "name": "ignore_routes_with_linkdown",
+                                    "description": "Ignore routes using this device when it is administratively down instead of removing them",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "drop_unicast_in_l2_multicast",
+                                    "description": "Drop unicast IP packets that arrive encapsulated in a link-layer multicast or broadcast frame on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "drop_gratuitous_arp",
+                                    "description": "Drop incoming gratuitous ARP packets received on this device",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "arp_evict_nocarrier",
+                                    "description": "Evict this device's ARP cache entries when it loses carrier",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
                             "name": "protodown",
                             "description": "Administratively mark the device down at the protocol level (e.g. for a routing daemon to signal failure) without changing the admin UP/DOWN state",
                             "args": {
@@ -1238,6 +1606,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bond_slave",
                                     "bridge",
@@ -1278,6 +1647,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -1307,6 +1677,7 @@
                                 "suggestions": [
                                     "amt",
                                     "bareudp",
+                                    "batadv",
                                     "bond",
                                     "bridge",
                                     "can",
@@ -1344,6 +1715,7 @@
                                     "vlan",
                                     "vrf",
                                     "vti",
+                                    "vti6",
                                     "vxcan",
                                     "vxlan",
                                     "wwan",
@@ -1437,6 +1809,7 @@
                         "suggestions": [
                             "amt",
                             "bareudp",
+                            "batadv",
                             "bond",
                             "bridge",
                             "can",
@@ -1474,6 +1847,7 @@
                             "vlan",
                             "vrf",
                             "vti",
+                            "vti6",
                             "vxcan",
                             "vxlan",
                             "wwan",
