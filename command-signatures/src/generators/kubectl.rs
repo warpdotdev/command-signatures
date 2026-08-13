@@ -24,26 +24,53 @@ impl KubetctlStatus {
 }
 
 /// Returns the value for the given `option_name`, which may be space delimited (--option value) or equals delimited (--option=value).
+///
+/// kubectl's flags are Cobra/pflag string flags, so a repeated flag's `Set` call overwrites the
+/// previous value and kubectl itself acts on the *last* occurrence; this scans for the last match
+/// to match that behavior. It also stops scanning at a bare `--` terminator, since pflag stops
+/// parsing flags there and anything after it (including something that looks like a flag) is a
+/// literal positional argument, not an option.
 fn space_or_equals_delimited_option_value<'a>(
     tokens: &'a [&str],
     option_name: &str,
 ) -> Option<&'a str> {
     let option_name_equals = format!("{option_name}=");
-    let option_idx = tokens
+    let scan_range = tokens
         .iter()
-        .position(|token| *token == option_name || token.starts_with(&option_name_equals));
+        .position(|token| *token == "--")
+        .unwrap_or(tokens.len());
+    let candidates = &tokens[..scan_range];
+    let option_idx = candidates
+        .iter()
+        .rposition(|token| *token == option_name || token.starts_with(&option_name_equals));
     option_idx.and_then(|idx| {
         // This option is equals delimited, so position is option_name=value
-        if let Some(equals_value) = tokens
+        if let Some(equals_value) = candidates
             .get(idx)
             .and_then(|token| token.strip_prefix(&option_name_equals))
         {
             Some(equals_value)
         } else {
             // This option is space delimited, so value is the next token
-            tokens.get(idx + 1).copied()
+            candidates.get(idx + 1).copied()
         }
     })
+}
+
+/// Escapes `value` for safe embedding inside the single, unquoted command string built by
+/// [`kubectl_script`], by wrapping it in single quotes and escaping any literal single quotes it
+/// contains (`'` becomes `'\''`: end the quoted string, emit an escaped literal quote, then reopen
+/// the quoted string). This is the same technique already used by `files_for_staging_command` in
+/// `git.rs` for the same class of hazard.
+///
+/// NOTE: this is only correct for POSIX-compatible shells (bash/zsh/fish). `kubectl_script`'s own
+/// `$KUBECONFIG` fallback below already assumes POSIX parameter-expansion syntax
+/// (`${VAR:+...}`), so this function has always implicitly required a POSIX-compatible shell.
+/// `GeneratorProcess::CommandFromTokens` (which is how every caller of `kubectl_script` is wired
+/// up) does not pass the actual runtime `Shell` to the function that builds this string, so there
+/// is no mechanism today to select a different quoting style per shell even if that changed.
+fn shell_quote(value: &str) -> String {
+    format!("'{}'", value.replace('\'', r"'\''"))
 }
 
 /// Returns the value of a given `key` from a list of environment variables formatted as
@@ -66,22 +93,22 @@ fn kubectl_script(
 ) -> CommandBuilder {
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .or_else(|| env_var_value(env_vars, "KUBECONFIG"))
-        .map(|value| format!("--kubeconfig={value} "))
+        .map(|value| format!("--kubeconfig={} ", shell_quote(value)))
         // Fall back to the $KUBECONFIG shell variable, which is set when session environment
         // variables are forwarded to the child process.
         .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
     let context_value = space_or_equals_delimited_option_value(tokens, "--context")
-        .map(|value| format!("--context={value} "))
+        .map(|value| format!("--context={} ", shell_quote(value)))
         .unwrap_or_else(|| "".to_owned());
     let cluster_value = space_or_equals_delimited_option_value(tokens, "--cluster")
-        .map(|value| format!("--cluster={value} "))
+        .map(|value| format!("--cluster={} ", shell_quote(value)))
         .unwrap_or_else(|| "".to_owned());
     let user_value = space_or_equals_delimited_option_value(tokens, "--user")
-        .map(|value| format!("--user={value} "))
+        .map(|value| format!("--user={} ", shell_quote(value)))
         .unwrap_or_else(|| "".to_owned());
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
-        .map(|value| format!("--namespace={value} "))
+        .map(|value| format!("--namespace={} ", shell_quote(value)))
         .unwrap_or_else(|| "".to_owned());
 
     let env_vars_str = env_vars.iter().join(" ");
@@ -314,7 +341,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/path/to/config"),
+            built.contains("--kubeconfig='/path/to/config'"),
             "Expected --kubeconfig flag from tokens, got: {built}"
         );
     }
@@ -330,7 +357,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/tmp/kube-test/config"),
+            built.contains("--kubeconfig='/tmp/kube-test/config'"),
             "Expected --kubeconfig from KUBECONFIG env var, got: {built}"
         );
     }
@@ -352,11 +379,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/flag/path/config"),
+            built.contains("--kubeconfig='/flag/path/config'"),
             "Expected --kubeconfig from flag (not env var), got: {built}"
         );
         assert!(
-            !built.contains("--kubeconfig=/env/path/config"),
+            !built.contains("--kubeconfig='/env/path/config'"),
             "Should not contain env var value when flag is present, got: {built}"
         );
     }
@@ -396,7 +423,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from -n flag before subcommand, got: {built}"
         );
     }
@@ -412,7 +439,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from --namespace flag before subcommand, got: {built}"
         );
     }
@@ -428,7 +455,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from -n flag after subcommand, got: {built}"
         );
     }
@@ -452,11 +479,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context=staging-cluster"),
+            built.contains("--context='staging-cluster'"),
             "Expected --context=staging-cluster, got: {built}"
         );
         assert!(
-            built.contains("--namespace=project1"),
+            built.contains("--namespace='project1'"),
             "Expected --namespace=project1, got: {built}"
         );
     }
@@ -472,7 +499,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from equals syntax, got: {built}"
         );
     }
@@ -488,7 +515,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context=staging-cluster"),
+            built.contains("--context='staging-cluster'"),
             "Expected --context=staging-cluster from --context flag before subcommand, got: {built}"
         );
     }
@@ -504,7 +531,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context=staging-cluster"),
+            built.contains("--context='staging-cluster'"),
             "Expected --context=staging-cluster from equals syntax, got: {built}"
         );
     }
@@ -520,7 +547,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--cluster=prod-cluster"),
+            built.contains("--cluster='prod-cluster'"),
             "Expected --cluster=prod-cluster from --cluster flag before subcommand, got: {built}"
         );
     }
@@ -536,7 +563,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--cluster=prod-cluster"),
+            built.contains("--cluster='prod-cluster'"),
             "Expected --cluster=prod-cluster from equals syntax, got: {built}"
         );
     }
@@ -552,7 +579,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--user=jane-doe"),
+            built.contains("--user='jane-doe'"),
             "Expected --user=jane-doe from --user flag before subcommand, got: {built}"
         );
     }
@@ -568,7 +595,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--user=jane-doe"),
+            built.contains("--user='jane-doe'"),
             "Expected --user=jane-doe from equals syntax, got: {built}"
         );
     }
@@ -596,20 +623,262 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context=staging-cluster"),
+            built.contains("--context='staging-cluster'"),
             "Expected --context=staging-cluster, got: {built}"
         );
         assert!(
-            built.contains("--cluster=prod-cluster"),
+            built.contains("--cluster='prod-cluster'"),
             "Expected --cluster=prod-cluster, got: {built}"
         );
         assert!(
-            built.contains("--user=jane-doe"),
+            built.contains("--user='jane-doe'"),
             "Expected --user=jane-doe, got: {built}"
         );
         assert!(
-            built.contains("--namespace=project1"),
+            built.contains("--namespace='project1'"),
             "Expected --namespace=project1, got: {built}"
+        );
+    }
+
+    // --- shell_quote: the escaping hazard classes called out in review ---
+
+    #[test]
+    fn test_shell_quote_wraps_plain_value_in_single_quotes() {
+        assert_eq!(shell_quote("prod"), "'prod'");
+    }
+
+    #[test]
+    fn test_shell_quote_preserves_whitespace_as_a_single_argument() {
+        assert_eq!(shell_quote("prod west"), "'prod west'");
+    }
+
+    #[test]
+    fn test_shell_quote_escapes_embedded_single_quote() {
+        assert_eq!(shell_quote("it's-prod"), r"'it'\''s-prod'");
+    }
+
+    #[test]
+    fn test_shell_quote_prevents_variable_expansion() {
+        assert_eq!(shell_quote("$HOME"), "'$HOME'");
+    }
+
+    #[test]
+    fn test_shell_quote_prevents_command_separator_injection() {
+        assert_eq!(shell_quote("prod; rm -rf /"), "'prod; rm -rf /'");
+    }
+
+    #[test]
+    fn test_shell_quote_handles_backticks_and_double_quotes_literally() {
+        assert_eq!(shell_quote(r#"`whoami`-"prod""#), r#"'`whoami`-"prod"'"#);
+    }
+
+    // --- shell_quote flowing through kubectl_script's interpolation ---
+
+    #[test]
+    fn test_context_value_with_command_separator_is_quoted_not_executed() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "prod; rm -rf /", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='prod; rm -rf /'"),
+            "Expected the ';' to stay inside single quotes rather than starting a new command, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_namespace_value_with_embedded_quote_is_escaped() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--namespace", "it's-a-namespace", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains(r"--namespace='it'\''s-a-namespace'"),
+            "Expected the embedded single quote to be escaped, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_kubeconfig_value_with_dollar_sign_is_not_expanded() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--kubeconfig",
+            "$HOME/.kube/config",
+            "config",
+            "use-context",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("config get-contexts -o name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--kubeconfig='$HOME/.kube/config'"),
+            "Expected the $ to stay inside single quotes rather than being expanded, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_cluster_value_with_whitespace_stays_one_argument() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--cluster", "prod west", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--cluster='prod west'"),
+            "Expected the quoted context name to remain a single argument, got: {built}"
+        );
+    }
+
+    // --- space_or_equals_delimited_option_value: last-occurrence-wins and `--` termination ---
+
+    #[test]
+    fn test_space_or_equals_delimited_option_value_takes_last_occurrence() {
+        let tokens = vec!["kubectl", "--context", "old", "--context", "new"];
+        assert_eq!(
+            space_or_equals_delimited_option_value(&tokens, "--context"),
+            Some("new")
+        );
+    }
+
+    #[test]
+    fn test_space_or_equals_delimited_option_value_ignores_tokens_after_double_dash() {
+        let tokens = vec!["kubectl", "get", "pods", "--", "--context", "fake"];
+        assert_eq!(
+            space_or_equals_delimited_option_value(&tokens, "--context"),
+            None
+        );
+    }
+
+    #[test]
+    fn test_repeated_context_space_form_uses_last_occurrence() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--context",
+            "old",
+            "--context",
+            "new",
+            "get",
+            "pods",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='new'"),
+            "Expected the last --context occurrence, matching kubectl's own flag-overwrite semantics, got: {built}"
+        );
+        assert!(
+            !built.contains("--context='old'"),
+            "Did not expect the superseded --context value to be forwarded, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_repeated_context_equals_form_uses_last_occurrence() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context=old", "--context=new", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='new'"),
+            "Expected the last --context=... occurrence, got: {built}"
+        );
+        assert!(
+            !built.contains("--context='old'"),
+            "Did not expect the superseded --context value to be forwarded, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_flag_lookalike_after_double_dash_terminator_is_not_forwarded() {
+        let env_vars = vec![];
+        // pflag stops parsing flags at a bare `--`; a `--context`-looking token after it is a
+        // literal positional argument, not a flag, and must not be forwarded.
+        let tokens = vec![
+            "kubectl",
+            "--context",
+            "real",
+            "get",
+            "pods",
+            "--",
+            "--context",
+            "not-a-real-context",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='real'"),
+            "Expected the --context before the `--` terminator to still be forwarded, got: {built}"
+        );
+        assert!(
+            !built.contains("not-a-real-context"),
+            "Did not expect the flag-lookalike after `--` to be forwarded, got: {built}"
+        );
+    }
+
+    // --- USER_GENERATOR's output parser ---
+
+    #[test]
+    fn test_user_generator_filters_name_header() {
+        let results = USER_GENERATOR.on_complete("NAME\nalice\nbob\n");
+        let names: Vec<&str> = results
+            .suggestions
+            .iter()
+            .map(|s| s.exact_string.as_str())
+            .collect();
+        assert_eq!(
+            names,
+            vec!["alice", "bob"],
+            "Expected the NAME header to be filtered out and only user names kept"
+        );
+    }
+
+    #[test]
+    fn test_user_generator_returns_empty_when_connected_to_cluster() {
+        let results =
+            USER_GENERATOR.on_complete("The connection to the server localhost:8080 was refused");
+        assert!(
+            results.suggestions.is_empty(),
+            "Expected no suggestions when kubectl actually reached a server, got: {:?}",
+            results.suggestions
+        );
+    }
+
+    #[test]
+    fn test_user_generator_returns_empty_on_general_error() {
+        let results =
+            USER_GENERATOR.on_complete("error: You must be logged in to the server (Unauthorized)");
+        assert!(
+            results.suggestions.is_empty(),
+            "Expected no suggestions on a general kubectl error, got: {:?}",
+            results.suggestions
         );
     }
 }
