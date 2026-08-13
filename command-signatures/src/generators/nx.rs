@@ -10,16 +10,21 @@ use warp_completion_metadata::{
 lazy_static! {
     /// Command that retrieves the Nx project graph with target information.
     ///
-    /// Uses `nx graph --print` (Nx 19.20+) which outputs JSON to stdout.
-    /// Falls back to `nx graph --file` with a tmpfile for older Nx versions
-    /// (avoids a truncation bug in stdout output, see
-    /// https://github.com/nrwl/nx/issues/18689).
-    static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder = CommandBuilder::single_command(
-        "sh -c \"nx graph --print 2>/dev/null || { temp=\\$(mktemp -u).json && nx graph --file \\$temp 2>/dev/null && cat \\$temp && rm -f \\$temp; }\""
-    );
+    /// Uses `nx graph --file=stdout`, which writes only the graph JSON to stdout (no
+    /// human-readable banner, unlike `nx graph --file <path>`, which prints a confirmation
+    /// banner alongside writing the file). Verified empirically to produce valid JSON across
+    /// Nx 20.x-23.x (see APP-5384).
+    ///
+    /// Earlier implementations tried `nx graph --print` first, but Nx 20.x/21.0 declare that
+    /// flag without consuming it: nx silently ignores it and starts the interactive
+    /// project-graph web server instead, which never exits, so no fallback ever gets a chance
+    /// to run. `--file=stdout` is understood by every Nx version this generator needs to
+    /// support, so no fallback is needed.
+    static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder =
+        CommandBuilder::single_command("nx graph --file=stdout");
 }
 
-/// Parsed output from `nx graph --print` / `nx graph --file`.
+/// Parsed output from `nx graph --file=stdout`.
 #[derive(Debug, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 struct NXGraphFile {
@@ -158,4 +163,95 @@ pub fn generator() -> CommandSignatureGenerators {
                 }
             }),
         )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use warp_completion_metadata::Shell;
+
+    /// Regression test for APP-5384: a future `CommandBuilder` refactor (like the one in PR #166
+    /// that silently turned a stdout redirect into a stderr redirect) must not be able to change
+    /// the built command string without this test catching it.
+    #[test]
+    fn test_workspace_targets_command_string() {
+        assert_eq!(
+            NX_WORKSPACE_TARGETS_COMMAND.build(Shell::Posix),
+            "nx graph --file=stdout"
+        );
+    }
+
+    #[test]
+    fn test_process_workspace_targets_parses_projects_and_targets() {
+        let output = r#"{
+            "graph": {
+                "nodes": {
+                    "admin-integrations": {
+                        "name": "admin-integrations",
+                        "type": "app",
+                        "data": {
+                            "root": "apps/admin-integrations",
+                            "targets": {
+                                "build": {},
+                                "serve": {}
+                            }
+                        }
+                    },
+                    "utils": {
+                        "name": "utils",
+                        "type": "lib",
+                        "data": {
+                            "root": "libs/utils",
+                            "targets": {
+                                "test": {}
+                            }
+                        }
+                    }
+                },
+                "dependencies": {}
+            }
+        }"#;
+
+        let results = process_workspace_targets(output);
+        assert!(!results.is_ordered);
+
+        let mut names: Vec<&str> = results
+            .suggestions
+            .iter()
+            .map(|s| s.exact_string.as_str())
+            .collect();
+        names.sort_unstable();
+        assert_eq!(
+            names,
+            vec![
+                "admin-integrations:build",
+                "admin-integrations:serve",
+                "utils:test"
+            ]
+        );
+        assert!(results
+            .suggestions
+            .iter()
+            .all(|s| s.description.as_deref() == Some("nx target")));
+    }
+
+    /// Regression test for the original Dec 2024 bug (PR #166): if a human-readable banner from
+    /// `nx` ever precedes the JSON on stdout again, parsing must fail closed (no suggestions),
+    /// not panic or silently return garbage.
+    #[test]
+    fn test_process_workspace_targets_fails_closed_on_banner_text() {
+        let output =
+            " NX   JSON output created in /tmp/tmp.DrVPzrwmkX.json\n{\"graph\":{\"nodes\":{}}}";
+        assert_eq!(
+            process_workspace_targets(output),
+            GeneratorResults::default()
+        );
+    }
+
+    #[test]
+    fn test_process_workspace_targets_empty_graph() {
+        let output = r#"{"graph": {"nodes": {}}}"#;
+        let results = process_workspace_targets(output);
+        assert!(results.suggestions.is_empty());
+    }
 }
