@@ -8,7 +8,6 @@ use warp_completion_metadata::{
 };
 
 lazy_static! {
-    /// Command that retrieves the Nx project graph with target information.
     static ref NX_WORKSPACE_TARGETS_COMMAND: CommandBuilder =
         CommandBuilder::single_command("nx graph --file=stdout");
 }
