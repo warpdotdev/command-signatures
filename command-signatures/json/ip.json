@@ -129,6 +129,41 @@
                             }
                         },
                         {
+                            "name": "gso_max_size",
+                            "description": "Recommended maximum size in bytes of a Generic Segment Offload (GSO) packet the new device should accept; values greater than 65536 also enable BIG TCP for IPv6",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_ipv4_max_size",
+                            "description": "Recommended maximum size in bytes of an IPv4 GSO packet the new device should accept (BIG TCP for IPv4); gso_max_size must be set to at least this size",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_max_segs",
+                            "description": "Recommended maximum number of GSO segments the new device should accept",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "gro_max_size",
+                            "description": "Maximum size in bytes of a packet built by the GRO stack on this device (BIG TCP for IPv6)",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gro_ipv4_max_size",
+                            "description": "Maximum size in bytes of an IPv4 packet built by the GRO stack on this device (BIG TCP for IPv4)",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
                             "name": "type",
                             "description": "Type of the new virtual device; some types take further TYPE-specific arguments after the type name that are not modeled here (see 'ip link help TYPE')",
                             "args": {
@@ -356,6 +391,41 @@
                             "args": {
                                 "name": "PID|NETNSNAME|NETNSFILE",
                                 "generatorName": "netns"
+                            }
+                        },
+                        {
+                            "name": "gso_max_size",
+                            "description": "Recommended maximum size in bytes of a Generic Segment Offload (GSO) packet the device should accept; values greater than 65536 also enable BIG TCP for IPv6",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_ipv4_max_size",
+                            "description": "Recommended maximum size in bytes of an IPv4 GSO packet the device should accept (BIG TCP for IPv4); gso_max_size must be set to at least this size",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_max_segs",
+                            "description": "Recommended maximum number of GSO segments the device should accept",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "gro_max_size",
+                            "description": "Maximum size in bytes of a packet built by the GRO stack on this device (BIG TCP for IPv6)",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gro_ipv4_max_size",
+                            "description": "Maximum size in bytes of an IPv4 packet built by the GRO stack on this device (BIG TCP for IPv4)",
+                            "args": {
+                                "name": "BYTES"
                             }
                         },
                         {
@@ -829,7 +899,7 @@
                         },
                         {
                             "name": "xdpgeneric",
-                            "description": "Like 'xdp', but force the generic (SKB-based) XDP attach mode; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "description": "Like 'xdp', but force the generic (SKB-based) XDP attach mode",
                             "args": {
                                 "name": "MODE",
                                 "suggestions": [
@@ -837,11 +907,49 @@
                                     "object",
                                     "pinned"
                                 ]
-                            }
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "object",
+                                    "description": "Load the XDP program from this compiled BPF object file",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "section",
+                                            "description": "ELF section within the object file containing the program to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "program",
+                                            "description": "Name of the program within the object file to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "verbose",
+                                            "description": "Print the verifier log if loading the program fails"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "pinned",
+                                    "description": "Attach a program already pinned at this bpffs path",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "name": "xdpdrv",
-                            "description": "Like 'xdp', but force the native driver XDP attach mode; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "description": "Like 'xdp', but force the native driver XDP attach mode",
                             "args": {
                                 "name": "MODE",
                                 "suggestions": [
@@ -849,11 +957,49 @@
                                     "object",
                                     "pinned"
                                 ]
-                            }
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "object",
+                                    "description": "Load the XDP program from this compiled BPF object file",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "section",
+                                            "description": "ELF section within the object file containing the program to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "program",
+                                            "description": "Name of the program within the object file to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "verbose",
+                                            "description": "Print the verifier log if loading the program fails"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "pinned",
+                                    "description": "Attach a program already pinned at this bpffs path",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "name": "xdpoffload",
-                            "description": "Like 'xdp', but offload the program to supported hardware; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "description": "Like 'xdp', but offload the program to supported hardware",
                             "args": {
                                 "name": "MODE",
                                 "suggestions": [
@@ -861,7 +1007,45 @@
                                     "object",
                                     "pinned"
                                 ]
-                            }
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "object",
+                                    "description": "Load the XDP program from this compiled BPF object file",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "section",
+                                            "description": "ELF section within the object file containing the program to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "program",
+                                            "description": "Name of the program within the object file to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "verbose",
+                                            "description": "Print the verifier log if loading the program fails"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "pinned",
+                                    "description": "Attach a program already pinned at this bpffs path",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    }
+                                }
+                            ]
                         },
                         {
                             "name": "master",
@@ -1030,7 +1214,7 @@
                         },
                         {
                             "name": "down",
-                            "description": "Only show devices that are administratively down"
+                            "description": "Only show devices that are administratively down (iproute2 6.13+)"
                         },
                         {
                             "name": "master",
