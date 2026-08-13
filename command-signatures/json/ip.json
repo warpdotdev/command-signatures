@@ -128,7 +128,3598 @@
         },
         {
             "name": "route",
-            "description": "Routing table entry"
+            "description": "Routing table entry",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new route",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "change",
+                        "chg"
+                    ],
+                    "description": "Change an existing route; has the same arguments as 'ip route add'",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Change an existing route, or add a new one if it doesn't already exist; has the same arguments as 'ip route add'",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "prepend",
+                    "description": "Add a new route without removing an existing route with the same destination; the new route takes priority for matching lookups. Has the same arguments as 'ip route add'",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "append",
+                    "description": "Add a new route, appending it after any existing route with the same destination instead of replacing it (useful for adding further ECMP paths once the per-command nexthop limit is reached). Has the same arguments as 'ip route add'",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a route; 'to', 'tos', 'preference' and 'table' select the route to delete, and any other attributes given must match the existing route exactly",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "args": {
+                                "name": "NH"
+                            }
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List routes matching the selector; shows the main table by default (this is also the default action of 'ip route' with no arguments)",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "modifier",
+                            "isOptional": true,
+                            "description": "'root PREFIX' selects prefixes not shorter than PREFIX, 'match PREFIX' selects prefixes not longer than PREFIX, 'exact PREFIX' selects this exact prefix",
+                            "suggestions": [
+                                "root",
+                                "match",
+                                "exact"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "isOptional": true,
+                            "description": "Destination prefix filter; defaults to the entire table (root 0/0)"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "table",
+                            "description": "Table(s) to show; defaults to 'main'. Special values: 'all' lists every table, 'cache' dumps the routing cache (equivalent to 'cached')",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default",
+                                    "all",
+                                    "cache"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Show the routes for the table associated with this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "cached",
+                                "cloned"
+                            ],
+                            "description": "List cloned routes, dynamically forked from other routes when an attribute such as MTU was updated; equivalent to 'table cache' (no IPv4 routing cache exists on Linux 3.6+)"
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only select routes with the given TOS",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only list routes installed by this routing protocol",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Only list routes with this scope",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only list routes of this type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "unicast",
+                                    "local",
+                                    "broadcast",
+                                    "multicast",
+                                    "throw",
+                                    "unreachable",
+                                    "prohibit",
+                                    "blackhole",
+                                    "nat"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Only list routes going out via this device",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only list cloned routes with this incoming device (requires 'cached'/'table cache')",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "mark",
+                            "description": "Only list routes with this firewall mark",
+                            "args": {
+                                "name": "MARK"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Only list routes with this metric",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "via",
+                            "description": "Only list routes going via nexthop routers selected by this prefix",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "src",
+                            "description": "Only list routes with a preferred source address selected by this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "realm",
+                                "realms"
+                            ],
+                            "description": "Only list routes with this realm, or a FROMREALM/TOREALM pair",
+                            "args": {
+                                "name": "[FROMREALM/]TOREALM"
+                            }
+                        },
+                        {
+                            "name": "from",
+                            "description": "Only select routes by source prefix; only works with cloned routes",
+                            "args": [
+                                {
+                                    "name": "modifier",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "root",
+                                        "match",
+                                        "exact"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Delete all routes matching the selector, printing each one as it's removed; requires at least one selector option",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "modifier",
+                            "isOptional": true,
+                            "description": "'root PREFIX' selects prefixes not shorter than PREFIX, 'match PREFIX' selects prefixes not longer than PREFIX, 'exact PREFIX' selects this exact prefix",
+                            "suggestions": [
+                                "root",
+                                "match",
+                                "exact"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "isOptional": true,
+                            "description": "Destination prefix filter; defaults to the entire table (root 0/0)"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "table",
+                            "description": "Table(s) to flush; defaults to 'main'. Special values: 'all' targets every table, 'cache' targets the routing cache (equivalent to 'cached')",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default",
+                                    "all",
+                                    "cache"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Flush the routes for the table associated with this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "cached",
+                                "cloned"
+                            ],
+                            "description": "Flush cloned routes, dynamically forked from other routes when an attribute such as MTU was updated; equivalent to 'table cache' (no IPv4 routing cache exists on Linux 3.6+)"
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only flush routes with the given TOS",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only flush routes installed by this routing protocol",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Only flush routes with this scope",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only flush routes of this type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "unicast",
+                                    "local",
+                                    "broadcast",
+                                    "multicast",
+                                    "throw",
+                                    "unreachable",
+                                    "prohibit",
+                                    "blackhole",
+                                    "nat"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Only flush routes going out via this device",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only flush cloned routes with this incoming device (requires 'cached'/'table cache')",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "mark",
+                            "description": "Only flush routes with this firewall mark",
+                            "args": {
+                                "name": "MARK"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Only flush routes with this metric",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "via",
+                            "description": "Only flush routes going via nexthop routers selected by this prefix",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "src",
+                            "description": "Only flush routes with a preferred source address selected by this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "realm",
+                                "realms"
+                            ],
+                            "description": "Only flush routes with this realm, or a FROMREALM/TOREALM pair",
+                            "args": {
+                                "name": "[FROMREALM/]TOREALM"
+                            }
+                        },
+                        {
+                            "name": "from",
+                            "description": "Only select routes by source prefix; only works with cloned routes",
+                            "args": [
+                                {
+                                    "name": "modifier",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "root",
+                                        "match",
+                                        "exact"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Resolve a single route to a destination and print it as the kernel would use it; unlike 'show', this performs a real lookup and may create a cloned route",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "ADDRESS",
+                            "description": "Destination address to resolve a route for"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service to use for the lookup",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source address for the lookup",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Device the packet is expected to arrive from; the kernel pretends it arrived on this interface and searches for a path to forward it",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "mark",
+                            "description": "Firewall mark (fwmark) to use for the lookup",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": [
+                                "oif",
+                                "dev"
+                            ],
+                            "description": "Force the output device on which this packet will be routed",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "notify",
+                            "description": "Send a netlink notification about the resulting route"
+                        },
+                        {
+                            "name": "connected",
+                            "description": "If no source address was given, relookup the route using the preferred source address returned by the first lookup"
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Force the VRF device on which this packet will be routed",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "uid",
+                            "description": "User ID to use for the lookup",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "fibmatch",
+                            "description": "Return the full FIB lookup match instead of the resolved (and possibly cloned) route entry"
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS before performing the lookup",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Source port as seen by the route lookup",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Destination port as seen by the route lookup",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "IP protocol as seen by the route lookup",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "IPv6 flow label as seen by the route lookup (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "save",
+                    "description": "Print the routing table selected by the selector to stdout, in a binary format suitable for 'ip route restore'",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "modifier",
+                            "isOptional": true,
+                            "description": "'root PREFIX' selects prefixes not shorter than PREFIX, 'match PREFIX' selects prefixes not longer than PREFIX, 'exact PREFIX' selects this exact prefix",
+                            "suggestions": [
+                                "root",
+                                "match",
+                                "exact"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "isOptional": true,
+                            "description": "Destination prefix filter; defaults to the entire table (root 0/0)"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "table",
+                            "description": "Table(s) to save; defaults to 'main'. Special values: 'all' saves every table, 'cache' saves the routing cache (equivalent to 'cached')",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default",
+                                    "all",
+                                    "cache"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Save the routes for the table associated with this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "cached",
+                                "cloned"
+                            ],
+                            "description": "Save cloned routes, dynamically forked from other routes when an attribute such as MTU was updated; equivalent to 'table cache' (no IPv4 routing cache exists on Linux 3.6+)"
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only select routes with the given TOS",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only save routes installed by this routing protocol",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Only save routes with this scope",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only save routes of this type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "unicast",
+                                    "local",
+                                    "broadcast",
+                                    "multicast",
+                                    "throw",
+                                    "unreachable",
+                                    "prohibit",
+                                    "blackhole",
+                                    "nat"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Only save routes going out via this device",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only save cloned routes with this incoming device (requires 'cached'/'table cache')",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "mark",
+                            "description": "Only save routes with this firewall mark",
+                            "args": {
+                                "name": "MARK"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Only save routes with this metric",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "via",
+                            "description": "Only save routes going via nexthop routers selected by this prefix",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "src",
+                            "description": "Only save routes with a preferred source address selected by this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "realm",
+                                "realms"
+                            ],
+                            "description": "Only save routes with this realm, or a FROMREALM/TOREALM pair",
+                            "args": {
+                                "name": "[FROMREALM/]TOREALM"
+                            }
+                        },
+                        {
+                            "name": "from",
+                            "description": "Only select routes by source prefix; only works with cloned routes",
+                            "args": [
+                                {
+                                    "name": "modifier",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "root",
+                                        "match",
+                                        "exact"
+                                    ]
+                                },
+                                {
+                                    "name": "PREFIX"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "restore",
+                    "description": "Restore routing table entries from stdin, as produced by 'ip route save'; existing routes are left unchanged and duplicates in the stream are ignored. Takes no arguments"
+                },
+                {
+                    "name": "showdump",
+                    "description": "Print a route dump captured by 'ip route save' in normal human-readable form, reading from stdin. Takes no arguments"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip route"
+                }
+            ]
         },
         {
             "name": "rule",
