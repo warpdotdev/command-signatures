@@ -32,7 +32,1272 @@
         },
         {
             "name": "link",
-            "description": "Network device configuration"
+            "description": "Network device configuration",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new virtual link device",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name for the new device (equivalent to giving it via the 'name' keyword)",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "link",
+                            "description": "Physical device to bind the new device to (its parent device, e.g. for a vlan or macvlan)",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "parentdev",
+                            "description": "Name of the parent device to bind to; alternative to 'link' for drivers (e.g. dsa) that key on a device name instead of an ifindex",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Name for the new device",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "txqueuelen",
+                                "txqlen"
+                            ],
+                            "description": "Transmit queue length of the new device",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "address",
+                            "description": "Link layer (MAC) address to assign to the new device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Link layer broadcast address to assign to the new device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "Maximum Transfer Unit for the new device",
+                            "args": {
+                                "name": "MTU"
+                            }
+                        },
+                        {
+                            "name": "index",
+                            "description": "Desired ifindex for the new device; creation fails if the index is already in use",
+                            "args": {
+                                "name": "IDX"
+                            }
+                        },
+                        {
+                            "name": "numtxqueues",
+                            "description": "Number of transmit queues for the new device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "numrxqueues",
+                            "description": "Number of receive queues for the new device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "netns",
+                            "description": "Create the device directly inside the given network namespace, process PID, or netns file",
+                            "args": {
+                                "name": "PID|NETNSNAME|NETNSFILE",
+                                "generatorName": "netns"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Type of the new virtual device; some types take further TYPE-specific arguments after the type name that are not modeled here (see 'ip link help TYPE')",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bridge",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a virtual link device",
+                    "args": {
+                        "name": "DEVICE",
+                        "description": "Device to delete",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to delete (alternative to the positional form)",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "group",
+                            "description": "Delete every device in the given interface group instead of a single device",
+                            "args": {
+                                "name": "DEVGROUP",
+                                "suggestions": [
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Restrict to (and, for some virtual types, disambiguate) devices of this type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bridge",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Create a new virtual link device, or replace it if a device with the same name or index already exists (like 'add', but never fails because the device already exists)",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Name for the device (equivalent to giving it via the 'name' keyword)",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "link",
+                            "description": "Physical device to bind the device to (its parent device, e.g. for a vlan or macvlan)",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "parentdev",
+                            "description": "Name of the parent device to bind to; alternative to 'link' for drivers (e.g. dsa) that key on a device name instead of an ifindex",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Name for the device",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "txqueuelen",
+                                "txqlen"
+                            ],
+                            "description": "Transmit queue length of the device",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "address",
+                            "description": "Link layer (MAC) address to assign to the device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Link layer broadcast address to assign to the device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "Maximum Transfer Unit for the device",
+                            "args": {
+                                "name": "MTU"
+                            }
+                        },
+                        {
+                            "name": "index",
+                            "description": "Desired ifindex for the device; fails if the index is already in use by a different device",
+                            "args": {
+                                "name": "IDX"
+                            }
+                        },
+                        {
+                            "name": "numtxqueues",
+                            "description": "Number of transmit queues for the device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "numrxqueues",
+                            "description": "Number of receive queues for the device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "netns",
+                            "description": "Create the device directly inside the given network namespace, process PID, or netns file",
+                            "args": {
+                                "name": "PID|NETNSNAME|NETNSFILE",
+                                "generatorName": "netns"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Type of the device; some types take further TYPE-specific arguments after the type name that are not modeled here (see 'ip link help TYPE')",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bridge",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "set",
+                        "change"
+                    ],
+                    "description": "Change attributes of an existing device",
+                    "args": {
+                        "name": "DEVICE",
+                        "description": "Device to modify",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Device to modify (alternative to the positional form)",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "group",
+                            "description": "Modify every device in the given interface group instead of a single device",
+                            "args": {
+                                "name": "DEVGROUP",
+                                "suggestions": [
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "up",
+                            "description": "Bring the device up (set the UP flag)"
+                        },
+                        {
+                            "name": "down",
+                            "description": "Take the device down (clear the UP flag)"
+                        },
+                        {
+                            "name": "type",
+                            "description": "Change type-specific attributes; some types take further TYPE-specific arguments after the type name that are not modeled here. 'bridge_slave', 'bond_slave', and 'team_slave' configure the device's role as an enslaved member (see 'ip link help TYPE')",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bond_slave",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "arp",
+                            "description": "Enable ('on') or disable ('off', sets the NOARP flag) ARP on the device",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dynamic",
+                            "description": "Mark ('on') or unmark ('off') the device as dynamically created, e.g. by DHCP",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "multicast",
+                            "description": "Enable or disable the multicast flag on the device",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "allmulticast",
+                            "description": "Enable or disable all-multicast mode on the device",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "promisc",
+                            "description": "Enable or disable promiscuous mode on the device",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "trailers",
+                            "description": "Enable or disable use of trailer link-layer encapsulation (historic; rarely supported)",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "carrier",
+                            "description": "Administratively force the device's carrier (link detect) state",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "txqueuelen",
+                                "txqlen"
+                            ],
+                            "description": "Transmit queue length of the device",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "name",
+                            "description": "Rename the device",
+                            "args": {
+                                "name": "NEWNAME"
+                            }
+                        },
+                        {
+                            "name": "address",
+                            "description": "Link layer (MAC) address to assign to the device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Link layer broadcast address to assign to the device",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "Maximum Transfer Unit for the device",
+                            "args": {
+                                "name": "MTU"
+                            }
+                        },
+                        {
+                            "name": "netns",
+                            "description": "Move the device into the given network namespace, process PID, or netns file",
+                            "args": {
+                                "name": "PID|NETNSNAME|NETNSFILE",
+                                "generatorName": "netns"
+                            }
+                        },
+                        {
+                            "name": "link-netns",
+                            "description": "Network namespace name that the device's 'link' (parent) ifindex should be resolved in",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "netns"
+                            }
+                        },
+                        {
+                            "name": "link-netnsid",
+                            "description": "Numeric nsid of the namespace that the device's 'link' (parent) ifindex should be resolved in (alternative to link-netns)",
+                            "args": {
+                                "name": "ID"
+                            }
+                        },
+                        {
+                            "name": "alias",
+                            "description": "Set a free-form description string (interface alias) for the device",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "vf",
+                            "description": "Select virtual function NUM of an SR-IOV capable device for the sub-options that follow",
+                            "args": {
+                                "name": "NUM"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "mac",
+                                    "description": "MAC address for the selected VF",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    }
+                                },
+                                {
+                                    "name": "vlan",
+                                    "description": "VLAN ID for the selected VF",
+                                    "args": {
+                                        "name": "VLANID"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "qos",
+                                            "description": "802.1Q/802.1ad priority (QoS) for the VF's VLAN tag",
+                                            "args": {
+                                                "name": "VLAN-QOS"
+                                            }
+                                        },
+                                        {
+                                            "name": "proto",
+                                            "description": "VLAN protocol for the VF's VLAN tag",
+                                            "args": {
+                                                "name": "VLAN-PROTO",
+                                                "suggestions": [
+                                                    "802.1Q",
+                                                    "802.1ad"
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "rate",
+                                    "description": "(legacy) Transmit rate limit in Mbps for the selected VF; superseded by max_tx_rate",
+                                    "args": {
+                                        "name": "TXRATE"
+                                    }
+                                },
+                                {
+                                    "name": "max_tx_rate",
+                                    "description": "Maximum transmit rate in Mbps for the selected VF",
+                                    "args": {
+                                        "name": "TXRATE"
+                                    }
+                                },
+                                {
+                                    "name": "min_tx_rate",
+                                    "description": "Minimum guaranteed transmit rate in Mbps for the selected VF",
+                                    "args": {
+                                        "name": "TXRATE"
+                                    }
+                                },
+                                {
+                                    "name": "spoofchk",
+                                    "description": "Enable or disable MAC/VLAN spoof checking for the selected VF",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "query_rss",
+                                    "description": "Enable or disable the selected VF's ability to query the RSS configuration",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "trust",
+                                    "description": "Trust the selected VF to set otherwise-privileged features (e.g. promiscuous mode, MAC address changes)",
+                                    "args": {
+                                        "name": "{on|off}",
+                                        "suggestions": [
+                                            "on",
+                                            "off"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "state",
+                                    "description": "Link state reported to the selected VF",
+                                    "args": {
+                                        "name": "STATE",
+                                        "suggestions": [
+                                            "auto",
+                                            "enable",
+                                            "disable"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "node_guid",
+                                    "description": "InfiniBand node GUID for the selected VF",
+                                    "args": {
+                                        "name": "EUI64"
+                                    }
+                                },
+                                {
+                                    "name": "port_guid",
+                                    "description": "InfiniBand port GUID for the selected VF",
+                                    "args": {
+                                        "name": "EUI64"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "xdp",
+                            "description": "Attach or detach an XDP program, letting the kernel choose the attach mode",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "off",
+                                    "object",
+                                    "pinned"
+                                ]
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "object",
+                                    "description": "Load the XDP program from this compiled BPF object file",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "section",
+                                            "description": "ELF section within the object file containing the program to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "program",
+                                            "description": "Name of the program within the object file to load",
+                                            "args": {
+                                                "name": "NAME"
+                                            }
+                                        },
+                                        {
+                                            "name": "verbose",
+                                            "description": "Print the verifier log if loading the program fails"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "pinned",
+                                    "description": "Attach a program already pinned at this bpffs path",
+                                    "args": {
+                                        "name": "FILE",
+                                        "template": "filepaths"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "xdpgeneric",
+                            "description": "Like 'xdp', but force the generic (SKB-based) XDP attach mode; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "off",
+                                    "object",
+                                    "pinned"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "xdpdrv",
+                            "description": "Like 'xdp', but force the native driver XDP attach mode; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "off",
+                                    "object",
+                                    "pinned"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "xdpoffload",
+                            "description": "Like 'xdp', but offload the program to supported hardware; supports the same 'off'/'object [section|program NAME] [verbose]'/'pinned FILE' forms",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "off",
+                                    "object",
+                                    "pinned"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Enslave the device to the given master device (e.g. a bridge, bond, team, or VRF)",
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Remove the device from its current master (un-enslave it)"
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Enslave the device into the given VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "mode",
+                            "description": "Set the device's link mode",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "default",
+                                    "dormant"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "state",
+                            "description": "Administratively set the device's reported operational state",
+                            "args": {
+                                "name": "OPERSTATE",
+                                "suggestions": [
+                                    "unknown",
+                                    "notpresent",
+                                    "down",
+                                    "lowerlayerdown",
+                                    "testing",
+                                    "dormant",
+                                    "up"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "numtxqueues",
+                            "description": "Number of transmit queues for the device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "numrxqueues",
+                            "description": "Number of receive queues for the device",
+                            "args": {
+                                "name": "QUEUE_COUNT"
+                            }
+                        },
+                        {
+                            "name": "addrgenmode",
+                            "description": "IPv6 address generation mode for the device",
+                            "args": {
+                                "name": "MODE",
+                                "suggestions": [
+                                    "eui64",
+                                    "none",
+                                    "stable_secret",
+                                    "random"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protodown",
+                            "description": "Administratively mark the device down at the protocol level (e.g. for a routing daemon to signal failure) without changing the admin UP/DOWN state",
+                            "args": {
+                                "name": "{on|off}",
+                                "suggestions": [
+                                    "on",
+                                    "off"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protodown_reason",
+                            "description": "Set or clear a named reason for the device's protodown state; reason names are locally configured in /etc/iproute2/protodown_reasons.d/",
+                            "args": [
+                                {
+                                    "name": "PREASON",
+                                    "description": "Locally configured protodown reason name"
+                                },
+                                {
+                                    "name": "{on|off}",
+                                    "suggestions": [
+                                        "on",
+                                        "off"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "gso_max_size",
+                            "description": "Recommended maximum size in bytes of a Generic Segment Offload (GSO) packet the device should accept; values greater than 65536 also enable BIG TCP for IPv6",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_ipv4_max_size",
+                            "description": "Recommended maximum size in bytes of an IPv4 GSO packet the device should accept (BIG TCP for IPv4); gso_max_size must be set to at least this size",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gso_max_segs",
+                            "description": "Recommended maximum number of GSO segments the device should accept",
+                            "args": {
+                                "name": "PACKETS"
+                            }
+                        },
+                        {
+                            "name": "gro_max_size",
+                            "description": "Maximum size in bytes of a packet built by the GRO stack on this device (BIG TCP for IPv6)",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        },
+                        {
+                            "name": "gro_ipv4_max_size",
+                            "description": "Maximum size in bytes of an IPv4 packet built by the GRO stack on this device (BIG TCP for IPv4)",
+                            "args": {
+                                "name": "BYTES"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "Display link (device) information",
+                    "args": {
+                        "name": "DEVICE",
+                        "description": "Device to display",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "group",
+                            "description": "Only show devices in this interface group",
+                            "args": {
+                                "name": "GROUP",
+                                "suggestions": [
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "up",
+                            "description": "Only show devices that are administratively up"
+                        },
+                        {
+                            "name": "down",
+                            "description": "Only show devices that are administratively down"
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only show devices enslaved to this master device",
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only show devices enslaved to this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only show devices of this type ('..._slave' filters by the device's role as an enslaved member)",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bond_slave",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only show devices that are not enslaved to a master"
+                        },
+                        {
+                            "name": "novf",
+                            "description": "Do not include per-VF (SR-IOV virtual function) details in the output"
+                        }
+                    ]
+                },
+                {
+                    "name": "xstats",
+                    "description": "Display extended, driver/type-specific statistics for devices of the given type",
+                    "subcommands": [
+                        {
+                            "name": "type",
+                            "description": "Device type whose extended statistics to display; some types take further TYPE-specific arguments after the type name that are not modeled here",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bridge",
+                                    "can",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "lowpan",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "vcan",
+                                    "veth",
+                                    "virt_wifi",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "afstats",
+                    "description": "Display address-family-specific statistics for devices (e.g. MPLS)",
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Limit output to this device",
+                            "args": {
+                                "name": "DEVICE",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "property",
+                    "description": "Manage alternative names (altnames) for a device",
+                    "subcommands": [
+                        {
+                            "name": "add",
+                            "description": "Add one or more altnames to a device",
+                            "args": {
+                                "name": "DEVICE",
+                                "description": "Device to modify",
+                                "isOptional": true,
+                                "generatorName": "network_interfaces"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "dev",
+                                    "description": "Device to modify (alternative to the positional form)",
+                                    "args": {
+                                        "name": "DEVICE",
+                                        "generatorName": "network_interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "altname",
+                                    "description": "Alternative name to add (repeatable)",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "del",
+                            "description": "Remove one or more altnames from a device",
+                            "args": {
+                                "name": "DEVICE",
+                                "description": "Device to modify",
+                                "isOptional": true,
+                                "generatorName": "network_interfaces"
+                            },
+                            "subcommands": [
+                                {
+                                    "name": "dev",
+                                    "description": "Device to modify (alternative to the positional form)",
+                                    "args": {
+                                        "name": "DEVICE",
+                                        "generatorName": "network_interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "altname",
+                                    "description": "Alternative name to remove (repeatable)",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip link, or for a specific device type",
+                    "args": {
+                        "name": "TYPE",
+                        "description": "Device type to show type-specific help for",
+                        "isOptional": true,
+                        "suggestions": [
+                            "amt",
+                            "bareudp",
+                            "bond",
+                            "bridge",
+                            "can",
+                            "dsa",
+                            "dummy",
+                            "erspan",
+                            "geneve",
+                            "gre",
+                            "gretap",
+                            "gtp",
+                            "hsr",
+                            "ifb",
+                            "ip6erspan",
+                            "ip6gre",
+                            "ip6gretap",
+                            "ip6tnl",
+                            "ipip",
+                            "ipoib",
+                            "ipvlan",
+                            "ipvtap",
+                            "lowpan",
+                            "macsec",
+                            "macvlan",
+                            "macvtap",
+                            "netdevsim",
+                            "netkit",
+                            "nlmon",
+                            "pfcp",
+                            "rmnet",
+                            "sit",
+                            "team",
+                            "vcan",
+                            "veth",
+                            "virt_wifi",
+                            "vlan",
+                            "vrf",
+                            "vti",
+                            "vxcan",
+                            "vxlan",
+                            "wwan",
+                            "xfrm"
+                        ]
+                    }
+                }
+            ]
         },
         {
             "name": "macsec",
