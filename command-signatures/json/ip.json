@@ -5324,6 +5324,10 @@
                     "description": "Flush (delete) all matching rules from the multicast routing policy database, also printing the rules that were deleted",
                     "subcommands": [
                         {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
                             "name": "from",
                             "description": "Only flush rules matching this source prefix",
                             "args": {
@@ -5335,6 +5339,113 @@
                             "description": "Only flush rules matching this destination prefix",
                             "args": {
                                 "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Only flush rules matching this TOS (type of service) value",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Only flush rules matching this DSCP value, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Only flush rules matching this fwmark value (and optional mask), e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Only flush rules matching this incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Only flush rules matching this outgoing interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Only flush the rule with this priority (preference)",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Only flush potential l3mdev (VRF) rules"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Only flush rules matching this range of UIDs",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Only flush rules matching this IP protocol",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Only flush rules matching this source port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Only flush rules matching this destination port or port range",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Only flush rules matching this tunnel id, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Only flush rules matching this IPv6 flow label (and optional mask) (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
                             }
                         },
                         {
@@ -6586,16 +6697,9 @@
                         },
                         {
                             "name": "protocol",
-                            "description": "Only show nexthops created by this routing protocol",
+                            "description": "Only show nexthops created by this routing protocol; unlike 'add'/'replace', this is parsed as a plain numeric protocol ID, not a protocol name",
                             "args": {
-                                "name": "ID",
-                                "suggestions": [
-                                    "kernel",
-                                    "boot",
-                                    "static",
-                                    "ra",
-                                    "dhcp"
-                                ]
+                                "name": "ID"
                             }
                         }
                     ]
@@ -6650,16 +6754,9 @@
                         },
                         {
                             "name": "protocol",
-                            "description": "Only flush nexthops created by this routing protocol",
+                            "description": "Only flush nexthops created by this routing protocol; unlike 'add'/'replace', this is parsed as a plain numeric protocol ID, not a protocol name",
                             "args": {
-                                "name": "ID",
-                                "suggestions": [
-                                    "kernel",
-                                    "boot",
-                                    "static",
-                                    "ra",
-                                    "dhcp"
-                                ]
+                                "name": "ID"
                             }
                         }
                     ]
