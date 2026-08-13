@@ -44,7 +44,63 @@
         },
         {
             "name": "monitor",
-            "description": "Watch for netlink messages"
+            "description": "Watch for netlink messages",
+            "subcommands": [
+                { "name": "all", "description": "Monitor all object types" },
+                { "name": "address", "description": "Monitor address changes" },
+                { "name": "link", "description": "Monitor link changes" },
+                {
+                    "name": "mroute",
+                    "description": "Monitor multicast routing cache changes"
+                },
+                {
+                    "name": "neigh",
+                    "description": "Monitor neighbour table changes"
+                },
+                {
+                    "name": "netconf",
+                    "description": "Monitor network configuration changes"
+                },
+                {
+                    "name": "nexthop",
+                    "description": "Monitor nexthop object changes"
+                },
+                {
+                    "name": "nsid",
+                    "description": "Monitor network namespace ID changes"
+                },
+                { "name": "prefix", "description": "Monitor prefix changes" },
+                {
+                    "name": "route",
+                    "description": "Monitor routing table changes"
+                },
+                {
+                    "name": "rule",
+                    "description": "Monitor routing policy rule changes"
+                },
+                {
+                    "name": "stats",
+                    "description": "Monitor interface statistics"
+                },
+                {
+                    "name": "file",
+                    "description": "Read events from a file instead of netlink",
+                    "args": { "name": "FILENAME", "template": "filepaths" }
+                },
+                {
+                    "name": "label",
+                    "description": "Prefix each line with the name of the object type"
+                },
+                {
+                    "name": "all-nsid",
+                    "description": "Show events from all visible network namespaces"
+                },
+                {
+                    "name": "dev",
+                    "description": "Limit monitoring to a specific device",
+                    "args": { "name": "DEVICE", "generatorName": "interfaces" }
+                }
+            ]
         },
         {
             "name": "mptcp",
@@ -84,7 +140,352 @@
         },
         {
             "name": "rule",
-            "description": "Rule in routing policy database"
+            "description": "Rule in routing policy database",
+            "subcommands": [
+                {
+                    "name": [
+                        "list",
+                        "show"
+                    ],
+                    "description": "List rules",
+                    "options": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the selector"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Match source prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Match destination prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "tos",
+                            "description": "Match by TOS value",
+                            "args": { "name": "TOS" }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Match firewall mark, optionally with a mask",
+                            "args": { "name": "FWMARK[/MASK]" }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Match the incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Match the outgoing interface (only applies to locally-generated traffic)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "order"
+                            ],
+                            "description": "Match the preference (priority) of the rule",
+                            "args": { "name": "NUMBER" }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Match rules that fetch the route from an l3 master device"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Match a range of user IDs",
+                            "args": { "name": "NUMBER-NUMBER" }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Match the IP protocol",
+                            "args": { "name": "PROTOCOL" }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Match a source port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Match a destination port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        }
+                    ]
+                },
+                {
+                    "name": "add",
+                    "description": "Add a new rule",
+                    "options": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the selector"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Match source prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Match destination prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "tos",
+                            "description": "Match by TOS value",
+                            "args": { "name": "TOS" }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Match firewall mark, optionally with a mask",
+                            "args": { "name": "FWMARK[/MASK]" }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Match the incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Match the outgoing interface (only applies to locally-generated traffic)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "order"
+                            ],
+                            "description": "Set the preference (priority) of the rule",
+                            "args": { "name": "NUMBER" }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Only fetch the route from an l3 master device"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Match a range of user IDs",
+                            "args": { "name": "NUMBER-NUMBER" }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Match the IP protocol",
+                            "args": { "name": "PROTOCOL" }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Match a source port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Match a destination port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Routing table to look up if the rule matches",
+                            "args": { "name": "TABLE_ID", "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ] }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Protocol that installed the rule",
+                            "args": { "name": "PROTO" }
+                        },
+                        {
+                            "name": "nat",
+                            "description": "(deprecated) Base address for the NAT map for matching source addresses",
+                            "args": { "name": "ADDRESS" }
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm(s) to tag matching packets with",
+                            "args": { "name": "[SRCREALM/]DSTREALM" }
+                        },
+                        {
+                            "name": "goto",
+                            "description": "Jump to the rule identified by this priority, skipping intermediate rules",
+                            "args": { "name": "NUMBER" }
+                        },
+                        {
+                            "name": "suppress_prefixlength",
+                            "description": "Reject routing decisions with a prefix length less than or equal to this value",
+                            "args": { "name": "NUMBER" }
+                        },
+                        {
+                            "name": "suppress_ifgroup",
+                            "description": "Reject routing decisions whose output interface belongs to this device group",
+                            "args": { "name": "DEVGROUP" }
+                        }
+                    ]
+                },
+                {
+                    "name": "del",
+                    "description": "Delete a rule",
+                    "options": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the selector"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Match source prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Match destination prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "tos",
+                            "description": "Match by TOS value",
+                            "args": { "name": "TOS" }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Match firewall mark, optionally with a mask",
+                            "args": { "name": "FWMARK[/MASK]" }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Match the incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Match the outgoing interface (only applies to locally-generated traffic)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": [
+                                "pref",
+                                "priority",
+                                "order"
+                            ],
+                            "description": "Match the preference (priority) of the rule",
+                            "args": { "name": "NUMBER" }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Match rules that fetch the route from an l3 master device"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Match a range of user IDs",
+                            "args": { "name": "NUMBER-NUMBER" }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Match the IP protocol",
+                            "args": { "name": "PROTOCOL" }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Match a source port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Match a destination port or port range",
+                            "args": { "name": "NUMBER[-NUMBER]" }
+                        },
+                        {
+                            "name": [
+                                "table",
+                                "lookup"
+                            ],
+                            "description": "Routing table the rule looks up",
+                            "args": { "name": "TABLE_ID", "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ] }
+                        },
+                        {
+                            "name": "goto",
+                            "description": "Priority of the rule this rule jumps to",
+                            "args": { "name": "NUMBER" }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Remove rules matching the selector",
+                    "options": [
+                        {
+                            "name": "not",
+                            "description": "Negate the sense of the selector"
+                        },
+                        {
+                            "name": "from",
+                            "description": "Match source prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "to",
+                            "description": "Match destination prefix",
+                            "args": { "name": "PREFIX" }
+                        },
+                        {
+                            "name": "iif",
+                            "description": "Match the incoming interface",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        },
+                        {
+                            "name": "oif",
+                            "description": "Match the outgoing interface (only applies to locally-generated traffic)",
+                            "args": {
+                                "name": "STRING",
+                                "generatorName": "interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "save",
+                    "description": "Save rules to stdout in a binary format"
+                },
+                {
+                    "name": "restore",
+                    "description": "Read rules from stdin and add them"
+                }
+            ]
         },
         {
             "name": "sr",
@@ -104,7 +505,277 @@
         },
         {
             "name": "tunnel",
-            "description": "Tunnel over IP"
+            "description": "Tunnel over IP",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new tunnel device",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "mode",
+                            "description": "Tunneling protocol",
+                            "args": { "name": "MODE", "suggestions": [
+                                    "gre",
+                                    "ipip",
+                                    "isatap",
+                                    "sit",
+                                    "vti"
+                                ] }
+                        },
+                        {
+                            "name": "remote",
+                            "description": "Address of the remote endpoint",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "local",
+                            "description": "Address of the local endpoint",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "iseq",
+                            "description": "Require that incoming packets have sequence numbers"
+                        },
+                        {
+                            "name": "oseq",
+                            "description": "Add sequence numbers to outgoing packets"
+                        },
+                        {
+                            "name": "ikey",
+                            "description": "Key that must match on incoming packets (GRE only)",
+                            "args": { "name": "KEY" }
+                        },
+                        {
+                            "name": "okey",
+                            "description": "Key to set on outgoing packets (GRE only)",
+                            "args": { "name": "KEY" }
+                        },
+                        {
+                            "name": "icsum",
+                            "description": "Require a checksum on incoming packets (GRE only)"
+                        },
+                        {
+                            "name": "ocsum",
+                            "description": "Add a checksum to outgoing packets (GRE only)"
+                        },
+                        {
+                            "name": "ttl",
+                            "description": "Time-to-live for encapsulated packets",
+                            "args": { "name": "TTL" }
+                        },
+                        {
+                            "name": "tos",
+                            "description": "Type of service for encapsulated packets",
+                            "args": { "name": "TOS" }
+                        },
+                        {
+                            "name": "pmtudisc",
+                            "description": "Enable path MTU discovery on the tunnel"
+                        },
+                        {
+                            "name": "nopmtudisc",
+                            "description": "Disable path MTU discovery on the tunnel"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Bind the tunnel to a physical device",
+                            "args": {
+                                "name": "PHYS_DEV",
+                                "generatorName": "interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "change",
+                    "description": "Change an existing tunnel device",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "generatorName": "interfaces",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "mode",
+                            "description": "Tunneling protocol",
+                            "args": { "name": "MODE", "suggestions": [
+                                    "gre",
+                                    "ipip",
+                                    "isatap",
+                                    "sit",
+                                    "vti"
+                                ] }
+                        },
+                        {
+                            "name": "remote",
+                            "description": "Address of the remote endpoint",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "local",
+                            "description": "Address of the local endpoint",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "iseq",
+                            "description": "Require that incoming packets have sequence numbers"
+                        },
+                        {
+                            "name": "oseq",
+                            "description": "Add sequence numbers to outgoing packets"
+                        },
+                        {
+                            "name": "ikey",
+                            "description": "Key that must match on incoming packets (GRE only)",
+                            "args": { "name": "KEY" }
+                        },
+                        {
+                            "name": "okey",
+                            "description": "Key to set on outgoing packets (GRE only)",
+                            "args": { "name": "KEY" }
+                        },
+                        {
+                            "name": "icsum",
+                            "description": "Require a checksum on incoming packets (GRE only)"
+                        },
+                        {
+                            "name": "ocsum",
+                            "description": "Add a checksum to outgoing packets (GRE only)"
+                        },
+                        {
+                            "name": "ttl",
+                            "description": "Time-to-live for encapsulated packets",
+                            "args": { "name": "TTL" }
+                        },
+                        {
+                            "name": "tos",
+                            "description": "Type of service for encapsulated packets",
+                            "args": { "name": "TOS" }
+                        },
+                        {
+                            "name": "pmtudisc",
+                            "description": "Enable path MTU discovery on the tunnel"
+                        },
+                        {
+                            "name": "nopmtudisc",
+                            "description": "Disable path MTU discovery on the tunnel"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Bind the tunnel to a physical device",
+                            "args": {
+                                "name": "PHYS_DEV",
+                                "generatorName": "interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "del",
+                    "description": "Delete a tunnel device",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "generatorName": "interfaces",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "mode",
+                            "description": "Tunneling protocol",
+                            "args": { "name": "MODE", "suggestions": [
+                                    "gre",
+                                    "ipip",
+                                    "isatap",
+                                    "sit",
+                                    "vti"
+                                ] }
+                        }
+                    ]
+                },
+                {
+                    "name": "show",
+                    "description": "Show tunnel device information",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "generatorName": "interfaces",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "mode",
+                            "description": "Tunneling protocol",
+                            "args": { "name": "MODE", "suggestions": [
+                                    "gre",
+                                    "ipip",
+                                    "isatap",
+                                    "sit",
+                                    "vti"
+                                ] }
+                        }
+                    ]
+                },
+                {
+                    "name": "prl",
+                    "description": "Manage the potential router list for an ISATAP tunnel",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "generatorName": "interfaces",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "prl-default",
+                            "description": "Add a default potential router list entry",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "prl-nodefault",
+                            "description": "Add a non-default potential router list entry",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "prl-delete",
+                            "description": "Remove a potential router list entry",
+                            "args": { "name": "ADDR" }
+                        }
+                    ]
+                },
+                {
+                    "name": "6rd",
+                    "description": "Configure IPv6 rapid deployment (6rd) parameters for a sit tunnel",
+                    "args": {
+                        "name": "NAME",
+                        "description": "Tunnel device name",
+                        "generatorName": "interfaces",
+                        "isOptional": true
+                    },
+                    "options": [
+                        {
+                            "name": "6rd-prefix",
+                            "description": "IPv6 prefix to use for 6rd",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "6rd-relay_prefix",
+                            "description": "IPv4 prefix of the 6rd relay",
+                            "args": { "name": "ADDR" }
+                        },
+                        {
+                            "name": "6rd-reset",
+                            "description": "Reset 6rd parameters to their default values"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "tuntap",
@@ -116,7 +787,716 @@
         },
         {
             "name": "xfrm",
-            "description": "Manage IPSec policies"
+            "description": "Manage IPSec policies",
+            "subcommands": [
+                {
+                    "name": "state",
+                    "description": "Manage IPsec security associations (SA)",
+                    "subcommands": [
+                        {
+                            "name": [
+                                "add",
+                                "update"
+                            ],
+                            "description": "Add or update a security association",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "proto",
+                                    "description": "IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "spi",
+                                    "description": "Security parameter index",
+                                    "args": { "name": "SPI" }
+                                },
+                                {
+                                    "name": "mode",
+                                    "description": "Encapsulation mode",
+                                    "args": {
+                                        "name": "MODE",
+                                        "suggestions": [
+                                            "transport",
+                                            "tunnel",
+                                            "beet",
+                                            "ro",
+                                            "in_trigger"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "reqid",
+                                    "description": "Request ID matching a policy template",
+                                    "args": { "name": "REQID" }
+                                },
+                                {
+                                    "name": "mark",
+                                    "description": "Match packets by firewall mark",
+                                    "args": { "name": "MARK" }
+                                },
+                                {
+                                    "name": "seq",
+                                    "description": "Sequence number to match a key negotiation request from user space",
+                                    "args": { "name": "SEQ" }
+                                },
+                                {
+                                    "name": "replay-window",
+                                    "description": "Size of the replay window",
+                                    "args": { "name": "SIZE" }
+                                },
+                                {
+                                    "name": "flag",
+                                    "description": "SA flag",
+                                    "args": {
+                                        "name": "FLAG",
+                                        "suggestions": [
+                                            "noecn",
+                                            "decap-dscp",
+                                            "nopmtudisc",
+                                            "wildrecv",
+                                            "icmp",
+                                            "af-unspec",
+                                            "align4",
+                                            "esn"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Encapsulate ESP in UDP or TCP for NAT traversal",
+                                    "args": {
+                                        "name": "ENCAP-TYPE",
+                                        "suggestions": [
+                                            "espinudp",
+                                            "espinudp-nonike",
+                                            "espintcp"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "if_id",
+                                    "description": "Bind the SA to an interface ID",
+                                    "args": { "name": "IF_ID" }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "allocspi",
+                            "description": "Allocate an SPI value for a new security association",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "proto",
+                                    "description": "IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "mode",
+                                    "description": "Encapsulation mode",
+                                    "args": {
+                                        "name": "MODE",
+                                        "suggestions": [
+                                            "transport",
+                                            "tunnel",
+                                            "beet",
+                                            "ro",
+                                            "in_trigger"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "reqid",
+                                    "description": "Request ID matching a policy template",
+                                    "args": { "name": "REQID" }
+                                },
+                                {
+                                    "name": "min",
+                                    "description": "Lower bound of the SPI range to allocate from",
+                                    "args": { "name": "SPI" }
+                                },
+                                {
+                                    "name": "max",
+                                    "description": "Upper bound of the SPI range to allocate from",
+                                    "args": { "name": "SPI" }
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "delete",
+                                "get"
+                            ],
+                            "description": "Delete or display a security association",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "proto",
+                                    "description": "IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "spi",
+                                    "description": "Security parameter index",
+                                    "args": { "name": "SPI" }
+                                },
+                                {
+                                    "name": "mark",
+                                    "description": "Match packets by firewall mark",
+                                    "args": { "name": "MARK" }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "deleteall",
+                            "description": "Delete all security associations matching the given criteria",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "proto",
+                                    "description": "IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "mode",
+                                    "description": "Encapsulation mode",
+                                    "args": {
+                                        "name": "MODE",
+                                        "suggestions": [
+                                            "transport",
+                                            "tunnel",
+                                            "beet",
+                                            "ro",
+                                            "in_trigger"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "reqid",
+                                    "description": "Request ID matching a policy template",
+                                    "args": { "name": "REQID" }
+                                },
+                                {
+                                    "name": "flag",
+                                    "description": "SA flag",
+                                    "args": {
+                                        "name": "FLAG",
+                                        "suggestions": [
+                                            "noecn",
+                                            "decap-dscp",
+                                            "nopmtudisc",
+                                            "wildrecv",
+                                            "icmp",
+                                            "af-unspec",
+                                            "align4",
+                                            "esn"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "list",
+                            "description": "List security associations",
+                            "options": [
+                                {
+                                    "name": "nokeys",
+                                    "description": "Do not print key material"
+                                },
+                                {
+                                    "name": "src",
+                                    "description": "Source address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination address of the SA",
+                                    "args": { "name": "ADDR" }
+                                },
+                                {
+                                    "name": "proto",
+                                    "description": "IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "mode",
+                                    "description": "Encapsulation mode",
+                                    "args": {
+                                        "name": "MODE",
+                                        "suggestions": [
+                                            "transport",
+                                            "tunnel",
+                                            "beet",
+                                            "ro",
+                                            "in_trigger"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "reqid",
+                                    "description": "Request ID matching a policy template",
+                                    "args": { "name": "REQID" }
+                                },
+                                {
+                                    "name": "flag",
+                                    "description": "SA flag",
+                                    "args": {
+                                        "name": "FLAG",
+                                        "suggestions": [
+                                            "noecn",
+                                            "decap-dscp",
+                                            "nopmtudisc",
+                                            "wildrecv",
+                                            "icmp",
+                                            "af-unspec",
+                                            "align4",
+                                            "esn"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "flush",
+                            "description": "Flush all security associations",
+                            "options": [
+                                {
+                                    "name": "proto",
+                                    "description": "Limit the flush to this IPsec protocol",
+                                    "args": {
+                                        "name": "XFRM-PROTO",
+                                        "suggestions": [
+                                            "esp",
+                                            "ah",
+                                            "comp",
+                                            "route2",
+                                            "hao"
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "count",
+                            "description": "Print the number of security associations"
+                        }
+                    ]
+                },
+                {
+                    "name": "policy",
+                    "description": "Manage IPsec security policies (SP)",
+                    "subcommands": [
+                        {
+                            "name": [
+                                "add",
+                                "update"
+                            ],
+                            "description": "Add or update a security policy",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Device to match",
+                                    "args": {
+                                        "name": "DEV",
+                                        "generatorName": "interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "dir",
+                                    "description": "Direction the policy applies to",
+                                    "args": { "name": "DIR", "suggestions": [
+                                            "in",
+                                            "out",
+                                            "fwd"
+                                        ] }
+                                },
+                                {
+                                    "name": "ctx",
+                                    "description": "SELinux security context",
+                                    "args": { "name": "CTX" }
+                                },
+                                {
+                                    "name": "mark",
+                                    "description": "Match packets by firewall mark",
+                                    "args": { "name": "MARK" }
+                                },
+                                {
+                                    "name": "index",
+                                    "description": "Explicit policy index",
+                                    "args": { "name": "INDEX" }
+                                },
+                                {
+                                    "name": "ptype",
+                                    "description": "Policy type",
+                                    "args": { "name": "PTYPE", "suggestions": [
+                                            "main",
+                                            "sub"
+                                        ] }
+                                },
+                                {
+                                    "name": "action",
+                                    "description": "Action to take for matching packets",
+                                    "args": { "name": "ACTION", "suggestions": [
+                                            "allow",
+                                            "block"
+                                        ] }
+                                },
+                                {
+                                    "name": "priority",
+                                    "description": "Priority of the policy",
+                                    "args": { "name": "PRIORITY" }
+                                },
+                                {
+                                    "name": "flag",
+                                    "description": "Policy flag",
+                                    "args": { "name": "FLAG", "suggestions": [
+                                            "localok",
+                                            "icmp"
+                                        ] }
+                                },
+                                {
+                                    "name": "if_id",
+                                    "description": "Bind the policy to an interface ID",
+                                    "args": { "name": "IF_ID" }
+                                },
+                                {
+                                    "name": "tmpl",
+                                    "description": "Transform template describing the SA(s) to apply (src/dst/proto/spi, mode, reqid, level)",
+                                    "args": { "name": "TMPL" }
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "delete",
+                                "get"
+                            ],
+                            "description": "Delete or display a security policy",
+                            "options": [
+                                {
+                                    "name": "src",
+                                    "description": "Source prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Device to match",
+                                    "args": {
+                                        "name": "DEV",
+                                        "generatorName": "interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "index",
+                                    "description": "Explicit policy index to look up instead of a selector",
+                                    "args": { "name": "INDEX" }
+                                },
+                                {
+                                    "name": "dir",
+                                    "description": "Direction the policy applies to",
+                                    "args": { "name": "DIR", "suggestions": [
+                                            "in",
+                                            "out",
+                                            "fwd"
+                                        ] }
+                                },
+                                {
+                                    "name": "ctx",
+                                    "description": "SELinux security context",
+                                    "args": { "name": "CTX" }
+                                },
+                                {
+                                    "name": "mark",
+                                    "description": "Match packets by firewall mark",
+                                    "args": { "name": "MARK" }
+                                },
+                                {
+                                    "name": "ptype",
+                                    "description": "Policy type",
+                                    "args": { "name": "PTYPE", "suggestions": [
+                                            "main",
+                                            "sub"
+                                        ] }
+                                },
+                                {
+                                    "name": "if_id",
+                                    "description": "Bind the policy to an interface ID",
+                                    "args": { "name": "IF_ID" }
+                                }
+                            ]
+                        },
+                        {
+                            "name": [
+                                "deleteall",
+                                "list"
+                            ],
+                            "description": "Delete or list all security policies matching the given criteria",
+                            "options": [
+                                {
+                                    "name": "nosock",
+                                    "description": "Do not show socket policies"
+                                },
+                                {
+                                    "name": "src",
+                                    "description": "Source prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dst",
+                                    "description": "Destination prefix to match",
+                                    "args": { "name": "ADDR[/PLEN]" }
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Device to match",
+                                    "args": {
+                                        "name": "DEV",
+                                        "generatorName": "interfaces"
+                                    }
+                                },
+                                {
+                                    "name": "dir",
+                                    "description": "Direction the policy applies to",
+                                    "args": { "name": "DIR", "suggestions": [
+                                            "in",
+                                            "out",
+                                            "fwd"
+                                        ] }
+                                },
+                                {
+                                    "name": "index",
+                                    "description": "Explicit policy index",
+                                    "args": { "name": "INDEX" }
+                                },
+                                {
+                                    "name": "ptype",
+                                    "description": "Policy type",
+                                    "args": { "name": "PTYPE", "suggestions": [
+                                            "main",
+                                            "sub"
+                                        ] }
+                                },
+                                {
+                                    "name": "action",
+                                    "description": "Action to take for matching packets",
+                                    "args": { "name": "ACTION", "suggestions": [
+                                            "allow",
+                                            "block"
+                                        ] }
+                                },
+                                {
+                                    "name": "priority",
+                                    "description": "Priority of the policy",
+                                    "args": { "name": "PRIORITY" }
+                                },
+                                {
+                                    "name": "flag",
+                                    "description": "Policy flag",
+                                    "args": { "name": "FLAG", "suggestions": [
+                                            "localok",
+                                            "icmp"
+                                        ] }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "flush",
+                            "description": "Flush all security policies",
+                            "options": [
+                                {
+                                    "name": "ptype",
+                                    "description": "Limit the flush to this policy type",
+                                    "args": { "name": "PTYPE", "suggestions": [
+                                            "main",
+                                            "sub"
+                                        ] }
+                                }
+                            ]
+                        },
+                        {
+                            "name": "count",
+                            "description": "Print the number of security policies"
+                        },
+                        {
+                            "name": "set",
+                            "description": "Set the policy hash table thresholds",
+                            "options": [
+                                {
+                                    "name": "hthresh4",
+                                    "description": "IPv4 hash table thresholds (left and right bits)",
+                                    "args": [
+                                        { "name": "LBITS" },
+                                        { "name": "RBITS" }]
+                                },
+                                {
+                                    "name": "hthresh6",
+                                    "description": "IPv6 hash table thresholds (left and right bits)",
+                                    "args": [
+                                        { "name": "LBITS" },
+                                        { "name": "RBITS" }]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "setdefault",
+                            "description": "Set the default action for a direction (repeat for other directions)",
+                            "args": [
+                                { "name": "DIR", "suggestions": [
+                                        "in",
+                                        "out",
+                                        "fwd"
+                                    ] },
+                                { "name": "ACTION", "suggestions": [
+                                        "allow",
+                                        "block"
+                                    ] }
+                            ]
+                        },
+                        {
+                            "name": "getdefault",
+                            "description": "Display the default action for each direction"
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor",
+                    "description": "Watch for xfrm netlink messages",
+                    "subcommands": [
+                        {
+                            "name": "all",
+                            "description": "Monitor all object types"
+                        },
+                        {
+                            "name": "acquire",
+                            "description": "Monitor SA acquire requests"
+                        },
+                        {
+                            "name": "expire",
+                            "description": "Monitor SA expiration events"
+                        },
+                        {
+                            "name": "SA",
+                            "description": "Monitor SA add, update, and delete events"
+                        },
+                        {
+                            "name": "aevent",
+                            "description": "Monitor SA async events"
+                        },
+                        {
+                            "name": "policy",
+                            "description": "Monitor policy add, update, and delete events"
+                        },
+                        {
+                            "name": "report",
+                            "description": "Monitor xfrm report events"
+                        },
+                        {
+                            "name": "nokeys",
+                            "description": "Do not print key material for SA events"
+                        },
+                        {
+                            "name": "all-nsid",
+                            "description": "Show events from all visible network namespaces"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "options": [
