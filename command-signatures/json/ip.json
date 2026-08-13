@@ -3,8 +3,1110 @@
     "description": "Show and manipulate routing, network devices, interfaces and tunnels",
     "subcommands": [
         {
-            "name": "address",
-            "description": "Protocol (IP or IPv6) address on a device"
+            "name": [
+                "address",
+                "addr",
+                "a"
+            ],
+            "description": "Protocol (IP or IPv6) address on a device",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new protocol (IP or IPv6) address to a device",
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "peer",
+                                "remote"
+                            ],
+                            "description": "Address of the remote endpoint for point-to-point interfaces; if given, the local address cannot have a prefix length since the network prefix is associated with the peer instead",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Broadcast address on the interface; '+' and '-' derive it by setting/resetting the host bits of the interface prefix instead of specifying an address",
+                            "args": {
+                                "name": "ADDRESS|+|-"
+                            }
+                        },
+                        {
+                            "name": "anycast",
+                            "description": "Anycast address on the interface",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the area where this address is valid",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device the address belongs to (required)",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Tag the address with a label string; the total length is limited to 15 characters",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Priority of the prefix route associated with the address",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "valid_lft",
+                            "description": "Valid lifetime of this address (RFC 4862 5.5.4); the address is removed by the kernel once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "preferred_lft",
+                            "description": "Preferred lifetime of this address (RFC 4862 5.5.4); it stops being used for new outgoing connections once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Designate this address the \"home address\" as defined in RFC 6275"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Do not perform Duplicate Address Detection (RFC 4862) when adding this address"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) When performing Duplicate Address Detection, use the RFC 4429 optimistic variant"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Have the kernel manage temporary addresses created from this one as a template on behalf of Privacy Extensions (RFC 3041); requires a /64 prefix length and use_tempaddr to be enabled"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Do not automatically create (or search for, when removing) a route for the network prefix of this address"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Join the corresponding multicast group at the link layer, needed for multicast to work with switches doing IGMP snooping when ip maddr alone would not trigger a join (e.g. Open vSwitch VXLAN and other tunnels)"
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Protocol identifier of this address",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "change",
+                        "chg"
+                    ],
+                    "description": "Change the attributes of an existing protocol address in place, without removing it first",
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "peer",
+                                "remote"
+                            ],
+                            "description": "Address of the remote endpoint for point-to-point interfaces; if given, the local address cannot have a prefix length since the network prefix is associated with the peer instead",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Broadcast address on the interface; '+' and '-' derive it by setting/resetting the host bits of the interface prefix instead of specifying an address",
+                            "args": {
+                                "name": "ADDRESS|+|-"
+                            }
+                        },
+                        {
+                            "name": "anycast",
+                            "description": "Anycast address on the interface",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the area where this address is valid",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device the address belongs to (required)",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Tag the address with a label string; the total length is limited to 15 characters",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Priority of the prefix route associated with the address",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "valid_lft",
+                            "description": "Valid lifetime of this address (RFC 4862 5.5.4); the address is removed by the kernel once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "preferred_lft",
+                            "description": "Preferred lifetime of this address (RFC 4862 5.5.4); it stops being used for new outgoing connections once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Designate this address the \"home address\" as defined in RFC 6275"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Do not perform Duplicate Address Detection (RFC 4862) when adding this address"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) When performing Duplicate Address Detection, use the RFC 4429 optimistic variant"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Have the kernel manage temporary addresses created from this one as a template on behalf of Privacy Extensions (RFC 3041); requires a /64 prefix length and use_tempaddr to be enabled"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Do not automatically create (or search for, when removing) a route for the network prefix of this address"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Join the corresponding multicast group at the link layer, needed for multicast to work with switches doing IGMP snooping when ip maddr alone would not trigger a join (e.g. Open vSwitch VXLAN and other tunnels)"
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Protocol identifier of this address",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Replace an existing protocol address, or add it if it does not already exist",
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "peer",
+                                "remote"
+                            ],
+                            "description": "Address of the remote endpoint for point-to-point interfaces; if given, the local address cannot have a prefix length since the network prefix is associated with the peer instead",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Broadcast address on the interface; '+' and '-' derive it by setting/resetting the host bits of the interface prefix instead of specifying an address",
+                            "args": {
+                                "name": "ADDRESS|+|-"
+                            }
+                        },
+                        {
+                            "name": "anycast",
+                            "description": "Anycast address on the interface",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the area where this address is valid",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device the address belongs to (required)",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Tag the address with a label string; the total length is limited to 15 characters",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Priority of the prefix route associated with the address",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "valid_lft",
+                            "description": "Valid lifetime of this address (RFC 4862 5.5.4); the address is removed by the kernel once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "preferred_lft",
+                            "description": "Preferred lifetime of this address (RFC 4862 5.5.4); it stops being used for new outgoing connections once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Designate this address the \"home address\" as defined in RFC 6275"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Do not perform Duplicate Address Detection (RFC 4862) when adding this address"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) When performing Duplicate Address Detection, use the RFC 4429 optimistic variant"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Have the kernel manage temporary addresses created from this one as a template on behalf of Privacy Extensions (RFC 3041); requires a /64 prefix length and use_tempaddr to be enabled"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Do not automatically create (or search for, when removing) a route for the network prefix of this address"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Join the corresponding multicast group at the link layer, needed for multicast to work with switches doing IGMP snooping when ip maddr alone would not trigger a join (e.g. Open vSwitch VXLAN and other tunnels)"
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Protocol identifier of this address",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a protocol address; the device name is required, all other attributes are optional and, if omitted, the first matching address on the device is deleted",
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "local",
+                            "description": "Address of the interface; the explicit keyword form of the address that can otherwise be given as a bare positional (default)",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "peer",
+                                "remote"
+                            ],
+                            "description": "Address of the remote endpoint for point-to-point interfaces; if given, the local address cannot have a prefix length since the network prefix is associated with the peer instead",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "broadcast",
+                                "brd"
+                            ],
+                            "description": "Broadcast address on the interface; '+' and '-' derive it by setting/resetting the host bits of the interface prefix instead of specifying an address",
+                            "args": {
+                                "name": "ADDRESS|+|-"
+                            }
+                        },
+                        {
+                            "name": "anycast",
+                            "description": "Anycast address on the interface",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the area where this address is valid",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Name of the device the address belongs to (required)",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "label",
+                            "description": "Tag the address with a label string; the total length is limited to 15 characters",
+                            "args": {
+                                "name": "LABEL"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Priority of the prefix route associated with the address",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "valid_lft",
+                            "description": "Valid lifetime of this address (RFC 4862 5.5.4); the address is removed by the kernel once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "preferred_lft",
+                            "description": "Preferred lifetime of this address (RFC 4862 5.5.4); it stops being used for new outgoing connections once it expires. Defaults to forever",
+                            "args": {
+                                "name": "LFT",
+                                "suggestions": [
+                                    "forever"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Designate this address the \"home address\" as defined in RFC 6275"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Do not perform Duplicate Address Detection (RFC 4862) when adding this address"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) When performing Duplicate Address Detection, use the RFC 4429 optimistic variant"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Have the kernel manage temporary addresses created from this one as a template on behalf of Privacy Extensions (RFC 3041); requires a /64 prefix length and use_tempaddr to be enabled"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Do not automatically create (or search for, when removing) a route for the network prefix of this address"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Join the corresponding multicast group at the link layer, needed for multicast to work with switches doing IGMP snooping when ip maddr alone would not trigger a join (e.g. Open vSwitch VXLAN and other tunnels)"
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Protocol identifier of this address",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "Display protocol addresses, optionally filtered by device or by the selectors below",
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "to",
+                            "description": "Only match addresses within this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Only match addresses with this scope",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "up",
+                            "description": "Only match addresses on running (UP) interfaces"
+                        },
+                        {
+                            "name": "down",
+                            "description": "Only match addresses on interfaces that are not running"
+                        },
+                        {
+                            "name": "label",
+                            "description": "Only match addresses whose label matches this shell-style glob pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "dynamic",
+                            "description": "(IPv6 only) Only match addresses installed due to stateless address autoconfiguration (the inverse of permanent)"
+                        },
+                        {
+                            "name": "permanent",
+                            "description": "(IPv6 only) Only match addresses that are not dynamically assigned"
+                        },
+                        {
+                            "name": "primary",
+                            "description": "Only match addresses that are not secondary/temporary (the inverse of secondary)"
+                        },
+                        {
+                            "name": "secondary",
+                            "description": "Only match IPv4 secondary or IPv6 temporary addresses"
+                        },
+                        {
+                            "name": "temporary",
+                            "description": "(IPv6 only) Only match temporary addresses generated for Privacy Extensions"
+                        },
+                        {
+                            "name": "tentative",
+                            "description": "(IPv6 only) Only match addresses that are still undergoing Duplicate Address Detection"
+                        },
+                        {
+                            "name": "deprecated",
+                            "description": "(IPv6 only) Only match addresses whose preferred lifetime has expired"
+                        },
+                        {
+                            "name": "dadfailed",
+                            "description": "(IPv6 only) Only match addresses that failed Duplicate Address Detection"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Only match addresses configured to skip Duplicate Address Detection"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) Only match addresses using the RFC 4429 optimistic Duplicate Address Detection variant"
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Only match addresses designated as the \"home address\" (RFC 6275)"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Only match addresses used as a template for kernel-managed temporary addresses"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Only match addresses configured without an automatic prefix route"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Only match addresses configured to auto-join their multicast group at the link layer"
+                        },
+                        {
+                            "name": "group",
+                            "description": "Only match addresses on devices in this interface group",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only match addresses on interfaces enslaved to this master device",
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only match addresses on interfaces enslaved to this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only match addresses on interfaces with no master device"
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only match addresses on interfaces of this device type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bond_slave",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
+                                    "vcan",
+                                    "veth",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm",
+                                    "virt_wifi"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Only match addresses installed with this address protocol identifier",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "novf",
+                            "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
+                        },
+                        {
+                            "name": "stable-privacy",
+                            "description": "(IPv6 only) Only match addresses generated by the RFC 7217 stable-privacy address generator"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-dynamic",
+                            "description": "Inverse of \"dynamic\": only match addresses that are not dynamically assigned (i.e. permanent)"
+                        },
+                        {
+                            "name": "-permanent",
+                            "description": "Inverse of \"permanent\": only match addresses installed due to stateless address autoconfiguration"
+                        },
+                        {
+                            "name": "-primary",
+                            "description": "Inverse of \"primary\": only match secondary/temporary addresses"
+                        },
+                        {
+                            "name": "-secondary",
+                            "description": "Inverse of \"secondary\": only match primary (non-secondary/temporary) addresses"
+                        },
+                        {
+                            "name": "-temporary",
+                            "description": "(IPv6 only) Inverse of \"temporary\": only match non-temporary addresses"
+                        },
+                        {
+                            "name": "-tentative",
+                            "description": "(IPv6 only) Inverse of \"tentative\": only match addresses that have finished Duplicate Address Detection"
+                        },
+                        {
+                            "name": "-deprecated",
+                            "description": "(IPv6 only) Inverse of \"deprecated\": only match addresses whose preferred lifetime has not expired"
+                        },
+                        {
+                            "name": "-dadfailed",
+                            "description": "(IPv6 only) Inverse of \"dadfailed\": only match addresses that did not fail Duplicate Address Detection"
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush (delete) all addresses matching the given selectors, printing each one as it is removed; at least one selector is required",
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "to",
+                            "description": "Only match addresses within this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Only match addresses with this scope",
+                            "args": {
+                                "name": "SCOPE-ID",
+                                "suggestions": [
+                                    "global",
+                                    "site",
+                                    "link",
+                                    "host",
+                                    "nowhere",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "up",
+                            "description": "Only match addresses on running (UP) interfaces"
+                        },
+                        {
+                            "name": "down",
+                            "description": "Only match addresses on interfaces that are not running"
+                        },
+                        {
+                            "name": "label",
+                            "description": "Only match addresses whose label matches this shell-style glob pattern",
+                            "args": {
+                                "name": "PATTERN"
+                            }
+                        },
+                        {
+                            "name": "dynamic",
+                            "description": "(IPv6 only) Only match addresses installed due to stateless address autoconfiguration (the inverse of permanent)"
+                        },
+                        {
+                            "name": "permanent",
+                            "description": "(IPv6 only) Only match addresses that are not dynamically assigned"
+                        },
+                        {
+                            "name": "primary",
+                            "description": "Only match addresses that are not secondary/temporary (the inverse of secondary)"
+                        },
+                        {
+                            "name": "secondary",
+                            "description": "Only match IPv4 secondary or IPv6 temporary addresses"
+                        },
+                        {
+                            "name": "temporary",
+                            "description": "(IPv6 only) Only match temporary addresses generated for Privacy Extensions"
+                        },
+                        {
+                            "name": "tentative",
+                            "description": "(IPv6 only) Only match addresses that are still undergoing Duplicate Address Detection"
+                        },
+                        {
+                            "name": "deprecated",
+                            "description": "(IPv6 only) Only match addresses whose preferred lifetime has expired"
+                        },
+                        {
+                            "name": "dadfailed",
+                            "description": "(IPv6 only) Only match addresses that failed Duplicate Address Detection"
+                        },
+                        {
+                            "name": "nodad",
+                            "description": "(IPv6 only) Only match addresses configured to skip Duplicate Address Detection"
+                        },
+                        {
+                            "name": "optimistic",
+                            "description": "(IPv6 only) Only match addresses using the RFC 4429 optimistic Duplicate Address Detection variant"
+                        },
+                        {
+                            "name": "home",
+                            "description": "(IPv6 only) Only match addresses designated as the \"home address\" (RFC 6275)"
+                        },
+                        {
+                            "name": "mngtmpaddr",
+                            "description": "(IPv6 only) Only match addresses used as a template for kernel-managed temporary addresses"
+                        },
+                        {
+                            "name": "noprefixroute",
+                            "description": "Only match addresses configured without an automatic prefix route"
+                        },
+                        {
+                            "name": "autojoin",
+                            "description": "Only match addresses configured to auto-join their multicast group at the link layer"
+                        },
+                        {
+                            "name": "group",
+                            "description": "Only match addresses on devices in this interface group",
+                            "args": {
+                                "name": "GROUP"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only match addresses on interfaces enslaved to this master device",
+                            "args": {
+                                "name": "DEVICE"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only match addresses on interfaces enslaved to this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only match addresses on interfaces with no master device"
+                        },
+                        {
+                            "name": "type",
+                            "description": "Only match addresses on interfaces of this device type",
+                            "args": {
+                                "name": "TYPE",
+                                "suggestions": [
+                                    "amt",
+                                    "bareudp",
+                                    "bond",
+                                    "bond_slave",
+                                    "bridge",
+                                    "bridge_slave",
+                                    "dsa",
+                                    "dummy",
+                                    "erspan",
+                                    "geneve",
+                                    "gre",
+                                    "gretap",
+                                    "gtp",
+                                    "hsr",
+                                    "ifb",
+                                    "ip6erspan",
+                                    "ip6gre",
+                                    "ip6gretap",
+                                    "ip6tnl",
+                                    "ipip",
+                                    "ipoib",
+                                    "ipvlan",
+                                    "ipvtap",
+                                    "macsec",
+                                    "macvlan",
+                                    "macvtap",
+                                    "netdevsim",
+                                    "netkit",
+                                    "nlmon",
+                                    "pfcp",
+                                    "rmnet",
+                                    "sit",
+                                    "team",
+                                    "team_slave",
+                                    "vcan",
+                                    "veth",
+                                    "vlan",
+                                    "vrf",
+                                    "vti",
+                                    "vxcan",
+                                    "vxlan",
+                                    "wwan",
+                                    "xfrm",
+                                    "virt_wifi"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proto",
+                            "description": "Only match addresses installed with this address protocol identifier",
+                            "args": {
+                                "name": "ADDRPROTO",
+                                "suggestions": [
+                                    "kernel_lo",
+                                    "kernel_ra",
+                                    "kernel_ll"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "novf",
+                            "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
+                        },
+                        {
+                            "name": "stable-privacy",
+                            "description": "(IPv6 only) Only match addresses generated by the RFC 7217 stable-privacy address generator"
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "-dynamic",
+                            "description": "Inverse of \"dynamic\": only match addresses that are not dynamically assigned (i.e. permanent)"
+                        },
+                        {
+                            "name": "-permanent",
+                            "description": "Inverse of \"permanent\": only match addresses installed due to stateless address autoconfiguration"
+                        },
+                        {
+                            "name": "-primary",
+                            "description": "Inverse of \"primary\": only match secondary/temporary addresses"
+                        },
+                        {
+                            "name": "-secondary",
+                            "description": "Inverse of \"secondary\": only match primary (non-secondary/temporary) addresses"
+                        },
+                        {
+                            "name": "-temporary",
+                            "description": "(IPv6 only) Inverse of \"temporary\": only match non-temporary addresses"
+                        },
+                        {
+                            "name": "-tentative",
+                            "description": "(IPv6 only) Inverse of \"tentative\": only match addresses that have finished Duplicate Address Detection"
+                        },
+                        {
+                            "name": "-deprecated",
+                            "description": "(IPv6 only) Inverse of \"deprecated\": only match addresses whose preferred lifetime has not expired"
+                        },
+                        {
+                            "name": "-dadfailed",
+                            "description": "(IPv6 only) Inverse of \"dadfailed\": only match addresses that did not fail Duplicate Address Detection"
+                        }
+                    ]
+                },
+                {
+                    "name": "save",
+                    "description": "Print all addresses to stdout in a format suitable for 'ip address restore'; only the dev selector actually restricts the dump, all other filter-style keywords accepted by 'ip address show' have no effect here",
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Only match addresses on this device",
+                            "args": {
+                                "name": "IFNAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "showdump",
+                    "description": "Read an address dump (as produced by 'ip address save') from stdin and print it; takes no arguments"
+                },
+                {
+                    "name": "restore",
+                    "description": "Read an address dump (as produced by 'ip address save') from stdin and add each address it contains, ignoring 'already exists' errors"
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip address"
+                }
+            ]
         },
         {
             "name": "addrlabel",
@@ -1215,7 +2317,29 @@
         {
             "name": "monitor",
             "description": "Watch for netlink messages",
-            "options": [
+            "args": {
+                "name": "OBJECT",
+                "description": "Object type(s) to monitor for changes",
+                "isVariadic": true,
+                "isOptional": true,
+                "suggestions": [
+                    "all",
+                    "address",
+                    "link",
+                    "mroute",
+                    "maddress",
+                    "acaddress",
+                    "neigh",
+                    "netconf",
+                    "nexthop",
+                    "nsid",
+                    "prefix",
+                    "route",
+                    "rule",
+                    "stats"
+                ]
+            },
+            "subcommands": [
                 {
                     "name": "file",
                     "description": "Read messages from a file recorded by rtmon or 'ip monitor file FILE' instead of listening on RTNETLINK",
@@ -1240,29 +2364,7 @@
                         "generatorName": "network_interfaces"
                     }
                 }
-            ],
-            "args": {
-                "name": "OBJECT",
-                "description": "Object type(s) to monitor for changes",
-                "isVariadic": true,
-                "isOptional": true,
-                "suggestions": [
-                    "all",
-                    "address",
-                    "link",
-                    "mroute",
-                    "maddress",
-                    "acaddress",
-                    "neigh",
-                    "netconf",
-                    "nexthop",
-                    "nsid",
-                    "prefix",
-                    "route",
-                    "rule",
-                    "stats"
-                ]
-            }
+            ]
         },
         {
             "name": "mptcp",
@@ -2161,8 +3263,557 @@
             ]
         },
         {
-            "name": "neighbour",
-            "description": "ARP or NDISC cache entry"
+            "name": [
+                "neighbour",
+                "neigh"
+            ],
+            "description": "ARP or NDISC cache entry",
+            "subcommands": [
+                {
+                    "name": "add",
+                    "description": "Add a new neighbour (ARP or NDISC) cache entry",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Protocol (IPv4 or IPv6) address of the neighbour; an optional leading 'to' keyword is accepted. Not required when 'proxy ADDRESS' is given instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "lladdr",
+                            "description": "Link layer address of the neighbour; use 'null' to clear it",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Neighbour Unreachability Detection (NUD) state to set for this entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Create a proxy entry instead of a normal one; ADDRESS is used as the destination and also satisfies the address/device requirement",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that this neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use; the kernel resolves it if missing or refreshes it if it already exists (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed by a userspace controller; unlike 'use', the kernel also periodically re-resolves it to keep it reachable when possible (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller so the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may still probe it and notify userspace when it becomes reachable (iproute2 6.17+)"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Interface this neighbour entry is attached to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that installed this entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "change",
+                        "chg"
+                    ],
+                    "description": "Change an existing neighbour cache entry",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Protocol address of the neighbour entry to change; an optional leading 'to' keyword is accepted. Not required when 'proxy ADDRESS' is given instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "lladdr",
+                            "description": "Link layer address of the neighbour; use 'null' to clear it",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Neighbour Unreachability Detection (NUD) state to set for this entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Change a proxy entry instead of a normal one; ADDRESS is used as the destination and also satisfies the address/device requirement",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that this neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use; the kernel resolves it if missing or refreshes it if it already exists (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed by a userspace controller; unlike 'use', the kernel also periodically re-resolves it to keep it reachable when possible (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller so the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may still probe it and notify userspace when it becomes reachable (iproute2 6.17+)"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Interface this neighbour entry is attached to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that installed this entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "replace",
+                    "description": "Add a new neighbour entry, or change an existing one",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Protocol address of the neighbour; an optional leading 'to' keyword is accepted. Not required when 'proxy ADDRESS' is given instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "lladdr",
+                            "description": "Link layer address of the neighbour; use 'null' to clear it",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Neighbour Unreachability Detection (NUD) state to set for this entry",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Create or replace a proxy entry instead of a normal one; ADDRESS is used as the destination and also satisfies the address/device requirement",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that this neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use; the kernel resolves it if missing or refreshes it if it already exists (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed by a userspace controller; unlike 'use', the kernel also periodically re-resolves it to keep it reachable when possible (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller so the kernel will not garbage-collect it"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated; the kernel will not remove or invalidate it, but may still probe it and notify userspace when it becomes reachable (iproute2 6.17+)"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Interface this neighbour entry is attached to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that installed this entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a neighbour cache entry; takes the same arguments as 'add', except that lladdr and nud are ignored",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Protocol address of the neighbour to delete; an optional leading 'to' keyword is accepted. Not required when 'proxy ADDRESS' is given instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "lladdr",
+                            "description": "Link layer address of the neighbour; ignored by delete",
+                            "args": {
+                                "name": "LLADDR"
+                            }
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Neighbour Unreachability Detection (NUD) state; ignored by delete",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Delete a proxy entry instead of a normal one; ADDRESS is used as the destination and also satisfies the address/device requirement",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "router",
+                            "description": "Indicate that this neighbour is a router"
+                        },
+                        {
+                            "name": "use",
+                            "description": "Mark this dynamic entry as in use (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "managed",
+                            "description": "Mark this entry as managed by a userspace controller (iproute2 5.16+)"
+                        },
+                        {
+                            "name": "extern_learn",
+                            "description": "Mark this entry as learned externally by a controller"
+                        },
+                        {
+                            "name": "extern_valid",
+                            "description": "Mark this entry as externally validated (iproute2 6.17+)"
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Interface this neighbour entry is attached to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol that installed this entry",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "get",
+                    "description": "Look up a neighbour cache entry for a destination on a given device",
+                    "args": {
+                        "name": "ADDRESS",
+                        "description": "Protocol address of the neighbour to look up; an optional leading 'to' keyword is accepted. Not required when 'proxy ADDRESS' is given instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
+                        {
+                            "name": "dev",
+                            "description": "Interface the neighbour entry is attached to",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Look up a proxy neighbour entry instead of a normal one; ADDRESS is used as the destination",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "show",
+                        "list",
+                        "lst"
+                    ],
+                    "description": "List neighbour (ARP or NDISC) cache entries",
+                    "subcommands": [
+                        {
+                            "name": "to",
+                            "description": "Only list neighbours whose destination matches this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only list neighbours attached to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only list neighbours attached to a device enslaved to this master device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only list neighbours belonging to this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only list neighbours attached to an interface with no master"
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "List neighbour proxies instead of normal entries"
+                        },
+                        {
+                            "name": "unused",
+                            "description": "Only list neighbours which are not currently in use"
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Only list neighbour entries in this state; may be given more than once. If omitted, entries in the 'none' and 'noarp' states are excluded",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only list entries installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "all"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "description": "Flush neighbour cache entries matching the given filters (at least one filter is required); unlike 'show', permanent and noarp entries are excluded by default",
+                    "subcommands": [
+                        {
+                            "name": "to",
+                            "description": "Only flush neighbours whose destination matches this prefix",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": "dev",
+                            "description": "Only flush neighbours attached to this device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "master",
+                            "description": "Only flush neighbours attached to a device enslaved to this master device",
+                            "args": {
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "Only flush neighbours belonging to this VRF",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": "nomaster",
+                            "description": "Only flush neighbours attached to an interface with no master"
+                        },
+                        {
+                            "name": "proxy",
+                            "description": "Flush neighbour proxies instead of normal entries"
+                        },
+                        {
+                            "name": "unused",
+                            "description": "Only flush neighbours which are not currently in use"
+                        },
+                        {
+                            "name": "nud",
+                            "description": "Only flush neighbour entries in this state; may be given more than once",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "permanent",
+                                    "noarp",
+                                    "reachable",
+                                    "stale",
+                                    "none",
+                                    "incomplete",
+                                    "delay",
+                                    "probe",
+                                    "failed",
+                                    "all"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Only flush entries installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp",
+                                    "all"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip neighbour"
+                }
+            ]
         },
         {
             "name": "netconf",
@@ -2194,7 +3845,125 @@
         },
         {
             "name": "netns",
-            "description": "Manage network namespaces"
+            "description": "Manage network namespaces",
+            "subcommands": [
+                {
+                    "name": [
+                        "list",
+                        "show",
+                        "lst"
+                    ],
+                    "description": "List all named network namespaces"
+                },
+                {
+                    "name": "add",
+                    "description": "Create a new named network namespace",
+                    "args": {
+                        "name": "NAME"
+                    }
+                },
+                {
+                    "name": "attach",
+                    "description": "Attach the network namespace of an existing process to a new name",
+                    "args": [
+                        {
+                            "name": "NAME"
+                        },
+                        {
+                            "name": "PID",
+                            "generatorName": "processes"
+                        }
+                    ]
+                },
+                {
+                    "name": "set",
+                    "description": "Assign an id to a peer network namespace; the id is only valid in the current network namespace",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "generatorName": "netns"
+                        },
+                        {
+                            "name": "NETNSID",
+                            "description": "'auto' to let the kernel choose an available id, or a non-negative integer",
+                            "suggestions": ["auto"]
+                        }
+                    ]
+                },
+                {
+                    "name": [
+                        "del",
+                        "delete"
+                    ],
+                    "description": "Delete a named network namespace; omit NAME when using the global -all option to delete them all",
+                    "args": {
+                        "name": "NAME",
+                        "isOptional": true,
+                        "generatorName": "netns"
+                    }
+                },
+                {
+                    "name": "identify",
+                    "description": "Report the network namespace name for a process, defaulting to the current process",
+                    "args": {
+                        "name": "PID",
+                        "isOptional": true,
+                        "generatorName": "processes"
+                    }
+                },
+                {
+                    "name": "pids",
+                    "description": "List the process IDs whose primary network namespace is the given named namespace",
+                    "args": {
+                        "name": "NAME",
+                        "generatorName": "netns"
+                    }
+                },
+                {
+                    "name": "exec",
+                    "description": "Run a command in the given network namespace; omit NAME when using the global -all option to run it in every namespace",
+                    "args": [
+                        {
+                            "name": "NAME",
+                            "isOptional": true,
+                            "generatorName": "netns"
+                        },
+                        {
+                            "name": "cmd",
+                            "description": "Command (and its arguments) to run inside the namespace",
+                            "isCommand": true
+                        }
+                    ]
+                },
+                {
+                    "name": "monitor",
+                    "description": "Report network namespace names as they are added and deleted"
+                },
+                {
+                    "name": "list-id",
+                    "description": "List namespace ids (nsid) assigned in the current network namespace; requires kernel support for RTM_GETNSID",
+                    "subcommands": [
+                        {
+                            "name": "target-nsid",
+                            "description": "Show nsids of the network namespace identified by this nsid (from the current namespace) instead of the current namespace",
+                            "args": {
+                                "name": "POSITIVE-INT"
+                            }
+                        },
+                        {
+                            "name": "nsid",
+                            "description": "Only show this nsid; combine with target-nsid to convert a nsid from the current namespace into the corresponding nsid of the target namespace",
+                            "args": {
+                                "name": "POSITIVE-INT"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "help",
+                    "description": "Display help for ip netns"
+                }
+            ]
         },
         {
             "name": "nexthop",
@@ -2854,7 +4623,7 @@
                 {
                     "name": "add",
                     "description": "Insert a new rule into the routing policy database (RPDB)",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the following selector matches"
@@ -3071,7 +4840,7 @@
                         "delete"
                     ],
                     "description": "Delete a rule from the routing policy database (RPDB)",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the following selector matches"
@@ -3289,7 +5058,7 @@
                         "lst"
                     ],
                     "description": "List rules in the routing policy database",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "not",
                             "description": "Negate the sense of the following selector matches"
@@ -3449,7 +5218,7 @@
                 {
                     "name": "flush",
                     "description": "Flush (delete) all matching rules from the routing policy database, also printing the rules that were deleted",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "from",
                             "description": "Only flush rules matching this source prefix",
@@ -3734,7 +5503,7 @@
                         "description": "Tunnel device name; defaults to a name derived from the mode (e.g. tunl0, gre0, sit0, ip_vti0)",
                         "isOptional": true
                     },
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "mode",
                             "description": "Tunnel encapsulation mode",
@@ -3855,7 +5624,7 @@
                     "args": {
                         "name": "NAME"
                     },
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "mode",
                             "description": "Tunnel encapsulation mode",
@@ -3967,12 +5736,13 @@
                 {
                     "name": "prl",
                     "description": "Manage the potential router list of an ISATAP tunnel; dev is mandatory and exactly one of prl-default, prl-nodefault, or prl-delete may be given at a time",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "dev",
                             "description": "ISATAP tunnel device to modify (mandatory)",
                             "args": {
-                                "name": "NAME"
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
                             }
                         },
                         {
@@ -4001,12 +5771,13 @@
                 {
                     "name": "6rd",
                     "description": "Configure 6rd (IPv6 rapid deployment) parameters on a sit tunnel; dev is mandatory",
-                    "options": [
+                    "subcommands": [
                         {
                             "name": "dev",
                             "description": "sit tunnel device to configure (mandatory)",
                             "args": {
-                                "name": "NAME"
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
                             }
                         },
                         {
@@ -4233,7 +6004,7 @@
                                 "update"
                             ],
                             "description": "Add a new security association, or update an existing one",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of this security association",
@@ -4478,15 +6249,29 @@
                                 },
                                 {
                                     "name": "encap",
-                                    "description": "Encapsulate packets in UDP or TCP, e.g. 'encap espinudp SPORT DPORT OADDR'",
-                                    "args": {
-                                        "name": "ENCAP",
-                                        "suggestions": [
-                                            "espinudp",
-                                            "espinudp-nonike",
-                                            "espintcp"
-                                        ]
-                                    }
+                                    "description": "Encapsulate ESP in UDP or TCP for NAT traversal (espinudp|espinudp-nonike|espintcp SPORT DPORT OADDR)",
+                                    "args": [
+                                        {
+                                            "name": "ENCAP-TYPE",
+                                            "suggestions": [
+                                                "espinudp",
+                                                "espinudp-nonike",
+                                                "espintcp"
+                                            ]
+                                        },
+                                        {
+                                            "name": "SPORT",
+                                            "description": "Local encapsulation port"
+                                        },
+                                        {
+                                            "name": "DPORT",
+                                            "description": "Remote encapsulation port"
+                                        },
+                                        {
+                                            "name": "OADDR",
+                                            "description": "Original address before NAT"
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "coa",
@@ -4546,7 +6331,7 @@
                         {
                             "name": "allocspi",
                             "description": "Allocate an SPI (Security Parameter Index) value for a future security association",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the security association",
@@ -4646,7 +6431,7 @@
                                 "get"
                             ],
                             "description": "Delete an existing security association, or query its parameters",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address of the security association",
@@ -4704,7 +6489,7 @@
                                 "list"
                             ],
                             "description": "Delete all matching security associations, or list them",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "nokeys",
                                     "description": "Do not print key material when listing (list only)"
@@ -4787,7 +6572,7 @@
                         {
                             "name": "flush",
                             "description": "Flush all security associations",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "proto",
                                     "description": "Only flush security associations using this transform protocol",
@@ -4820,7 +6605,7 @@
                                 "update"
                             ],
                             "description": "Add a new security policy, or update an existing one",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address (and optional prefix length) to select traffic for this policy",
@@ -4989,7 +6774,7 @@
                                 "get"
                             ],
                             "description": "Delete an existing security policy, or query its parameters",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "src",
                                     "description": "Source address (and optional prefix length) of the policy's selector",
@@ -5078,7 +6863,7 @@
                                 "list"
                             ],
                             "description": "Delete all matching security policies, or list them",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "nosock",
                                     "description": "Do not display socket policies (list only)"
@@ -5169,7 +6954,7 @@
                         {
                             "name": "flush",
                             "description": "Flush all security policies",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "ptype",
                                     "description": "Only flush policies of this type",
@@ -5190,7 +6975,7 @@
                         {
                             "name": "set",
                             "description": "Set the hash table size thresholds used for policy lookups",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "hthresh4",
                                     "description": "IPv4 hash table thresholds: local bits and remote bits",
@@ -5210,7 +6995,7 @@
                         {
                             "name": "setdefault",
                             "description": "Set the default action for each traffic direction",
-                            "options": [
+                            "subcommands": [
                                 {
                                     "name": "in",
                                     "description": "Default action for inbound traffic",
@@ -5255,7 +7040,22 @@
                 {
                     "name": "monitor",
                     "description": "Watch for xfrm netlink events",
-                    "options": [
+                    "args": {
+                        "name": "OBJECT",
+                        "description": "xfrm object type(s) to monitor for changes",
+                        "isVariadic": true,
+                        "isOptional": true,
+                        "suggestions": [
+                            "all",
+                            "acquire",
+                            "expire",
+                            "SA",
+                            "aevent",
+                            "policy",
+                            "report"
+                        ]
+                    },
+                    "subcommands": [
                         {
                             "name": "file",
                             "description": "Read xfrm events from a file instead of listening on RTNETLINK",
@@ -5272,22 +7072,7 @@
                             "name": "all-nsid",
                             "description": "Also listen for events from every network namespace with an nsid assigned in the current namespace"
                         }
-                    ],
-                    "args": {
-                        "name": "OBJECT",
-                        "description": "xfrm object type(s) to monitor for changes",
-                        "isVariadic": true,
-                        "isOptional": true,
-                        "suggestions": [
-                            "all",
-                            "acquire",
-                            "expire",
-                            "SA",
-                            "aevent",
-                            "policy",
-                            "report"
-                        ]
-                    }
+                    ]
                 },
                 {
                     "name": "help",
