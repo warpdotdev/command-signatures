@@ -9,7 +9,12 @@
                 {
                     "name": "add",
                     "description": "Add a new protocol (IP or IPv6) address to a device",
-                    "options": [
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
                         {
                             "name": [
                                 "peer",
@@ -132,12 +137,7 @@
                                 ]
                             }
                         }
-                    ],
-                    "args": {
-                        "name": "IFADDR",
-                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
-                        "isOptional": true
-                    }
+                    ]
                 },
                 {
                     "name": [
@@ -145,7 +145,12 @@
                         "chg"
                     ],
                     "description": "Change the attributes of an existing protocol address in place, without removing it first",
-                    "options": [
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
                         {
                             "name": [
                                 "peer",
@@ -268,17 +273,17 @@
                                 ]
                             }
                         }
-                    ],
-                    "args": {
-                        "name": "IFADDR",
-                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
-                        "isOptional": true
-                    }
+                    ]
                 },
                 {
                     "name": "replace",
                     "description": "Replace an existing protocol address, or add it if it does not already exist",
-                    "options": [
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
                         {
                             "name": [
                                 "peer",
@@ -401,12 +406,7 @@
                                 ]
                             }
                         }
-                    ],
-                    "args": {
-                        "name": "IFADDR",
-                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
-                        "isOptional": true
-                    }
+                    ]
                 },
                 {
                     "name": [
@@ -414,7 +414,12 @@
                         "delete"
                     ],
                     "description": "Delete a protocol address; the device name is required, all other attributes are optional and, if omitted, the first matching address on the device is deleted",
-                    "options": [
+                    "args": {
+                        "name": "IFADDR",
+                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
+                        "isOptional": true
+                    },
+                    "subcommands": [
                         {
                             "name": [
                                 "peer",
@@ -537,12 +542,7 @@
                                 ]
                             }
                         }
-                    ],
-                    "args": {
-                        "name": "IFADDR",
-                        "description": "Address to configure, as PREFIX (e.g. 192.0.2.1/24) or, preceded by the literal word \"local\", ADDRESS; may be omitted here and given via the peer/broadcast/anycast options instead",
-                        "isOptional": true
-                    }
+                    ]
                 },
                 {
                     "name": [
@@ -551,7 +551,13 @@
                         "lst"
                     ],
                     "description": "Display protocol addresses, optionally filtered by device or by the selectors below",
-                    "options": [
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
                         {
                             "name": "to",
                             "description": "Only match addresses within this prefix",
@@ -725,18 +731,18 @@
                             "name": "novf",
                             "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
                         }
-                    ],
-                    "args": {
-                        "name": "IFNAME",
-                        "description": "Device to match; the leading \"dev\" keyword is optional",
-                        "isOptional": true,
-                        "generatorName": "network_interfaces"
-                    }
+                    ]
                 },
                 {
                     "name": "flush",
                     "description": "Flush (delete) all addresses matching the given selectors, printing each one as it is removed; at least one selector is required",
-                    "options": [
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
                         {
                             "name": "to",
                             "description": "Only match addresses within this prefix",
@@ -910,18 +916,18 @@
                             "name": "novf",
                             "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
                         }
-                    ],
-                    "args": {
-                        "name": "IFNAME",
-                        "description": "Device to match; the leading \"dev\" keyword is optional",
-                        "isOptional": true,
-                        "generatorName": "network_interfaces"
-                    }
+                    ]
                 },
                 {
                     "name": "save",
                     "description": "Print addresses matching the given selectors to stdout in a format suitable for 'ip address restore'",
-                    "options": [
+                    "args": {
+                        "name": "IFNAME",
+                        "description": "Device to match; the leading \"dev\" keyword is optional",
+                        "isOptional": true,
+                        "generatorName": "network_interfaces"
+                    },
+                    "subcommands": [
                         {
                             "name": "to",
                             "description": "Only match addresses within this prefix",
@@ -1095,13 +1101,7 @@
                             "name": "novf",
                             "description": "Do not query per-VF information when printing the owning link (faster on devices with many SR-IOV VFs)"
                         }
-                    ],
-                    "args": {
-                        "name": "IFNAME",
-                        "description": "Device to match; the leading \"dev\" keyword is optional",
-                        "isOptional": true,
-                        "generatorName": "network_interfaces"
-                    }
+                    ]
                 },
                 {
                     "name": "showdump",
