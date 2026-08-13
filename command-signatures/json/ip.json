@@ -1914,84 +1914,155 @@
                                     "description": "Secure Channel Identifier of the receive SC",
                                     "args": {
                                         "name": "SCI"
-                                    }
-                                },
-                                {
-                                    "name": "port",
-                                    "description": "Port component of the SCI (used together with 'address')",
-                                    "args": {
-                                        "name": "PORT"
-                                    }
-                                },
-                                {
-                                    "name": "address",
-                                    "description": "MAC address component of the SCI (used together with 'port')",
-                                    "args": {
-                                        "name": "LLADDR"
-                                    }
-                                },
-                                {
-                                    "name": "on",
-                                    "description": "Mark this receive SC as active"
-                                },
-                                {
-                                    "name": "off",
-                                    "description": "Mark this receive SC as inactive"
-                                },
-                                {
-                                    "name": "sa",
-                                    "description": "Association number of the receive SA to add (0-3)",
-                                    "args": {
-                                        "name": "AN"
                                     },
                                     "subcommands": [
                                         {
-                                            "name": "pn",
-                                            "description": "Initial packet number",
-                                            "args": {
-                                                "name": "PN"
-                                            }
-                                        },
-                                        {
-                                            "name": "xpn",
-                                            "description": "Initial packet number for an Extended Packet Numbering cipher suite",
-                                            "args": {
-                                                "name": "PN"
-                                            }
-                                        },
-                                        {
-                                            "name": "salt",
-                                            "description": "96-bit salt, required for XPN cipher suites",
-                                            "args": {
-                                                "name": "SALT"
-                                            }
-                                        },
-                                        {
-                                            "name": "ssci",
-                                            "description": "Short SCI, required for XPN cipher suites",
-                                            "args": {
-                                                "name": "SSCI"
-                                            }
-                                        },
-                                        {
-                                            "name": "key",
-                                            "description": "Key identifier and key material for this SA (mandatory)",
-                                            "args": [
-                                                {
-                                                    "name": "ID"
-                                                },
-                                                {
-                                                    "name": "KEY"
-                                                }
-                                            ]
-                                        },
-                                        {
                                             "name": "on",
-                                            "description": "Mark this SA as active"
+                                            "description": "Mark this receive SC as active"
                                         },
                                         {
                                             "name": "off",
-                                            "description": "Mark this SA as inactive"
+                                            "description": "Mark this receive SC as inactive"
+                                        },
+                                        {
+                                            "name": "sa",
+                                            "description": "Association number of the receive SA to add (0-3)",
+                                            "args": {
+                                                "name": "AN"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "pn",
+                                                    "description": "Initial packet number",
+                                                    "args": {
+                                                        "name": "PN"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "xpn",
+                                                    "description": "Initial packet number for an Extended Packet Numbering cipher suite",
+                                                    "args": {
+                                                        "name": "PN"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "salt",
+                                                    "description": "96-bit salt, required for XPN cipher suites",
+                                                    "args": {
+                                                        "name": "SALT"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "ssci",
+                                                    "description": "Short SCI, required for XPN cipher suites",
+                                                    "args": {
+                                                        "name": "SSCI"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "key",
+                                                    "description": "Key identifier and key material for this SA (mandatory)",
+                                                    "args": [
+                                                        {
+                                                            "name": "ID"
+                                                        },
+                                                        {
+                                                            "name": "KEY"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this SA as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this SA as inactive"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
+                                    "args": {
+                                        "name": "PORT"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "address",
+                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "args": {
+                                                "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this receive SC as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this receive SC as inactive"
+                                                },
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to add (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    },
+                                                    "subcommands": [
+                                                        {
+                                                            "name": "pn",
+                                                            "description": "Initial packet number",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "xpn",
+                                                            "description": "Initial packet number for an Extended Packet Numbering cipher suite",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "salt",
+                                                            "description": "96-bit salt, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SALT"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "ssci",
+                                                            "description": "Short SCI, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SSCI"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "key",
+                                                            "description": "Key identifier and key material for this SA (mandatory)",
+                                                            "args": [
+                                                                {
+                                                                    "name": "ID"
+                                                                },
+                                                                {
+                                                                    "name": "KEY"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "on",
+                                                            "description": "Mark this SA as active"
+                                                        },
+                                                        {
+                                                            "name": "off",
+                                                            "description": "Mark this SA as inactive"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
@@ -2067,72 +2138,131 @@
                                     "description": "Secure Channel Identifier of the receive SC",
                                     "args": {
                                         "name": "SCI"
-                                    }
-                                },
-                                {
-                                    "name": "port",
-                                    "description": "Port component of the SCI (used together with 'address')",
-                                    "args": {
-                                        "name": "PORT"
-                                    }
-                                },
-                                {
-                                    "name": "address",
-                                    "description": "MAC address component of the SCI (used together with 'port')",
-                                    "args": {
-                                        "name": "LLADDR"
-                                    }
-                                },
-                                {
-                                    "name": "on",
-                                    "description": "Mark this receive SC as active"
-                                },
-                                {
-                                    "name": "off",
-                                    "description": "Mark this receive SC as inactive"
-                                },
-                                {
-                                    "name": "sa",
-                                    "description": "Association number of the receive SA to update (0-3)",
-                                    "args": {
-                                        "name": "AN"
                                     },
                                     "subcommands": [
                                         {
-                                            "name": "pn",
-                                            "description": "Packet number",
-                                            "args": {
-                                                "name": "PN"
-                                            }
-                                        },
-                                        {
-                                            "name": "xpn",
-                                            "description": "Packet number for an Extended Packet Numbering cipher suite",
-                                            "args": {
-                                                "name": "PN"
-                                            }
-                                        },
-                                        {
-                                            "name": "salt",
-                                            "description": "96-bit salt, required for XPN cipher suites",
-                                            "args": {
-                                                "name": "SALT"
-                                            }
-                                        },
-                                        {
-                                            "name": "ssci",
-                                            "description": "Short SCI, required for XPN cipher suites",
-                                            "args": {
-                                                "name": "SSCI"
-                                            }
-                                        },
-                                        {
                                             "name": "on",
-                                            "description": "Mark this SA as active"
+                                            "description": "Mark this receive SC as active"
                                         },
                                         {
                                             "name": "off",
-                                            "description": "Mark this SA as inactive"
+                                            "description": "Mark this receive SC as inactive"
+                                        },
+                                        {
+                                            "name": "sa",
+                                            "description": "Association number of the receive SA to update (0-3)",
+                                            "args": {
+                                                "name": "AN"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "pn",
+                                                    "description": "Packet number",
+                                                    "args": {
+                                                        "name": "PN"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "xpn",
+                                                    "description": "Packet number for an Extended Packet Numbering cipher suite",
+                                                    "args": {
+                                                        "name": "PN"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "salt",
+                                                    "description": "96-bit salt, required for XPN cipher suites",
+                                                    "args": {
+                                                        "name": "SALT"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "ssci",
+                                                    "description": "Short SCI, required for XPN cipher suites",
+                                                    "args": {
+                                                        "name": "SSCI"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this SA as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this SA as inactive"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "port",
+                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
+                                    "args": {
+                                        "name": "PORT"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "address",
+                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "args": {
+                                                "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this receive SC as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this receive SC as inactive"
+                                                },
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to update (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    },
+                                                    "subcommands": [
+                                                        {
+                                                            "name": "pn",
+                                                            "description": "Packet number",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "xpn",
+                                                            "description": "Packet number for an Extended Packet Numbering cipher suite",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "salt",
+                                                            "description": "96-bit salt, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SALT"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "ssci",
+                                                            "description": "Short SCI, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SSCI"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "on",
+                                                            "description": "Mark this SA as active"
+                                                        },
+                                                        {
+                                                            "name": "off",
+                                                            "description": "Mark this SA as inactive"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
                                         }
                                     ]
                                 }
@@ -2173,28 +2303,41 @@
                                     "description": "Secure Channel Identifier of the receive SC to delete",
                                     "args": {
                                         "name": "SCI"
-                                    }
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "sa",
+                                            "description": "Association number of the receive SA to delete (0-3)",
+                                            "args": {
+                                                "name": "AN"
+                                            }
+                                        }
+                                    ]
                                 },
                                 {
                                     "name": "port",
-                                    "description": "Port component of the SCI (used together with 'address')",
+                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
                                     "args": {
                                         "name": "PORT"
-                                    }
-                                },
-                                {
-                                    "name": "address",
-                                    "description": "MAC address component of the SCI (used together with 'port')",
-                                    "args": {
-                                        "name": "LLADDR"
-                                    }
-                                },
-                                {
-                                    "name": "sa",
-                                    "description": "Association number of the receive SA to delete (0-3)",
-                                    "args": {
-                                        "name": "AN"
-                                    }
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "address",
+                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "args": {
+                                                "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to delete (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -4544,7 +4687,10 @@
             ]
         },
         {
-            "name": "ntable",
+            "name": [
+                "ntable",
+                "ntbl"
+            ],
             "description": "Manage the neighbor cache's operation",
             "subcommands": [
                 {
@@ -4703,7 +4849,10 @@
                             "description": "Only show the table for this device, or 'none' for entries with no device",
                             "args": {
                                 "name": "DEV",
-                                "generatorName": "network_interfaces"
+                                "generatorName": "network_interfaces",
+                                "suggestions": [
+                                    "none"
+                                ]
                             }
                         },
                         {
@@ -10080,7 +10229,10 @@
                     },
                     "subcommands": [
                         {
-                            "name": "address",
+                            "name": [
+                                "addr",
+                                "address"
+                            ],
                             "description": "Address (or prefix) to match",
                             "args": {
                                 "name": "PREFIX"
@@ -10110,7 +10262,10 @@
                     },
                     "subcommands": [
                         {
-                            "name": "address",
+                            "name": [
+                                "addr",
+                                "address"
+                            ],
                             "description": "Address to delete",
                             "args": {
                                 "name": "ADDRESS"
@@ -10128,7 +10283,10 @@
                     },
                     "subcommands": [
                         {
-                            "name": "address",
+                            "name": [
+                                "addr",
+                                "address"
+                            ],
                             "description": "Only flush entries matching this address (or prefix)",
                             "args": {
                                 "name": "PREFIX"
@@ -10635,18 +10793,20 @@
                             }
                         },
                         {
-                            "name": "user",
-                            "description": "User (name or numeric ID) associated with the device",
-                            "args": {
-                                "name": "USER"
-                            }
+                            "name": "one_queue",
+                            "description": "Enable the (legacy) single-queue mode"
                         },
                         {
-                            "name": "group",
-                            "description": "Group (name or numeric ID) associated with the device",
-                            "args": {
-                                "name": "GROUP"
-                            }
+                            "name": "pi",
+                            "description": "Keep the protocol info (PI) header on packets"
+                        },
+                        {
+                            "name": "vnet_hdr",
+                            "description": "Enable the virtio-net header on packets"
+                        },
+                        {
+                            "name": "multi_queue",
+                            "description": "Create a multi-queue device"
                         }
                     ]
                 },
