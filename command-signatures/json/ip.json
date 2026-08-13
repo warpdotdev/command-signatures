@@ -358,10 +358,7 @@
                             ]
                         },
                         {
-                            "name": [
-                                "del",
-                                "delete"
-                            ],
+                            "name": "del",
                             "description": "Delete an IOAM namespace",
                             "args": {
                                 "name": "ID"
@@ -411,10 +408,7 @@
                             ]
                         },
                         {
-                            "name": [
-                                "del",
-                                "delete"
-                            ],
+                            "name": "del",
                             "description": "Delete an IOAM schema",
                             "args": {
                                 "name": "ID"
@@ -1329,7 +1323,7 @@
                                 },
                                 {
                                     "name": "laminar",
-                                    "description": "Use laminar scheduling for subflows created from this endpoint (iproute2 6.13+)"
+                                    "description": "Use laminar scheduling for subflows created from this endpoint (iproute2 6.19+)"
                                 }
                             ]
                         },
@@ -1549,6 +1543,13 @@
                             }
                         },
                         {
+                            "name": "dscp",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
                             "name": "fwmark",
                             "description": "Select the fwmark value (and optional mask) to match, e.g. \"fwmark 0x1/0xff\"",
                             "args": {
@@ -1595,6 +1596,50 @@
                             }
                         },
                         {
+                            "name": "ipproto",
+                            "description": "Select the IP protocol to match",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Select the source port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Select the destination port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Select the tunnel id to match, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
+                            }
+                        },
+                        {
                             "name": [
                                 "table",
                                 "lookup"
@@ -1624,10 +1669,41 @@
                             }
                         },
                         {
+                            "name": [
+                                "nat",
+                                "map-to"
+                            ],
+                            "description": "Base address to translate/masquerade the source address to",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm(s) to select if the rule matched and the table lookup succeeded",
+                            "args": {
+                                "name": "[SRCREALM/]DSTREALM"
+                            }
+                        },
+                        {
                             "name": "goto",
                             "description": "Jump to the rule with the given priority instead of continuing sequentially",
                             "args": {
                                 "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "suppress_prefixlength",
+                            "description": "Reject routing decisions with a prefix length of NUMBER or less",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "suppress_ifgroup",
+                            "description": "Reject routing decisions using a device in the given interface group",
+                            "args": {
+                                "name": "DEVGROUP"
                             }
                         },
                         {
@@ -1674,6 +1750,30 @@
                             }
                         },
                         {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Select the TOS (type of service) value to match",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Select the fwmark value (and optional mask) to match, e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
+                            }
+                        },
+                        {
                             "name": "iif",
                             "description": "Select the incoming interface to match",
                             "args": {
@@ -1696,7 +1796,7 @@
                                 "preference",
                                 "order"
                             ],
-                            "description": "Priority (preference) of the rule to delete",
+                            "description": "Priority (preference) of the rule; lower numbers are processed first and each rule should have a unique value",
                             "args": {
                                 "name": "NUMBER"
                             }
@@ -1706,11 +1806,62 @@
                             "description": "Select potential l3mdev (VRF) rule"
                         },
                         {
+                            "name": "uidrange",
+                            "description": "Select the range of UIDs to match",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Select the IP protocol to match",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Select the source port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Select the destination port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Select the tunnel id to match, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
+                            }
+                        },
+                        {
                             "name": [
                                 "table",
                                 "lookup"
                             ],
-                            "description": "Routing table referenced by the rule to delete",
+                            "description": "Routing table to look up when the selector matches",
                             "args": {
                                 "name": "TABLE_ID",
                                 "suggestions": [
@@ -1719,6 +1870,74 @@
                                     "default"
                                 ]
                             }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Select rules installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": [
+                                "nat",
+                                "map-to"
+                            ],
+                            "description": "Base address to translate/masquerade the source address to",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm(s) to select if the rule matched and the table lookup succeeded",
+                            "args": {
+                                "name": "[SRCREALM/]DSTREALM"
+                            }
+                        },
+                        {
+                            "name": "goto",
+                            "description": "Jump to the rule with the given priority instead of continuing sequentially",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "suppress_prefixlength",
+                            "description": "Reject routing decisions with a prefix length of NUMBER or less",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "suppress_ifgroup",
+                            "description": "Reject routing decisions using a device in the given interface group",
+                            "args": {
+                                "name": "DEVGROUP"
+                            }
+                        },
+                        {
+                            "name": "unicast",
+                            "description": "Rule type: return the route found in the referenced routing table (default)"
+                        },
+                        {
+                            "name": "blackhole",
+                            "description": "Rule type: silently drop matching packets"
+                        },
+                        {
+                            "name": "unreachable",
+                            "description": "Rule type: generate a \"Network is unreachable\" error for matching packets"
+                        },
+                        {
+                            "name": "prohibit",
+                            "description": "Rule type: generate a \"Communication is administratively prohibited\" error for matching packets"
                         }
                     ]
                 },
@@ -1731,6 +1950,10 @@
                     "description": "List rules in the multicast routing policy database",
                     "subcommands": [
                         {
+                            "name": "not",
+                            "description": "Negate the sense of the following selector matches"
+                        },
+                        {
                             "name": "from",
                             "description": "Select the source prefix to match",
                             "args": {
@@ -1742,6 +1965,30 @@
                             "description": "Select the destination prefix to match",
                             "args": {
                                 "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Select the TOS (type of service) value to match",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "dscp",
+                            "description": "Select the DSCP value to match, e.g. \"dscp af11\" (iproute2 6.13+); an optional mask, e.g. \"dscp 0x0a/0x3f\", requires iproute2 6.15+",
+                            "args": {
+                                "name": "DSCP[/MASK]"
+                            }
+                        },
+                        {
+                            "name": "fwmark",
+                            "description": "Select the fwmark value (and optional mask) to match, e.g. \"fwmark 0x1/0xff\"",
+                            "args": {
+                                "name": "FWMARK[/MASK]"
                             }
                         },
                         {
@@ -1762,6 +2009,73 @@
                         },
                         {
                             "name": [
+                                "pref",
+                                "priority",
+                                "preference",
+                                "order"
+                            ],
+                            "description": "Priority (preference) of the rule to filter by",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "l3mdev",
+                            "description": "Select potential l3mdev (VRF) rule"
+                        },
+                        {
+                            "name": "uidrange",
+                            "description": "Select the range of UIDs to match",
+                            "args": {
+                                "name": "NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "ipproto",
+                            "description": "Select the IP protocol to match",
+                            "args": {
+                                "name": "PROTOCOL",
+                                "suggestions": [
+                                    "tcp",
+                                    "udp",
+                                    "icmp",
+                                    "ipv6-icmp",
+                                    "sctp",
+                                    "udplite",
+                                    "gre"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "sport",
+                            "description": "Select the source port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "dport",
+                            "description": "Select the destination port or port range to match",
+                            "args": {
+                                "name": "NUMBER|NUMBER-NUMBER"
+                            }
+                        },
+                        {
+                            "name": "tun_id",
+                            "description": "Select the tunnel id to match, e.g. a GRE key",
+                            "args": {
+                                "name": "TUN_ID"
+                            }
+                        },
+                        {
+                            "name": "flowlabel",
+                            "description": "Select the IPv6 flow label (and optional mask) to match (iproute2 6.14+)",
+                            "args": {
+                                "name": "FLOWLABEL[/MASK]"
+                            }
+                        },
+                        {
+                            "name": [
                                 "table",
                                 "lookup"
                             ],
@@ -1774,12 +2088,26 @@
                                     "default"
                                 ]
                             }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Filter to rules installed by the given routing protocol",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
                         }
                     ]
                 },
                 {
                     "name": "flush",
-                    "description": "Flush (delete) all matching rules from the multicast routing policy database",
+                    "description": "Flush (delete) all matching rules from the multicast routing policy database, also printing the rules that were deleted",
                     "subcommands": [
                         {
                             "name": "from",
@@ -1807,6 +2135,20 @@
                                     "local",
                                     "main",
                                     "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Select the originating protocol of the rules to flush",
+                            "args": {
+                                "name": "PROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
                                 ]
                             }
                         }
@@ -2152,7 +2494,8 @@
                             "name": "master",
                             "description": "Only show nexthops enslaved to this device",
                             "args": {
-                                "name": "DEV"
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
                             }
                         },
                         {
@@ -2215,7 +2558,8 @@
                             "name": "master",
                             "description": "Only flush nexthops enslaved to this device",
                             "args": {
-                                "name": "DEV"
+                                "name": "DEV",
+                                "generatorName": "network_interfaces"
                             }
                         },
                         {
@@ -2263,10 +2607,18 @@
                                     }
                                 },
                                 {
+                                    "name": "vrf",
+                                    "description": "Only show buckets for groups in this VRF",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
                                     "name": "master",
                                     "description": "Only show buckets for groups enslaved to this device",
                                     "args": {
-                                        "name": "DEV"
+                                        "name": "DEV",
+                                        "generatorName": "network_interfaces"
                                     }
                                 },
                                 {
