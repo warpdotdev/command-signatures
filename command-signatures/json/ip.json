@@ -1985,16 +1985,99 @@
                                 },
                                 {
                                     "name": "port",
-                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
+                                    "description": "Port component of the SCI (mandatory with 'address'; either order is accepted, e.g. 'port PORT address LLADDR')",
                                     "args": {
                                         "name": "PORT"
                                     },
                                     "subcommands": [
                                         {
                                             "name": "address",
-                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "description": "MAC address component of the SCI (completes the SCI started by 'port')",
                                             "args": {
                                                 "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this receive SC as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this receive SC as inactive"
+                                                },
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to add (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    },
+                                                    "subcommands": [
+                                                        {
+                                                            "name": "pn",
+                                                            "description": "Initial packet number",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "xpn",
+                                                            "description": "Initial packet number for an Extended Packet Numbering cipher suite",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "salt",
+                                                            "description": "96-bit salt, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SALT"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "ssci",
+                                                            "description": "Short SCI, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SSCI"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "key",
+                                                            "description": "Key identifier and key material for this SA (mandatory)",
+                                                            "args": [
+                                                                {
+                                                                    "name": "ID"
+                                                                },
+                                                                {
+                                                                    "name": "KEY"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "on",
+                                                            "description": "Mark this SA as active"
+                                                        },
+                                                        {
+                                                            "name": "off",
+                                                            "description": "Mark this SA as inactive"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (mandatory with 'port'; either order is accepted, e.g. 'address LLADDR port PORT')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "port",
+                                            "description": "Port component of the SCI (completes the SCI started by 'address')",
+                                            "args": {
+                                                "name": "PORT"
                                             },
                                             "subcommands": [
                                                 {
@@ -2197,16 +2280,87 @@
                                 },
                                 {
                                     "name": "port",
-                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
+                                    "description": "Port component of the SCI (mandatory with 'address'; either order is accepted, e.g. 'port PORT address LLADDR')",
                                     "args": {
                                         "name": "PORT"
                                     },
                                     "subcommands": [
                                         {
                                             "name": "address",
-                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "description": "MAC address component of the SCI (completes the SCI started by 'port')",
                                             "args": {
                                                 "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "on",
+                                                    "description": "Mark this receive SC as active"
+                                                },
+                                                {
+                                                    "name": "off",
+                                                    "description": "Mark this receive SC as inactive"
+                                                },
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to update (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    },
+                                                    "subcommands": [
+                                                        {
+                                                            "name": "pn",
+                                                            "description": "Packet number",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "xpn",
+                                                            "description": "Packet number for an Extended Packet Numbering cipher suite",
+                                                            "args": {
+                                                                "name": "PN"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "salt",
+                                                            "description": "96-bit salt, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SALT"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "ssci",
+                                                            "description": "Short SCI, required for XPN cipher suites",
+                                                            "args": {
+                                                                "name": "SSCI"
+                                                            }
+                                                        },
+                                                        {
+                                                            "name": "on",
+                                                            "description": "Mark this SA as active"
+                                                        },
+                                                        {
+                                                            "name": "off",
+                                                            "description": "Mark this SA as inactive"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (mandatory with 'port'; either order is accepted, e.g. 'address LLADDR port PORT')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "port",
+                                            "description": "Port component of the SCI (completes the SCI started by 'address')",
+                                            "args": {
+                                                "name": "PORT"
                                             },
                                             "subcommands": [
                                                 {
@@ -2316,16 +2470,41 @@
                                 },
                                 {
                                     "name": "port",
-                                    "description": "Port component of the SCI (mandatory with 'address', in the form 'port PORT address LLADDR')",
+                                    "description": "Port component of the SCI (mandatory with 'address'; either order is accepted, e.g. 'port PORT address LLADDR')",
                                     "args": {
                                         "name": "PORT"
                                     },
                                     "subcommands": [
                                         {
                                             "name": "address",
-                                            "description": "MAC address component of the SCI (completes the 'port PORT address LLADDR' form)",
+                                            "description": "MAC address component of the SCI (completes the SCI started by 'port')",
                                             "args": {
                                                 "name": "LLADDR"
+                                            },
+                                            "subcommands": [
+                                                {
+                                                    "name": "sa",
+                                                    "description": "Association number of the receive SA to delete (0-3)",
+                                                    "args": {
+                                                        "name": "AN"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "address",
+                                    "description": "MAC address component of the SCI (mandatory with 'port'; either order is accepted, e.g. 'address LLADDR port PORT')",
+                                    "args": {
+                                        "name": "LLADDR"
+                                    },
+                                    "subcommands": [
+                                        {
+                                            "name": "port",
+                                            "description": "Port component of the SCI (completes the SCI started by 'address')",
+                                            "args": {
+                                                "name": "PORT"
                                             },
                                             "subcommands": [
                                                 {
