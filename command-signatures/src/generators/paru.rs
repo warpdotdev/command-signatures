@@ -8,7 +8,9 @@
 /// directly by the user."), used by paru's own bundled completion scripts, and backed by a
 /// locally refreshed cache so it stays fast for interactive use despite the AUR having well over
 /// 100k packages. Installed-package and local `.pkg.tar` file completions shell out to `pacman`
-/// directly, since that data doesn't depend on paru at all.
+/// directly, since that data doesn't depend on paru at all. Like yay, paru's completion cache
+/// refreshes periodically (see `--completioninterval`, default 7 days) rather than on every
+/// invocation.
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 use super::pacman::{

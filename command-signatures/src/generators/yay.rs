@@ -11,7 +11,7 @@
 /// it over querying the AUR RPC directly, since the AUR has well over 100k packages and
 /// enumerating it live on every keystroke would be far too slow for interactive completion;
 /// `-Pc` instead reads from yay's local completion cache, which it refreshes periodically (see
-/// `--completioninterval`, default once a day) rather than on every invocation. The tradeoff is
+/// `--completioninterval`, default 7 days) rather than on every invocation. The tradeoff is
 /// that the very first call (before any cache exists) can be slow while that cache is built, but
 /// every completion after that is fast.
 ///

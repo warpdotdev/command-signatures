@@ -148,6 +148,40 @@ mod tests {
         }
     }
 
+    /// `all_referenced_generators_exist` only checks that a JSON-referenced generator name
+    /// exists *somewhere* in the global union of every command's generators, so it would still
+    /// pass even if `yay`/`paru` were dropped from `dynamic_command_signature_data()` entirely
+    /// (their `list_all_packages` name collides with pacman's). This test instead pins down the
+    /// per-command binding the yay/paru fix actually depends on: that looking up `yay`/`paru`'s
+    /// own dynamic data resolves `list_all_packages` to *their own* `-Pc` completion command,
+    /// not to pacman's `-Slq` (which would silently drop AUR results).
+    #[test]
+    fn yay_and_paru_bind_list_all_packages_to_their_own_completion_command() {
+        let generators = generators::dynamic_command_signature_data();
+
+        for (command_name, expected_command) in [("yay", "yay -Pc"), ("paru", "paru -Pc")] {
+            let dynamic_data = generators.get(command_name).unwrap_or_else(|| {
+                panic!("no dynamic completion data registered for command {command_name:?}")
+            });
+            let generator = dynamic_data
+                .generators()
+                .get(&GeneratorName::new("list_all_packages"))
+                .unwrap_or_else(|| panic!("{command_name:?} has no `list_all_packages` generator"));
+            match &generator.process {
+                GeneratorProcess::ShellCommand(command) => {
+                    assert_eq!(
+                        command.build(Shell::Posix),
+                        expected_command,
+                        "{command_name:?}'s list_all_packages generator should run `{expected_command}`"
+                    );
+                }
+                GeneratorProcess::CommandFromTokens(_) => {
+                    panic!("expected {command_name:?}'s list_all_packages generator to be a shell command")
+                }
+            }
+        }
+    }
+
     /// Verify that all command signatures are well-formed JSON and valid for our deserialization
     /// schema.
     #[test]
