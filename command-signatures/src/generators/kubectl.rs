@@ -954,4 +954,28 @@ mod tests {
             results.suggestions
         );
     }
+
+    /// The whole generated command for the case reported in warpdotdev/warp#5186 and
+    /// warpdotdev/warp#3929: completing `--namespace` after a `--context` has been written on the
+    /// line has to query the cluster that context names, not the shell's active one. Asserting the
+    /// entire string (rather than a `contains`) also pins the spacing and the unquoted form, so a
+    /// regression in either shows up here.
+    #[test]
+    fn test_full_generated_command_forwards_context_to_namespace_query() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "staging-cluster", "--namespace"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name"),
+        );
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            concat!(
+                r#" kubectl ${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#,
+                "--context=staging-cluster  ",
+                "get namespace -o custom-columns=:.metadata.name",
+            )
+        );
+    }
 }
