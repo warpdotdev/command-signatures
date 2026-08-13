@@ -53,11 +53,12 @@ fn env_var_value<'a>(env_vars: &'a [String], key: &str) -> Option<&'a str> {
     env_vars.iter().find_map(|env| env.strip_prefix(&prefix))
 }
 
-/// Returns a command string to run the given `subcommand` string with the same `--namespace` and/or
-/// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
-/// scopes down suggestions to be more helpful based on the already-specified namespace or
-/// kubeconfig file. Also reads the `KUBECONFIG` environment variable if `--kubeconfig` is not
-/// explicitly specified in the tokens.
+/// Returns a command string to run the given `subcommand` string with the same `--namespace`,
+/// `--context`, `--cluster`, `--user`, and/or `--kubeconfig` values as specified in the
+/// incomplete command being entered (`tokens`), which scopes down suggestions to be more helpful
+/// based on the already-specified namespace, context, cluster, user, or kubeconfig file. Also
+/// reads the `KUBECONFIG` environment variable if `--kubeconfig` is not explicitly specified in
+/// the tokens.
 fn kubectl_script(
     env_vars: &[String],
     tokens: &[&str],
@@ -69,6 +70,15 @@ fn kubectl_script(
         // Fall back to the $KUBECONFIG shell variable, which is set when session environment
         // variables are forwarded to the child process.
         .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
+    let context_value = space_or_equals_delimited_option_value(tokens, "--context")
+        .map(|value| format!("--context={value} "))
+        .unwrap_or_else(|| "".to_owned());
+    let cluster_value = space_or_equals_delimited_option_value(tokens, "--cluster")
+        .map(|value| format!("--cluster={value} "))
+        .unwrap_or_else(|| "".to_owned());
+    let user_value = space_or_equals_delimited_option_value(tokens, "--user")
+        .map(|value| format!("--user={value} "))
+        .unwrap_or_else(|| "".to_owned());
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
         .map(|value| format!("--namespace={value} "))
@@ -77,7 +87,7 @@ fn kubectl_script(
     let env_vars_str = env_vars.iter().join(" ");
     CommandBuilder::concat(
         CommandBuilder::single_command(format!(
-            "{env_vars_str} kubectl {kubeconfig_value}{namespace_value}"
+            "{env_vars_str} kubectl {kubeconfig_value}{context_value}{cluster_value}{user_value}{namespace_value}"
         )),
         subcommand,
     )
@@ -200,6 +210,21 @@ lazy_static! {
                 |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name")),
                 |output| kubectl_post_process(output, None),
             );
+    pub(super) static ref USER_GENERATOR: Generator =
+            Generator::command_from_tokens(
+                |tokens, _, env_vars| kubectl_script(env_vars, tokens, CommandBuilder::single_command("config get-users")),
+                |output| match KubetctlStatus::from_output(output) {
+                    KubetctlStatus::ConnectedToCluster | KubetctlStatus::GeneralError => {
+                        GeneratorResults::default()
+                    }
+                    KubetctlStatus::Other => output
+                        .lines()
+                        .map(str::trim)
+                        .filter(|line| !line.is_empty() && *line != "NAME")
+                        .map(Suggestion::new)
+                        .collect_unordered_results(),
+                },
+            );
     pub(super) static ref TYPE_OR_TYPE_SLASH_NAME: Generator =
             Generator::command_from_tokens(
                 |tokens, _, env_vars| {
@@ -259,6 +284,7 @@ pub fn generator() -> CommandSignatureGenerators {
         .add_generator("context", CONTEXT_GENERATOR.clone())
         .add_generator("cluster", CLUSTER_GENERATOR.clone())
         .add_generator("namespace", NAMESPACE_GENERATOR.clone())
+        .add_generator("user", USER_GENERATOR.clone())
         .add_generator("type_or_type_slash_name", TYPE_OR_TYPE_SLASH_NAME.clone())
         .add_generator(
             "kubectl_builtin_completion",
@@ -426,6 +452,10 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
+            built.contains("--context=staging-cluster"),
+            "Expected --context=staging-cluster, got: {built}"
+        );
+        assert!(
             built.contains("--namespace=project1"),
             "Expected --namespace=project1, got: {built}"
         );
@@ -444,6 +474,142 @@ mod tests {
         assert!(
             built.contains("--namespace=kube-system"),
             "Expected --namespace=kube-system from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "staging-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context=staging-cluster"),
+            "Expected --context=staging-cluster from --context flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context=staging-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context=staging-cluster"),
+            "Expected --context=staging-cluster from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_cluster_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--cluster", "prod-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--cluster=prod-cluster"),
+            "Expected --cluster=prod-cluster from --cluster flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_cluster_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--cluster=prod-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--cluster=prod-cluster"),
+            "Expected --cluster=prod-cluster from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_user_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--user", "jane-doe", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--user=jane-doe"),
+            "Expected --user=jane-doe from --user flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_user_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--user=jane-doe", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--user=jane-doe"),
+            "Expected --user=jane-doe from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_cluster_user_and_namespace_flags_all_forwarded() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--context",
+            "staging-cluster",
+            "--cluster",
+            "prod-cluster",
+            "--user",
+            "jane-doe",
+            "-n",
+            "project1",
+            "get",
+            "pods",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context=staging-cluster"),
+            "Expected --context=staging-cluster, got: {built}"
+        );
+        assert!(
+            built.contains("--cluster=prod-cluster"),
+            "Expected --cluster=prod-cluster, got: {built}"
+        );
+        assert!(
+            built.contains("--user=jane-doe"),
+            "Expected --user=jane-doe, got: {built}"
+        );
+        assert!(
+            built.contains("--namespace=project1"),
+            "Expected --namespace=project1, got: {built}"
         );
     }
 }
