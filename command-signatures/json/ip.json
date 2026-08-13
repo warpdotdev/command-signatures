@@ -487,10 +487,89 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
-                            "args": {
-                                "name": "NH"
-                            }
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
@@ -958,10 +1037,89 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
-                            "args": {
-                                "name": "NH"
-                            }
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
@@ -1426,10 +1584,89 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
-                            "args": {
-                                "name": "NH"
-                            }
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
@@ -1894,10 +2131,89 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
-                            "args": {
-                                "name": "NH"
-                            }
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
@@ -2362,10 +2678,89 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
-                            "args": {
-                                "name": "NH"
-                            }
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
@@ -2833,10 +3228,636 @@
                         },
                         {
                             "name": "nexthop",
-                            "description": "Add a next hop for multipath routing, e.g. 'nexthop via ADDRESS dev DEV weight NUMBER'; repeatable to build an ECMP route",
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "nhid",
+                            "description": "Use the nexthop object with this ID as the route's nexthop specification, instead of an inline next hop",
                             "args": {
-                                "name": "NH"
+                                "name": "ID"
                             }
+                        },
+                        {
+                            "name": "protocol",
+                            "description": "Routing protocol identifier that installed this route; if omitted, ip assumes 'boot'",
+                            "args": {
+                                "name": "RTPROTO",
+                                "suggestions": [
+                                    "kernel",
+                                    "boot",
+                                    "static",
+                                    "ra",
+                                    "dhcp"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "table",
+                            "description": "Table to add this route to; defaults to 'main', except for local/broadcast/nat routes which default to 'local'",
+                            "args": {
+                                "name": "TABLEID",
+                                "suggestions": [
+                                    "local",
+                                    "main",
+                                    "default"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "vrf",
+                            "description": "VRF whose associated table this route should be added to",
+                            "args": {
+                                "name": "NAME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "dev",
+                                "oif"
+                            ],
+                            "description": "Output device for this route",
+                            "args": {
+                                "name": "NAME",
+                                "generatorName": "network_interfaces"
+                            }
+                        },
+                        {
+                            "name": "pref",
+                            "description": "IPv6 route preference as defined in RFC4191 for Router Discovery messages",
+                            "args": {
+                                "name": "PREF",
+                                "suggestions": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "encap",
+                            "description": "Attach tunnel encapsulation attributes to this route",
+                            "args": {
+                                "name": "ENCAPTYPE",
+                                "suggestions": [
+                                    "mpls",
+                                    "ip",
+                                    "ip6",
+                                    "ila",
+                                    "bpf",
+                                    "seg6",
+                                    "seg6local",
+                                    "rpl",
+                                    "ioam6",
+                                    "xfrm"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "ttl-propagate",
+                            "description": "Control whether TTL is propagated from an encapsulation header into the un-encapsulated packet, overriding global config; only supported for MPLS routes at present",
+                            "args": {
+                                "name": "STATE",
+                                "suggestions": [
+                                    "enabled",
+                                    "disabled"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "fastopen_no_cookie",
+                            "description": "Enable or disable TCP Fastopen without a cookie for connections to this destination (Linux 4.15+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "test",
+                    "description": "Test whether a route can be added, using the same syntax as 'ip route add', without actually creating it (undocumented in usage()/the man page, but a real action dispatched to the same iproute_modify parser)",
+                    "args": [
+                        {
+                            "name": "to",
+                            "isOptional": true,
+                            "suggestions": [
+                                "to"
+                            ]
+                        },
+                        {
+                            "name": "TYPE",
+                            "isOptional": true,
+                            "description": "Route type; defaults to unicast",
+                            "suggestions": [
+                                "unicast",
+                                "local",
+                                "broadcast",
+                                "multicast",
+                                "throw",
+                                "unreachable",
+                                "prohibit",
+                                "blackhole",
+                                "nat"
+                            ]
+                        },
+                        {
+                            "name": "PREFIX",
+                            "description": "Destination prefix of the route, e.g. 192.0.2.0/24 or 2001:db8::/32; use 'default' for 0/0 or ::/0"
+                        }
+                    ],
+                    "subcommands": [
+                        {
+                            "name": "src",
+                            "description": "Source address to prefer when sending to destinations covered by this route",
+                            "args": {
+                                "name": "ADDRESS"
+                            }
+                        },
+                        {
+                            "name": "as",
+                            "description": "Rewrite the destination address to ADDRESS when forwarding matching packets (mainly used with MPLS routes)",
+                            "args": [
+                                {
+                                    "name": "to",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "to"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "via",
+                            "description": "Address of the nexthop router for this route; use 'nexthop' instead to specify multiple next hops",
+                            "args": [
+                                {
+                                    "name": "FAMILY",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "inet",
+                                        "inet6",
+                                        "mpls",
+                                        "bridge",
+                                        "link"
+                                    ]
+                                },
+                                {
+                                    "name": "ADDRESS"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "from",
+                            "description": "Source prefix of the route, for source-specific routing",
+                            "args": {
+                                "name": "PREFIX"
+                            }
+                        },
+                        {
+                            "name": [
+                                "tos",
+                                "dsfield"
+                            ],
+                            "description": "Type Of Service (TOS) key to match; an 8-bit hex number or a name from /etc/iproute2/rt_dsfield",
+                            "args": {
+                                "name": "TOS"
+                            }
+                        },
+                        {
+                            "name": "expires",
+                            "description": "Delete the route automatically after this many seconds have elapsed (IPv6 only, Linux 4.4+)",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": [
+                                "metric",
+                                "priority",
+                                "preference"
+                            ],
+                            "description": "Preference value (metric) of the route; routes with lower values are preferred",
+                            "args": {
+                                "name": "NUMBER"
+                            }
+                        },
+                        {
+                            "name": "scope",
+                            "description": "Scope of the destinations covered by the route prefix; defaults to global for gatewayed unicast routes, link for direct unicast/broadcast routes, and host for local routes",
+                            "args": {
+                                "name": "SCOPE_VAL",
+                                "suggestions": [
+                                    "host",
+                                    "link",
+                                    "global"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "mtu",
+                            "description": "MTU along the path to the destination; with 'lock', disables Path MTU Discovery updates from the kernel",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "hoplimit",
+                            "description": "Hop limit (0-255) for packets sent to this destination; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "advmss",
+                            "description": "MSS to advertise to these destinations when establishing TCP connections (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "reordering",
+                            "description": "Maximal packet reordering on the path to this destination (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rtt",
+                            "description": "Initial round-trip time estimate; suffix with s/sec/secs or ms/msec/msecs, otherwise a raw kernel value; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rto_min",
+                            "description": "Minimum TCP retransmission timeout to use when communicating with this destination (Linux 2.6.23+); the value is always locked",
+                            "args": {
+                                "name": "TIME"
+                            }
+                        },
+                        {
+                            "name": "window",
+                            "description": "Maximal TCP window (in bytes) to advertise to these destinations; with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cwnd",
+                            "description": "Clamp for the congestion window (Linux 2.3.15+); only takes effect with 'lock'",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initcwnd",
+                            "description": "Initial congestion window size, as a multiple of the MSS, for connections to this destination (Linux 2.5.70+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "initrwnd",
+                            "description": "Initial receive window size, as a multiple of the MSS, for connections to this destination (Linux 2.6.33+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "features",
+                            "description": "Enable per-route features: 'ecn' (Linux 3.18+) enables explicit congestion notification; 'tcp_usec_ts' (iproute2 6.8+) uses microsecond-resolution TCP timestamps",
+                            "args": {
+                                "name": "FEATURES",
+                                "suggestions": [
+                                    "ecn",
+                                    "tcp_usec_ts"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "quickack",
+                            "description": "Enable or disable TCP quick ACKs for connections to this destination (Linux 3.11+)",
+                            "args": {
+                                "name": "BOOL",
+                                "suggestions": [
+                                    "0",
+                                    "1"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "congctl",
+                            "description": "TCP congestion control algorithm for connections to this destination (Linux 3.20+); with 'lock', an application cannot override it",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NAME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "rttvar",
+                            "description": "Initial RTT variance estimate (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "TIME"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "ssthresh",
+                            "description": "Estimate for the initial slow start threshold (Linux 2.3.15+); with 'lock', pins the value",
+                            "args": [
+                                {
+                                    "name": "lock",
+                                    "isOptional": true,
+                                    "suggestions": [
+                                        "lock"
+                                    ]
+                                },
+                                {
+                                    "name": "NUMBER"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "realms",
+                            "description": "Realm to assign to this route, used for traffic classification",
+                            "args": {
+                                "name": "REALMID"
+                            }
+                        },
+                        {
+                            "name": "onlink",
+                            "description": "Pretend the nexthop is directly attached to this link, even if it does not match any interface prefix"
+                        },
+                        {
+                            "name": "nexthop",
+                            "description": "Add a next hop for multipath routing; repeatable to build an ECMP route",
+                            "subcommands": [
+                                {
+                                    "name": "via",
+                                    "description": "Address of this next hop router",
+                                    "args": [
+                                        {
+                                            "name": "FAMILY",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "inet",
+                                                "inet6",
+                                                "mpls",
+                                                "bridge",
+                                                "link"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "dev",
+                                    "description": "Output device for this next hop",
+                                    "args": {
+                                        "name": "NAME"
+                                    }
+                                },
+                                {
+                                    "name": "weight",
+                                    "description": "Relative weight of this next hop (1-256), reflecting its bandwidth or quality, for ECMP",
+                                    "args": {
+                                        "name": "NUMBER"
+                                    }
+                                },
+                                {
+                                    "name": "onlink",
+                                    "description": "Pretend this next hop is directly attached to its link, even if it does not match any interface prefix"
+                                },
+                                {
+                                    "name": "realms",
+                                    "description": "Realm to assign to this next hop, used for traffic classification",
+                                    "args": {
+                                        "name": "REALMID"
+                                    }
+                                },
+                                {
+                                    "name": "encap",
+                                    "description": "Attach tunnel encapsulation attributes to this next hop",
+                                    "args": {
+                                        "name": "ENCAPTYPE",
+                                        "suggestions": [
+                                            "mpls",
+                                            "ip",
+                                            "ip6",
+                                            "ila",
+                                            "bpf",
+                                            "seg6",
+                                            "seg6local",
+                                            "rpl",
+                                            "ioam6",
+                                            "xfrm"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "as",
+                                    "description": "Rewrite the destination address to ADDRESS for packets sent via this next hop",
+                                    "args": [
+                                        {
+                                            "name": "to",
+                                            "isOptional": true,
+                                            "suggestions": [
+                                                "to"
+                                            ]
+                                        },
+                                        {
+                                            "name": "ADDRESS"
+                                        }
+                                    ]
+                                }
+                            ]
                         },
                         {
                             "name": "nhid",
