@@ -53,11 +53,27 @@ fn env_var_value<'a>(env_vars: &'a [String], key: &str) -> Option<&'a str> {
     env_vars.iter().find_map(|env| env.strip_prefix(&prefix))
 }
 
-/// Returns a command string to run the given `subcommand` string with the same `--namespace` and/or
-/// `--kubeconfig` values as specified in the incomplete command being entered (`tokens`), which
-/// scopes down suggestions to be more helpful based on the already-specified namespace or
-/// kubeconfig file. Also reads the `KUBECONFIG` environment variable if `--kubeconfig` is not
-/// explicitly specified in the tokens.
+/// Formats an option to forward into a generated command as `--option='value' `.
+///
+/// The value has to be quoted: tokens reach generators with their shell quoting already stripped,
+/// so a value containing whitespace (e.g. a context named `my cluster`) would otherwise split into
+/// multiple arguments. Single quotes with `'` escaped as `'\''` is the same technique `git.rs` and
+/// `scp.rs` already use for interpolated token values, and unlike double quotes it also neutralizes
+/// `$`, backticks and backslashes.
+///
+/// This is POSIX-only, which `kubectl_script` already is: its `$KUBECONFIG` fallback below uses
+/// POSIX `${VAR:+...}` parameter expansion, and `GeneratorProcess::CommandFromTokens` does not pass
+/// the runtime `Shell` down here, so there is no way to vary the quoting style per shell today.
+fn forwarded_option(option_name: &str, value: &str) -> String {
+    let escaped = value.replace('\'', r"'\''");
+    format!("{option_name}='{escaped}' ")
+}
+
+/// Returns a command string to run the given `subcommand` string with the same `--kubeconfig`,
+/// `--context`, `--cluster` and/or `--namespace` values as specified in the incomplete command
+/// being entered (`tokens`), which scopes down suggestions to be more helpful based on the
+/// already-specified cluster connection or namespace. Also reads the `KUBECONFIG` environment
+/// variable if `--kubeconfig` is not explicitly specified in the tokens.
 fn kubectl_script(
     env_vars: &[String],
     tokens: &[&str],
@@ -65,19 +81,28 @@ fn kubectl_script(
 ) -> CommandBuilder {
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .or_else(|| env_var_value(env_vars, "KUBECONFIG"))
-        .map(|value| format!("--kubeconfig={value} "))
+        .map(|value| forwarded_option("--kubeconfig", value))
         // Fall back to the $KUBECONFIG shell variable, which is set when session environment
         // variables are forwarded to the child process.
         .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
+    // `--context` and `--cluster` select which cluster the query runs against, so they must be
+    // forwarded too: without them, every subsequent completion enumerates from the shell's active
+    // context instead of the one written on the command line.
+    let context_value = space_or_equals_delimited_option_value(tokens, "--context")
+        .map(|value| forwarded_option("--context", value))
+        .unwrap_or_default();
+    let cluster_value = space_or_equals_delimited_option_value(tokens, "--cluster")
+        .map(|value| forwarded_option("--cluster", value))
+        .unwrap_or_default();
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
-        .map(|value| format!("--namespace={value} "))
-        .unwrap_or_else(|| "".to_owned());
+        .map(|value| forwarded_option("--namespace", value))
+        .unwrap_or_default();
 
     let env_vars_str = env_vars.iter().join(" ");
     CommandBuilder::concat(
         CommandBuilder::single_command(format!(
-            "{env_vars_str} kubectl {kubeconfig_value}{namespace_value}"
+            "{env_vars_str} kubectl {kubeconfig_value}{context_value}{cluster_value}{namespace_value}"
         )),
         subcommand,
     )
@@ -288,7 +313,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/path/to/config"),
+            built.contains("--kubeconfig='/path/to/config'"),
             "Expected --kubeconfig flag from tokens, got: {built}"
         );
     }
@@ -304,7 +329,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/tmp/kube-test/config"),
+            built.contains("--kubeconfig='/tmp/kube-test/config'"),
             "Expected --kubeconfig from KUBECONFIG env var, got: {built}"
         );
     }
@@ -326,11 +351,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig=/flag/path/config"),
+            built.contains("--kubeconfig='/flag/path/config'"),
             "Expected --kubeconfig from flag (not env var), got: {built}"
         );
         assert!(
-            !built.contains("--kubeconfig=/env/path/config"),
+            !built.contains("--kubeconfig='/env/path/config'"),
             "Should not contain env var value when flag is present, got: {built}"
         );
     }
@@ -370,7 +395,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from -n flag before subcommand, got: {built}"
         );
     }
@@ -386,7 +411,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from --namespace flag before subcommand, got: {built}"
         );
     }
@@ -402,7 +427,7 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from -n flag after subcommand, got: {built}"
         );
     }
@@ -426,7 +451,11 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=project1"),
+            built.contains("--context='staging-cluster'"),
+            "Expected --context=staging-cluster, got: {built}"
+        );
+        assert!(
+            built.contains("--namespace='project1'"),
             "Expected --namespace=project1, got: {built}"
         );
     }
@@ -442,8 +471,200 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--namespace=kube-system"),
+            built.contains("--namespace='kube-system'"),
             "Expected --namespace=kube-system from equals syntax, got: {built}"
+        );
+    }
+
+    /// The whole generated command for the case reported in warpdotdev/warp#5186 and
+    /// warpdotdev/warp#3929: completing `--namespace` after a `--context` has been written on the
+    /// line must query the cluster named by that context, not the shell's active one.
+    #[test]
+    fn test_full_generated_command_forwards_context_to_namespace_query() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "staging-cluster", "--namespace"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get namespace -o custom-columns=:.metadata.name"),
+        );
+        assert_eq!(
+            cmd.build(Shell::Posix),
+            concat!(
+                r#" kubectl ${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#,
+                "--context='staging-cluster'  ",
+                "get namespace -o custom-columns=:.metadata.name",
+            )
+        );
+    }
+
+    #[test]
+    fn test_context_long_flag_before_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "staging-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='staging-cluster'"),
+            "Expected --context=staging-cluster from --context flag before subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_flag_after_subcommand() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "get", "--context", "staging-cluster", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='staging-cluster'"),
+            "Expected --context=staging-cluster from --context flag after subcommand, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_context_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context=staging-cluster", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='staging-cluster'"),
+            "Expected --context=staging-cluster from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_cluster_flag_forwarded() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--cluster", "staging", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--cluster='staging'"),
+            "Expected --cluster=staging from --cluster flag, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_cluster_equals_syntax() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--cluster=staging", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--cluster='staging'"),
+            "Expected --cluster=staging from equals syntax, got: {built}"
+        );
+    }
+
+    #[test]
+    fn test_no_flags_forwarded_when_absent() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            !built.contains("--context"),
+            "Did not expect a --context flag, got: {built}"
+        );
+        assert!(
+            !built.contains("--cluster"),
+            "Did not expect a --cluster flag, got: {built}"
+        );
+        assert!(
+            !built.contains("--namespace"),
+            "Did not expect a --namespace flag, got: {built}"
+        );
+    }
+
+    /// Tokens reach generators with their shell quoting stripped, so values containing whitespace
+    /// have to be re-quoted or they would split into separate arguments.
+    #[test]
+    fn test_forwarded_values_with_whitespace_are_quoted() {
+        let env_vars = vec![];
+        let tokens = vec![
+            "kubectl",
+            "--context",
+            "my staging cluster",
+            "--namespace",
+            "my namespace",
+            "get",
+            "pods",
+        ];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='my staging cluster'"),
+            "Expected a quoted --context value, got: {built}"
+        );
+        assert!(
+            built.contains("--namespace='my namespace'"),
+            "Expected a quoted --namespace value, got: {built}"
+        );
+    }
+
+    /// A literal single quote in a value has to be escaped, or it would close the quoted string
+    /// and let the rest of the value be interpreted by the shell.
+    #[test]
+    fn test_forwarded_value_with_single_quote_is_escaped() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "it's-staging", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains(r#"--context='it'\''s-staging'"#),
+            "Expected an escaped single quote in the --context value, got: {built}"
+        );
+    }
+
+    /// Values are quoted rather than interpolated raw, so shell metacharacters in a value cannot
+    /// be interpreted by the shell that runs the generated command.
+    #[test]
+    fn test_forwarded_value_does_not_expand_shell_metacharacters() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context=$(id)", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        let built = cmd.build(Shell::Posix);
+        assert!(
+            built.contains("--context='$(id)'"),
+            "Expected the value to stay inside single quotes, got: {built}"
         );
     }
 }
