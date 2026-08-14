@@ -24,12 +24,6 @@ impl KubetctlStatus {
 }
 
 /// Returns the value for the given `option_name`, which may be space delimited (--option value) or equals delimited (--option=value).
-///
-/// kubectl's flags are Cobra/pflag string flags, so a repeated flag's `Set` call overwrites the
-/// previous value and kubectl itself acts on the *last* occurrence; this scans for the last match
-/// to match that behavior. It also stops scanning at a bare `--` terminator, since pflag stops
-/// parsing flags there and anything after it (including something that looks like a flag) is a
-/// literal positional argument, not an option.
 fn space_or_equals_delimited_option_value<'a>(
     tokens: &'a [&str],
     option_name: &str,
@@ -57,17 +51,6 @@ fn space_or_equals_delimited_option_value<'a>(
     })
 }
 
-/// Whether `value` is made up only of characters that every shell these generator commands are
-/// built for -- POSIX shells, PowerShell, and cmd.exe -- treats as ordinary literal text, so it
-/// needs no quoting at all.
-///
-/// Real kubeconfig names sit comfortably inside this set: `minikube`, `docker-desktop`,
-/// `gke_my-project_us-central1-a_prod`, `arn:aws:eks:us-east-1:1234:cluster/prod`,
-/// `admin@prod.local`, and POSIX config paths like `/home/me/.kube/config`.
-///
-/// The set is deliberately conservative. Notably it excludes the backslash, which cmd.exe and
-/// PowerShell treat literally but POSIX shells use as an escape, so a Windows-style path is
-/// quoted rather than passed through.
 fn is_safe_unquoted(value: &str) -> bool {
     !value.is_empty()
         && value.chars().all(|c| {
@@ -75,27 +58,6 @@ fn is_safe_unquoted(value: &str) -> bool {
         })
 }
 
-/// Renders `value` for safe embedding inside the single, unquoted command string built by
-/// [`kubectl_script`].
-///
-/// A value that satisfies [`is_safe_unquoted`] -- which is every ordinary kubeconfig name -- is
-/// interpolated bare, byte for byte as it was before any quoting existed here. That keeps the
-/// generated command correct on POSIX shells, PowerShell and cmd.exe alike, since there is nothing
-/// for any of them to interpret.
-///
-/// Anything else is wrapped in single quotes, with embedded single quotes escaped as `'\''` (end
-/// the quoted string, emit an escaped literal quote, then reopen it) -- the same technique
-/// `files_for_staging_command` in `git.rs` and the path prefix in `scp.rs` already use for this
-/// class of hazard. This is what closes the injection hazard: a context named
-/// `prod; touch /tmp/PWNED` cannot start a second command.
-///
-/// That quoted fallback is POSIX-shaped, and only POSIX-shaped, because there is no way to do
-/// better from here: `kubectl_script`'s own `$KUBECONFIG` fallback below already requires POSIX
-/// parameter expansion (`${VAR:+...}`), and `GeneratorProcess::CommandFromTokens` -- how every
-/// caller reaches this code -- is never handed the runtime `Shell`, so the quoting style cannot be
-/// selected per shell without threading `Shell` through that signature. Leaving the common case
-/// unquoted confines that limitation to values that would otherwise be an injection vector,
-/// instead of applying it to every kubectl completion on Windows.
 fn escape_forwarded_value(value: &str) -> String {
     if is_safe_unquoted(value) {
         return value.to_owned();
