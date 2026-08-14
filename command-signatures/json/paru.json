@@ -1236,6 +1236,10 @@
                     "description": "Install a package into the chroot"
                 },
                 {
+                    "name": "--noinstall",
+                    "description": "Do not install a package into the chroot"
+                },
+                {
                     "name": [
                         "-u",
                         "--sysupgrade"
@@ -1263,6 +1267,10 @@
                     "description": "Install a package into the chroot"
                 },
                 {
+                    "name": "--noinstall",
+                    "description": "Do not install a package into the chroot"
+                },
+                {
                     "name": [
                         "-u",
                         "--sysupgrade"
@@ -1288,6 +1296,10 @@
                         "--install"
                     ],
                     "description": "Install package as well as building"
+                },
+                {
+                    "name": "--noinstall",
+                    "description": "Do not install the package once built"
                 }
             ],
             "isVariadic": true,
@@ -1307,6 +1319,10 @@
                         "--install"
                     ],
                     "description": "Install package as well as building"
+                },
+                {
+                    "name": "--noinstall",
+                    "description": "Do not install the package once built"
                 }
             ],
             "isVariadic": true,
@@ -1467,14 +1483,15 @@
         },
         {
             "name": "--mode",
-            "description": "Select what kinds of packages paru should act on",
+            "description": "Select what kinds of packages paru should act on. Also accepts a/r/p shorthand, combinable and comma-separated (e.g. ar, a,r)",
             "isPersistent": true,
             "args": {
                 "name": "mode",
                 "suggestions": [
                     "aur",
                     "repo",
-                    "pkgbuilds"
+                    "pkgbuilds",
+                    "all"
                 ]
             }
         },
@@ -1551,7 +1568,12 @@
                     "depends",
                     "checkdepends",
                     "makedepends",
-                    "optdepends"
+                    "submitter",
+                    "provides",
+                    "replaces",
+                    "groups",
+                    "keywords",
+                    "comaintainers"
                 ]
             }
         },
@@ -1577,11 +1599,22 @@
             }
         },
         {
-            "name": "--clonedir",
+            "name": [
+                "--clonedir",
+                "--builddir"
+            ],
             "description": "Directory used to download and run PKGBUILDs",
             "args": {
                 "name": "dir",
                 "template": "folders"
+            }
+        },
+        {
+            "name": "--develfile",
+            "description": "Path to the file used to track devel package versions",
+            "args": {
+                "name": "file",
+                "template": "filepaths"
             }
         },
         {
@@ -1594,7 +1627,16 @@
         },
         {
             "name": "--provides",
-            "description": "Look for matching providers when searching for AUR packages"
+            "description": "Look for matching providers when searching for AUR packages",
+            "args": {
+                "name": "mode",
+                "suggestions": [
+                    "yes",
+                    "no",
+                    "all"
+                ],
+                "isOptional": true
+            }
         },
         {
             "name": "--noprovides",
@@ -1627,6 +1669,10 @@
         {
             "name": "--newsonupgrade",
             "description": "Print new news during sysupgrade"
+        },
+        {
+            "name": "--nonewsonupgrade",
+            "description": "Don't print new news during sysupgrade"
         },
         {
             "name": "--combinedupgrade",
@@ -1834,7 +1880,11 @@
         },
         {
             "name": "--sudoloop",
-            "description": "Periodically call sudo in the background to prevent it from timing out during long builds"
+            "description": "Periodically call sudo in the background to prevent it from timing out during long builds",
+            "args": {
+                "name": "args",
+                "isOptional": true
+            }
         },
         {
             "name": "--nosudoloop",
@@ -1876,8 +1926,15 @@
             }
         },
         {
+            "name": "--pager",
+            "description": "Pager command to use for file review",
+            "args": {
+                "name": "command"
+            }
+        },
+        {
             "name": "--chroot",
-            "description": "Build packages in a chroot. Requires --localrepo",
+            "description": "Build packages in a chroot",
             "args": {
                 "name": "path",
                 "template": "folders",
