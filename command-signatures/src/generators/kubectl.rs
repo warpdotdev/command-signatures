@@ -58,13 +58,6 @@ fn is_safe_unquoted(value: &str) -> bool {
         })
 }
 
-fn escape_forwarded_value(value: &str) -> String {
-    if is_safe_unquoted(value) {
-        return value.to_owned();
-    }
-    format!("'{}'", value.replace('\'', r"'\''"))
-}
-
 /// Returns the value of a given `key` from a list of environment variables formatted as
 /// `KEY=VALUE`.
 fn env_var_value<'a>(env_vars: &'a [String], key: &str) -> Option<&'a str> {
@@ -83,24 +76,32 @@ fn kubectl_script(
     tokens: &[&str],
     subcommand: CommandBuilder,
 ) -> CommandBuilder {
+    // A value that is not safe to interpolate bare is dropped rather than quoted, because no one
+    // quoting style is correct for every shell this command is built for: cmd.exe has no single
+    // quotes, so quoting there would leave `&` and friends live.
     let kubeconfig_value = space_or_equals_delimited_option_value(tokens, "--kubeconfig")
         .or_else(|| env_var_value(env_vars, "KUBECONFIG"))
-        .map(|value| format!("--kubeconfig={} ", escape_forwarded_value(value)))
+        .filter(|value| is_safe_unquoted(value))
+        .map(|value| format!("--kubeconfig={value} "))
         // Fall back to the $KUBECONFIG shell variable, which is set when session environment
         // variables are forwarded to the child process.
         .unwrap_or_else(|| r#"${KUBECONFIG:+--kubeconfig="$KUBECONFIG"} "#.to_owned());
     let context_value = space_or_equals_delimited_option_value(tokens, "--context")
-        .map(|value| format!("--context={} ", escape_forwarded_value(value)))
+        .filter(|value| is_safe_unquoted(value))
+        .map(|value| format!("--context={value} "))
         .unwrap_or_else(|| "".to_owned());
     let cluster_value = space_or_equals_delimited_option_value(tokens, "--cluster")
-        .map(|value| format!("--cluster={} ", escape_forwarded_value(value)))
+        .filter(|value| is_safe_unquoted(value))
+        .map(|value| format!("--cluster={value} "))
         .unwrap_or_else(|| "".to_owned());
     let user_value = space_or_equals_delimited_option_value(tokens, "--user")
-        .map(|value| format!("--user={} ", escape_forwarded_value(value)))
+        .filter(|value| is_safe_unquoted(value))
+        .map(|value| format!("--user={value} "))
         .unwrap_or_else(|| "".to_owned());
     let namespace_value = space_or_equals_delimited_option_value(tokens, "--namespace")
         .or(space_or_equals_delimited_option_value(tokens, "-n"))
-        .map(|value| format!("--namespace={} ", escape_forwarded_value(value)))
+        .filter(|value| is_safe_unquoted(value))
+        .map(|value| format!("--namespace={value} "))
         .unwrap_or_else(|| "".to_owned());
 
     let env_vars_str = env_vars.iter().join(" ");
@@ -632,21 +633,14 @@ mod tests {
         );
     }
 
-    // --- escape_forwarded_value: the escaping hazard classes called out in review ---
+    // --- is_safe_unquoted: which values are forwarded at all ---
 
-    /// An ordinary value needs no quoting at all, so it is interpolated bare. This is the case that
-    /// keeps the generated command correct on PowerShell and cmd.exe, where POSIX single quotes are
-    /// not stripped: they never see a quote, because there is nothing here to quote.
+    /// The shapes real kubeconfig names take -- EKS ARNs, GKE names, POSIX paths, user@host -- are
+    /// all safe to forward, so this is the path virtually every completion takes.
     #[test]
-    fn test_escape_forwarded_value_leaves_plain_value_unquoted() {
-        assert_eq!(escape_forwarded_value("prod"), "prod");
-    }
-
-    /// The shapes real kubeconfig names take -- EKS ARNs, GKE names, POSIX paths, user@host -- all
-    /// stay unquoted, so this is the path virtually every completion takes.
-    #[test]
-    fn test_escape_forwarded_value_leaves_realistic_names_unquoted() {
+    fn test_is_safe_unquoted_accepts_realistic_names() {
         for value in [
+            "prod",
             "minikube",
             "docker-desktop",
             "gke_my-project_us-central1-a_prod",
@@ -655,62 +649,38 @@ mod tests {
             "/home/me/.kube/config",
             "kube-system",
         ] {
-            assert_eq!(
-                escape_forwarded_value(value),
-                value,
-                "Expected `{value}` to need no quoting"
+            assert!(
+                is_safe_unquoted(value),
+                "Expected `{value}` to be forwarded"
             );
         }
     }
 
+    /// Every one of these would need shell quoting to forward safely, and no single quoting style is
+    /// correct across POSIX shells, PowerShell and cmd.exe, so they are not forwarded at all.
     #[test]
-    fn test_escape_forwarded_value_preserves_whitespace_as_a_single_argument() {
-        assert_eq!(escape_forwarded_value("prod west"), "'prod west'");
+    fn test_is_safe_unquoted_rejects_values_needing_quoting() {
+        for value in [
+            "",
+            "prod west",
+            "it's-prod",
+            "$HOME",
+            "prod; rm -rf /",
+            "prod&whoami",
+            r#"`whoami`-"prod""#,
+            r"C:\Users\me\.kube\config",
+        ] {
+            assert!(
+                !is_safe_unquoted(value),
+                "Expected `{value}` not to be forwarded"
+            );
+        }
     }
 
-    #[test]
-    fn test_escape_forwarded_value_escapes_embedded_single_quote() {
-        assert_eq!(escape_forwarded_value("it's-prod"), r"'it'\''s-prod'");
-    }
+    // --- unsafe values are dropped from the generated command, not quoted into it ---
 
     #[test]
-    fn test_escape_forwarded_value_prevents_variable_expansion() {
-        assert_eq!(escape_forwarded_value("$HOME"), "'$HOME'");
-    }
-
-    #[test]
-    fn test_escape_forwarded_value_prevents_command_separator_injection() {
-        assert_eq!(escape_forwarded_value("prod; rm -rf /"), "'prod; rm -rf /'");
-    }
-
-    #[test]
-    fn test_escape_forwarded_value_handles_backticks_and_double_quotes_literally() {
-        assert_eq!(
-            escape_forwarded_value(r#"`whoami`-"prod""#),
-            r#"'`whoami`-"prod"'"#
-        );
-    }
-
-    /// An empty value is quoted so it stays a present-but-empty argument rather than vanishing.
-    #[test]
-    fn test_escape_forwarded_value_quotes_empty_value() {
-        assert_eq!(escape_forwarded_value(""), "''");
-    }
-
-    /// A Windows-style path contains a backslash, which POSIX shells would consume as an escape, so
-    /// it falls into the quoted branch rather than being passed through bare.
-    #[test]
-    fn test_escape_forwarded_value_quotes_backslash() {
-        assert_eq!(
-            escape_forwarded_value(r"C:\Users\me\.kube\config"),
-            r"'C:\Users\me\.kube\config'"
-        );
-    }
-
-    // --- escape_forwarded_value flowing through kubectl_script's interpolation ---
-
-    #[test]
-    fn test_context_value_with_command_separator_is_quoted_not_executed() {
+    fn test_context_value_with_command_separator_is_not_forwarded() {
         let env_vars = vec![];
         let tokens = vec!["kubectl", "--context", "prod; rm -rf /", "get", "pods"];
         let cmd = kubectl_script(
@@ -720,13 +690,41 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--context='prod; rm -rf /'"),
-            "Expected the ';' to stay inside single quotes rather than starting a new command, got: {built}"
+            !built.contains("--context"),
+            "Expected the --context flag to be dropped entirely, got: {built}"
+        );
+        assert!(
+            !built.contains("rm -rf"),
+            "Expected the injected command not to reach the generated command at all, got: {built}"
         );
     }
 
+    /// `cmd.exe` has no single-quote concept, so quoting a `&` would not have protected it there.
+    /// Dropping the value protects every shell.
     #[test]
-    fn test_namespace_value_with_embedded_quote_is_escaped() {
+    fn test_context_value_with_cmd_exe_separator_is_not_forwarded() {
+        let env_vars = vec![];
+        let tokens = vec!["kubectl", "--context", "prod&whoami", "get", "pods"];
+        let cmd = kubectl_script(
+            &env_vars,
+            &tokens,
+            CommandBuilder::single_command("get pods -o custom-columns=:.metadata.name"),
+        );
+        for (name, shell) in [
+            ("posix", Shell::Posix),
+            ("powershell", Shell::Powershell),
+            ("cmd.exe", Shell::CmdExe),
+        ] {
+            let built = cmd.build(shell);
+            assert!(
+                !built.contains("whoami"),
+                "Expected the injected command to be absent for {name}, got: {built}"
+            );
+        }
+    }
+
+    #[test]
+    fn test_namespace_value_with_embedded_quote_is_not_forwarded() {
         let env_vars = vec![];
         let tokens = vec!["kubectl", "--namespace", "it's-a-namespace", "get", "pods"];
         let cmd = kubectl_script(
@@ -736,13 +734,15 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains(r"--namespace='it'\''s-a-namespace'"),
-            "Expected the embedded single quote to be escaped, got: {built}"
+            !built.contains("--namespace"),
+            "Expected the --namespace flag to be dropped entirely, got: {built}"
         );
     }
 
+    /// An unsafe explicit `--kubeconfig` is dropped, which leaves the pre-existing `$KUBECONFIG`
+    /// fallback in place -- the same command as if no `--kubeconfig` had been typed.
     #[test]
-    fn test_kubeconfig_value_with_dollar_sign_is_not_expanded() {
+    fn test_kubeconfig_value_with_dollar_sign_is_not_forwarded() {
         let env_vars = vec![];
         let tokens = vec![
             "kubectl",
@@ -758,13 +758,17 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--kubeconfig='$HOME/.kube/config'"),
-            "Expected the $ to stay inside single quotes rather than being expanded, got: {built}"
+            !built.contains("--kubeconfig=$HOME"),
+            "Expected the $HOME value not to be interpolated, got: {built}"
+        );
+        assert!(
+            built.contains("${KUBECONFIG:+--kubeconfig="),
+            "Expected the $KUBECONFIG shell fallback to remain, got: {built}"
         );
     }
 
     #[test]
-    fn test_cluster_value_with_whitespace_stays_one_argument() {
+    fn test_cluster_value_with_whitespace_is_not_forwarded() {
         let env_vars = vec![];
         let tokens = vec!["kubectl", "--cluster", "prod west", "get", "pods"];
         let cmd = kubectl_script(
@@ -774,8 +778,8 @@ mod tests {
         );
         let built = cmd.build(Shell::Posix);
         assert!(
-            built.contains("--cluster='prod west'"),
-            "Expected the quoted context name to remain a single argument, got: {built}"
+            !built.contains("--cluster"),
+            "Expected the --cluster flag to be dropped entirely, got: {built}"
         );
     }
 
