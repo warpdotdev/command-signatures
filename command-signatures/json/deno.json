@@ -3527,16 +3527,355 @@
             ]
         },
         {
-            "name": "vendor",
-            "description": "Vendor remote modules into a local directory",
+            "name": "add",
+            "description": "Add dependencies to the configuration file",
             "options": [
                 {
-                    "name": "--output",
-                    "description": "The directory to output the vendored modules to",
+                    "name": [
+                        "-D",
+                        "--dev"
+                    ],
+                    "description": "Add the package as a dev dependency (package.json only)"
+                },
+                {
+                    "name": [
+                        "-O",
+                        "--save-optional"
+                    ],
+                    "description": "Add the package as an optional dependency (package.json only)"
+                },
+                {
+                    "name": "--jsr",
+                    "description": "Assume unprefixed package names are JSR packages"
+                },
+                {
+                    "name": "--npm",
+                    "description": "Assume unprefixed package names are npm packages (default)"
+                },
+                {
+                    "name": "--unscoped",
+                    "description": "Use the package name without its scope as the alias"
+                },
+                {
+                    "name": "--save-exact",
+                    "description": "Save the exact version without a caret (^)"
+                },
+                {
+                    "name": "--no-save",
+                    "description": "Install the package(s) without adding them to the configuration file"
+                },
+                {
+                    "name": "--package-json",
+                    "description": "Force using package.json for dependency management instead of deno.json"
+                },
+                {
+                    "name": "--lockfile-only",
+                    "description": "Update the lockfile without installing packages"
+                },
+                {
+                    "name": "--frozen",
+                    "description": "Error out if the lockfile is out of date"
+                },
+                {
+                    "name": "--lock",
+                    "description": "Check the specified lock file",
                     "args": {
-                        "name": "output",
+                        "name": "file",
                         "isOptional": true,
-                        "template": "folders"
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-lock",
+                    "description": "Disable auto discovery of the lock file"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "packages",
+                "description": "Packages to add, e.g. \"express\" (npm) or \"jsr:@std/path\" (JSR)",
+                "isVariadic": true,
+                "isOptional": true
+            }
+        },
+        {
+            "name": "clean",
+            "description": "Remove the cache directory ($DENO_DIR)",
+            "options": [
+                {
+                    "name": "--dry-run",
+                    "description": "Show what would be removed without performing any actions"
+                },
+                {
+                    "name": [
+                        "-e",
+                        "--except"
+                    ],
+                    "description": "Retain cache data needed by the given files"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "except-paths",
+                "description": "Retain cache data needed by these files",
+                "isVariadic": true,
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "init",
+            "description": "Scaffold a basic Deno project with a script, test, and configuration file",
+            "options": [
+                {
+                    "name": "--empty",
+                    "description": "Generate a minimal project with just main.ts and deno.json"
+                },
+                {
+                    "name": "--lib",
+                    "description": "Generate an example library project"
+                },
+                {
+                    "name": "--serve",
+                    "description": "Generate an example project for `deno serve`"
+                },
+                {
+                    "name": "--npm",
+                    "description": "Generate an npm create-* project"
+                },
+                {
+                    "name": "--jsr",
+                    "description": "Generate a project from a JSR package"
+                },
+                {
+                    "name": [
+                        "-y",
+                        "--yes"
+                    ],
+                    "description": "Bypass the prompt and run with full permissions"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "directory-or-package",
+                "description": "Target directory, or a JSR/npm package to scaffold from",
+                "isVariadic": true,
+                "isOptional": true,
+                "template": "folders"
+            }
+        },
+        {
+            "name": "jupyter",
+            "description": "Run the Deno kernel for Jupyter notebooks",
+            "options": [
+                {
+                    "name": "--install",
+                    "description": "Install a kernelspec"
+                },
+                {
+                    "name": "--kernel",
+                    "description": "Start the kernel"
+                },
+                {
+                    "name": "--conn",
+                    "description": "Path to a JSON file describing connection parameters, provided by Jupyter",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--name"
+                    ],
+                    "description": "Set a name for the kernel (defaults to \"deno\")",
+                    "args": {
+                        "name": "name",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--display"
+                    ],
+                    "description": "Set a display name for the kernel (defaults to \"Deno\")",
+                    "args": {
+                        "name": "display",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--force",
+                    "description": "Force installation of a kernel, overwriting a previously existing kernelspec"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ]
+        },
+        {
+            "name": "outdated",
+            "description": "Find and, optionally, update outdated dependencies",
+            "options": [
+                {
+                    "name": [
+                        "-u",
+                        "--update"
+                    ],
+                    "description": "Update dependency versions"
+                },
+                {
+                    "name": "--latest",
+                    "description": "Consider the latest version, regardless of semver constraints"
+                },
+                {
+                    "name": "--compatible",
+                    "description": "Only consider versions that satisfy semver requirements"
+                },
+                {
+                    "name": "--lockfile-only",
+                    "description": "Update only the lockfile, without editing deno.json / package.json"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--interactive"
+                    ],
+                    "description": "Interactively select which dependencies to update"
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Include all workspace members"
+                },
+                {
+                    "name": "--frozen",
+                    "description": "Error out if the lockfile is out of date"
+                },
+                {
+                    "name": "--lock",
+                    "description": "Check the specified lock file",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-lock",
+                    "description": "Disable auto discovery of the lock file"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "filters",
+                "description": "Filter which packages to act on; supports wildcards (*) and negation (!)",
+                "isVariadic": true,
+                "isOptional": true
+            }
+        },
+        {
+            "name": "publish",
+            "description": "Publish the current working directory's package or workspace to JSR",
+            "options": [
+                {
+                    "name": "--dry-run",
+                    "description": "Prepare the package for publishing, performing all checks and validations, without uploading"
+                },
+                {
+                    "name": "--allow-dirty",
+                    "description": "Allow publishing if the repository has uncommitted changes"
+                },
+                {
+                    "name": "--allow-slow-types",
+                    "description": "Allow publishing with slow types"
+                },
+                {
+                    "name": "--no-provenance",
+                    "description": "Disable provenance attestation"
+                },
+                {
+                    "name": "--set-version",
+                    "description": "Set the version for a package to be published",
+                    "args": {
+                        "name": "version",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--token",
+                    "description": "The API token to use when publishing; interactive authentication is used if unset",
+                    "args": {
+                        "name": "token",
+                        "isOptional": true
                     }
                 },
                 {
@@ -3545,78 +3884,12 @@
                         "--config"
                     ],
                     "description": "Specify the configuration file",
-                    "exclusiveOn": [
-                        "--no-config"
-                    ],
+                    "exclusiveOn": ["--no-config"],
                     "args": {
                         "name": "config",
                         "isOptional": true,
                         "template": "filepaths"
                     }
-                },
-                {
-                    "name": "--import-map",
-                    "description": "Load import map file",
-                    "args": {
-                        "name": "import-map",
-                        "isOptional": true,
-                        "template": "filepaths"
-                    }
-                },
-                {
-                    "name": "--lock",
-                    "description": "Check the specified lock file",
-                    "args": {
-                        "name": "lock",
-                        "isOptional": true,
-                        "template": "filepaths"
-                    }
-                },
-                {
-                    "name": [
-                        "-r",
-                        "--reload"
-                    ],
-                    "description": "Reload source code cache (recompile TypeScript)",
-                    "requiresSeparator": true,
-                    "args": {
-                        "name": "reload",
-                        "isVariadic": true,
-                        "isOptional": true,
-                        "template": "filepaths"
-                    }
-                },
-                {
-                    "name": "--cert",
-                    "description": "Load certificate authority from PEM encoded file",
-                    "args": {
-                        "name": "cert",
-                        "isOptional": true,
-                        "template": "filepaths"
-                    }
-                },
-                {
-                    "name": [
-                        "-L",
-                        "--log-level"
-                    ],
-                    "description": "Set log level",
-                    "hidden": true,
-                    "args": {
-                        "name": "log-level",
-                        "isOptional": true,
-                        "suggestions": [
-                            "debug",
-                            "info"
-                        ]
-                    }
-                },
-                {
-                    "name": [
-                        "-f",
-                        "--force"
-                    ],
-                    "description": "Forcefully overwrite conflicting files in existing output directory"
                 },
                 {
                     "name": "--no-config",
@@ -3628,14 +3901,64 @@
                 },
                 {
                     "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
                         "-h",
                         "--help"
                     ],
                     "description": "Print help information"
+                }
+            ]
+        },
+        {
+            "name": "remove",
+            "description": "Remove dependencies from the configuration file",
+            "options": [
+                {
+                    "name": [
+                        "-g",
+                        "--global"
+                    ],
+                    "description": "Remove a globally installed package or module (alias for `deno uninstall --global`)"
                 },
                 {
-                    "name": "--unstable",
-                    "description": "Enable unstable features and APIs"
+                    "name": "--package-json",
+                    "description": "Force using package.json for dependency management instead of deno.json"
+                },
+                {
+                    "name": "--lockfile-only",
+                    "description": "Update the lockfile without removing packages"
+                },
+                {
+                    "name": "--frozen",
+                    "description": "Error out if the lockfile is out of date"
+                },
+                {
+                    "name": "--root",
+                    "description": "Installation root, used with --global",
+                    "args": {
+                        "name": "root",
+                        "isOptional": true,
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--lock",
+                    "description": "Check the specified lock file",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-lock",
+                    "description": "Disable auto discovery of the lock file"
                 },
                 {
                     "name": [
@@ -3643,12 +3966,276 @@
                         "--quiet"
                     ],
                     "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
                 }
             ],
             "args": {
-                "name": "specifiers",
+                "name": "packages",
+                "description": "Packages to remove, e.g. \"@std/path\"",
+                "isVariadic": true,
+                "isOptional": true
+            }
+        },
+        {
+            "name": "serve",
+            "description": "Run a server defined in a main module",
+            "options": [
+                {
+                    "name": "--port",
+                    "description": "The TCP port to serve on; pass 0 to pick a random free port (default: 8000)",
+                    "args": {
+                        "name": "port",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--host",
+                    "description": "The TCP address to serve on, defaulting to 0.0.0.0 (all interfaces)",
+                    "args": {
+                        "name": "host",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--parallel",
+                    "description": "Run multiple server workers in parallel"
+                },
+                {
+                    "name": "--open",
+                    "description": "Open the browser on the address that the server is running on"
+                },
+                {
+                    "name": "--watch",
+                    "description": "Watch for file changes and restart the server automatically"
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--config"
+                    ],
+                    "description": "Specify the configuration file",
+                    "exclusiveOn": ["--no-config"],
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-config",
+                    "description": "Disable automatic loading of the configuration file",
+                    "exclusiveOn": [
+                        "-c",
+                        "--config"
+                    ]
+                },
+                {
+                    "name": [
+                        "-A",
+                        "--allow-all"
+                    ],
+                    "description": "Allow all permissions"
+                },
+                {
+                    "name": [
+                        "-R",
+                        "--allow-read"
+                    ],
+                    "description": "Allow file system read access",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-W",
+                        "--allow-write"
+                    ],
+                    "description": "Allow file system write access",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-N",
+                        "--allow-net"
+                    ],
+                    "description": "Allow network access",
+                    "args": {
+                        "name": "host",
+                        "isOptional": true,
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-E",
+                        "--allow-env"
+                    ],
+                    "description": "Allow access to environment variables",
+                    "args": {
+                        "name": "variable",
+                        "isOptional": true,
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--allow-run",
+                    "description": "Allow running subprocesses",
+                    "args": {
+                        "name": "program",
+                        "isOptional": true,
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-S",
+                        "--allow-sys"
+                    ],
+                    "description": "Allow access to OS information",
+                    "args": {
+                        "name": "api",
+                        "isOptional": true,
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--allow-ffi",
+                    "description": "Allow loading dynamic libraries",
+                    "args": {
+                        "name": "path",
+                        "isOptional": true,
+                        "isVariadic": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--inspect",
+                    "description": "Activate inspector on host:port (default: 127.0.0.1:9229)",
+                    "args": {
+                        "name": "host:port",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--inspect-brk",
+                    "description": "Activate inspector on host:port and break at the start of user script",
+                    "args": {
+                        "name": "host:port",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--reload"
+                    ],
+                    "description": "Reload source code cache (recompile TypeScript)",
+                    "args": {
+                        "name": "specifiers",
+                        "isOptional": true,
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "script_arg",
+                "description": "The main module to serve, and any arguments passed to it",
                 "isVariadic": true,
                 "template": "filepaths"
+            }
+        },
+        {
+            "name": "update",
+            "description": "Update outdated dependencies (alias for `deno outdated --update`)",
+            "options": [
+                {
+                    "name": "--latest",
+                    "description": "Consider the latest version, regardless of semver constraints"
+                },
+                {
+                    "name": "--lockfile-only",
+                    "description": "Update only the lockfile, without editing deno.json / package.json"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--interactive"
+                    ],
+                    "description": "Interactively select which dependencies to update"
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Include all workspace members"
+                },
+                {
+                    "name": "--frozen",
+                    "description": "Error out if the lockfile is out of date"
+                },
+                {
+                    "name": "--lock",
+                    "description": "Check the specified lock file",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--no-lock",
+                    "description": "Disable auto discovery of the lock file"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ],
+            "args": {
+                "name": "filters",
+                "description": "Filter which packages to update; supports wildcards (*), negation (!), and optional version requirements (e.g. \"@std/fmt@^1.0.2\")",
+                "isVariadic": true,
+                "isOptional": true
             }
         },
         {
