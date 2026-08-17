@@ -1,0 +1,699 @@
+{
+    "name": "ruff",
+    "description": "An extremely fast Python linter and code formatter",
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print help",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Print version"
+        },
+        {
+            "name": [
+                "-v",
+                "--verbose"
+            ],
+            "description": "Enable verbose logging",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-q",
+                "--quiet"
+            ],
+            "description": "Print diagnostics, but nothing else",
+            "isPersistent": true
+        },
+        {
+            "name": [
+                "-s",
+                "--silent"
+            ],
+            "description": "Disable all logging (still exits with status code \"1\" upon detecting diagnostics)",
+            "isPersistent": true
+        },
+        {
+            "name": "--config",
+            "description": "Path to a TOML config file (pyproject.toml or ruff.toml), or a \"<KEY> = <VALUE>\" pair overriding a specific option",
+            "isPersistent": true,
+            "args": {
+                "name": "config-option",
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--isolated",
+            "description": "Ignore all configuration files",
+            "isPersistent": true
+        },
+        {
+            "name": "--color",
+            "description": "Control when colored output is used",
+            "isPersistent": true,
+            "args": {
+                "name": "when",
+                "isOptional": true,
+                "suggestions": [
+                    "auto",
+                    "always",
+                    "never"
+                ]
+            }
+        }
+    ],
+    "subcommands": [
+        {
+            "name": "check",
+            "description": "Run Ruff on the given files or directories",
+            "options": [
+                {
+                    "name": "--fix",
+                    "description": "Apply fixes to resolve lint violations (use --unsafe-fixes to include unsafe fixes)"
+                },
+                {
+                    "name": "--no-fix",
+                    "description": "Disable applying fixes (disables --fix)"
+                },
+                {
+                    "name": "--unsafe-fixes",
+                    "description": "Include fixes that may not retain the original intent of the code"
+                },
+                {
+                    "name": "--no-unsafe-fixes",
+                    "description": "Disable unsafe fixes (disables --unsafe-fixes)"
+                },
+                {
+                    "name": "--show-fixes",
+                    "description": "Show an enumeration of all fixed lint violations"
+                },
+                {
+                    "name": "--fix-only",
+                    "description": "Apply fixes without reporting on, or exiting non-zero for, leftover violations (implies --fix)"
+                },
+                {
+                    "name": "--diff",
+                    "description": "Avoid writing fixed files back; output a diff for each changed file to stdout instead (implies --fix-only)"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--watch"
+                    ],
+                    "description": "Run in watch mode by re-running whenever files change"
+                },
+                {
+                    "name": "--ignore-noqa",
+                    "description": "Ignore any `# noqa` comments"
+                },
+                {
+                    "name": "--output-format",
+                    "description": "Output serialization format for violations (default: full)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "concise",
+                            "full",
+                            "json",
+                            "json-lines",
+                            "junit",
+                            "grouped",
+                            "github",
+                            "gitlab",
+                            "pylint",
+                            "rdjson",
+                            "azure",
+                            "sarif"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-o",
+                        "--output-file"
+                    ],
+                    "description": "File to write the linter output to (default: stdout)",
+                    "args": {
+                        "name": "output-file",
+                        "isOptional": true,
+                        "template": "filepathsMayNotExist"
+                    }
+                },
+                {
+                    "name": "--target-version",
+                    "description": "The minimum Python version that should be supported",
+                    "args": {
+                        "name": "target-version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "py37",
+                            "py38",
+                            "py39",
+                            "py310",
+                            "py311",
+                            "py312",
+                            "py313",
+                            "py314",
+                            "py315"
+                        ]
+                    }
+                },
+                {
+                    "name": "--preview",
+                    "description": "Enable preview mode; checks include unstable rules and fixes"
+                },
+                {
+                    "name": "--no-preview",
+                    "description": "Disable preview mode (disables --preview)"
+                },
+                {
+                    "name": "--extension",
+                    "description": "Map a file extension to a language (python, ipynb, or pyi), e.g. \"ipy:ipynb\"",
+                    "args": {
+                        "name": "extension",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--statistics",
+                    "description": "Show counts for every rule with at least one violation"
+                },
+                {
+                    "name": "--add-noqa",
+                    "description": "Add `noqa` directives to failing lines instead of reporting them",
+                    "args": {
+                        "name": "reason",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--show-files",
+                    "description": "See the files Ruff will be run against with the current settings"
+                },
+                {
+                    "name": "--show-settings",
+                    "description": "See the settings Ruff will use to lint a given Python file"
+                },
+                {
+                    "name": "--select",
+                    "description": "Comma-separated list of rule codes to enable (or ALL, to enable all rules)",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--ignore",
+                    "description": "Comma-separated list of rule codes to disable",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--extend-select",
+                    "description": "Like --select, but adds additional rule codes on top of those already specified",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--per-file-ignores",
+                    "description": "List of mappings from file pattern to rule codes to exclude",
+                    "args": {
+                        "name": "per-file-ignores",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--extend-per-file-ignores",
+                    "description": "Like --per-file-ignores, but adds additional ignores on top of those already specified",
+                    "args": {
+                        "name": "extend-per-file-ignores",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--fixable",
+                    "description": "List of rule codes to treat as eligible for fix (only applies when fix is enabled)",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--unfixable",
+                    "description": "List of rule codes to treat as ineligible for fix (only applies when fix is enabled)",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--extend-fixable",
+                    "description": "Like --fixable, but adds additional rule codes on top of those already specified",
+                    "args": {
+                        "name": "rule-code",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--exclude",
+                    "description": "List of paths used to omit files and/or directories from analysis",
+                    "args": {
+                        "name": "file-pattern",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--extend-exclude",
+                    "description": "Like --exclude, but adds additional files and directories on top of those already excluded",
+                    "args": {
+                        "name": "file-pattern",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--respect-gitignore",
+                    "description": "Respect file exclusions via .gitignore and other standard ignore files"
+                },
+                {
+                    "name": "--no-respect-gitignore",
+                    "description": "Ignore .gitignore and other standard ignore files (disables --respect-gitignore)"
+                },
+                {
+                    "name": "--force-exclude",
+                    "description": "Enforce exclusions, even for paths passed directly on the command line"
+                },
+                {
+                    "name": "--no-force-exclude",
+                    "description": "Disable enforcing exclusions for paths passed directly on the command line (disables --force-exclude)"
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--no-cache"
+                    ],
+                    "description": "Disable cache reads"
+                },
+                {
+                    "name": "--cache-dir",
+                    "description": "Path to the cache directory",
+                    "args": {
+                        "name": "cache-dir",
+                        "isOptional": true,
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--stdin-filename",
+                    "description": "The name of the file when passing it through stdin",
+                    "args": {
+                        "name": "stdin-filename",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": [
+                        "-e",
+                        "--exit-zero"
+                    ],
+                    "description": "Exit with status code \"0\", even upon detecting lint violations"
+                },
+                {
+                    "name": "--exit-non-zero-on-fix",
+                    "description": "Exit with a non-zero status code if any files were modified via fix, even if no violations remain"
+                }
+            ],
+            "args": {
+                "name": "files",
+                "description": "Files or directories to check, or \"-\" to read from stdin (default: .)",
+                "isVariadic": true,
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "format",
+            "description": "Run the Ruff formatter on the given files or directories",
+            "options": [
+                {
+                    "name": "--check",
+                    "description": "Avoid writing formatted files back; exit non-zero if any files would be modified"
+                },
+                {
+                    "name": "--diff",
+                    "description": "Avoid writing formatted files back; exit non-zero and print the diff for each file"
+                },
+                {
+                    "name": "--extension",
+                    "description": "Map a file extension to a language (python, ipynb, or pyi), e.g. \"ipy:ipynb\"",
+                    "args": {
+                        "name": "extension",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--target-version",
+                    "description": "The minimum Python version that should be supported",
+                    "args": {
+                        "name": "target-version",
+                        "isOptional": true,
+                        "suggestions": [
+                            "py37",
+                            "py38",
+                            "py39",
+                            "py310",
+                            "py311",
+                            "py312",
+                            "py313",
+                            "py314",
+                            "py315"
+                        ]
+                    }
+                },
+                {
+                    "name": "--preview",
+                    "description": "Enable preview mode; enables unstable formatting"
+                },
+                {
+                    "name": "--no-preview",
+                    "description": "Disable preview mode (disables --preview)"
+                },
+                {
+                    "name": "--output-format",
+                    "description": "Output serialization format for violations, when used with --check (default: full)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "concise",
+                            "full",
+                            "json",
+                            "json-lines",
+                            "junit",
+                            "grouped",
+                            "github",
+                            "gitlab",
+                            "pylint",
+                            "rdjson",
+                            "azure",
+                            "sarif"
+                        ]
+                    }
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--no-cache"
+                    ],
+                    "description": "Disable cache reads"
+                },
+                {
+                    "name": "--cache-dir",
+                    "description": "Path to the cache directory",
+                    "args": {
+                        "name": "cache-dir",
+                        "isOptional": true,
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": "--stdin-filename",
+                    "description": "The name of the file when passing it through stdin",
+                    "args": {
+                        "name": "stdin-filename",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--exit-non-zero-on-format",
+                    "description": "Exit with a non-zero status code if any files were modified via format"
+                },
+                {
+                    "name": "--respect-gitignore",
+                    "description": "Respect file exclusions via .gitignore and other standard ignore files"
+                },
+                {
+                    "name": "--no-respect-gitignore",
+                    "description": "Ignore .gitignore and other standard ignore files (disables --respect-gitignore)"
+                },
+                {
+                    "name": "--exclude",
+                    "description": "List of paths used to omit files and/or directories from analysis",
+                    "args": {
+                        "name": "file-pattern",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--extend-exclude",
+                    "description": "Like --exclude, but adds additional files and directories on top of those already excluded",
+                    "args": {
+                        "name": "file-pattern",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--force-exclude",
+                    "description": "Enforce exclusions, even for paths passed directly on the command line"
+                },
+                {
+                    "name": "--no-force-exclude",
+                    "description": "Disable enforcing exclusions for paths passed directly on the command line (disables --force-exclude)"
+                },
+                {
+                    "name": "--line-length",
+                    "description": "Set the line length",
+                    "args": {
+                        "name": "line-length",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--range",
+                    "description": "Only format the code in the given range, e.g. \"<start_line>:<start_column>-<end_line>:<end_column>\" (single file only)",
+                    "args": {
+                        "name": "range",
+                        "isOptional": true
+                    }
+                }
+            ],
+            "args": {
+                "name": "files",
+                "description": "Files or directories to format, or \"-\" to read from stdin (default: .)",
+                "isVariadic": true,
+                "isOptional": true,
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "server",
+            "description": "Run the language server",
+            "options": [
+                {
+                    "name": "--preview",
+                    "description": "Enable preview mode; turns on unstable server features and preview mode for the linter and formatter"
+                },
+                {
+                    "name": "--no-preview",
+                    "description": "Disable preview mode (disables --preview)"
+                }
+            ]
+        },
+        {
+            "name": "rule",
+            "description": "Explain a rule (or all rules)",
+            "options": [
+                {
+                    "name": "--all",
+                    "description": "Explain all rules"
+                },
+                {
+                    "name": "--output-format",
+                    "description": "Output format (default: text)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "text",
+                            "json"
+                        ]
+                    }
+                }
+            ],
+            "args": {
+                "name": "rule",
+                "description": "Rule to explain",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "config",
+            "description": "List or describe the available configuration options",
+            "options": [
+                {
+                    "name": "--output-format",
+                    "description": "Output format (default: text)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "text",
+                            "json"
+                        ]
+                    }
+                }
+            ],
+            "args": {
+                "name": "option",
+                "description": "Config key to show",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "linter",
+            "description": "List all supported upstream linters",
+            "options": [
+                {
+                    "name": "--output-format",
+                    "description": "Output format (default: text)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "text",
+                            "json"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "clean",
+            "description": "Clear any caches in the current directory and any subdirectories"
+        },
+        {
+            "name": "version",
+            "description": "Display Ruff's version",
+            "options": [
+                {
+                    "name": "--output-format",
+                    "description": "Output format (default: text)",
+                    "args": {
+                        "name": "output-format",
+                        "isOptional": true,
+                        "suggestions": [
+                            "text",
+                            "json"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "analyze",
+            "description": "Run analysis over Python source code",
+            "subcommands": [
+                {
+                    "name": "graph",
+                    "description": "Generate a map of Python file dependencies or dependents",
+                    "options": [
+                        {
+                            "name": "--direction",
+                            "description": "The direction of the import map (default: dependencies)",
+                            "args": {
+                                "name": "direction",
+                                "isOptional": true,
+                                "suggestions": [
+                                    "dependencies",
+                                    "dependents"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--detect-string-imports",
+                            "description": "Attempt to detect imports from string literals"
+                        },
+                        {
+                            "name": "--min-dots",
+                            "description": "Minimum number of dots in a string import to consider it a valid import",
+                            "args": {
+                                "name": "min-dots",
+                                "isOptional": true
+                            }
+                        },
+                        {
+                            "name": "--preview",
+                            "description": "Enable preview mode"
+                        },
+                        {
+                            "name": "--no-preview",
+                            "description": "Disable preview mode (disables --preview)"
+                        },
+                        {
+                            "name": "--target-version",
+                            "description": "The minimum Python version that should be supported",
+                            "args": {
+                                "name": "target-version",
+                                "isOptional": true,
+                                "suggestions": [
+                                    "py37",
+                                    "py38",
+                                    "py39",
+                                    "py310",
+                                    "py311",
+                                    "py312",
+                                    "py313",
+                                    "py314",
+                                    "py315"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--python",
+                            "description": "Path to a virtual environment to use for resolving additional dependencies",
+                            "args": {
+                                "name": "python",
+                                "isOptional": true,
+                                "template": "folders"
+                            }
+                        },
+                        {
+                            "name": "--type-checking-imports",
+                            "description": "Include imports only used for type checking (i.e. within `if TYPE_CHECKING:` blocks)"
+                        },
+                        {
+                            "name": "--no-type-checking-imports",
+                            "description": "Exclude imports only used for type checking (disables --type-checking-imports)"
+                        }
+                    ],
+                    "args": {
+                        "name": "files",
+                        "description": "Files or directories to include (default: .)",
+                        "isVariadic": true,
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                }
+            ]
+        }
+    ]
+}
