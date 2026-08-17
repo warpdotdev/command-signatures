@@ -1,0 +1,544 @@
+{
+    "name": "mpv",
+    "description": "Play video, audio, or other media files, streams, and URLs",
+    "parserDirectives": {
+        "flagsArePosixNoncompliant": true
+    },
+    "args": {
+        "name": "file",
+        "description": "Media file(s) or URL(s) to play",
+        "isVariadic": true,
+        "isOptional": true,
+        "template": "filepaths"
+    },
+    "options": [
+        {
+            "name": "--fullscreen",
+            "description": "Start in fullscreen mode"
+        },
+        {
+            "name": "--fs",
+            "description": "Start in fullscreen mode (alias for --fullscreen)"
+        },
+        {
+            "name": "--no-fullscreen",
+            "description": "Start in windowed mode (disables --fullscreen)"
+        },
+        {
+            "name": "--loop-file",
+            "description": "Loop playback of the current file N times, or forever/never",
+            "requiresEquals": true,
+            "args": {
+                "name": "count",
+                "description": "\"no\" (default), \"inf\"/\"yes\" (forever), or a number of loops",
+                "suggestions": [
+                    "no",
+                    "inf",
+                    "yes"
+                ]
+            }
+        },
+        {
+            "name": "--loop",
+            "description": "Loop playback of the current file N times, or forever/never (alias for --loop-file)",
+            "requiresEquals": true,
+            "args": {
+                "name": "count",
+                "description": "\"no\" (default), \"inf\"/\"yes\" (forever), or a number of loops",
+                "suggestions": [
+                    "no",
+                    "inf",
+                    "yes"
+                ]
+            }
+        },
+        {
+            "name": "--loop-playlist",
+            "description": "Loop the whole playlist N times, or forever/never",
+            "requiresEquals": true,
+            "args": {
+                "name": "count",
+                "description": "\"no\" (default), \"inf\"/\"yes\" (forever), \"force\" (ignores --shuffle), or a number of loops",
+                "suggestions": [
+                    "no",
+                    "inf",
+                    "yes",
+                    "force"
+                ]
+            }
+        },
+        {
+            "name": "--shuffle",
+            "description": "Shuffle the playlist"
+        },
+        {
+            "name": "--no-shuffle",
+            "description": "Play the playlist in order (disables --shuffle)"
+        },
+        {
+            "name": "--start",
+            "description": "Seek to the given time or percent position on startup",
+            "requiresEquals": true,
+            "args": {
+                "name": "time",
+                "description": "Format: [+|-][HH:]MM:SS[.ms], \"pp%\", \"#N\" (chapter), or \"none\""
+            }
+        },
+        {
+            "name": "--end",
+            "description": "Stop playback at the given time or percent position",
+            "requiresEquals": true,
+            "args": {
+                "name": "time",
+                "description": "Format: [+|-][HH:]MM:SS[.ms], \"pp%\", \"#N\" (chapter), or \"none\""
+            }
+        },
+        {
+            "name": "--length",
+            "description": "Stop playback after the given duration relative to --start",
+            "requiresEquals": true,
+            "args": {
+                "name": "time",
+                "description": "Format: [+|-][HH:]MM:SS[.ms], \"pp%\", or \"none\""
+            }
+        },
+        {
+            "name": "--speed",
+            "description": "Set startup playback speed multiplier",
+            "requiresEquals": true,
+            "args": {
+                "name": "multiplier",
+                "description": "0.01 to 100 (default: 1)"
+            }
+        },
+        {
+            "name": "--volume",
+            "description": "Set startup volume",
+            "requiresEquals": true,
+            "args": {
+                "name": "level",
+                "description": "-1 (use last used value) to 1000, in percent (default: 100)"
+            }
+        },
+        {
+            "name": "--volume-max",
+            "description": "Set the maximum amplification volume in percent",
+            "requiresEquals": true,
+            "args": {
+                "name": "percent",
+                "description": "100 to 1000 (default: 130)"
+            }
+        },
+        {
+            "name": "--mute",
+            "description": "Set startup audio mute status",
+            "requiresEquals": true,
+            "args": {
+                "name": "state",
+                "description": "default: no",
+                "suggestions": [
+                    "no",
+                    "auto",
+                    "yes"
+                ]
+            }
+        },
+        {
+            "name": "--pause",
+            "description": "Start the player in paused state"
+        },
+        {
+            "name": "--no-audio",
+            "description": "Do not play sound"
+        },
+        {
+            "name": "--no-video",
+            "description": "Do not play video"
+        },
+        {
+            "name": "--aid",
+            "description": "Select audio track",
+            "requiresEquals": true,
+            "args": {
+                "name": "id",
+                "description": "\"no\", \"auto\" (default), or a track number (0 to 8190)"
+            }
+        },
+        {
+            "name": "--vid",
+            "description": "Select video track",
+            "requiresEquals": true,
+            "args": {
+                "name": "id",
+                "description": "\"no\", \"auto\" (default), or a track number (0 to 8190)"
+            }
+        },
+        {
+            "name": "--sid",
+            "description": "Select subtitle track",
+            "requiresEquals": true,
+            "args": {
+                "name": "id",
+                "description": "\"no\", \"auto\" (default), or a track number (0 to 8190)"
+            }
+        },
+        {
+            "name": "--sub-file",
+            "description": "Add a subtitle file to the list of external subtitles (alias for --sub-files-append)",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--audio-file",
+            "description": "Add an audio file to the list of external audio tracks (alias for --audio-files-append)",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--external-file",
+            "description": "Add a file to the list of external files; its type is autodetected (alias for --external-files-append)",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--vo",
+            "description": "Select the video output driver",
+            "requiresEquals": true,
+            "args": {
+                "name": "driver",
+                "description": "Comma-separated fallback list, e.g. \"gpu,x11\"",
+                "suggestions": [
+                    "gpu",
+                    "gpu-next",
+                    "libmpv",
+                    "vdpau",
+                    "vaapi",
+                    "wlshm",
+                    "x11",
+                    "drm",
+                    "sdl",
+                    "null",
+                    "image",
+                    "tct",
+                    "sixel",
+                    "kitty"
+                ]
+            }
+        },
+        {
+            "name": "--ao",
+            "description": "Select the audio output driver",
+            "requiresEquals": true,
+            "args": {
+                "name": "driver",
+                "description": "Comma-separated fallback list, e.g. \"pulse,alsa\"",
+                "suggestions": [
+                    "pulse",
+                    "alsa",
+                    "jack",
+                    "coreaudio",
+                    "wasapi",
+                    "pipewire",
+                    "sdl",
+                    "null",
+                    "pcm"
+                ]
+            }
+        },
+        {
+            "name": "--hwdec",
+            "description": "Set the hardware video decoding API to use, if any",
+            "requiresEquals": true,
+            "args": {
+                "name": "api",
+                "description": "default: no",
+                "suggestions": [
+                    "no",
+                    "auto",
+                    "auto-safe",
+                    "auto-copy",
+                    "vaapi",
+                    "vaapi-copy",
+                    "nvdec",
+                    "nvdec-copy",
+                    "vdpau",
+                    "vdpau-copy",
+                    "videotoolbox",
+                    "videotoolbox-copy",
+                    "d3d11va",
+                    "d3d11va-copy",
+                    "drm",
+                    "drm-copy"
+                ]
+            }
+        },
+        {
+            "name": "--screenshot-format",
+            "description": "Set the image file format used when saving screenshots",
+            "requiresEquals": true,
+            "args": {
+                "name": "format",
+                "description": "default: jpg",
+                "suggestions": [
+                    "jpg",
+                    "jpeg",
+                    "png",
+                    "webp",
+                    "jxl",
+                    "avif"
+                ]
+            }
+        },
+        {
+            "name": "--screenshot-directory",
+            "description": "Store screenshots in this directory instead of the working directory (alias for --screenshot-dir)",
+            "requiresEquals": true,
+            "args": {
+                "name": "path",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--screenshot-template",
+            "description": "Set the filename template used to save screenshots",
+            "requiresEquals": true,
+            "args": {
+                "name": "template",
+                "description": "default: \"mpv-shot%n\"; supports %n, %f, %tX (date/time) expansions"
+            }
+        },
+        {
+            "name": "--profile",
+            "description": "Use the given profile(s), as defined in the mpv config file",
+            "requiresEquals": true,
+            "args": {
+                "name": "profile",
+                "description": "Comma-separated list of profile names; use \"help\" to list all defined profiles"
+            }
+        },
+        {
+            "name": "--show-profile",
+            "description": "Print the description and content of a profile, then exit",
+            "requiresEquals": true,
+            "args": {
+                "name": "profile"
+            }
+        },
+        {
+            "name": "--no-config",
+            "description": "Do not load user configuration files (mpv.conf, input.conf, etc.), other than files given via --include"
+        },
+        {
+            "name": "--config-dir",
+            "description": "Force a different configuration directory instead of ~/.config/mpv",
+            "requiresEquals": true,
+            "args": {
+                "name": "path",
+                "template": "folders"
+            }
+        },
+        {
+            "name": "--include",
+            "description": "Specify a configuration file to be parsed after the default ones",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--script",
+            "description": "Load a user script (alias for --scripts-append)",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--script-opts",
+            "description": "Set options for user scripts",
+            "requiresEquals": true,
+            "args": {
+                "name": "key=value,...",
+                "description": "Comma-separated list of key=value pairs consumed by user scripts"
+            }
+        },
+        {
+            "name": "--input-conf",
+            "description": "Use the given input config file instead of the default input.conf",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--list-options",
+            "description": "Print a list of all options, along with type, allowed range of values, and default, then exit"
+        },
+        {
+            "name": "--list-properties",
+            "description": "Print a list of all properties, then exit"
+        },
+        {
+            "name": "--list-protocols",
+            "description": "Print a list of supported protocols, then exit"
+        },
+        {
+            "name": "--version",
+            "description": "Print version string and exit"
+        },
+        {
+            "name": "-V",
+            "description": "Print version string and exit (alias for --version)"
+        },
+        {
+            "name": "--help",
+            "description": "Print help, then exit",
+            "args": {
+                "name": "topic",
+                "isOptional": true
+            }
+        },
+        {
+            "name": "--h",
+            "description": "Print only the options which contain the given string in their name, then exit",
+            "requiresEquals": true,
+            "args": {
+                "name": "string"
+            }
+        },
+        {
+            "name": "--title",
+            "description": "Force a specific window title, instead of using the media's filename/title",
+            "requiresEquals": true,
+            "args": {
+                "name": "title"
+            }
+        },
+        {
+            "name": "--geometry",
+            "description": "Adjust the initial window position or size",
+            "requiresEquals": true,
+            "args": {
+                "name": "geometry",
+                "description": "Format: [W[xH]][+-x+-y], e.g. \"50%x50%\" or \"640x480+10+10\""
+            }
+        },
+        {
+            "name": "--autofit",
+            "description": "Set the initial window size, without exceeding the screen size",
+            "requiresEquals": true,
+            "args": {
+                "name": "size",
+                "description": "Format: [W[xH]], e.g. \"70%\" or \"640x480\""
+            }
+        },
+        {
+            "name": "--ontop",
+            "description": "Make the player window stay on top of other windows"
+        },
+        {
+            "name": "--border",
+            "description": "Add a window border and decorations"
+        },
+        {
+            "name": "--no-border",
+            "description": "Disable the window border and decorations (disables --border)"
+        },
+        {
+            "name": "--idle",
+            "description": "Keep mpv running instead of quitting when there is no file to play",
+            "requiresEquals": true,
+            "args": {
+                "name": "state",
+                "description": "default: no",
+                "suggestions": [
+                    "no",
+                    "once",
+                    "yes"
+                ]
+            }
+        },
+        {
+            "name": "--playlist",
+            "description": "Specify a playlist file to be parsed for filenames to play",
+            "requiresEquals": true,
+            "args": {
+                "name": "file",
+                "template": "filepaths"
+            }
+        },
+        {
+            "name": "--cache",
+            "description": "Control whether input stream caching is enabled",
+            "requiresEquals": true,
+            "args": {
+                "name": "state",
+                "description": "default: auto",
+                "suggestions": [
+                    "no",
+                    "auto",
+                    "yes"
+                ]
+            }
+        },
+        {
+            "name": "--osd-level",
+            "description": "Set the initial on-screen display mode",
+            "requiresEquals": true,
+            "args": {
+                "name": "level",
+                "description": "default: 1",
+                "suggestions": [
+                    "0",
+                    "1",
+                    "2",
+                    "3"
+                ]
+            }
+        },
+        {
+            "name": "--quiet",
+            "description": "Reduce output verbosity, in particular status line output is suppressed"
+        },
+        {
+            "name": "--really-quiet",
+            "description": "Suppress all output, including status line output and error messages"
+        },
+        {
+            "name": "--terminal",
+            "description": "Enable terminal input, output, and control (default)"
+        },
+        {
+            "name": "--no-terminal",
+            "description": "Disable terminal input, output, and control (disables --terminal)"
+        },
+        {
+            "name": "--ytdl",
+            "description": "Enable the youtube-dl (or yt-dlp) hook script, which handles streaming site URLs (default)"
+        },
+        {
+            "name": "--no-ytdl",
+            "description": "Disable the youtube-dl/yt-dlp hook script (disables --ytdl)"
+        },
+        {
+            "name": "--ytdl-format",
+            "description": "Set the format/quality selection passed to youtube-dl/yt-dlp",
+            "requiresEquals": true,
+            "args": {
+                "name": "format"
+            }
+        }
+    ]
+}
