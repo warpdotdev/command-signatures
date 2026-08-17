@@ -26,11 +26,12 @@
         },
         {
             "name": "--loop-file",
-            "description": "Loop playback of the current file N times, or forever/never",
+            "description": "Loop playback of the current file N times, or forever/never; bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "count",
                 "description": "\"no\" (default), \"inf\"/\"yes\" (forever), or a number of loops",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "inf",
@@ -40,11 +41,12 @@
         },
         {
             "name": "--loop",
-            "description": "Loop playback of the current file N times, or forever/never (alias for --loop-file)",
+            "description": "Loop playback of the current file N times, or forever/never (alias for --loop-file); bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "count",
                 "description": "\"no\" (default), \"inf\"/\"yes\" (forever), or a number of loops",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "inf",
@@ -54,11 +56,12 @@
         },
         {
             "name": "--loop-playlist",
-            "description": "Loop the whole playlist N times, or forever/never",
+            "description": "Loop the whole playlist N times, or forever/never; bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "count",
                 "description": "\"no\" (default), \"inf\"/\"yes\" (forever), \"force\" (ignores --shuffle), or a number of loops",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "inf",
@@ -117,7 +120,7 @@
             "requiresEquals": true,
             "args": {
                 "name": "level",
-                "description": "-1 (use last used value) to 1000, in percent (default: 100)"
+                "description": "0 to 1000 percent (default: 100); negative values are accepted for compatibility and treated as 0"
             }
         },
         {
@@ -131,11 +134,12 @@
         },
         {
             "name": "--mute",
-            "description": "Set startup audio mute status",
+            "description": "Set startup audio mute status; bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "state",
                 "description": "default: no",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "auto",
@@ -327,10 +331,11 @@
         },
         {
             "name": "--show-profile",
-            "description": "Print the description and content of a profile, then exit",
+            "description": "Print the description and content of a profile, then exit; bare flag lists all defined profiles",
             "requiresEquals": true,
             "args": {
-                "name": "profile"
+                "name": "profile",
+                "isOptional": true
             }
         },
         {
@@ -404,7 +409,8 @@
         },
         {
             "name": "--help",
-            "description": "Print help, then exit",
+            "description": "Print help, then exit; optionally filter to options whose name contains the given string",
+            "requiresEquals": true,
             "args": {
                 "name": "topic",
                 "isOptional": true
@@ -415,7 +421,8 @@
             "description": "Print only the options which contain the given string in their name, then exit",
             "requiresEquals": true,
             "args": {
-                "name": "string"
+                "name": "string",
+                "isOptional": true
             }
         },
         {
@@ -458,11 +465,12 @@
         },
         {
             "name": "--idle",
-            "description": "Keep mpv running instead of quitting when there is no file to play",
+            "description": "Keep mpv running instead of quitting when there is no file to play; bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "state",
                 "description": "default: no",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "once",
@@ -481,11 +489,12 @@
         },
         {
             "name": "--cache",
-            "description": "Control whether input stream caching is enabled",
+            "description": "Control whether input stream caching is enabled; bare flag means \"yes\"",
             "requiresEquals": true,
             "args": {
                 "name": "state",
                 "description": "default: auto",
+                "isOptional": true,
                 "suggestions": [
                     "no",
                     "auto",
