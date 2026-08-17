@@ -3574,7 +3574,15 @@
                 },
                 {
                     "name": "--frozen",
-                    "description": "Error out if the lockfile is out of date"
+                    "description": "Error out if the lockfile is out of date",
+                    "args": {
+                        "name": "boolean",
+                        "isOptional": true,
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
                 },
                 {
                     "name": "--lock",
@@ -3625,6 +3633,42 @@
                         "--except"
                     ],
                     "description": "Retain cache data needed by the given files"
+                },
+                {
+                    "name": "--node-modules-dir",
+                    "description": "Select the node_modules directory mode for npm packages (auto, manual, or none)",
+                    "args": {
+                        "name": "mode",
+                        "isOptional": true,
+                        "suggestions": [
+                            "auto",
+                            "manual",
+                            "none"
+                        ]
+                    }
+                },
+                {
+                    "name": "--node-modules-linker",
+                    "description": "Set the linker mode for npm packages",
+                    "args": {
+                        "name": "mode",
+                        "suggestions": [
+                            "isolated",
+                            "hoisted"
+                        ]
+                    }
+                },
+                {
+                    "name": "--vendor",
+                    "description": "Toggle local vendor folder usage for remote modules and a node_modules folder for npm packages",
+                    "args": {
+                        "name": "boolean",
+                        "isOptional": true,
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
                 },
                 {
                     "name": [
@@ -3699,8 +3743,7 @@
                 "name": "directory-or-package",
                 "description": "Target directory, or a JSR/npm package to scaffold from",
                 "isVariadic": true,
-                "isOptional": true,
-                "template": "folders"
+                "isOptional": true
             }
         },
         {
@@ -3720,7 +3763,6 @@
                     "description": "Path to a JSON file describing connection parameters, provided by Jupyter",
                     "args": {
                         "name": "file",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -3731,8 +3773,7 @@
                     ],
                     "description": "Set a name for the kernel (defaults to \"deno\")",
                     "args": {
-                        "name": "name",
-                        "isOptional": true
+                        "name": "name"
                     }
                 },
                 {
@@ -3742,8 +3783,7 @@
                     ],
                     "description": "Set a display name for the kernel (defaults to \"Deno\")",
                     "args": {
-                        "name": "display",
-                        "isOptional": true
+                        "name": "display"
                     }
                 },
                 {
@@ -3805,7 +3845,15 @@
                 },
                 {
                     "name": "--frozen",
-                    "description": "Error out if the lockfile is out of date"
+                    "description": "Error out if the lockfile is out of date",
+                    "args": {
+                        "name": "boolean",
+                        "isOptional": true,
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
                 },
                 {
                     "name": "--lock",
@@ -3866,16 +3914,43 @@
                     "name": "--set-version",
                     "description": "Set the version for a package to be published",
                     "args": {
-                        "name": "version",
-                        "isOptional": true
+                        "name": "version"
                     }
                 },
                 {
                     "name": "--token",
                     "description": "The API token to use when publishing; interactive authentication is used if unset",
                     "args": {
-                        "name": "token",
-                        "isOptional": true
+                        "name": "token"
+                    }
+                },
+                {
+                    "name": "--env-file",
+                    "description": "Load environment variables from a local file",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "--check",
+                    "description": "Type-check local modules; pass --check=all to also type-check remote modules",
+                    "exclusiveOn": ["--no-check"],
+                    "args": {
+                        "name": "check-type",
+                        "isOptional": true,
+                        "suggestions": ["all"]
+                    }
+                },
+                {
+                    "name": "--no-check",
+                    "description": "Skip type-checking; pass --no-check=remote to ignore diagnostics from remote modules only",
+                    "exclusiveOn": ["--check"],
+                    "args": {
+                        "name": "no-check-type",
+                        "isOptional": true,
+                        "suggestions": ["remote"]
                     }
                 },
                 {
@@ -3887,7 +3962,6 @@
                     "exclusiveOn": ["--no-config"],
                     "args": {
                         "name": "config",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -3936,14 +4010,21 @@
                 },
                 {
                     "name": "--frozen",
-                    "description": "Error out if the lockfile is out of date"
+                    "description": "Error out if the lockfile is out of date",
+                    "args": {
+                        "name": "boolean",
+                        "isOptional": true,
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
                 },
                 {
                     "name": "--root",
                     "description": "Installation root, used with --global",
                     "args": {
                         "name": "root",
-                        "isOptional": true,
                         "template": "folders"
                     }
                 },
@@ -3990,16 +4071,14 @@
                     "name": "--port",
                     "description": "The TCP port to serve on; pass 0 to pick a random free port (default: 8000)",
                     "args": {
-                        "name": "port",
-                        "isOptional": true
+                        "name": "port"
                     }
                 },
                 {
                     "name": "--host",
                     "description": "The TCP address to serve on, defaulting to 0.0.0.0 (all interfaces)",
                     "args": {
-                        "name": "host",
-                        "isOptional": true
+                        "name": "host"
                     }
                 },
                 {
@@ -4023,7 +4102,6 @@
                     "exclusiveOn": ["--no-config"],
                     "args": {
                         "name": "file",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -4178,6 +4256,10 @@
             "description": "Update outdated dependencies (alias for `deno outdated --update`)",
             "options": [
                 {
+                    "name": "--compatible",
+                    "description": "Only consider versions that satisfy semver requirements"
+                },
+                {
                     "name": "--latest",
                     "description": "Consider the latest version, regardless of semver constraints"
                 },
@@ -4200,8 +4282,32 @@
                     "description": "Include all workspace members"
                 },
                 {
+                    "name": "--minimum-dependency-age",
+                    "description": "(Unstable) The minimum age of a dependency to consider it for update, e.g. \"120\" (minutes), \"P2D\", or an RFC3339 timestamp",
+                    "args": {
+                        "name": "minimum-dependency-age"
+                    }
+                },
+                {
+                    "name": "--env-file",
+                    "description": "Load environment variables from a local file",
+                    "args": {
+                        "name": "file",
+                        "isOptional": true,
+                        "template": "filepaths"
+                    }
+                },
+                {
                     "name": "--frozen",
-                    "description": "Error out if the lockfile is out of date"
+                    "description": "Error out if the lockfile is out of date",
+                    "args": {
+                        "name": "boolean",
+                        "isOptional": true,
+                        "suggestions": [
+                            "true",
+                            "false"
+                        ]
+                    }
                 },
                 {
                     "name": "--lock",
@@ -4237,6 +4343,30 @@
                 "isVariadic": true,
                 "isOptional": true
             }
+        },
+        {
+            "name": "vendor",
+            "description": "Removed in Deno 2; running this prints migration guidance and exits (kept here since deno completions bash still emits deno__vendor, so the shell still completes it)",
+            "options": [
+                {
+                    "name": "--unstable",
+                    "description": "Enable unstable features and APIs"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Suppress diagnostic output"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help information"
+                }
+            ]
         },
         {
             "name": "help",
