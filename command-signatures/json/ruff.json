@@ -46,9 +46,7 @@
             "description": "Path to a TOML config file (pyproject.toml or ruff.toml), or a \"<KEY> = <VALUE>\" pair overriding a specific option",
             "isPersistent": true,
             "args": {
-                "name": "config-option",
-                "isOptional": true,
-                "template": "filepaths"
+                "name": "config-option"
             }
         },
         {
@@ -62,7 +60,6 @@
             "isPersistent": true,
             "args": {
                 "name": "when",
-                "isOptional": true,
                 "suggestions": [
                     "auto",
                     "always",
@@ -97,8 +94,16 @@
                     "description": "Show an enumeration of all fixed lint violations"
                 },
                 {
+                    "name": "--no-show-fixes",
+                    "description": "Disable showing an enumeration of fixed lint violations (disables --show-fixes)"
+                },
+                {
                     "name": "--fix-only",
                     "description": "Apply fixes without reporting on, or exiting non-zero for, leftover violations (implies --fix)"
+                },
+                {
+                    "name": "--no-fix-only",
+                    "description": "Disable fix-only mode (disables --fix-only)"
                 },
                 {
                     "name": "--diff",
@@ -120,7 +125,6 @@
                     "description": "Output serialization format for violations (default: full)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "concise",
                             "full",
@@ -145,7 +149,6 @@
                     "description": "File to write the linter output to (default: stdout)",
                     "args": {
                         "name": "output-file",
-                        "isOptional": true,
                         "template": "filepathsMayNotExist"
                     }
                 },
@@ -154,7 +157,6 @@
                     "description": "The minimum Python version that should be supported",
                     "args": {
                         "name": "target-version",
-                        "isOptional": true,
                         "suggestions": [
                             "py37",
                             "py38",
@@ -180,8 +182,7 @@
                     "name": "--extension",
                     "description": "Map a file extension to a language (python, ipynb, or pyi), e.g. \"ipy:ipynb\"",
                     "args": {
-                        "name": "extension",
-                        "isOptional": true
+                        "name": "extension"
                     }
                 },
                 {
@@ -191,6 +192,14 @@
                 {
                     "name": "--add-noqa",
                     "description": "Add `noqa` directives to failing lines instead of reporting them",
+                    "args": {
+                        "name": "reason",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": "--add-ignore",
+                    "description": "Add `ruff: ignore` comments to failing lines instead of reporting them",
                     "args": {
                         "name": "reason",
                         "isOptional": true
@@ -208,64 +217,56 @@
                     "name": "--select",
                     "description": "Comma-separated list of rule codes to enable (or ALL, to enable all rules)",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
                     "name": "--ignore",
                     "description": "Comma-separated list of rule codes to disable",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
                     "name": "--extend-select",
                     "description": "Like --select, but adds additional rule codes on top of those already specified",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
                     "name": "--per-file-ignores",
                     "description": "List of mappings from file pattern to rule codes to exclude",
                     "args": {
-                        "name": "per-file-ignores",
-                        "isOptional": true
+                        "name": "per-file-ignores"
                     }
                 },
                 {
                     "name": "--extend-per-file-ignores",
                     "description": "Like --per-file-ignores, but adds additional ignores on top of those already specified",
                     "args": {
-                        "name": "extend-per-file-ignores",
-                        "isOptional": true
+                        "name": "extend-per-file-ignores"
                     }
                 },
                 {
                     "name": "--fixable",
                     "description": "List of rule codes to treat as eligible for fix (only applies when fix is enabled)",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
                     "name": "--unfixable",
                     "description": "List of rule codes to treat as ineligible for fix (only applies when fix is enabled)",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
                     "name": "--extend-fixable",
                     "description": "Like --fixable, but adds additional rule codes on top of those already specified",
                     "args": {
-                        "name": "rule-code",
-                        "isOptional": true
+                        "name": "rule-code"
                     }
                 },
                 {
@@ -273,7 +274,6 @@
                     "description": "List of paths used to omit files and/or directories from analysis",
                     "args": {
                         "name": "file-pattern",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -282,7 +282,6 @@
                     "description": "Like --exclude, but adds additional files and directories on top of those already excluded",
                     "args": {
                         "name": "file-pattern",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -314,7 +313,6 @@
                     "description": "Path to the cache directory",
                     "args": {
                         "name": "cache-dir",
-                        "isOptional": true,
                         "template": "folders"
                     }
                 },
@@ -323,7 +321,6 @@
                     "description": "The name of the file when passing it through stdin",
                     "args": {
                         "name": "stdin-filename",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -363,8 +360,7 @@
                     "name": "--extension",
                     "description": "Map a file extension to a language (python, ipynb, or pyi), e.g. \"ipy:ipynb\"",
                     "args": {
-                        "name": "extension",
-                        "isOptional": true
+                        "name": "extension"
                     }
                 },
                 {
@@ -372,7 +368,6 @@
                     "description": "The minimum Python version that should be supported",
                     "args": {
                         "name": "target-version",
-                        "isOptional": true,
                         "suggestions": [
                             "py37",
                             "py38",
@@ -399,7 +394,6 @@
                     "description": "Output serialization format for violations, when used with --check (default: full)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "concise",
                             "full",
@@ -428,7 +422,6 @@
                     "description": "Path to the cache directory",
                     "args": {
                         "name": "cache-dir",
-                        "isOptional": true,
                         "template": "folders"
                     }
                 },
@@ -437,7 +430,6 @@
                     "description": "The name of the file when passing it through stdin",
                     "args": {
                         "name": "stdin-filename",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -458,7 +450,6 @@
                     "description": "List of paths used to omit files and/or directories from analysis",
                     "args": {
                         "name": "file-pattern",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -467,7 +458,6 @@
                     "description": "Like --exclude, but adds additional files and directories on top of those already excluded",
                     "args": {
                         "name": "file-pattern",
-                        "isOptional": true,
                         "template": "filepaths"
                     }
                 },
@@ -483,16 +473,14 @@
                     "name": "--line-length",
                     "description": "Set the line length",
                     "args": {
-                        "name": "line-length",
-                        "isOptional": true
+                        "name": "line-length"
                     }
                 },
                 {
                     "name": "--range",
                     "description": "Only format the code in the given range, e.g. \"<start_line>:<start_column>-<end_line>:<end_column>\" (single file only)",
                     "args": {
-                        "name": "range",
-                        "isOptional": true
+                        "name": "range"
                     }
                 }
             ],
@@ -531,7 +519,6 @@
                     "description": "Output format (default: text)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "text",
                             "json"
@@ -554,7 +541,6 @@
                     "description": "Output format (default: text)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "text",
                             "json"
@@ -577,7 +563,6 @@
                     "description": "Output format (default: text)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "text",
                             "json"
@@ -599,7 +584,6 @@
                     "description": "Output format (default: text)",
                     "args": {
                         "name": "output-format",
-                        "isOptional": true,
                         "suggestions": [
                             "text",
                             "json"
@@ -621,7 +605,6 @@
                             "description": "The direction of the import map (default: dependencies)",
                             "args": {
                                 "name": "direction",
-                                "isOptional": true,
                                 "suggestions": [
                                     "dependencies",
                                     "dependents"
@@ -636,8 +619,7 @@
                             "name": "--min-dots",
                             "description": "Minimum number of dots in a string import to consider it a valid import",
                             "args": {
-                                "name": "min-dots",
-                                "isOptional": true
+                                "name": "min-dots"
                             }
                         },
                         {
@@ -653,7 +635,6 @@
                             "description": "The minimum Python version that should be supported",
                             "args": {
                                 "name": "target-version",
-                                "isOptional": true,
                                 "suggestions": [
                                     "py37",
                                     "py38",
@@ -672,7 +653,6 @@
                             "description": "Path to a virtual environment to use for resolving additional dependencies",
                             "args": {
                                 "name": "python",
-                                "isOptional": true,
                                 "template": "folders"
                             }
                         },
@@ -692,8 +672,26 @@
                         "isOptional": true,
                         "template": "filepaths"
                     }
+                },
+                {
+                    "name": "help",
+                    "description": "Print this message or the help of the given subcommand(s)",
+                    "args": {
+                        "name": "subcommand",
+                        "isOptional": true,
+                        "template": "help"
+                    }
                 }
             ]
+        },
+        {
+            "name": "help",
+            "description": "Print this message or the help of the given subcommand(s)",
+            "args": {
+                "name": "subcommand",
+                "isOptional": true,
+                "template": "help"
+            }
         }
     ]
 }
