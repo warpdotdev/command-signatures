@@ -571,60 +571,69 @@
                         "--output"
                     ],
                     "description": "Set where to write formatted output",
-                    "args": [
-                        {
-                            "name": "json",
-                            "description": "Print code and selection as JSON"
-                        },
-                        {
-                            "name": "none",
-                            "description": "Discard output"
-                        },
-                        {
-                            "name": "show",
-                            "description": "Print code to terminal"
-                        },
-                        {
-                            "name": "write",
-                            "description": "Overwrite formatted files on disk"
-                        },
-                        {
-                            "name": "--show",
-                            "description": "Set which filenames to print",
-                            "suggestions": [
-                                {
-                                    "name": "all",
-                                    "description": "All visited files and directories"
-                                },
-                                {
-                                    "name": "changed",
-                                    "description": "Nly the names of files whose formatting is changed"
-                                },
-                                {
-                                    "name": "none",
-                                    "description": "No file names or directories"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "--summary",
-                            "description": "Show the specified summary after formatting",
-                            "suggestions": [
-                                {
-                                    "name": "line",
-                                    "description": "Single-line summary"
-                                },
-                                {
-                                    "name": "none",
-                                    "description": "No summary"
-                                },
-                                {
-                                    "name": "profile",
-                                    "description": "How long it took to format each file"
-                                }
-                            ]
-                        }
-                    ]
+                    "args": {
+                        "name": "destination",
+                        "suggestions": [
+                            {
+                                "name": "write",
+                                "description": "Overwrite formatted files on disk (default)"
+                            },
+                            {
+                                "name": "show",
+                                "description": "Print code to terminal"
+                            },
+                            {
+                                "name": "json",
+                                "description": "Print code and selection as JSON"
+                            },
+                            {
+                                "name": "none",
+                                "description": "Discard output"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "--show",
+                    "description": "Set which filenames to print",
+                    "args": {
+                        "name": "filenames",
+                        "suggestions": [
+                            {
+                                "name": "all",
+                                "description": "All visited files and directories"
+                            },
+                            {
+                                "name": "changed",
+                                "description": "Only the names of files whose formatting is changed (default)"
+                            },
+                            {
+                                "name": "none",
+                                "description": "No file names or directories"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "--summary",
+                    "description": "Show the specified summary after formatting",
+                    "args": {
+                        "name": "summary",
+                        "suggestions": [
+                            {
+                                "name": "line",
+                                "description": "Single-line summary (default)"
+                            },
+                            {
+                                "name": "profile",
+                                "description": "How long it took to format each file"
+                            },
+                            {
+                                "name": "none",
+                                "description": "No summary"
+                            }
+                        ]
+                    }
                 },
                 {
                     "name": "--set-exit-if-changed",
