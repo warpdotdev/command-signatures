@@ -6401,39 +6401,11 @@
                         "-m",
                         "--move"
                     ],
-                    "description": "Move/rename a branch and its reflog",
-                    "args": [
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        },
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        }
-                    ]
+                    "description": "Move/rename a branch and its reflog"
                 },
                 {
                     "name": "-M",
-                    "description": "Move/rename a branch, even if target exists",
-                    "args": [
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        },
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        }
-                    ]
+                    "description": "Move/rename a branch, even if target exists"
                 },
                 {
                     "name": [
@@ -6586,23 +6558,21 @@
                         "--no-track"
                     ],
                     "description": "When creating a new branch, set up 'upstream' configuration",
-                    "args": [
-                        {
-                            "name": "branch",
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                    "args": {
+                        "name": "mode",
+                        "description": "Tracking mode (default: direct)",
+                        "isOptional": true,
+                        "suggestions": [
+                            {
+                                "name": "direct",
+                                "description": "Track the start-point branch itself"
+                            },
+                            {
+                                "name": "inherit",
+                                "description": "Copy the upstream configuration of the start-point branch"
                             }
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks log --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            }
-                        }
-                    ]
+                        ]
+                    }
                 },
                 {
                     "name": "--no-track",
@@ -6610,22 +6580,7 @@
                         "--track",
                         "-t"
                     ],
-                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true",
-                    "args": [
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        },
-                        {
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        }
-                    ]
+                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true"
                 },
                 {
                     "name": [
@@ -6701,7 +6656,13 @@
                         "--color"
                     ]
                 }
-            ]
+            ],
+            "args": {
+                "name": "branch-name",
+                "description": "Branch operand(s): <branch-name> [<start-point>] when creating, [<old-branch>] <new-branch> with -m/-M/-c/-C, <branch-name>... with -d/-D, or [<pattern>...] with --list",
+                "isOptional": true,
+                "isVariadic": true
+            }
         },
         {
             "name": "checkout",
@@ -8007,19 +7968,9 @@
                         "--create"
                     ],
                     "description": "Create a new branch named <new-branch> starting at <start-point> before switching to the branch",
-                    "args": [
-                        {
-                            "name": "new branch"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks log --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            }
-                        }
-                    ]
+                    "args": {
+                        "name": "new branch"
+                    }
                 },
                 {
                     "name": [
@@ -8027,19 +7978,9 @@
                         "--force-create"
                     ],
                     "description": "Similar to --create except that if <new-branch> already exists it will be reset to <start-point>",
-                    "args": [
-                        {
-                            "name": "new branch"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks log --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            }
-                        }
-                    ]
+                    "args": {
+                        "name": "new branch"
+                    }
                 },
                 {
                     "name": [
@@ -8112,23 +8053,21 @@
                         "--no-track"
                     ],
                     "description": "When creating a new branch, set up 'upstream' configuration",
-                    "args": [
-                        {
-                            "name": "branch",
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
+                    "args": {
+                        "name": "mode",
+                        "description": "Tracking mode (default: direct)",
+                        "isOptional": true,
+                        "suggestions": [
+                            {
+                                "name": "direct",
+                                "description": "Track the start-point branch itself"
+                            },
+                            {
+                                "name": "inherit",
+                                "description": "Copy the upstream configuration of the start-point branch"
                             }
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks log --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            }
-                        }
-                    ]
+                        ]
+                    }
                 },
                 {
                     "name": "--no-track",
@@ -8136,22 +8075,7 @@
                         "--track",
                         "-t"
                     ],
-                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true",
-                    "args": [
-                        {
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        },
-                        {
-                            "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
-                        }
-                    ]
+                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true"
                 },
                 {
                     "name": "--orphan",

@@ -6788,27 +6788,11 @@
                         "-m",
                         "--move"
                     ],
-                    "description": "Move/rename a branch and its reflog",
-                    "args": [
-                        {
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "generatorName": "local_branches"
-                        }
-                    ]
+                    "description": "Move/rename a branch and its reflog"
                 },
                 {
                     "name": "-M",
-                    "description": "Move/rename a branch, even if target exists",
-                    "args": [
-                        {
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "generatorName": "local_branches"
-                        }
-                    ]
+                    "description": "Move/rename a branch, even if target exists"
                 },
                 {
                     "name": [
@@ -6958,17 +6942,21 @@
                         "--no-track"
                     ],
                     "description": "When creating a new branch, set up 'upstream' configuration",
-                    "args": [
-                        {
-                            "name": "branch",
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generatorName": "commits"
-                        }
-                    ]
+                    "args": {
+                        "name": "mode",
+                        "description": "Tracking mode (default: direct)",
+                        "isOptional": true,
+                        "suggestions": [
+                            {
+                                "name": "direct",
+                                "description": "Track the start-point branch itself"
+                            },
+                            {
+                                "name": "inherit",
+                                "description": "Copy the upstream configuration of the start-point branch"
+                            }
+                        ]
+                    }
                 },
                 {
                     "name": "--no-track",
@@ -6976,16 +6964,7 @@
                         "--track",
                         "-t"
                     ],
-                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true",
-                    "args": [
-                        {
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "isOptional": true,
-                            "generatorName": "local_branches"
-                        }
-                    ]
+                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true"
                 },
                 {
                     "name": [
@@ -7049,7 +7028,14 @@
                         "--color"
                     ]
                 }
-            ]
+            ],
+            "args": {
+                "name": "branch-name",
+                "description": "Branch operand(s): <branch-name> [<start-point>] when creating, [<old-branch>] <new-branch> with -m/-M/-c/-C, <branch-name>... with -d/-D, or [<pattern>...] with --list",
+                "isOptional": true,
+                "isVariadic": true,
+                "generatorName": "local_branches"
+            }
         },
         {
             "name": "checkout",
@@ -8336,16 +8322,9 @@
                         "--create"
                     ],
                     "description": "Create a new branch named <new-branch> starting at <start-point> before switching to the branch",
-                    "args": [
-                        {
-                            "name": "new branch"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generatorName": "commits"
-                        }
-                    ]
+                    "args": {
+                        "name": "new branch"
+                    }
                 },
                 {
                     "name": [
@@ -8353,16 +8332,9 @@
                         "--force-create"
                     ],
                     "description": "Similar to --create except that if <new-branch> already exists it will be reset to <start-point>",
-                    "args": [
-                        {
-                            "name": "new branch"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generatorName": "commits"
-                        }
-                    ]
+                    "args": {
+                        "name": "new branch"
+                    }
                 },
                 {
                     "name": [
@@ -8436,17 +8408,21 @@
                         "--no-track"
                     ],
                     "description": "When creating a new branch, set up 'upstream' configuration",
-                    "args": [
-                        {
-                            "name": "branch",
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "name": "start point",
-                            "isOptional": true,
-                            "generatorName": "commits"
-                        }
-                    ]
+                    "args": {
+                        "name": "mode",
+                        "description": "Tracking mode (default: direct)",
+                        "isOptional": true,
+                        "suggestions": [
+                            {
+                                "name": "direct",
+                                "description": "Track the start-point branch itself"
+                            },
+                            {
+                                "name": "inherit",
+                                "description": "Copy the upstream configuration of the start-point branch"
+                            }
+                        ]
+                    }
                 },
                 {
                     "name": "--no-track",
@@ -8454,16 +8430,7 @@
                         "--track",
                         "-t"
                     ],
-                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true",
-                    "args": [
-                        {
-                            "generatorName": "local_branches"
-                        },
-                        {
-                            "isOptional": true,
-                            "generatorName": "local_branches"
-                        }
-                    ]
+                    "description": "Do not set up 'upstream' configuration, even if the branch.autoSetupMerge configuration variable is true"
                 },
                 {
                     "name": "--orphan",
