@@ -130,7 +130,10 @@ Hand-written specs live in `command-signatures/json/<command>.json`. The file na
     "description": "Short description of the command",
     "options": [
         {
-            "name": ["-v", "--verbose"],
+            "name": [
+                "-v",
+                "--verbose"
+            ],
             "description": "Enable verbose output"
         }
     ],
@@ -166,7 +169,15 @@ Subcommands nest inside the `subcommands` array, each with the same structure as
         {
             "name": "commit",
             "options": [
-                { "name": ["-m", "--message"], "args": { "name": "message" } }
+                {
+                    "name": [
+                        "-m",
+                        "--message"
+                    ],
+                    "args": {
+                        "name": "message"
+                    }
+                }
             ]
         }
     ]
@@ -188,6 +199,8 @@ The presubmit script runs:
 - `cargo test` (including generator name validation)
 
 Requires: Node.js for Prettier, Rust toolchain 1.92+ (see `rust-toolchain.toml`).
+
+**Note on array formatting**: The repo uses `prettier-plugin-multiline-arrays` with `multilineArraysWrapThreshold: 1`, so any array with more than one element must be wrapped one element per line. Running `npm run format` will rewrite inline arrays like `["-v", "--verbose"]` to the wrapped form shown above.
 
 ---
 
@@ -240,8 +253,10 @@ Key observations:
    - File naming convention (`<command>.json`)
    - Validation steps (`npm install`, `npm run format`, `script/presubmit`)
    - Prerequisites (Node.js, Rust 1.92+)
+   - Note about array formatting (multiline arrays plugin)
 3. Example JSON parses successfully with `jq`
 4. All schema claims are accurate per `fig_types.rs`
+5. All JSON examples in the README section pass `npm run format:check`
 
 ## Non-Goals
 
