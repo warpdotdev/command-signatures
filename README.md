@@ -77,13 +77,13 @@ An option entry represents one semantic option:
    }
    ```
 4. Use separate option entries when spellings differ in semantics, accepted arguments, applicability, or metadata. A similar description or name alone does not make two spellings aliases of each other.
-5. Do not invent aliases. A BSD/macOS-oriented spec may legitimately keep a short-only string when the targeted command has no GNU long form for that platform (`du.json`'s `-d` is short-only for this reason). Pair a long form only after verifying it is supported on the platform(s) the spec targets; `df.json` shows both styles side by side because only some of its options have a documented long form.
+5. Do not invent aliases. A BSD/macOS-oriented spec may legitimately keep a short-only string when the targeted command has no GNU long form for that platform (`du.json`'s `-d` is short-only for this reason). Pair a long form only after verifying it is supported on the platform(s) the spec targets.
 
 Do not duplicate equivalent aliases as separate entries just to give each spelling its own `name` string.
 
 #### Referencing aliases from `exclusiveOn`
 
-`exclusiveOn` holds literal option spellings, not logical option identifiers, so it is deserialized the same way as `name` but is never carried onto the runtime `Opt` — nothing reads it after deserialization today (see "Currently unenforced" below). Because it is literal, each entry must list every alias a user could type for each conflicting option, not just one.
+`exclusiveOn` holds literal option spellings, not logical option identifiers. Unlike `name`, `exclusiveOn` must always be written as an array of strings; it is never carried onto the runtime `Opt` — nothing reads it after deserialization today (see "Currently unenforced" below). Because it is literal, each entry must list every alias a user could type for each conflicting option, not just one.
 
 `grep.json` shows the convention for two mutually exclusive paired options:
 ```json
