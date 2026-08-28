@@ -59,6 +59,63 @@ Options are therefore matched by the `OptionOverrides::name` field and positiona
 At the time of writing, _only_ `template` is supported.
 Others will need to be added as needed.
 
+### Option aliases and exclusivity
+
+An option's `name` field accepts either a single string or an array of strings (`CommandOption.name` deserializes both forms into a `Vec<String>`, see `completion-metadata/src/fig_types.rs`). Use this convention to decide which form fits a given option, and how to reference aliases from `exclusiveOn`.
+
+#### When to use a scalar vs. an array
+
+An option entry represents one semantic option:
+
+1. Use a plain string when the target command and platform expose only one documented spelling for that option.
+2. Use an array when multiple documented spellings are fully equivalent, i.e. they share the same meaning, argument shape, repeatability, and other metadata. List short aliases first, followed by long aliases in the command's documented order.
+3. Include multiple long synonyms in that same array when they are equivalent. `head.json` groups a short flag with two long synonyms this way:
+   ```json
+   {
+       "name": ["-q", "--quiet", "--silent"],
+       "description": "Never print headers giving file names"
+   }
+   ```
+4. Use separate option entries when spellings differ in semantics, accepted arguments, applicability, or metadata. A similar description or name alone does not make two spellings aliases of each other.
+5. Do not invent aliases. A BSD/macOS-oriented spec may legitimately keep a short-only string when the targeted command has no GNU long form for that platform (`du.json`'s `-d` is short-only for this reason). Pair a long form only after verifying it is supported on the platform(s) the spec targets; `df.json` shows both styles side by side because only some of its options have a documented long form.
+
+Do not duplicate equivalent aliases as separate entries just to give each spelling its own `name` string.
+
+#### Referencing aliases from `exclusiveOn`
+
+`exclusiveOn` holds literal option spellings, not logical option identifiers, so it is deserialized the same way as `name` but is never carried onto the runtime `Opt` — nothing reads it after deserialization today (see "Currently unenforced" below). Because it is literal, each entry must list every alias a user could type for each conflicting option, not just one.
+
+`grep.json` shows the convention for two mutually exclusive paired options:
+```json
+[
+    {
+        "name": ["-L", "--files-without-match"],
+        "exclusiveOn": ["-l", "--files-with-matches"]
+    },
+    {
+        "name": ["-l", "--files-with-matches"],
+        "exclusiveOn": ["-L", "--files-without-match"]
+    }
+]
+```
+
+When adding a verified long form to an existing short-only option, work through these steps in order:
+
+1. Replace the option's scalar `name` with an array containing the existing short form and the new long form.
+2. Search the same command or subcommand for every `exclusiveOn` that references the existing short form, and add the new long form beside it.
+3. Review the changed option's own `exclusiveOn` list and make sure it includes every alias of each option it conflicts with.
+4. Keep mutual relationships symmetric when the command describes the options as mutually exclusive; do not infer symmetry when the command's actual behavior is directional.
+
+These updates are local to the option being changed and its direct relationships. You are not required to normalize unrelated options or files while doing this.
+
+#### Migration is opportunistic
+
+This convention does not require a corpus-wide rewrite. Existing specs may still mix scalar and array forms, or reference only some aliases in `exclusiveOn`; normalize an entry only when you are already touching it and have verified the command's actual behavior. Follow the convention for anything you add or edit.
+
+#### Currently unenforced
+
+`exclusiveOn` is parsed from JSON today, but Warp does not enforce it at runtime: the value is not carried onto the runtime `Opt` representation, so nothing currently rejects or suppresses conflicting options a user types together. Treat a complete `exclusiveOn` list as authored, future-compatible metadata, not as a promise of current runtime behavior.
+
 ## License
 
 This project is licensed under the MIT License. See the LICENSE file for details. Many of the signatures were adapted from Fig (https://github.com/withfig/autocomplete), which is also licensed under the MIT License.
