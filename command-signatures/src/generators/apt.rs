@@ -103,3 +103,4 @@ pub fn aptitude_generators() -> CommandSignatureGenerators {
             ),
         )
 }
+
