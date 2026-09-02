@@ -19,7 +19,7 @@ The API should expose:
 - A `SignatureSource` enum with `Embedded` and `File(PathBuf)` variants.
 - A serializable `SignatureSummary` with `name: String`, `description: Option<String>`, and `subcommand_count: usize`.
 - A `list_signatures(source: SignatureSource) -> Result<Vec<SignatureSummary>, ListSignaturesError>` function.
-- Structured read and parse error variants that retain the display path and underlying error for the CLI without requiring callers to inspect strings.
+- Structured read, parse, input-too-large, nesting-too-deep, and too-many-commands error variants that retain the display path and any underlying error for the CLI without requiring callers to inspect strings.
 
 `SignatureSummary` construction uses `Signature::name()`, the public `description` field, and `Signature::subcommands().len()`. It must not call `dynamic_command_signature_data()` and must not execute any generator.
 
@@ -31,19 +31,24 @@ For `SignatureSource::Embedded`, call `commands()` and summarize its returned `S
 This feature gate is important because the non-embedded `signature_by_name()` behavior returns `None` and there is currently no non-embedded `commands()` implementation.
 
 ### External source parser
-Read the selected path without indexing into the resulting byte or value collection.
+Define `MAX_EXTERNAL_FILE_BYTES` as 10,485,760, `MAX_JSON_NESTING_DEPTH` as 64, and `MAX_EXTERNAL_COMMANDS` as 10,000. Read and parse the selected path without indexing into the resulting byte or value collection.
 
-1. If the bytes are empty or all JSON whitespace, return an empty vector.
-2. Deserialize to `serde_json::Value` to distinguish document shapes.
-3. Treat an object with no keys or an array with no elements as an empty vector.
-4. Deserialize any other object as one `fig_types::Command`.
-5. Deserialize any non-empty array as `Vec<fig_types::Command>`.
-6. Reject null, boolean, number, and string roots with a structured parse error.
-7. Convert every `Command` with the existing `Vec::<Signature>::from(command)` implementation, flatten the results, then summarize and sort.
+1. Open the path, then read through a bounded reader capped at `MAX_EXTERNAL_FILE_BYTES + 1`. File metadata may reject a known-oversized regular file early, but it must not be the only check because the file can change between metadata and read.
+2. If more than `MAX_EXTERNAL_FILE_BYTES` bytes are observed, stop and return `InputTooLarge`. Never allocate based on untrusted file metadata.
+3. If the bounded bytes are empty or all JSON whitespace, return an empty vector.
+4. Scan the bounded bytes once with a string- and escape-aware structural scanner. Increment depth for `{` and `[` outside strings, decrement only a positive depth for `}` and `]`, and return `NestingTooDeep` as soon as depth would exceed `MAX_JSON_NESTING_DEPTH`. This preflight bounds nesting before recursive JSON materialization; normal JSON parsing remains responsible for mismatched or otherwise malformed structures.
+5. Inspect the first non-whitespace byte to select the binding root grammar without first materializing a generic `serde_json::Value`.
+6. For an object root, recognize an object containing only JSON whitespace as empty; otherwise deserialize directly to one `fig_types::Command`.
+7. For an array root, deserialize through a custom Serde sequence visitor. Accumulate at most `MAX_EXTERNAL_COMMANDS` commands, probe once for an additional element, and immediately return `TooManyCommands` if a 10,001st element exists. Do not deserialize the entire array and count afterward.
+8. Reject null, boolean, number, and string roots with a structured parse error.
+9. Require the parser to consume the complete document so trailing non-whitespace bytes are malformed.
+10. Convert every accepted `Command` with the existing `Vec::<Signature>::from(command)` implementation, flatten the results, then summarize and sort.
 
 Parsing through the existing `Command` type preserves the repository's accepted field names and one-or-many handling. Do not deserialize external input directly into `Signature`; that internal representation is not the source JSON schema stored under `command-signatures/json/`.
 
 No code path should call `first().unwrap()`, index element zero, or otherwise assume at least one byte, JSON element, command name, converted signature, or summary.
+
+The CLI maps `InputTooLarge`, `NestingTooDeep`, and `TooManyCommands` to the exact diagnostics in `product.md`, with empty standard output and exit code 1. These are deliberate input failures, not usage errors, and therefore use the same exit status as malformed input. The byte, depth, and command-count constants should be shared by parser logic, error formatting, and tests to prevent drift.
 
 ### Thin CLI
 Add `clap` with the `derive` feature to `command-signatures/Cargo.toml` and add `command-signatures/src/bin/command-signatures.rs`. Model the root parser with a subcommand enum containing `List`; model `List` arguments with mutually compatible optional `--file <PATH>` and boolean `--json`.
@@ -66,6 +71,9 @@ Serialize JSON output with `serde_json`; do not construct JSON manually. Write o
 - Counts cover immediate subcommands only and use the post-conversion `Signature`, so inherited or transformed schema behavior is reflected consistently.
 - Empty names in a non-empty document follow the existing schema conversion and may produce an empty result; they must not be indexed.
 - `--file` is read-only. The implementation must not modify the selected file or load adjacent files.
+- Oversized whitespace-only or otherwise valid JSON is still rejected by the byte limit before empty-input or schema handling.
+- A depth-limit violation discovered before a later syntax error reports the depth-limit diagnostic. Inputs within depth 64 continue to receive normal schema or syntax diagnostics.
+- JSON delimiters inside strings, including escaped quotes and backslashes, do not contribute to the nesting count.
 
 ## Testing strategy
 
@@ -77,6 +85,9 @@ Add focused tests beside the listing module for:
 - A valid command array flattening all entries and names.
 - Deterministic case-insensitive ordering with an original-name tie-breaker.
 - Malformed JSON, scalar roots, schema-invalid non-empty objects, and invalid array members returning parse errors.
+- Exactly 10,485,760 bytes being accepted for parsing and 10,485,761 bytes returning `InputTooLarge` without reading or retaining additional data.
+- JSON at exactly depth 64 reaching normal parsing and depth 65 returning `NestingTooDeep`, including fixtures with delimiter characters inside escaped strings to verify the scanner does not over-count.
+- A top-level array of exactly 10,000 valid commands being accepted and 10,001 entries returning `TooManyCommands`.
 - Text normalization preserving one row per signature.
 - JSON summaries serializing with exactly the documented field names and null handling.
 
@@ -92,6 +103,9 @@ Required fixtures and assertions:
 - Malformed JSON: empty standard output, parse prefix on standard error, exit 1.
 - Non-empty object without `name`: empty standard output, parse prefix, exit 1.
 - Nonexistent path: empty standard output, read prefix on standard error, exit 1.
+- Oversized file: empty standard output, exact maximum-size diagnostic, exit 1, and no panic text.
+- Depth-65 JSON: empty standard output, exact maximum-depth diagnostic, exit 1, and no panic text.
+- Array with 10,001 command objects: empty standard output, exact maximum-command-count diagnostic, exit 1, and no panic text.
 - Valid single object and valid array: exact sorted text rows and exact decoded JSON summaries, exit 0.
 - Default embedded source: exit 0, a stable header in text mode, and a non-empty valid array in JSON mode.
 - Unknown subcommand and missing `--file` value: `clap` usage error and exit 2.
@@ -118,3 +132,5 @@ No files under `command-signatures/json/`, `completion-metadata/`, or the PowerS
 ## Open questions
 - Should the public source enum own a `PathBuf`, as recommended for a simple stable API, or borrow `&Path` to avoid a small allocation? This does not change CLI behavior.
 - Should the implementation add a test-only crate such as `tempfile`/`assert_cmd`, or use only `std::process::Command` and uniquely named files under the process temporary directory? The recommendation is `tempfile` plus standard process APIs to keep isolation reliable while minimizing new dependencies.
+
+Neither question changes the normative external-file grammar, resource limits, output, or exit behavior in `product.md`.

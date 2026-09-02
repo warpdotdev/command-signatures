@@ -46,7 +46,17 @@ With `--file`, the file replaces the embedded source. The accepted UTF-8 JSON do
 - The exact empty object `{}`, treated as an empty collection for graceful compatibility with common empty JSON documents.
 - An empty or whitespace-only file, treated as an empty collection.
 
+This object-or-array grammar is the binding contract for the first release. Supporting one existing command object preserves compatibility with repository specs, while supporting arrays gives the `list` operation an explicit collection format and makes `[]` a natural empty input. The exact `{}` exception is also binding: it accommodates the empty object named in the enhancement without weakening validation for any non-empty object.
+
 Each command object's `name` field may retain its existing one-or-many representation. Conversion therefore may produce more than one listing row from one object. A non-empty object that does not satisfy the existing `Command` schema is malformed; the empty-object exception must not weaken validation of other objects. JSON `null`, scalar JSON values, and arrays containing non-command values are malformed.
+
+### External-input resource limits
+External input is bounded before full JSON materialization:
+- Maximum file size: 10 MiB (10,485,760 bytes).
+- Maximum JSON container nesting depth: 64, where the root object or array has depth 1 and each nested object or array adds 1.
+- Maximum number of command objects in a top-level array: 10,000.
+
+These limits are binding and apply before signature conversion. They are high enough for individual repository-format specs and intentionally bounded so a user-selected file cannot cause unbounded memory or stack consumption. A file that exceeds a limit is an input error: standard output is empty, the stable diagnostic below is written to standard error, and the process exits 1.
 
 ### Listing rows
 One row represents one top-level `Signature` produced by the existing Fig `Command` conversion. It contains:
@@ -73,6 +83,9 @@ An empty result is successful. In text mode, standard output contains exactly `N
 | Valid command object or command array that converts to zero signatures, such as `{"name":[]}` | `No signatures found.` or `[]` | Empty | 0 |
 | Valid command object or non-empty command array | Sorted text table, or JSON array with `--json` | Empty | 0 |
 | Malformed JSON or schema-invalid non-empty JSON | Empty | `error: failed to parse signatures file '<PATH>': <REASON>` plus newline | 1 |
+| More than 10,485,760 input bytes | Empty | `error: signatures file '<PATH>' exceeds maximum size of 10485760 bytes` plus newline | 1 |
+| JSON container nesting exceeds depth 64 | Empty | `error: signatures file '<PATH>' exceeds maximum JSON nesting depth of 64` plus newline | 1 |
+| Top-level array contains more than 10,000 command objects | Empty | `error: signatures file '<PATH>' contains more than 10000 commands` plus newline | 1 |
 | Missing path, directory path, permission failure, or other read error | Empty | `error: failed to read signatures file '<PATH>': <REASON>` plus newline | 1 |
 | Invalid CLI arguments or missing option value | Empty apart from any `clap` usage output | `clap` diagnostic and usage | 2 |
 
@@ -86,10 +99,10 @@ An empty result is successful. In text mode, standard output contains exactly `N
 5. Empty bytes, whitespace-only bytes, `[]`, `{}`, and a valid document that converts to no names all produce the documented no-results output and exit 0.
 6. A malformed or schema-invalid file writes a clear parse error to standard error, emits no standard output, and exits 1.
 7. A nonexistent or unreadable path writes a clear read error to standard error, emits no standard output, and exits 1.
-8. No external-file case panics or prints a Rust panic diagnostic.
-9. Listing external data never runs referenced generators or other shell commands.
-10. Existing embedded-signature invariants and the PowerShell generator continue to pass unchanged.
+8. Files larger than 10 MiB, JSON deeper than 64 containers, and arrays containing more than 10,000 commands each emit their documented limit diagnostic, emit no standard output, and exit 1.
+9. No external-file case, including a resource-limit violation, panics or prints a Rust panic diagnostic.
+10. Listing external data never runs referenced generators or other shell commands.
+11. Existing embedded-signature invariants and the PowerShell generator continue to pass unchanged.
 
 ## Open questions
-- **External collection syntax:** This specification recommends accepting both a single existing `Command` object and an array of `Command` objects. Maintainers may choose to restrict the first release to one object per file, but doing so would make `[]` an error rather than the useful empty collection requested here.
-- **Empty object compatibility:** This specification recommends treating only the exact empty object `{}` as no signatures found. Maintainers may instead classify it as schema-invalid for stricter consistency, but that would make two common representations of an empty JSON collection behave differently.
+There are no unresolved user-visible contract questions. The object-or-array grammar, empty `{}` compatibility, resource limits, output, and exit behavior above are normative. Maintainers can override those decisions during spec review, but implementation should not begin against an ambiguous fork.
