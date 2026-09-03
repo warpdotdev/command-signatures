@@ -8051,7 +8051,67 @@
         },
         {
             "name": "mergetool",
-            "description": "Open the git tool to fix conflicts"
+            "description": "Open the git tool to fix conflicts",
+            "options": [
+                {
+                    "name": [
+                        "-t",
+                        "--tool"
+                    ],
+                    "description": "Use the merge resolution program specified by <tool>",
+                    "args": {
+                        "name": "tool",
+                        "suggestions": [
+                            "emerge",
+                            "gvimdiff",
+                            "kdiff3",
+                            "meld",
+                            "vimdiff",
+                            "tortoisemerge"
+                        ]
+                    }
+                },
+                {
+                    "name": "--tool-help",
+                    "description": "Print a list of merge tools that may be used with --tool"
+                },
+                {
+                    "name": [
+                        "-y",
+                        "--no-prompt"
+                    ],
+                    "description": "Don't prompt before each invocation of the merge resolution program"
+                },
+                {
+                    "name": "--prompt",
+                    "description": "Prompt before each invocation of the merge resolution program to give the user a chance to skip the path"
+                },
+                {
+                    "name": [
+                        "-g",
+                        "--gui"
+                    ],
+                    "description": "When invoked with --gui, the default merge tool is read from merge.guitool instead of merge.tool"
+                },
+                {
+                    "name": "--no-gui",
+                    "description": "Override a previous --gui setting and read the default merge tool from merge.tool"
+                },
+                {
+                    "name": "-O",
+                    "description": "Process files in the order specified in the file, which has one shell glob pattern per line",
+                    "args": {
+                        "name": "orderfile",
+                        "template": "filepaths"
+                    }
+                }
+            ],
+            "args": {
+                "name": "file",
+                "isOptional": true,
+                "isVariadic": true,
+                "template": "filepaths"
+            }
         },
         {
             "name": "tag",
