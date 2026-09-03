@@ -4,6 +4,7 @@ use warp_completion_metadata::DynamicCompletionData;
 
 mod amplify;
 mod ansible_doc;
+mod ansible_playbook;
 mod assimp;
 mod autojump;
 mod bat;
@@ -16,6 +17,7 @@ mod cordova;
 mod deno;
 mod deployctl;
 mod deta;
+mod direnv;
 mod dtm;
 mod eb;
 mod elm;
@@ -24,6 +26,7 @@ mod eslint;
 mod expo;
 mod expo_cli;
 mod ffmpeg;
+mod fig_filters;
 mod fig_parse;
 mod fig_teams_latest;
 mod fisher;
@@ -55,6 +58,7 @@ mod open;
 mod pandoc;
 mod pre_commit;
 mod projj;
+mod python;
 mod quickmail;
 mod r;
 mod rancher;
@@ -77,6 +81,7 @@ mod tfenv;
 mod tfsec;
 mod tokei;
 mod trex;
+mod ts_node;
 mod turbo;
 mod vite;
 mod vr;
@@ -214,6 +219,8 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         npm::pnpm_generators(),
         pprof::generator(),
         pyenv::generator(),
+        python::generator(),
+        python::python3_generator(),
         react_native::generator(),
         scp::generator(),
         ssh::generator(),
@@ -258,6 +265,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         yc::generator(),
         amplify::generator(),
         ansible_doc::generator(),
+        ansible_playbook::generator(),
         apt::generator(),
         assimp::generator(),
         autojump::generator(),
@@ -269,6 +277,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         deno::generator(),
         deployctl::generator(),
         deta::generator(),
+        direnv::generator(),
         dtm::generator(),
         eb::generator(),
         elm::generator(),
@@ -330,6 +339,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         tfsec::generator(),
         tokei::generator(),
         trex::generator(),
+        ts_node::generator(),
         turbo::generator(),
         vite::generator(),
         vr::generator(),
