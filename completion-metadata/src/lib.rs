@@ -216,6 +216,14 @@ pub struct DynamicCompletionData {
 }
 
 impl DynamicCompletionData {
+    /// Merge another command's dynamic data into this one.
+    /// Later entries overwrite the same generator, filter, or alias name.
+    pub fn extend(&mut self, other: Self) {
+        self.generators.extend(other.generators);
+        self.filters.extend(other.filters);
+        self.aliases.extend(other.aliases);
+    }
+
     pub fn generators(&self) -> &Generators {
         &self.generators
     }

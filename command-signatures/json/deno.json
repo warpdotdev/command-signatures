@@ -1280,13 +1280,7 @@
                 {
                     "name": "filter",
                     "isOptional": true,
-                    "generators": {
-                        "scriptTimeout": 12000,
-                        "trigger": ".",
-                        "getQueryTerm": ".",
-                        "script": "_NuFrRa_e=>{let t=new Set([\"--private\",\"--builtin\",\"--unstable\"]),i=e.slice(0,-1).filter(r=>!(r.startsWith(\"-\")&&!t.has(r))&&!r.startsWith(\"$\")&&!r.startsWith(\"(\"));return i.push(\"--json\"),i.join(\" \")}",
-                        "postProcess": "_NuFrRa_(e,t)=>{let i=JSON.parse(e),a=t[t.length-1].split(\".\").slice(0,-1),n=R(i,a),s=ne(n,{showPrivateNodes:t.includes(\"--private\")});return ie(s).map(l=>oe(l))}"
-                    }
+                    "template": "filepaths"
                 }
             ]
         },
@@ -2156,10 +2150,7 @@
             ],
             "args": {
                 "name": "name",
-                "generators": {
-                    "script": "\\find ~/.deno/bin -maxdepth 1 -perm -111 -type f",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).filter(t=>!t.endsWith(\"/deno\")).map(t=>({name:t.slice(t.lastIndexOf(\"/\")+1),icon:\"\\u{1F4E6}\",description:t}))"
-                }
+                "generatorName": "fig_d9673fa715023b00"
             }
         },
         {
@@ -2216,14 +2207,7 @@
                     "args": {
                         "name": "rules-tags",
                         "isOptional": true,
-                        "generators": {
-                            "script": "deno lint --rules --json",
-                            "getQueryTerm": ",",
-                            "cache": {
-                                "ttl": 86400000
-                            },
-                            "postProcess": "_NuFrRa_e=>JSON.parse(e).map(i=>({name:i.code,description:i.docs.slice(0,i.docs.indexOf(`\n\n`)),icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "fig_ed5e717093b43fe5"
                     }
                 },
                 {
@@ -2236,14 +2220,7 @@
                     "args": {
                         "name": "rules-include",
                         "isOptional": true,
-                        "generators": {
-                            "script": "deno lint --rules --json",
-                            "getQueryTerm": ",",
-                            "cache": {
-                                "ttl": 86400000
-                            },
-                            "postProcess": "_NuFrRa_e=>JSON.parse(e).map(i=>({name:i.code,description:i.docs.slice(0,i.docs.indexOf(`\n\n`)),icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "fig_ed5e717093b43fe5"
                     }
                 },
                 {
@@ -2256,14 +2233,7 @@
                     "args": {
                         "name": "rules-exclude",
                         "isOptional": true,
-                        "generators": {
-                            "script": "deno lint --rules --json",
-                            "getQueryTerm": ",",
-                            "cache": {
-                                "ttl": 86400000
-                            },
-                            "postProcess": "_NuFrRa_e=>JSON.parse(e).map(i=>({name:i.code,description:i.docs.slice(0,i.docs.indexOf(`\n\n`)),icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "fig_ed5e717093b43fe5"
                     }
                 },
                 {
@@ -2808,11 +2778,7 @@
                         "name": "watch",
                         "isVariadic": true,
                         "isOptional": true,
-                        "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "getQueryTerm": ","
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -2983,12 +2949,7 @@
             "args": [
                 {
                     "name": "task_name",
-                    "generators": {
-                        "cache": {
-                            "strategy": "stale-while-revalidate"
-                        },
-                        "custom": "_NuFrRa_(e,t)=>y(void 0,null,function*(){let i=yield le(e,t);return i===null?[]:Object.entries(i.tasks||{}).map(([r,a])=>{var s;let n=((s=i.fig)==null?void 0:s[r])||{};return{name:r,displayName:n.displayName,description:n.description||a,icon:n.icon||\"\\u2699\\uFE0F\",priority:n.priority,hidden:n.hidden}})})"
-                    }
+                    "template": "filepaths"
                 },
                 {
                     "name": "task_args",
@@ -3443,13 +3404,7 @@
                     "args": {
                         "name": "version",
                         "isOptional": true,
-                        "generators": {
-                            "script": "curl -sL 'https://cdn.deno.land/deno/meta/versions.json'",
-                            "cache": {
-                                "ttl": 86400000
-                            },
-                            "postProcess": "_NuFrRa_e=>JSON.parse(e).versions.map(i=>({name:i.startsWith(\"v\")?i.slice(1):i}))"
-                        }
+                        "generatorName": "fig_42aa434b06dcbb6f"
                     }
                 },
                 {
@@ -3931,21 +3886,29 @@
                 {
                     "name": "--check",
                     "description": "Type-check local modules; pass --check=all to also type-check remote modules",
-                    "exclusiveOn": ["--no-check"],
+                    "exclusiveOn": [
+                        "--no-check"
+                    ],
                     "args": {
                         "name": "check-type",
                         "isOptional": true,
-                        "suggestions": ["all"]
+                        "suggestions": [
+                            "all"
+                        ]
                     }
                 },
                 {
                     "name": "--no-check",
                     "description": "Skip type-checking; pass --no-check=remote to ignore diagnostics from remote modules only",
-                    "exclusiveOn": ["--check"],
+                    "exclusiveOn": [
+                        "--check"
+                    ],
                     "args": {
                         "name": "no-check-type",
                         "isOptional": true,
-                        "suggestions": ["remote"]
+                        "suggestions": [
+                            "remote"
+                        ]
                     }
                 },
                 {
@@ -3954,7 +3917,9 @@
                         "--config"
                     ],
                     "description": "Specify the configuration file",
-                    "exclusiveOn": ["--no-config"],
+                    "exclusiveOn": [
+                        "--no-config"
+                    ],
                     "args": {
                         "name": "config",
                         "template": "filepaths"
@@ -4094,7 +4059,9 @@
                         "--config"
                     ],
                     "description": "Specify the configuration file",
-                    "exclusiveOn": ["--no-config"],
+                    "exclusiveOn": [
+                        "--no-config"
+                    ],
                     "args": {
                         "name": "file",
                         "template": "filepaths"

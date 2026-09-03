@@ -4,11 +4,7 @@
     "args": [
         {
             "name": "owner[:group] or :group",
-            "generators": {
-                "custom": "function(r,t){return l(this,null,function*(){let i=r.find(e=>e.includes(\":\")),s=r.find(e=>/^-.*n.*/.test(e)),o;return i?o=yield t(\"dscl . -list /Groups PrimaryGroupID | tr -s ' '| sort -r\"):o=yield t(\"dscl . -list /Users UniqueID | tr -s ' '| sort -r\"),o.split(`\n`).map(e=>e.split(\" \")).map(e=>({name:s?e[1]:e[0],description:i?`Group - ${s?e[0]:`gid: ${e[1]}`}`:`User - ${s?e[0]:`uid: ${e[1]}`}`,icon:i?\"\\u{1F465}\":\"\\u{1F464}\",priority:90}))})}",
-                "trigger": ":",
-                "getQueryTerm": ":"
-            }
+            "template": "filepaths"
         },
         {
             "name": "file/directory",

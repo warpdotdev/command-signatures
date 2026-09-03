@@ -3,11 +3,8 @@
     "description": "Download videos from YouTube",
     "args": {
         "name": "URL",
-        "generators": {
-            "script": "pbpaste",
-            "postProcess": "function(i){let e=new RegExp(\"^(https?://)?(www.)?(youtube.com|youtu.?be)/.+$\");try{if(e.test(i))return[{name:i,description:\"Clipboard\",icon:\"https://www.youtube.com/s/desktop/810941b4/img/favicon_32.png\"}]}catch(t){return console.error(t),[]}}"
-        },
-        "isVariadic": true
+        "isVariadic": true,
+        "generatorName": "fig_c40ef97662880110"
     },
     "options": [
         {
@@ -163,10 +160,7 @@
             "description": "Playlist video to start at (default is 1)",
             "args": {
                 "name": "NUMBER",
-                "generators": {
-                    "script": "_NuFrRa_i=>`youtube-dl --flat-playlist -J ${i.filter(e=>e.includes(\"youtube.\"))}`",
-                    "postProcess": "function(i){try{return JSON.parse(i).entries.map((e,t)=>({name:`${t+1} - ${e.title}`,description:e.uploader,insertValue:`${t+1}`,icon:\"https://www.youtube.com/s/desktop/810941b4/img/favicon_32.png\"}))}catch(e){return console.error(e),[]}}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -174,10 +168,7 @@
             "description": "Playlist video to end at (default is last)",
             "args": {
                 "name": "NUMBER",
-                "generators": {
-                    "script": "_NuFrRa_i=>`youtube-dl --flat-playlist -J ${i.filter(e=>e.includes(\"youtube.\"))}`",
-                    "postProcess": "function(i){try{return JSON.parse(i).entries.map((e,t)=>({name:`${t+1} - ${e.title}`,description:e.uploader,insertValue:`${t+1}`,icon:\"https://www.youtube.com/s/desktop/810941b4/img/favicon_32.png\"}))}catch(e){return console.error(e),[]}}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -185,10 +176,7 @@
             "description": "Playlist video to end at (default is last)",
             "args": {
                 "name": "ITEM_SPEC",
-                "generators": {
-                    "script": "_NuFrRa_i=>`youtube-dl --flat-playlist -J ${i.filter(e=>e.includes(\"youtube.\"))}`",
-                    "postProcess": "function(i){try{return JSON.parse(i).entries.map((e,t)=>({name:`${t+1} - ${e.title}`,description:e.uploader,insertValue:`${t+1}`,icon:\"https://www.youtube.com/s/desktop/810941b4/img/favicon_32.png\"}))}catch(e){return console.error(e),[]}}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -782,9 +770,6 @@
             "description": "Languages of the subtitles to download (optional) separated by commas",
             "args": {
                 "name": "LANGS",
-                "generators": {
-                    "getQueryTerm": ","
-                },
                 "suggestions": [
                     "af",
                     "sq",
@@ -895,7 +880,8 @@
                     "yi",
                     "yo",
                     "zu"
-                ]
+                ],
+                "template": "filepaths"
             }
         },
         {
@@ -947,10 +933,7 @@
             "description": "Adobe Pass multiple-system operator (TV provider) identifier",
             "args": {
                 "name": "MSO",
-                "generators": {
-                    "script": "_NuFrRa_i=>`youtube-dl ${i.filter(e=>e.includes(\"youtube.\"))} --simulate --ap-list-mso | tail -n +3 | tr -s \" \"`",
-                    "postProcess": "_NuFrRa_i=>i.split(`\n`).map(e=>{let[t,...o]=e.split(\" \");return{name:t,description:o.join(\" \")}})"
-                }
+                "template": "filepaths"
             }
         },
         {

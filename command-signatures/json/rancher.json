@@ -43,10 +43,7 @@
                             "description": "Path to an answers file, the format of the file is a map with key:value. This supports JSON and YAML",
                             "args": {
                                 "name": "answers-file-path",
-                                "generators": {
-                                    "template": "filepaths",
-                                    "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let c=u.filter(({name:l=\"\",type:N})=>{if(s!==\"filter\"&&N===\"folder\")return s===\"always\";if(p.has(l)||i&&new RegExp(i.source,i.flags).test(l))return!0;let[,...h]=l.split(\".\");if(h.length>=1){let f=h.length-1,y=h[f];do{if(r.has(y))return!0;f-=1,y=[h[f],y].join(\".\")}while(f>=0)}return!1});return!a&&!o?c:c.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?a:o)||{}))}"
-                                }
+                                "template": "filepaths"
                             }
                         },
                         {
@@ -354,14 +351,11 @@
                 },
                 {
                     "name": "delete",
-                    "description": "⚠️ Delete a server from the local config",
+                    "description": "\u26a0\ufe0f Delete a server from the local config",
                     "args": {
                         "name": "SERVER_NAME",
                         "description": "The name of server you want to delete",
-                        "generators": {
-                            "script": "rancher server ls",
-                            "postProcess": "function(e){let t=e.split(`\n`),n=[];for(let i=1;i<t.length;i++)if(t[i].match(/\\S+/g)[0]!=\"*\"){let a=t[i].match(/\\S+/g)[1],o=t[i].match(/\\S+/g)[2];n.push({name:a,description:o,icon:\"https://rancher.com/docs/img/favicon.png\"})}return n.length===0&&n.push({name:\"No other servers found to swtich to\",description:\"\",icon:\"https://rancher.com/docs/img/favicon.png\"}),n}"
-                        }
+                        "generatorName": "fig_674f752b1e190e22"
                     },
                     "isDangerous": true
                 },
@@ -375,10 +369,7 @@
                     "args": {
                         "name": "SERVER_NAME",
                         "description": "The name of server you want to switch to",
-                        "generators": {
-                            "script": "rancher server ls",
-                            "postProcess": "function(e){let t=e.split(`\n`),n=[];for(let i=1;i<t.length;i++)if(t[i].match(/\\S+/g)[0]!=\"*\"){let a=t[i].match(/\\S+/g)[1],o=t[i].match(/\\S+/g)[2];n.push({name:a,description:o,icon:\"https://rancher.com/docs/img/favicon.png\"})}return n.length===0&&n.push({name:\"No other servers found to swtich to\",description:\"\",icon:\"https://rancher.com/docs/img/favicon.png\"}),n}"
-                        }
+                        "generatorName": "fig_674f752b1e190e22"
                     }
                 }
             ]

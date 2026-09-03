@@ -68,11 +68,7 @@
             "args": {
                 "name": "order",
                 "isVariadic": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(s,p)=>{let c=T(e,t,s),o=T(e,t,p);return c!==o}",
-                    "getQueryTerm": "_NuFrRa_s=>{let p=T(e,t,s);return s.slice(p+1)}",
-                    "custom": "_NuFrRa_(...s)=>R(this,void 0,void 0,function*(){let[p]=s,c=p[p.length-1],o=T(e,t,c),d=o===-1||c.slice(o,o+e.length)!==e;return H(d?n:i,a,s)})"
-                }
+                "template": "filepaths"
             },
             "description": "Defaults to: .tsx,.ts,.jsx,.js,.json"
         },
@@ -555,14 +551,7 @@
             "args": {
                 "name": "package",
                 "debounce": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>t.startsWith(\"@\")?!(E(t)>1&&E(e)>1):!(t.includes(\"@\")&&e.includes(\"@\"))",
-                    "getQueryTerm": "@",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "custom": "_NuFrRa_(e,t)=>L(void 0,null,function*(){let n=e[e.length-1];if(n===\"\")return[];let i=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${n}\"`,a=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${n.slice(0,-1)}`,s=c=>c[c.length-1]===\"@\"?t(a):t(i),p=n.startsWith(\"@\")?E(n)>1:n.includes(\"@\");try{let c=JSON.parse(yield s(n));if(p){let o=Object.entries(c[\"dist-tags\"]||{}).map(([d,g])=>({name:d,description:g}));return o.push(...Object.keys(c.versions).map(d=>({name:d})).reverse()),o}return c.results.map(o=>({name:o.package.name,description:o.package.description}))}catch(c){return console.error({error:c}),[]}})"
-                }
+                "template": "filepaths"
             }
         },
         {

@@ -43,10 +43,7 @@
             "description": "Require module before executing",
             "args": {
                 "name": "module",
-                "generators": {
-                    "trigger": "_NuFrRa_e=>e===\"-g\"||e===\"--global\"",
-                    "custom": "function(e,n){return M(this,null,function*(){var t,a;if(!e.includes(\"-g\")&&!e.includes(\"--global\")){let i=yield n(\"cat $(npm prefix)/package.json\"),o=JSON.parse(i),p=(t=o.dependencies)!=null?t:{},c=o.devDependencies,s=(a=o.optionalDependencies)!=null?a:{};return Object.assign(p,c,s),Object.keys(p).filter(d=>!e.some(h=>h===d)).map(d=>({name:d,icon:\"\\u{1F4E6}\",description:p[d]?\"dependency\":s[d]?\"optionalDependency\":\"devDependency\"}))}else return(yield n(\"ls -1 `npm root -g`\")).split(`\n`).map(o=>({name:o,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -96,10 +93,7 @@
             "description": "Specify TypeScript project location",
             "args": {
                 "name": "project",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "function(e){return e.filter(n=>n.name.match(/.*\\.json$/g)||n.name.endsWith(\"/\")).map(n=>{let t=n.name.match(/.*\\.json?$/g),a=n.name.match(/tsconfig.json$/g);return W(T({},n),{priority:a?100:t&&76})})}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -145,9 +139,7 @@
             "description": "Specify working directory",
             "args": {
                 "name": "cwd",
-                "generators": {
-                    "template": "folders"
-                }
+                "template": "folders"
             }
         },
         {
@@ -171,9 +163,7 @@
             "description": "Directory for scope parameter",
             "args": {
                 "name": "directory",
-                "generators": {
-                    "template": "folders"
-                }
+                "template": "folders"
             }
         },
         {
@@ -196,9 +186,6 @@
     "args": {
         "name": "script",
         "isScript": true,
-        "generators": {
-            "template": "filepaths",
-            "filterTemplateSuggestions": "_NuFrRa_(d=[])=>{let u=d.filter(({name:h=\"\",type:K})=>{if(i!==\"filter\"&&K===\"folder\")return i===\"always\";if(s.has(h)||a&&new RegExp(a.source,a.flags).test(h))return!0;let[,...j]=h.split(\".\");if(j.length>=1){let D=j.length-1,C=j[D];do{if(c.has(C))return!0;D-=1,C=[j[D],C].join(\".\")}while(D>=0)}return!1});return!o&&!p?u:u.map(h=>Object.assign(Object.assign({},h),(h.type===\"file\"?o:p)||{}))}"
-        }
+        "template": "filepaths"
     }
 }

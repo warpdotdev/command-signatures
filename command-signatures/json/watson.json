@@ -6,15 +6,9 @@
             "name": "add",
             "description": "Add time to a project with tag(s) that was not tracked live",
             "args": {
-                "generators": [
-                    {
-                        "script": "watson projects",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                    },
-                    {
-                        "script": "watson tags",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                    }
+                "generatorName": [
+                    "fig_861c2808151d45be",
+                    "fig_f8dcad28a84e3857"
                 ]
             },
             "options": [
@@ -102,11 +96,8 @@
                     ],
                     "description": "Reports activity only for the given project. You can add other projects by using this option several times",
                     "args": {
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
-                        "name": "PROJECT"
+                        "name": "PROJECT",
+                        "generatorName": "fig_861c2808151d45be"
                     }
                 },
                 {
@@ -116,11 +107,8 @@
                     ],
                     "description": "Reports activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
-                        "name": "TAG"
+                        "name": "TAG",
+                        "generatorName": "fig_f8dcad28a84e3857"
                     }
                 },
                 {
@@ -211,7 +199,7 @@
                         },
                         {
                             "name": "options.date_format",
-                            "description": "Globally configure how dates should be formatted. All python’s strftime directives are supported. Default: %Y.%m.%d"
+                            "description": "Globally configure how dates should be formatted. All python\u2019s strftime directives are supported. Default: %Y.%m.%d"
                         },
                         {
                             "name": "options.log_current",
@@ -227,7 +215,7 @@
                         },
                         {
                             "name": "options.reverse_log",
-                            "description": "If true, the output of the log command will reverse the order of the days to display the latest day’s entries on top and the oldest day’s entries at the bottom. The option can be overridden on the command line with the -r/-R resp. --reverse/--no-reverse flags. Default: true"
+                            "description": "If true, the output of the log command will reverse the order of the days to display the latest day\u2019s entries on top and the oldest day\u2019s entries at the bottom. The option can be overridden on the command line with the -r/-R resp. --reverse/--no-reverse flags. Default: true"
                         },
                         {
                             "name": "options.stop_on_start",
@@ -239,7 +227,7 @@
                         },
                         {
                             "name": "options.time_format",
-                            "description": "Globally configure how time should be formatted. All python’s strftime directives are supported. Default: %H.%M:%S%z"
+                            "description": "Globally configure how time should be formatted. All python\u2019s strftime directives are supported. Default: %H.%M:%S%z"
                         },
                         {
                             "name": "options.week_start",
@@ -258,10 +246,7 @@
             "description": "Edit a frame",
             "args": {
                 "name": "FRAME ID",
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "fig_4ad54aa09fe5e753"
             },
             "options": [
                 {
@@ -447,11 +432,8 @@
                     "description": "Logs activity only for the given project. You can add other projects by using this option several times",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_861c2808151d45be"
                     }
                 },
                 {
@@ -462,11 +444,8 @@
                     "description": "Logs activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_f8dcad28a84e3857"
                     }
                 },
                 {
@@ -474,11 +453,8 @@
                     "description": "Logs activity for all projects but the given ones. You can ignore several projects by using the option multiple times. Any given project will be ignored",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_861c2808151d45be"
                     }
                 },
                 {
@@ -486,11 +462,8 @@
                     "description": "Logs activity for all tags but the given ones. You can ignore several tags by using the option multiple times. Any given tag will be ignored",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_f8dcad28a84e3857"
                     }
                 },
                 {
@@ -560,10 +533,7 @@
             "description": "Remove a frame. You can specify the frame either by id or by position (ex: -1 for the last frame)",
             "args": {
                 "name": "ID",
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "fig_4ad54aa09fe5e753"
             },
             "options": [
                 {
@@ -571,7 +541,7 @@
                         "-f",
                         "--force"
                     ],
-                    "description": "Don’t ask for confirmation"
+                    "description": "Don\u2019t ask for confirmation"
                 }
             ]
         },
@@ -593,15 +563,9 @@
                 },
                 {
                     "name": "OLD_NAME",
-                    "generators": [
-                        {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
-                        {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                    "generatorName": [
+                        "fig_861c2808151d45be",
+                        "fig_f8dcad28a84e3857"
                     ]
                 },
                 {
@@ -731,10 +695,7 @@
                     "description": "Reports activity only for the given project. You can add other projects by using this option several times",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        }
+                        "generatorName": "fig_861c2808151d45be"
                     }
                 },
                 {
@@ -745,10 +706,7 @@
                     "description": "Reports activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                        "generatorName": "fig_f8dcad28a84e3857"
                     }
                 },
                 {
@@ -756,10 +714,7 @@
                     "description": "Reports activity for all projects but the given ones. You can ignore several projects by using the option multiple times. Any given project will be ignored",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        }
+                        "generatorName": "fig_861c2808151d45be"
                     }
                 },
                 {
@@ -767,10 +722,7 @@
                     "description": "Reports activity for all tags but the given ones. You can ignore several tags by using the option multiple times. Any given tag will be ignored",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                        "generatorName": "fig_f8dcad28a84e3857"
                     }
                 },
                 {
@@ -821,10 +773,7 @@
             "args": {
                 "name": "FRAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "fig_4ad54aa09fe5e753"
             },
             "options": [
                 {
@@ -862,15 +811,9 @@
             "args": {
                 "name": "ARGS",
                 "isVariadic": true,
-                "generators": [
-                    {
-                        "script": "watson projects",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                    },
-                    {
-                        "script": "watson tags",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                    }
+                "generatorName": [
+                    "fig_861c2808151d45be",
+                    "fig_f8dcad28a84e3857"
                 ]
             },
             "options": [

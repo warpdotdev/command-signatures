@@ -130,7 +130,6 @@
                 "i"
             ],
             "description": "Pnpm install is used to install all dependencies for a project.\nIn a CI environment, installation fails if a lockfile is present but needs an update.\nInside a workspace, pnpm install installs all dependencies in all the projects.\nIf you want to disable this behavior, set the recursive-install setting to false",
-            "generateSpec": "_NuFrRa_generateSpec(e){return h(this,null,function*(){let n=e.filter(t=>t.trim()!==\"\"&&!t.startsWith(\"-\")).length>2;return{name:\"install\",options:[...F,...n?G:M]}})}",
             "args": {
                 "name": "package",
                 "isOptional": true,
@@ -913,16 +912,9 @@
                     "description": "Installs a package and any packages that it depends on. By default, any new package is installed as a production dependency",
                     "args": {
                         "name": "package",
-                        "generators": {
-                            "trigger": "_NuFrRa_(e,n)=>n.startsWith(\"@\")?!(C(n)>1&&C(e)>1):!(n.includes(\"@\")&&e.includes(\"@\"))",
-                            "getQueryTerm": "@",
-                            "cache": {
-                                "ttl": 172800000
-                            },
-                            "custom": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let t=e[e.length-1];if(t===\"\")return[];let i=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${t}\"`,s=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${t.slice(0,-1)}`,p=o=>o[o.length-1]===\"@\"?n(s):n(i),a=t.startsWith(\"@\")?C(t)>1:t.includes(\"@\");try{let o=JSON.parse(yield p(t));if(a){let r=Object.entries(o[\"dist-tags\"]||{}).map(([l,b])=>({name:l,description:b}));return r.push(...Object.keys(o.versions).map(l=>({name:l})).reverse()),r}return o.results.map(r=>({name:r.package.name,description:r.package.description}))}catch(o){return console.error({error:o}),[]}})"
-                        },
                         "debounce": true,
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "template": "filepaths"
                     },
                     "options": [
                         {
@@ -1024,20 +1016,12 @@
                         "i"
                     ],
                     "description": "Pnpm install is used to install all dependencies for a project.\nIn a CI environment, installation fails if a lockfile is present but needs an update.\nInside a workspace, pnpm install installs all dependencies in all the projects.\nIf you want to disable this behavior, set the recursive-install setting to false",
-                    "generateSpec": "_NuFrRa_generateSpec(e){return h(this,null,function*(){let n=e.filter(t=>t.trim()!==\"\"&&!t.startsWith(\"-\")).length>2;return{name:\"install\",options:[...F,...n?G:M]}})}",
                     "args": {
                         "name": "package",
                         "isOptional": true,
-                        "generators": {
-                            "trigger": "_NuFrRa_(e,n)=>n.startsWith(\"@\")?!(C(n)>1&&C(e)>1):!(n.includes(\"@\")&&e.includes(\"@\"))",
-                            "getQueryTerm": "@",
-                            "cache": {
-                                "ttl": 172800000
-                            },
-                            "custom": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let t=e[e.length-1];if(t===\"\")return[];let i=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${t}\"`,s=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${t.slice(0,-1)}`,p=o=>o[o.length-1]===\"@\"?n(s):n(i),a=t.startsWith(\"@\")?C(t)>1:t.includes(\"@\");try{let o=JSON.parse(yield p(t));if(a){let r=Object.entries(o[\"dist-tags\"]||{}).map(([l,b])=>({name:l,description:b}));return r.push(...Object.keys(o.versions).map(l=>({name:l})).reverse()),r}return o.results.map(r=>({name:r.package.name,description:r.package.description}))}catch(o){return console.error({error:o}),[]}})"
-                        },
                         "debounce": true,
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -1050,11 +1034,8 @@
                     "args": {
                         "name": "Package",
                         "isOptional": true,
-                        "generators": {
-                            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                            "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_9bb017c6db958ccb"
                     },
                     "options": [
                         {
@@ -1128,11 +1109,8 @@
                     "description": "Removes packages from node_modules and from the project's package.json",
                     "args": {
                         "name": "Package",
-                        "generators": {
-                            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                            "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_9bb017c6db958ccb"
                     },
                     "options": [
                         {
@@ -1187,11 +1165,8 @@
                     "args": [
                         {
                             "name": "Package",
-                            "generators": {
-                                "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                                "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                            },
-                            "isVariadic": true
+                            "isVariadic": true,
+                            "generatorName": "fig_9bb017c6db958ccb"
                         },
                         {
                             "template": "filepaths"
@@ -1228,11 +1203,8 @@
                     "args": [
                         {
                             "name": "Package",
-                            "generators": {
-                                "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                                "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                            },
-                            "isVariadic": true
+                            "isVariadic": true,
+                            "generatorName": "fig_9bb017c6db958ccb"
                         },
                         {
                             "template": "filepaths"
@@ -1381,11 +1353,8 @@
                     "description": "Shows all packages that depend on the specified package",
                     "args": {
                         "name": "Scripts",
-                        "generators": {
-                            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                            "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_9bb017c6db958ccb"
                     },
                     "options": [
                         {
@@ -1447,15 +1416,8 @@
                     "description": "Runs a script defined in the package's manifest file",
                     "args": {
                         "name": "Scripts",
-                        "generators": {
-                            "cache": {
-                                "strategy": "stale-while-revalidate",
-                                "cacheByDirectory": true
-                            },
-                            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                            "postProcess": "function(e,[n]){if(e.trim()==\"\")return[];try{let t=JSON.parse(e),i=t.scripts,s=t.fig||{};if(i)return Object.entries(i).map(([p,a])=>{let o=n===\"yarn\"?\"fig://icon?type=yarn\":\"fig://icon?type=npm\",r=s[p];return V({name:p,icon:o,description:a},r)})}catch(t){console.error(t)}return[]}"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_9bb017c6db958ccb"
                     },
                     "options": [
                         {
@@ -1496,11 +1458,8 @@
                     "description": "Execute a shell command in scope of a project.\nnode_modules/.bin is added to the PATH, so pnpm exec allows executing commands of dependencies",
                     "args": {
                         "name": "Scripts",
-                        "generators": {
-                            "script": "until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json",
-                            "postProcess": "function(e,n=[]){var t,i;if(e.trim()===\"\")return[];try{let s=JSON.parse(e),p=(t=s.dependencies)!=null?t:{},a=s.devDependencies,o=(i=s.optionalDependencies)!=null?i:{};return Object.assign(p,a,o),Object.keys(p).filter(r=>!n.some(b=>b===r)).map(r=>({name:r,icon:\"\\u{1F4E6}\",description:p[r]?\"dependency\":o[r]?\"optionalDependency\":\"devDependency\"}))}catch(s){return console.error(s),[]}}"
-                        },
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "fig_9bb017c6db958ccb"
                     },
                     "options": [
                         {
@@ -1541,10 +1500,7 @@
                     "description": "Publishes a package to the registry.\nWhen publishing a package inside a workspace, the LICENSE file from the root of the workspace is packed with the package (unless the package has a license of its own).\nYou may override some fields before publish, using the publishConfig field in package.json. You also can use the publishConfig.directory to customize the published subdirectory (usually using third party build tools).\nWhen running this command recursively (pnpm -r publish), pnpm will publish all the packages that have versions not yet published to the registry",
                     "args": {
                         "name": "Branch",
-                        "generators": {
-                            "script": "git branch --no-color",
-                            "postProcess": "function(e){let n=ne(e);return n.startsWith(\"fatal:\")?[]:n.split(`\n`).map(t=>{let i=t.trim(),s=t.match(/\\S+/g);if(s.length>1){if(s[0]==\"*\")return{name:t.replace(\"*\",\"\").trim(),description:\"Current branch\",icon:\"\\u2B50\\uFE0F\"};s[0]==\"+\"&&(i=t.replace(\"+\",\"\").trim())}return{name:i,description:\"Branch\",icon:\"fig://icon?type=git\"}})}"
-                        }
+                        "generatorName": "fig_52b8a3e3cbdf3a04"
                     },
                     "options": [
                         {

@@ -3,6 +3,8 @@ use std::iter::FromIterator;
 use warp_completion_metadata::DynamicCompletionData;
 
 mod common;
+mod fig_imported;
+mod fig_parse;
 
 /// Used for debian-based package managers like apt-get, aptitude, etc.
 mod apt;
@@ -174,5 +176,17 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         yc::generator(),
     ];
 
-    HashMap::from_iter(command_signature_generators.map(Into::into))
+    let mut map = HashMap::from_iter(command_signature_generators.map(Into::into));
+    for imported in fig_imported::generators() {
+        let (name, data) = imported.into();
+        match map.entry(name) {
+            std::collections::hash_map::Entry::Occupied(mut occupied) => {
+                occupied.get_mut().extend(data);
+            }
+            std::collections::hash_map::Entry::Vacant(vacant) => {
+                vacant.insert(data);
+            }
+        }
+    }
+    map
 }

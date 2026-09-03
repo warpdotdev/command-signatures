@@ -9,12 +9,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 }
             ]
         },
@@ -26,14 +30,7 @@
                 "description": "Package(s) to upgrade",
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": {
-                    "script": [
-                        "apt",
-                        "list",
-                        "--upgradable"
-                    ],
-                    "postProcess": "function(e){return e.trim().split(`\n`).map(t=>({name:t.substring(0,t.indexOf(\"/\")),description:\"Package\",icon:\"\\u{1F4E6}\"}))}"
-                }
+                "generatorName": "fig_9b1f20c5990857db"
             },
             "options": [
                 {
@@ -50,12 +47,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -84,12 +85,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -107,17 +112,7 @@
                 "name": "package",
                 "description": "The package you want to install",
                 "isVariadic": true,
-                "generators": [
-                    {
-                        "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                        "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                    },
-                    {
-                        "trigger": "_NuFrRa_(g,m)=>{let O=g.lastIndexOf(\"/\"),p=m.lastIndexOf(\"/\");return O!==p?!0:O===-1&&p===-1?!1:g.slice(0,O)!==m.slice(0,p)}",
-                        "getQueryTerm": "_NuFrRa_g=>g.slice(g.lastIndexOf(\"/\")+1)",
-                        "custom": "_NuFrRa_(g,m,O)=>he(this,void 0,void 0,function*(){var p;let{isDangerous:k,currentWorkingDirectory:_,searchTerm:h}=O,x=(p=(0,v.getCurrentInsertedDirectory)(u??_,h,O))!==null&&p!==void 0?p:\"/\";try{let $=yield m({command:\"ls\",args:[\"-1ApL\"],cwd:x}),ie=Q($.stdout.split(`\n`),[\".DS_Store\"]),G=[];for(let L of ie)if(L){let D=L.endsWith(\"/\")?\"folders\":\"filepaths\";(D===\"filepaths\"&&l!==\"only\"||D===\"folders\"&&l!==\"never\")&&G.push({type:D===\"filepaths\"?\"file\":\"folder\",name:L,insertValue:L,isDangerous:k,context:{templateType:D}})}return S(y(G))}catch{return[]}})"
-                    }
-                ]
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -134,12 +129,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -168,25 +167,22 @@
                 "name": "package",
                 "description": "The package you want to reinstall",
                 "isVariadic": true,
-                "generators": {
-                    "script": [
-                        "apt",
-                        "list",
-                        "--installed"
-                    ],
-                    "postProcess": "function(e){return e.trim().split(`\n`).map(t=>({name:t.substring(0,t.indexOf(\"/\")),description:\"Package\",icon:\"\\u{1F4E6}\"}))}"
-                }
+                "generatorName": "fig_4344dead34cb612a"
             },
             "options": [
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -204,25 +200,22 @@
                 "name": "package",
                 "description": "The package you want to remove",
                 "isVariadic": true,
-                "generators": {
-                    "script": [
-                        "apt",
-                        "list",
-                        "--installed"
-                    ],
-                    "postProcess": "function(e){return e.trim().split(`\n`).map(t=>({name:t.substring(0,t.indexOf(\"/\")),description:\"Package\",icon:\"\\u{1F4E6}\"}))}"
-                }
+                "generatorName": "fig_4344dead34cb612a"
             },
             "options": [
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -247,25 +240,22 @@
                 "name": "package",
                 "description": "The package you want to purge",
                 "isVariadic": true,
-                "generators": {
-                    "script": [
-                        "apt",
-                        "list",
-                        "--installed"
-                    ],
-                    "postProcess": "function(e){return e.trim().split(`\n`).map(t=>({name:t.substring(0,t.indexOf(\"/\")),description:\"Package\",icon:\"\\u{1F4E6}\"}))}"
-                }
+                "generatorName": "fig_4344dead34cb612a"
             },
             "options": [
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -286,12 +276,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -327,12 +321,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 }
             ]
         },
@@ -342,10 +340,7 @@
             "args": {
                 "name": "package",
                 "description": "The package you want to show",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -355,10 +350,7 @@
                 "name": "package",
                 "description": "The package you want to satisfy",
                 "isVariadic": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                }
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -375,12 +367,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -398,12 +394,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -421,12 +421,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 }
             ]
         },
@@ -437,10 +441,7 @@
                 "name": "package",
                 "description": "The package you want to get source files for",
                 "isVariadic": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                }
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -457,12 +458,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -475,7 +480,9 @@
                     "name": "--compile",
                     "description": "Compile the package to a binary using dpkg-buildpackage"
                 },
-                { "name": "--only-source" },
+                {
+                    "name": "--only-source"
+                },
                 {
                     "name": "--host-architecture",
                     "description": "The architecture to build for",
@@ -492,10 +499,7 @@
             "args": {
                 "name": "package",
                 "description": "The package you want to build dependencies for",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                }
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -512,12 +516,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -534,7 +542,9 @@
                         "description": "The architecture to build for"
                     }
                 },
-                { "name": "--only-source" }
+                {
+                    "name": "--only-source"
+                }
             ]
         },
         {
@@ -543,10 +553,7 @@
             "args": {
                 "name": "package",
                 "description": "The package you want to download",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                }
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -563,12 +570,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 }
             ]
         },
@@ -593,12 +604,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 },
                 {
                     "name": [
@@ -615,11 +630,8 @@
             "args": {
                 "name": "package",
                 "description": "The package you want to show the changelog for",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,t)=>e.length===0||t.length===0&&e.length>0",
-                    "custom": "_NuFrRa_(e,t)=>z(void 0,null,function*(){let n=e[e.length-1];if(n.length===0)return[];let{stdout:a}=yield t({command:\"apt\",args:[\"list\"]});return a.trim().split(`\n`).filter(i=>i.startsWith(n)).map(i=>i.replace(/\\/.*/,\"\")).map(i=>({name:i,description:\"Package\",icon:\"\\u{1F4E6}\",priority:50}))})"
-                },
-                "isVariadic": true
+                "isVariadic": true,
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -636,12 +648,16 @@
                 {
                     "name": "-y",
                     "description": "Assume yes to all prompts",
-                    "exclusiveOn": ["--assume-no"]
+                    "exclusiveOn": [
+                        "--assume-no"
+                    ]
                 },
                 {
                     "name": "--assume-no",
                     "description": "Assume no to all prompts",
-                    "exclusiveOn": ["-y"]
+                    "exclusiveOn": [
+                        "-y"
+                    ]
                 }
             ]
         }

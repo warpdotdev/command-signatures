@@ -256,4 +256,31 @@ mod tests {
                 });
         }
     }
+
+    fn json_has_key(value: &serde_json::Value, key: &str) -> bool {
+        match value {
+            serde_json::Value::Object(map) => {
+                map.contains_key(key) || map.values().any(|v| json_has_key(v, key))
+            }
+            serde_json::Value::Array(arr) => arr.iter().any(|v| json_has_key(v, key)),
+            _ => false,
+        }
+    }
+
+    #[test]
+    fn fig_js_generator_fields_are_removed() {
+        for name in all_signature_names() {
+            let file = Assets::get(&format!("{name}.json")).expect(name);
+            let value: serde_json::Value =
+                serde_json::from_slice(&file.data).unwrap_or_else(|e| panic!("{name}: {e}"));
+            assert!(
+                !json_has_key(&value, "generators"),
+                "{name} still has a generators field"
+            );
+            assert!(
+                !json_has_key(&value, "generateSpec"),
+                "{name} still has a generateSpec field"
+            );
+        }
+    }
 }

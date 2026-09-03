@@ -1400,11 +1400,8 @@
                     "name": "--max-workers",
                     "description": "Maximum number of tasks to allow Metro to spawn",
                     "args": {
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>{let e=Number(t);return Array.from({length:e},(o,n)=>{let i=e-n;return{priority:i,name:String(i)}})}"
-                        },
-                        "name": "Number of workers"
+                        "name": "Number of workers",
+                        "generatorName": "fig_41013b42bf3f0010"
                     }
                 },
                 {
@@ -1851,14 +1848,11 @@
             "description": "Install a module or other package to a project",
             "priority": 64,
             "args": {
-                "generators": {
-                    "script": "_NuFrRa_script(t){return t[t.length-1]===\"\"?\"\":`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?q=${t[t.length-1]}&size=20\"`}",
-                    "postProcess": "_NuFrRa_postProcess(t){try{return JSON.parse(t).results.map(o=>({name:o.package.name,description:o.package.description}))}catch(e){return[]}}"
-                },
                 "isOptional": true,
                 "isVariadic": true,
                 "name": "packages",
-                "debounce": true
+                "debounce": true,
+                "template": "filepaths"
             },
             "options": [
                 {
@@ -1993,11 +1987,8 @@
                     "name": "--max-workers",
                     "description": "Maximum number of tasks to allow Metro to spawn",
                     "args": {
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>{let e=Number(t);return Array.from({length:e},(o,n)=>{let i=e-n;return{priority:i,name:String(i)}})}"
-                        },
-                        "name": "Number of workers"
+                        "name": "Number of workers",
+                        "generatorName": "fig_41013b42bf3f0010"
                     }
                 },
                 {
@@ -2594,11 +2585,8 @@
                     ],
                     "description": "Device name or UDID to build the app on",
                     "args": {
-                        "generators": {
-                            "script": "xcrun xctrace list devices",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).filter(e=>!e.match(/^=/)).filter(Boolean).map(e=>e.split(/(.*?) (\\(([0-9.]+)\\) )?\\(([0-9A-F-]+)\\)/i)).filter(e=>!!(e!=null&&e[3])).map(([,e,,o,n])=>({displayName:`${e.trim()} (${o})`,name:n}))"
-                        },
-                        "name": "device"
+                        "name": "device",
+                        "generatorName": "fig_ca78611a7473d104"
                     }
                 },
                 {
@@ -2615,23 +2603,17 @@
                     "name": "--scheme",
                     "description": "Scheme to build",
                     "args": {
-                        "generators": {
-                            "script": "xcodebuild -project ios/*.xcodeproj -list -json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).project.schemes.map(e=>({name:e}))"
-                        },
                         "name": "scheme",
-                        "isOptional": true
+                        "isOptional": true,
+                        "generatorName": "fig_5b53e359bb4cb629"
                     }
                 },
                 {
                     "name": "--configuration",
                     "description": "Xcode configuration to use. Debug or Release. Default: Debug",
                     "args": {
-                        "generators": {
-                            "script": "xcodebuild -project ios/*.xcodeproj -list -json",
-                            "postProcess": "_NuFrRa_t=>JSON.parse(t).project.configurations.map(e=>({name:e}))"
-                        },
-                        "name": "configuration"
+                        "name": "configuration",
+                        "generatorName": "fig_5b53e359bb4cb629"
                     }
                 },
                 {
@@ -2875,11 +2857,8 @@
                     "name": "--max-workers",
                     "description": "Maximum number of tasks to allow Metro to spawn",
                     "args": {
-                        "generators": {
-                            "script": "sysctl -n hw.ncpu",
-                            "postProcess": "_NuFrRa_t=>{let e=Number(t);return Array.from({length:e},(o,n)=>{let i=e-n;return{priority:i,name:String(i)}})}"
-                        },
-                        "name": "Number of workers"
+                        "name": "Number of workers",
+                        "generatorName": "fig_41013b42bf3f0010"
                     }
                 },
                 {
