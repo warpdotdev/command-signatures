@@ -1028,18 +1028,45 @@ pub fn generator() -> CommandSignatureGenerators {
                 },
             ),
         )
+}
 
+fn git_generator_named(git: &CommandSignatureGenerators, name: &'static str) -> Generator {
+    git.generators()
+        .get(&GeneratorName::new(name))
+        .cloned()
+        .unwrap_or_else(|| unreachable!("git registers {name}"))
+}
+
+/// `hub` is GitHub's git wrapper. Warp loads hub.json by filename (`hub`), not by
+/// the spec's `name` field (`git`), so hub.json's generators must be keyed `hub`.
+pub fn hub_generator() -> CommandSignatureGenerators {
+    let git = generator();
+    CommandSignatureGenerators::new("hub")
+        .add_generator("aliases", git_generator_named(&git, "aliases"))
+        .add_generator("remotes", git_generator_named(&git, "remotes"))
+        .add_generator("revs", git_generator_named(&git, "revs"))
+        .add_generator(
+            "settings_generator",
+            git_generator_named(&git, "settings_generator"),
+        )
+        .add_generator("stashes", git_generator_named(&git, "stashes"))
+        .add_generator("treeish", git_generator_named(&git, "treeish"))
+        .add_generator("tag", git_generator_named(&git, "tags"))
         .add_generator(
             "branches",
             Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate"),
+                CommandBuilder::single_command(
+                    "git --no-optional-locks branch --no-color --sort=-committerdate",
+                ),
                 post_process_branches,
             ),
         )
         .add_generator(
             "branches_no",
             Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks branch -a --no-color --sort=-committerdate"),
+                CommandBuilder::single_command(
+                    "git --no-optional-locks branch -a --no-color --sort=-committerdate",
+                ),
                 post_process_branches,
             ),
         )
@@ -1055,13 +1082,6 @@ pub fn generator() -> CommandSignatureGenerators {
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks status --short"),
                 output_parsers::git_status_short,
-            ),
-        )
-        .add_generator(
-            "tag",
-            Generator::script(
-                CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-committerdate"),
-                post_process_tags,
             ),
         )
         .add_generator(

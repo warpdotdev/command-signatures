@@ -58,10 +58,6 @@ pub fn rs() -> TemplateFilter {
     TemplateFilter(|suggestion, path_type| folders_or_ext(suggestion, path_type, &["rs"], None))
 }
 
-pub fn snap() -> TemplateFilter {
-    TemplateFilter(|suggestion, path_type| folders_or_ext(suggestion, path_type, &["snap"], None))
-}
-
 pub fn cargo_toml() -> TemplateFilter {
     TemplateFilter(|suggestion, path_type| {
         folders_or_equals(suggestion, path_type, &["Cargo.toml"])
@@ -80,10 +76,6 @@ pub fn rustfmt_toml() -> TemplateFilter {
     })
 }
 
-pub fn deny_toml() -> TemplateFilter {
-    TemplateFilter(|suggestion, path_type| folders_or_equals(suggestion, path_type, &["deny.toml"]))
-}
-
 pub fn js_ts_family() -> TemplateFilter {
     TemplateFilter(|suggestion, path_type| {
         folders_or_ext(
@@ -92,24 +84,6 @@ pub fn js_ts_family() -> TemplateFilter {
             &["ts", "tsx", "js", "jsx", "mjs", "cjs"],
             None,
         )
-    })
-}
-
-pub fn bun_script() -> TemplateFilter {
-    TemplateFilter(|mut suggestion, path_type| {
-        if path_type.is_folder() {
-            return Some(suggestion);
-        }
-        let name = suggestion.exact_string.to_ascii_lowercase();
-        let matched = [".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs", ".mts", ".cts"]
-            .iter()
-            .any(|ext| name.ends_with(ext) || name.ends_with(&format!("{ext}/")));
-        if matched {
-            suggestion.priority = Priority::Global(Importance::More(Order(76)));
-            Some(suggestion)
-        } else {
-            None
-        }
     })
 }
 

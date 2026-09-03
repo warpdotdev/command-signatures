@@ -1,7 +1,6 @@
 use warp_completion_metadata::CommandSignatureGenerators;
 
 use crate::generators::common::{dependencies_generator, get_scripts_generator};
-use crate::generators::template_filters;
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("bun")
@@ -14,8 +13,6 @@ pub fn generator() -> CommandSignatureGenerators {
                 crate::generators::output_parsers::npms_search_results,
             ),
         )
-        .add_filter("filter-bun-script", template_filters::bun_script())
-        .add_filter("filter-js-ts-family", template_filters::js_ts_family())
 }
 
 #[cfg(test)]
