@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -8,7 +8,7 @@ pub fn generator() -> CommandSignatureGenerators {
             CommandBuilder::single_command(
                 r#"for i in $(find -E . -regex ".*.robot" -type f); do cat -s $i ; done"#,
             ),
-            fig_parse::lines,
+            output_parsers::lines,
         ),
     )
 }

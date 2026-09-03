@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{
     Alias, CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
     GeneratorResultsCollector, Suggestion,
@@ -327,7 +327,7 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
             "until_package_json_do_cd",
             Generator::script(
                 CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"),
-                fig_parse::json_script_keys,
+                output_parsers::json_script_keys,
             ),
         )
 }
@@ -382,6 +382,13 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
             executables_within_node_modules(),
         )
         .add_alias("script_alias", script_alias_generator())
+        .add_generator(
+            "create_package_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search_create_prefix,
+                super::output_parsers::npms_search_results,
+            ),
+        )
 }
 
 #[cfg(test)]

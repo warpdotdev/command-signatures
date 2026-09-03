@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_package_json",
             Generator::script(
                 CommandBuilder::single_command("cat package.json"),
-                fig_parse::json_cordova_platforms,
+                output_parsers::json_cordova_platforms,
             ),
         )
         .add_generator(
             "plugin_list",
             Generator::script(
                 CommandBuilder::single_command("cordova plugin list"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "completions",
             Generator::script(
                 CommandBuilder::single_command("bat --list-themes"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "completions_bat",
             Generator::script(
                 CommandBuilder::single_command("bat --list-languages"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -23,7 +23,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "bat --paging unknow  2>&1 >/dev/null | grep possible",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -32,7 +32,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "bat --decorations unknow  2>&1 >/dev/null | grep possible",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -41,7 +41,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "bat --color unknow  2>&1 >/dev/null | grep possible",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -50,7 +50,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "bat --italic-text unknow  2>&1 >/dev/null | grep possible",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -59,7 +59,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "bat --wrap unknow  2>&1 >/dev/null | grep possible",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

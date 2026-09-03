@@ -1,4 +1,4 @@
-use super::{fig_filters, fig_parse};
+use super::{output_parsers, template_filters};
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,8 +7,8 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("limactl list --quiet"),
-                fig_parse::lines_desc_instance,
+                output_parsers::lines_desc_instance,
             ),
         )
-        .add_filter("filter-yml-yaml", fig_filters::yml_yaml())
+        .add_filter("filter-yml-yaml", template_filters::yml_yaml())
 }

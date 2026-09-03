@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use itertools::Itertools;
 use warp_completion_metadata::{
     Alias, CommandBuilder, CommandSignatureGenerators, Generator, GeneratorName, GeneratorResults,
@@ -1033,35 +1033,42 @@ pub fn generator() -> CommandSignatureGenerators {
             "branches",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "branches_no",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks branch -a --no-color --sort=-committerdate"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "log",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks log --oneline"),
-                fig_parse::git_oneline,
+                output_parsers::git_oneline,
             ),
         )
         .add_generator(
             "status",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks status --short"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "tag",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-committerdate"),
-                fig_parse::lines,
+                output_parsers::lines,
+            ),
+        )
+        .add_generator(
+            "status_staged_or_unstaged",
+            Generator::command_from_tokens(
+                super::fig_token::git_status_staged_or_unstaged,
+                output_parsers::lines,
             ),
         )
 }

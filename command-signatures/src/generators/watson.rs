@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,21 +7,21 @@ pub fn generator() -> CommandSignatureGenerators {
             "log",
             Generator::script(
                 CommandBuilder::single_command("watson log --json --reverse"),
-                fig_parse::json_string_array,
+                output_parsers::json_string_array,
             ),
         )
         .add_generator(
             "projects",
             Generator::script(
                 CommandBuilder::single_command("watson projects"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "tags",
             Generator::script(
                 CommandBuilder::single_command("watson tags"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

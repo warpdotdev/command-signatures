@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "until_node_modules_do_cd",
             Generator::script(
                 CommandBuilder::single_command("until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

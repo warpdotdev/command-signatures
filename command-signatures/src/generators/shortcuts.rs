@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("shortcuts list"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "list_shortcuts",
             Generator::script(
                 CommandBuilder::single_command("shortcuts list --folders"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

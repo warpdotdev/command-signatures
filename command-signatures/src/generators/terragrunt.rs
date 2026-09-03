@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "state_list",
             Generator::script(
                 CommandBuilder::single_command("terragrunt state list"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "workspace_list",
             Generator::script(
                 CommandBuilder::single_command("terragrunt workspace list"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

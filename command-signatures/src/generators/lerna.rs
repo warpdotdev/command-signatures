@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "git_branch",
             Generator::script(
                 CommandBuilder::single_command("git branch --no-color"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "git_remote",
             Generator::script(
                 CommandBuilder::single_command("git remote"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -23,11 +23,14 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     r"lerna list -p | while read p; do  \cat $p/package.json && echo END done",
                 ),
-                fig_parse::json_script_keys,
+                output_parsers::json_script_keys,
             ),
         )
         .add_generator(
             "ls",
-            Generator::script(CommandBuilder::single_command("lerna ls"), fig_parse::lines),
+            Generator::script(
+                CommandBuilder::single_command("lerna ls"),
+                output_parsers::lines,
+            ),
         )
 }

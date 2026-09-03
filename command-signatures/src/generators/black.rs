@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "gh_release_list_psf_black",
         Generator::script(
             CommandBuilder::single_command("gh release list --repo psf/black"),
-            fig_parse::lines,
+            output_parsers::lines,
         ),
     )
 }

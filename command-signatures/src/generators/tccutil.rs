@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "mdfind_applications_while_read",
             Generator::script(
                 CommandBuilder::single_command(r#"mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /Applications | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r "$line") $line; done"#),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

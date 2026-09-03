@@ -1,29 +1,36 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("deno")
         .add_generator(
-            "curl_https_cdn_deno_land_deno_meta_versions_json",
+            "deno_versions",
             Generator::script(
                 CommandBuilder::single_command(
                     "curl -sL 'https://cdn.deno.land/deno/meta/versions.json'",
                 ),
-                fig_parse::json_string_array,
+                output_parsers::json_string_array,
             ),
         )
         .add_generator(
-            "find_deno_bin_1_f",
+            "deno_binaries",
             Generator::script(
                 CommandBuilder::single_command(r"\find ~/.deno/bin -maxdepth 1 -perm -111 -type f"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "lint",
             Generator::script(
                 CommandBuilder::single_command("deno lint --rules --json"),
-                fig_parse::json_deno_codes,
+                output_parsers::json_deno_codes,
+            ),
+        )
+        .add_generator(
+            "doc_json",
+            Generator::command_from_tokens(
+                super::fig_token::deno_doc_json,
+                output_parsers::json_string_array,
             ),
         )
 }

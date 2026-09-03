@@ -223,6 +223,77 @@ pub fn json_script_keys(output: &str) -> GeneratorResults {
     }
 }
 
+pub fn npms_search_results(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("results").cloned()) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let package = value.get("package")?;
+                let name = package.get("name")?.as_str()?;
+                let description = package
+                    .get("description")
+                    .and_then(Value::as_str)
+                    .unwrap_or("");
+                Some(Suggestion::with_description(name, description))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn json_crates(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("crates").cloned()) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let name = value.get("name")?.as_str()?;
+                let description = value
+                    .get("description")
+                    .and_then(Value::as_str)
+                    .map(str::to_owned)
+                    .or_else(|| {
+                        value
+                            .get("newest_version")
+                            .and_then(Value::as_str)
+                            .map(|version| format!("v{version}"))
+                    })
+                    .unwrap_or_default();
+                Some(Suggestion::with_description(name, description))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn gh_repo_list_json(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let name = value.get("nameWithOwner")?.as_str()?;
+                let description = value
+                    .get("description")
+                    .and_then(Value::as_str)
+                    .unwrap_or("");
+                Some(Suggestion::with_description(name, description))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn docker_from_as_names(output: &str) -> GeneratorResults {
+    let re = regex::Regex::new(r"(?i)(?:as)\s+([\w:.-]+)").ok();
+    nonempty_lines(output)
+        .filter_map(|line| {
+            re.as_ref()
+                .and_then(|re| re.captures(line))
+                .and_then(|c| c.get(1))
+                .map(|m| Suggestion::new(m.as_str()))
+        })
+        .collect_unordered_results()
+}
+
 pub fn ssh_hosts(output: &str) -> GeneratorResults {
     nonempty_lines(output)
         .filter(|line| line.trim().starts_with("Host ") && !line.contains('*'))

@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("tfenv list"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "list_remote",
             Generator::script(
                 CommandBuilder::single_command("tfenv list-remote"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

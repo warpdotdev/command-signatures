@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "list",
         Generator::script(
             CommandBuilder::single_command("eb list"),
-            fig_parse::strip_star_prefix,
+            output_parsers::strip_star_prefix,
         ),
     )
 }

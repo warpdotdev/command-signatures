@@ -483,4 +483,12 @@ pub fn generator() -> CommandSignatureGenerators {
                 .then_some(suggestion)
             }),
         )
+        .add_generator(
+            "from_as",
+            Generator::command_from_tokens(super::fig_token::docker_from_as, super::output_parsers::docker_from_as_names),
+        )
+        .add_generator(
+            "search",
+            Generator::command_from_tokens(super::fig_token::docker_search, super::output_parsers::lines),
+        )
 }

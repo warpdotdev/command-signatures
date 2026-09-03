@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "networksetup_wi_fi_getline_print_networksetup",
             Generator::script(
                 CommandBuilder::single_command("networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}' | xargs networksetup -listpreferredwirelessnetworks"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

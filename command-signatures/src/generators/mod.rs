@@ -10,6 +10,7 @@ mod autojump;
 mod bat;
 mod black;
 mod checkov;
+mod chown;
 mod cmd_n;
 mod common;
 mod copilot;
@@ -26,9 +27,8 @@ mod eslint;
 mod expo;
 mod expo_cli;
 mod ffmpeg;
-mod fig_filters;
-mod fig_parse;
-mod fig_teams_latest;
+mod fig_teams;
+mod fig_token;
 mod fisher;
 mod fly;
 mod flyctl;
@@ -55,6 +55,7 @@ mod ns;
 mod okteto;
 mod op;
 mod open;
+mod output_parsers;
 mod pandoc;
 mod pre_commit;
 mod projj;
@@ -76,11 +77,13 @@ mod stepzen;
 mod sysctl;
 mod tailscale;
 mod tccutil;
+mod template_filters;
 mod terragrunt;
 mod tfenv;
 mod tfsec;
 mod tokei;
 mod trex;
+mod trivy;
 mod ts_node;
 mod turbo;
 mod vite;
@@ -272,6 +275,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         bat::generator(),
         black::generator(),
         checkov::generator(),
+        chown::generator(),
         copilot::generator(),
         cordova::generator(),
         deno::generator(),
@@ -286,7 +290,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         expo::generator(),
         expo_cli::generator(),
         ffmpeg::generator(),
-        fig_teams_latest::generator(),
+        fig_teams::generator(),
         fisher::generator(),
         fly::generator(),
         flyctl::generator(),
@@ -339,6 +343,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         tfsec::generator(),
         tokei::generator(),
         trex::generator(),
+        trivy::generator(),
         ts_node::generator(),
         turbo::generator(),
         vite::generator(),

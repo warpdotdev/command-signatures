@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::{fig_token, output_parsers};
 use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
@@ -157,7 +157,18 @@ pub fn generator() -> CommandSignatureGenerators {
             "read_manifest",
             Generator::script(
                 CommandBuilder::single_command("cargo read-manifest"),
-                fig_parse::json_string_array,
+                output_parsers::json_string_array,
             ),
+        )
+        .add_generator(
+            "crates_io_search",
+            Generator::command_from_tokens(
+                fig_token::crates_io_search,
+                output_parsers::json_crates,
+            ),
+        )
+        .add_generator(
+            "test_list",
+            Generator::command_from_tokens(fig_token::cargo_test_list, output_parsers::lines),
         )
 }

@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "completions",
             Generator::script(
                 CommandBuilder::single_command("pandoc --list-output-formats"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
             "completions_list",
             Generator::script(
                 CommandBuilder::single_command("pandoc --list-input-formats"),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
         .add_generator(
@@ -23,7 +23,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "pandoc --list-input-formats && pandoc --list-output-formats",
                 ),
-                fig_parse::lines,
+                output_parsers::lines,
             ),
         )
 }

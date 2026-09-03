@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list_apps",
             Generator::script(
                 CommandBuilder::single_command("flyctl list apps"),
-                fig_parse::pipe_table_name_col1_desc,
+                output_parsers::pipe_table_name_col1_desc,
             ),
         )
         .add_generator(
             "list_orgs",
             Generator::script(
                 CommandBuilder::single_command("flyctl list orgs"),
-                fig_parse::pipe_table_name_col1_desc,
+                output_parsers::pipe_table_name_col1_desc,
             ),
         )
 }

@@ -1,4 +1,4 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "ls",
             Generator::script(
                 CommandBuilder::single_command("fnm ls"),
-                fig_parse::slice2_reversed,
+                output_parsers::slice2_reversed,
             ),
         )
         .add_generator(
             "ls_remote",
             Generator::script(
                 CommandBuilder::single_command("fnm ls-remote"),
-                fig_parse::second_whitespace_token,
+                output_parsers::second_whitespace_token,
             ),
         )
 }

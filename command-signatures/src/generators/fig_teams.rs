@@ -1,18 +1,21 @@
-use super::fig_parse;
+use super::output_parsers;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("fig-teams@latest")
         .add_generator(
-            "npx_fig_teams_latest_teams",
+            "teams_list",
             Generator::script(
                 CommandBuilder::single_command("npx -y fig-teams@latest teams ls --json"),
-                fig_parse::json_string_array,
+                output_parsers::json_string_array,
             ),
         )
         .add_generator(
-            "npx_fig_teams_latest_users",
-            Generator::command_from_tokens(users_for_selected_team, fig_parse::json_string_array),
+            "users_for_selected_team",
+            Generator::command_from_tokens(
+                users_for_selected_team,
+                output_parsers::json_string_array,
+            ),
         )
 }
 
