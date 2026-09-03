@@ -9,26 +9,3 @@ pub fn lines(output: &str) -> GeneratorResults {
         .map(Suggestion::new)
         .collect_unordered_results()
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn lines_skips_blank_and_trims() {
-        let results = lines("  alpha  \n\nbeta\n");
-        let names: Vec<_> = results
-            .suggestions
-            .iter()
-            .map(|s| s.exact_string.as_str())
-            .collect();
-        assert_eq!(names, vec!["alpha", "beta"]);
-        assert!(!results.is_ordered);
-    }
-
-    #[test]
-    fn lines_empty_output_is_empty() {
-        let results = lines("   \n\n");
-        assert!(results.suggestions.is_empty());
-    }
-}

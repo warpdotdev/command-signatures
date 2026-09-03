@@ -5,7 +5,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("mdfind").add_generator(
         "ls_library_saved_searches_savedsearch",
         Generator::script(
-            CommandBuilder::single_command("ls -1A ~/Library/Saved\\ Searches/*.savedSearch"),
+            CommandBuilder::single_command(r"ls -1A ~/Library/Saved\ Searches/*.savedSearch"),
             fig_parse::lines,
         ),
     )

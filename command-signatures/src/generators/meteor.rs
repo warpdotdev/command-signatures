@@ -4,20 +4,6 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("meteor")
         .add_generator(
-            "create",
-            Generator::script(
-                CommandBuilder::single_command("meteor create --list"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_meteor_packages_2",
-            Generator::script(
-                CommandBuilder::single_command("cat ./.meteor/packages"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
             "cat_meteor_packages",
             Generator::script(
                 CommandBuilder::single_command("cat ./.meteor/packages"),
@@ -25,9 +11,9 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
-            "list_platforms_meteor",
+            "create",
             Generator::script(
-                CommandBuilder::single_command("meteor list-platforms"),
+                CommandBuilder::single_command("meteor create --list"),
                 fig_parse::lines,
             ),
         )

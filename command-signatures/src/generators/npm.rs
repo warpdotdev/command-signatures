@@ -322,6 +322,14 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
             "workspace_packages_generator",
             workspace_packages_generator(),
         )
+
+        .add_generator(
+            "until_package_json_do_cd",
+            Generator::script(
+                CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"),
+                fig_parse::lines,
+            ),
+        )
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
@@ -374,19 +382,6 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
             executables_within_node_modules(),
         )
         .add_alias("script_alias", script_alias_generator())
-}
-
-
-pub fn pnpm_script_generators() -> CommandSignatureGenerators {
-    CommandSignatureGenerators::new("pnpm")
-        .add_generator("until_package_json_do_cd_3", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd_2", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd_cat", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd_done", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd_pwd", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd_f", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("until_package_json_do_cd", Generator::script(CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"), fig_parse::lines))
-        .add_generator("git_branch", Generator::script(CommandBuilder::single_command("git branch --no-color"), fig_parse::lines))
 }
 
 #[cfg(test)]

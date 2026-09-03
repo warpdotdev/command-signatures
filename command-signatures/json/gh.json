@@ -5,7 +5,7 @@
         "name": "alias",
         "description": "Custom user defined gh alias",
         "isOptional": true,
-                "generatorName": "alias_list_gh"
+        "generatorName": "list_alias"
     },
     "subcommands": [
         {
@@ -23,7 +23,7 @@
                     "description": "Delete an alias",
                     "args": {
                         "name": "alias",
-                                                "generatorName": "alias_list"
+                        "generatorName": "list_alias"
                     },
                     "options": [
                         {
@@ -265,7 +265,7 @@
             "description": "Open the repository in the browser",
             "args": {
                 "name": "[pr | issue | path[:line]",
-                                "generatorName": "pr_list_11",
+                "generatorName": "list_pr",
                 "suggestCurrentToken": true
             },
             "options": [
@@ -281,7 +281,7 @@
                     "description": "Select another branch by passing in the branch name",
                     "args": {
                         "name": "branch",
-                                                "generatorName": "git_branch_no"
+                        "generatorName": "git_branch"
                     }
                 },
                 {
@@ -1400,7 +1400,7 @@
                     "description": "Check out a pull request in git",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_10"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1414,7 +1414,7 @@
                     "description": "Show CI status for a single pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_9"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1431,7 +1431,7 @@
                     "description": "Close a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_8"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1448,7 +1448,7 @@
                     "description": "Edit a pull request. Without an argument, the pull request that belongs to the current branch is selected",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_7"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1578,7 +1578,7 @@
                     "description": "Create a new pr comment",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_6"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1630,7 +1630,7 @@
                             "description": "The branch into which you want your code merged",
                             "args": {
                                 "name": "branch",
-                                                                "generatorName": "git_branch"
+                                "generatorName": "git_branch"
                             }
                         },
                         {
@@ -1743,7 +1743,7 @@
                     "description": "View changes in a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_5"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1826,7 +1826,7 @@
                     "description": "Merge a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_4"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1924,7 +1924,7 @@
                     "description": "Mark a pull request as ready for review",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_3"
+                        "generatorName": "list_pr"
                     }
                 },
                 {
@@ -1932,7 +1932,7 @@
                     "description": "Reopen a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_2"
+                        "generatorName": "list_pr"
                     }
                 },
                 {
@@ -1940,7 +1940,7 @@
                     "description": "Add a review to a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list_gh"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1985,7 +1985,7 @@
                     "description": "View a pull request",
                     "args": {
                         "name": "number | url | branch",
-                                                "generatorName": "pr_list"
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -2020,7 +2020,7 @@
                     "isDangerous": true,
                     "args": {
                         "name": "repository",
-                                                "generatorName": "api_graphql_string_viewer_endcursor",
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2043,8 +2043,8 @@
                     "args": [
                         {
                             "name": "repository",
-                                                        "template": "filepaths",
-                            "generatorName": "api_graphql_string_viewer_query"
+                            "template": "filepaths",
+                            "generatorName": "api_graphql_string_viewer"
                         },
                         {
                             "name": "directory",
@@ -2124,7 +2124,7 @@
                     "isDangerous": true,
                     "args": {
                         "name": "repository",
-                                                "generatorName": "api_graphql_string_viewer_f",
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2146,7 +2146,7 @@
                     "description": "Edit repository settings",
                     "args": {
                         "name": "repository",
-                                                "generatorName": "api_graphql_string_viewer_paginate",
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2250,8 +2250,8 @@
                     "description": "Create a fork of a repository.\nWith no argument, creates a fork of the current repository. Otherwise, forks\nthe specified repository.\nBy default, the new fork is set to be your 'origin' remote and any existing\norigin remote is renamed to 'upstream'. To alter this behavior, you can set\na name for the new fork's remote with --remote-name.\nAdditional 'git clone' flags can be passed in by listing them after '--'",
                     "args": {
                         "name": "repository",
-                                                "template": "filepaths",
-                        "generatorName": "api_graphql_string_viewer_gh"
+                        "template": "filepaths",
+                        "generatorName": "api_graphql_string_viewer"
                     },
                     "options": [
                         {
@@ -2424,7 +2424,7 @@
                     "args": {
                         "name": "repository",
                         "isOptional": true,
-                                                "template": "filepaths",
+                        "template": "filepaths",
                         "generatorName": "api_graphql_string_viewer"
                     },
                     "options": [

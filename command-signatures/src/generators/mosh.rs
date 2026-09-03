@@ -4,16 +4,16 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("mosh")
         .add_generator(
-            "cat_ssh_known_hosts",
+            "cat_ssh_config",
             Generator::script(
-                CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
+                CommandBuilder::single_command("cat ~/.ssh/config"),
                 fig_parse::lines,
             ),
         )
         .add_generator(
-            "cat_ssh_config",
+            "cat_ssh_known_hosts",
             Generator::script(
-                CommandBuilder::single_command("cat ~/.ssh/config"),
+                CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
                 fig_parse::lines,
             ),
         )

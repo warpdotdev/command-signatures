@@ -1,7 +1,7 @@
 {
     "name": "git",
     "description": "The stupid content tracker",
-    
+
     "args": {
         "name": "alias",
         "description": "Custom user defined git alias",
@@ -9,7 +9,7 @@
             "alias": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let i=yield t(`git config --get alias.${o}`);if(!i)throw new Error(\"Failed parsing alias\");return i})"
         },
         "isOptional": true,
-                "generatorName": "config_alias"
+        "generatorName": "aliases"
     },
     "options": [
         {
@@ -111,7 +111,7 @@
             "args": [
                 {
                     "name": "tree-ish",
-                                        "generatorName": "diff_git"
+                    "generatorName": "treeish"
                 },
                 {
                     "name": "path",
@@ -285,7 +285,7 @@
                     "description": "Ignore <rev> when blaming",
                     "args": {
                         "name": "rev",
-                                                "generatorName": "rev_list_6"
+                        "generatorName": "revs"
                     }
                 },
                 {
@@ -410,7 +410,7 @@
                     "description": "Take an existing commit object, and reuse the log message and the authorship",
                     "args": {
                         "name": "commit",
-                                                "generatorName": "log_14"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -421,7 +421,7 @@
                     "description": "Like -C, but with -c the editor is invoked, so that the user can further edit",
                     "args": {
                         "name": "commit",
-                                                "generatorName": "log_13"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -429,7 +429,7 @@
                     "description": "Construct a commit message for use with rebase --autosquash. The commit messa",
                     "args": {
                         "name": "commit",
-                                                "generatorName": "log_12"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -437,7 +437,7 @@
                     "description": "Construct a commit message for use with rebase --autosquash. The commit messa",
                     "args": {
                         "name": "commit",
-                                                "generatorName": "log_11"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -2568,7 +2568,7 @@
                             "description": "Specify a web browser that may be used by some commands. Currently only git- instaweb(1) and git-help may use it"
                         }
                     ],
-                                        "generatorName": "config"
+                    "generatorName": "settings_generator"
                 },
                 {
                     "name": "value"
@@ -2584,7 +2584,7 @@
                     "description": "Starting point at which to create the new commits. If the --onto option is not specified, the starting point is <upstream>. May be any valid commit, and not just an existing branch name. As a special case, you may use 'A...B' as a shortcut for the merge base of A and B if there is exactly one merge base. You can leave out at most one of A and B, in which case it defaults to HEAD",
                     "args": {
                         "name": "newbase",
-                                                "generatorName": "log_10"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -2876,12 +2876,12 @@
             "args": [
                 {
                     "name": "base",
-                                        "generatorName": "branches_5",
+                    "generatorName": "branches",
                     "isOptional": true
                 },
                 {
                     "name": "new base",
-                                        "generatorName": "branches_4",
+                    "generatorName": "branches",
                     "isOptional": true
                 }
             ]
@@ -3014,8 +3014,8 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                                "template": "folders",
-                "generatorName": "status_locks"
+                "template": "folders",
+                "generatorName": "status"
             }
         },
         {
@@ -3146,7 +3146,7 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                                "generatorName": "status_optional"
+                "generatorName": "status"
             }
         },
         {
@@ -3308,7 +3308,7 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                                "generatorName": "status_no"
+                "generatorName": "status"
             }
         },
         {
@@ -3377,7 +3377,7 @@
             "args": {
                 "name": "commit",
                 "isOptional": true,
-                                "generatorName": "log_9"
+                "generatorName": "log"
             }
         },
         {
@@ -3574,12 +3574,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                                        "generatorName": "remote_v"
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                                        "generatorName": "branches_3"
+                    "generatorName": "branches"
                 }
             ]
         },
@@ -3597,7 +3597,7 @@
                     "args": {
                         "isOptional": true,
                         "name": "remote",
-                                                "generatorName": "remote_locks",
+                        "generatorName": "remotes",
                         "suggestions": [
                             "false",
                             "true",
@@ -3864,7 +3864,7 @@
                     "requiresSeparator": true,
                     "args": {
                         "name": "commit|glob",
-                                                "generatorName": "log_8"
+                        "generatorName": "log"
                     },
                     "description": "By default, Git will report, to the server, commits reachable from all local refs to find common commits in an attempt to reduce the size of the to-be-received packfile"
                 },
@@ -3999,12 +3999,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                                        "generatorName": "remote_optional"
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                                        "generatorName": "branches_2"
+                    "generatorName": "branches"
                 }
             ]
         },
@@ -4067,8 +4067,8 @@
                         "insertValue": "HEAD~"
                     }
                 ],
-                                "template": "filepaths",
-                "generatorName": "log_7"
+                "template": "filepaths",
+                "generatorName": "log"
             }
         },
         {
@@ -4164,9 +4164,9 @@
                         "insertValue": "HEAD~"
                     }
                 ],
-                                "generatorName": [
-                    "diff",
-                    "log_6"
+                "generatorName": [
+                    "treeish",
+                    "log"
                 ]
             }
         },
@@ -4231,7 +4231,7 @@
                     "name": "since",
                     "isOptional": true,
                     "description": "Commit ID, branch name, HEAD, or revision reference",
-                                        "generatorName": "log_5",
+                    "generatorName": "log",
                     "suggestions": [
                         {
                             "name": "HEAD",
@@ -4248,7 +4248,7 @@
                     "name": "until",
                     "isOptional": true,
                     "description": "Commit ID, branch name, HEAD, or revision reference",
-                                        "generatorName": "log_4",
+                    "generatorName": "log",
                     "suggestions": [
                         {
                             "name": "HEAD",
@@ -4374,7 +4374,7 @@
                     "description": "Removes given remote [name]",
                     "args": {
                         "name": "remote",
-                                                "generatorName": "remote_no"
+                        "generatorName": "remotes"
                     }
                 },
                 {
@@ -4383,7 +4383,7 @@
                     "args": [
                         {
                             "name": "old remote",
-                                                        "generatorName": "remote_git"
+                            "generatorName": "remotes"
                         },
                         {
                             "name": "new remote name"
@@ -4511,12 +4511,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                                        "generatorName": "remote"
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                                        "generatorName": "branches_committerdate"
+                    "generatorName": "branches"
                 },
                 {
                     "name": "refspec",
@@ -4584,7 +4584,7 @@
                     "requiresSeparator": true,
                     "args": {
                         "name": "commit|glob",
-                                                "generatorName": "log_3"
+                        "generatorName": "log"
                     },
                     "description": "By default, Git will report, to the server, commits reachable from all local refs to find common commits in an attempt to reduce the size of the to-be-received packfile"
                 },
@@ -4871,7 +4871,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                                                "generatorName": "stashes_locks"
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -4939,7 +4939,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                                                "generatorName": "stashes_optional"
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -4963,7 +4963,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                                                "generatorName": "stashes_no"
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -4989,7 +4989,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                                                "generatorName": "stashes_git"
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -4999,12 +4999,12 @@
                     "args": [
                         {
                             "name": "branch",
-                                                        "generatorName": "branches_sort"
+                            "generatorName": "branches"
                         },
                         {
                             "name": "stash",
                             "isOptional": true,
-                                                        "generatorName": "stashes"
+                            "generatorName": "stashes"
                         }
                     ]
                 },
@@ -5045,7 +5045,7 @@
                         },
                         {
                             "name": "commit",
-                                                        "generatorName": "log_2"
+                            "generatorName": "log"
                         }
                     ]
                 }
@@ -5456,7 +5456,7 @@
                         "description": "Current directory"
                     }
                 ],
-                                "generatorName": "status_git"
+                "generatorName": "status"
             },
             "options": [
                 {
@@ -5491,7 +5491,7 @@
                         {
                             "name": "bad",
                             "isOptional": true,
-                                                        "generatorName": "rev_list_5",
+                            "generatorName": "revs",
                             "suggestions": [
                                 {
                                     "name": "HEAD",
@@ -5507,9 +5507,9 @@
                         {
                             "name": "good",
                             "isOptional": true,
-                                                        "generatorName": [
-                                "rev_list_3",
-                                "rev_list_4"
+                            "generatorName": [
+                                "revs",
+                                "revs"
                             ],
                             "suggestions": [
                                 {
@@ -5578,7 +5578,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                                                "generatorName": "rev_list_2",
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5598,7 +5598,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                                                "generatorName": "rev_list_oneline",
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5618,7 +5618,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                                                "generatorName": "rev_list_all",
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5639,7 +5639,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                                                "generatorName": "rev_list_git",
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5679,7 +5679,7 @@
                         "name": "rev | range",
                         "isVariadic": true,
                         "isOptional": true,
-                                                "generatorName": "rev_list",
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5699,7 +5699,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                                                "generatorName": "log_oneline",
+                        "generatorName": "log",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5786,7 +5786,7 @@
                     ],
                     "description": "Delete fully merged branch",
                     "args": {
-                                                "template": "filepaths",
+                        "template": "filepaths",
                         "isVariadic": true,
                         "suggestions": [
                             {
@@ -5803,7 +5803,7 @@
                     "name": "-D",
                     "description": "Delete branch (even if not merged)",
                     "args": {
-                                                "template": "filepaths",
+                        "template": "filepaths",
                         "isVariadic": true,
                         "suggestions": [
                             {
@@ -5853,7 +5853,7 @@
                     "name": "--edit-description",
                     "description": "Edit the description for the branch",
                     "args": {
-                                                "generatorName": "branches_color"
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -5993,7 +5993,7 @@
                     "args": {
                         "name": "upstream",
                         "isOptional": true,
-                                                "generatorName": "branches_locks"
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -6002,7 +6002,7 @@
                     "args": {
                         "name": "upstream",
                         "isOptional": true,
-                                                "generatorName": "branches_optional"
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -6011,7 +6011,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                                                "generatorName": "log_locks"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -6020,7 +6020,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                                                "generatorName": "log_optional"
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -6221,13 +6221,13 @@
                     "name": "branch, file, tag or commit",
                     "description": "Branch, file, tag or commit to switch to",
                     "isOptional": true,
-                                        "template": [
+                    "template": [
                         "filepaths",
                         "folders"
                     ],
                     "generatorName": [
                         "branches_no",
-                        "tag_git"
+                        "tag"
                     ],
                     "suggestions": [
                         {
@@ -6275,7 +6275,7 @@
                 "name": "commit",
                 "description": "Commits to cherry-pick",
                 "isVariadic": true,
-                                "generatorName": "log_no"
+                "generatorName": "log"
             },
             "options": [
                 {
@@ -6817,7 +6817,7 @@
             "description": "Join two or more development histories together",
             "args": {
                 "name": "branch",
-                                "generatorName": "branches_git",
+                "generatorName": "branches_no",
                 "isVariadic": true,
                 "isOptional": true,
                 "suggestions": [
@@ -7147,7 +7147,7 @@
                     "description": "List tags of the given object",
                     "args": {
                         "name": "object",
-                                                "generatorName": "log_git",
+                        "generatorName": "log",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -7165,7 +7165,7 @@
             "args": {
                 "name": "tagname",
                 "description": "Select a tag",
-                                "generatorName": "tag",
+                "generatorName": "tag",
                 "isOptional": true
             }
         },
@@ -7320,7 +7320,7 @@
                 "name": "pathspec",
                 "isOptional": true,
                 "isVariadic": true,
-                                "generatorName": "status"
+                "generatorName": "status"
             }
         },
         {
@@ -7457,7 +7457,7 @@
                 {
                     "name": "branch name",
                     "description": "Branch or commit to switch to",
-                                        "generatorName": "branches",
+                    "generatorName": "branches",
                     "suggestions": [
                         {
                             "name": "-",
@@ -7468,7 +7468,7 @@
                 {
                     "name": "start point",
                     "isOptional": true,
-                                        "generatorName": "log"
+                    "generatorName": "log"
                 }
             ]
         },

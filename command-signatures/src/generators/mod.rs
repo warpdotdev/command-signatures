@@ -256,17 +256,13 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         gcloud::gsutil_generators(),
         yay::generator(),
         yc::generator(),
-    ];
-
-    let mut map = HashMap::from_iter(command_signature_generators.map(Into::into));
-    let extra = [
         amplify::generator(),
         ansible_doc::generator(),
-        apt::script_generators(),
+        apt::generator(),
         assimp::generator(),
+        autojump::generator(),
         bat::generator(),
         black::generator(),
-        cargo::script_generators(),
         checkov::generator(),
         copilot::generator(),
         cordova::generator(),
@@ -275,11 +271,11 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         deta::generator(),
         dtm::generator(),
         eb::generator(),
-        elm_review::generator(),
         elm::generator(),
+        elm_review::generator(),
         eslint::generator(),
-        expo_cli::generator(),
         expo::generator(),
+        expo_cli::generator(),
         ffmpeg::generator(),
         fig_teams_latest::generator(),
         fisher::generator(),
@@ -287,15 +283,12 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         flyctl::generator(),
         fnm::generator(),
         fvm::generator(),
-        gh::script_generators(),
         gpg::generator(),
         hexo::generator(),
-        git::script_generators(),
         hugo::generator(),
         hyper::generator(),
         id::generator(),
         ignite_cli::generator(),
-        autojump::generator(),
         kool::generator(),
         lerna::generator(),
         limactl::generator(),
@@ -305,15 +298,14 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         mix::generator(),
         mosh::generator(),
         cmd_n::generator(),
-        ns::generator(),
         networkquality::generator(),
         npx::generator(),
         nr::generator(),
+        ns::generator(),
         okteto::generator(),
         op::generator(),
         open::generator(),
         pandoc::generator(),
-        npm::pnpm_script_generators(),
         pre_commit::generator(),
         projj::generator(),
         quickmail::generator(),
@@ -349,16 +341,6 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         yo::generator(),
         youtube_dl::generator(),
     ];
-    for imported in extra {
-        let (name, data) = imported.into();
-        match map.entry(name) {
-            std::collections::hash_map::Entry::Occupied(mut occupied) => {
-                occupied.get_mut().extend(data);
-            }
-            std::collections::hash_map::Entry::Vacant(vacant) => {
-                vacant.insert(data);
-            }
-        }
-    }
-    map
+
+    HashMap::from_iter(command_signature_generators.map(Into::into))
 }

@@ -11,13 +11,6 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
-            "workspace_list_terragrunt",
-            Generator::script(
-                CommandBuilder::single_command("terragrunt workspace list"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
             "workspace_list",
             Generator::script(
                 CommandBuilder::single_command("terragrunt workspace list"),

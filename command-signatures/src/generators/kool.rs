@@ -4,7 +4,7 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("kool")
         .add_generator(
-            "docker_compose_config_2",
+            "docker_compose_config",
             Generator::script(
                 CommandBuilder::single_command("docker-compose config --services"),
                 fig_parse::lines,
@@ -14,20 +14,6 @@ pub fn generator() -> CommandSignatureGenerators {
             "run",
             Generator::script(
                 CommandBuilder::single_command("kool run --help"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "docker_compose_config_services",
-            Generator::script(
-                CommandBuilder::single_command("docker-compose config --services"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "docker_compose_config",
-            Generator::script(
-                CommandBuilder::single_command("docker-compose config --services"),
                 fig_parse::lines,
             ),
         )

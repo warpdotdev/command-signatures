@@ -4,14 +4,7 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("cordova")
         .add_generator(
-            "cat_package_json_7",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json_6",
+            "cat_package_json",
             Generator::script(
                 CommandBuilder::single_command("cat package.json"),
                 fig_parse::lines,
@@ -21,41 +14,6 @@ pub fn generator() -> CommandSignatureGenerators {
             "plugin_list",
             Generator::script(
                 CommandBuilder::single_command("cordova plugin list"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json_5",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json_4",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json_3",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json_2",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "cat_package_json",
-            Generator::script(
-                CommandBuilder::single_command("cat package.json"),
                 fig_parse::lines,
             ),
         )

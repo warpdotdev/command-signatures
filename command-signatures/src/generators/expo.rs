@@ -4,30 +4,9 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("expo")
         .add_generator(
-            "sysctl_hw_ncpu_3",
+            "sysctl_hw_ncpu",
             Generator::script(
                 CommandBuilder::single_command("sysctl -n hw.ncpu"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "sysctl_hw_ncpu_2",
-            Generator::script(
-                CommandBuilder::single_command("sysctl -n hw.ncpu"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "xcrun_xctrace_list_devices",
-            Generator::script(
-                CommandBuilder::single_command("xcrun xctrace list devices"),
-                fig_parse::lines,
-            ),
-        )
-        .add_generator(
-            "xcodebuild_ios_xcodeproj_project",
-            Generator::script(
-                CommandBuilder::single_command("xcodebuild -project ios/*.xcodeproj -list -json"),
                 fig_parse::lines,
             ),
         )
@@ -39,9 +18,9 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
         .add_generator(
-            "sysctl_hw_ncpu",
+            "xcrun_xctrace_list_devices",
             Generator::script(
-                CommandBuilder::single_command("sysctl -n hw.ncpu"),
+                CommandBuilder::single_command("xcrun xctrace list devices"),
                 fig_parse::lines,
             ),
         )

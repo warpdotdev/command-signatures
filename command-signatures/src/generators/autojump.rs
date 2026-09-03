@@ -5,7 +5,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("autojump").add_generator(
         "cat",
         Generator::script(
-            CommandBuilder::single_command("cat \"$HOME\"/Library/autojump/autojump.txt"),
+            CommandBuilder::single_command(r#"cat "$HOME"/Library/autojump/autojump.txt"#),
             fig_parse::lines,
         ),
     )

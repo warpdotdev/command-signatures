@@ -5,7 +5,7 @@ pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("vite").add_generator(
         "ls",
         Generator::script(
-            CommandBuilder::single_command("\\ls -l1A.env.*"),
+            CommandBuilder::single_command(r"\ls -l1A.env.*"),
             fig_parse::lines,
         ),
     )
