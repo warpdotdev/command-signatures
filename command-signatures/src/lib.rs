@@ -283,4 +283,52 @@ mod tests {
             );
         }
     }
+
+    fn collect_generator_names(value: &serde_json::Value, out: &mut Vec<String>) {
+        match value {
+            serde_json::Value::Object(map) => {
+                if let Some(serde_json::Value::String(name)) = map.get("generatorName") {
+                    out.push(name.clone());
+                }
+                if let Some(serde_json::Value::Array(names)) = map.get("generatorName") {
+                    for name in names {
+                        if let serde_json::Value::String(name) = name {
+                            out.push(name.clone());
+                        }
+                    }
+                }
+                for nested in map.values() {
+                    collect_generator_names(nested, out);
+                }
+            }
+            serde_json::Value::Array(arr) => {
+                for nested in arr {
+                    collect_generator_names(nested, out);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    #[test]
+    fn generator_names_are_not_opaque_hashes() {
+        let mut names = Vec::new();
+        for spec in all_signature_names() {
+            let file = Assets::get(&format!("{spec}.json")).expect(spec);
+            let value: serde_json::Value =
+                serde_json::from_slice(&file.data).unwrap_or_else(|e| panic!("{spec}: {e}"));
+            collect_generator_names(&value, &mut names);
+        }
+        let opaque: Vec<_> = names
+            .iter()
+            .filter(|name| {
+                name.starts_with("fig_") && name.chars().skip(4).all(|c| c.is_ascii_hexdigit())
+            })
+            .cloned()
+            .collect();
+        assert!(
+            opaque.is_empty(),
+            "opaque hash generator names remain: {opaque:?}"
+        );
+    }
 }

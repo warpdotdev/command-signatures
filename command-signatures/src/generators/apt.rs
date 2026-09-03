@@ -98,3 +98,37 @@ pub fn aptitude_generators() -> CommandSignatureGenerators {
             ),
         )
 }
+
+use super::fig_parse;
+
+pub fn script_generators() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("apt")
+        .add_generator(
+            "list_upgradable",
+            Generator::script(
+                CommandBuilder::single_command("apt list --upgradable"),
+                fig_parse::lines,
+            ),
+        )
+        .add_generator(
+            "list_installed",
+            Generator::script(
+                CommandBuilder::single_command("apt list --installed"),
+                fig_parse::lines,
+            ),
+        )
+        .add_generator(
+            "list_apt",
+            Generator::script(
+                CommandBuilder::single_command("apt list --installed"),
+                fig_parse::lines,
+            ),
+        )
+        .add_generator(
+            "list",
+            Generator::script(
+                CommandBuilder::single_command("apt list --installed"),
+                fig_parse::lines,
+            ),
+        )
+}

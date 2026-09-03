@@ -51,3 +51,31 @@ lazy_static! {
         Regex::new(r"^(?P<id>[\d]+)\t(?P<name>.+)\t(?P<branch>.*)\t(?P<status>OPEN|DRAFT)$")
             .unwrap();
 }
+
+use super::fig_parse;
+
+pub fn script_generators() -> CommandSignatureGenerators {
+    CommandSignatureGenerators::new("gh")
+        .add_generator("alias_list_gh", Generator::script(CommandBuilder::single_command("gh alias list"), fig_parse::lines))
+        .add_generator("alias_list", Generator::script(CommandBuilder::single_command("gh alias list"), fig_parse::lines))
+        .add_generator("pr_list_11", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("git_branch_no", Generator::script(CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate"), fig_parse::lines))
+        .add_generator("pr_list_10", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_9", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_8", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_7", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_6", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("git_branch", Generator::script(CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate"), fig_parse::lines))
+        .add_generator("pr_list_5", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_4", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_3", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_2", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list_gh", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("pr_list", Generator::script(CommandBuilder::single_command("gh pr list"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer_endcursor", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer_query", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer_f", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer_paginate", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer_gh", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+        .add_generator("api_graphql_string_viewer", Generator::script(CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"), fig_parse::lines))
+}
