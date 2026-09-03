@@ -926,11 +926,19 @@ fn yaml_pre_commit_hook_ids(output: &str) -> Vec<String> {
         if trimmed.is_empty() || trimmed.starts_with('#') {
             continue;
         }
-        if in_repos && indent <= repos_indent && key_name(trimmed) != "repos" {
+        if in_repos
+            && indent <= repos_indent
+            && !is_sequence_item(trimmed)
+            && key_name(trimmed) != "repos"
+        {
             in_repos = false;
             in_hooks = false;
         }
-        if in_hooks && indent <= hooks_indent && key_name(trimmed) != "hooks" {
+        if in_hooks
+            && indent <= hooks_indent
+            && !is_sequence_item(trimmed)
+            && key_name(trimmed) != "hooks"
+        {
             in_hooks = false;
         }
         match key_name(trimmed) {
@@ -956,6 +964,10 @@ fn yaml_pre_commit_hook_ids(output: &str) -> Vec<String> {
     ids
 }
 
+fn is_sequence_item(trimmed: &str) -> bool {
+    trimmed == "-" || trimmed.starts_with("- ")
+}
+
 fn key_name(trimmed: &str) -> &str {
     let line = trimmed.strip_prefix("- ").unwrap_or(trimmed);
     line.split(':').next().unwrap_or("").trim()
@@ -964,21 +976,25 @@ fn key_name(trimmed: &str) -> &str {
 fn yaml_scalar_value(trimmed: &str) -> Option<String> {
     let line = trimmed.strip_prefix("- ").unwrap_or(trimmed);
     let (_, value) = line.split_once(':')?;
-    let mut value = value.trim();
-    if let Some((code, _)) = value.split_once('#') {
-        if !value.starts_with('"') && !value.starts_with('\'') {
-            value = code.trim();
-        }
-    }
+    let value = value.trim();
     if value.is_empty() || value == "|" || value == ">" || value == "{" || value == "[" {
         return None;
     }
-    if (value.starts_with('"') && value.ends_with('"') && value.len() >= 2)
-        || (value.starts_with('\'') && value.ends_with('\'') && value.len() >= 2)
-    {
-        value = &value[1..value.len() - 1];
+    let quote = match value.as_bytes().first() {
+        Some(b) if *b == b'"' || *b == b'\'' => Some(*b as char),
+        _ => None,
+    };
+    if let Some(quote) = quote {
+        let rest = &value[1..];
+        let end = rest.find(quote)?;
+        let inner = &rest[..end];
+        return (!inner.is_empty()).then(|| inner.to_string());
     }
-    (!value.is_empty()).then(|| value.to_string())
+    let unquoted = value
+        .split_once('#')
+        .map(|(code, _)| code.trim())
+        .unwrap_or(value);
+    (!unquoted.is_empty()).then(|| unquoted.to_string())
 }
 
 fn nonempty_lines(output: &str) -> impl Iterator<Item = &str> {
