@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_ssh_known_hosts",
             Generator::script(
                 CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
-                output_parsers::lines,
+                output_parsers::ssh_hosts,
             ),
         )
 }

@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "listremotes",
         Generator::script(
             CommandBuilder::single_command("rclone listremotes"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

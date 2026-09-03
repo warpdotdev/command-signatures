@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "list_plugins",
             Generator::script(
                 CommandBuilder::single_command("dtm list plugins"),
-                output_parsers::lines,
+                output_parsers::desc_plugin,
             ),
         )
         .add_filter("filter-yml-yaml", template_filters::yml_yaml())

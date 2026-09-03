@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "lsr",
             Generator::script(
                 CommandBuilder::single_command("n lsr --all"),
-                output_parsers::lines,
+                output_parsers::slice2_reversed,
             ),
         )
         .add_filter("filter-js-ts-family", template_filters::js_ts_family())

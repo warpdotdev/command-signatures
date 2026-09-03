@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "dscl_users",
         Generator::script(
             CommandBuilder::single_command("dscl . -list /Users | grep -v '^_'"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

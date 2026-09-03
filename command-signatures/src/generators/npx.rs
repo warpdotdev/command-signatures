@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "until_node_modules_do_cd",
             Generator::script(
                 CommandBuilder::single_command("until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

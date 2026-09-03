@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "state_list",
             Generator::script(
                 CommandBuilder::single_command("terragrunt state list"),
-                output_parsers::lines,
+                output_parsers::desc_address,
             ),
         )
         .add_generator(
             "workspace_list",
             Generator::script(
                 CommandBuilder::single_command("terragrunt workspace list"),
-                output_parsers::lines,
+                output_parsers::desc_workspace,
             ),
         )
 }

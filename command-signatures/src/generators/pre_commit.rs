@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_pre_commit_config_yaml",
             Generator::script(
                 CommandBuilder::single_command("cat .pre-commit-config.yaml"),
-                output_parsers::lines,
+                output_parsers::pre_commit_hook_ids,
             ),
         )
         .add_generator(
@@ -16,7 +16,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "git --no-optional-locks branch --no-color --sort=-committerdate",
                 ),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_generator(
@@ -25,14 +25,14 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "git --no-optional-locks branch -a --no-color --sort=-committerdate",
                 ),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_generator(
             "git_remote",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks remote -v"),
-                output_parsers::lines,
+                output_parsers::desc_remote,
             ),
         )
         .add_generator(

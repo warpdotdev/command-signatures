@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "git_remote",
             Generator::script(
                 CommandBuilder::single_command("git remote"),
-                output_parsers::lines,
+                output_parsers::desc_remote,
             ),
         )
         .add_generator(
@@ -23,14 +23,14 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     r"lerna list -p | while read p; do  \cat $p/package.json && echo END done",
                 ),
-                output_parsers::json_script_keys,
+                output_parsers::lerna_package_script_keys,
             ),
         )
         .add_generator(
             "ls",
             Generator::script(
                 CommandBuilder::single_command("lerna ls"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

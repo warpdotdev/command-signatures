@@ -1033,14 +1033,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "branches",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks branch --no-color --sort=-committerdate"),
-                output_parsers::lines,
+                post_process_branches,
             ),
         )
         .add_generator(
             "branches_no",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks branch -a --no-color --sort=-committerdate"),
-                output_parsers::lines,
+                post_process_branches,
             ),
         )
         .add_generator(
@@ -1054,21 +1054,21 @@ pub fn generator() -> CommandSignatureGenerators {
             "status",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks status --short"),
-                output_parsers::lines,
+                output_parsers::git_status_short,
             ),
         )
         .add_generator(
             "tag",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks tag --list --sort=-committerdate"),
-                output_parsers::lines,
+                post_process_tags,
             ),
         )
         .add_generator(
             "status_staged_or_unstaged",
             Generator::command_from_tokens(
                 super::fig_token::git_status_staged_or_unstaged,
-                output_parsers::lines,
+                output_parsers::git_oneline,
             ),
         )
 }

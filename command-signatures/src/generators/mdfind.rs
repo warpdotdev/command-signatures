@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "ls_library_saved_searches_savedsearch",
         Generator::script(
             CommandBuilder::single_command(r"ls -1A ~/Library/Saved\ Searches/*.savedSearch"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

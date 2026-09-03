@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("yo --generators"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

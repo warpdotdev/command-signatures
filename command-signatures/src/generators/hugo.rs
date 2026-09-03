@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "ls_archetypes",
         Generator::script(
             CommandBuilder::single_command("ls ./archetypes/"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "releases",
         Generator::script(
             CommandBuilder::single_command("fvm releases"),
-            output_parsers::lines,
+            output_parsers::unique_named_lines,
         ),
     )
 }

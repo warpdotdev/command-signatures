@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("tfenv list"),
-                output_parsers::lines,
+                output_parsers::desc_version,
             ),
         )
         .add_generator(
             "list_remote",
             Generator::script(
                 CommandBuilder::single_command("tfenv list-remote"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

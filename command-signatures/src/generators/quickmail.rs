@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "template_listall",
         Generator::script(
             CommandBuilder::single_command("quickmail template listall"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "context_list",
             Generator::script(
                 CommandBuilder::single_command("okteto context list"),
-                output_parsers::lines_desc_context,
+                output_parsers::okteto_contexts,
             ),
         )
         .add_generator(
             "namespace_list",
             Generator::script(
                 CommandBuilder::single_command("okteto namespace list"),
-                output_parsers::lines,
+                output_parsers::okteto_namespaces,
             ),
         )
 }

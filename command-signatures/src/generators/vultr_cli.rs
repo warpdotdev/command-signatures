@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "instance_list",
         Generator::script(
             CommandBuilder::single_command("vultr-cli instance list"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "plugin_list",
             Generator::script(
                 CommandBuilder::single_command("cordova plugin list"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

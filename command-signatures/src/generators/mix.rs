@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "help",
             Generator::script(
                 CommandBuilder::single_command("mix help"),
-                output_parsers::lines,
+                output_parsers::mix_help_tasks,
             ),
         )
         .add_filter("filter-exs", template_filters::exs())

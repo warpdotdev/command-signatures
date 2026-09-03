@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "list",
         Generator::script(
             CommandBuilder::single_command("mackup list"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

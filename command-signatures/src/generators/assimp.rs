@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "listexport",
             Generator::script(
                 CommandBuilder::single_command("assimp listexport"),
-                output_parsers::lines,
+                output_parsers::desc_extension,
             ),
         )
         .add_generator(
             "listext",
             Generator::script(
                 CommandBuilder::single_command("assimp listext"),
-                output_parsers::lines_desc_extension,
+                output_parsers::desc_extension,
             ),
         )
 }

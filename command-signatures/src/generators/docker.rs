@@ -489,6 +489,9 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "search",
-            Generator::command_from_tokens(super::fig_token::docker_search, super::output_parsers::lines),
+            Generator::command_from_tokens(
+                super::fig_token::docker_search,
+                super::output_parsers::docker_search_names,
+            ),
         )
 }

@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "ls_ignite_templates",
         Generator::script(
             CommandBuilder::single_command("ls ignite/templates"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

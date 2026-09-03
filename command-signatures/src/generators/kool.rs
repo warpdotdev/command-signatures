@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "run",
             Generator::script(
                 CommandBuilder::single_command("kool run --help"),
-                output_parsers::lines,
+                output_parsers::desc_script,
             ),
         )
 }

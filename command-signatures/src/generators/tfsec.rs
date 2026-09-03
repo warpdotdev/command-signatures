@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "terraform_workspace_list",
         Generator::script(
             CommandBuilder::single_command("terraform workspace list"),
-            output_parsers::lines,
+            output_parsers::desc_terraform_workspace,
         ),
     )
 }

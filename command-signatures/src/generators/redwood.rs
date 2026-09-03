@@ -8,7 +8,7 @@ pub fn generator() -> CommandSignatureGenerators {
             CommandBuilder::single_command(
                 "until [[ -f redwood.toml ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1p scripts/",
             ),
-            output_parsers::lines,
+            output_parsers::redwood_scripts,
         ),
     )
 }

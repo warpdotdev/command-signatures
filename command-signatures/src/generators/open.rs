@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "mdfind",
             Generator::script(
                 CommandBuilder::single_command("mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_generator(
             "mdfind_while_read_line",
             Generator::script(
                 CommandBuilder::single_command(r#"mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin / | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r "$line") $line; done"#),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

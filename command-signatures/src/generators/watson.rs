@@ -14,14 +14,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "projects",
             Generator::script(
                 CommandBuilder::single_command("watson projects"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_generator(
             "tags",
             Generator::script(
                 CommandBuilder::single_command("watson tags"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "echo",
         Generator::script(
             CommandBuilder::single_command("echo"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

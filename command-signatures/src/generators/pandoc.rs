@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "completions",
             Generator::script(
                 CommandBuilder::single_command("pandoc --list-output-formats"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_generator(
             "completions_list",
             Generator::script(
                 CommandBuilder::single_command("pandoc --list-input-formats"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_generator(
@@ -23,7 +23,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "pandoc --list-input-formats && pandoc --list-output-formats",
                 ),
-                output_parsers::lines,
+                output_parsers::unique_named_lines,
             ),
         )
         .add_filter("filter-yaml", template_filters::yaml())

@@ -57,7 +57,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "git_branch",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks branch -r --no-color --sort=-committerdate"),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_generator(

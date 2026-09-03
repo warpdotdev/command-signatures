@@ -9,14 +9,14 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "curl https://api.github.com/repos/steprz/stepzen-schemas/contents",
                 ),
-                output_parsers::lines,
+                output_parsers::stepzen_github_dirs,
             ),
         )
         .add_generator(
             "list_schemas",
             Generator::script(
                 CommandBuilder::single_command("stepzen list schemas"),
-                output_parsers::lines,
+                output_parsers::stepzen_schema_names,
             ),
         )
 }

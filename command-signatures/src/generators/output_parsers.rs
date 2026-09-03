@@ -8,23 +8,234 @@ pub fn lines(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
-pub fn lines_desc_extension(output: &str) -> GeneratorResults {
+pub fn named_lines(output: &str) -> GeneratorResults {
+    lines(output)
+}
+
+pub fn unique_named_lines(output: &str) -> GeneratorResults {
+    let mut seen = std::collections::HashSet::new();
+    nonempty_lines(output)
+        .filter(|&line| seen.insert(line.to_string()))
+        .map(Suggestion::new)
+        .collect_unordered_results()
+}
+
+pub fn desc_plugin(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Plugin")
+}
+
+pub fn desc_plugin_name(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Plugin name")
+}
+
+pub fn desc_remote(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Remote")
+}
+
+pub fn desc_script(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Script")
+}
+
+pub fn desc_version(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Version")
+}
+
+pub fn desc_variable(output: &str) -> GeneratorResults {
+    lines_with_desc(output, "Variable name")
+}
+
+pub fn desc_workspace(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .map(|line| Suggestion::with_description(line.replace('*', "").trim(), "Workspace"))
+        .collect_unordered_results()
+}
+
+pub fn desc_terraform_workspace(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .map(|line| {
+            Suggestion::with_description(line.replace('*', "").trim(), "Terraform workspaces")
+        })
+        .collect_unordered_results()
+}
+
+pub fn desc_address(output: &str) -> GeneratorResults {
+    if output.contains("No state file") || output.contains("Error") {
+        return empty();
+    }
+    nonempty_lines(output)
+        .map(|line| Suggestion::with_description(line.replace('*', "").trim(), "Address"))
+        .collect_unordered_results()
+}
+
+pub fn git_status_short(output: &str) -> GeneratorResults {
+    let output = output.trim_start();
+    if output.starts_with("fatal:") {
+        return empty();
+    }
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let path = line.get(3..)?.trim();
+            (!path.is_empty()).then(|| Suggestion::with_description(path, line))
+        })
+        .collect_unordered_results()
+}
+
+pub fn pre_commit_hook_ids(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let trimmed = line.trim();
+            let value = trimmed
+                .strip_prefix("- id:")
+                .or_else(|| trimmed.strip_prefix("id:"))?;
+            let name = value.trim().trim_matches('"');
+            (!name.is_empty()).then(|| Suggestion::new(name))
+        })
+        .collect_unordered_results()
+}
+
+pub fn deno_binaries(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter(|line| !line.ends_with("/deno"))
+        .map(|line| {
+            let name = line.rsplit('/').next().unwrap_or(line);
+            Suggestion::with_description(name, line)
+        })
+        .collect_unordered_results()
+}
+
+pub fn eslint_plugin_names(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter(|line| line.starts_with("eslint-plugin"))
+        .map(|line| {
+            let name = line.split_whitespace().next().unwrap_or(line);
+            Suggestion::new(name.get(14..).unwrap_or(name))
+        })
+        .collect_unordered_results()
+}
+
+pub fn mix_help_tasks(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let (name, description) = match line.split_once('#') {
+                Some((name, description)) => (name.trim(), description.trim()),
+                None => (line.trim(), ""),
+            };
+            let name = name.strip_prefix("mix ").unwrap_or(name);
+            (!["mix", "help", "new", "run", "iex -S mix"].contains(&name))
+                .then(|| Suggestion::with_description(name, description))
+        })
+        .collect_unordered_results()
+}
+
+pub fn meteor_packages(output: &str) -> GeneratorResults {
+    if output.contains("No such file or directory") {
+        return empty();
+    }
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let name = line.split('#').next().unwrap_or(line).trim();
+            let name = name.split('@').next().unwrap_or(name).trim();
+            (!name.is_empty()).then(|| Suggestion::new(name))
+        })
+        .collect_unordered_results()
+}
+
+pub fn meteor_examples(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter(|line| line.contains("github.com"))
+        .map(|line| Suggestion::new(line.split(':').next().unwrap_or(line).trim()))
+        .collect_unordered_results()
+}
+
+pub fn softwareupdate_labels(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter_map(|line| {
+            line.strip_prefix("* Label: ").map(|name| {
+                Suggestion::with_description(format!("\"{name}\""), "Available update")
+                    .with_display_name(Some(name.to_string()))
+            })
+        })
+        .collect_unordered_results()
+}
+
+pub fn networksetup_ports(output: &str) -> GeneratorResults {
+    let re = regex::Regex::new(r"(?s)Hardware Port: (.*?)\n.*?Device: (.*?)(?:\n|$)").ok();
+    let Some(re) = re else {
+        return empty();
+    };
+    re.captures_iter(output)
+        .filter_map(|caps| {
+            Some(Suggestion::with_description(
+                caps.get(2)?.as_str(),
+                caps.get(1)?.as_str(),
+            ))
+        })
+        .collect_unordered_results()
+}
+
+fn skip_star_first_token(output: &str, description: &'static str) -> GeneratorResults {
+    nonempty_lines(output)
+        .skip(1)
+        .filter_map(|line| {
+            let token = line.split_whitespace().next()?.replace('*', "");
+            let name = token.trim();
+            (!name.is_empty()).then(|| Suggestion::with_description(name, description))
+        })
+        .collect_unordered_results()
+}
+
+pub fn okteto_contexts(output: &str) -> GeneratorResults {
+    skip_star_first_token(output, "Context")
+}
+
+pub fn okteto_namespaces(output: &str) -> GeneratorResults {
+    skip_star_first_token(output, "Namespace")
+}
+
+pub fn redwood_scripts(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter(|line| line.ends_with(".js") || line.ends_with(".ts"))
+        .map(|line| {
+            let name = line.trim();
+            let name = name.rsplit_once('.').map(|(stem, _)| stem).unwrap_or(name);
+            Suggestion::with_description(name, "Script")
+        })
+        .collect_unordered_results()
+}
+
+pub fn wifi_networks(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .skip(1)
+        .map(|line| Suggestion::new(line.trim()))
+        .collect_unordered_results()
+}
+
+pub fn gpg_ciphers(output: &str) -> GeneratorResults {
+    let Some(start) = output.find("Cypher: ").or_else(|| output.find("Cipher: ")) else {
+        return empty();
+    };
+    let rest = &output[start + 8..];
+    let end = rest.find("Hash: ").unwrap_or(rest.len());
+    let list = rest[..end].split_whitespace().collect::<String>();
+    list.split(',')
+        .filter(|part| !part.is_empty())
+        .map(Suggestion::new)
+        .collect_unordered_results()
+}
+
+pub fn desc_extension(output: &str) -> GeneratorResults {
     split_on(output, ';', "Extension")
 }
 
-pub fn lines_desc_runtime(output: &str) -> GeneratorResults {
+pub fn desc_runtime(output: &str) -> GeneratorResults {
     split_on(output, ',', "Runtime")
 }
 
-pub fn lines_desc_instance(output: &str) -> GeneratorResults {
+pub fn desc_instance(output: &str) -> GeneratorResults {
     lines_with_desc(output, "Instance name")
 }
 
-pub fn lines_desc_context(output: &str) -> GeneratorResults {
-    skip_header_first_token(output, 1, "Context")
-}
-
-pub fn lines_desc_warp_point(output: &str) -> GeneratorResults {
+pub fn desc_warp_point(output: &str) -> GeneratorResults {
     nonempty_lines(output)
         .filter_map(|line| line.split_whitespace().next())
         .map(|name| Suggestion::with_description(name, "Warp point"))
@@ -549,6 +760,95 @@ pub fn scc_languages(output: &str) -> GeneratorResults {
         .collect_unordered_results()
 }
 
+pub fn docker_search_names(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter_map(|line| {
+            json(line)?
+                .get("Name")
+                .and_then(Value::as_str)
+                .map(Suggestion::new)
+        })
+        .collect_unordered_results()
+}
+
+pub fn stepzen_schema_names(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                value
+                    .as_str()
+                    .map(|name| Suggestion::with_description(name, "StepZen endpoint"))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn stepzen_github_dirs(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let kind = value.get("type")?.as_str()?;
+                let name = value.get("name")?.as_str()?;
+                (kind == "dir" && !name.starts_with('.'))
+                    .then(|| Suggestion::with_description(name, "Stepzen schema"))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn youtube_dl_flat_playlist(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("entries").cloned()) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .enumerate()
+            .map(|(index, entry)| {
+                let title = entry.get("title").and_then(Value::as_str).unwrap_or("");
+                let uploader = entry.get("uploader").and_then(Value::as_str).unwrap_or("");
+                let n = index + 1;
+                Suggestion::with_description(n.to_string(), uploader)
+                    .with_display_name(Some(format!("{n} - {title}")))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn youtube_clipboard_url(output: &str) -> GeneratorResults {
+    let value = output.trim();
+    let is_youtube = value.contains("youtube.com") || value.contains("youtu.be");
+    if is_youtube {
+        std::iter::once(Suggestion::with_description(value, "Clipboard"))
+            .collect_unordered_results()
+    } else {
+        empty()
+    }
+}
+
+pub fn lerna_package_script_keys(output: &str) -> GeneratorResults {
+    let mut names = std::collections::BTreeSet::new();
+    for chunk in output.split("END") {
+        let chunk = chunk.trim();
+        if chunk.is_empty() {
+            continue;
+        }
+        let Some(Value::Object(map)) = json(chunk) else {
+            continue;
+        };
+        let Some(Value::Object(scripts)) = map.get("scripts") else {
+            continue;
+        };
+        names.extend(scripts.keys().cloned());
+    }
+    names
+        .into_iter()
+        .map(Suggestion::new)
+        .collect_unordered_results()
+}
+
 pub fn docker_from_as_names(output: &str) -> GeneratorResults {
     let re = regex::Regex::new(r"(?i)(?:as)\s+([\w:.-]+)").ok();
     nonempty_lines(output)
@@ -608,21 +908,6 @@ fn pipe_table(
                 }
                 _ => Some(Suggestion::new(name)),
             }
-        })
-        .collect_unordered_results()
-}
-
-fn skip_header_first_token(
-    output: &str,
-    skip: usize,
-    description: &'static str,
-) -> GeneratorResults {
-    nonempty_lines(output)
-        .skip(skip)
-        .filter_map(|line| {
-            let token = line.split_whitespace().next()?.replace('*', "");
-            let name = token.trim();
-            (!name.is_empty()).then(|| Suggestion::with_description(name, description))
         })
         .collect_unordered_results()
 }

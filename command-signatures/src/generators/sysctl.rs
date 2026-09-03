@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("sysctl -A -N"),
-            output_parsers::lines,
+            output_parsers::desc_variable,
         ),
     )
 }

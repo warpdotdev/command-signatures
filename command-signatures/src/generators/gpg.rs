@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("gpg --version"),
-            output_parsers::lines,
+            output_parsers::gpg_ciphers,
         ),
     )
 }

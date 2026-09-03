@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "fish_fisher_list",
         Generator::script(
             CommandBuilder::single_command("fish -c 'fisher list'"),
-            output_parsers::lines,
+            output_parsers::desc_plugin,
         ),
     )
 }

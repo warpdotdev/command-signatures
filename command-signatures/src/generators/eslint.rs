@@ -7,11 +7,11 @@ pub fn generator() -> CommandSignatureGenerators {
             "ls_node_modules_root_global",
             Generator::script(
                 CommandBuilder::single_command("{ ls node_modules ; ls $(npm root -g) ; ls $(yarn global dir)/node_modules/ ; } | cat"),
-                output_parsers::lines,
+                output_parsers::eslint_plugin_names,
             ),
         )
         .add_generator(
             "env_remaining",
-            Generator::command_from_tokens(super::fig_token::eslint_env_remaining, output_parsers::lines),
+            Generator::command_from_tokens(super::fig_token::eslint_env_remaining, output_parsers::named_lines),
         )
 }

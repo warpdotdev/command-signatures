@@ -169,7 +169,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "test_list",
-            Generator::command_from_tokens(fig_token::cargo_test_list, output_parsers::lines),
+            Generator::command_from_tokens(fig_token::cargo_test_list, output_parsers::named_lines),
         )
         .add_filter("filter-cargo-toml", template_filters::cargo_toml())
         .add_filter("filter-cargo-lock", template_filters::cargo_lock())

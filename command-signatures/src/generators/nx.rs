@@ -153,7 +153,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "plugin_list",
-            Generator::command_from_tokens(super::fig_token::nx_list, super::output_parsers::lines),
+            Generator::command_from_tokens(super::fig_token::nx_list, super::output_parsers::named_lines),
         )
 }
 

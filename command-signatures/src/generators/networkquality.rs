@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "networksetup",
         Generator::script(
             CommandBuilder::single_command("networksetup -listallhardwareports"),
-            output_parsers::lines,
+            output_parsers::networksetup_ports,
         ),
     )
 }

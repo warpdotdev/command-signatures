@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("shortcuts list"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_generator(
             "list_shortcuts",
             Generator::script(
                 CommandBuilder::single_command("shortcuts list --folders"),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
         .add_filter("filter-shortcut", template_filters::shortcut())

@@ -16,7 +16,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "deno_binaries",
             Generator::script(
                 CommandBuilder::single_command(r"\find ~/.deno/bin -maxdepth 1 -perm -111 -type f"),
-                output_parsers::lines,
+                output_parsers::deno_binaries,
             ),
         )
         .add_generator(

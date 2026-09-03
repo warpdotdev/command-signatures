@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "mdfind_applications_while_read",
             Generator::script(
                 CommandBuilder::single_command(r#"mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /Applications | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r "$line") $line; done"#),
-                output_parsers::lines,
+                output_parsers::named_lines,
             ),
         )
 }

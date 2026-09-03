@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "list_post_draft",
         Generator::script(
             CommandBuilder::single_command("hexo list post | grep -E ^Draft"),
-            output_parsers::lines,
+            output_parsers::named_lines,
         ),
     )
 }

@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("softwareupdate --list"),
-            output_parsers::lines,
+            output_parsers::softwareupdate_labels,
         ),
     )
 }
