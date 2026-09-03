@@ -68,11 +68,12 @@ pub fn desc_address(output: &str) -> GeneratorResults {
 }
 
 pub fn git_status_short(output: &str) -> GeneratorResults {
-    let output = output.trim_start();
-    if output.starts_with("fatal:") {
+    if output.trim_start().starts_with("fatal:") {
         return empty();
     }
-    nonempty_lines(output)
+    output
+        .lines()
+        .filter(|line| !line.is_empty())
         .filter_map(|line| {
             let path = line.get(3..)?.trim();
             (!path.is_empty()).then(|| Suggestion::with_description(path, line))
