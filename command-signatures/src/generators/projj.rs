@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_projj_cache_json",
             Generator::script(
                 CommandBuilder::single_command("cat ~/.projj/cache.json"),
-                output_parsers::lines,
+                output_parsers::projj_cache_repos,
             ),
         )
         .add_generator(
             "cat_projj_config_json",
             Generator::script(
                 CommandBuilder::single_command("cat ~/.projj/config.json"),
-                output_parsers::lines,
+                output_parsers::projj_hooks,
             ),
         )
 }

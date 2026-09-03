@@ -1,4 +1,4 @@
-use super::{output_parsers, template_filters};
+use super::template_filters;
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -9,7 +9,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "git --no-optional-locks branch -a --no-color --sort=-committerdate",
                 ),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_filter("filter-vsix", template_filters::vsix())

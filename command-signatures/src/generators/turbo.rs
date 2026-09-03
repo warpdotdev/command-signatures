@@ -9,7 +9,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "git --no-optional-locks branch -a --no-color --sort=-committerdate",
                 ),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_generator(
@@ -18,7 +18,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "until [[ ( -f turbo.json || $PWD = '/' ) ]]; do cd ..; done; cat turbo.json",
                 ),
-                output_parsers::lines,
+                output_parsers::turbo_pipeline,
             ),
         )
 }

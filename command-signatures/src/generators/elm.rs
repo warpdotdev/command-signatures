@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "elm_packages",
             Generator::script(
                 CommandBuilder::single_command("curl -sH 'accept-encoding: gzip' https://package.elm-lang.org/search.json | gunzip"),
-                output_parsers::lines,
+                output_parsers::json_name_summary,
             ),
         )
 }

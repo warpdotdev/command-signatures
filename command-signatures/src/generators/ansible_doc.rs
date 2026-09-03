@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("ansible-doc --list --json 2>/dev/null"),
-            output_parsers::lines,
+            output_parsers::json_object_key_descriptions,
         ),
     )
 }

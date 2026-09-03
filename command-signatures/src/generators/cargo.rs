@@ -157,7 +157,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "read_manifest",
             Generator::script(
                 CommandBuilder::single_command("cargo read-manifest"),
-                output_parsers::json_string_array,
+                output_parsers::cargo_read_manifest_bins,
             ),
         )
         .add_generator(

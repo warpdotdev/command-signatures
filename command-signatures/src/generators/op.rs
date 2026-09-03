@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "account_list_json",
         Generator::script(
             CommandBuilder::single_command("op account list --format json"),
-            output_parsers::lines,
+            output_parsers::op_accounts,
         ),
     )
 }

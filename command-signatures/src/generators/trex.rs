@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_import_map_json",
             Generator::script(
                 CommandBuilder::single_command("cat import_map.json"),
-                output_parsers::lines,
+                output_parsers::trex_imports,
             ),
         )
         .add_generator(
             "cat_run_json",
             Generator::script(
                 CommandBuilder::single_command("cat run.json"),
-                output_parsers::json_script_keys,
+                output_parsers::trex_scripts,
             ),
         )
 }

@@ -45,11 +45,187 @@ pub fn json_envs(output: &str) -> GeneratorResults {
     }
 }
 
+pub fn json_name_summary(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let name = value.get("name")?.as_str()?;
+                let description = value.get("summary").and_then(Value::as_str).unwrap_or("");
+                Some(Suggestion::with_description(name, description))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
 pub fn json_string_array(output: &str) -> GeneratorResults {
     match json(output) {
         Some(Value::Array(arr)) => arr
             .into_iter()
             .filter_map(|value| value.as_str().map(Suggestion::new))
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn json_object_key_descriptions(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(name, value)| {
+                let description = match value {
+                    Value::String(s) => s,
+                    other => other.as_str().map(str::to_owned).unwrap_or_default(),
+                };
+                Suggestion::with_description(name, description)
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn tailscale_peers(output: &str) -> GeneratorResults {
+    tailscale_peers_with_suffix(output, "")
+}
+
+pub fn tailscale_peers_colon(output: &str) -> GeneratorResults {
+    tailscale_peers_with_suffix(output, ":")
+}
+
+pub fn op_accounts(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let email = value.get("email")?.as_str()?;
+                let url = value.get("url").and_then(Value::as_str).unwrap_or("");
+                let uuid = value.get("account_uuid")?.as_str()?;
+                Some(
+                    Suggestion::with_description(uuid, url)
+                        .with_display_name(Some(email.to_string())),
+                )
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn projj_cache_repos(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(key, value)| {
+                let name = key.rsplit('/').next().unwrap_or(&key);
+                let description = value.get("repo").and_then(Value::as_str).unwrap_or("");
+                Suggestion::with_description(name, description)
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn projj_hooks(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("hooks").cloned()) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(name, value)| {
+                let description = match value {
+                    Value::String(s) => s,
+                    other => other.to_string(),
+                };
+                Suggestion::with_description(name, description)
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn trex_imports(output: &str) -> GeneratorResults {
+    if output.trim().is_empty() {
+        return empty();
+    }
+    match json(output).and_then(|v| v.get("imports").cloned()) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(name, value)| {
+                let description = value.as_str().unwrap_or("");
+                Suggestion::with_description(name, description)
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn trex_scripts(output: &str) -> GeneratorResults {
+    if output.trim().is_empty() {
+        return empty();
+    }
+    match json(output).and_then(|v| v.get("scripts").cloned()) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(name, _)| Suggestion::with_description(name, "trex script"))
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn turbo_pipeline(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("pipeline").cloned()) {
+        Some(Value::Object(map)) => map
+            .into_iter()
+            .map(|(name, value)| {
+                let mut parts = Vec::new();
+                if let Some(Value::Array(depends)) = value.get("dependsOn") {
+                    let items: Vec<_> = depends
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(|item| format!("'{item}'"))
+                        .collect();
+                    if !items.is_empty() {
+                        parts.push(format!("depends on {}", items.join(", ")));
+                    }
+                }
+                if let Some(Value::Array(outputs)) = value.get("outputs") {
+                    let items: Vec<_> = outputs
+                        .iter()
+                        .filter_map(Value::as_str)
+                        .map(|item| format!("'{item}'"))
+                        .collect();
+                    if !items.is_empty() {
+                        parts.push(format!("outputs {}", items.join(", ")));
+                    }
+                }
+                let description = if parts.is_empty() {
+                    "Task".to_string()
+                } else {
+                    format!("Task: {}", parts.join(", "))
+                };
+                Suggestion::with_description(name, description)
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn cargo_read_manifest_bins(output: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("targets").cloned()) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|target| {
+                let is_bin = target
+                    .get("kind")
+                    .and_then(Value::as_array)
+                    .is_some_and(|kind| kind.iter().any(|item| item.as_str() == Some("bin")));
+                is_bin
+                    .then(|| {
+                        target
+                            .get("name")
+                            .and_then(Value::as_str)
+                            .map(Suggestion::new)
+                    })
+                    .flatten()
+            })
             .collect_unordered_results(),
         _ => empty(),
     }
@@ -449,6 +625,25 @@ fn skip_header_first_token(
             (!name.is_empty()).then(|| Suggestion::with_description(name, description))
         })
         .collect_unordered_results()
+}
+
+fn tailscale_peers_with_suffix(output: &str, suffix: &str) -> GeneratorResults {
+    match json(output).and_then(|v| v.get("Peer").cloned()) {
+        Some(Value::Object(map)) => map
+            .into_values()
+            .filter_map(|peer| {
+                let dns = peer.get("DNSName")?.as_str()?;
+                let short = dns.split('.').next().unwrap_or(dns);
+                let host = peer.get("HostName").and_then(Value::as_str).unwrap_or("");
+                let os = peer.get("OS").and_then(Value::as_str).unwrap_or("");
+                Some(
+                    Suggestion::with_description(format!("{short}{suffix}"), os)
+                        .with_display_name(Some(host.to_string())),
+                )
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
 }
 
 fn json(output: &str) -> Option<Value> {

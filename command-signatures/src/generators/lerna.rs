@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "git_branch",
             Generator::script(
                 CommandBuilder::single_command("git branch --no-color"),
-                output_parsers::lines,
+                crate::generators::git::post_process_branches,
             ),
         )
         .add_generator(
