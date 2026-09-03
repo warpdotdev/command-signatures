@@ -285,6 +285,29 @@ pub fn json_name_summary(output: &str) -> GeneratorResults {
     }
 }
 
+pub fn json_deno_doc_nodes(output: &str) -> GeneratorResults {
+    let Some(value) = json(output) else {
+        return empty();
+    };
+    let Some(nodes) = value.get("nodes").and_then(Value::as_array) else {
+        return empty();
+    };
+    nodes
+        .iter()
+        .filter_map(|node| {
+            let name = node.get("name")?.as_str()?;
+            (!name.is_empty()).then(|| {
+                let description = node
+                    .get("jsDoc")
+                    .and_then(|js_doc| js_doc.get("doc"))
+                    .and_then(Value::as_str)
+                    .unwrap_or("");
+                Suggestion::with_description(name, description)
+            })
+        })
+        .collect_unordered_results()
+}
+
 pub fn json_string_array(output: &str) -> GeneratorResults {
     match json(output) {
         Some(Value::Array(arr)) => arr

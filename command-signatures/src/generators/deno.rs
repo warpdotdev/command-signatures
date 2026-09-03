@@ -30,7 +30,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "doc_json",
             Generator::command_from_tokens(
                 super::fig_token::deno_doc_json,
-                output_parsers::json_name_summary,
+                output_parsers::json_deno_doc_nodes,
             ),
         )
 }

@@ -130,19 +130,33 @@ pub fn youtube_dl_flat_playlist(tokens: &[&str], _: bool, _: &[String]) -> Comma
     }
 }
 
-pub fn deno_doc_json(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+pub fn deno_doc_json(
+    tokens: &[&str],
+    has_trailing_whitespace: bool,
+    _: &[String],
+) -> CommandBuilder {
     let keep = ["--private", "--builtin", "--unstable"];
-    let mut args: Vec<String> = tokens
+    let complete = if has_trailing_whitespace || tokens.len() <= 1 {
+        tokens
+    } else {
+        &tokens[..tokens.len() - 1]
+    };
+    let mut args: Vec<String> = complete
         .iter()
         .copied()
-        .take(tokens.len().saturating_sub(1))
         .filter(|t| {
-            (!t.starts_with('-') || keep.contains(t)) && !t.starts_with('$') && !t.starts_with('(')
+            !t.is_empty()
+                && (!t.starts_with('-') || keep.contains(t))
+                && !t.starts_with('$')
+                && !t.starts_with('(')
         })
         .map(shell_single_quote)
         .collect();
+    if args.is_empty() {
+        return CommandBuilder::single_command("true");
+    }
     args.push("--json".to_string());
-    CommandBuilder::single_command(format!("deno doc {}", args.join(" ")))
+    CommandBuilder::single_command(args.join(" "))
 }
 
 pub fn git_status_staged_or_unstaged(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
