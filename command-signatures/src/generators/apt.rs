@@ -16,10 +16,12 @@ const LIST_ALL_DEB_FILES_COMMAND: &str = r#"find . -maxdepth 1 -type f -name '*.
 pub fn list_all_packages(output: &str) -> GeneratorResults {
     let mut targets = Vec::new();
     for package_name in output.lines() {
-        targets.push(Suggestion::with_description(
-            package_name.to_string(),
-            "package",
-        ));
+        if !package_name.is_empty() {
+            targets.push(Suggestion::with_description(
+                package_name.to_string(),
+                "package",
+            ));
+        }
     }
     targets.into_iter().collect_unordered_results()
 }
@@ -40,6 +42,9 @@ pub fn list_available_packages(output: &str) -> GeneratorResults {
 pub fn list_all_deb_files_in_cwd(output: &str) -> GeneratorResults {
     let mut targets = Vec::new();
     for file in output.lines() {
+        if file.is_empty() {
+            continue;
+        }
         targets.push(
             // We should prioritize .deb files over the already installed packages.
             Suggestion::with_description(file.to_string(), ".deb file")
@@ -98,3 +103,4 @@ pub fn aptitude_generators() -> CommandSignatureGenerators {
             ),
         )
 }
+
