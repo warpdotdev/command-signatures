@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "cat_copilot_workspace",
         Generator::script(
             CommandBuilder::single_command("cat copilot/.workspace"),
-            fig_parse::lines,
+            fig_parse::yaml_application,
         ),
     )
 }

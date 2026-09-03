@@ -9,7 +9,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     "curl -sL 'https://cdn.deno.land/deno/meta/versions.json'",
                 ),
-                fig_parse::lines,
+                fig_parse::json_string_array,
             ),
         )
         .add_generator(
@@ -23,7 +23,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "lint",
             Generator::script(
                 CommandBuilder::single_command("deno lint --rules --json"),
-                fig_parse::lines,
+                fig_parse::json_deno_codes,
             ),
         )
 }

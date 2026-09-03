@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "completions",
         Generator::script(
             CommandBuilder::single_command("NO_COLOR=1 vr"),
-            fig_parse::lines,
+            fig_parse::second_whitespace_token,
         ),
     )
 }

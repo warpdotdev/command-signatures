@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "list",
         Generator::script(
             CommandBuilder::single_command("limactl list --quiet"),
-            fig_parse::lines,
+            fig_parse::lines_desc_instance,
         ),
     )
 }

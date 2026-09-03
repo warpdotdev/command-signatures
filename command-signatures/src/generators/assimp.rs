@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "listext",
             Generator::script(
                 CommandBuilder::single_command("assimp listext"),
-                fig_parse::lines,
+                fig_parse::lines_desc_extension,
             ),
         )
 }

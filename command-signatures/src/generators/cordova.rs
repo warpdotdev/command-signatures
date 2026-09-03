@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_package_json",
             Generator::script(
                 CommandBuilder::single_command("cat package.json"),
-                fig_parse::lines,
+                fig_parse::json_cordova_platforms,
             ),
         )
         .add_generator(

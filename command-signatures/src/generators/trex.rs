@@ -14,7 +14,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_run_json",
             Generator::script(
                 CommandBuilder::single_command("cat run.json"),
-                fig_parse::lines,
+                fig_parse::json_script_keys,
             ),
         )
 }

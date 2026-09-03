@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "cat_warprc",
         Generator::script(
             CommandBuilder::single_command("cat ~/.warprc"),
-            fig_parse::lines,
+            fig_parse::lines_desc_warp_point,
         ),
     )
 }

@@ -50,7 +50,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "api_graphql_string_viewer",
             Generator::script(
                 CommandBuilder::single_command("gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'"),
-                fig_parse::lines,
+                fig_parse::json_string_array,
             ),
         )
         .add_generator(

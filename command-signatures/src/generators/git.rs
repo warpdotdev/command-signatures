@@ -1047,7 +1047,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "log",
             Generator::script(
                 CommandBuilder::single_command("git --no-optional-locks log --oneline"),
-                fig_parse::lines,
+                fig_parse::git_oneline,
             ),
         )
         .add_generator(

@@ -7,14 +7,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "flyctl_list_apps",
             Generator::script(
                 CommandBuilder::single_command("flyctl list apps"),
-                fig_parse::lines,
+                fig_parse::pipe_table_name_col1_desc,
             ),
         )
         .add_generator(
             "flyctl_list_orgs",
             Generator::script(
                 CommandBuilder::single_command("flyctl list orgs"),
-                fig_parse::lines,
+                fig_parse::pipe_table_name_col1_desc,
             ),
         )
 }

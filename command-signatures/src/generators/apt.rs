@@ -106,14 +106,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "list",
             Generator::script(
                 CommandBuilder::single_command("apt list --installed"),
-                fig_parse::lines,
+                fig_parse::apt_package_before_slash,
             ),
         )
         .add_generator(
             "list_upgradable",
             Generator::script(
                 CommandBuilder::single_command("apt list --upgradable"),
-                fig_parse::lines,
+                fig_parse::apt_package_before_slash,
             ),
         )
 }

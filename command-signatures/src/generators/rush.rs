@@ -8,7 +8,7 @@ pub fn generator() -> CommandSignatureGenerators {
             CommandBuilder::single_command(
                 "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
             ),
-            fig_parse::lines,
+            fig_parse::json_rush_projects,
         ),
     )
 }

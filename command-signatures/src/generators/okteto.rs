@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "context_list",
             Generator::script(
                 CommandBuilder::single_command("okteto context list"),
-                fig_parse::lines,
+                fig_parse::lines_desc_context,
             ),
         )
         .add_generator(

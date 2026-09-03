@@ -39,7 +39,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "git_rev_list",
             Generator::script(
                 CommandBuilder::single_command("git rev-list --all --oneline"),
-                fig_parse::lines,
+                fig_parse::git_oneline,
             ),
         )
 }

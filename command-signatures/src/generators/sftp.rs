@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "cat_ssh_config",
             Generator::script(
                 CommandBuilder::single_command("cat ~/.ssh/config"),
-                fig_parse::lines,
+                fig_parse::ssh_hosts,
             ),
         )
         .add_generator(

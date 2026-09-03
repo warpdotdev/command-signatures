@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "node12_node14_python3_7_python3",
         Generator::script(
             CommandBuilder::single_command("echo node12, node14, python3.7, python3.9"),
-            fig_parse::lines,
+            fig_parse::lines_desc_runtime,
         ),
     )
 }

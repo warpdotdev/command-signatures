@@ -4,6 +4,9 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("eb").add_generator(
         "list",
-        Generator::script(CommandBuilder::single_command("eb list"), fig_parse::lines),
+        Generator::script(
+            CommandBuilder::single_command("eb list"),
+            fig_parse::strip_star_prefix,
+        ),
     )
 }

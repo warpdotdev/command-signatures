@@ -23,7 +23,7 @@ pub fn generator() -> CommandSignatureGenerators {
                 CommandBuilder::single_command(
                     r"lerna list -p | while read p; do  \cat $p/package.json && echo END done",
                 ),
-                fig_parse::lines,
+                fig_parse::json_script_keys,
             ),
         )
         .add_generator(

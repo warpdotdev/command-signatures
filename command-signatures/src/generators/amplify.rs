@@ -6,7 +6,7 @@ pub fn generator() -> CommandSignatureGenerators {
         "env_list",
         Generator::script(
             CommandBuilder::single_command("amplify env list --json"),
-            fig_parse::lines,
+            fig_parse::json_envs,
         ),
     )
 }

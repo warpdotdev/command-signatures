@@ -7,7 +7,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "log",
             Generator::script(
                 CommandBuilder::single_command("watson log --json --reverse"),
-                fig_parse::lines,
+                fig_parse::json_string_array,
             ),
         )
         .add_generator(

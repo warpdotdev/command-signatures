@@ -8,7 +8,7 @@ pub fn generator() -> CommandSignatureGenerators {
             CommandBuilder::single_command(
                 "curl -sL 'https://cdn.deno.land/deploy/meta/versions.json'",
             ),
-            fig_parse::lines,
+            fig_parse::json_string_array,
         ),
     )
 }
