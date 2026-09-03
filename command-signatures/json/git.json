@@ -6539,7 +6539,342 @@
         },
         {
             "name": "grep",
-            "description": "Print lines matching a pattern"
+            "description": "Print lines matching a pattern",
+            "options": [
+                {
+                    "name": "--cached",
+                    "description": "Instead of searching tracked files in the working tree, search blobs registered in the index file"
+                },
+                {
+                    "name": "--untracked",
+                    "description": "In addition to searching in the tracked files in the working tree, search also in untracked files"
+                },
+                {
+                    "name": "--no-index",
+                    "description": "Search files in the current directory that is not managed by Git"
+                },
+                {
+                    "name": "--no-exclude-standard",
+                    "description": "Also search in ignored files by not honoring the .gitignore mechanism. Only useful with --untracked"
+                },
+                {
+                    "name": "--exclude-standard",
+                    "description": "Do not pay attention to ignored files specified via the .gitignore mechanism. Only useful with --no-index"
+                },
+                {
+                    "name": "--recurse-submodules",
+                    "description": "Recursively search in each submodule that is active and checked out in the repository"
+                },
+                {
+                    "name": [
+                        "-a",
+                        "--text"
+                    ],
+                    "description": "Process binary files as if they were text"
+                },
+                {
+                    "name": "--textconv",
+                    "description": "Honor textconv filter settings"
+                },
+                {
+                    "name": "--no-textconv",
+                    "description": "Do not honor textconv filter settings. This is the default"
+                },
+                {
+                    "name": [
+                        "-i",
+                        "--ignore-case"
+                    ],
+                    "description": "Ignore case differences between the patterns and the files"
+                },
+                {
+                    "name": "-I",
+                    "description": "Don't match the pattern in binary files"
+                },
+                {
+                    "name": "--max-depth",
+                    "description": "For each pathspec given on the command line, descend at most <depth> levels of directories. A value of -1 means no limit",
+                    "args": {
+                        "name": "depth"
+                    }
+                },
+                {
+                    "name": [
+                        "-r",
+                        "--recursive"
+                    ],
+                    "description": "Same as --max-depth=-1; this is the default"
+                },
+                {
+                    "name": "--no-recursive",
+                    "description": "Same as --max-depth=0"
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--word-regexp"
+                    ],
+                    "description": "Match the pattern only at word boundary"
+                },
+                {
+                    "name": [
+                        "-v",
+                        "--invert-match"
+                    ],
+                    "description": "Select non-matching lines"
+                },
+                {
+                    "name": "-h",
+                    "description": "Suppress the filename in the output for each match"
+                },
+                {
+                    "name": "-H",
+                    "description": "Show the filename for each match. This is the default"
+                },
+                {
+                    "name": "--full-name",
+                    "description": "When run from a subdirectory, output paths relative to the project top directory"
+                },
+                {
+                    "name": [
+                        "-E",
+                        "--extended-regexp"
+                    ],
+                    "description": "Use POSIX extended regexp for patterns"
+                },
+                {
+                    "name": [
+                        "-G",
+                        "--basic-regexp"
+                    ],
+                    "description": "Use POSIX basic regexp for patterns. This is the default"
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--perl-regexp"
+                    ],
+                    "description": "Use Perl-compatible regular expressions for patterns"
+                },
+                {
+                    "name": [
+                        "-F",
+                        "--fixed-strings"
+                    ],
+                    "description": "Use fixed strings for patterns (don't interpret pattern as a regex)"
+                },
+                {
+                    "name": [
+                        "-n",
+                        "--line-number"
+                    ],
+                    "description": "Prefix the line number to matching lines"
+                },
+                {
+                    "name": "--column",
+                    "description": "Prefix the 1-indexed byte-offset of the first match from the start of the matching line"
+                },
+                {
+                    "name": [
+                        "-l",
+                        "--files-with-matches",
+                        "--name-only"
+                    ],
+                    "description": "Instead of showing every matched line, show only the names of files that contain matches"
+                },
+                {
+                    "name": [
+                        "-L",
+                        "--files-without-match"
+                    ],
+                    "description": "Instead of showing every matched line, show only the names of files that do not contain matches"
+                },
+                {
+                    "name": [
+                        "-O",
+                        "--open-files-in-pager"
+                    ],
+                    "description": "Open the matching files in the pager (not the output of grep)",
+                    "args": {
+                        "name": "pager",
+                        "isOptional": true
+                    }
+                },
+                {
+                    "name": [
+                        "-z",
+                        "--null"
+                    ],
+                    "description": "Use NUL as the delimiter for pathnames in the output, and print them verbatim"
+                },
+                {
+                    "name": [
+                        "-o",
+                        "--only-matching"
+                    ],
+                    "description": "Print only the matched (non-empty) parts of a matching line, with each such part on a separate output line"
+                },
+                {
+                    "name": [
+                        "-c",
+                        "--count"
+                    ],
+                    "description": "Instead of showing every matched line, show the number of lines that match"
+                },
+                {
+                    "name": "--all-match",
+                    "description": "When giving multiple pattern expressions combined with --or, show only files that match all of them"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Do not output matched lines; instead exit with status 0 when a match is found"
+                },
+                {
+                    "name": "--color",
+                    "description": "Show colored matches",
+                    "args": {
+                        "name": "when",
+                        "isOptional": true,
+                        "suggestions": [
+                            "always",
+                            "never",
+                            "auto"
+                        ]
+                    }
+                },
+                {
+                    "name": "--no-color",
+                    "description": "Turn off match highlighting, even when the configuration file gives the default to color output"
+                },
+                {
+                    "name": "--break",
+                    "description": "Print an empty line between matches from different files"
+                },
+                {
+                    "name": "--heading",
+                    "description": "Show the filename above the matches in that file instead of at the start of each shown line"
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--show-function"
+                    ],
+                    "description": "Show the preceding line that contains the function name of the match, unless the matching line is a function name itself"
+                },
+                {
+                    "name": [
+                        "-A",
+                        "--after-context"
+                    ],
+                    "description": "Show <num> trailing lines, and place a line containing -- between contiguous groups of matches",
+                    "args": {
+                        "name": "num"
+                    }
+                },
+                {
+                    "name": [
+                        "-B",
+                        "--before-context"
+                    ],
+                    "description": "Show <num> leading lines, and place a line containing -- between contiguous groups of matches",
+                    "args": {
+                        "name": "num"
+                    }
+                },
+                {
+                    "name": [
+                        "-C",
+                        "--context"
+                    ],
+                    "description": "Show <num> leading and trailing lines, and place a line containing -- between contiguous groups of matches",
+                    "args": {
+                        "name": "num"
+                    }
+                },
+                {
+                    "name": [
+                        "-W",
+                        "--function-context"
+                    ],
+                    "description": "Show the surrounding text from the previous line containing a function name up to the one before the next function name"
+                },
+                {
+                    "name": [
+                        "-m",
+                        "--max-count"
+                    ],
+                    "description": "Limit the amount of matches per file. A value of -1 will return unlimited results (the default)",
+                    "args": {
+                        "name": "num"
+                    }
+                },
+                {
+                    "name": "--threads",
+                    "description": "Number of grep worker threads to use",
+                    "args": {
+                        "name": "num"
+                    }
+                },
+                {
+                    "name": "-f",
+                    "description": "Read patterns from <file>, one per line",
+                    "args": {
+                        "name": "file",
+                        "template": "filepaths"
+                    }
+                },
+                {
+                    "name": "-e",
+                    "description": "The next parameter is the pattern. This option can be used to specify multiple search patterns, or to protect a pattern beginning with a hyphen",
+                    "args": {
+                        "name": "pattern"
+                    }
+                },
+                {
+                    "name": "--and",
+                    "description": "Combine patterns using boolean AND"
+                },
+                {
+                    "name": "--or",
+                    "description": "Combine patterns using boolean OR"
+                },
+                {
+                    "name": "--not",
+                    "description": "Negate the following pattern expression"
+                },
+                {
+                    "name": "--parent-basename",
+                    "description": "When used with --recurse-submodules, prefix submodule output with this basename",
+                    "args": {
+                        "name": "basename"
+                    }
+                },
+                {
+                    "name": "--",
+                    "description": "This option can be used to separate command-line options from the list of pathspecs"
+                }
+            ],
+            "args": [
+                {
+                    "name": "pattern",
+                    "isOptional": true
+                },
+                {
+                    "name": "tree",
+                    "isOptional": true,
+                    "isVariadic": true,
+                    "generatorName": "commits"
+                },
+                {
+                    "name": "pathspec",
+                    "isOptional": true,
+                    "isVariadic": true,
+                    "template": "filepaths"
+                }
+            ]
         },
         {
             "name": "show",
