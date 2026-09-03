@@ -88,14 +88,20 @@ fn render_text(summaries: &[SignatureSummary]) -> io::Result<()> {
     Ok(())
 }
 
-/// Replaces tabs, carriage returns, and newlines with spaces so an externally supplied name or
-/// description can never inject extra tab-separated columns or extra rows into the text output.
+/// Replaces every control character (including tabs, carriage returns, newlines, ESC, vertical
+/// tab, form feed, and other C0/C1 controls) plus the Unicode line separator (U+2028) and
+/// paragraph separator (U+2029) with a space. This is more than TSV framing strictly requires:
+/// it also blocks terminal escape sequences and other layout-affecting characters an externally
+/// supplied name or description could otherwise inject into the text output.
 fn normalize_text_field(field: &str) -> String {
     field
         .chars()
-        .map(|c| match c {
-            '\t' | '\r' | '\n' => ' ',
-            other => other,
+        .map(|c| {
+            if c.is_control() || c == '\u{2028}' || c == '\u{2029}' {
+                ' '
+            } else {
+                c
+            }
         })
         .collect()
 }

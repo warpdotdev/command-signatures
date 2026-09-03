@@ -264,28 +264,33 @@ fn valid_single_object_and_array_produce_sorted_rows() {
 
 #[test]
 fn control_characters_in_name_and_description_cannot_forge_columns_or_rows() {
-    // A name and description containing tabs, newlines, and carriage returns (as JSON escapes)
-    // must not be able to inject extra tab-separated columns or extra rows into the text output:
-    // this is untrusted `--file` content, and the approved spec requires exactly one line per
-    // signature.
+    // A name and description containing every kind of layout-affecting character (tab, newline,
+    // carriage return, ESC, vertical tab, form feed, and the Unicode line separator U+2028 /
+    // paragraph separator U+2029) must not be able to inject extra tab-separated columns or
+    // extra rows into the text output, and ESC must not reach the terminal as an escape
+    // sequence: this is untrusted `--file` content, and the approved spec requires exactly one
+    // line per signature. Built with `serde_json::json!` so every character is JSON-escaped
+    // correctly regardless of how the JSON crate chooses to represent it.
+    let name = "a\tb\nc\rd\u{1b}e\u{0b}f\u{0c}g\u{2028}h\u{2029}i";
+    let description = "p\tq\nr\rs\u{1b}t\u{0b}u\u{0c}v\u{2028}w\u{2029}x";
+    let contents = serde_json::json!({ "name": name, "description": description }).to_string();
+
     let dir = tempfile::tempdir().unwrap();
-    let path = write_fixture(
-        dir.path(),
-        "control_chars.json",
-        br#"{"name":"evil\tname\nwith\rcontrol","description":"desc\twith\ttabs\nand\nnewlines"}"#,
-    );
+    let path = write_fixture(dir.path(), "control_chars.json", contents.as_bytes());
 
     let output = run_list(&path, &[]);
     assert!(output.status.success());
     assert_eq!(
         output.stdout,
-        b"NAME\tSUBCOMMANDS\tDESCRIPTION\nevil name with control\t0\tdesc with tabs and newlines\n"
-            .to_vec()
+        b"NAME\tSUBCOMMANDS\tDESCRIPTION\na b c d e f g h i\t0\tp q r s t u v w x\n".to_vec()
     );
     // Exactly one header line and one data line: no extra rows or columns were injected.
     assert_eq!(output.stdout.iter().filter(|&&b| b == b'\n').count(), 2);
     let data_line = output.stdout.split(|&b| b == b'\n').nth(1).unwrap();
     assert_eq!(data_line.iter().filter(|&&b| b == b'\t').count(), 2);
+    // ESC (0x1B) must never reach stdout, so it cannot be interpreted as a terminal escape
+    // sequence.
+    assert!(!output.stdout.contains(&0x1B));
 }
 
 #[test]
