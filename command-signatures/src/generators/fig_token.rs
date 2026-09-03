@@ -205,6 +205,132 @@ pub fn brew_gist_logs_actions(tokens: &[&str], _: bool, _: &[String]) -> Command
     }
 }
 
+pub fn github_user_repos(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    let last = last_token(tokens);
+    if last.contains(':') || !last.contains('/') {
+        return CommandBuilder::single_command("true");
+    }
+    let user = last.split('/').next().unwrap_or("");
+    if user.is_empty() {
+        CommandBuilder::single_command("true")
+    } else {
+        CommandBuilder::single_command(format!(
+            "curl -sL 'https://api.github.com/users/{}/repos'",
+            urlencode(user)
+        ))
+    }
+}
+
+pub fn git_flow_type_branches(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    let kind = tokens.get(1).copied().unwrap_or("");
+    if kind.is_empty() || !kind.chars().all(|c| c.is_ascii_alphanumeric() || c == '-') {
+        return CommandBuilder::single_command("true");
+    }
+    CommandBuilder::single_command(format!(
+        r#"p=$(git config --get gitflow.prefix.{kind} 2>/dev/null); git --no-optional-locks branch -a --no-color --sort=-committerdate | sed 's/^[*+] //; s/^  //' | awk -v p="$p" 'index($0,p)==1 {{ print substr($0,length(p)+1) }}'"#
+    ))
+}
+
+pub fn dd_conv_remaining(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    remaining_csv(
+        tokens,
+        &[
+            "ascii",
+            "oldascii",
+            "block",
+            "ebcdic",
+            "ibm",
+            "oldebcdic",
+            "oldibm",
+            "lcase",
+            "noerror",
+            "notrunc",
+            "osync",
+            "sparse",
+            "swab",
+            "sync",
+            "ucase",
+            "unblock",
+        ],
+    )
+}
+
+pub fn man_sections_remaining(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    remaining_delimited(tokens, &["1", "2", "3", "4", "5", "6", "7", "8"], ':')
+}
+
+pub fn file_param_keys(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    let last = last_token(tokens);
+    if last.contains('=') {
+        CommandBuilder::single_command("true")
+    } else {
+        remaining_delimited(
+            tokens,
+            &[
+                "bytes",
+                "elf_notes",
+                "elf_phum",
+                "encoding",
+                "indir",
+                "name",
+                "regex",
+            ],
+            ',',
+        )
+    }
+}
+
+pub fn robot_variables(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    if last_token(tokens).contains(':') {
+        CommandBuilder::single_command("true")
+    } else {
+        CommandBuilder::single_command(
+            r#"for i in $(find -E . -regex ".*.(robot|resource)" -type f); do cat -s $i ; done"#,
+        )
+    }
+}
+
+pub fn scc_output_paths(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    let last = last_token(tokens);
+    if last.contains(':') {
+        CommandBuilder::single_command("ls -1AF; printf '%s\\n' stdout")
+    } else {
+        remaining_csv(
+            tokens,
+            &[
+                "tabular",
+                "wide",
+                "json",
+                "csv",
+                "csv-stream",
+                "cloc-yaml",
+                "html",
+                "html-table",
+                "sql",
+                "sql-insert",
+            ],
+        )
+    }
+}
+
+pub fn esbuild_loader(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
+    let last = last_token(tokens);
+    if last.contains(':') {
+        remaining_delimited(
+            tokens,
+            &[
+                "js", "jsx", "ts", "tsx", "css", "json", "text", "base64", "file", "dataurl",
+                "binary", "copy",
+            ],
+            ':',
+        )
+    } else {
+        CommandBuilder::single_command(
+            "find . -depth 3 -type f -name '*.*' -not -path '*/node_modules/*' | sed 's/.*\\.//' | sort -u",
+        )
+    }
+}
+
 fn curl_npms(query: &str, _: &str) -> CommandBuilder {
     if query.is_empty() {
         CommandBuilder::single_command("true")
@@ -217,8 +343,12 @@ fn curl_npms(query: &str, _: &str) -> CommandBuilder {
 }
 
 fn remaining_csv(tokens: &[&str], options: &[&str]) -> CommandBuilder {
+    remaining_delimited(tokens, options, ',')
+}
+
+fn remaining_delimited(tokens: &[&str], options: &[&str], delimiter: char) -> CommandBuilder {
     let used: std::collections::HashSet<&str> = last_token(tokens)
-        .split(',')
+        .split(delimiter)
         .filter(|s| !s.is_empty())
         .collect();
     let left: Vec<&str> = options

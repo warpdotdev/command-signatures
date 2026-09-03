@@ -269,6 +269,13 @@ pub fn npm_generators() -> CommandSignatureGenerators {
         .add_generator("workspace_generator", workspace_generator())
         .add_generator("npm_registry_search", npm_registry_search_generator())
         .add_alias("script_alias", script_alias_generator())
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                output_parsers::npms_search_results,
+            ),
+        )
 }
 
 fn workspace_packages_generator() -> Generator {
@@ -330,6 +337,13 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
                 output_parsers::json_script_keys,
             ),
         )
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                output_parsers::npms_search_results,
+            ),
+        )
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
@@ -386,6 +400,13 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
             "create_package_search",
             Generator::command_from_tokens(
                 super::fig_token::npms_search_create_prefix,
+                super::output_parsers::npms_search_results,
+            ),
+        )
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
                 super::output_parsers::npms_search_results,
             ),
         )

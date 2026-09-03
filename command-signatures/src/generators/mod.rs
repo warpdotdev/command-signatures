@@ -11,35 +11,45 @@ mod bat;
 mod black;
 mod checkov;
 mod chown;
+mod cloudflared;
 mod cmd_n;
 mod common;
 mod copilot;
 mod cordova;
+mod dd;
+mod degit;
 mod deno;
 mod deployctl;
 mod deta;
 mod direnv;
 mod dtm;
 mod eb;
+mod elixir;
 mod elm;
 mod elm_review;
+mod esbuild;
 mod eslint;
 mod expo;
 mod expo_cli;
 mod ffmpeg;
 mod fig_teams;
 mod fig_token;
+mod file;
 mod fisher;
 mod fly;
 mod flyctl;
 mod fnm;
 mod fvm;
+mod git_flow;
 mod gpg;
 mod hexo;
 mod hugo;
 mod hyper;
 mod id;
+mod iex;
 mod ignite_cli;
+mod java;
+mod julia;
 mod kool;
 mod lerna;
 mod limactl;
@@ -49,14 +59,19 @@ mod meteor;
 mod mix;
 mod mosh;
 mod networkquality;
+mod ni;
 mod npx;
 mod nr;
 mod ns;
 mod okteto;
 mod op;
 mod open;
+mod osascript;
 mod output_parsers;
 mod pandoc;
+mod pdfunite;
+mod pm2;
+mod pod;
 mod pre_commit;
 mod projj;
 mod python;
@@ -66,6 +81,8 @@ mod rancher;
 mod rclone;
 mod redwood;
 mod robot;
+mod rollup;
+mod rscript;
 mod rush;
 mod rushx;
 mod rustup;
@@ -73,7 +90,10 @@ mod scc;
 mod sftp;
 mod shortcuts;
 mod softwareupdate;
+mod sqlite3;
+mod st2;
 mod stepzen;
+mod subl;
 mod sysctl;
 mod tailscale;
 mod tccutil;
@@ -85,14 +105,17 @@ mod tokei;
 mod trex;
 mod trivy;
 mod ts_node;
+mod tsc;
 mod turbo;
 mod vite;
 mod vr;
 mod vsce;
 mod vultr_cli;
+mod wasm_bindgen;
 mod watson;
 mod wd;
 mod wifi_password;
+mod xcodeproj;
 mod yo;
 mod youtube_dl;
 
@@ -209,6 +232,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         ng::generator(),
         nextflow::generator(),
         nmap::generator(),
+        ni::generator(),
         npm::npm_generators(),
         npm::yarn_generators(),
         nx::generator(),
@@ -334,6 +358,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         sftp::generator(),
         shortcuts::generator(),
         softwareupdate::generator(),
+        st2::generator(),
         stepzen::generator(),
         sysctl::generator(),
         tailscale::generator(),
@@ -355,6 +380,27 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         wifi_password::generator(),
         yo::generator(),
         youtube_dl::generator(),
+        cloudflared::generator(),
+        dd::generator(),
+        degit::generator(),
+        elixir::generator(),
+        esbuild::generator(),
+        file::generator(),
+        git_flow::generator(),
+        iex::generator(),
+        java::generator(),
+        julia::generator(),
+        osascript::generator(),
+        pdfunite::generator(),
+        pm2::generator(),
+        pod::generator(),
+        rollup::generator(),
+        rscript::generator(),
+        sqlite3::generator(),
+        subl::generator(),
+        tsc::generator(),
+        wasm_bindgen::generator(),
+        xcodeproj::generator(),
     ];
 
     HashMap::from_iter(command_signature_generators.map(Into::into))

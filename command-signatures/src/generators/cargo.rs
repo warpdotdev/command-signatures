@@ -1,4 +1,4 @@
-use super::{fig_token, output_parsers};
+use super::{fig_token, output_parsers, template_filters};
 use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
@@ -171,4 +171,10 @@ pub fn generator() -> CommandSignatureGenerators {
             "test_list",
             Generator::command_from_tokens(fig_token::cargo_test_list, output_parsers::lines),
         )
+        .add_filter("filter-cargo-toml", template_filters::cargo_toml())
+        .add_filter("filter-cargo-lock", template_filters::cargo_lock())
+        .add_filter("filter-rustfmt-toml", template_filters::rustfmt_toml())
+        .add_filter("filter-deny-toml", template_filters::deny_toml())
+        .add_filter("filter-rs", template_filters::rs())
+        .add_filter("filter-snap", template_filters::snap())
 }

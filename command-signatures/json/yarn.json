@@ -2,7 +2,6 @@
     "name": "yarn",
     "description": "Manage packages and run scripts",
     "generateSpec": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let{script:a,postProcess:t}=R,p=t(yield n(a),e).map(({name:i})=>i).filter(i=>W.includes(i)).map(i=>({name:i===\"@redwoodjs/core\"?[\"redwood\",\"rw\"]:i,loadSpec:i===\"@redwoodjs/core\"?\"redwood\":i,icon:\"fig://icon?type=package\"}));return{name:\"yarn\",subcommands:p}})",
-
     "aliasGenerator": "script_alias",
     "args": {
         "name": "script",
@@ -495,7 +494,8 @@
                 "name": "package",
                 "template": "filepaths",
                 "debounce": true,
-                "isVariadic": true
+                "isVariadic": true,
+                "generatorName": "npms_search"
             },
             "options": [
                 {
@@ -1203,7 +1203,8 @@
                 "name": "cli",
                 "template": "filepaths",
                 "loadSpec": "_NuFrRa_e=>h(void 0,null,function*(){return{name:\"create-\"+e,type:\"global\"}})",
-                "isCommand": true
+                "isCommand": true,
+                "generatorName": "create_package_search"
             },
             "options": [
                 {
@@ -1499,7 +1500,8 @@
                         "name": "package",
                         "template": "filepaths",
                         "debounce": true,
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "npms_search"
                     }
                 },
                 {
@@ -4917,7 +4919,6 @@
             "name": "workspace",
             "description": "Manage workspace",
             "generateSpec": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let t=(yield n(\"yarn --version\")).startsWith(\"1.\"),o=()=>h(void 0,null,function*(){let i=yield n(\"yarn workspaces info\"),s=i.indexOf(\"{\"),r=i.lastIndexOf(\"}\");return Object.entries(JSON.parse(i.slice(s,r+1))).map(([l,{location:f}])=>({name:l,location:f}))}),p=()=>h(void 0,null,function*(){return(yield n(\"yarn workspaces list --json\")).split(`\n`).map(s=>JSON.parse(s.trim()))});try{let s=(t?yield o():yield p()).map(({name:r,location:l})=>({name:r,description:\"Workspaces\",args:{name:\"script\",generators:{cache:{strategy:\"stale-while-revalidate\",ttl:6e4},script:`\\\\cat ${l}/package.json`,postProcess:function(f){if(f.trim()==\"\")return[];try{let A=JSON.parse(f).scripts;if(A)return Object.keys(A).map(G=>({name:G}))}catch(P){}return[]}}}}));return{name:\"workspace\",subcommands:s}}catch(i){console.error(i)}return{name:\"workspaces\"}})",
-
             "args": {
                 "name": "workspace",
                 "description": "Workspace name",

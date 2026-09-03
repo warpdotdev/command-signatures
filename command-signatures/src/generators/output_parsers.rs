@@ -282,6 +282,97 @@ pub fn gh_repo_list_json(output: &str) -> GeneratorResults {
     }
 }
 
+pub fn github_repos_json(output: &str) -> GeneratorResults {
+    match json(output) {
+        Some(Value::Array(arr)) => arr
+            .into_iter()
+            .filter_map(|value| {
+                let name = value.get("full_name")?.as_str()?;
+                let description = value
+                    .get("description")
+                    .and_then(Value::as_str)
+                    .unwrap_or("Repository");
+                Some(Suggestion::with_description(name, description))
+            })
+            .collect_unordered_results(),
+        _ => empty(),
+    }
+}
+
+pub fn robot_variables(output: &str) -> GeneratorResults {
+    let mut seen = std::collections::HashSet::new();
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let start = line.find("${")?;
+            let rest = &line[start + 2..];
+            let end = rest.find('}')?;
+            let name = rest[..end].trim();
+            (!name.is_empty() && seen.insert(name.to_string()))
+                .then(|| Suggestion::with_description(name, "Variable"))
+        })
+        .collect_unordered_results()
+}
+
+pub fn robot_test_cases(output: &str) -> GeneratorResults {
+    let mut seen = std::collections::HashSet::new();
+    let mut in_tests = false;
+    output
+        .lines()
+        .filter_map(|line| {
+            let trimmed = line.trim();
+            if trimmed.eq_ignore_ascii_case("*** Test Cases ***")
+                || trimmed.eq_ignore_ascii_case("***Test Cases***")
+            {
+                in_tests = true;
+                return None;
+            }
+            if in_tests && trimmed.starts_with("***") {
+                in_tests = false;
+                return None;
+            }
+            if !in_tests || line.starts_with(' ') || line.starts_with('\t') || trimmed.is_empty() {
+                return None;
+            }
+            let name = trimmed.split('#').next().unwrap_or(trimmed).trim();
+            if name.is_empty() || name.contains("  ") {
+                return None;
+            }
+            seen.insert(name.to_string())
+                .then(|| Suggestion::with_description(name, "Test case"))
+        })
+        .collect_unordered_results()
+}
+
+pub fn robot_tags(output: &str) -> GeneratorResults {
+    let mut seen = std::collections::HashSet::new();
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let trimmed = line.trim_start();
+            trimmed.strip_prefix("[Tags]")
+        })
+        .flat_map(|rest| {
+            rest.split("  ")
+                .map(str::trim)
+                .filter(|tag| !tag.is_empty() && !tag.starts_with('#'))
+                .map(str::to_string)
+                .collect::<Vec<_>>()
+        })
+        .filter_map(|tag| {
+            seen.insert(tag.clone())
+                .then(|| Suggestion::with_description(tag, "Tag"))
+        })
+        .collect_unordered_results()
+}
+
+pub fn scc_languages(output: &str) -> GeneratorResults {
+    nonempty_lines(output)
+        .filter_map(|line| {
+            let (name, _) = line.rsplit_once(" (")?;
+            Some(Suggestion::new(name.trim()))
+        })
+        .collect_unordered_results()
+}
+
 pub fn docker_from_as_names(output: &str) -> GeneratorResults {
     let re = regex::Regex::new(r"(?i)(?:as)\s+([\w:.-]+)").ok();
     nonempty_lines(output)

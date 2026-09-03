@@ -24,4 +24,11 @@ pub fn generator() -> CommandSignatureGenerators {
                 output_parsers::second_whitespace_token,
             ),
         )
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                output_parsers::npms_search_results,
+            ),
+        )
 }

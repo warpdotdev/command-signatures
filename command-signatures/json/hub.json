@@ -2,7 +2,6 @@
     "name": "git",
     "description": "The stupid content tracker",
     "generateSpec": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let r=(yield t(\"compgen -c | grep git- | cut -c5- | sort -u\")).trim();return r===\"\"?{name:\"git\"}:{name:\"git\",subcommands:r.split(`\n`).map(a=>{var s;return f({name:a},(s=q[a])!=null?s:{description:`Run git-${a}`})})}})",
-
     "args": {
         "name": "alias",
         "description": "Custom user defined git alias",
@@ -4069,7 +4068,10 @@
                     }
                 ],
                 "template": "filepaths",
-                "generatorName": "log"
+                "generatorName": [
+                    "log",
+                    "status_staged_or_unstaged"
+                ]
             }
         },
         {

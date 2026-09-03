@@ -1,4 +1,4 @@
-use super::output_parsers;
+use super::{output_parsers, template_filters};
 use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
@@ -24,4 +24,5 @@ pub fn generator() -> CommandSignatureGenerators {
                 output_parsers::lines,
             ),
         )
+        .add_filter("filter-json", template_filters::json())
 }
