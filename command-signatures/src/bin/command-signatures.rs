@@ -77,24 +77,21 @@ fn render_text(summaries: &[SignatureSummary]) -> io::Result<()> {
 
     writeln!(out, "NAME\tSUBCOMMANDS\tDESCRIPTION")?;
     for summary in summaries {
+        let name = normalize_text_field(&summary.name);
         let description = summary
             .description
             .as_deref()
-            .map(normalize_description)
+            .map(normalize_text_field)
             .unwrap_or_default();
-        writeln!(
-            out,
-            "{}\t{}\t{description}",
-            summary.name, summary.subcommand_count
-        )?;
+        writeln!(out, "{name}\t{}\t{description}", summary.subcommand_count)?;
     }
     Ok(())
 }
 
-/// Replaces tabs, carriage returns, and newlines with spaces so each signature occupies exactly
-/// one line of text output.
-fn normalize_description(description: &str) -> String {
-    description
+/// Replaces tabs, carriage returns, and newlines with spaces so an externally supplied name or
+/// description can never inject extra tab-separated columns or extra rows into the text output.
+fn normalize_text_field(field: &str) -> String {
+    field
         .chars()
         .map(|c| match c {
             '\t' | '\r' | '\n' => ' ',

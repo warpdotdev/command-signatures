@@ -263,6 +263,32 @@ fn valid_single_object_and_array_produce_sorted_rows() {
 }
 
 #[test]
+fn control_characters_in_name_and_description_cannot_forge_columns_or_rows() {
+    // A name and description containing tabs, newlines, and carriage returns (as JSON escapes)
+    // must not be able to inject extra tab-separated columns or extra rows into the text output:
+    // this is untrusted `--file` content, and the approved spec requires exactly one line per
+    // signature.
+    let dir = tempfile::tempdir().unwrap();
+    let path = write_fixture(
+        dir.path(),
+        "control_chars.json",
+        br#"{"name":"evil\tname\nwith\rcontrol","description":"desc\twith\ttabs\nand\nnewlines"}"#,
+    );
+
+    let output = run_list(&path, &[]);
+    assert!(output.status.success());
+    assert_eq!(
+        output.stdout,
+        b"NAME\tSUBCOMMANDS\tDESCRIPTION\nevil name with control\t0\tdesc with tabs and newlines\n"
+            .to_vec()
+    );
+    // Exactly one header line and one data line: no extra rows or columns were injected.
+    assert_eq!(output.stdout.iter().filter(|&&b| b == b'\n').count(), 2);
+    let data_line = output.stdout.split(|&b| b == b'\n').nth(1).unwrap();
+    assert_eq!(data_line.iter().filter(|&&b| b == b'\t').count(), 2);
+}
+
+#[test]
 fn default_embedded_source_lists_repository_signatures() {
     let output = bin().arg("list").output().unwrap();
     assert!(output.status.success());

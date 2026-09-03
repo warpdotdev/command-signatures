@@ -4,6 +4,7 @@
 //! so any Rust caller can list either the signatures embedded into this crate or an external,
 //! Fig-compatible JSON document.
 
+use std::cell::Cell;
 use std::fmt;
 use std::io::Read;
 use std::path::{Path, PathBuf};
@@ -22,10 +23,6 @@ pub const MAX_JSON_NESTING_DEPTH: usize = 64;
 /// Maximum number of command objects accepted in a top-level array in an external signatures
 /// file.
 pub const MAX_EXTERNAL_COMMANDS: usize = 10_000;
-
-/// A marker used to distinguish a "too many commands" failure from an ordinary parse failure
-/// when it surfaces through `serde`'s generic error type.
-const TOO_MANY_COMMANDS_MARKER: &str = "warp-command-signatures: too many commands";
 
 /// Where [`list_signatures`] should read command signatures from.
 #[derive(Debug, Clone)]
@@ -260,9 +257,15 @@ fn parse_non_array_root(trimmed: &[u8], path: &Path) -> Result<Vec<Command>, Lis
 /// A `Visitor` that deserializes a JSON array of `Command` values one element at a time,
 /// probing for at most one element beyond [`MAX_EXTERNAL_COMMANDS`] rather than deserializing an
 /// unbounded array and counting afterward.
-struct BoundedCommandSeq;
+///
+/// `too_many` is a side channel, set only by this visitor's own code, that lets the caller
+/// distinguish a limit violation from an ordinary parse failure without inspecting formatted
+/// error text (which untrusted input could otherwise forge to select its own diagnostic).
+struct BoundedCommandSeq<'a> {
+    too_many: &'a Cell<bool>,
+}
 
-impl<'de> Visitor<'de> for BoundedCommandSeq {
+impl<'de, 'a> Visitor<'de> for BoundedCommandSeq<'a> {
     type Value = Vec<Command>;
 
     fn expecting(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -276,7 +279,8 @@ impl<'de> Visitor<'de> for BoundedCommandSeq {
         let mut commands = Vec::new();
         while let Some(command) = seq.next_element::<Command>()? {
             if commands.len() == MAX_EXTERNAL_COMMANDS {
-                return Err(de::Error::custom(TOO_MANY_COMMANDS_MARKER));
+                self.too_many.set(true);
+                return Err(de::Error::custom("too many commands in top-level array"));
             }
             commands.push(command);
         }
@@ -287,21 +291,23 @@ impl<'de> Visitor<'de> for BoundedCommandSeq {
 /// Parses an array root through the bounded sequence visitor above.
 fn parse_array_root(trimmed: &[u8], path: &Path) -> Result<Vec<Command>, ListSignaturesError> {
     let mut deserializer = serde_json::Deserializer::from_slice(trimmed);
-    let commands =
-        deserializer
-            .deserialize_seq(BoundedCommandSeq)
-            .map_err(|source: serde_json::Error| {
-                if source.to_string().contains(TOO_MANY_COMMANDS_MARKER) {
-                    ListSignaturesError::TooManyCommands {
-                        path: path.to_path_buf(),
-                    }
-                } else {
-                    ListSignaturesError::Parse {
-                        path: path.to_path_buf(),
-                        source,
-                    }
+    let too_many = Cell::new(false);
+    let commands = deserializer
+        .deserialize_seq(BoundedCommandSeq {
+            too_many: &too_many,
+        })
+        .map_err(|source: serde_json::Error| {
+            if too_many.get() {
+                ListSignaturesError::TooManyCommands {
+                    path: path.to_path_buf(),
                 }
-            })?;
+            } else {
+                ListSignaturesError::Parse {
+                    path: path.to_path_buf(),
+                    source,
+                }
+            }
+        })?;
     // Require the parser to consume the complete document so trailing non-whitespace bytes are
     // malformed, matching the behavior `serde_json::from_slice` provides for other roots.
     deserializer
@@ -541,6 +547,19 @@ mod tests {
 
         let err = list_file(&command_array_json(MAX_EXTERNAL_COMMANDS + 1)).unwrap_err();
         assert!(matches!(err, ListSignaturesError::TooManyCommands { .. }));
+    }
+
+    #[test]
+    fn schema_invalid_document_embedding_limit_diagnostic_text_is_still_a_parse_error() {
+        // A schema-invalid document (`priority` must be a number, not a string) that happens to
+        // embed text resembling the too-many-commands diagnostic. The array has far fewer than
+        // `MAX_EXTERNAL_COMMANDS` entries, so this must be reported as a parse error rather than
+        // a limit violation: the error variant must not be selected by inspecting formatted
+        // error text, which untrusted input could otherwise forge.
+        let err =
+            list_file(br#"[{"name":"x","priority":"warp-command-signatures: too many commands"}]"#)
+                .unwrap_err();
+        assert!(matches!(err, ListSignaturesError::Parse { .. }));
     }
 
     #[test]
