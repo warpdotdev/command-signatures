@@ -382,20 +382,45 @@ fn remaining_csv(tokens: &[&str], options: &[&str]) -> CommandBuilder {
 }
 
 fn remaining_delimited(tokens: &[&str], options: &[&str], delimiter: char) -> CommandBuilder {
-    let used: std::collections::HashSet<&str> = last_token(tokens)
-        .split(delimiter)
-        .filter(|s| !s.is_empty())
-        .collect();
+    let last = last_token(tokens);
+    let (insert_prefix, csv) = last
+        .rsplit_once('=')
+        .filter(|(head, _)| {
+            !head.is_empty()
+                && !head.contains(delimiter)
+                && head
+                    .chars()
+                    .all(|c| c.is_ascii_alphanumeric() || matches!(c, '-' | '_'))
+        })
+        .map(|(head, rest)| (format!("{head}="), rest))
+        .unwrap_or_else(|| (String::new(), last));
+    let ends_with_delim = csv.ends_with(delimiter);
+    let mut parts: Vec<&str> = csv.split(delimiter).filter(|s| !s.is_empty()).collect();
+    if !csv.is_empty() && !ends_with_delim {
+        parts.pop();
+    }
+    let used: std::collections::HashSet<&str> = parts.iter().copied().collect();
     let left: Vec<&str> = options
         .iter()
         .copied()
         .filter(|o| !used.contains(o))
         .collect();
     if left.is_empty() {
-        CommandBuilder::single_command("true")
-    } else {
-        CommandBuilder::single_command(format!("printf '%s\\n' {}", left.join(" ")))
+        return CommandBuilder::single_command("true");
     }
+    let already = if parts.is_empty() {
+        insert_prefix
+    } else {
+        format!(
+            "{insert_prefix}{}{delimiter}",
+            parts.join(&delimiter.to_string())
+        )
+    };
+    let rendered: Vec<String> = left
+        .iter()
+        .map(|option| format!("{already}{option}"))
+        .collect();
+    CommandBuilder::single_command(format!("printf '%s\\n' {}", rendered.join(" ")))
 }
 
 fn dockerfile_from_tokens(tokens: &[&str]) -> String {
