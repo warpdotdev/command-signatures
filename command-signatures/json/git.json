@@ -3796,7 +3796,89 @@
         },
         {
             "name": "ls-remote",
-            "description": "List references in a remote repository"
+            "description": "List references in a remote repository",
+            "options": [
+                {
+                    "name": [
+                        "-b",
+                        "--branches"
+                    ],
+                    "description": "Limit to only local branches"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--heads"
+                    ],
+                    "description": "Deprecated synonym for --branches"
+                },
+                {
+                    "name": [
+                        "-t",
+                        "--tags"
+                    ],
+                    "description": "Limit to only local tags"
+                },
+                {
+                    "name": "--refs",
+                    "description": "Do not show peeled tags or pseudorefs like HEAD in the output"
+                },
+                {
+                    "name": [
+                        "-q",
+                        "--quiet"
+                    ],
+                    "description": "Do not print remote URL to stderr"
+                },
+                {
+                    "name": "--upload-pack",
+                    "description": "Specify the full path of git-upload-pack on the remote host",
+                    "args": {
+                        "name": "exec"
+                    }
+                },
+                {
+                    "name": "--exit-code",
+                    "description": "Exit with status 2 when no matching refs are found in the remote repository"
+                },
+                {
+                    "name": "--get-url",
+                    "description": "Expand the URL of the given remote repository taking into account any url.<base>.insteadOf config setting and exit without talking to the remote"
+                },
+                {
+                    "name": "--sort",
+                    "description": "Sort based on the key given. Prefix - to sort in descending order of the value",
+                    "args": {
+                        "name": "key"
+                    }
+                },
+                {
+                    "name": "--symref",
+                    "description": "In addition to the object pointed by it, show the underlying ref pointed by it when showing a symbolic ref"
+                },
+                {
+                    "name": [
+                        "-o",
+                        "--server-option"
+                    ],
+                    "description": "Transmit the given string to the server when communicating using protocol version 2. The given string must not contain a NUL or LF character",
+                    "args": {
+                        "name": "option"
+                    }
+                }
+            ],
+            "args": [
+                {
+                    "name": "repository",
+                    "isOptional": true,
+                    "generatorName": "remotes"
+                },
+                {
+                    "name": "pattern",
+                    "isOptional": true,
+                    "isVariadic": true
+                }
+            ]
         },
         {
             "name": "push",
