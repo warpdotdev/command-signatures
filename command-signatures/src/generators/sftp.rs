@@ -12,9 +12,9 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "cat_ssh_known_hosts",
-            Generator::script(
-                CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
-                output_parsers::ssh_hosts,
+            Generator::command_from_tokens(
+                super::fig_token::known_hosts_file,
+                output_parsers::ssh_known_hosts,
             ),
         )
 }

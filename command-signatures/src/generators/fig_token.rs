@@ -205,6 +205,27 @@ pub fn brew_gist_logs_actions(tokens: &[&str], _: bool, _: &[String]) -> Command
     }
 }
 
+pub fn known_hosts_file(
+    tokens: &[&str],
+    has_trailing_whitespace: bool,
+    _: &[String],
+) -> CommandBuilder {
+    let last = if has_trailing_whitespace {
+        ""
+    } else {
+        last_token(tokens)
+    };
+    let prefix = user_at_prefix(last);
+    if prefix.is_empty() {
+        CommandBuilder::single_command("cat ~/.ssh/known_hosts")
+    } else {
+        CommandBuilder::single_command(format!(
+            "printf '%s\\n' {}; cat ~/.ssh/known_hosts",
+            shell_single_quote(&format!("WARP_SSH_USER_PREFIX={prefix}"))
+        ))
+    }
+}
+
 pub fn github_user_repos(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
     let last = last_token(tokens);
     if last.contains(':') || !last.contains('/') {
@@ -370,6 +391,20 @@ fn dockerfile_from_tokens(tokens: &[&str]) -> String {
         }
     }
     "$PWD/Dockerfile".to_string()
+}
+
+fn user_at_prefix(token: &str) -> String {
+    let Some((user, _)) = token.split_once('@') else {
+        return String::new();
+    };
+    if user.is_empty()
+        || !user
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || matches!(c, '.' | '_' | '-'))
+    {
+        return String::new();
+    }
+    format!("{user}@")
 }
 
 fn last_token<'a>(tokens: &[&'a str]) -> &'a str {

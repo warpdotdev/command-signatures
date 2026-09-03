@@ -81,15 +81,30 @@ pub fn git_status_short(output: &str) -> GeneratorResults {
 }
 
 pub fn pre_commit_hook_ids(output: &str) -> GeneratorResults {
-    nonempty_lines(output)
-        .filter_map(|line| {
-            let trimmed = line.trim();
-            let value = trimmed
-                .strip_prefix("- id:")
-                .or_else(|| trimmed.strip_prefix("id:"))?;
-            let name = value.trim().trim_matches('"');
-            (!name.is_empty()).then(|| Suggestion::new(name))
-        })
+    yaml_pre_commit_hook_ids(output)
+        .into_iter()
+        .map(Suggestion::new)
+        .collect_unordered_results()
+}
+
+pub fn ssh_known_hosts(output: &str) -> GeneratorResults {
+    let mut prefix = String::new();
+    let mut seen = std::collections::HashSet::new();
+    let mut hosts = Vec::new();
+    for line in nonempty_lines(output) {
+        if let Some(rest) = line.strip_prefix("WARP_SSH_USER_PREFIX=") {
+            prefix = rest.to_string();
+            continue;
+        }
+        for host in known_host_names(line) {
+            if seen.insert(host.clone()) {
+                hosts.push(host);
+            }
+        }
+    }
+    hosts
+        .into_iter()
+        .map(|host| Suggestion::with_description(format!("{prefix}{host}"), "SSH host"))
         .collect_unordered_results()
 }
 
@@ -867,6 +882,103 @@ pub fn ssh_hosts(output: &str) -> GeneratorResults {
         .filter_map(|line| line.split_whitespace().nth(1))
         .map(|name| Suggestion::with_description(name, "SSH host"))
         .collect_unordered_results()
+}
+
+fn known_host_names(line: &str) -> Vec<String> {
+    let line = line.trim();
+    if line.is_empty() || line.starts_with('#') {
+        return Vec::new();
+    }
+    let mut fields = line.split_whitespace();
+    let mut first = fields.next().unwrap_or("");
+    if first.starts_with('@') {
+        first = fields.next().unwrap_or("");
+    }
+    if first.is_empty() || first.starts_with("|1|") {
+        return Vec::new();
+    }
+    first
+        .split(',')
+        .filter_map(|host| {
+            let host = host.trim();
+            let host = host
+                .strip_prefix('[')
+                .and_then(|h| h.split(']').next())
+                .unwrap_or(host);
+            if host.is_empty() || host.contains('*') {
+                None
+            } else {
+                Some(host.to_string())
+            }
+        })
+        .collect()
+}
+
+fn yaml_pre_commit_hook_ids(output: &str) -> Vec<String> {
+    let mut ids = Vec::new();
+    let mut in_repos = false;
+    let mut in_hooks = false;
+    let mut repos_indent = usize::MAX;
+    let mut hooks_indent = usize::MAX;
+    for raw in output.lines() {
+        let indent = raw.chars().take_while(|c| *c == ' ' || *c == '\t').count();
+        let trimmed = raw.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
+            continue;
+        }
+        if in_repos && indent <= repos_indent && key_name(trimmed) != "repos" {
+            in_repos = false;
+            in_hooks = false;
+        }
+        if in_hooks && indent <= hooks_indent && key_name(trimmed) != "hooks" {
+            in_hooks = false;
+        }
+        match key_name(trimmed) {
+            "repos" => {
+                in_repos = true;
+                repos_indent = indent;
+                in_hooks = false;
+                continue;
+            }
+            "hooks" if in_repos => {
+                in_hooks = true;
+                hooks_indent = indent;
+                continue;
+            }
+            "id" if in_hooks => {
+                if let Some(id) = yaml_scalar_value(trimmed) {
+                    ids.push(id);
+                }
+            }
+            _ => {}
+        }
+    }
+    ids
+}
+
+fn key_name(trimmed: &str) -> &str {
+    let line = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    line.split(':').next().unwrap_or("").trim()
+}
+
+fn yaml_scalar_value(trimmed: &str) -> Option<String> {
+    let line = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    let (_, value) = line.split_once(':')?;
+    let mut value = value.trim();
+    if let Some((code, _)) = value.split_once('#') {
+        if !value.starts_with('"') && !value.starts_with('\'') {
+            value = code.trim();
+        }
+    }
+    if value.is_empty() || value == "|" || value == ">" || value == "{" || value == "[" {
+        return None;
+    }
+    if (value.starts_with('"') && value.ends_with('"') && value.len() >= 2)
+        || (value.starts_with('\'') && value.ends_with('\'') && value.len() >= 2)
+    {
+        value = &value[1..value.len() - 1];
+    }
+    (!value.is_empty()).then(|| value.to_string())
 }
 
 fn nonempty_lines(output: &str) -> impl Iterator<Item = &str> {
