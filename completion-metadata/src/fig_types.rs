@@ -70,7 +70,7 @@ pub struct Suggestion {
 
 #[serde_as]
 #[serde_with::skip_serializing_none]
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Deserialize, Serialize, Debug, Default, PartialEq, Clone)]
 pub struct Command {
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
@@ -111,6 +111,10 @@ pub struct Command {
         skip_serializing_if = "ParserDirectives::is_default"
     )]
     pub parser_directives: ParserDirectives,
+
+    /// Static Fig `loadSpec` reference to another command spec by name.
+    #[serde(default, rename = "loadSpec", skip_serializing_if = "Option::is_none")]
+    pub load_spec: Option<String>,
 }
 
 /// Configure how the completion engine will map raw tokens to options/flags in the spec.
@@ -663,6 +667,7 @@ mod tests {
                 name: vec!["defaults".into()],
                 description: Some("Command line interface to a user's defaults.".into()),
                 alias_generator: None,
+                load_spec: None,
                 is_dangerous: false,
                 priority: None,
                 hidden: false,
@@ -671,6 +676,7 @@ mod tests {
                         name: vec!["read".into()],
                         description: Some("shows defaults".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -734,6 +740,7 @@ mod tests {
                         name: vec!["write".into()],
                         description: Some("writes key for domain".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -811,6 +818,7 @@ mod tests {
                         name: vec!["delete".into()],
                         description: Some("deletes domain or key in domain".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -874,6 +882,7 @@ mod tests {
                         name: vec!["rename".into()],
                         description: Some("renames old_key to new_key".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -951,6 +960,7 @@ mod tests {
                         name: vec!["domains".into()],
                         description: Some("lists all domains".to_string()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,

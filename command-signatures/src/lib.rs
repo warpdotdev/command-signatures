@@ -11,19 +11,36 @@ use assets::Assets;
 pub use warp_completion_metadata::*;
 
 #[cfg(feature = "embed-signatures")]
-pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
-    let file_path = format!("{}.json", name.as_ref());
+fn command_by_asset_name(name: &str) -> Option<warp_completion_metadata::fig_types::Command> {
+    let file_path = format!("{name}.json");
     Assets::get(&file_path).and_then(|embedded_file| {
         let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
-        let fig_command: warp_completion_metadata::fig_types::Command =
-            serde_json::from_str(json_content).ok()?;
-        let signatures: Vec<Signature> = fig_command.into();
-        debug_assert!(
-            signatures.len() <= 1,
-            "Tried to fetch a signature by name for a signature that has multiple names"
-        );
-        signatures.into_iter().next()
+        serde_json::from_str(json_content).ok()
     })
+}
+
+#[cfg(feature = "embed-signatures")]
+fn resolve_embedded_command(
+    command: warp_completion_metadata::fig_types::Command,
+) -> warp_completion_metadata::fig_types::Command {
+    resolve_load_specs(
+        command,
+        &|name: &str| command_by_asset_name(name),
+        MissingLoadSpecPolicy::Skip,
+    )
+    .unwrap_or_else(|err| panic!("loadSpec resolution failed: {err}"))
+}
+
+#[cfg(feature = "embed-signatures")]
+pub fn signature_by_name(name: impl AsRef<str>) -> Option<Signature> {
+    let fig_command = command_by_asset_name(name.as_ref())?;
+    let fig_command = resolve_embedded_command(fig_command);
+    let signatures: Vec<Signature> = fig_command.into();
+    debug_assert!(
+        signatures.len() <= 1,
+        "Tried to fetch a signature by name for a signature that has multiple names"
+    );
+    signatures.into_iter().next()
 }
 
 /// On web, we don't embed command signatures into the binary. All requests for a command signature return
@@ -47,7 +64,7 @@ pub fn commands() -> Vec<Signature> {
             let json_content = std::str::from_utf8(&embedded_data).ok()?;
             let fig_command: warp_completion_metadata::fig_types::Command =
                 serde_json::from_str(json_content).ok()?;
-            Some(Vec::from(fig_command))
+            Some(Vec::from(resolve_embedded_command(fig_command)))
         })
         .flatten()
         .collect()
@@ -255,5 +272,55 @@ mod tests {
                     }
                 });
         }
+    }
+
+    #[test]
+    fn fvm_flutter_composes_the_flutter_spec() {
+        let fvm = signature_by_name("fvm").expect("fvm spec");
+        let flutter = fvm
+            .subcommands()
+            .iter()
+            .find(|subcommand| subcommand.name == "flutter")
+            .expect("fvm flutter subcommand");
+        assert_eq!(
+            flutter.description.as_deref(),
+            Some("Proxies Flutter commands")
+        );
+        assert!(
+            flutter
+                .subcommands()
+                .iter()
+                .any(|subcommand| subcommand.name == "analyze"),
+            "fvm flutter should surface flutter's command tree"
+        );
+    }
+
+    #[test]
+    fn load_spec_corpus_reports_missing_targets_deterministically() {
+        let mut issues = Vec::new();
+        for name in all_signature_names() {
+            let Some(command) = command_by_asset_name(name) else {
+                continue;
+            };
+            issues.extend(collect_load_spec_issues(command, &|target: &str| {
+                command_by_asset_name(target)
+            }));
+        }
+        assert!(
+            issues.iter().any(|issue| matches!(
+                issue,
+                LoadSpecError::Missing {
+                    target,
+                    ..
+                } if target.starts_with("aws/")
+            )),
+            "expected missing aws/* loadSpec targets, got {issues:?}"
+        );
+        assert!(
+            issues
+                .iter()
+                .all(|issue| matches!(issue, LoadSpecError::Missing { .. })),
+            "corpus should not contain loadSpec cycles: {issues:?}"
+        );
     }
 }
