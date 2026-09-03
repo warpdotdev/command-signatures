@@ -8462,6 +8462,60 @@
             ]
         },
         {
+            "name": "merge-base",
+            "description": "Find as good common ancestors as possible for a merge",
+            "options": [
+                {
+                    "name": [
+                        "-a",
+                        "--all"
+                    ],
+                    "description": "Output all merge bases for the commits, instead of just one"
+                },
+                {
+                    "name": "--octopus",
+                    "description": "Compute the best common ancestors of all supplied commits, in preparation for an n-way merge"
+                },
+                {
+                    "name": "--is-ancestor",
+                    "description": "Check if the first commit is an ancestor of the second commit"
+                },
+                {
+                    "name": "--independent",
+                    "description": "List the supplied commits that cannot be reached from any other"
+                },
+                {
+                    "name": "--fork-point",
+                    "description": "Find the point at which a branch forked from another branch using reflog"
+                },
+                {
+                    "name": "--onto-self",
+                    "description": "Pretend as if the first commit was merged into itself when computing the merge base"
+                }
+            ],
+            "args": {
+                "name": "commit",
+                "description": "Commits to find a merge base for",
+                "isOptional": true,
+                "isVariadic": true,
+                "suggestions": [
+                    {
+                        "name": "HEAD",
+                        "icon": "🔻",
+                        "description": "The most recent commit"
+                    }
+                ],
+                "generatorName": [
+                    "local_branches",
+                    "remote_branches",
+                    "refs_remote_branches",
+                    "tags",
+                    "commits"
+                ],
+                "skipGeneratorValidation": true
+            }
+        },
+        {
             "name": "mergetool",
             "description": "Open the git tool to fix conflicts",
             "options": [

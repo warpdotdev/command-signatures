@@ -256,4 +256,64 @@ mod tests {
                 });
         }
     }
+
+    #[test]
+    fn git_includes_merge_base_subcommand() {
+        let git = signature_by_name("git").expect("git signature should deserialize");
+        let subcommand_names: Vec<_> = git.subcommands().iter().map(|s| s.name()).collect();
+        assert!(
+            subcommand_names.contains(&"merge"),
+            "git merge completions must be preserved"
+        );
+        assert!(
+            subcommand_names.contains(&"merge-base"),
+            "git should include the merge-base subcommand"
+        );
+
+        let merge_base = git
+            .subcommands()
+            .iter()
+            .find(|s| s.name() == "merge-base")
+            .expect("merge-base subcommand");
+
+        let flag_names: Vec<_> = merge_base
+            .options()
+            .iter()
+            .flat_map(|opt| opt.names())
+            .collect();
+        for required in [
+            "-a",
+            "--all",
+            "--octopus",
+            "--is-ancestor",
+            "--independent",
+            "--fork-point",
+        ] {
+            assert!(
+                flag_names.contains(&required),
+                "merge-base should complete {required}"
+            );
+        }
+
+        let args = merge_base.arguments();
+        assert_eq!(
+            args.len(),
+            1,
+            "merge-base should take one variadic commit arg"
+        );
+        assert!(args[0].is_variadic);
+        let generators = get_generator_names_from_argument(&args[0]);
+        for required in [
+            "local_branches",
+            "remote_branches",
+            "refs_remote_branches",
+            "tags",
+            "commits",
+        ] {
+            assert!(
+                generators.contains(&required),
+                "merge-base should suggest commit-ishes via {required}"
+            );
+        }
+    }
 }
