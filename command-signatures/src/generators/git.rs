@@ -1088,7 +1088,7 @@ pub fn hub_generator() -> CommandSignatureGenerators {
             "status_staged_or_unstaged",
             Generator::command_from_tokens(
                 super::fig_token::git_status_staged_or_unstaged,
-                output_parsers::git_oneline,
+                output_parsers::git_status_short,
             ),
         )
 }

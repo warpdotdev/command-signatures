@@ -94,14 +94,16 @@ pub fn cargo_test_list(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder
 }
 
 pub fn chown_dscl(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
-    let has_colon = tokens.iter().any(|t| t.contains(':'));
-    if has_colon {
-        CommandBuilder::single_command(
-            "dscl . -list /Groups PrimaryGroupID 2>/dev/null | tr -s ' ' | sort -r",
-        )
+    let last = last_token(tokens);
+    if let Some((user, _)) = last.split_once(':') {
+        let prefix = format!("{user}:");
+        CommandBuilder::single_command(format!(
+            r#"{{ getent group 2>/dev/null | cut -d: -f1; dscl . -list /Groups PrimaryGroupID 2>/dev/null | awk '{{print $1}}'; }} | awk -v p={} 'NF && !seen[$0]++ {{ print p $0 }}'"#,
+            shell_single_quote(&prefix)
+        ))
     } else {
         CommandBuilder::single_command(
-            "dscl . -list /Users UniqueID 2>/dev/null | tr -s ' ' | sort -r",
+            r#"{ getent passwd 2>/dev/null | cut -d: -f1; dscl . -list /Users UniqueID 2>/dev/null | awk '{print $1}'; } | awk 'NF && !seen[$0]++'"#,
         )
     }
 }
@@ -326,26 +328,21 @@ pub fn robot_variables(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder
 }
 
 pub fn scc_output_paths(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
-    let last = last_token(tokens);
-    if last.contains(':') {
-        CommandBuilder::single_command("ls -1AF; printf '%s\\n' stdout")
-    } else {
-        remaining_csv(
-            tokens,
-            &[
-                "tabular",
-                "wide",
-                "json",
-                "csv",
-                "csv-stream",
-                "cloc-yaml",
-                "html",
-                "html-table",
-                "sql",
-                "sql-insert",
-            ],
-        )
-    }
+    remaining_csv(
+        tokens,
+        &[
+            "tabular",
+            "wide",
+            "json",
+            "csv",
+            "csv-stream",
+            "cloc-yaml",
+            "html",
+            "html-table",
+            "sql",
+            "sql-insert",
+        ],
+    )
 }
 
 pub fn esbuild_loader(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
