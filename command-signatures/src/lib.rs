@@ -157,6 +157,33 @@ mod tests {
         }
     }
 
+    fn command_from_embedded_asset(
+        name: &str,
+    ) -> Option<warp_completion_metadata::fig_types::Command> {
+        let file_path = format!("{name}.json");
+        Assets::get(&file_path).and_then(|embedded_file| {
+            let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
+            serde_json::from_str(json_content).ok()
+        })
+    }
+
+    #[test]
+    fn all_embedded_load_spec_references_resolve() {
+        let mut issues = Vec::new();
+        for name in all_signature_names() {
+            let Some(command) = command_from_embedded_asset(name) else {
+                continue;
+            };
+            issues.extend(collect_load_spec_issues(&command, &|target: &str| {
+                command_from_embedded_asset(target)
+            }));
+        }
+        assert!(
+            issues.is_empty(),
+            "embedded loadSpec graph must have no missing targets or cycles: {issues:?}"
+        );
+    }
+
     /// Ensures no unquoted '\n' can be found.
     fn has_unsafe_newlines(str: &str) -> bool {
         let mut quote_char: Option<char> = None;
