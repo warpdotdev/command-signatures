@@ -14,7 +14,7 @@ cargo run --bin autogenerate_powershell
 
 This must be rerun any time we change our autogeneration logic or Microsoft updates PowerShell's cmdlets.
 
-Nested `loadSpec` targets for `aws` and `gcloud` live in `./command-signatures/json/aws/*.json` and `./command-signatures/json/gcloud/*.json`. They are imported from [withfig/autocomplete](https://github.com/withfig/autocomplete) so slash-path references such as `"aws/s3"` resolve. Refresh them with:
+Nested `loadSpec` targets for `aws` and `gcloud` live in `./command-signatures/json/aws/*.json` and `./command-signatures/json/gcloud/*.json`. They are imported from [withfig/autocomplete](https://github.com/withfig/autocomplete) so slash-path references such as `"aws/s3"` resolve. The importer starts from `aws.json`/`gcloud.json` and follows every static slash-path `loadSpec` found in imported output. Refresh them with:
 
 ```sh
 script/import_fig_nested_specs /path/to/withfig/autocomplete
