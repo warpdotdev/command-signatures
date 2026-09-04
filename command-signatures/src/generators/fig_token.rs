@@ -360,7 +360,7 @@ pub fn scc_output_paths(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilde
 
 pub fn esbuild_loader(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
     let last = last_token(tokens);
-    if last.contains(':') {
+    if last.contains(':') || last == "--loader" || last == "--banner" {
         remaining_delimited(
             tokens,
             &[
@@ -371,7 +371,7 @@ pub fn esbuild_loader(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder 
         )
     } else {
         CommandBuilder::single_command(
-            "find . -depth 3 -type f -name '*.*' -not -path '*/node_modules/*' | sed 's/.*\\.//' | sort -u",
+            "find . -maxdepth 3 -type f -name '*.*' ! -path '*/node_modules/*' | sed 's/.*\\.//' | sort -u",
         )
     }
 }
