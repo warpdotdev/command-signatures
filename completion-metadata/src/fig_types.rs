@@ -112,7 +112,7 @@ pub struct Command {
     )]
     pub parser_directives: ParserDirectives,
 
-    /// Static Fig `loadSpec` reference to another command spec by name.
+    /// Static `loadSpec` reference to another command spec by name.
     /// Non-string / function-style values are ignored.
     #[serde(
         default,
@@ -129,7 +129,7 @@ where
 {
     let value = Option::<serde_json::Value>::deserialize(deserializer)?;
     Ok(match value {
-        // Fig serializes JS functions with the `_NuFrRa_` prefix.
+        // Embedded specs serialize JS functions with the `_NuFrRa_` prefix.
         Some(serde_json::Value::String(target))
             if !target.is_empty() && !target.starts_with("_NuFrRa_") =>
         {
