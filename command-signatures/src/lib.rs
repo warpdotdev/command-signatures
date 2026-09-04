@@ -39,6 +39,7 @@ pub fn commands() -> Vec<Signature> {
     use rayon::prelude::*;
 
     Assets::iter()
+        .filter(|path| !path.contains('/'))
         .collect_vec()
         .into_par_iter()
         .map(|path| Assets::get(&path))
@@ -165,6 +166,23 @@ mod tests {
             let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
             serde_json::from_str(json_content).ok()
         })
+    }
+
+    #[test]
+    fn nested_load_spec_assets_are_looked_up_by_slash_path() {
+        let nested = all_signature_names()
+            .filter(|name| name.contains('/'))
+            .collect_vec();
+        assert!(
+            !nested.is_empty(),
+            "expected nested loadSpec assets such as aws/* and gcloud/*"
+        );
+        for name in nested {
+            assert!(
+                signature_by_name(name).is_some(),
+                "nested loadSpec asset {name} failed to deserialize"
+            );
+        }
     }
 
     #[test]
