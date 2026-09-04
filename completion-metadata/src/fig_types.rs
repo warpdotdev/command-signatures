@@ -2,7 +2,7 @@ use crate::{
     AliasGeneratorName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName,
     Importance, IsArgumentOptional, Opt, Order, Priority, Signature,
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use serde_with::formats::{PreferMany, PreferOne};
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
 use std::borrow::Cow;
@@ -113,8 +113,30 @@ pub struct Command {
     pub parser_directives: ParserDirectives,
 
     /// Static Fig `loadSpec` reference to another command spec by name.
-    #[serde(default, rename = "loadSpec", skip_serializing_if = "Option::is_none")]
+    /// Non-string / function-style values are ignored.
+    #[serde(
+        default,
+        rename = "loadSpec",
+        deserialize_with = "deserialize_static_load_spec",
+        skip_serializing_if = "Option::is_none"
+    )]
     pub load_spec: Option<String>,
+}
+
+fn deserialize_static_load_spec<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = Option::<serde_json::Value>::deserialize(deserializer)?;
+    Ok(match value {
+        // Fig serializes JS functions with the `_NuFrRa_` prefix.
+        Some(serde_json::Value::String(target))
+            if !target.is_empty() && !target.starts_with("_NuFrRa_") =>
+        {
+            Some(target)
+        }
+        _ => None,
+    })
 }
 
 /// Configure how the completion engine will map raw tokens to options/flags in the spec.
@@ -392,6 +414,7 @@ impl From<Command> for Vec<Signature> {
                 options: options.clone(),
                 priority: command.priority.map_or_else(Priority::default, Into::into),
                 parser_directives: command.parser_directives.clone().into(),
+                load_spec: command.load_spec.clone(),
             })
             .collect()
     }

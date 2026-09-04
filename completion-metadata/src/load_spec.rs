@@ -2,16 +2,7 @@ use crate::fig_types::Command;
 use std::collections::HashSet;
 use std::fmt;
 
-/// How to treat a `loadSpec` target that cannot be resolved.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub enum MissingLoadSpecPolicy {
-    /// Leave the wrapper command unchanged (aside from clearing `load_spec`).
-    Skip,
-    /// Return [`LoadSpecError::Missing`].
-    Error,
-}
-
-/// Failure while resolving a static `loadSpec` reference.
+/// Failure while validating a static `loadSpec` reference graph.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum LoadSpecError {
     Missing { from: String, target: String },
@@ -34,7 +25,29 @@ impl fmt::Display for LoadSpecError {
     }
 }
 
-/// Looks up a command spec by the `loadSpec` target name (for example `"flutter"`).
+impl PartialOrd for LoadSpecError {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl Ord for LoadSpecError {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.sort_key().cmp(&other.sort_key())
+    }
+}
+
+impl LoadSpecError {
+    fn sort_key(&self) -> (u8, String, String) {
+        match self {
+            LoadSpecError::Missing { from, target } => (0, from.clone(), target.clone()),
+            LoadSpecError::Cycle { stack } => (1, stack.join(" -> "), String::new()),
+        }
+    }
+}
+
+/// Looks up a command spec by the `loadSpec` target name (for example `"flutter"`
+/// or `"gcloud/ai-platform"`).
 pub trait SpecLookup {
     fn get(&self, name: &str) -> Option<Command>;
 }
@@ -48,19 +61,6 @@ where
     }
 }
 
-/// Resolves every static string `loadSpec` in `command` and its subcommands.
-///
-/// Wrapper `name` / `description` / `priority` / parser directives are kept. The
-/// target fills in empty `args` / `options` / `subcommands`; otherwise the
-/// wrapper's lists are concatenated in front of the target's.
-pub fn resolve_load_specs(
-    command: Command,
-    lookup: &impl SpecLookup,
-    missing: MissingLoadSpecPolicy,
-) -> Result<Command, LoadSpecError> {
-    resolve_tree(command, lookup, &mut Vec::new(), missing)
-}
-
 fn command_label(command: &Command) -> String {
     command
         .name
@@ -69,90 +69,9 @@ fn command_label(command: &Command) -> String {
         .unwrap_or_else(|| "<unnamed>".to_owned())
 }
 
-fn resolve_tree(
-    mut command: Command,
-    lookup: &impl SpecLookup,
-    stack: &mut Vec<String>,
-    missing: MissingLoadSpecPolicy,
-) -> Result<Command, LoadSpecError> {
-    if let Some(target_name) = command.load_spec.clone() {
-        command = compose_load_spec(command, &target_name, lookup, stack, missing)?;
-    }
-
-    let mut resolved_subcommands = Vec::with_capacity(command.subcommands.len());
-    for subcommand in command.subcommands {
-        resolved_subcommands.push(resolve_tree(subcommand, lookup, stack, missing)?);
-    }
-    command.subcommands = resolved_subcommands;
-    Ok(command)
-}
-
-fn compose_load_spec(
-    wrapper: Command,
-    target_name: &str,
-    lookup: &impl SpecLookup,
-    stack: &mut Vec<String>,
-    missing: MissingLoadSpecPolicy,
-) -> Result<Command, LoadSpecError> {
-    let from = command_label(&wrapper);
-    if stack.iter().any(|name| name == target_name) {
-        let mut cycle = stack.clone();
-        cycle.push(target_name.to_owned());
-        return match missing {
-            MissingLoadSpecPolicy::Error => Err(LoadSpecError::Cycle { stack: cycle }),
-            MissingLoadSpecPolicy::Skip => {
-                let mut skipped = wrapper;
-                skipped.load_spec = None;
-                Ok(skipped)
-            }
-        };
-    }
-
-    let Some(target) = lookup.get(target_name) else {
-        return match missing {
-            MissingLoadSpecPolicy::Error => Err(LoadSpecError::Missing {
-                from,
-                target: target_name.to_owned(),
-            }),
-            MissingLoadSpecPolicy::Skip => {
-                let mut skipped = wrapper;
-                skipped.load_spec = None;
-                Ok(skipped)
-            }
-        };
-    };
-
-    stack.push(target_name.to_owned());
-    let resolved_target = resolve_tree(target, lookup, stack, missing);
-    stack.pop();
-    let resolved_target = resolved_target?;
-    Ok(compose_wrapper(wrapper, resolved_target))
-}
-
-fn compose_wrapper(mut wrapper: Command, mut target: Command) -> Command {
-    wrapper.load_spec = None;
-    if wrapper.description.is_none() {
-        wrapper.description = target.description.take();
-    }
-    if wrapper.args.is_empty() {
-        wrapper.args = target.args;
-    }
-    if wrapper.options.is_empty() {
-        wrapper.options = target.options;
-    } else {
-        wrapper.options.extend(target.options);
-    }
-    if wrapper.subcommands.is_empty() {
-        wrapper.subcommands = target.subcommands;
-    } else {
-        wrapper.subcommands.extend(target.subcommands);
-    }
-    wrapper
-}
-
-/// Walk a command tree and record every `loadSpec` that is missing or cyclic
-/// under [`MissingLoadSpecPolicy::Error`]. Used by tests and corpus scans.
-pub fn collect_load_spec_issues(command: Command, lookup: &impl SpecLookup) -> Vec<LoadSpecError> {
+/// Walk a command tree and record every `loadSpec` that is missing or cyclic.
+/// Follows exact and slash-path targets without composing wrapper and target trees.
+pub fn collect_load_spec_issues(command: &Command, lookup: &impl SpecLookup) -> Vec<LoadSpecError> {
     let mut issues = Vec::new();
     collect_issues(
         command,
@@ -161,44 +80,55 @@ pub fn collect_load_spec_issues(command: Command, lookup: &impl SpecLookup) -> V
         &mut HashSet::new(),
         &mut issues,
     );
+    issues.sort();
     issues
 }
 
 fn collect_issues(
-    command: Command,
+    command: &Command,
     lookup: &impl SpecLookup,
     stack: &mut Vec<String>,
     seen_missing: &mut HashSet<(String, String)>,
     issues: &mut Vec<LoadSpecError>,
 ) {
-    if let Some(target_name) = command.load_spec.clone() {
-        match compose_load_spec(
-            command.clone(),
-            &target_name,
-            lookup,
-            stack,
-            MissingLoadSpecPolicy::Error,
-        ) {
-            Ok(composed) => {
-                for subcommand in composed.subcommands {
-                    collect_issues(subcommand, lookup, stack, seen_missing, issues);
-                }
-                return;
-            }
-            Err(err) => match &err {
-                LoadSpecError::Missing { from, target } => {
-                    if seen_missing.insert((from.clone(), target.clone())) {
-                        issues.push(err);
-                    }
-                }
-                LoadSpecError::Cycle { .. } => issues.push(err),
-            },
-        }
+    if let Some(target_name) = command.load_spec.as_deref() {
+        validate_reference(command, target_name, lookup, stack, seen_missing, issues);
     }
 
-    for subcommand in command.subcommands {
+    for subcommand in &command.subcommands {
         collect_issues(subcommand, lookup, stack, seen_missing, issues);
     }
+}
+
+fn validate_reference(
+    from: &Command,
+    target_name: &str,
+    lookup: &impl SpecLookup,
+    stack: &mut Vec<String>,
+    seen_missing: &mut HashSet<(String, String)>,
+    issues: &mut Vec<LoadSpecError>,
+) {
+    if stack.iter().any(|name| name == target_name) {
+        let mut cycle = stack.clone();
+        cycle.push(target_name.to_owned());
+        issues.push(LoadSpecError::Cycle { stack: cycle });
+        return;
+    }
+
+    let Some(target) = lookup.get(target_name) else {
+        let from_label = command_label(from);
+        if seen_missing.insert((from_label.clone(), target_name.to_owned())) {
+            issues.push(LoadSpecError::Missing {
+                from: from_label,
+                target: target_name.to_owned(),
+            });
+        }
+        return;
+    };
+
+    stack.push(target_name.to_owned());
+    collect_issues(&target, lookup, stack, seen_missing, issues);
+    stack.pop();
 }
 
 #[cfg(test)]
@@ -225,36 +155,32 @@ mod tests {
     }
 
     #[test]
-    fn direct_composition_keeps_wrapper_metadata() {
-        let mut flutter = cmd("flutter");
-        flutter.subcommands = vec![cmd("analyze"), cmd("build")];
-
-        let mut wrapper = cmd("flutter");
-        wrapper.description = Some("Proxies Flutter commands".to_owned());
-        wrapper = with_load_spec(wrapper, "flutter");
-
+    fn exact_target_is_present_and_not_composed() {
+        let flutter = {
+            let mut flutter = cmd("flutter");
+            flutter.subcommands = vec![cmd("analyze")];
+            flutter
+        };
+        let wrapper = with_load_spec(cmd("flutter"), "flutter");
         let specs = HashMap::from([("flutter", flutter)]);
-        let resolved =
-            resolve_load_specs(wrapper, &lookup(specs), MissingLoadSpecPolicy::Error).unwrap();
-
-        assert_eq!(resolved.name, vec!["flutter".to_owned()]);
-        assert_eq!(
-            resolved.description.as_deref(),
-            Some("Proxies Flutter commands")
-        );
-        assert_eq!(
-            resolved
-                .subcommands
-                .iter()
-                .map(|c| c.name[0].as_str())
-                .collect::<Vec<_>>(),
-            vec!["analyze", "build"]
-        );
-        assert!(resolved.load_spec.is_none());
+        let issues = collect_load_spec_issues(&wrapper, &lookup(specs));
+        assert!(issues.is_empty(), "{issues:?}");
+        assert_eq!(wrapper.load_spec.as_deref(), Some("flutter"));
+        assert!(wrapper.subcommands.is_empty());
     }
 
     #[test]
-    fn nested_composition_follows_each_reference() {
+    fn slash_path_target_is_looked_up_by_full_name() {
+        let mut platform = cmd("ai-platform");
+        platform.subcommands = vec![cmd("jobs")];
+        let wrapper = with_load_spec(cmd("ai-platform"), "gcloud/ai-platform");
+        let specs = HashMap::from([("gcloud/ai-platform", platform)]);
+        let issues = collect_load_spec_issues(&wrapper, &lookup(specs));
+        assert!(issues.is_empty(), "{issues:?}");
+    }
+
+    #[test]
+    fn nested_references_are_followed_without_composing() {
         let mut leaf = cmd("leaf");
         leaf.subcommands = vec![cmd("deep")];
 
@@ -264,46 +190,26 @@ mod tests {
         mid.subcommands = vec![mid_child];
 
         let wrapper = with_load_spec(cmd("root"), "mid");
-        let specs = HashMap::from([("mid", mid), ("leaf", leaf)]);
-        let resolved =
-            resolve_load_specs(wrapper, &lookup(specs), MissingLoadSpecPolicy::Error).unwrap();
-
-        assert_eq!(resolved.subcommands[0].name, vec!["inner".to_owned()]);
-        assert_eq!(
-            resolved.subcommands[0].subcommands[0].name,
-            vec!["deep".to_owned()]
-        );
+        let specs = HashMap::from([("mid", mid.clone()), ("leaf", leaf)]);
+        let issues = collect_load_spec_issues(&wrapper, &lookup(specs));
+        assert!(issues.is_empty(), "{issues:?}");
+        assert_eq!(wrapper.load_spec.as_deref(), Some("mid"));
+        assert!(wrapper.subcommands.is_empty());
+        assert_eq!(mid.subcommands[0].load_spec.as_deref(), Some("leaf"));
+        assert!(mid.subcommands[0].subcommands.is_empty());
     }
 
     #[test]
-    fn missing_target_errors_when_policy_is_error() {
+    fn missing_target_is_reported() {
         let wrapper = with_load_spec(cmd("fvm-flutter"), "missing-spec");
-        let err = resolve_load_specs(
-            wrapper,
-            &lookup(HashMap::new()),
-            MissingLoadSpecPolicy::Error,
-        )
-        .unwrap_err();
+        let issues = collect_load_spec_issues(&wrapper, &lookup(HashMap::new()));
         assert_eq!(
-            err,
-            LoadSpecError::Missing {
+            issues,
+            vec![LoadSpecError::Missing {
                 from: "fvm-flutter".to_owned(),
                 target: "missing-spec".to_owned(),
-            }
+            }]
         );
-    }
-
-    #[test]
-    fn missing_target_is_skipped_when_policy_is_skip() {
-        let wrapper = with_load_spec(cmd("aws-foo"), "aws/foo");
-        let resolved = resolve_load_specs(
-            wrapper,
-            &lookup(HashMap::new()),
-            MissingLoadSpecPolicy::Skip,
-        )
-        .unwrap();
-        assert!(resolved.subcommands.is_empty());
-        assert!(resolved.load_spec.is_none());
     }
 
     #[test]
@@ -311,53 +217,35 @@ mod tests {
         let a = with_load_spec(cmd("a"), "b");
         let b = with_load_spec(cmd("b"), "a");
         let specs = HashMap::from([("a", a.clone()), ("b", b)]);
-        let err = resolve_load_specs(a, &lookup(specs), MissingLoadSpecPolicy::Error).unwrap_err();
-        match err {
-            LoadSpecError::Cycle { stack } => {
-                assert!(stack.contains(&"a".to_owned()));
-                assert!(stack.contains(&"b".to_owned()));
-            }
-            other => panic!("expected cycle, got {other:?}"),
-        }
-    }
-
-    #[test]
-    fn wrapper_options_are_prepended_to_target_options() {
-        use crate::fig_types::CommandOption;
-
-        let mut target = cmd("target");
-        target.options = vec![CommandOption {
-            name: vec!["--from-target".to_owned()],
-            ..CommandOption::default()
-        }];
-
-        let mut wrapper = with_load_spec(cmd("wrap"), "target");
-        wrapper.options = vec![CommandOption {
-            name: vec!["--from-wrapper".to_owned()],
-            ..CommandOption::default()
-        }];
-
-        let specs = HashMap::from([("target", target)]);
-        let resolved =
-            resolve_load_specs(wrapper, &lookup(specs), MissingLoadSpecPolicy::Error).unwrap();
-        assert_eq!(
-            resolved
-                .options
+        let issues = collect_load_spec_issues(&a, &lookup(specs));
+        assert!(
+            issues
                 .iter()
-                .map(|o| o.name[0].as_str())
-                .collect::<Vec<_>>(),
-            vec!["--from-wrapper", "--from-target"]
+                .any(|issue| matches!(issue, LoadSpecError::Cycle { .. })),
+            "{issues:?}"
         );
     }
 
     #[test]
-    fn collect_issues_reports_each_missing_target() {
+    fn collect_issues_reports_each_missing_target_deterministically() {
         let mut root = cmd("aws");
         root.subcommands = vec![
-            with_load_spec(cmd("foo"), "aws/foo"),
             with_load_spec(cmd("bar"), "aws/bar"),
+            with_load_spec(cmd("foo"), "aws/foo"),
         ];
-        let issues = collect_load_spec_issues(root, &lookup(HashMap::new()));
-        assert_eq!(issues.len(), 2);
+        let issues = collect_load_spec_issues(&root, &lookup(HashMap::new()));
+        assert_eq!(
+            issues,
+            vec![
+                LoadSpecError::Missing {
+                    from: "bar".to_owned(),
+                    target: "aws/bar".to_owned(),
+                },
+                LoadSpecError::Missing {
+                    from: "foo".to_owned(),
+                    target: "aws/foo".to_owned(),
+                },
+            ]
+        );
     }
 }
