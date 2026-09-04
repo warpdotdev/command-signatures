@@ -257,3 +257,568 @@ mod tests {
         }
     }
 }
+
+/// Invariant: no handwritten command spec has two distinct option entries directly declaring
+/// the same short flag (https://github.com/warpdotdev/command-signatures/issues/400).
+///
+/// A hard "no new conflicts" gate is backed by an exact, temporary baseline allowlist of the 45
+/// conflicts that predate this rule (tracked by
+/// https://github.com/warpdotdev/command-signatures/issues/402). The baseline is compared as
+/// complete records &mdash; `(file, command path, short flag)` plus the ordered claimant list of
+/// source indices and raw `name` arrays &mdash; so adding a claimant, removing one, reordering
+/// options, or swapping a claimant is review-visible even when the key itself is unchanged.
+#[cfg(test)]
+mod duplicate_short_flags {
+    use crate::fig_types::Command;
+    use crate::validation::find_short_flag_conflicts;
+    use std::collections::BTreeMap;
+    use std::fs;
+    use std::path::{Path, PathBuf};
+
+    /// `(file, command path, short flag)`.
+    type ConflictKey = (String, Vec<String>, String);
+    /// Ordered `(zero-based source index, complete raw name array)` per claimant.
+    type Claimants = Vec<(usize, Vec<String>)>;
+
+    struct BaselineConflict {
+        file: &'static str,
+        command_path: &'static [&'static str],
+        flag: &'static str,
+        claimants: &'static [(usize, &'static [&'static str])],
+    }
+
+    /// Temporary allowlist of pre-existing conflicts. See the module doc comment above.
+    ///
+    /// Do not add entries to this baseline for newly introduced conflicts: fix the command spec
+    /// instead. Removing an entry because its conflict was fixed is always welcome; see
+    /// https://github.com/warpdotdev/command-signatures/issues/402.
+    const SHORT_FLAG_CONFLICT_BASELINE: &[BaselineConflict] = &[
+        BaselineConflict {
+            file: "brew.json",
+            command_path: &["brew", "services"],
+            flag: "-h",
+            claimants: &[(3, &["-h", "--help"]), (7, &["-h", "--help"])],
+        },
+        BaselineConflict {
+            file: "brew.json",
+            command_path: &["brew", "services"],
+            flag: "-v",
+            claimants: &[(2, &["-v", "--verbose"]), (6, &["-v", "--verbose"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "package"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "deploy"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "delete"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "status"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "logs"],
+            flag: "-n",
+            claimants: &[(2, &["--name", "-n"]), (7, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "exec"],
+            flag: "-n",
+            claimants: &[(3, &["--name", "-n"]), (4, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "pause"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "svc", "resume"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "job", "package"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "job", "deploy"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "job", "delete"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "task", "exec"],
+            flag: "-n",
+            claimants: &[(3, &["--name", "-n"]), (4, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "task", "delete"],
+            flag: "-n",
+            claimants: &[(2, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "deploy"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "package"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "deploy"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "delete"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "status"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "logs"],
+            flag: "-n",
+            claimants: &[(2, &["--name", "-n"]), (7, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "exec"],
+            flag: "-n",
+            claimants: &[(3, &["--name", "-n"]), (4, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "pause"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "svc", "resume"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "job", "package"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "job", "deploy"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "job", "delete"],
+            flag: "-n",
+            claimants: &[(1, &["--name", "-n"]), (2, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "task", "exec"],
+            flag: "-n",
+            claimants: &[(3, &["--name", "-n"]), (4, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "copilot.json",
+            command_path: &["copilot", "help", "task", "delete"],
+            flag: "-n",
+            claimants: &[(2, &["--name", "-n"]), (3, &["--name", "-n"])],
+        },
+        BaselineConflict {
+            file: "flutter.json",
+            command_path: &["flutter", "assemble"],
+            flag: "-d",
+            claimants: &[(2, &["-d", "--device-id"]), (4, &["-d", "--define"])],
+        },
+        BaselineConflict {
+            file: "flutter.json",
+            command_path: &["flutter", "symbolize"],
+            flag: "-d",
+            claimants: &[(2, &["-d", "--device-id"]), (4, &["-d", "--debug-info"])],
+        },
+        BaselineConflict {
+            file: "kubecolor.json",
+            command_path: &["kubecolor", "expose"],
+            flag: "-l",
+            claimants: &[(7, &["-l", "--selector"]), (12, &["-l", "--labels"])],
+        },
+        BaselineConflict {
+            file: "kubectl.json",
+            command_path: &["kubectl", "expose"],
+            flag: "-l",
+            claimants: &[(7, &["-l", "--selector"]), (12, &["-l", "--labels"])],
+        },
+        BaselineConflict {
+            file: "oc.json",
+            command_path: &["oc", "expose"],
+            flag: "-l",
+            claimants: &[(7, &["-l", "--selector"]), (12, &["-l", "--labels"])],
+        },
+        BaselineConflict {
+            file: "pscale.json",
+            command_path: &["pscale", "completion"],
+            flag: "-h",
+            claimants: &[(1, &["--help", "-h"]), (2, &["--help", "-h"])],
+        },
+        BaselineConflict {
+            file: "pscale.json",
+            command_path: &["pscale", "connect"],
+            flag: "-h",
+            claimants: &[(0, &["--help", "-h"]), (8, &["--help", "-h"])],
+        },
+        BaselineConflict {
+            file: "pulumi.json",
+            command_path: &["pulumi", "import"],
+            flag: "-f",
+            claimants: &[(17, &["-f", "--skip-preview"]), (19, &["-f", "--file"])],
+        },
+        BaselineConflict {
+            file: "rsync.json",
+            command_path: &["rsync"],
+            flag: "-h",
+            claimants: &[(111, &["-h", "--human-readable"]), (134, &["-h", "--help"])],
+        },
+        BaselineConflict {
+            file: "sfdx.json",
+            command_path: &["sfdx", "auth:accesstoken:store"],
+            flag: "-s",
+            claimants: &[
+                (3, &["-s", "--setdefaultdevhubusername"]),
+                (4, &["-s", "--setdefaultusername"]),
+            ],
+        },
+        BaselineConflict {
+            file: "stripe.json",
+            command_path: &["stripe", "events resend"],
+            flag: "-v",
+            claimants: &[
+                (11, &["-v", "--stripe-version"]),
+                (18, &["-v", "--version"]),
+            ],
+        },
+        BaselineConflict {
+            file: "stripe.json",
+            command_path: &["stripe", "get"],
+            flag: "-v",
+            claimants: &[
+                (11, &["-v", "--stripe-version"]),
+                (18, &["-v", "--version"]),
+            ],
+        },
+        BaselineConflict {
+            file: "stripe.json",
+            command_path: &["stripe", "post"],
+            flag: "-v",
+            claimants: &[(8, &["-v", "--stripe-version"]), (15, &["-v", "--version"])],
+        },
+        BaselineConflict {
+            file: "stripe.json",
+            command_path: &["stripe", "delete"],
+            flag: "-v",
+            claimants: &[(8, &["-v", "--stripe-version"]), (15, &["-v", "--version"])],
+        },
+        BaselineConflict {
+            file: "yarn.json",
+            command_path: &["yarn"],
+            flag: "-s",
+            claimants: &[(35, &["-s", "--silent"]), (39, &["-s", "--silent"])],
+        },
+        BaselineConflict {
+            file: "zapier.json",
+            command_path: &["zapier-platform-cli", "scaffold"],
+            flag: "-d",
+            claimants: &[(0, &["-d", "--dest"]), (5, &["-d", "--debug"])],
+        },
+    ];
+
+    fn baseline_map() -> BTreeMap<ConflictKey, Claimants> {
+        let mut map = BTreeMap::new();
+        for entry in SHORT_FLAG_CONFLICT_BASELINE {
+            let key: ConflictKey = (
+                format!("command-signatures/json/{}", entry.file),
+                entry.command_path.iter().map(|s| s.to_string()).collect(),
+                entry.flag.to_string(),
+            );
+            let claimants: Claimants = entry
+                .claimants
+                .iter()
+                .map(|(index, names)| (*index, names.iter().map(|s| s.to_string()).collect()))
+                .collect();
+            assert!(
+                map.insert(key, claimants).is_none(),
+                "duplicate baseline entry for {} {:?} {}",
+                entry.file,
+                entry.command_path,
+                entry.flag
+            );
+        }
+        map
+    }
+
+    /// Only the top-level handwritten `command-signatures/json/*.json` files, excluding
+    /// `autogenerated/` and `overrides/`.
+    fn handwritten_json_files() -> Vec<PathBuf> {
+        let json_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("json");
+        let mut files: Vec<PathBuf> = fs::read_dir(&json_dir)
+            .unwrap_or_else(|err| panic!("failed to read {}: {err}", json_dir.display()))
+            .filter_map(|entry| entry.ok())
+            .map(|entry| entry.path())
+            .filter(|path| path.is_file() && path.extension().is_some_and(|ext| ext == "json"))
+            .collect();
+        files.sort();
+        files
+    }
+
+    fn collect_actual_conflicts() -> BTreeMap<ConflictKey, Claimants> {
+        let mut actual = BTreeMap::new();
+        for path in handwritten_json_files() {
+            let filename = path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .unwrap_or_default()
+                .to_string();
+            let relative_file = format!("command-signatures/json/{filename}");
+            let content = fs::read_to_string(&path)
+                .unwrap_or_else(|err| panic!("failed to read {}: {err}", path.display()));
+            let command: Command = serde_json::from_str(&content)
+                .unwrap_or_else(|err| panic!("{relative_file} failed to deserialize: {err}"));
+
+            for conflict in find_short_flag_conflicts(&command) {
+                let key: ConflictKey = (
+                    relative_file.clone(),
+                    conflict.command_path.clone(),
+                    conflict.flag.clone(),
+                );
+                let claimants: Claimants = conflict
+                    .claimants
+                    .iter()
+                    .map(|claimant| (claimant.index, claimant.names.clone()))
+                    .collect();
+                assert!(
+                    actual.insert(key, claimants).is_none(),
+                    "validator produced two records for the same conflict key in {relative_file}"
+                );
+            }
+        }
+        actual
+    }
+
+    /// Compares collected conflicts against the baseline as complete records. Returns one
+    /// human-readable failure message per problem found:
+    /// - a collected conflict whose key is absent from the baseline (a new conflict);
+    /// - a collected conflict whose ordered claimant list differs from the baseline's (the
+    ///   claimant identity changed even though the key is unchanged);
+    /// - a baseline entry with no matching collected conflict (a stale entry that must be
+    ///   removed).
+    fn diff_against_baseline(
+        actual: &BTreeMap<ConflictKey, Claimants>,
+        baseline: &BTreeMap<ConflictKey, Claimants>,
+    ) -> Vec<String> {
+        let mut failures = Vec::new();
+
+        for (key, claimants) in actual {
+            let (file, command_path, flag) = key;
+            match baseline.get(key) {
+                None => failures.push(format!(
+                    "new duplicate short flag conflict not in baseline: {file}: command {command_path:?}: duplicate short flag {flag:?} is used by options {claimants:?}"
+                )),
+                Some(expected_claimants) if expected_claimants != claimants => failures.push(format!(
+                    "claimant identity changed for baselined conflict {file}: command {command_path:?}: duplicate short flag {flag:?}\n  expected claimants: {expected_claimants:?}\n  actual claimants:   {claimants:?}"
+                )),
+                _ => {}
+            }
+        }
+
+        for key in baseline.keys() {
+            if !actual.contains_key(key) {
+                let (file, command_path, flag) = key;
+                failures.push(format!(
+                    "stale baseline entry, remove it: {file}: command {command_path:?}: duplicate short flag {flag:?}"
+                ));
+            }
+        }
+
+        failures
+    }
+
+    #[test]
+    fn duplicate_short_flags_match_baseline() {
+        let actual = collect_actual_conflicts();
+        let baseline = baseline_map();
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert!(
+            failures.is_empty(),
+            "\n{}\n\nSee https://github.com/warpdotdev/command-signatures/issues/400 and the \
+            temporary baseline allowlist tracked by \
+            https://github.com/warpdotdev/command-signatures/issues/402.",
+            failures.join("\n")
+        );
+    }
+
+    #[test]
+    fn only_top_level_handwritten_json_is_discovered() {
+        let files = handwritten_json_files();
+        assert!(
+            !files.is_empty(),
+            "expected to discover handwritten JSON files"
+        );
+        for path in &files {
+            let path_str = path.to_string_lossy();
+            assert!(
+                !path_str.contains("autogenerated"),
+                "discovered file should not come from autogenerated/: {path_str}"
+            );
+            assert!(
+                !path_str.contains("overrides"),
+                "discovered file should not come from overrides/: {path_str}"
+            );
+        }
+        assert!(
+            files
+                .iter()
+                .any(|path| path.file_name().and_then(|n| n.to_str()) == Some("flutter.json")),
+            "expected to discover the top-level flutter.json fixture"
+        );
+    }
+
+    /// Regression test: an otherwise matching baselined key that gains a third claimant must
+    /// fail, even though `(file, command path, short flag)` is unchanged.
+    #[test]
+    fn diff_detects_a_claimant_added_to_a_baselined_conflict() {
+        let key: ConflictKey = (
+            "tool.json".to_string(),
+            vec!["tool".to_string()],
+            "-t".to_string(),
+        );
+        let mut baseline = BTreeMap::new();
+        baseline.insert(
+            key.clone(),
+            vec![(0, vec!["-t".to_string()]), (1, vec!["-t".to_string()])],
+        );
+
+        let mut actual = BTreeMap::new();
+        actual.insert(
+            key,
+            vec![
+                (0, vec!["-t".to_string()]),
+                (1, vec!["-t".to_string()]),
+                (2, vec!["-t".to_string()]),
+            ],
+        );
+
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(failures[0].contains("claimant identity changed"));
+    }
+
+    /// Regression test: replacing one claimant of an otherwise matching baselined key must fail,
+    /// even though `(file, command path, short flag)` is unchanged.
+    #[test]
+    fn diff_detects_a_claimant_replaced_in_a_baselined_conflict() {
+        let key: ConflictKey = (
+            "tool.json".to_string(),
+            vec!["tool".to_string()],
+            "-t".to_string(),
+        );
+        let mut baseline = BTreeMap::new();
+        baseline.insert(
+            key.clone(),
+            vec![
+                (0, vec!["-t".to_string(), "--type-a".to_string()]),
+                (1, vec!["-t".to_string(), "--type-b".to_string()]),
+            ],
+        );
+
+        let mut actual = BTreeMap::new();
+        actual.insert(
+            key,
+            vec![
+                (0, vec!["-t".to_string(), "--type-a".to_string()]),
+                (1, vec!["-t".to_string(), "--type-c".to_string()]),
+            ],
+        );
+
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(failures[0].contains("claimant identity changed"));
+    }
+
+    #[test]
+    fn diff_flags_new_conflicts_not_in_baseline() {
+        let baseline = BTreeMap::new();
+        let mut actual = BTreeMap::new();
+        actual.insert(
+            (
+                "tool.json".to_string(),
+                vec!["tool".to_string()],
+                "-t".to_string(),
+            ),
+            vec![(0, vec!["-t".to_string()]), (1, vec!["-t".to_string()])],
+        );
+
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(failures[0].contains("new duplicate short flag conflict"));
+    }
+
+    #[test]
+    fn diff_flags_stale_baseline_entries() {
+        let mut baseline = BTreeMap::new();
+        baseline.insert(
+            (
+                "tool.json".to_string(),
+                vec!["tool".to_string()],
+                "-t".to_string(),
+            ),
+            vec![(0, vec!["-t".to_string()]), (1, vec!["-t".to_string()])],
+        );
+        let actual = BTreeMap::new();
+
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(failures[0].contains("stale baseline entry"));
+    }
+}
