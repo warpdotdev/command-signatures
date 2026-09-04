@@ -14,11 +14,16 @@ pub fn yml_yaml() -> TemplateFilter {
 
 pub fn envrc() -> TemplateFilter {
     TemplateFilter(|mut suggestion, path_type| {
-        let is_envrc = suggestion.exact_string.contains(".envrc");
-        if path_type.is_folder() || is_envrc {
-            if is_envrc {
-                suggestion.priority = Priority::Global(Importance::More(Order(76)));
-            }
+        if path_type.is_folder() {
+            return Some(suggestion);
+        }
+        let name = suggestion.exact_string.as_str();
+        let is_envrc = name == ".envrc"
+            || name == ".envrc/"
+            || name.ends_with("/.envrc")
+            || name.ends_with("/.envrc/");
+        if is_envrc {
+            suggestion.priority = Priority::Global(Importance::More(Order(76)));
             Some(suggestion)
         } else {
             None
