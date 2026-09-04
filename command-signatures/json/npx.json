@@ -4,10 +4,7 @@
     "args": {
         "name": "command",
         "isCommand": true,
-        "generators": {
-            "script": "until [[ -d node_modules/ ]] || [[ $PWD = '/' ]]; do cd ..; done; ls -1 node_modules/.bin/",
-            "postProcess": "function(t){let i=[...n].reduce((e,{name:a})=>[...e,a],[]);return t.split(`\n`).filter(e=>!i.includes(e)).map(e=>({name:e,icon:\"fig://icon?type=command\",loadSpec:e}))}"
-        },
+        "generatorName": "until_node_modules_do_cd",
         "suggestions": [
             {
                 "name": "vite"

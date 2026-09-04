@@ -16,15 +16,9 @@
                     "isRepeatable": true,
                     "args": {
                         "name": "PACKAGE",
-                        "generators": {
-                            "trigger": "_NuFrRa_(e,t)=>t.startsWith(\"@\")?!(E(t)>1&&E(e)>1):!(t.includes(\"@\")&&e.includes(\"@\"))",
-                            "getQueryTerm": "@",
-                            "cache": {
-                                "ttl": 172800000
-                            },
-                            "custom": "_NuFrRa_(e,t)=>I(void 0,null,function*(){let i=e[e.length-1];if(i===\"\")return[];let c=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${i}\"`,r=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${i.slice(0,-1)}`,s=n=>n[n.length-1]===\"@\"?t(r):t(c),d=i.startsWith(\"@\")?E(i)>1:i.includes(\"@\");try{let n=JSON.parse(yield s(i));if(d){let o=Object.entries(n[\"dist-tags\"]||{}).map(([l,T])=>({name:l,description:T}));return o.push(...Object.keys(n.versions).map(l=>({name:l})).reverse()),o}return n.results.map(o=>({name:o.package.name,description:o.package.description}))}catch(n){return console.error({error:n}),[]}})"
-                        },
-                        "debounce": true
+                        "template": "filepaths",
+                        "debounce": true,
+                        "generatorName": "npms_search"
                     }
                 },
                 {
@@ -293,10 +287,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to\" parameter expands this selection to include PROJECT and all its dependencies. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -307,10 +298,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to-except\" parameter expands this selection to include all dependencies of PROJECT, but not PROJECT itself. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -321,10 +309,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--from\" parameter expands this selection to include PROJECT and all projects that depend on it, plus all dependencies of this set.  \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -335,10 +320,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--only\" parameter expands this selection to include PROJECT; its dependencies are not added. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -349,10 +331,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by\" parameter expands this selection to include PROJECT and any projects that depend on PROJECT (and thus might be broken by changes to PROJECT). \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -363,10 +342,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by-except\" parameter works the same as \"--impacted-by\" except that PROJECT itself is not added to the selection. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -788,10 +764,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to\" parameter expands this selection to include PROJECT and all its dependencies. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -802,10 +775,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to-except\" parameter expands this selection to include all dependencies of PROJECT, but not PROJECT itself. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -816,10 +786,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--from\" parameter expands this selection to include PROJECT and all projects that depend on it, plus all dependencies of this set.  \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -830,10 +797,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--only\" parameter expands this selection to include PROJECT; its dependencies are not added. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -844,10 +808,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by\" parameter expands this selection to include PROJECT and any projects that depend on PROJECT (and thus might be broken by changes to PROJECT). \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -858,10 +819,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by-except\" parameter works the same as \"--impacted-by\" except that PROJECT itself is not added to the selection. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -920,10 +878,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to\" parameter expands this selection to include PROJECT and all its dependencies. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -934,10 +889,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--to-except\" parameter expands this selection to include all dependencies of PROJECT, but not PROJECT itself. \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -948,10 +900,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--from\" parameter expands this selection to include PROJECT and all projects that depend on it, plus all dependencies of this set.  \".\" can be used as shorthand for the project in the current working directory. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -962,10 +911,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--only\" parameter expands this selection to include PROJECT; its dependencies are not added. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -976,10 +922,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by\" parameter expands this selection to include PROJECT and any projects that depend on PROJECT (and thus might be broken by changes to PROJECT). \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },
@@ -990,10 +933,7 @@
                     ],
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "until [[ -f rush.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat rush.json",
-                            "postProcess": "function(e){let t=[];try{if(!e)return t;let i=JSON.parse(S(e.trim()));for(let c of i.projects)t.push({name:c.packageName,description:\"Projects\"})}catch(i){console.log(\"generate project suggestion fail: \",i)}return t}"
-                        }
+                        "generatorName": "until_rush_json_do_cd"
                     },
                     "description": "Normally all projects in the monorepo will be processed; adding this parameter will instead select a subset of projects. Each \"--impacted-by-except\" parameter works the same as \"--impacted-by\" except that PROJECT itself is not added to the selection. \".\" can be used as shorthand for the project in the current working directory. Note that this parameter is \"unsafe\" as it may produce a selection that excludes some dependencies. For details, refer to the website article \"Selecting subsets of projects\""
                 },

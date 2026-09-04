@@ -140,13 +140,7 @@
             "description": "Require a specific version of Black",
             "args": {
                 "name": "version",
-                "generators": {
-                    "script": "gh release list --repo psf/black",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "postProcess": "_NuFrRa_e=>e.includes(\"Latest\")?e.split(`\n`).map(i=>({name:i.split(\"\t\")[0],description:\"Version\"})):[]"
-                }
+                "generatorName": "gh_release_list_psf_black"
             }
         },
         {

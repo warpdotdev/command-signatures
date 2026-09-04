@@ -94,6 +94,10 @@ pub fn generator() -> CommandSignatureGenerators {
             "repositories_generator",
             Generator::script(CommandBuilder::single_command("brew tap"), post_process),
         )
+        .add_generator(
+            "gist_logs_actions",
+            Generator::command_from_tokens(super::fig_token::brew_gist_logs_actions, post_process),
+        )
 }
 
 fn post_process(output: &str) -> GeneratorResults {

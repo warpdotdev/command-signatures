@@ -1,3 +1,4 @@
+use super::{fig_token, output_parsers, template_filters};
 use std::collections::{HashMap, HashSet};
 
 use warp_completion_metadata::{
@@ -111,28 +112,14 @@ pub fn generator() -> CommandSignatureGenerators {
             "bin_list",
             Generator::script(
                 CommandBuilder::single_command("cargo metadata --no-deps --format-version 1"),
-                |output| {
-                    let metadata: Result<Metadata> = serde_json::from_str(output);
-
-                    match metadata {
-                        Ok(metadata) => metadata
-                            .packages
-                            .into_iter()
-                            .flat_map(|package| package.targets.into_iter().flatten())
-                            .filter_map(|target| {
-                                target
-                                    .kind
-                                    .into_iter()
-                                    .any(|item| item == "bin")
-                                    .then(|| Suggestion::new(target.name))
-                            })
-                            .collect_unordered_results(),
-                        Err(e) => {
-                            log::error!("Couldn't parse cargo metadata with error {}", e);
-                            GeneratorResults::default()
-                        }
-                    }
-                },
+                |output| metadata_targets_of_kind(output, "bin"),
+            ),
+        )
+        .add_generator(
+            "test_targets",
+            Generator::script(
+                CommandBuilder::single_command("cargo metadata --no-deps --format-version 1"),
+                |output| metadata_targets_of_kind(output, "test"),
             ),
         )
         .add_generator(
@@ -152,4 +139,42 @@ pub fn generator() -> CommandSignatureGenerators {
                 },
             ),
         )
+        .add_generator(
+            "read_manifest",
+            Generator::script(
+                CommandBuilder::single_command("cargo read-manifest"),
+                output_parsers::cargo_read_manifest_bins,
+            ),
+        )
+        .add_generator(
+            "crates_io_search",
+            Generator::command_from_tokens(
+                fig_token::crates_io_search,
+                output_parsers::json_crates,
+            ),
+        )
+        .add_generator(
+            "test_list",
+            Generator::command_from_tokens(fig_token::cargo_test_list, output_parsers::named_lines),
+        )
+        .add_filter("filter-cargo-toml", template_filters::cargo_toml())
+        .add_filter("filter-cargo-lock", template_filters::cargo_lock())
+        .add_filter("filter-rustfmt-toml", template_filters::rustfmt_toml())
+        .add_filter("filter-rs", template_filters::rs())
+}
+
+fn metadata_targets_of_kind(output: &str, kind: &str) -> GeneratorResults {
+    match serde_json::from_str::<Metadata>(output) {
+        Ok(metadata) => metadata
+            .packages
+            .into_iter()
+            .flat_map(|package| package.targets.into_iter().flatten())
+            .filter(|target| target.kind.iter().any(|item| item == kind))
+            .map(|target| Suggestion::new(target.name))
+            .collect_unordered_results(),
+        Err(e) => {
+            log::error!("Couldn't parse cargo metadata with error {e}");
+            GeneratorResults::default()
+        }
+    }
 }

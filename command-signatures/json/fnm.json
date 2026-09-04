@@ -71,13 +71,7 @@
                 "name": "version",
                 "description": "A version string. Can be a partial semver or a LTS version name by the format lts/NAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "fnm ls-remote",
-                    "postProcess": "function(s){let n=s.split(`\n`).reverse().filter(Boolean).map(F),i=n.find(e=>e.major%2===0).major,r=new Map,p=n.map(e=>{let o=r.get(e.major);return(!o||o.minor<e.minor)&&r.set(e.major,e),e}).filter(e=>{if(e.major===i)return!0;let o=e.original===r.get(e.major).original;return(e.major%2===0||e.major===i-1||e.major===i+1)&&o});return y([...p,...n],(e,o)=>e.original===o.original).map(e=>e.ltsName&&r.get(e.major).original===e.original?{name:`lts/${e.ltsName}`,displayName:e.original,description:`Node.js ${e.original}`}:{name:e.original.split(\" \").shift(),description:`Node.js ${e.original}`})}",
-                    "cache": {
-                        "ttl": 86400
-                    }
-                }
+                "generatorName": "ls_remote"
             },
             "options": [
                 {
@@ -154,10 +148,7 @@
                 "name": "version",
                 "description": "A version string. Can be a partial semver or a LTS version name by the format lts/NAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "fnm ls",
-                    "postProcess": "function(s){return s.split(`\n`).reverse().map(n=>({name:n.slice(2),description:`Node.js ${n.slice(2)}`}))}"
-                }
+                "generatorName": "ls"
             },
             "options": [
                 {
@@ -233,10 +224,7 @@
                 "name": "version",
                 "description": "A version string. Can be a partial semver or a LTS version name by the format lts/NAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "fnm ls",
-                    "postProcess": "function(s){return s.split(`\n`).reverse().map(n=>({name:n.slice(2),description:`Node.js ${n.slice(2)}`}))}"
-                }
+                "generatorName": "ls"
             },
             "options": [
                 {
@@ -607,10 +595,7 @@
                     "name": "version",
                     "description": "A version string. Can be a partial semver or a LTS version name by the format lts/NAME",
                     "isOptional": true,
-                    "generators": {
-                        "script": "fnm ls",
-                        "postProcess": "function(s){return s.split(`\n`).reverse().map(n=>({name:n.slice(2),description:`Node.js ${n.slice(2)}`}))}"
-                    }
+                    "generatorName": "ls"
                 },
                 {
                     "name": "name",
@@ -837,10 +822,7 @@
                 "name": "version",
                 "description": "A version string. Can be a partial semver or a LTS version name by the format lts/NAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "fnm ls",
-                    "postProcess": "function(s){return s.split(`\n`).reverse().map(n=>({name:n.slice(2),description:`Node.js ${n.slice(2)}`}))}"
-                }
+                "generatorName": "ls"
             },
             "options": [
                 {

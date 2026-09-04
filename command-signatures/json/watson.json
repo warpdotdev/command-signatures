@@ -6,15 +6,9 @@
             "name": "add",
             "description": "Add time to a project with tag(s) that was not tracked live",
             "args": {
-                "generators": [
-                    {
-                        "script": "watson projects",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                    },
-                    {
-                        "script": "watson tags",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                    }
+                "generatorName": [
+                    "projects",
+                    "tags"
                 ]
             },
             "options": [
@@ -102,10 +96,7 @@
                     ],
                     "description": "Reports activity only for the given project. You can add other projects by using this option several times",
                     "args": {
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
+                        "generatorName": "projects",
                         "name": "PROJECT"
                     }
                 },
@@ -116,10 +107,7 @@
                     ],
                     "description": "Reports activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
+                        "generatorName": "tags",
                         "name": "TAG"
                     }
                 },
@@ -258,10 +246,7 @@
             "description": "Edit a frame",
             "args": {
                 "name": "FRAME ID",
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "log"
             },
             "options": [
                 {
@@ -447,10 +432,7 @@
                     "description": "Logs activity only for the given project. You can add other projects by using this option several times",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
+                        "generatorName": "projects",
                         "isVariadic": true
                     }
                 },
@@ -462,10 +444,7 @@
                     "description": "Logs activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
+                        "generatorName": "tags",
                         "isVariadic": true
                     }
                 },
@@ -474,10 +453,7 @@
                     "description": "Logs activity for all projects but the given ones. You can ignore several projects by using the option multiple times. Any given project will be ignored",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
+                        "generatorName": "projects",
                         "isVariadic": true
                     }
                 },
@@ -486,10 +462,7 @@
                     "description": "Logs activity for all tags but the given ones. You can ignore several tags by using the option multiple times. Any given tag will be ignored",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        },
+                        "generatorName": "tags",
                         "isVariadic": true
                     }
                 },
@@ -560,10 +533,7 @@
             "description": "Remove a frame. You can specify the frame either by id or by position (ex: -1 for the last frame)",
             "args": {
                 "name": "ID",
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "log"
             },
             "options": [
                 {
@@ -593,15 +563,9 @@
                 },
                 {
                     "name": "OLD_NAME",
-                    "generators": [
-                        {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        },
-                        {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                    "generatorName": [
+                        "projects",
+                        "tags"
                     ]
                 },
                 {
@@ -731,10 +695,7 @@
                     "description": "Reports activity only for the given project. You can add other projects by using this option several times",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        }
+                        "generatorName": "projects"
                     }
                 },
                 {
@@ -745,10 +706,7 @@
                     "description": "Reports activity only for frames containing the given tag. You can add several tags by using this option multiple times",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                        "generatorName": "tags"
                     }
                 },
                 {
@@ -756,10 +714,7 @@
                     "description": "Reports activity for all projects but the given ones. You can ignore several projects by using the option multiple times. Any given project will be ignored",
                     "args": {
                         "name": "PROJECT",
-                        "generators": {
-                            "script": "watson projects",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                        }
+                        "generatorName": "projects"
                     }
                 },
                 {
@@ -767,10 +722,7 @@
                     "description": "Reports activity for all tags but the given ones. You can ignore several tags by using the option multiple times. Any given tag will be ignored",
                     "args": {
                         "name": "TAG",
-                        "generators": {
-                            "script": "watson tags",
-                            "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                        }
+                        "generatorName": "tags"
                     }
                 },
                 {
@@ -821,10 +773,7 @@
             "args": {
                 "name": "FRAME",
                 "isOptional": true,
-                "generators": {
-                    "script": "watson log --json --reverse",
-                    "postProcess": "_NuFrRa_o=>JSON.parse(o).map(e=>({name:e.id.substring(0,7),icon:\"\\u23F2\",displayName:`${e.id.substring(0,7)} - ${e.project} - ${e.start}`}))"
-                }
+                "generatorName": "log"
             },
             "options": [
                 {
@@ -862,15 +811,9 @@
             "args": {
                 "name": "ARGS",
                 "isVariadic": true,
-                "generators": [
-                    {
-                        "script": "watson projects",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F5C2}\"}))"
-                    },
-                    {
-                        "script": "watson tags",
-                        "postProcess": "_NuFrRa_o=>o.split(`\n`).map(e=>({name:e,icon:\"\\u{1F3F7}\"}))"
-                    }
+                "generatorName": [
+                    "projects",
+                    "tags"
                 ]
             },
             "options": [

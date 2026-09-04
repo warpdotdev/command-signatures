@@ -207,10 +207,7 @@
             "description": "Specify a workspace for ignore limits (default \"default\")",
             "args": {
                 "name": "workspace",
-                "generators": {
-                    "script": "terraform workspace list",
-                    "postProcess": "function(e){return e.split(`\n`).map(i=>({name:i.replace(\"*\",\"\").trim(),description:\"Terraform workspaces\"}))}"
-                }
+                "generatorName": "terraform_workspace_list"
             }
         }
     ],

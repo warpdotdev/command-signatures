@@ -39,10 +39,7 @@
                     "args": {
                         "name": "endpoint",
                         "description": "The StepZen endpoint",
-                        "generators": {
-                            "script": "stepzen list schemas",
-                            "postProcess": "_NuFrRa_t=>{try{return JSON.parse(t).map(e=>({name:e,description:\"StepZen endpoint\"}))}catch(e){return[]}}"
-                        }
+                        "generatorName": "list_schemas"
                     }
                 },
                 {
@@ -62,10 +59,7 @@
             "args": {
                 "name": "name",
                 "description": "The name of the generator to import",
-                "generators": {
-                    "script": "curl https://api.github.com/repos/steprz/stepzen-schemas/contents",
-                    "postProcess": "_NuFrRa_t=>{try{return JSON.parse(t).filter(e=>e.type==\"dir\"&&!e.name.startsWith(\".\")).map(e=>({name:e.name,description:\"Stepzen schema\",icon:\"\\u{1F4E6}\"}))}catch(e){return[]}}"
-                }
+                "generatorName": "github_schemas"
             },
             "options": [
                 {

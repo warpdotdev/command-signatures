@@ -18,10 +18,7 @@
             "description": "Find repository",
             "args": {
                 "name": "repository name",
-                "generators": {
-                    "script": "cat ~/.projj/cache.json",
-                    "postProcess": "function(o){let r=JSON.parse(o);return Object.keys(r).map(e=>({name:e.split(\"/\").pop(),description:r[e].repo}))}"
-                }
+                "generatorName": "cat_projj_cache_json"
             }
         },
         {
@@ -41,10 +38,7 @@
             "description": "Remove repository",
             "args": {
                 "name": "repository name",
-                "generators": {
-                    "script": "cat ~/.projj/cache.json",
-                    "postProcess": "function(o){let r=JSON.parse(o);return Object.keys(r).map(e=>({name:e.split(\"/\").pop(),description:r[e].repo}))}"
-                }
+                "generatorName": "cat_projj_cache_json"
             }
         },
         {
@@ -52,10 +46,7 @@
             "description": "Run hook in current directory",
             "args": {
                 "name": "hook name",
-                "generators": {
-                    "script": "cat ~/.projj/config.json",
-                    "postProcess": "function(o){let e=JSON.parse(o).hooks;return Object.keys(e).map(n=>({name:n,description:e[n]}))}"
-                }
+                "generatorName": "cat_projj_config_json"
             }
         },
         {
@@ -63,10 +54,7 @@
             "description": "Run hook in every repository",
             "args": {
                 "name": "hook name",
-                "generators": {
-                    "script": "cat ~/.projj/config.json",
-                    "postProcess": "function(o){let e=JSON.parse(o).hooks;return Object.keys(e).map(n=>({name:n,description:e[n]}))}"
-                }
+                "generatorName": "cat_projj_config_json"
             }
         },
         {

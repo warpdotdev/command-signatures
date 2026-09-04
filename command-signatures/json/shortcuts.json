@@ -8,10 +8,7 @@
             "args": {
                 "name": "shortcut-name",
                 "description": "The name of the shortcut to run",
-                "generators": {
-                    "script": "shortcuts list",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).map(t=>({name:t,icon:\"fig:///System/Applications/Shortcuts.app\"}))"
-                }
+                "generatorName": "list"
             },
             "options": [
                 {
@@ -83,10 +80,7 @@
                     "description": "The name of the folder to list",
                     "args": {
                         "name": "folder-name",
-                        "generators": {
-                            "script": "shortcuts list --folders",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(t=>({name:t,icon:\"\\u{1F4C2}\"}))"
-                        }
+                        "generatorName": "list_shortcuts"
                     }
                 },
                 {
@@ -101,10 +95,7 @@
             "args": {
                 "name": "shortcut-name",
                 "description": "The name of the shortcut to view",
-                "generators": {
-                    "script": "shortcuts list",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).map(t=>({name:t,icon:\"fig:///System/Applications/Shortcuts.app\"}))"
-                }
+                "generatorName": "list"
             }
         },
         {
@@ -120,10 +111,7 @@
                     "args": {
                         "name": "input",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(d=[])=>{let c=d.filter(({name:u=\"\",type:L})=>{if(i!==\"filter\"&&L===\"folder\")return i===\"always\";if(l.has(u)||o&&new RegExp(o.source,o.flags).test(u))return!0;let[,...h]=u.split(\".\");if(h.length>=1){let m=h.length-1,v=h[m];do{if(a.has(v))return!0;m-=1,v=[h[m],v].join(\".\")}while(m>=0)}return!1});return!s&&!r?c:c.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?s:r)||{}))}"
-                        }
+                        "filterTemplateName": "filter-shortcut"
                     }
                 },
                 {

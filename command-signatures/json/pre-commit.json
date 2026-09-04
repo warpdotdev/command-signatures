@@ -397,10 +397,7 @@
                     "description": "Remote branch ref used by `git push`",
                     "args": {
                         "name": "REMOTE_BRANCH",
-                        "generators": {
-                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_e=>{let{insertWithoutRemotes:t=!1}=s,i=ce(e);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let r=n.trim(),o=n.match(/\\S+/g);if(o.length>1){if(o[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};o[0]===\"+\"&&(r=n.replace(\"+\",\"\").trim())}let a=\"Branch\";return t&&r.startsWith(\"remotes/\")&&(r=r.slice(r.indexOf(\"/\",8)+1),a=\"Remote branch\"),{name:r,description:a,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch_no"
                     }
                 },
                 {
@@ -408,10 +405,7 @@
                     "description": "Local branch ref used by `git push`",
                     "args": {
                         "name": "LOCAL_BRANCH",
-                        "generators": {
-                            "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_e=>{let{insertWithoutRemotes:t=!1}=s,i=ce(e);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let r=n.trim(),o=n.match(/\\S+/g);if(o.length>1){if(o[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};o[0]===\"+\"&&(r=n.replace(\"+\",\"\").trim())}let a=\"Branch\";return t&&r.startsWith(\"remotes/\")&&(r=r.slice(r.indexOf(\"/\",8)+1),a=\"Remote branch\"),{name:r,description:a,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch"
                     }
                 },
                 {
@@ -423,10 +417,7 @@
                     "description": "Represents the original ref in a `from_ref...to_ref` diff expression. For `pre-push` hooks, this represents the branch you are pushing to. For `post-checkout` hooks, this represents the branch that was previously checked out",
                     "args": {
                         "name": "FROM_REF",
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(s){let e=ce(s);return e.startsWith(\"fatal:\")?[]:e.split(`\n`).map(t=>({name:t.substring(0,7),icon:\"fig://icon?type=node\",description:t.substring(7)}))}"
-                        }
+                        "generatorName": "git_rev_list"
                     }
                 },
                 {
@@ -438,10 +429,7 @@
                     "description": "Represents the destination ref in a `from_ref...to_ref` diff expression. For `pre-push` hooks, this represents the branch being pushed. For `post-checkout` hooks, this represents the branch that is now checked out",
                     "args": {
                         "name": "TO_REF",
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(s){let e=ce(s);return e.startsWith(\"fatal:\")?[]:e.split(`\n`).map(t=>({name:t.substring(0,7),icon:\"fig://icon?type=node\",description:t.substring(7)}))}"
-                        }
+                        "generatorName": "git_rev_list"
                     }
                 },
                 {
@@ -456,10 +444,7 @@
                     "description": "Remote name used by `git push`",
                     "args": {
                         "name": "REMOTE_NAME",
-                        "generators": {
-                            "script": "git --no-optional-locks remote -v",
-                            "postProcess": "function(s){let e=s.split(`\n`).reduce((t,i)=>{let n=i.split(\"\t\"),r=n[0];console.log(r,n);let o=n[1].split(\" \")[0];return t[r]=o,t},{});return Object.keys(e).map(t=>{let i=e[t],n=\"box\";return i.includes(\"github.com\")&&(n=\"github\"),i.includes(\"gitlab.com\")&&(n=\"gitlab\"),i.includes(\"heroku.com\")&&(n=\"heroku\"),{name:t,icon:`fig://icon?type=${n}`,description:\"Remote\"}})}"
-                        }
+                        "generatorName": "git_remote"
                     }
                 },
                 {
@@ -495,10 +480,7 @@
                 "name": "hook",
                 "description": "A single hook-id to run",
                 "isOptional": true,
-                "generators": {
-                    "script": "cat .pre-commit-config.yaml",
-                    "postProcess": "_NuFrRa_s=>{let e=[];try{let t=hi.default.parse(s).repos;return t&&t.forEach(i=>{i.hooks.forEach(n=>{e.push({name:`${n.id}`})})}),e}catch(t){console.log(t)}}"
-                }
+                "generatorName": "cat_pre_commit_config_yaml"
             }
         },
         {
@@ -549,10 +531,7 @@
                     "name": "hook",
                     "description": "A single hook-id to run",
                     "isOptional": true,
-                    "generators": {
-                        "script": "cat .pre-commit-config.yaml",
-                        "postProcess": "_NuFrRa_s=>{let e=[];try{let t=hi.default.parse(s).repos;return t&&t.forEach(i=>{i.hooks.forEach(n=>{e.push({name:`${n.id}`})})}),e}catch(t){console.log(t)}}"
-                    }
+                    "generatorName": "cat_pre_commit_config_yaml"
                 }
             ],
             "options": [
@@ -637,10 +616,7 @@
                     "description": "Remote branch ref used by `git push`",
                     "args": {
                         "name": "REMOTE_BRANCH",
-                        "generators": {
-                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_e=>{let{insertWithoutRemotes:t=!1}=s,i=ce(e);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let r=n.trim(),o=n.match(/\\S+/g);if(o.length>1){if(o[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};o[0]===\"+\"&&(r=n.replace(\"+\",\"\").trim())}let a=\"Branch\";return t&&r.startsWith(\"remotes/\")&&(r=r.slice(r.indexOf(\"/\",8)+1),a=\"Remote branch\"),{name:r,description:a,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch_no"
                     }
                 },
                 {
@@ -648,10 +624,7 @@
                     "description": "Local branch ref used by `git push`",
                     "args": {
                         "name": "LOCAL_BRANCH",
-                        "generators": {
-                            "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_e=>{let{insertWithoutRemotes:t=!1}=s,i=ce(e);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).filter(n=>!n.trim().startsWith(\"HEAD\")).map(n=>{let r=n.trim(),o=n.match(/\\S+/g);if(o.length>1){if(o[0]===\"*\")return n.includes(\"HEAD detached\")?null:{name:n.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};o[0]===\"+\"&&(r=n.replace(\"+\",\"\").trim())}let a=\"Branch\";return t&&r.startsWith(\"remotes/\")&&(r=r.slice(r.indexOf(\"/\",8)+1),a=\"Remote branch\"),{name:r,description:a,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch"
                     }
                 },
                 {
@@ -663,10 +636,7 @@
                     "description": "Represents the original ref in a `from_ref...to_ref` diff expression. For `pre-push` hooks, this represents the branch you are pushing to. For `post-checkout` hooks, this represents the branch that was previously checked out",
                     "args": {
                         "name": "FROM_REF",
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(s){let e=ce(s);return e.startsWith(\"fatal:\")?[]:e.split(`\n`).map(t=>({name:t.substring(0,7),icon:\"fig://icon?type=node\",description:t.substring(7)}))}"
-                        }
+                        "generatorName": "git_rev_list"
                     }
                 },
                 {
@@ -678,10 +648,7 @@
                     "description": "Represents the destination ref in a `from_ref...to_ref` diff expression. For `pre-push` hooks, this represents the branch being pushed. For `post-checkout` hooks, this represents the branch that is now checked out",
                     "args": {
                         "name": "TO_REF",
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(s){let e=ce(s);return e.startsWith(\"fatal:\")?[]:e.split(`\n`).map(t=>({name:t.substring(0,7),icon:\"fig://icon?type=node\",description:t.substring(7)}))}"
-                        }
+                        "generatorName": "git_rev_list"
                     }
                 },
                 {
@@ -696,10 +663,7 @@
                     "description": "Remote name used by `git push`",
                     "args": {
                         "name": "REMOTE_NAME",
-                        "generators": {
-                            "script": "git --no-optional-locks remote -v",
-                            "postProcess": "function(s){let e=s.split(`\n`).reduce((t,i)=>{let n=i.split(\"\t\"),r=n[0];console.log(r,n);let o=n[1].split(\" \")[0];return t[r]=o,t},{});return Object.keys(e).map(t=>{let i=e[t],n=\"box\";return i.includes(\"github.com\")&&(n=\"github\"),i.includes(\"gitlab.com\")&&(n=\"gitlab\"),i.includes(\"heroku.com\")&&(n=\"heroku\"),{name:t,icon:`fig://icon?type=${n}`,description:\"Remote\"}})}"
-                        }
+                        "generatorName": "git_remote"
                     }
                 },
                 {

@@ -4026,10 +4026,7 @@
                 }
             ],
             "args": {
-                "generators": {
-                    "script": "terragrunt state list",
-                    "postProcess": "function(r){return r.includes(\"No state file was found!\")||r.includes(\"Error\")?[]:r.split(`\n`).map(t=>({name:t.replace(\"* \",\"\").trim(),icon:\"https://terragrunt.gruntwork.io/assets/img/favicon/favicon.ico\",description:\"Address\"}))}"
-                },
+                "generatorName": "state_list",
                 "name": "address"
             }
         },
@@ -5073,10 +5070,7 @@
                     "name": "delete",
                     "description": "Delete the specified workspace",
                     "args": {
-                        "generators": {
-                            "script": "terragrunt workspace list",
-                            "postProcess": "function(r){return r.split(`\n`).map(t=>({name:t.replace(\"* \",\"\").trim(),icon:\"https://terragrunt.gruntwork.io/assets/img/favicon/favicon.ico\",description:\"Workspace\"}))}"
-                        },
+                        "generatorName": "workspace_list",
                         "name": "workspace name"
                     },
                     "options": [
@@ -5134,10 +5128,7 @@
                     "name": "select",
                     "description": "Change the current working workspace",
                     "args": {
-                        "generators": {
-                            "script": "terragrunt workspace list",
-                            "postProcess": "function(r){return r.split(`\n`).map(t=>({name:t.replace(\"* \",\"\").trim(),icon:\"https://terragrunt.gruntwork.io/assets/img/favicon/favicon.ico\",description:\"Workspace\"}))}"
-                        }
+                        "generatorName": "workspace_list"
                     }
                 }
             ]

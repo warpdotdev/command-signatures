@@ -24,10 +24,7 @@
             "description": "Explicitly set the language for syntax highlighting",
             "args": {
                 "name": "<language>",
-                "generators": {
-                    "script": "bat --list-languages",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>{let i=e.split(\":\")[0].trim();return e.replace(/\\:/g,\",\").split(\",\").map(n=>({name:n.trim(),description:i+\" language\"}))}).flat(2)}"
-                }
+                "generatorName": "completions_bat"
             }
         },
         {
@@ -78,10 +75,7 @@
             "description": "Specify when to use colored output",
             "args": {
                 "name": "<mode>",
-                "generators": {
-                    "script": "bat --wrap unknow  2>&1 >/dev/null | grep possible",
-                    "postProcess": "function(t){return t.trim().split(\"]\")[0].split(\"[\")[1].split(\":\")[1].split(\",\").map(e=>({name:e.trim(),description:\"Specify when to use colored output\"}))}"
-                }
+                "generatorName": "unknow_dev_null_possible_wrap"
             }
         },
         {
@@ -104,10 +98,7 @@
             "description": "Specify when to use colored output",
             "args": {
                 "name": "<when>",
-                "generators": {
-                    "script": "bat --color unknow  2>&1 >/dev/null | grep possible",
-                    "postProcess": "function(t){return t.trim().split(\"]\")[0].split(\"[\")[1].split(\":\")[1].split(\",\").map(e=>({name:e.trim(),description:\"Specify when to use colored output\"}))}"
-                }
+                "generatorName": "unknow_dev_null_possible_color"
             }
         },
         {
@@ -115,10 +106,7 @@
             "description": "Specify when to use ANSI sequences for italic text in the output",
             "args": {
                 "name": "<when>",
-                "generators": {
-                    "script": "bat --italic-text unknow  2>&1 >/dev/null | grep possible",
-                    "postProcess": "function(t){return t.trim().split(\"]\")[0].split(\"[\")[1].split(\":\")[1].split(\",\").map(e=>({name:e.trim(),description:\"Specify when to use ANSI sequences for italic text in the output\"}))}"
-                }
+                "generatorName": "unknow_dev_null_possible_italic"
             }
         },
         {
@@ -126,10 +114,7 @@
             "description": "Specify when to use the decorations that have been specified via '--style'",
             "args": {
                 "name": "<when>",
-                "generators": {
-                    "script": "bat --decorations unknow  2>&1 >/dev/null | grep possible",
-                    "postProcess": "function(t){return t.trim().split(\"]\")[0].split(\"[\")[1].split(\":\")[1].split(\",\").map(e=>({name:e.trim(),description:\"Specify when to use the decorations that have been specified via '--style'\"}))}"
-                }
+                "generatorName": "unknow_dev_null_possible_bat"
             }
         },
         {
@@ -144,10 +129,7 @@
             "description": "Specify when to use the pager",
             "args": {
                 "name": "<when>",
-                "generators": {
-                    "script": "bat --paging unknow  2>&1 >/dev/null | grep possible",
-                    "postProcess": "function(t){return t.trim().split(\"]\")[0].split(\"[\")[1].split(\":\")[1].split(\",\").map(e=>({name:e.trim(),description:\"Specify when to use the pager\"}))}"
-                }
+                "generatorName": "unknow_dev_null_possible"
             }
         },
         {
@@ -182,10 +164,7 @@
             "description": "Set the theme for syntax highlighting",
             "args": {
                 "name": "<theme>",
-                "generators": {
-                    "script": "bat --list-themes",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>({name:e,description:\"theme: \"+e}))}"
-                }
+                "generatorName": "completions"
             }
         },
         {

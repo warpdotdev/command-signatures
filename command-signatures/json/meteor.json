@@ -104,10 +104,7 @@
                     "args": {
                         "name": "JSON File",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let d=u.filter(({name:l=\"\",type:z})=>{if(o!==\"filter\"&&z===\"folder\")return o===\"always\";if(p.has(l)||n&&new RegExp(n.source,n.flags).test(l))return!0;let[,...g]=l.split(\".\");if(g.length>=1){let f=g.length-1,w=g[f];do{if(s.has(w))return!0;f-=1,w=[g[f],w].join(\".\")}while(f>=0)}return!1});return!i&&!r?d:d.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?i:r)||{}))}"
-                        }
+                        "filterTemplateName": "filter-json"
                     }
                 },
                 {
@@ -181,10 +178,7 @@
                     "description": "Example template to use",
                     "args": {
                         "name": "example_name",
-                        "generators": {
-                            "script": "meteor create --list",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).filter(t=>t.includes(\"github.com\")).map(t=>({name:t.split(\":\")[0].trim()}))"
-                        }
+                        "generatorName": "create"
                     }
                 },
                 {
@@ -239,10 +233,7 @@
             "args": {
                 "name": "package_names",
                 "isOptional": true,
-                "generators": {
-                    "script": "cat ./.meteor/packages",
-                    "postProcess": "_NuFrRa_e=>e.includes(\"No such file or directory\")?[]:e.split(`\n`).map(t=>{let a=t.replace(/#.*/g,\"\").replace(/^\\s+|\\s+$|\\s+(?=\\s)/g,\"\");return a.includes(\"@\")&&(a=a.split(\"@\").at(0)),{name:a}})"
-                }
+                "generatorName": "cat_meteor_packages"
             },
             "options": [
                 {
@@ -288,10 +279,7 @@
             "description": "Removes a package previously added to your Meteor project. You can remove multiple packages with one command. For a list of the packages that your application is currently using, see \"meteor list\"",
             "args": {
                 "name": "package",
-                "generators": {
-                    "script": "cat ./.meteor/packages",
-                    "postProcess": "_NuFrRa_e=>e.includes(\"No such file or directory\")?[]:e.split(`\n`).map(t=>{let a=t.replace(/#.*/g,\"\").replace(/^\\s+|\\s+$|\\s+(?=\\s)/g,\"\");return a.includes(\"@\")&&(a=a.split(\"@\").at(0)),{name:a}})"
-                }
+                "generatorName": "cat_meteor_packages"
             }
         },
         {
@@ -334,10 +322,7 @@
             "description": "Removes a platform previously added to your Meteor project",
             "args": {
                 "name": "platform",
-                "generators": {
-                    "script": "meteor list-platforms",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).map(t=>({name:t}))"
-                }
+                "generatorName": "list_platforms"
             }
         },
         {
@@ -402,10 +387,7 @@
                         "name": "platforms",
                         "isOptional": true,
                         "isVariadic": true,
-                        "generators": {
-                            "script": "meteor list-platforms",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(t=>({name:t}))"
-                        }
+                        "generatorName": "list_platforms"
                     }
                 },
                 {
@@ -484,10 +466,7 @@
                     "args": {
                         "name": "JSON File",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let d=u.filter(({name:l=\"\",type:z})=>{if(o!==\"filter\"&&z===\"folder\")return o===\"always\";if(p.has(l)||n&&new RegExp(n.source,n.flags).test(l))return!0;let[,...g]=l.split(\".\");if(g.length>=1){let f=g.length-1,w=g[f];do{if(s.has(w))return!0;f-=1,w=[g[f],w].join(\".\")}while(f>=0)}return!1});return!i&&!r?d:d.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?i:r)||{}))}"
-                        }
+                        "filterTemplateName": "filter-json"
                     }
                 },
                 {
@@ -657,10 +636,7 @@
                     "args": {
                         "name": "JSON File",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let d=u.filter(({name:l=\"\",type:z})=>{if(o!==\"filter\"&&z===\"folder\")return o===\"always\";if(p.has(l)||n&&new RegExp(n.source,n.flags).test(l))return!0;let[,...g]=l.split(\".\");if(g.length>=1){let f=g.length-1,w=g[f];do{if(s.has(w))return!0;f-=1,w=[g[f],w].join(\".\")}while(f>=0)}return!1});return!i&&!r?d:d.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?i:r)||{}))}"
-                        }
+                        "filterTemplateName": "filter-json"
                     }
                 },
                 {
@@ -781,10 +757,7 @@
                     "args": {
                         "name": "JSON File",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let d=u.filter(({name:l=\"\",type:z})=>{if(o!==\"filter\"&&z===\"folder\")return o===\"always\";if(p.has(l)||n&&new RegExp(n.source,n.flags).test(l))return!0;let[,...g]=l.split(\".\");if(g.length>=1){let f=g.length-1,w=g[f];do{if(s.has(w))return!0;f-=1,w=[g[f],w].join(\".\")}while(f>=0)}return!1});return!i&&!r?d:d.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?i:r)||{}))}"
-                        }
+                        "filterTemplateName": "filter-json"
                     }
                 },
                 {
@@ -936,10 +909,8 @@
             "description": "Publishes a new release to the package server, as determined by a JSON configuration file",
             "args": {
                 "name": "JSON File",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(u=[])=>{let d=u.filter(({name:l=\"\",type:z})=>{if(o!==\"filter\"&&z===\"folder\")return o===\"always\";if(p.has(l)||n&&new RegExp(n.source,n.flags).test(l))return!0;let[,...g]=l.split(\".\");if(g.length>=1){let f=g.length-1,w=g[f];do{if(s.has(w))return!0;f-=1,w=[g[f],w].join(\".\")}while(f>=0)}return!1});return!i&&!r?d:d.map(l=>Object.assign(Object.assign({},l),(l.type===\"file\"?i:r)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-json"
             },
             "options": [
                 {

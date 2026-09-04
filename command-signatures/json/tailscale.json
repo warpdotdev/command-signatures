@@ -163,10 +163,7 @@
             "description": "Show Tailscale IP addresses",
             "args": {
                 "isOptional": true,
-                "generators": {
-                    "script": "tailscale status --json",
-                    "postProcess": "_NuFrRa_n=>Object.values(JSON.parse(n).Peer).map(t=>({name:`${t.DNSName.split(\".\")[0]}${e!=null?e:\"\"}`,displayName:t.HostName,description:t.OS}))"
-                }
+                "generatorName": "status"
             },
             "options": [
                 {
@@ -345,15 +342,8 @@
                         {
                             "name": "file or host",
                             "isVariadic": true,
-                            "generators": [
-                                {
-                                    "script": "tailscale status --json",
-                                    "postProcess": "_NuFrRa_n=>Object.values(JSON.parse(n).Peer).map(t=>({name:`${t.DNSName.split(\".\")[0]}${e!=null?e:\"\"}`,displayName:t.HostName,description:t.OS}))"
-                                },
-                                {
-                                    "template": "filepaths"
-                                }
-                            ]
+                            "template": "filepaths",
+                            "generatorName": "peers_colon"
                         }
                     ]
                 },

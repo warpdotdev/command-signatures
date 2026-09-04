@@ -41,10 +41,8 @@
                         {
                             "name": "infile",
                             "description": "A file with R code to be executed",
-                            "generators": {
-                                "template": "filepaths",
-                                "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                            }
+                            "template": "filepaths",
+                            "filterTemplateName": "filter-r-src"
                         },
                         {
                             "name": "outfile",
@@ -76,10 +74,7 @@
                         "description": "Source files to be compiled",
                         "isVariadic": true,
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                        }
+                        "filterTemplateName": "filter-r-archive"
                     }
                 },
                 {
@@ -157,10 +152,7 @@
                         "description": "The object files to be included in the shared object/DLL",
                         "isVariadic": true,
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                        }
+                        "filterTemplateName": "filter-r-archive"
                     }
                 },
                 {
@@ -209,10 +201,7 @@
                             "args": {
                                 "name": "LIB",
                                 "description": "Path to the R library tree to install to",
-                                "generators": {
-                                    "script": "Rscript -e '.libPaths()'",
-                                    "postProcess": "_NuFrRa_e=>e.includes(\"not found\")?[]:e.split(`\n`).map(t=>({name:t.replace(/\\d+/,\"\").replace(\"[]\",\"\").trim(),description:\"Library\"}))"
-                                }
+                                "generatorName": "rscript_libpaths"
                             }
                         },
                         {
@@ -478,9 +467,7 @@
                     "args": {
                         "name": "packages",
                         "description": "Directories with the package sources",
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     }
                 },
                 {
@@ -517,10 +504,7 @@
                             "args": {
                                 "name": "LIB",
                                 "description": "Library tree",
-                                "generators": {
-                                    "script": "Rscript -e '.libPaths()'",
-                                    "postProcess": "_NuFrRa_e=>e.includes(\"not found\")?[]:e.split(`\n`).map(t=>({name:t.replace(/\\d+/,\"\").replace(\"[]\",\"\").trim(),description:\"Library\"}))"
-                                }
+                                "generatorName": "rscript_libpaths"
                             }
                         }
                     ]
@@ -532,9 +516,7 @@
                         "name": "pakgdirs",
                         "description": "Package directories",
                         "isVariadic": true,
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     },
                     "options": [
                         {
@@ -664,9 +646,7 @@
                                 "name": "LIB",
                                 "description": "Library tree",
                                 "default": ".",
-                                "generators": {
-                                    "template": "folders"
-                                }
+                                "template": "folders"
                             }
                         },
                         {
@@ -680,9 +660,7 @@
                                 "name": "directory",
                                 "description": "Directory for output",
                                 "default": ".",
-                                "generators": {
-                                    "template": "folders"
-                                }
+                                "template": "folders"
                             }
                         },
                         {
@@ -758,9 +736,7 @@
                                 "name": "directory",
                                 "description": "Directory with the tests directory",
                                 "default": "tests",
-                                "generators": {
-                                    "template": "folders"
-                                }
+                                "template": "folders"
                             }
                         },
                         {
@@ -817,10 +793,7 @@
                         "description": "Packages to check",
                         "isVariadic": true,
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                        }
+                        "filterTemplateName": "filter-r-archive"
                     }
                 },
                 {
@@ -915,9 +888,7 @@
                         "description": "File generated by `Rprof()`",
                         "isOptional": true,
                         "default": "Rprof.out",
-                        "generators": {
-                            "template": "filepaths"
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -1023,10 +994,7 @@
                         "name": "file",
                         "description": "R doc file to convert",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                        }
+                        "filterTemplateName": "filter-rd"
                     }
                 },
                 {
@@ -1140,9 +1108,7 @@
                             "args": {
                                 "name": "working dir",
                                 "description": "Working directory for the build",
-                                "generators": {
-                                    "template": "folders"
-                                }
+                                "template": "folders"
                             }
                         },
                         {
@@ -1158,9 +1124,7 @@
                     "args": {
                         "name": "files or pkgs",
                         "description": "Rd files, or a directory with the sources of a pkg, or an installed pkg",
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     }
                 },
                 {
@@ -1267,10 +1231,7 @@
                         "name": "file",
                         "description": "R doc file to convert",
                         "template": "filepaths",
-                        "generators": {
-                            "template": "filepaths",
-                            "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                        }
+                        "filterTemplateName": "filter-r"
                     }
                 },
                 {
@@ -1329,9 +1290,7 @@
                     "args": {
                         "name": "file",
                         "description": "File to process",
-                        "generators": {
-                            "template": "folders"
-                        }
+                        "template": "folders"
                     }
                 },
                 {
@@ -1430,9 +1389,7 @@
                     "args": {
                         "name": "file",
                         "description": "Vignette to build",
-                        "generators": {
-                            "template": "filepaths"
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -1458,16 +1415,12 @@
                         {
                             "name": "from",
                             "description": "'From' R output file (or '-' for stdin)",
-                            "generators": {
-                                "template": "filepaths"
-                            }
+                            "template": "filepaths"
                         },
                         {
                             "name": "to",
                             "description": "'To' R output file",
-                            "generators": {
-                                "template": "filepaths"
-                            }
+                            "template": "filepaths"
                         }
                     ]
                 },
@@ -1902,10 +1855,8 @@
             "args": {
                 "name": "file",
                 "description": "File to run",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(g=[])=>{let p=g.filter(({name:d=\"\",type:_})=>{if(n!==\"filter\"&&_===\"folder\")return n===\"always\";if(u.has(d)||o&&new RegExp(o.source,o.flags).test(d))return!0;let[,...h]=d.split(\".\");if(h.length>=1){let S=h.length-1,k=h[S];do{if(c.has(k))return!0;S-=1,k=[h[S],k].join(\".\")}while(S>=0)}return!1});return!r&&!a?p:p.map(d=>Object.assign(Object.assign({},d),(d.type===\"file\"?r:a)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-r"
             }
         },
         {

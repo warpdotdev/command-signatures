@@ -151,14 +151,7 @@
         {
             "name": "bundle id",
             "isOptional": true,
-            "generators": {
-                "scriptTimeout": 15000,
-                "cache": {
-                    "strategy": "stale-while-revalidate"
-                },
-                "script": "mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /Applications | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r \"$line\") $line; done",
-                "postProcess": "_NuFrRa_s=>{let e=new Map(s.split(`\n`).map(n=>{let o=n.indexOf(\" \");return[n.slice(0,o),n.slice(o+1)]}));e.delete(\"(null)\");let i=[];for(let[n,o]of e.entries())i.push({name:n,description:o,icon:`fig://${o}`});return i}"
-            }
+            "generatorName": "mdfind_applications_while_read"
         }
     ]
 }

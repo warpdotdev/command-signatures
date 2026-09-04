@@ -492,16 +492,10 @@
             "description": "Installs a package and any packages that it depends on",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,n)=>n.startsWith(\"@\")?!(I(n)>1&&I(e)>1):!(n.includes(\"@\")&&e.includes(\"@\"))",
-                    "getQueryTerm": "@",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "custom": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let a=e[e.length-1];if(a===\"\")return[];let t=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${a}\"`,o=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${a.slice(0,-1)}`,p=s=>s[s.length-1]===\"@\"?n(o):n(t),i=a.startsWith(\"@\")?I(a)>1:a.includes(\"@\");try{let s=JSON.parse(yield p(a));if(i){let r=Object.entries(s[\"dist-tags\"]||{}).map(([l,f])=>({name:l,description:f}));return r.push(...Object.keys(s.versions).map(l=>({name:l})).reverse()),r}return s.results.map(r=>({name:r.package.name,description:r.package.description}))}catch(s){return console.error({error:s}),[]}})"
-                },
+                "template": "filepaths",
                 "debounce": true,
-                "isVariadic": true
+                "isVariadic": true,
+                "generatorName": "npms_search"
             },
             "options": [
                 {
@@ -1207,15 +1201,10 @@
             "description": "Creates new projects from any create-* starter kits",
             "args": {
                 "name": "cli",
-                "generators": {
-                    "script": "function(e){return e[e.length-1]===\"\"?\"\":`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?q=${\"create-\"+e[e.length-1]}&size=20\"`}",
-                    "cache": {
-                        "ttl": 25920000
-                    },
-                    "postProcess": "function(e){try{return JSON.parse(e).results.map(n=>({name:n.package.name.substring(7),description:n.package.description}))}catch(n){return[]}}"
-                },
+                "template": "filepaths",
                 "loadSpec": "_NuFrRa_e=>h(void 0,null,function*(){return{name:\"create-\"+e,type:\"global\"}})",
-                "isCommand": true
+                "isCommand": true,
+                "generatorName": "create_package_search"
             },
             "options": [
                 {
@@ -1509,16 +1498,10 @@
                     "description": "Install globally packages on your operating system",
                     "args": {
                         "name": "package",
-                        "generators": {
-                            "trigger": "_NuFrRa_(e,n)=>n.startsWith(\"@\")?!(I(n)>1&&I(e)>1):!(n.includes(\"@\")&&e.includes(\"@\"))",
-                            "getQueryTerm": "@",
-                            "cache": {
-                                "ttl": 172800000
-                            },
-                            "custom": "_NuFrRa_(e,n)=>h(void 0,null,function*(){let a=e[e.length-1];if(a===\"\")return[];let t=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${a}\"`,o=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${a.slice(0,-1)}`,p=s=>s[s.length-1]===\"@\"?n(o):n(t),i=a.startsWith(\"@\")?I(a)>1:a.includes(\"@\");try{let s=JSON.parse(yield p(a));if(i){let r=Object.entries(s[\"dist-tags\"]||{}).map(([l,f])=>({name:l,description:f}));return r.push(...Object.keys(s.versions).map(l=>({name:l})).reverse()),r}return s.results.map(r=>({name:r.package.name,description:r.package.description}))}catch(s){return console.error({error:s}),[]}})"
-                        },
+                        "template": "filepaths",
                         "debounce": true,
-                        "isVariadic": true
+                        "isVariadic": true,
+                        "generatorName": "npms_search"
                     }
                 },
                 {

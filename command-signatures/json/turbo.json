@@ -71,10 +71,7 @@
             "args": {
                 "name": "tasks",
                 "isVariadic": true,
-                "generators": {
-                    "script": "until [[ ( -f turbo.json || $PWD = '/' ) ]]; do cd ..; done; cat turbo.json",
-                    "postProcess": "_NuFrRa_o=>{let t;try{t=JSON.parse(o)}catch(i){return console.error(i),[]}return Object.entries(t.pipeline).map(([i,r])=>{let a=[];return\"dependsOn\"in r&&a.push(`depends on ${r.dependsOn.map(n=>`'${n}'`).join(\", \")}`),\"outputs\"in r&&a.push(`outputs ${r.outputs.map(n=>`'${n}'`).join(\", \")}`),{name:i,description:a.length>0?\"Task: \"+a.join(\", \"):\"Task\",icon:x}})}"
-                }
+                "generatorName": "until_turbo_json_do_cd"
             },
             "options": [
                 {
@@ -130,10 +127,7 @@
                     "requiresSeparator": true,
                     "args": {
                         "name": "branch",
-                        "generators": {
-                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let n=a.trim(),s=a.match(/\\S+/g);if(s.length>1){if(s[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};s[0]===\"+\"&&(n=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&n.startsWith(\"remotes/\")&&(n=n.slice(n.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:n,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch"
                     }
                 },
                 {

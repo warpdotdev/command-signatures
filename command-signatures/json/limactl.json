@@ -115,27 +115,13 @@
                 {
                     "name": "SOURCE",
                     "isVariadic": true,
-                    "generators": [
-                        {
-                            "script": "limactl list --quiet",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                        },
-                        {
-                            "template": "filepaths"
-                        }
-                    ]
+                    "template": "filepaths",
+                    "generatorName": "list"
                 },
                 {
                     "name": "TARGET",
-                    "generators": [
-                        {
-                            "script": "limactl list --quiet",
-                            "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                        },
-                        {
-                            "template": "filepaths"
-                        }
-                    ]
+                    "template": "filepaths",
+                    "generatorName": "list"
                 }
             ],
             "options": [
@@ -169,10 +155,7 @@
             "args": {
                 "name": "INSTANCE",
                 "isVariadic": true,
-                "generators": {
-                    "script": "limactl list --quiet",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                }
+                "generatorName": "list"
             },
             "options": [
                 {
@@ -268,10 +251,7 @@
             "args": [
                 {
                     "name": "INSTANCE",
-                    "generators": {
-                        "script": "limactl list --quiet",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                    }
+                    "generatorName": "list"
                 },
                 {
                     "name": "COMMAND",
@@ -306,10 +286,7 @@
             "description": "Show the ssh command line",
             "args": {
                 "name": "INSTANCE",
-                "generators": {
-                    "script": "limactl list --quiet",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                }
+                "generatorName": "list"
             },
             "options": [
                 {
@@ -359,16 +336,9 @@
             "description": "Start an instance of Lima. If the instance does not exist, open an editor for creating new one, with name \"default\"",
             "args": {
                 "name": "NAME|FILE.yaml|URL",
-                "generators": [
-                    {
-                        "script": "limactl list --quiet",
-                        "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                    },
-                    {
-                        "template": "filepaths",
-                        "filterTemplateSuggestions": "_NuFrRa_(f=[])=>{let l=f.filter(({name:u=\"\",type:G})=>{if(i!==\"filter\"&&G===\"folder\")return i===\"always\";if(d.has(u)||s&&new RegExp(s.source,s.flags).test(u))return!0;let[,...h]=u.split(\".\");if(h.length>=1){let y=h.length-1,O=h[y];do{if(c.has(O))return!0;y-=1,O=[h[y],O].join(\".\")}while(y>=0)}return!1});return!o&&!r?l:l.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?o:r)||{}))}"
-                    }
-                ]
+                "template": "filepaths",
+                "filterTemplateName": "filter-yml-yaml",
+                "generatorName": "list"
             },
             "options": [
                 {
@@ -394,10 +364,7 @@
             "isDangerous": true,
             "args": {
                 "name": "INSTANCE",
-                "generators": {
-                    "script": "limactl list --quiet",
-                    "postProcess": "_NuFrRa_t=>t.split(`\n`).map(n=>D({name:`${n}`,description:\"Instance name\",priority:R},e))"
-                }
+                "generatorName": "list"
             },
             "options": [
                 {
@@ -453,10 +420,8 @@
             "args": {
                 "name": "FILE.yaml",
                 "isVariadic": true,
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(f=[])=>{let l=f.filter(({name:u=\"\",type:G})=>{if(i!==\"filter\"&&G===\"folder\")return i===\"always\";if(d.has(u)||s&&new RegExp(s.source,s.flags).test(u))return!0;let[,...h]=u.split(\".\");if(h.length>=1){let y=h.length-1,O=h[y];do{if(c.has(O))return!0;y-=1,O=[h[y],O].join(\".\")}while(y>=0)}return!1});return!o&&!r?l:l.map(u=>Object.assign(Object.assign({},u),(u.type===\"file\"?o:r)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-yml-yaml"
             },
             "options": [
                 {

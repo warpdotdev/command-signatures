@@ -1,5 +1,5 @@
 {
-    "name": "git",
+    "name": "hub",
     "description": "The stupid content tracker",
     "generateSpec": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let r=(yield t(\"compgen -c | grep git- | cut -c5- | sort -u\")).trim();return r===\"\"?{name:\"git\"}:{name:\"git\",subcommands:r.split(`\n`).map(a=>{var s;return f({name:a},(s=q[a])!=null?s:{description:`Run git-${a}`})})}})",
     "args": {
@@ -9,13 +9,7 @@
             "alias": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let i=yield t(`git config --get alias.${o}`);if(!i)throw new Error(\"Failed parsing alias\");return i})"
         },
         "isOptional": true,
-        "generators": {
-            "script": "git --no-optional-locks config --get-regexp '^alias.'",
-            "cache": {
-                "strategy": "stale-while-revalidate"
-            },
-            "postProcess": "_NuFrRa_o=>{let t=o.split(`\n`).map(r=>{let[a,...s]=r.slice(6).split(\" \"),n=s.join(\" \");return{name:a,description:`Alias for '${n}'`,icon:\"fig://icon?type=commandkey\"}}),i=new Set;return t.filter(r=>i.has(r.name)?!1:(i.add(r.name),!0))}"
-        }
+        "generatorName": "aliases"
     },
     "options": [
         {
@@ -117,10 +111,7 @@
             "args": [
                 {
                     "name": "tree-ish",
-                    "generators": {
-                        "script": "git --no-optional-locks diff --cached --name-only",
-                        "postProcess": "function(o,t){let i=l(o);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).map(r=>({name:r,insertValue:(t.includes(\"--\")?\"\":\"-- \")+r,icon:\"fig://icon?type=file\",description:\"Staged file\"}))}"
-                    }
+                    "generatorName": "treeish"
                 },
                 {
                     "name": "path",
@@ -294,10 +285,7 @@
                     "description": "Ignore <rev> when blaming",
                     "args": {
                         "name": "rev",
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "revs"
                     }
                 },
                 {
@@ -422,10 +410,7 @@
                     "description": "Take an existing commit object, and reuse the log message and the authorship",
                     "args": {
                         "name": "commit",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -436,10 +421,7 @@
                     "description": "Like -C, but with -c the editor is invoked, so that the user can further edit",
                     "args": {
                         "name": "commit",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -447,10 +429,7 @@
                     "description": "Construct a commit message for use with rebase --autosquash. The commit messa",
                     "args": {
                         "name": "commit",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -458,10 +437,7 @@
                     "description": "Construct a commit message for use with rebase --autosquash. The commit messa",
                     "args": {
                         "name": "commit",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -2592,10 +2568,7 @@
                             "description": "Specify a web browser that may be used by some commands. Currently only git- instaweb(1) and git-help may use it"
                         }
                     ],
-                    "generators": {
-                        "script": "git config --get-regexp '.*'",
-                        "postProcess": "_NuFrRa_o=>o.trim().split(`\n`).map(t=>t.slice(0,t.indexOf(\" \"))).filter(t=>t.startsWith(\"alias.\")||t.startsWith(\"branch.\")||t.startsWith(\"remote.\")||!S.find(({name:i})=>t===i)).map(t=>({name:t,icon:\"\\u2699\\uFE0F\"}))"
-                    }
+                    "generatorName": "settings_generator"
                 },
                 {
                     "name": "value"
@@ -2611,10 +2584,7 @@
                     "description": "Starting point at which to create the new commits. If the --onto option is not specified, the starting point is <upstream>. May be any valid commit, and not just an existing branch name. As a special case, you may use 'A...B' as a shortcut for the merge base of A and B if there is exactly one merge base. You can leave out at most one of A and B, in which case it defaults to HEAD",
                     "args": {
                         "name": "newbase",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -2906,18 +2876,12 @@
             "args": [
                 {
                     "name": "base",
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    },
+                    "generatorName": "branches",
                     "isOptional": true
                 },
                 {
                     "name": "new base",
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    },
+                    "generatorName": "branches",
                     "isOptional": true
                 }
             ]
@@ -3050,15 +3014,8 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": [
-                    {
-                        "script": "git --no-optional-locks status --short",
-                        "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);if(i.startsWith(\"fatal:\"))return[];let r=i.split(`\n`).map(n=>{let c=[\"M\",\"A\"].includes(n.charAt(0));n=n.trim();let d=n.split(\" \");return{working:d[0],file:d.slice(1).join(\" \").trim(),alreadyAdded:c}}),a=i.split(`\n`).map(n=>n.slice(0,n.lastIndexOf(\"/\")+1).trim().split(\" \").slice(1).join(\" \").trim()),s=[];if(a.length>=2){let n=a[0],c=1;for(let d=1;d<a.length;d++)a[d].includes(n)&&d+1!==a.length?c++:(c>=2&&s.push(n),c=1),n=a[d]}return[...s.map(n=>({name:n+\"*\",description:\"Wildcard\",icon:\"fig://icon?type=asterisk\"})),...r.map(n=>{let c=n.file.replace(/^\"|\"$/g,\"\"),d=\"\";try{d=c.split(\".\").slice(-1)[0]}catch(b){}c.endsWith(\"/\")&&(d=\"folder\");let m=n.alreadyAdded||t.some(b=>b.includes(c))?50:100;return{name:c,icon:`fig://icon?type=${d}&color=ff0000&badge=${n.working}`,description:\"Changed file\",priority:m}})]}"
-                    },
-                    {
-                        "template": "folders"
-                    }
-                ]
+                "template": "folders",
+                "generatorName": "status"
             }
         },
         {
@@ -3189,10 +3146,7 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": {
-                    "script": "git --no-optional-locks status --short",
-                    "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);if(i.startsWith(\"fatal:\"))return[];let r=i.split(`\n`).map(n=>{let c=[\"M\",\"A\"].includes(n.charAt(0));n=n.trim();let d=n.split(\" \");return{working:d[0],file:d.slice(1).join(\" \").trim(),alreadyAdded:c}}),a=i.split(`\n`).map(n=>n.slice(0,n.lastIndexOf(\"/\")+1).trim().split(\" \").slice(1).join(\" \").trim()),s=[];if(a.length>=2){let n=a[0],c=1;for(let d=1;d<a.length;d++)a[d].includes(n)&&d+1!==a.length?c++:(c>=2&&s.push(n),c=1),n=a[d]}return[...s.map(n=>({name:n+\"*\",description:\"Wildcard\",icon:\"fig://icon?type=asterisk\"})),...r.map(n=>{let c=n.file.replace(/^\"|\"$/g,\"\"),d=\"\";try{d=c.split(\".\").slice(-1)[0]}catch(b){}c.endsWith(\"/\")&&(d=\"folder\");let m=n.alreadyAdded||t.some(b=>b.includes(c))?50:100;return{name:c,icon:`fig://icon?type=${d}&color=ff0000&badge=${n.working}`,description:\"Changed file\",priority:m}})]}"
-                }
+                "generatorName": "status"
             }
         },
         {
@@ -3354,10 +3308,7 @@
                 "name": "pathspec",
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": {
-                    "script": "git --no-optional-locks status --short",
-                    "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);if(i.startsWith(\"fatal:\"))return[];let r=i.split(`\n`).map(n=>{let c=[\"M\",\"A\"].includes(n.charAt(0));n=n.trim();let d=n.split(\" \");return{working:d[0],file:d.slice(1).join(\" \").trim(),alreadyAdded:c}}),a=i.split(`\n`).map(n=>n.slice(0,n.lastIndexOf(\"/\")+1).trim().split(\" \").slice(1).join(\" \").trim()),s=[];if(a.length>=2){let n=a[0],c=1;for(let d=1;d<a.length;d++)a[d].includes(n)&&d+1!==a.length?c++:(c>=2&&s.push(n),c=1),n=a[d]}return[...s.map(n=>({name:n+\"*\",description:\"Wildcard\",icon:\"fig://icon?type=asterisk\"})),...r.map(n=>{let c=n.file.replace(/^\"|\"$/g,\"\"),d=\"\";try{d=c.split(\".\").slice(-1)[0]}catch(b){}c.endsWith(\"/\")&&(d=\"folder\");let m=n.alreadyAdded||t.some(b=>b.includes(c))?50:100;return{name:c,icon:`fig://icon?type=${d}&color=ff0000&badge=${n.working}`,description:\"Changed file\",priority:m}})]}"
-                }
+                "generatorName": "status"
             }
         },
         {
@@ -3426,10 +3377,7 @@
             "args": {
                 "name": "commit",
                 "isOptional": true,
-                "generators": {
-                    "script": "git --no-optional-locks log --oneline",
-                    "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                }
+                "generatorName": "log"
             }
         },
         {
@@ -3626,18 +3574,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks remote -v",
-                        "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                    }
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    }
+                    "generatorName": "branches"
                 }
             ]
         },
@@ -3655,10 +3597,7 @@
                     "args": {
                         "isOptional": true,
                         "name": "remote",
-                        "generators": {
-                            "script": "git --no-optional-locks remote -v",
-                            "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                        },
+                        "generatorName": "remotes",
                         "suggestions": [
                             "false",
                             "true",
@@ -3925,10 +3864,7 @@
                     "requiresSeparator": true,
                     "args": {
                         "name": "commit|glob",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     },
                     "description": "By default, Git will report, to the server, commits reachable from all local refs to find common commits in an attempt to reduce the size of the to-be-received packfile"
                 },
@@ -4063,18 +3999,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks remote -v",
-                        "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                    }
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    }
+                    "generatorName": "branches"
                 }
             ]
         },
@@ -4137,15 +4067,10 @@
                         "insertValue": "HEAD~"
                     }
                 ],
-                "generators": [
-                    {
-                        "script": "git --no-optional-locks log --oneline",
-                        "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                    },
-                    {
-                        "script": "function(o){return o.includes(\"--staged\")||o.includes(\"--cached\")?\"git --no-optional-locks status --short | sed -ne '/^M /p' -e '/A /p'\":\"git --no-optional-locks status --short | sed -ne '/M /p' -e '/A /p'\"}",
-                        "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);return i.startsWith(\"fatal:\")?[]:[...i.split(`\n`).map(a=>{let s=a.trim().split(\" \");return{working:s[0],file:s.slice(1).join(\" \").trim()}}).map(a=>{let s=a.file.replace(/^\"|\"$/g,\"\"),n=\"\";try{n=s.split(\".\").slice(-1)[0]}catch(c){}return s.endsWith(\"/\")&&(n=\"folder\"),{name:s,icon:`fig://icon?type=${n}&color=ff0000&badge=${a.working}`,description:\"Changed tracked files\",priority:t.some(c=>c.includes(s))?50:100}})]}"
-                    }
+                "template": "filepaths",
+                "generatorName": [
+                    "log",
+                    "status_staged_or_unstaged"
                 ]
             }
         },
@@ -4242,15 +4167,9 @@
                         "insertValue": "HEAD~"
                     }
                 ],
-                "generators": [
-                    {
-                        "script": "git --no-optional-locks diff --cached --name-only",
-                        "postProcess": "function(o,t){let i=l(o);return i.startsWith(\"fatal:\")?[]:i.split(`\n`).map(r=>({name:r,insertValue:(t.includes(\"--\")?\"\":\"-- \")+r,icon:\"fig://icon?type=file\",description:\"Staged file\"}))}"
-                    },
-                    {
-                        "script": "git --no-optional-locks log --oneline",
-                        "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                    }
+                "generatorName": [
+                    "treeish",
+                    "log"
                 ]
             }
         },
@@ -4315,10 +4234,7 @@
                     "name": "since",
                     "isOptional": true,
                     "description": "Commit ID, branch name, HEAD, or revision reference",
-                    "generators": {
-                        "script": "git --no-optional-locks log --oneline",
-                        "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                    },
+                    "generatorName": "log",
                     "suggestions": [
                         {
                             "name": "HEAD",
@@ -4335,10 +4251,7 @@
                     "name": "until",
                     "isOptional": true,
                     "description": "Commit ID, branch name, HEAD, or revision reference",
-                    "generators": {
-                        "script": "git --no-optional-locks log --oneline",
-                        "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                    },
+                    "generatorName": "log",
                     "suggestions": [
                         {
                             "name": "HEAD",
@@ -4464,10 +4377,7 @@
                     "description": "Removes given remote [name]",
                     "args": {
                         "name": "remote",
-                        "generators": {
-                            "script": "git --no-optional-locks remote -v",
-                            "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                        }
+                        "generatorName": "remotes"
                     }
                 },
                 {
@@ -4476,10 +4386,7 @@
                     "args": [
                         {
                             "name": "old remote",
-                            "generators": {
-                                "script": "git --no-optional-locks remote -v",
-                                "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                            }
+                            "generatorName": "remotes"
                         },
                         {
                             "name": "new remote name"
@@ -4607,18 +4514,12 @@
                 {
                     "name": "remote",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks remote -v",
-                        "postProcess": "function(o){let t=o.split(`\n`).reduce((i,r)=>{let a=r.split(\"\t\"),s=a[0];console.log(s,a);let n=a[1].split(\" \")[0];return i[s]=n,i},{});return Object.keys(t).map(i=>{let r=t[i],a=\"box\";return r.includes(\"github.com\")&&(a=\"github\"),r.includes(\"gitlab.com\")&&(a=\"gitlab\"),r.includes(\"heroku.com\")&&(a=\"heroku\"),{name:i,icon:`fig://icon?type=${a}`,description:\"Remote\"}})}"
-                    }
+                    "generatorName": "remotes"
                 },
                 {
                     "name": "branch",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    }
+                    "generatorName": "branches"
                 },
                 {
                     "name": "refspec",
@@ -4686,10 +4587,7 @@
                     "requiresSeparator": true,
                     "args": {
                         "name": "commit|glob",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     },
                     "description": "By default, Git will report, to the server, commits reachable from all local refs to find common commits in an attempt to reduce the size of the to-be-received packfile"
                 },
@@ -4976,10 +4874,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks stash list",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.split(\":\")[2],insertValue:i.split(\":\")[0],icon:\"fig://icon?type=node\"}))}"
-                        }
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -5047,10 +4942,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks stash list",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.split(\":\")[2],insertValue:i.split(\":\")[0],icon:\"fig://icon?type=node\"}))}"
-                        }
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -5074,10 +4966,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks stash list",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.split(\":\")[2],insertValue:i.split(\":\")[0],icon:\"fig://icon?type=node\"}))}"
-                        }
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -5103,10 +4992,7 @@
                     "args": {
                         "name": "stash",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks stash list",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.split(\":\")[2],insertValue:i.split(\":\")[0],icon:\"fig://icon?type=node\"}))}"
-                        }
+                        "generatorName": "stashes"
                     }
                 },
                 {
@@ -5116,18 +5002,12 @@
                     "args": [
                         {
                             "name": "branch",
-                            "generators": {
-                                "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                                "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                            }
+                            "generatorName": "branches"
                         },
                         {
                             "name": "stash",
                             "isOptional": true,
-                            "generators": {
-                                "script": "git --no-optional-locks stash list",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.split(\":\")[2],insertValue:i.split(\":\")[0],icon:\"fig://icon?type=node\"}))}"
-                            }
+                            "generatorName": "stashes"
                         }
                     ]
                 },
@@ -5168,10 +5048,7 @@
                         },
                         {
                             "name": "commit",
-                            "generators": {
-                                "script": "git --no-optional-locks log --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            }
+                            "generatorName": "log"
                         }
                     ]
                 }
@@ -5582,10 +5459,7 @@
                         "description": "Current directory"
                     }
                 ],
-                "generators": {
-                    "script": "git --no-optional-locks status --short",
-                    "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);if(i.startsWith(\"fatal:\"))return[];let r=i.split(`\n`).map(n=>{let c=[\"M\",\"A\"].includes(n.charAt(0));n=n.trim();let d=n.split(\" \");return{working:d[0],file:d.slice(1).join(\" \").trim(),alreadyAdded:c}}),a=i.split(`\n`).map(n=>n.slice(0,n.lastIndexOf(\"/\")+1).trim().split(\" \").slice(1).join(\" \").trim()),s=[];if(a.length>=2){let n=a[0],c=1;for(let d=1;d<a.length;d++)a[d].includes(n)&&d+1!==a.length?c++:(c>=2&&s.push(n),c=1),n=a[d]}return[...s.map(n=>({name:n+\"*\",description:\"Wildcard\",icon:\"fig://icon?type=asterisk\"})),...r.map(n=>{let c=n.file.replace(/^\"|\"$/g,\"\"),d=\"\";try{d=c.split(\".\").slice(-1)[0]}catch(b){}c.endsWith(\"/\")&&(d=\"folder\");let m=n.alreadyAdded||t.some(b=>b.includes(c))?50:100;return{name:c,icon:`fig://icon?type=${d}&color=ff0000&badge=${n.working}`,description:\"Changed file\",priority:m}})]}"
-                }
+                "generatorName": "status"
             },
             "options": [
                 {
@@ -5620,10 +5494,7 @@
                         {
                             "name": "bad",
                             "isOptional": true,
-                            "generators": {
-                                "script": "git rev-list --all --oneline",
-                                "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                            },
+                            "generatorName": "revs",
                             "suggestions": [
                                 {
                                     "name": "HEAD",
@@ -5639,15 +5510,9 @@
                         {
                             "name": "good",
                             "isOptional": true,
-                            "generators": [
-                                {
-                                    "script": "git rev-list --all --oneline",
-                                    "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                                },
-                                {
-                                    "script": "git rev-list --all --oneline",
-                                    "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                                }
+                            "generatorName": [
+                                "revs",
+                                "revs"
                             ],
                             "suggestions": [
                                 {
@@ -5716,10 +5581,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5739,10 +5601,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5762,10 +5621,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5786,10 +5642,7 @@
                     "args": {
                         "name": "rev",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5829,10 +5682,7 @@
                         "name": "rev | range",
                         "isVariadic": true,
                         "isOptional": true,
-                        "generators": {
-                            "script": "git rev-list --all --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "revs",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5852,10 +5702,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "log",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -5942,9 +5789,7 @@
                     ],
                     "description": "Delete fully merged branch",
                     "args": {
-                        "generators": {
-                            "custom": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let i=g({insertWithoutRemotes:!0});return o.includes(\"-r\")?i(yield t(\"git --no-optional-locks branch -r --no-color --sort=-committerdate\"),o):i(yield t(\"git --no-optional-locks branch --no-color --sort=-committerdate\"),o)})"
-                        },
+                        "template": "filepaths",
                         "isVariadic": true,
                         "suggestions": [
                             {
@@ -5961,9 +5806,7 @@
                     "name": "-D",
                     "description": "Delete branch (even if not merged)",
                     "args": {
-                        "generators": {
-                            "custom": "_NuFrRa_(o,t)=>p(void 0,null,function*(){let i=g({insertWithoutRemotes:!0});return o.includes(\"-r\")?i(yield t(\"git --no-optional-locks branch -r --no-color --sort=-committerdate\"),o):i(yield t(\"git --no-optional-locks branch --no-color --sort=-committerdate\"),o)})"
-                        },
+                        "template": "filepaths",
                         "isVariadic": true,
                         "suggestions": [
                             {
@@ -6013,10 +5856,7 @@
                     "name": "--edit-description",
                     "description": "Edit the description for the branch",
                     "args": {
-                        "generators": {
-                            "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -6156,10 +5996,7 @@
                     "args": {
                         "name": "upstream",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -6168,10 +6005,7 @@
                     "args": {
                         "name": "upstream",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "branches"
                     }
                 },
                 {
@@ -6180,10 +6014,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -6192,10 +6023,7 @@
                     "args": {
                         "name": "commit",
                         "isOptional": true,
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        }
+                        "generatorName": "log"
                     }
                 },
                 {
@@ -6396,21 +6224,13 @@
                     "name": "branch, file, tag or commit",
                     "description": "Branch, file, tag or commit to switch to",
                     "isOptional": true,
-                    "generators": [
-                        {
-                            "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                        },
-                        {
-                            "script": "git --no-optional-locks tag --list --sort=-committerdate",
-                            "postProcess": "function(o){return o.split(`\n`).map(t=>({name:t,icon:\"\\u{1F3F7}\\uFE0F\"}))}"
-                        },
-                        {
-                            "template": [
-                                "filepaths",
-                                "folders"
-                            ]
-                        }
+                    "template": [
+                        "filepaths",
+                        "folders"
+                    ],
+                    "generatorName": [
+                        "branches_no",
+                        "tag"
                     ],
                     "suggestions": [
                         {
@@ -6458,10 +6278,7 @@
                 "name": "commit",
                 "description": "Commits to cherry-pick",
                 "isVariadic": true,
-                "generators": {
-                    "script": "git --no-optional-locks log --oneline",
-                    "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                }
+                "generatorName": "log"
             },
             "options": [
                 {
@@ -7003,10 +6820,7 @@
             "description": "Join two or more development histories together",
             "args": {
                 "name": "branch",
-                "generators": {
-                    "script": "git --no-optional-locks branch -a --no-color --sort=-committerdate",
-                    "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                },
+                "generatorName": "branches_no",
                 "isVariadic": true,
                 "isOptional": true,
                 "suggestions": [
@@ -7336,10 +7150,7 @@
                     "description": "List tags of the given object",
                     "args": {
                         "name": "object",
-                        "generators": {
-                            "script": "git --no-optional-locks log --oneline",
-                            "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                        },
+                        "generatorName": "log",
                         "suggestions": [
                             {
                                 "name": "HEAD",
@@ -7357,10 +7168,7 @@
             "args": {
                 "name": "tagname",
                 "description": "Select a tag",
-                "generators": {
-                    "script": "git --no-optional-locks tag --list --sort=-committerdate",
-                    "postProcess": "function(o){return o.split(`\n`).map(t=>({name:t,icon:\"\\u{1F3F7}\\uFE0F\"}))}"
-                },
+                "generatorName": "tag",
                 "isOptional": true
             }
         },
@@ -7515,10 +7323,7 @@
                 "name": "pathspec",
                 "isOptional": true,
                 "isVariadic": true,
-                "generators": {
-                    "script": "git --no-optional-locks status --short",
-                    "postProcess": "_NuFrRa_(o,t)=>{let i=l(o);if(i.startsWith(\"fatal:\"))return[];let r=i.split(`\n`).map(n=>{let c=[\"M\",\"A\"].includes(n.charAt(0));n=n.trim();let d=n.split(\" \");return{working:d[0],file:d.slice(1).join(\" \").trim(),alreadyAdded:c}}),a=i.split(`\n`).map(n=>n.slice(0,n.lastIndexOf(\"/\")+1).trim().split(\" \").slice(1).join(\" \").trim()),s=[];if(a.length>=2){let n=a[0],c=1;for(let d=1;d<a.length;d++)a[d].includes(n)&&d+1!==a.length?c++:(c>=2&&s.push(n),c=1),n=a[d]}return[...s.map(n=>({name:n+\"*\",description:\"Wildcard\",icon:\"fig://icon?type=asterisk\"})),...r.map(n=>{let c=n.file.replace(/^\"|\"$/g,\"\"),d=\"\";try{d=c.split(\".\").slice(-1)[0]}catch(b){}c.endsWith(\"/\")&&(d=\"folder\");let m=n.alreadyAdded||t.some(b=>b.includes(c))?50:100;return{name:c,icon:`fig://icon?type=${d}&color=ff0000&badge=${n.working}`,description:\"Changed file\",priority:m}})]}"
-                }
+                "generatorName": "status"
             }
         },
         {
@@ -7655,10 +7460,7 @@
                 {
                     "name": "branch name",
                     "description": "Branch or commit to switch to",
-                    "generators": {
-                        "script": "git --no-optional-locks branch --no-color --sort=-committerdate",
-                        "postProcess": "_NuFrRa_t=>{let{insertWithoutRemotes:i=!1}=o,r=l(t);return r.startsWith(\"fatal:\")?[]:r.split(`\n`).filter(a=>!a.trim().startsWith(\"HEAD\")).map(a=>{let s=a.trim(),n=a.match(/\\S+/g);if(n.length>1){if(n[0]===\"*\")return a.includes(\"HEAD detached\")?null:{name:a.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};n[0]===\"+\"&&(s=a.replace(\"+\",\"\").trim())}let c=\"Branch\";return i&&s.startsWith(\"remotes/\")&&(s=s.slice(s.indexOf(\"/\",8)+1),c=\"Remote branch\"),{name:s,description:c,icon:\"fig://icon?type=git\",priority:75}})}"
-                    },
+                    "generatorName": "branches",
                     "suggestions": [
                         {
                             "name": "-",
@@ -7669,10 +7471,7 @@
                 {
                     "name": "start point",
                     "isOptional": true,
-                    "generators": {
-                        "script": "git --no-optional-locks log --oneline",
-                        "postProcess": "function(o){let t=l(o);return t.startsWith(\"fatal:\")?[]:t.split(`\n`).map(i=>({name:i.substring(0,7),icon:\"fig://icon?type=node\",description:i.substring(7)}))}"
-                    }
+                    "generatorName": "log"
                 }
             ]
         },

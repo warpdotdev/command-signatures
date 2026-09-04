@@ -32,10 +32,7 @@
     ],
     "args": {
         "name": "package",
-        "generators": {
-            "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-            "custom": "function(n,a){return S(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let l=yield a(\"cat $(npm prefix)/package.json\"),m=JSON.parse(l),g=(e=m.dependencies)!=null?e:{},s=m.devDependencies,o=(d=m.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(T=>T===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(m=>({name:m,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-        },
+        "template": "filepaths",
         "isVariadic": true
     }
 }

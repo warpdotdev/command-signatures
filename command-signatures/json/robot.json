@@ -5,10 +5,8 @@
         "name": "robot script",
         "isScript": true,
         "isVariadic": true,
-        "generators": {
-            "template": "filepaths",
-            "filterTemplateSuggestions": "_NuFrRa_(c=[])=>{let d=c.filter(({name:p=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(l.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...h]=p.split(\".\");if(h.length>=1){let y=h.length-1,x=h[y];do{if(r.has(x))return!0;y-=1,x=[h[y],x].join(\".\")}while(y>=0)}return!1});return!o&&!a?d:d.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?o:a)||{}))}"
-        }
+        "template": "filepaths",
+        "filterTemplateName": "filter-robot"
     },
     "options": [
         {
@@ -85,10 +83,7 @@
             "description": "Select tests by name or by long name containing also parent suite name like `Parent.Test`",
             "args": {
                 "name": "name",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:\\*{3} ?Test Cases ?\\*{3})([\\S\\s]*)(?:\\*{3}(\\w+\\s?)+\\*{3})*/gim),n=new Set,s=[];for(let[i,o]of t){let a=o.matchAll(/^(\\w+ *)+(?!.\\#.*)(?!.\\#.*)/gm);for(let[r]of a)r=r.trim(),r.search(/\\s\\s+/)==-1&&(n.has(r)||(n.add(r),s.push({name:r,description:\"Test case\"})))}return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -96,10 +91,7 @@
             "description": "Alias to --test. Especially applicable with --rpa",
             "args": {
                 "name": "name",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:\\*{3} ?Test Cases ?\\*{3})([\\S\\s]*)(?:\\*{3}(\\w+\\s?)+\\*{3})*/gim),n=new Set,s=[];for(let[i,o]of t){let a=o.matchAll(/^(\\w+ *)+(?!.\\#.*)(?!.\\#.*)/gm);for(let[r]of a)r=r.trim(),r.search(/\\s\\s+/)==-1&&(n.has(r)||(n.add(r),s.push({name:r,description:\"Test case\"})))}return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -120,10 +112,7 @@
             "description": "Select test cases by tag",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "for_i_in_robot"
             }
         },
         {
@@ -134,10 +123,7 @@
             "description": "Select test cases not to run by tag",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "for_i_in_robot"
             }
         },
         {
@@ -148,10 +134,8 @@
             "description": "Select failed tests from an earlier output file to be re-executed",
             "args": {
                 "name": "output file",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(c=[])=>{let d=c.filter(({name:p=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(l.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...h]=p.split(\".\");if(h.length>=1){let y=h.length-1,x=h[y];do{if(r.has(x))return!0;y-=1,x=[h[y],x].join(\".\")}while(y>=0)}return!1});return!o&&!a?d:d.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?o:a)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-xml"
             }
         },
         {
@@ -162,10 +146,8 @@
             "description": "Select failed suites from an earlier output file to be re-executed",
             "args": {
                 "name": "output file",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(c=[])=>{let d=c.filter(({name:p=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(l.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...h]=p.split(\".\");if(h.length>=1){let y=h.length-1,x=h[y];do{if(r.has(x))return!0;y-=1,x=[h[y],x].join(\".\")}while(y>=0)}return!1});return!o&&!a?d:d.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?o:a)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-xml"
             }
         },
         {
@@ -177,10 +159,7 @@
             "description": "Tests having given tag will be skipped",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "for_i_in_robot"
             }
         },
         {
@@ -188,10 +167,7 @@
             "description": "Tests having given tag will be skipped if they fail",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "for_i_in_robot"
             }
         },
         {
@@ -202,10 +178,7 @@
             "description": "Set variables in the test data",
             "args": {
                 "name": "variable",
-                "generators": {
-                    "trigger": ":",
-                    "custom": "_NuFrRa_(e,t)=>T(void 0,null,function*(){return e[e.length-1].includes(\":\")?[]:[...(yield t('for i in $(find -E . -regex \".*.(robot|resource)\" -type f); do cat -s $i ; done')).matchAll(/^\\$\\{(.*?)\\}/gm)].map(a=>a[1]).map(a=>({name:a,description:\"Variable\"}))})"
-                }
+                "generatorName": "variables"
             }
         },
         {
@@ -216,10 +189,8 @@
             "description": "Python or YAML file file to read variables from",
             "args": {
                 "name": "file",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(c=[])=>{let d=c.filter(({name:p=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(l.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...h]=p.split(\".\");if(h.length>=1){let y=h.length-1,x=h[y];do{if(r.has(x))return!0;y-=1,x=[h[y],x].join(\".\")}while(y>=0)}return!1});return!o&&!a?d:d.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?o:a)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-py-yaml"
             }
         },
         {
@@ -419,10 +390,7 @@
             "description": "Include only matching tags in `Statistics by Tag` in log and report",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -430,10 +398,7 @@
             "description": "Exclude matching tags from `Statistics by Tag`",
             "args": {
                 "name": "tag",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -441,10 +406,7 @@
             "description": "Create combined statistics based on tags. These statistics are added into `Statistics by Tag`",
             "args": {
                 "name": "tags:name",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -452,10 +414,7 @@
             "description": "Add documentation to tags matching the given pattern",
             "args": {
                 "name": "pattern:doc",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -463,10 +422,7 @@
             "description": "Add external links into `Statistics by Tag`. Pattern can use `*`, `?` and `[]` as wildcards",
             "args": {
                 "name": "pattern:link:title",
-                "generators": {
-                    "script": "for i in $(find -E . -regex \".*.robot\" -type f); do cat -s $i ; done",
-                    "postProcess": "_NuFrRa_e=>{let t=e.matchAll(/(?:^\\s\\s+\\[Tags\\])\\s\\s+(\\w+ *)*(?!.\\#.*)/gm),n=new Set,s=[];for(let[i]of t)for(let o of i.trim().substring(6).trim().split(/\\s\\s+/))n.has(o)||(n.add(o),s.push({name:o,description:\"Tag\",icon:\"\\u{1F3F7}\"}));return s}"
-                }
+                "generatorName": "test_cases"
             }
         },
         {
@@ -766,10 +722,8 @@
             "description": "Additional locations (directories, ZIPs) where to search libraries and other extensions when they are imported",
             "args": {
                 "name": "path",
-                "generators": {
-                    "template": "filepaths",
-                    "filterTemplateSuggestions": "_NuFrRa_(c=[])=>{let d=c.filter(({name:p=\"\",type:V})=>{if(i!==\"filter\"&&V===\"folder\")return i===\"always\";if(l.has(p)||s&&new RegExp(s.source,s.flags).test(p))return!0;let[,...h]=p.split(\".\");if(h.length>=1){let y=h.length-1,x=h[y];do{if(r.has(x))return!0;y-=1,x=[h[y],x].join(\".\")}while(y>=0)}return!1});return!o&&!a?d:d.map(p=>Object.assign(Object.assign({},p),(p.type===\"file\"?o:a)||{}))}"
-                }
+                "template": "filepaths",
+                "filterTemplateName": "filter-zip"
             }
         },
         {

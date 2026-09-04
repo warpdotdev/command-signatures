@@ -1212,10 +1212,7 @@
                     "description": "Container name. If omitted, the first container in the pod will be chosen",
                     "args": {
                         "name": "Container",
-                        "generators": {
-                            "script": "_NuFrRa_r=>{let i=r.findIndex(c=>c===\"pods\"||c.includes(\"pods/\")||c===\"pod\"||c.includes(\"pod/\"));return`kubectl get ${r[i].includes(\"/\")?r[i]:`${r[i]} + ${r[i+1]}`} -o json`}",
-                            "postProcess": "function(r){return s.connectedToCluster(r)||s.generalError(r)?[]:JSON.parse(r).spec.containers.map(i=>({name:i.name,description:i.image,icon:\"fig://icon?type=kubernetes\"}))}"
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {
@@ -2750,10 +2747,7 @@
                             "description": "The name of the resource to create a Job from (only cronjob is supported)",
                             "args": {
                                 "name": "Cronjob",
-                                "generators": {
-                                    "script": "_NuFrRa_()=>o.typeWithoutName(\"cronjob\")",
-                                    "postProcess": "_NuFrRa_(r,i)=>n(r,i).map(a=>l(u({},a),{name:`cronjob/${a.name}`}))"
-                                }
+                                "template": "filepaths"
                             }
                         },
                         {
@@ -4496,10 +4490,7 @@
                     "description": "Container name. If omitted, the first container in the pod will be chosen",
                     "args": {
                         "name": "Container",
-                        "generators": {
-                            "script": "_NuFrRa_r=>{let i=r.findIndex(c=>c===\"pods\"||c.includes(\"pods/\")||c===\"pod\"||c.includes(\"pod/\"));return`kubectl get ${r[i].includes(\"/\")?r[i]:`${r[i]} + ${r[i+1]}`} -o json`}",
-                            "postProcess": "function(r){return s.connectedToCluster(r)||s.generalError(r)?[]:JSON.parse(r).spec.containers.map(i=>({name:i.name,description:i.image,icon:\"fig://icon?type=kubernetes\"}))}"
-                        }
+                        "template": "filepaths"
                     }
                 },
                 {

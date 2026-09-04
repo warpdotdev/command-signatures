@@ -7,13 +7,7 @@
             "description": "Specify the application to use for opening the file",
             "args": {
                 "name": "Application",
-                "generators": {
-                    "cache": {
-                        "strategy": "stale-while-revalidate"
-                    },
-                    "script": "mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin /",
-                    "postProcess": "_NuFrRa_s=>s.split(`\n`).map(e=>{let t=e.slice(e.lastIndexOf(\"/\")+1);return{name:t,description:e,icon:`fig://${e}`,priority:e.endsWith(`/Applications/${t}`)?80:e.startsWith(\"/Applications\")?76:50}})"
-                }
+                "generatorName": "mdfind"
             }
         },
         {
@@ -21,14 +15,7 @@
             "description": "Specify the bundle identifier of the app to use to open the file",
             "args": {
                 "name": "Bundle Identifier",
-                "generators": {
-                    "scriptTimeout": 15000,
-                    "cache": {
-                        "strategy": "stale-while-revalidate"
-                    },
-                    "script": "mdfind kMDItemContentTypeTree=com.apple.application-bundle -onlyin / | while read line; do echo $(mdls -name kMDItemCFBundleIdentifier -r \"$line\") $line; done",
-                    "postProcess": "_NuFrRa_s=>{let e=new Map(s.split(`\n`).map(n=>{let i=n.indexOf(\" \");return[n.slice(0,i),n.slice(i+1)]}));e.delete(\"(null)\");let t=[];for(let[n,i]of e.entries())t.push({name:n,description:i,icon:`fig://${i}`});return t}"
-                }
+                "generatorName": "mdfind_while_read_line"
             }
         },
         {

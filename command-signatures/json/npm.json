@@ -372,16 +372,10 @@
             "args": {
                 "name": "package",
                 "isOptional": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(n,a)=>a.startsWith(\"@\")?!(S(a)>1&&S(n)>1):!(a.includes(\"@\")&&n.includes(\"@\"))",
-                    "getQueryTerm": "@",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "custom": "_NuFrRa_(n,a)=>D(void 0,null,function*(){let e=n[n.length-1];if(e===\"\")return[];let d=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${e}\"`,m=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${e.slice(0,-1)}`,l=s=>s[s.length-1]===\"@\"?a(m):a(d),g=e.startsWith(\"@\")?S(e)>1:e.includes(\"@\");try{let s=JSON.parse(yield l(e));if(g){let o=Object.entries(s[\"dist-tags\"]||{}).map(([p,j])=>({name:p,description:j}));return o.push(...Object.keys(s.versions).map(p=>({name:p})).reverse()),o}return s.results.map(o=>({name:o.package.name,description:o.package.description}))}catch(s){return console.error({error:s}),[]}})"
-                },
+                "template": "filepaths",
                 "debounce": true,
-                "isVariadic": true
+                "isVariadic": true,
+                "generatorName": "npms_search"
             },
             "options": [
                 {
@@ -562,10 +556,7 @@
                     ],
                     "args": {
                         "name": "package",
-                        "generators": {
-                            "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                            "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                        }
+                        "template": "filepaths"
                     }
                 }
             ]
@@ -607,16 +598,10 @@
             "args": {
                 "name": "package",
                 "isOptional": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(n,a)=>a.startsWith(\"@\")?!(S(a)>1&&S(n)>1):!(a.includes(\"@\")&&n.includes(\"@\"))",
-                    "getQueryTerm": "@",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "custom": "_NuFrRa_(n,a)=>D(void 0,null,function*(){let e=n[n.length-1];if(e===\"\")return[];let d=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${e}\"`,m=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${e.slice(0,-1)}`,l=s=>s[s.length-1]===\"@\"?a(m):a(d),g=e.startsWith(\"@\")?S(e)>1:e.includes(\"@\");try{let s=JSON.parse(yield l(e));if(g){let o=Object.entries(s[\"dist-tags\"]||{}).map(([p,j])=>({name:p,description:j}));return o.push(...Object.keys(s.versions).map(p=>({name:p})).reverse()),o}return s.results.map(o=>({name:o.package.name,description:o.package.description}))}catch(s){return console.error({error:s}),[]}})"
-                },
+                "template": "filepaths",
                 "debounce": true,
-                "isVariadic": true
+                "isVariadic": true,
+                "generatorName": "npms_search"
             },
             "options": [
                 {
@@ -692,10 +677,7 @@
             "description": "Browse an installed package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -1657,16 +1639,10 @@
             "args": {
                 "name": "package",
                 "isOptional": true,
-                "generators": {
-                    "trigger": "_NuFrRa_(n,a)=>a.startsWith(\"@\")?!(S(a)>1&&S(n)>1):!(a.includes(\"@\")&&n.includes(\"@\"))",
-                    "getQueryTerm": "@",
-                    "cache": {
-                        "ttl": 172800000
-                    },
-                    "custom": "_NuFrRa_(n,a)=>D(void 0,null,function*(){let e=n[n.length-1];if(e===\"\")return[];let d=`curl -s -H \"Accept: application/json\" \"https://api.npms.io/v2/search?size=20&q=${e}\"`,m=`curl -s -H \"Accept: application/vnd.npm.install-v1+json\" https://registry.npmjs.org/${e.slice(0,-1)}`,l=s=>s[s.length-1]===\"@\"?a(m):a(d),g=e.startsWith(\"@\")?S(e)>1:e.includes(\"@\");try{let s=JSON.parse(yield l(e));if(g){let o=Object.entries(s[\"dist-tags\"]||{}).map(([p,j])=>({name:p,description:j}));return o.push(...Object.keys(s.versions).map(p=>({name:p})).reverse()),o}return s.results.map(o=>({name:o.package.name,description:o.package.description}))}catch(s){return console.error({error:s}),[]}})"
-                },
+                "template": "filepaths",
                 "debounce": true,
-                "isVariadic": true
+                "isVariadic": true,
+                "generatorName": "npms_search"
             },
             "options": [
                 {
@@ -2197,10 +2173,7 @@
             "description": "Uninstall a package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                },
+                "template": "filepaths",
                 "isVariadic": true
             },
             "options": [
@@ -2262,10 +2235,7 @@
             "description": "Uninstall a package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                },
+                "template": "filepaths",
                 "isVariadic": true
             },
             "options": [
@@ -2324,10 +2294,7 @@
             "description": "Uninstall a package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                },
+                "template": "filepaths",
                 "isVariadic": true
             },
             "options": [
@@ -2386,10 +2353,7 @@
             "description": "Uninstall a package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                },
+                "template": "filepaths",
                 "isVariadic": true
             },
             "options": [
@@ -2448,10 +2412,7 @@
             "description": "Uninstall a package",
             "args": {
                 "name": "package",
-                "generators": {
-                    "trigger": "_NuFrRa_n=>n===\"-g\"||n===\"--global\"",
-                    "custom": "function(n,a){return D(this,null,function*(){var e,d;if(!n.includes(\"-g\")&&!n.includes(\"--global\")){let m=yield a(\"cat $(npm prefix)/package.json\"),l=JSON.parse(m),g=(e=l.dependencies)!=null?e:{},s=l.devDependencies,o=(d=l.optionalDependencies)!=null?d:{};return Object.assign(g,s,o),Object.keys(g).filter(p=>!n.some(F=>F===p)).map(p=>({name:p,icon:\"\\u{1F4E6}\",description:g[p]?\"dependency\":o[p]?\"optionalDependency\":\"devDependency\"}))}else return(yield a(\"ls -1 `npm root -g`\")).split(`\n`).map(l=>({name:l,icon:\"\\u{1F4E6}\",description:\"Global dependency\"}))})}"
-                },
+                "template": "filepaths",
                 "isVariadic": true
             },
             "options": [

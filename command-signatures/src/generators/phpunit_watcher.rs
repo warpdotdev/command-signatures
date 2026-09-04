@@ -4,7 +4,7 @@ use warp_completion_metadata::{
 };
 
 pub fn generator() -> CommandSignatureGenerators {
-    CommandSignatureGenerators::new("phpunit").add_generator(
+    CommandSignatureGenerators::new("phpunit-watcher").add_generator(
         "tests",
         Generator::script(
             CommandBuilder::single_command("phpunit --list-tests"),

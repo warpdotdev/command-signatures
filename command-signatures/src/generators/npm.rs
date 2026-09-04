@@ -1,3 +1,4 @@
+use super::output_parsers;
 use warp_completion_metadata::{
     Alias, CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResults,
     GeneratorResultsCollector, Suggestion,
@@ -268,6 +269,13 @@ pub fn npm_generators() -> CommandSignatureGenerators {
         .add_generator("workspace_generator", workspace_generator())
         .add_generator("npm_registry_search", npm_registry_search_generator())
         .add_alias("script_alias", script_alias_generator())
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                output_parsers::npms_search_results,
+            ),
+        )
 }
 
 fn workspace_packages_generator() -> Generator {
@@ -321,6 +329,21 @@ pub fn pnpm_generators() -> CommandSignatureGenerators {
             "workspace_packages_generator",
             workspace_packages_generator(),
         )
+
+        .add_generator(
+            "until_package_json_do_cd",
+            Generator::script(
+                CommandBuilder::single_command("until [[ -f package.json ]] || [[ $PWD = '/' ]]; do cd ..; done; cat package.json"),
+                output_parsers::json_script_keys,
+            ),
+        )
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                output_parsers::npms_search_results,
+            ),
+        )
 }
 
 pub fn yarn_generators() -> CommandSignatureGenerators {
@@ -373,6 +396,20 @@ pub fn yarn_generators() -> CommandSignatureGenerators {
             executables_within_node_modules(),
         )
         .add_alias("script_alias", script_alias_generator())
+        .add_generator(
+            "create_package_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search_create_prefix,
+                super::output_parsers::npms_search_results,
+            ),
+        )
+        .add_generator(
+            "npms_search",
+            Generator::command_from_tokens(
+                super::fig_token::npms_search,
+                super::output_parsers::npms_search_results,
+            ),
+        )
 }
 
 #[cfg(test)]

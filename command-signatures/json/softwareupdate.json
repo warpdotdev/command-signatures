@@ -26,15 +26,7 @@
                 "name": "label",
                 "isVariadic": true,
                 "isOptional": true,
-                "generators": {
-                    "script": "softwareupdate --list",
-                    "postProcess": "_NuFrRa_a=>a.split(`\n`).filter(e=>e.startsWith(\"* Label: \")).map(e=>{let t=e.substring(9);return{name:t,insertValue:`\"${t}\"`,description:\"Available update\"}})",
-                    "scriptTimeout": 20000,
-                    "cache": {
-                        "strategy": "stale-while-revalidate",
-                        "ttl": 7200000
-                    }
-                }
+                "generatorName": "completions"
             },
             "options": [
                 {

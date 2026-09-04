@@ -46,12 +46,7 @@
             "description": "Count a file extension as a language (comma-separated key:value list, eg. jst:js,tpl:Markdown)",
             "args": {
                 "name": "string",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,n)=>{let i=g(e),t=g(n);return i!==t}",
-                    "getQueryTerm": "_NuFrRa_e=>{let n=g(e);return e.slice(n+1)}",
-                    "script": "scc --languages",
-                    "postProcess": "_NuFrRa_(e,n)=>{let{extensions:i,languages:t}=l(e),s=n[n.length-1];return u(s)?Object.entries(i).map(([o,a])=>({name:o,description:a})):t.map(o=>({name:o}))}"
-                }
+                "generatorName": "completions"
             }
         },
         {
@@ -63,10 +58,7 @@
             "description": "Directories to exclude",
             "args": {
                 "name": "strings",
-                "generators": {
-                    "template": "folders",
-                    "getQueryTerm": ","
-                }
+                "template": "folders"
             }
         },
         {
@@ -117,7 +109,8 @@
                     {
                         "name": "sql-insert"
                     }
-                ]
+                ],
+                "generatorName": "format_multi"
             }
         },
         {
@@ -125,11 +118,7 @@
             "description": "Multiple outputs with different formats (comma-separated key:value list, eg. tabular:stdout,csv:scc.csv)",
             "args": {
                 "name": "string",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,n)=>{let i=g(e),t=g(n);return i!==t}",
-                    "getQueryTerm": "_NuFrRa_e=>{let n=g(e);return e.slice(n+1)}",
-                    "custom": "_NuFrRa_(e,n)=>f(void 0,null,function*(){let i=e[e.length-1];if(u(i))return b;let s=(yield n(\"ls -lAF1\")).split(`\n`).map(o=>({name:o.slice(o.lastIndexOf(\"/\")+1),icon:`fig://${o}`}));return s.push({name:\"stdout\",priority:75}),s})"
-                }
+                "template": "filepaths"
             }
         },
         {
@@ -160,11 +149,7 @@
             "description": "Limit to these file extensions (comma-separated list)",
             "args": {
                 "name": "strings",
-                "generators": {
-                    "getQueryTerm": ",",
-                    "script": "scc --languages",
-                    "postProcess": "_NuFrRa_e=>{let{extensions:n}=l(e);return Object.entries(n).map(([i,t])=>({name:i,description:t,icon:\"fig://icon?type=string\"}))}"
-                }
+                "generatorName": "completions"
             }
         },
         {
@@ -286,12 +271,7 @@
             "description": "Inspect every file and set its type by checking for a string (comma-separated key:value list, eg. \"-*- C++ -*-\":\"C Header\")",
             "args": {
                 "name": "string",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,n)=>{let i=g(e),t=g(n);return i!==t}",
-                    "getQueryTerm": "_NuFrRa_e=>{let n=g(e);return e.slice(n+1)}",
-                    "script": "scc --languages",
-                    "postProcess": "_NuFrRa_(e,n)=>{let{languages:i}=l(e),t=n[n.length-1];return u(t)?[]:i.map(s=>({name:s}))}"
-                }
+                "generatorName": "completions"
             }
         },
         {
@@ -299,12 +279,7 @@
             "description": "Inspect files of unknown type and set its type by checking for a string (comma-separated key:value list, eg. \"-*- C++ -*-\":\"C Header\")",
             "args": {
                 "name": "string",
-                "generators": {
-                    "trigger": "_NuFrRa_(e,n)=>{let i=g(e),t=g(n);return i!==t}",
-                    "getQueryTerm": "_NuFrRa_e=>{let n=g(e);return e.slice(n+1)}",
-                    "script": "scc --languages",
-                    "postProcess": "_NuFrRa_(e,n)=>{let{languages:i}=l(e),t=n[n.length-1];return u(t)?[]:i.map(s=>({name:s}))}"
-                }
+                "generatorName": "completions"
             }
         },
         {

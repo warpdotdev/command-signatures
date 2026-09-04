@@ -177,11 +177,7 @@
                     "description": "Set the target build stage to build",
                     "args": {
                         "name": "target build stage",
-                        "generators": {
-                            "trigger": "function(){return!0}",
-                            "script": "function(t){let e,a;return t.includes(\"-f\")?(e=t.indexOf(\"-f\"),a=t[e+1]):t.includes(\"--file\")?(e=t.indexOf(\"--file\"),a=t[e+1]):a=\"$PWD/Dockerfile\",`\\\\grep -iE 'FROM.*AS' \"${a}\"`}",
-                            "postProcess": "function(t){let e=/(?:[aA][sS]\\s+)([\\w:.-]+)/;return t.split(`\n`).map(a=>{let s=e.exec(a);if(s)return{name:s[1]}}).filter(a=>a!==void 0)}"
-                        }
+                        "generatorName": "from_as"
                     }
                 }
             ]
@@ -1498,12 +1494,9 @@
             "description": "Pull an image or a repository from a registry",
             "args": {
                 "name": "NAME[:TAG|@DIGEST]",
-                "generators": {
-                    "script": "function(t){return t[t.length-1]===\"\"?\"\":`docker search ${t[t.length-1]} --format '{{ json . }}'`}",
-                    "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.Name}`,icon:\"fig://icon?type=docker\"}))}",
-                    "trigger": "function(){return!0}"
-                },
-                "debounce": true
+                "template": "filepaths",
+                "debounce": true,
+                "generatorName": "search"
             },
             "options": [
                 {
@@ -2936,11 +2929,7 @@
                             "description": "Set the target build stage to build",
                             "args": {
                                 "name": "target build stage",
-                                "generators": {
-                                    "trigger": "function(){return!0}",
-                                    "script": "function(t){let e,a;return t.includes(\"-f\")?(e=t.indexOf(\"-f\"),a=t[e+1]):t.includes(\"--file\")?(e=t.indexOf(\"--file\"),a=t[e+1]):a=\"$PWD/Dockerfile\",`\\\\grep -iE 'FROM.*AS' \"${a}\"`}",
-                                    "postProcess": "function(t){let e=/(?:[aA][sS]\\s+)([\\w:.-]+)/;return t.split(`\n`).map(a=>{let s=e.exec(a);if(s)return{name:s[1]}}).filter(a=>a!==void 0)}"
-                                }
+                                "generatorName": "from_as"
                             }
                         }
                     ]
@@ -5651,11 +5640,7 @@
                             "description": "Set the target build stage to build",
                             "args": {
                                 "name": "target build stage",
-                                "generators": {
-                                    "trigger": "function(){return!0}",
-                                    "script": "function(t){let e,a;return t.includes(\"-f\")?(e=t.indexOf(\"-f\"),a=t[e+1]):t.includes(\"--file\")?(e=t.indexOf(\"--file\"),a=t[e+1]):a=\"$PWD/Dockerfile\",`\\\\grep -iE 'FROM.*AS' \"${a}\"`}",
-                                    "postProcess": "function(t){let e=/(?:[aA][sS]\\s+)([\\w:.-]+)/;return t.split(`\n`).map(a=>{let s=e.exec(a);if(s)return{name:s[1]}}).filter(a=>a!==void 0)}"
-                                }
+                                "generatorName": "from_as"
                             }
                         }
                     ]
@@ -5853,12 +5838,9 @@
                     "description": "Pull an image or a repository from a registry",
                     "args": {
                         "name": "NAME[:TAG|@DIGEST]",
-                        "generators": {
-                            "script": "function(t){return t[t.length-1]===\"\"?\"\":`docker search ${t[t.length-1]} --format '{{ json . }}'`}",
-                            "postProcess": "function(t){return t.split(`\n`).map(e=>JSON.parse(e)).map(e=>({name:`${e.Name}`,icon:\"fig://icon?type=docker\"}))}",
-                            "trigger": "function(){return!0}"
-                        },
-                        "debounce": true
+                        "template": "filepaths",
+                        "debounce": true,
+                        "generatorName": "search"
                     },
                     "options": [
                         {

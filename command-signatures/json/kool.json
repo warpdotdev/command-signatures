@@ -388,10 +388,7 @@
                 "description": "Service you want to restart",
                 "isOptional": true,
                 "isVariadic": true,
-                "generators": {
-                    "script": "docker-compose config --services",
-                    "splitOn": "\n"
-                }
+                "generatorName": "docker_compose_config"
             }
         },
         {
@@ -424,10 +421,7 @@
             "args": {
                 "name": "script",
                 "description": "Script to be executed",
-                "generators": {
-                    "script": "kool run --help",
-                    "postProcess": "_NuFrRa_n=>{let t=n.split(`\n`),i=t.findIndex(e=>e.trim()===\"Available Scripts:\");return t.slice(i+1).map(e=>({name:e.trim(),description:\"Script\"}))}"
-                }
+                "generatorName": "run"
             }
         },
         {
@@ -529,10 +523,7 @@
                 "description": "Service you want to start",
                 "isOptional": true,
                 "isVariadic": true,
-                "generators": {
-                    "script": "docker-compose config --services",
-                    "splitOn": "\n"
-                }
+                "generatorName": "docker_compose_config"
             }
         },
         {
@@ -577,10 +568,7 @@
                 "description": "Service you want to stop",
                 "isOptional": true,
                 "isVariadic": true,
-                "generators": {
-                    "script": "docker-compose config --services",
-                    "splitOn": "\n"
-                }
+                "generatorName": "docker_compose_config"
             }
         }
     ],

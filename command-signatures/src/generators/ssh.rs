@@ -1,7 +1,5 @@
 use super::common;
-use warp_completion_metadata::{
-    CommandBuilder, CommandSignatureGenerators, Generator, GeneratorResultsCollector, Suggestion,
-};
+use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Generator};
 
 pub fn generator() -> CommandSignatureGenerators {
     CommandSignatureGenerators::new("ssh")
@@ -11,13 +9,7 @@ pub fn generator() -> CommandSignatureGenerators {
             "known_hosts",
             Generator::script(
                 CommandBuilder::single_command("cat ~/.ssh/known_hosts"),
-                |output| {
-                    output
-                        .lines()
-                        .filter_map(|line| line.split_once(' ').map(|(first, _)| first))
-                        .map(|known_host| Suggestion::with_description(known_host, "SSH Host"))
-                        .collect_unordered_results()
-                },
+                super::output_parsers::ssh_known_hosts,
             ),
         )
 }

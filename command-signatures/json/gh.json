@@ -5,10 +5,7 @@
         "name": "alias",
         "description": "Custom user defined gh alias",
         "isOptional": true,
-        "generators": {
-            "script": "gh alias list",
-            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(i=>{let[r,s]=i.split(\":\");return{name:r.trim(),content:s.trim()}}).map(({name:i,content:r})=>({name:i,description:`Alias for '${r}'`,icon:\"fig://icon?type=commandkey\"}))"
-        }
+        "generatorName": "list_alias"
     },
     "subcommands": [
         {
@@ -26,10 +23,7 @@
                     "description": "Delete an alias",
                     "args": {
                         "name": "alias",
-                        "generators": {
-                            "script": "gh alias list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(i=>{let[r,s]=i.split(\":\");return{name:r.trim(),content:s.trim()}}).map(({name:i,content:r})=>({name:i,description:`Alias for '${r}'`,icon:\"fig://icon?type=commandkey\"}))"
-                        }
+                        "generatorName": "list_alias"
                     },
                     "options": [
                         {
@@ -271,10 +265,7 @@
             "description": "Open the repository in the browser",
             "args": {
                 "name": "[pr | issue | path[:line]",
-                "generators": {
-                    "script": "gh pr list",
-                    "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                },
+                "generatorName": "list_pr",
                 "suggestCurrentToken": true
             },
             "options": [
@@ -290,10 +281,7 @@
                     "description": "Select another branch by passing in the branch name",
                     "args": {
                         "name": "branch",
-                        "generators": {
-                            "script": "git --no-optional-locks branch -r --no-color --sort=-committerdate",
-                            "postProcess": "_NuFrRa_n=>{let o=h(n);return o.startsWith(\"fatal:\")?[]:o.split(`\n`).map(i=>{let r=i.trim().replace(/\\w+\\//,\"\"),s=i.match(/\\S+/g);if(s.length>1){if(s[0]===\"*\")return i.includes(\"HEAD detached\")?{}:{name:i.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};s[0]===\"+\"&&(r=i.replace(\"+\",\"\").trim())}return{name:r,description:\"Branch\",icon:\"fig://icon?type=git\",priority:75}})}"
-                        }
+                        "generatorName": "git_branch"
                     }
                 },
                 {
@@ -1412,10 +1400,7 @@
                     "description": "Check out a pull request in git",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1429,10 +1414,7 @@
                     "description": "Show CI status for a single pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1449,10 +1431,7 @@
                     "description": "Close a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1469,10 +1448,7 @@
                     "description": "Edit a pull request. Without an argument, the pull request that belongs to the current branch is selected",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1602,10 +1578,7 @@
                     "description": "Create a new pr comment",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1657,10 +1630,7 @@
                             "description": "The branch into which you want your code merged",
                             "args": {
                                 "name": "branch",
-                                "generators": {
-                                    "script": "git --no-optional-locks branch -r --no-color --sort=-committerdate",
-                                    "postProcess": "_NuFrRa_n=>{let o=h(n);return o.startsWith(\"fatal:\")?[]:o.split(`\n`).map(i=>{let r=i.trim().replace(/\\w+\\//,\"\"),s=i.match(/\\S+/g);if(s.length>1){if(s[0]===\"*\")return i.includes(\"HEAD detached\")?{}:{name:i.replace(\"*\",\"\").trim(),description:\"Current branch\",priority:100,icon:\"\\u2B50\\uFE0F\"};s[0]===\"+\"&&(r=i.replace(\"+\",\"\").trim())}return{name:r,description:\"Branch\",icon:\"fig://icon?type=git\",priority:75}})}"
-                                }
+                                "generatorName": "git_branch"
                             }
                         },
                         {
@@ -1773,10 +1743,7 @@
                     "description": "View changes in a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1859,10 +1826,7 @@
                     "description": "Merge a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -1960,10 +1924,7 @@
                     "description": "Mark a pull request as ready for review",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     }
                 },
                 {
@@ -1971,10 +1932,7 @@
                     "description": "Reopen a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     }
                 },
                 {
@@ -1982,10 +1940,7 @@
                     "description": "Add a review to a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -2030,10 +1985,7 @@
                     "description": "View a pull request",
                     "args": {
                         "name": "number | url | branch",
-                        "generators": {
-                            "script": "gh pr list",
-                            "postProcess": "_NuFrRa_n=>n.split(`\n`).map(o=>{let{id:i,name:r,branch:s,status:p}=o.match(new RegExp(\"^(?<id>[\\\\d]+)\\\\t(?<name>.+)\\\\t(?<branch>.*)\\\\t(?<status>OPEN|DRAFT)$\")).groups;return{name:i,displayName:r,description:`#${i} | ${s}`,icon:p===\"OPEN\"?\"\\u2705\":\"\\u2611\\uFE0F\"}})"
-                        }
+                        "generatorName": "list_pr"
                     },
                     "options": [
                         {
@@ -2068,10 +2020,7 @@
                     "isDangerous": true,
                     "args": {
                         "name": "repository",
-                        "generators": {
-                            "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                            "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                        },
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2094,15 +2043,10 @@
                     "args": [
                         {
                             "name": "repository",
-                            "generators": [
-                                {
-                                    "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                                    "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                                },
-                                {
-                                    "trigger": "/",
-                                    "custom": "_NuFrRa_(n,o)=>d(void 0,null,function*(){let i=n.pop();if(!i)return[];let r=i.split(\"/\");if(r.length===0)return[];let s=r.shift();if(!s)return[];let p=yield o(`gh repo list ${s} --limit 9999 --json \"nameWithOwner,description,isPrivate\" `);return p?JSON.parse(p).map(u):[]})"
-                                }
+                            "template": "filepaths",
+                            "generatorName": [
+                                "api_graphql_string_viewer",
+                                "repo_list_owner"
                             ]
                         },
                         {
@@ -2183,10 +2127,7 @@
                     "isDangerous": true,
                     "args": {
                         "name": "repository",
-                        "generators": {
-                            "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                            "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                        },
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2208,10 +2149,7 @@
                     "description": "Edit repository settings",
                     "args": {
                         "name": "repository",
-                        "generators": {
-                            "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                            "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                        },
+                        "generatorName": "api_graphql_string_viewer",
                         "isOptional": true
                     },
                     "options": [
@@ -2315,15 +2253,10 @@
                     "description": "Create a fork of a repository.\nWith no argument, creates a fork of the current repository. Otherwise, forks\nthe specified repository.\nBy default, the new fork is set to be your 'origin' remote and any existing\norigin remote is renamed to 'upstream'. To alter this behavior, you can set\na name for the new fork's remote with --remote-name.\nAdditional 'git clone' flags can be passed in by listing them after '--'",
                     "args": {
                         "name": "repository",
-                        "generators": [
-                            {
-                                "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                                "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                            },
-                            {
-                                "trigger": "/",
-                                "custom": "_NuFrRa_(n,o)=>d(void 0,null,function*(){let i=n.pop();if(!i)return[];let r=i.split(\"/\");if(r.length===0)return[];let s=r.shift();if(!s)return[];let p=yield o(`gh repo list ${s} --limit 9999 --json \"nameWithOwner,description,isPrivate\" `);return p?JSON.parse(p).map(u):[]})"
-                            }
+                        "template": "filepaths",
+                        "generatorName": [
+                            "api_graphql_string_viewer",
+                            "repo_list_owner"
                         ]
                     },
                     "options": [
@@ -2497,15 +2430,10 @@
                     "args": {
                         "name": "repository",
                         "isOptional": true,
-                        "generators": [
-                            {
-                                "script": "gh api graphql --paginate -f query='query($endCursor: String) { viewer { repositories(first: 100, after: $endCursor) { nodes { isPrivate, nameWithOwner, description } pageInfo { hasNextPage endCursor }}}}' --jq '.data.viewer.repositories.nodes[]'",
-                                "postProcess": "_NuFrRa_n=>{if(n){let o=`[${n.replace(/(?:\\r\\n|\\r|\\n)/g,\",\")}]`;try{return JSON.parse(o).map(u)}catch(i){return[]}}return[]}"
-                            },
-                            {
-                                "trigger": "/",
-                                "custom": "_NuFrRa_(n,o)=>d(void 0,null,function*(){let i=n.pop();if(!i)return[];let r=i.split(\"/\");if(r.length===0)return[];let s=r.shift();if(!s)return[];let p=yield o(`gh repo list ${s} --limit 9999 --json \"nameWithOwner,description,isPrivate\" `);return p?JSON.parse(p).map(u):[]})"
-                            }
+                        "template": "filepaths",
+                        "generatorName": [
+                            "api_graphql_string_viewer",
+                            "repo_list_owner"
                         ]
                     },
                     "options": [

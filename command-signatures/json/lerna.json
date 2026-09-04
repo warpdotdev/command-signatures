@@ -113,10 +113,7 @@
                     "description": "Include only packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -124,10 +121,7 @@
                     "description": "Exclude packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -406,10 +400,7 @@
                     "description": "Force publish for the specified packages (comma-separated)",
                     "args": {
                         "name": "packages",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        },
+                        "generatorName": "ls",
                         "suggestions": [
                             {
                                 "name": "*",
@@ -598,10 +589,7 @@
             "args": {
                 "name": "package",
                 "isOptional": true,
-                "generators": {
-                    "script": "lerna ls",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                }
+                "generatorName": "ls"
             },
             "options": [
                 {
@@ -749,10 +737,7 @@
                     "description": "Include only packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -760,10 +745,7 @@
                     "description": "Exclude packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -826,10 +808,7 @@
             "args": {
                 "name": "script",
                 "description": "Name of the npm script to run",
-                "generators": {
-                    "script": "lerna list -p | while read p; do\n \\cat $p/package.json && echo END\ndone",
-                    "postProcess": "_NuFrRa_e=>{let n=e.split(l).filter(t=>t.trim()!==\"\"),a=[];return n.forEach(t=>{let f=JSON.parse(t);a=a.concat(Object.keys(f.scripts))}),Array.from(new Set(a)).map(t=>({name:t,icon:\"fig://icon?type=npm\"}))}"
-                }
+                "generatorName": "list_while_read_p"
             }
         },
         {
@@ -949,10 +928,7 @@
                     "description": "An allowlist of globs that match git branches where lerna version is enabled",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "git branch --no-color",
-                            "postProcess": "function(e){return e.startsWith(\"fatal:\")?[]:e.split(`\n`).map(n=>({name:n.replace(\"*\",\"\").trim(),description:\"Branch\",icon:\"fig://icon?type=git\"}))}"
-                        }
+                        "generatorName": "git_branch"
                     }
                 },
                 {
@@ -1003,10 +979,7 @@
                     "description": "Push the git changes to the specified remote instead of origin",
                     "args": {
                         "name": "remote",
-                        "generators": {
-                            "script": "git remote",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,description:\"Remote\",icon:\"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Git_icon.svg/1024px-Git_icon.svg.png\"}))"
-                        }
+                        "generatorName": "git_remote"
                     }
                 },
                 {
@@ -1089,10 +1062,7 @@
             "description": "Diff all packages or a single package since the last release",
             "args": {
                 "name": "package",
-                "generators": {
-                    "script": "lerna ls",
-                    "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                },
+                "generatorName": "ls",
                 "isOptional": true
             }
         },
@@ -1172,10 +1142,7 @@
                     "description": "Include only packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -1183,10 +1150,7 @@
                     "description": "Exclude packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -1248,10 +1212,7 @@
             ],
             "args": {
                 "name": "command",
-                "generators": {
-                    "script": "lerna list -p | while read p; do\n \\cat $p/package.json && echo END\ndone",
-                    "postProcess": "_NuFrRa_e=>{let n=e.split(l).filter(t=>t.trim()!==\"\"),a=[];return n.forEach(t=>{let f=JSON.parse(t);a=a.concat(Object.keys(f.scripts))}),Array.from(new Set(a)).map(t=>({name:t,icon:\"fig://icon?type=npm\"}))}"
-                }
+                "generatorName": "list_while_read_p"
             }
         },
         {
@@ -1330,10 +1291,7 @@
                     "description": "Include only packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -1341,10 +1299,7 @@
                     "description": "Exclude packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -1476,10 +1431,7 @@
                     "description": "Include only packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
@@ -1487,10 +1439,7 @@
                     "description": "Exclude packages with names matching the given glob",
                     "args": {
                         "name": "glob",
-                        "generators": {
-                            "script": "lerna ls",
-                            "postProcess": "_NuFrRa_e=>e.split(`\n`).map(n=>({name:n,icon:\"fig://icon?type=string\"}))"
-                        }
+                        "generatorName": "ls"
                     }
                 },
                 {
