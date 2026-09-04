@@ -4,7 +4,7 @@ use warp_completion_metadata::{CommandBuilder, CommandSignatureGenerators, Gener
 fn nativescript_templates() -> Generator {
     Generator::script(
         CommandBuilder::single_command(
-            "curl https://api.github.com/repos/NativeScript/nativescript-app-templates/contents/packages",
+            "curl -sfL -H 'User-Agent: warp-completions' -H 'Accept: application/vnd.github+json' https://api.github.com/repos/NativeScript/nativescript-app-templates/contents/packages",
         ),
         output_parsers::json_nativescript_templates,
     )
