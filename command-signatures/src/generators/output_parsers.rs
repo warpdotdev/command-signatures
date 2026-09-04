@@ -1073,10 +1073,16 @@ fn tailscale_peers_with_suffix(output: &str, suffix: &str) -> GeneratorResults {
                 let short = dns.split('.').next().unwrap_or(dns);
                 let host = peer.get("HostName").and_then(Value::as_str).unwrap_or("");
                 let os = peer.get("OS").and_then(Value::as_str).unwrap_or("");
-                Some(
-                    Suggestion::with_description(format!("{short}{suffix}"), os)
-                        .with_display_name(Some(host.to_string())),
-                )
+                let description = match (host.is_empty(), os.is_empty()) {
+                    (true, true) => String::new(),
+                    (false, true) => host.to_string(),
+                    (true, false) => os.to_string(),
+                    (false, false) => format!("{host} ({os})"),
+                };
+                Some(Suggestion::with_description(
+                    format!("{short}{suffix}"),
+                    description,
+                ))
             })
             .collect_unordered_results(),
         _ => empty(),

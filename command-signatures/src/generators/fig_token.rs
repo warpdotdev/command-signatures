@@ -97,12 +97,16 @@ pub fn cargo_test_list(
         last_token(tokens)
     };
     let token = if token.starts_with('-') { "" } else { token };
-    let depth = token.split("::").filter(|s| !s.is_empty()).count().max(1);
-    let last = token.split("::").last().unwrap_or("");
+    let segments = token.split("::").filter(|s| !s.is_empty()).count();
+    let depth = if token.ends_with("::") {
+        segments + 1
+    } else {
+        segments.max(1)
+    };
     CommandBuilder::single_command(format!(
-        r#"cargo t -- --list 2>/dev/null | awk '/: test$/ {{ print substr($1, 1, length($1) - 1) }}' | awk -F '::' '{{ print ${depth} }}' | grep -F {query} | sort -u"#,
+        r#"cargo t -- --list 2>/dev/null | awk '/: test$/ {{ print substr($1, 1, length($1) - 1) }}' | awk -F '::' -v n={depth} '{{ s=$1; for (i=2; i<=n && i<=NF; i++) s=s "::" $i; print s }}' | grep -F {query} | sort -u"#,
         depth = depth,
-        query = shell_single_quote(last)
+        query = shell_single_quote(token)
     ))
 }
 
