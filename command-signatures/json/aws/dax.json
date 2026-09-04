@@ -1,0 +1,1147 @@
+{
+    "name": "dax",
+    "description": "DAX is a managed caching service engineered for Amazon DynamoDB.",
+    "subcommands": [
+        {
+            "name": "create-cluster",
+            "description": "Creates a DAX cluster.",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--node-type",
+                    "description": "The compute and memory capacity of the nodes in the cluster",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the cluster",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--replication-factor",
+                    "description": "The number of nodes in the DAX cluster.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--availability-zones",
+                    "description": "The Availability Zones (AZs) in which the cluster nodes will reside after the cluster has been created or updated.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--subnet-group-name",
+                    "description": "The name of the subnet group to be used for the replication group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--security-group-ids",
+                    "description": "A list of security group IDs to be assigned to each node in the DAX cluster.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--preferred-maintenance-window",
+                    "description": "Specifies the weekly time range during which maintenance on the DAX cluster is performed.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-topic-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications will be sent.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--iam-role-arn",
+                    "description": "A valid Amazon Resource Name (ARN) that identifies an IAM role.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The parameter group to be associated with the DAX cluster",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags to associate with the DAX cluster",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--sse-specification",
+                    "description": "Represents the settings used to enable server-side encryption on the cluster",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cluster-endpoint-encryption-type",
+                    "description": "The type of encryption the cluster's endpoint should support.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-parameter-group",
+            "description": "Creates a new parameter group.",
+            "options": [
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The name of the parameter group to apply to all of the clusters in this replication group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the parameter group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-subnet-group",
+            "description": "Creates a new subnet group",
+            "options": [
+                {
+                    "name": "--subnet-group-name",
+                    "description": "A name for the subnet group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description for the subnet group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--subnet-ids",
+                    "description": "A list of VPC subnet IDs for the subnet group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "decrease-replication-factor",
+            "description": "Removes one or more nodes from a DAX cluster.",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The name of the DAX cluster from which you want to remove nodes",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--new-replication-factor",
+                    "description": "The new number of nodes for the DAX cluster",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--availability-zones",
+                    "description": "The Availability Zone(s) from which to remove nodes",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--node-ids-to-remove",
+                    "description": "The unique identifiers of the nodes to be removed from the cluster",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-cluster",
+            "description": "Deletes a previously provisioned DAX cluster.",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The name of the cluster to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-parameter-group",
+            "description": "Deletes the specified parameter group.",
+            "options": [
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The name of the parameter group to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-subnet-group",
+            "description": "Deletes a subnet group.",
+            "options": [
+                {
+                    "name": "--subnet-group-name",
+                    "description": "The name of the subnet group to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-clusters",
+            "description": "Returns information about all provisioned DAX clusters if no cluster identifier is specified, or about a specific DAX cluster if a cluster identifier is supplied.",
+            "options": [
+                {
+                    "name": "--cluster-names",
+                    "description": "The names of the DAX clusters being described",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-default-parameters",
+            "description": "Returns the default system parameter information for the DAX caching software",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-events",
+            "description": "Returns events related to DAX clusters and parameter groups.",
+            "options": [
+                {
+                    "name": "--source-name",
+                    "description": "The identifier of the event source for which events will be returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-type",
+                    "description": "The event source to retrieve events for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The beginning of the time interval to retrieve events for, specified in ISO 8601 format",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--end-time",
+                    "description": "The end of the time interval for which to retrieve events, specified in ISO 8601 format",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--duration",
+                    "description": "The number of minutes' worth of events to retrieve",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-parameter-groups",
+            "description": "Returns a list of parameter group descriptions.",
+            "options": [
+                {
+                    "name": "--parameter-group-names",
+                    "description": "The names of the parameter groups",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-parameters",
+            "description": "Returns the detailed parameter list for a particular parameter group",
+            "options": [
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The name of the parameter group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source",
+                    "description": "How the parameter is defined.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-subnet-groups",
+            "description": "Returns a list of subnet group descriptions.",
+            "options": [
+                {
+                    "name": "--subnet-group-names",
+                    "description": "The name of the subnet group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to include in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "increase-replication-factor",
+            "description": "Adds one or more nodes to a DAX cluster",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The name of the DAX cluster that will receive additional nodes",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--new-replication-factor",
+                    "description": "The new number of nodes for the DAX cluster",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--availability-zones",
+                    "description": "The Availability Zones (AZs) in which the cluster nodes will be created.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags",
+            "description": "List all of the tags for a DAX cluster.",
+            "options": [
+                {
+                    "name": "--resource-name",
+                    "description": "The name of the DAX resource to which the tags belong",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An optional token returned from a prior request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "reboot-node",
+            "description": "Reboots a single node of a DAX cluster.",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The name of the DAX cluster containing the node to be rebooted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--node-id",
+                    "description": "The system-assigned ID of the node to be rebooted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates a set of tags with a DAX resource.",
+            "options": [
+                {
+                    "name": "--resource-name",
+                    "description": "The name of the DAX resource to which tags should be added",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to be assigned to the DAX resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes the association of tags from a DAX resource.",
+            "options": [
+                {
+                    "name": "--resource-name",
+                    "description": "The name of the DAX resource from which the tags should be removed",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "A list of tag keys.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-cluster",
+            "description": "Modifies the settings for a DAX cluster.",
+            "options": [
+                {
+                    "name": "--cluster-name",
+                    "description": "The name of the DAX cluster to be modified",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the changes being made to the cluster",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--preferred-maintenance-window",
+                    "description": "A range of time when maintenance of DAX cluster software will be performed.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-topic-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the topic",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-topic-status",
+                    "description": "The current state of the topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The name of a parameter group for this cluster",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--security-group-ids",
+                    "description": "A list of user-specified security group IDs to be assigned to each node in the DAX cluster.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-parameter-group",
+            "description": "Modifies the parameters of a parameter group.",
+            "options": [
+                {
+                    "name": "--parameter-group-name",
+                    "description": "The name of the parameter group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameter-name-values",
+                    "description": "An array of name-value pairs for the parameters in the group.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-subnet-group",
+            "description": "Modifies an existing subnet group",
+            "options": [
+                {
+                    "name": "--subnet-group-name",
+                    "description": "The name of the subnet group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the subnet group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--subnet-ids",
+                    "description": "A list of subnet IDs in the subnet group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

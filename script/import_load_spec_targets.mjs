@@ -1,0 +1,111 @@
+#!/usr/bin/env node
+// Convert nested TypeScript command specs into JSON assets looked up by slash
+// path (`aws/s3.json`, `gcloud/compute.json`). Only targets reachable from
+// static loadSpec pointers in aws.json/gcloud.json are imported.
+//
+// Usage:
+//   node script/import_load_spec_targets.mjs /path/to/upstream/autocomplete
+//
+// Requires the `esbuild` package to be importable.
+
+import { createRequire } from "node:module";
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  reachableSlashPathClosure,
+  sanitizeSpec,
+  serializeSpec,
+} from "./import_load_spec_targets_lib.mjs";
+
+const require = createRequire(import.meta.url);
+const esbuild = require("esbuild");
+
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const jsonRoot = path.join(repoRoot, "command-signatures/json");
+const outputRoot = jsonRoot;
+
+function specFromModule(mod) {
+  if (mod && typeof mod === "object" && "default" in mod && mod.default) {
+    return mod.default;
+  }
+  return mod;
+}
+
+async function convertSpec(tsPath) {
+  const result = await esbuild.build({
+    absWorkingDir: path.dirname(tsPath),
+    entryPoints: [tsPath],
+    bundle: true,
+    format: "cjs",
+    platform: "node",
+    write: false,
+    logLevel: "silent",
+  });
+  const tmp = path.join(
+    os.tmpdir(),
+    `load-spec-target-${process.pid}-${Math.random().toString(16).slice(2)}.cjs`,
+  );
+  fs.writeFileSync(tmp, result.outputFiles[0].text);
+  try {
+    const spec = specFromModule(require(tmp));
+    delete require.cache[require.resolve(tmp)];
+    return spec;
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+}
+
+async function main() {
+  const autocompleteRoot = process.argv[2];
+  if (!autocompleteRoot) {
+    console.error(
+      "usage: node script/import_load_spec_targets.mjs /path/to/upstream/autocomplete",
+    );
+    process.exit(2);
+  }
+
+  const srcRoot = path.join(path.resolve(autocompleteRoot), "src");
+  const seedSpecs = ["aws.json", "gcloud.json"].map((name) =>
+    JSON.parse(fs.readFileSync(path.join(jsonRoot, name), "utf8")),
+  );
+
+  const converted = [];
+  const failed = [];
+  const { missing } = await reachableSlashPathClosure(seedSpecs, async (pointer) => {
+    const tsPath = path.join(srcRoot, `${pointer}.ts`);
+    const outPath = path.join(outputRoot, `${pointer}.json`);
+    if (!fs.existsSync(tsPath)) {
+      return null;
+    }
+    try {
+      const spec = sanitizeSpec(await convertSpec(tsPath));
+      if (spec == null) {
+        return null;
+      }
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(outPath, serializeSpec(spec));
+      converted.push(pointer);
+      console.log(`wrote ${path.relative(repoRoot, outPath)}`);
+      return spec;
+    } catch (error) {
+      failed.push(`${pointer}: ${error.message ?? error}`);
+      console.error(`failed ${pointer}:`, error);
+      return null;
+    }
+  });
+
+  console.log(
+    `converted ${converted.length}; missing ${missing.length}; failed ${failed.length}`,
+  );
+  if (missing.length) {
+    console.log("missing:", missing.join(", "));
+  }
+  if (failed.length) {
+    console.error(failed.join("\n"));
+    process.exit(1);
+  }
+}
+
+await main();

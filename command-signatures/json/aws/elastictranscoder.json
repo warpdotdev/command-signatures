@@ -1,0 +1,885 @@
+{
+    "name": "elastictranscoder",
+    "description": "AWS Elastic Transcoder Service The AWS Elastic Transcoder Service",
+    "subcommands": [
+        {
+            "name": "cancel-job",
+            "description": "The CancelJob operation cancels an unfinished job.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the job that you want to cancel.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-job",
+            "description": "When you create a job, Elastic Transcoder returns JSON data that includes the values that you specified plus information about the job that is created.",
+            "options": [
+                {
+                    "name": "--pipeline-id",
+                    "description": "The Id of the pipeline that you want Elastic Transcoder to use for transcoding.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--input",
+                    "description": "A section of the request body that provides information about the file that is being transcoded",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--inputs",
+                    "description": "A section of the request body that provides information about the files that are being transcoded",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--outputs",
+                    "description": "A section of the request body that provides information about the transcoded (target) files.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--output-key-prefix",
+                    "description": "The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--playlists",
+                    "description": "If you specify a preset in PresetId for which the value of Container is fmp4 (Fragmented MP4) or ts (MPEG-TS), Playlists contains information about the master playlists that you want Elastic Transcoder to create.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--user-metadata",
+                    "description": "User-defined metadata that you want to associate with an Elastic Transcoder job.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--job-output",
+                    "description": "A section of the request body that provides information about the transcoded (target) file.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-pipeline",
+            "description": "The CreatePipeline operation creates a pipeline with settings that you specify",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the pipeline.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--input-bucket",
+                    "description": "The Amazon S3 bucket in which you saved the media files that you want to transcode",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-bucket",
+                    "description": "The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--role",
+                    "description": "The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to use to create the pipeline",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aws-kms-key-arn",
+                    "description": "The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notifications",
+                    "description": "The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--content-config",
+                    "description": "The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the...",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--thumbnail-config",
+                    "description": "The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to...",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-preset",
+            "description": "The CreatePreset operation creates a preset with settings that you specify.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the preset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the preset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--container",
+                    "description": "The container type for the output file.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--video",
+                    "description": "A section of the request body that specifies the video parameters",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--audio",
+                    "description": "A section of the request body that specifies the audio parameters",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--thumbnails",
+                    "description": "A section of the request body that specifies the thumbnail parameters, if any",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-pipeline",
+            "description": "The DeletePipeline operation removes a pipeline.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the pipeline that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-preset",
+            "description": "The DeletePreset operation removes a preset that you've added in an AWS region.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the preset for which you want to get detailed information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-jobs-by-pipeline",
+            "description": "The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline.",
+            "options": [
+                {
+                    "name": "--pipeline-id",
+                    "description": "The ID of the pipeline for which you want to get job information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ascending",
+                    "description": "To list jobs in chronological order by the date and time that they were submitted, enter true.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-token",
+                    "description": "When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-jobs-by-status",
+            "description": "The ListJobsByStatus operation gets a list of jobs that have a specified status.",
+            "options": [
+                {
+                    "name": "--status",
+                    "description": "To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted, Progressing, Complete, Canceled, or Error",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ascending",
+                    "description": "To list jobs in chronological order by the date and time that they were submitted, enter true.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-token",
+                    "description": "When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-pipelines",
+            "description": "The ListPipelines operation gets a list of the pipelines associated with the current AWS account",
+            "options": [
+                {
+                    "name": "--ascending",
+                    "description": "To list pipelines in chronological order by the date and time that they were created, enter true.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-token",
+                    "description": "When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-presets",
+            "description": "The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region",
+            "options": [
+                {
+                    "name": "--ascending",
+                    "description": "To list presets in chronological order by the date and time that they were created, enter true.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-token",
+                    "description": "When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "read-job",
+            "description": "The ReadJob operation returns detailed information about a job",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the job for which you want to get detailed information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "read-pipeline",
+            "description": "The ReadPipeline operation gets detailed information about a pipeline",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the pipeline to read",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "read-preset",
+            "description": "The ReadPreset operation gets detailed information about a preset",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the preset for which you want to get detailed information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "test-role",
+            "description": "The TestRole operation tests the IAM role used to create the pipeline.",
+            "options": [
+                {
+                    "name": "--role",
+                    "description": "The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--input-bucket",
+                    "description": "The Amazon S3 bucket that contains media files to be transcoded.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-bucket",
+                    "description": "The Amazon S3 bucket that Elastic Transcoder writes transcoded media files to.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--topics",
+                    "description": "The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-pipeline",
+            "description": "Use the UpdatePipeline operation to update settings for a pipeline.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The ID of the pipeline that you want to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the pipeline.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--input-bucket",
+                    "description": "The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--role",
+                    "description": "The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to use to transcode jobs for this pipeline",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aws-kms-key-arn",
+                    "description": "The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notifications",
+                    "description": "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--content-config",
+                    "description": "The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the...",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--thumbnail-config",
+                    "description": "The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to...",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-pipeline-notifications",
+            "description": "With the UpdatePipelineNotifications operation, you can update Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the pipeline for which you want to change notification settings",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notifications",
+                    "description": "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-pipeline-status",
+            "description": "The UpdatePipelineStatus operation pauses or reactivates a pipeline, so that the pipeline stops or restarts the processing of jobs.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the pipeline to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status",
+                    "description": "The desired status of the pipeline: Active: The pipeline is processing jobs.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "wait",
+            "description": "Wait until a particular condition is satisfied.",
+            "subcommands": [
+                {
+                    "name": "job-complete",
+                    "description": "Wait until JMESPath query Job.Status returns Complete when polling with ``read-job``.",
+                    "options": [
+                        {
+                            "name": "--id",
+                            "description": "The identifier of the job for which you want to get detailed information",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

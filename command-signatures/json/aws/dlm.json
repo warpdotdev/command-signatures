@@ -1,0 +1,478 @@
+{
+    "name": "dlm",
+    "description": "Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your Amazon Web Services resources.",
+    "subcommands": [
+        {
+            "name": "create-lifecycle-policy",
+            "description": "Creates an Amazon Data Lifecycle Manager lifecycle policy.",
+            "options": [
+                {
+                    "name": "--execution-role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the lifecycle policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The activation state of the lifecycle policy after creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-details",
+                    "description": "The configuration details of the lifecycle policy.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to apply to the lifecycle policy during creation",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--default-policy",
+                    "description": "[Default policies only] Specify the type of default policy to create.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--create-interval",
+                    "description": "[Default policies only] Specifies how often the policy should run and create snapshots or AMIs.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--retain-interval",
+                    "description": "[Default policies only] Specifies how long the policy should retain snapshots or AMIs before deleting them.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--copy-tags",
+                    "description": "[Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI."
+                },
+                {
+                    "name": "--no-copy-tags",
+                    "description": "[Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI."
+                },
+                {
+                    "name": "--extend-deletion",
+                    "description": "[Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state."
+                },
+                {
+                    "name": "--no-extend-deletion",
+                    "description": "[Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state."
+                },
+                {
+                    "name": "--cross-region-copy-targets",
+                    "description": "[Default policies only] Specifies destination Regions for snapshot or AMI copies.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--exclusions",
+                    "description": "[Default policies only] Specifies exclusion parameters for volumes or instances for which you do not want to create snapshots or AMIs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-lifecycle-policy",
+            "description": "Deletes the specified lifecycle policy and halts the automated operations that the policy specified.",
+            "options": [
+                {
+                    "name": "--policy-id",
+                    "description": "The identifier of the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-lifecycle-policies",
+            "description": "Gets summary information about all or the specified data lifecycle policies.",
+            "options": [
+                {
+                    "name": "--policy-ids",
+                    "description": "The identifiers of the data lifecycle policies",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The activation state",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-types",
+                    "description": "The resource type",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--target-tags",
+                    "description": "The target tag for a policy.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags-to-add",
+                    "description": "The tags to add to objects created by the policy.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--default-policy-type",
+                    "description": "[Default policies only] Specifies the type of default policy to get.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-lifecycle-policy",
+            "description": "Gets detailed information about the specified lifecycle policy",
+            "options": [
+                {
+                    "name": "--policy-id",
+                    "description": "The identifier of the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists the tags for the specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Adds the specified tags to the specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "One or more tags",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes the specified tags from the specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The tag keys",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-lifecycle-policy",
+            "description": "Updates the specified lifecycle policy.",
+            "options": [
+                {
+                    "name": "--policy-id",
+                    "description": "The identifier of the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--execution-role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The desired activation state of the lifecycle policy after creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the lifecycle policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-details",
+                    "description": "The configuration of the lifecycle policy.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--create-interval",
+                    "description": "[Default policies only] Specifies how often the policy should run and create snapshots or AMIs.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--retain-interval",
+                    "description": "[Default policies only] Specifies how long the policy should retain snapshots or AMIs before deleting them.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--copy-tags",
+                    "description": "[Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI"
+                },
+                {
+                    "name": "--no-copy-tags",
+                    "description": "[Default policies only] Indicates whether the policy should copy tags from the source resource to the snapshot or AMI"
+                },
+                {
+                    "name": "--extend-deletion",
+                    "description": "[Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state."
+                },
+                {
+                    "name": "--no-extend-deletion",
+                    "description": "[Default policies only] Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state."
+                },
+                {
+                    "name": "--cross-region-copy-targets",
+                    "description": "[Default policies only] Specifies destination Regions for snapshot or AMI copies.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--exclusions",
+                    "description": "[Default policies only] Specifies exclusion parameters for volumes or instances for which you do not want to create snapshots or AMIs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-default-role",
+            "description": "Creates the default IAM role which will be used by Lifecycle service.",
+            "options": [
+                {
+                    "name": "--iam-endpoint",
+                    "description": "The IAM endpoint to call for creating the roles.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "The resource type for which the role needs to be created.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "snapshot",
+                            "image"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

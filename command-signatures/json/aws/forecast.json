@@ -1,0 +1,3035 @@
+{
+    "name": "forecast",
+    "description": "Provides APIs for creating and managing Amazon Forecast resources",
+    "subcommands": [
+        {
+            "name": "create-auto-predictor",
+            "description": "Creates an Amazon Forecast predictor.",
+            "options": [
+                {
+                    "name": "--predictor-name",
+                    "description": "A unique name for the predictor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--forecast-horizon",
+                    "description": "The number of time-steps that the model predicts.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--forecast-types",
+                    "description": "The forecast types used to train a predictor.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--forecast-dimensions",
+                    "description": "An array of dimension (field) names that specify how to group the generated forecast.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--forecast-frequency",
+                    "description": "The frequency of predictions in a forecast.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-config",
+                    "description": "The data configuration for your dataset group and any additional datasets",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--encryption-config",
+                    "description": "An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--reference-predictor-arn",
+                    "description": "The ARN of the predictor to retrain or upgrade.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--optimization-metric",
+                    "description": "The accuracy metric used to optimize the predictor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--explain-predictor",
+                    "description": "Create an Explainability resource for the predictor"
+                },
+                {
+                    "name": "--no-explain-predictor",
+                    "description": "Create an Explainability resource for the predictor"
+                },
+                {
+                    "name": "--tags",
+                    "description": "Optional metadata to help you categorize and organize your predictors.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--monitor-config",
+                    "description": "The configuration details for predictor monitoring.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--time-alignment-boundary",
+                    "description": "The time boundary Forecast uses to align and aggregate any data that doesn't align with your forecast frequency.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset",
+            "description": "Creates an Amazon Forecast dataset.",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "A name for the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--domain",
+                    "description": "The domain associated with the dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-type",
+                    "description": "The dataset type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-frequency",
+                    "description": "The frequency of data collection.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema",
+                    "description": "The schema for the dataset.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--encryption-config",
+                    "description": "An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the dataset to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-group",
+            "description": "Creates a dataset group, which holds a collection of related datasets.",
+            "options": [
+                {
+                    "name": "--dataset-group-name",
+                    "description": "A name for the dataset group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--domain",
+                    "description": "The domain associated with the dataset group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-arns",
+                    "description": "An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the dataset group to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-import-job",
+            "description": "Imports your training data to an Amazon Forecast dataset.",
+            "options": [
+                {
+                    "name": "--dataset-import-job-name",
+                    "description": "The name for the dataset import job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source",
+                    "description": "The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--timestamp-format",
+                    "description": "The format of timestamps in the dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--time-zone",
+                    "description": "A single time zone for every item in your dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--use-geolocation-for-time-zone",
+                    "description": "Automatically derive time zone information from the geolocation attribute."
+                },
+                {
+                    "name": "--no-use-geolocation-for-time-zone",
+                    "description": "Automatically derive time zone information from the geolocation attribute."
+                },
+                {
+                    "name": "--geolocation-format",
+                    "description": "The format of the geolocation attribute.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the dataset import job to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format of the imported data, CSV or PARQUET.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--import-mode",
+                    "description": "Specifies whether the dataset import job is a FULL or INCREMENTAL import.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-explainability",
+            "description": "Explainability is only available for Forecasts and Predictors generated from an AutoPredictor (CreateAutoPredictor) Creates an Amazon Forecast Explainability.",
+            "options": [
+                {
+                    "name": "--explainability-name",
+                    "description": "A unique name for the Explainability",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--explainability-config",
+                    "description": "The configuration settings that define the granularity of time series and time points for the Explainability",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--data-source",
+                    "description": "The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--schema",
+                    "description": "Defines the fields of a dataset",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--enable-visualization",
+                    "description": "Create an Explainability visualization that is viewable within the Amazon Web Services console"
+                },
+                {
+                    "name": "--no-enable-visualization",
+                    "description": "Create an Explainability visualization that is viewable within the Amazon Web Services console"
+                },
+                {
+                    "name": "--start-date-time",
+                    "description": "If TimePointGranularity is set to SPECIFIC, define the first point for the Explainability.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--end-date-time",
+                    "description": "If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Optional metadata to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-explainability-export",
+            "description": "Exports an Explainability resource created by the CreateExplainability operation.",
+            "options": [
+                {
+                    "name": "--explainability-export-name",
+                    "description": "A unique name for the Explainability export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--explainability-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Explainability to export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination",
+                    "description": "The destination for an export job.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Optional metadata to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format of the exported data, CSV or PARQUET",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-forecast",
+            "description": "Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor.",
+            "options": [
+                {
+                    "name": "--forecast-name",
+                    "description": "A name for the forecast",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor to use to generate the forecast",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--forecast-types",
+                    "description": "The quantiles at which probabilistic forecasts are generated.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the forecast to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--time-series-selector",
+                    "description": "Defines the set of time series that are used to create the forecasts in a TimeSeriesIdentifiers object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-forecast-export-job",
+            "description": "Exports a forecast created by the CreateForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket.",
+            "options": [
+                {
+                    "name": "--forecast-export-job-name",
+                    "description": "The name for the forecast export job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the forecast that you want to export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination",
+                    "description": "The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the forecast export job to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format of the exported data, CSV or PARQUET.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-monitor",
+            "description": "Creates a predictor monitor resource for an existing auto predictor.",
+            "options": [
+                {
+                    "name": "--monitor-name",
+                    "description": "The name of the monitor resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor to monitor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the monitor resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-predictor",
+            "description": "This operation creates a legacy predictor that does not include all the predictor functionalities provided by Amazon Forecast.",
+            "options": [
+                {
+                    "name": "--predictor-name",
+                    "description": "A name for the predictor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--algorithm-arn",
+                    "description": "The Amazon Resource Name (ARN) of the algorithm to use for model training.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--forecast-horizon",
+                    "description": "Specifies the number of time-steps that the model is trained to predict.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--forecast-types",
+                    "description": "Specifies the forecast types used to train a predictor.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--perform-auto-ml",
+                    "description": "Whether to perform AutoML."
+                },
+                {
+                    "name": "--no-perform-auto-ml",
+                    "description": "Whether to perform AutoML."
+                },
+                {
+                    "name": "--auto-ml-override-strategy",
+                    "description": "The LatencyOptimized AutoML override strategy is only available in private beta.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--perform-hpo",
+                    "description": "Whether to perform hyperparameter optimization (HPO)."
+                },
+                {
+                    "name": "--no-perform-hpo",
+                    "description": "Whether to perform hyperparameter optimization (HPO)."
+                },
+                {
+                    "name": "--training-parameters",
+                    "description": "The hyperparameters to override for model training.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--evaluation-parameters",
+                    "description": "Used to override the default evaluation parameters of the specified algorithm.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--hpo-config",
+                    "description": "Provides hyperparameter override values for the algorithm.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--input-data-config",
+                    "description": "Describes the dataset group that contains the data to use to train the predictor",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--featurization-config",
+                    "description": "The featurization configuration",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--encryption-config",
+                    "description": "An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The optional metadata that you apply to the predictor to help you categorize and organize them.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--optimization-metric",
+                    "description": "The accuracy metric used to optimize the predictor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-predictor-backtest-export-job",
+            "description": "Exports backtest forecasts and accuracy metrics generated by the CreateAutoPredictor or CreatePredictor operations.",
+            "options": [
+                {
+                    "name": "--predictor-backtest-export-job-name",
+                    "description": "The name for the backtest export job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor that you want to export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination",
+                    "description": "The destination for an export job.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Optional metadata to help you categorize and organize your backtests.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format of the exported data, CSV or PARQUET.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-what-if-analysis",
+            "description": "What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series.",
+            "options": [
+                {
+                    "name": "--what-if-analysis-name",
+                    "description": "The name of the what-if analysis.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the baseline forecast",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--time-series-selector",
+                    "description": "Defines the set of time series that are used in the what-if analysis with a TimeSeriesIdentifiers object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the what if forecast",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-what-if-forecast",
+            "description": "A what-if forecast is a forecast that is created from a modified version of the baseline forecast.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-name",
+                    "description": "The name of the what-if forecast.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--what-if-analysis-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if analysis",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--time-series-transformations",
+                    "description": "The transformations that are applied to the baseline time series.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--time-series-replacements-data-source",
+                    "description": "The replacement time series dataset, which contains the rows that you want to change in the related time series dataset.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the what if forecast",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-what-if-forecast-export",
+            "description": "Exports a forecast created by the CreateWhatIfForecast operation to your Amazon Simple Storage Service (Amazon S3) bucket.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-export-name",
+                    "description": "The name of the what-if forecast to export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--what-if-forecast-arns",
+                    "description": "The list of what-if forecast Amazon Resource Names (ARNs) to export",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--destination",
+                    "description": "The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the what if forecast",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format of the exported data, CSV or PARQUET",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset",
+            "description": "Deletes an Amazon Forecast dataset that was created using the CreateDataset operation.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset-group",
+            "description": "Deletes a dataset group created using the CreateDatasetGroup operation.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset-import-job",
+            "description": "Deletes a dataset import job created using the CreateDatasetImportJob operation.",
+            "options": [
+                {
+                    "name": "--dataset-import-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset import job to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-explainability",
+            "description": "Deletes an Explainability resource.",
+            "options": [
+                {
+                    "name": "--explainability-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Explainability resource to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-explainability-export",
+            "description": "Deletes an Explainability export",
+            "options": [
+                {
+                    "name": "--explainability-export-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Explainability export to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-forecast",
+            "description": "Deletes a forecast created using the CreateForecast operation.",
+            "options": [
+                {
+                    "name": "--forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the forecast to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-forecast-export-job",
+            "description": "Deletes a forecast export job created using the CreateForecastExportJob operation.",
+            "options": [
+                {
+                    "name": "--forecast-export-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the forecast export job to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-monitor",
+            "description": "Deletes a monitor resource.",
+            "options": [
+                {
+                    "name": "--monitor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the monitor resource to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-predictor",
+            "description": "Deletes a predictor created using the DescribePredictor or CreatePredictor operations.",
+            "options": [
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-predictor-backtest-export-job",
+            "description": "Deletes a predictor backtest export job",
+            "options": [
+                {
+                    "name": "--predictor-backtest-export-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor backtest export job to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-resource-tree",
+            "description": "Deletes an entire resource tree.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the parent resource to delete.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-what-if-analysis",
+            "description": "Deletes a what-if analysis created using the CreateWhatIfAnalysis operation.",
+            "options": [
+                {
+                    "name": "--what-if-analysis-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if analysis that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-what-if-forecast",
+            "description": "Deletes a what-if forecast created using the CreateWhatIfForecast operation.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if forecast that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-what-if-forecast-export",
+            "description": "Deletes a what-if forecast export created using the CreateWhatIfForecastExport operation.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-export-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if forecast export that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-auto-predictor",
+            "description": "Describes a predictor created using the CreateAutoPredictor operation",
+            "options": [
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset",
+            "description": "Describes an Amazon Forecast dataset created using the CreateDataset operation.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset-group",
+            "description": "Describes a dataset group created using the CreateDatasetGroup operation.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset-import-job",
+            "description": "Describes a dataset import job created using the CreateDatasetImportJob operation.",
+            "options": [
+                {
+                    "name": "--dataset-import-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset import job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-explainability",
+            "description": "Describes an Explainability resource created using the CreateExplainability operation",
+            "options": [
+                {
+                    "name": "--explainability-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Explaianability to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-explainability-export",
+            "description": "Describes an Explainability export created using the CreateExplainabilityExport operation",
+            "options": [
+                {
+                    "name": "--explainability-export-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Explainability export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-forecast",
+            "description": "Describes a forecast created using the CreateForecast operation.",
+            "options": [
+                {
+                    "name": "--forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the forecast",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-forecast-export-job",
+            "description": "Describes a forecast export job created using the CreateForecastExportJob operation.",
+            "options": [
+                {
+                    "name": "--forecast-export-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the forecast export job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-monitor",
+            "description": "Describes a monitor resource.",
+            "options": [
+                {
+                    "name": "--monitor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the monitor resource to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-predictor",
+            "description": "This operation is only valid for legacy predictors created with CreatePredictor.",
+            "options": [
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor that you want information about",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-predictor-backtest-export-job",
+            "description": "Describes a predictor backtest export job created using the CreatePredictorBacktestExportJob operation.",
+            "options": [
+                {
+                    "name": "--predictor-backtest-export-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor backtest export job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-what-if-analysis",
+            "description": "Describes the what-if analysis created using the CreateWhatIfAnalysis operation.",
+            "options": [
+                {
+                    "name": "--what-if-analysis-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if analysis that you are interested in",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-what-if-forecast",
+            "description": "Describes the what-if forecast created using the CreateWhatIfForecast operation.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if forecast that you are interested in",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-what-if-forecast-export",
+            "description": "Describes the what-if forecast export created using the CreateWhatIfForecastExport operation.",
+            "options": [
+                {
+                    "name": "--what-if-forecast-export-arn",
+                    "description": "The Amazon Resource Name (ARN) of the what-if forecast export that you are interested in",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-accuracy-metrics",
+            "description": "Provides metrics on the accuracy of the models that were trained by the CreatePredictor operation.",
+            "options": [
+                {
+                    "name": "--predictor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the predictor to get metrics for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-groups",
+            "description": "Returns a list of dataset groups created using the CreateDatasetGroup operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-import-jobs",
+            "description": "Returns a list of dataset import jobs created using the CreateDatasetImportJob operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-datasets",
+            "description": "Returns a list of datasets created using the CreateDataset operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-explainabilities",
+            "description": "Returns a list of Explainability resources created using the CreateExplainability operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items returned in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-explainability-exports",
+            "description": "Returns a list of Explainability exports created using the CreateExplainabilityExport operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-forecast-export-jobs",
+            "description": "Returns a list of forecast export jobs created using the CreateForecastExportJob operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-forecasts",
+            "description": "Returns a list of forecasts created using the CreateForecast operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-monitor-evaluations",
+            "description": "Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of monitoring results to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--monitor-arn",
+                    "description": "The Amazon Resource Name (ARN) of the monitor resource to get results from",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-monitors",
+            "description": "Returns a list of monitors created with the CreateMonitor operation and CreateAutoPredictor operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of monitors to include in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-predictor-backtest-export-jobs",
+            "description": "Returns a list of predictor backtest export jobs created using the CreatePredictorBacktestExportJob operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-predictors",
+            "description": "Returns a list of predictors created using the CreateAutoPredictor or CreatePredictor operations.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists the tags for an Amazon Forecast resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource for which to list the tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-what-if-analyses",
+            "description": "Returns a list of what-if analyses created using the CreateWhatIfAnalysis operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-what-if-forecast-exports",
+            "description": "Returns a list of what-if forecast exports created using the CreateWhatIfForecastExport operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-what-if-forecasts",
+            "description": "Returns a list of what-if forecasts created using the CreateWhatIfForecast operation.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the result of the previous request was truncated, the response includes a NextToken.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of items to return in the response",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "An array of filters.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "resume-resource",
+            "description": "Resumes a stopped monitor resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the monitor resource to resume",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-resource",
+            "description": "Stops a resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource to stop.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates the specified tags to a resource with the specified resourceArn.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource for which to list the tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to add to the resource.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Deletes the specified tags from a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource for which to list the tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of the tags to be removed",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-dataset-group",
+            "description": "Replaces the datasets in a dataset group with the specified datasets.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The ARN of the dataset group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-arns",
+                    "description": "An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
