@@ -1,6 +1,7 @@
 mod command_builder;
 pub mod fig_types;
 mod signature;
+pub mod validation;
 
 use serde::{Deserialize, Serialize};
 pub use signature::*;
