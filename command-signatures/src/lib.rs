@@ -169,6 +169,22 @@ mod tests {
     }
 
     #[test]
+    fn nested_embedded_assets_match_source_json() {
+        let manifest = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        for name in ["aws/iam", "gcloud/auth"] {
+            let embedded = Assets::get(&format!("{name}.json"))
+                .unwrap_or_else(|| panic!("missing embedded asset {name}"));
+            let source = std::fs::read(manifest.join("json").join(format!("{name}.json")))
+                .unwrap_or_else(|err| panic!("read {name}: {err}"));
+            assert_eq!(
+                embedded.data.as_ref(),
+                source.as_slice(),
+                "embedded {name} must match source JSON after rust-embed compression"
+            );
+        }
+    }
+
+    #[test]
     fn nested_load_spec_assets_are_looked_up_by_slash_path() {
         let nested = all_signature_names()
             .filter(|name| name.contains('/'))
