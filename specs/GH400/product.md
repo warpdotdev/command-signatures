@@ -12,7 +12,7 @@ Repository validation must detect every duplicate short flag claimed by two or m
 
 For this rule:
 
-- A short flag uses the existing `is_short_hand_flag` classification: its UTF-8 representation is exactly two bytes, it begins with `-`, and it is not `--`. Examples include `-h`, `-v`, and `-1`. `--help` and single-dash multi-character names such as `-version` are not short flags.
+- Before classification, each authored option name is decoded with the same HTML-entity unescaping used by `From<CommandOption> for Opt`. The normalized name then uses the existing `is_short_hand_flag` classification: its UTF-8 representation is exactly two bytes, it begins with `-`, and it is not `--`. Examples include `-h`, `-v`, and `-1`; an authored `&#45;h` is normalized to `-h`. `--help` and single-dash multi-character names such as `-version` are not short flags.
 - Each root command and each nested subcommand is a separate option namespace. Sibling subcommands may reuse a short flag, and a parent and child may reuse it because the authored command nodes are checked separately.
 - Only distinct option entries conflict. Multiple aliases in one option's `name` array describe one option. Repetition inside one `name` array belongs to the duplicate-option-name validation proposed in [#399](https://github.com/warpdotdev/command-signatures/issues/399), not this rule.
 - A command or subcommand with multiple names still has one namespace; aliases do not create separate validation scopes.
@@ -25,20 +25,20 @@ The hard repository check covers handwritten command definitions in `command-sig
 - `command-signatures/json/overrides/**/*.json` remains outside this rule. The current override schema can only locate an existing option by name and override argument metadata; it cannot add or rename option spellings. If that capability is added later, validation of the merged generated command should be specified with it.
 
 ## Validation error
-The validator produces one diagnostic for each `(file, command path, short flag)` conflict and includes every distinct conflicting option in source order. The repository test reports unexpected diagnostics in deterministic file, command-path, and short-flag order.
+The validator produces one diagnostic for each `(file, command path, normalized short flag)` conflict and includes every distinct conflicting option in source order. The repository test reports unexpected diagnostics in deterministic file, command-path, and short-flag order.
 
 The human-readable form must contain:
 
 1. the handwritten JSON file path;
 2. the full command path, using the first declared name at each command level;
-3. the duplicate short flag, including its dash;
-4. every conflicting option's one-based position and complete `name` array.
+3. the normalized duplicate short flag, including its dash;
+4. every conflicting option's one-based position and complete raw `name` array exactly as authored in the JSON.
 
 Example:
 
 `command-signatures/json/flutter.json: command "flutter assemble": duplicate short flag "-d" is used by options #3 ["-d", "--device-id"] and #8 ["-d", "--define"]`
 
-Including positions keeps the message actionable when the conflicting options have identical `name` arrays, as several current offenders do.
+The normalized flag identifies the token that conflicts at runtime, while raw arrays keep the source edit actionable when HTML entities are present. Including positions distinguishes options with identical `name` arrays, as several current offenders have.
 
 ## Rollout
 The recommended rollout is a hard “no new conflicts” gate backed by an exact, temporary baseline allowlist for existing offenders.
@@ -59,7 +59,7 @@ At `origin/main` commit `d69b340ef622540ac28340ef565dae45287d51d8`, direct autho
 - `yarn.json`: 1
 - `zapier.json`: 1
 
-Each baseline entry is keyed by relative file path, canonical command path, and short flag. CI fails if validation finds a key that is not in the baseline. CI also fails when a baseline key no longer exists, forcing the same change that fixes an offender to remove its stale entry. The implementation PR must link a dedicated follow-up issue that tracks reducing the baseline to zero, and the allowlist must link that issue in a comment.
+Each baseline entry contains the relative file path, canonical command path, normalized short flag, and ordered claimant identity: every claimant's source position and complete raw `name` array. CI fails if validation finds a new conflict key or if the claimant identity for an existing key changes, including adding a third claimant or replacing one claimant while retaining the same flag. CI also fails when a baseline entry no longer exists, forcing the same change that fixes an offender to remove its stale entry. The implementation PR must link a dedicated follow-up issue that tracks reducing the baseline to zero, and the allowlist must link that issue in a comment.
 
 This approach prevents new ambiguity immediately without forcing 45 potentially behavior-sensitive command-spec corrections into the validator change. It is preferred over warn-only validation, which does not prevent regressions, and over an unconditional fix-first gate, which would make `main` fail until every existing command's intended CLI semantics had been researched.
 
@@ -69,10 +69,10 @@ Once the baseline is empty, remove the allowlist mechanism and make every diagno
 - Two distinct option entries directly declared on one handwritten command or subcommand and sharing a short flag produce one actionable diagnostic.
 - The diagnostic identifies the JSON file, full command path, offending short flag, and all conflicting option names and positions.
 - Reusing a short flag on unrelated root commands, sibling subcommands, or a parent and child does not produce a conflict.
-- Short flags use the repository's existing classification rather than a second definition.
+- Option names receive the same HTML-entity unescaping as runtime conversion, then use the repository's existing short-flag classification rather than a second definition.
 - Multiple names on one option or command do not create duplicate namespaces or pairwise false positives.
-- Focused fixtures cover valid reuse across namespaces and invalid reuse within one namespace, including identical option-name arrays and more than two claimants.
-- A repository invariant test scans only handwritten command JSON, rejects any conflict not in the temporary baseline, and rejects stale baseline entries.
+- Focused fixtures cover valid reuse across namespaces and invalid reuse within one namespace, including an HTML-escaped spelling conflicting with its literal form, identical option-name arrays, and more than two claimants.
+- A repository invariant test scans only handwritten command JSON, rejects any conflict not in the temporary baseline, rejects changes to a baselined conflict's ordered claimant identity, and rejects stale baseline entries.
 - The invariant runs through `cargo test`, and therefore through `script/presubmit` and the CI test job without a separate manual command.
 
 ## Non-goals
