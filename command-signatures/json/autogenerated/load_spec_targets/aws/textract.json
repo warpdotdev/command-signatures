@@ -1,0 +1,1235 @@
+{
+    "name": "textract",
+    "description": "Amazon Textract detects and analyzes text in documents and converts it into machine-readable text.",
+    "subcommands": [
+        {
+            "name": "analyze-document",
+            "description": "Analyzes an input document for relationships between detected items.",
+            "options": [
+                {
+                    "name": "--document",
+                    "description": "The input document as base64-encoded bytes or an Amazon S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--feature-types",
+                    "description": "A list of the types of analysis to perform.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--human-loop-config",
+                    "description": "Sets the configuration for the human in the loop workflow for analyzing documents",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--queries-config",
+                    "description": "Contains Queries and the alias for those Queries, as determined by the input",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--adapters-config",
+                    "description": "Specifies the adapter to be used when analyzing a document",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "analyze-expense",
+            "description": "AnalyzeExpense synchronously analyzes an input document for financially related relationships between text.",
+            "options": [
+                {
+                    "name": "--document",
+                    "description": "The input document, either as bytes or as an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "analyze-id",
+            "description": "Analyzes identity documents for relevant information.",
+            "options": [
+                {
+                    "name": "--document-pages",
+                    "description": "The document being passed to AnalyzeID",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-adapter",
+            "description": "Creates an adapter, which can be fine-tuned for enhanced performance on user provided documents.",
+            "options": [
+                {
+                    "name": "--adapter-name",
+                    "description": "The name to be assigned to the adapter being created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token is used to recognize the request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "The description to be assigned to the adapter being created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--feature-types",
+                    "description": "The type of feature that the adapter is being trained on.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--auto-update",
+                    "description": "Controls whether or not the adapter should automatically update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to be added to the adapter",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-adapter-version",
+            "description": "Creates a new version of an adapter.",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter that will receive a new version",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token is used to recognize the request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-config",
+                    "description": "Specifies a dataset used to train a new adapter version.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier for your AWS Key Management Service key (AWS KMS key).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "Sets whether or not your output will go to a user created bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the adapter version",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-adapter",
+            "description": "Deletes an Amazon Textract adapter.",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-adapter-version",
+            "description": "Deletes an Amazon Textract adapter version.",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter version that will be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--adapter-version",
+                    "description": "Specifies the adapter version to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-document-text",
+            "description": "Detects text in the input document.",
+            "options": [
+                {
+                    "name": "--document",
+                    "description": "The input document as base64-encoded bytes or an Amazon S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-adapter",
+            "description": "Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description, CreationTime, AutoUpdate status, and FeatureTypes",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-adapter-version",
+            "description": "Gets configuration information for the specified adapter version, including: AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and EvaluationMetrics",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string specifying a unique ID for the adapter version you want to retrieve information for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--adapter-version",
+                    "description": "A string specifying the adapter version you want to retrieve information for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-document-analysis",
+            "description": "Gets the results for an Amazon Textract asynchronous operation that analyzes text in a document.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "A unique identifier for the text-detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-document-text-detection",
+            "description": "Gets the results for an Amazon Textract asynchronous operation that detects text in a document.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "A unique identifier for the text detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-expense-analysis",
+            "description": "Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and receipts.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "A unique identifier for the text detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more blocks to retrieve), Amazon Textract returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-lending-analysis",
+            "description": "Gets the results for an Amazon Textract asynchronous operation that analyzes text in a lending document.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "A unique identifier for the lending or text-detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete, Amazon Textract returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-lending-analysis-summary",
+            "description": "Gets summarized results for the StartLendingAnalysis operation, which analyzes text in a lending document.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "A unique identifier for the lending or text-detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-adapter-versions",
+            "description": "List all version of an adapter that meet the specified filtration criteria",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter to match for when listing adapter versions",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--after-creation-time",
+                    "description": "Specifies the lower bound for the ListAdapterVersions operation.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--before-creation-time",
+                    "description": "Specifies the upper bound for the ListAdapterVersions operation.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return when listing adapter versions",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Identifies the next page of results to return when listing adapter versions",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-adapters",
+            "description": "Lists all adapters that match the specified filtration criteria",
+            "options": [
+                {
+                    "name": "--after-creation-time",
+                    "description": "Specifies the lower bound for the ListAdapters operation.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--before-creation-time",
+                    "description": "Specifies the upper bound for the ListAdapters operation.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return when listing adapters",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Identifies the next page of results to return when listing adapters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists all tags for an Amazon Textract resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that specifies the resource to list tags for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-document-analysis",
+            "description": "Starts the asynchronous analysis of an input document for relationships between detected items such as key-value pairs, tables, and selection elements.",
+            "options": [
+                {
+                    "name": "--document-location",
+                    "description": "The location of the document to be processed",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--feature-types",
+                    "description": "A list of the types of analysis to perform.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "The idempotent token that you use to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier that you specify that's included in the completion notification published to the Amazon SNS topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "Sets if the output will go to a customer defined bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The KMS key used to encrypt the inference results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--queries-config",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--adapters-config",
+                    "description": "Specifies the adapter to be used when analyzing a document",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-document-text-detection",
+            "description": "Starts the asynchronous detection of text in a document.",
+            "options": [
+                {
+                    "name": "--document-location",
+                    "description": "The location of the document to be processed",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "The idempotent token that's used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier that you specify that's included in the completion notification published to the Amazon SNS topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "Sets if the output will go to a customer defined bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The KMS key used to encrypt the inference results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-expense-analysis",
+            "description": "Starts the asynchronous analysis of invoices or receipts for data like contact information, items purchased, and vendor names.",
+            "options": [
+                {
+                    "name": "--document-location",
+                    "description": "The location of the document to be processed",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "The idempotent token that's used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's included in the completion notification published to the Amazon SNS topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "Sets if the output will go to a customer defined bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The KMS key used to encrypt the inference results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-lending-analysis",
+            "description": "Starts the classification and analysis of an input document.",
+            "options": [
+                {
+                    "name": "--document-location",
+                    "description": "The Amazon S3 bucket that contains the document to be processed.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "The idempotent token that you use to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier that you specify to be included in the completion notification published to the Amazon SNS topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon Textract publishes the completion status of an asynchronous document operation",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "Sets whether or not your output will go to a user created bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The KMS key used to encrypt the inference results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Adds one or more tags to the specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that specifies the resource to be tagged",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to assign to the resource",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes any tags with the specified keys from the specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that specifies the resource to be untagged",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "Specifies the tags to be removed from the resource specified by the ResourceARN",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-adapter",
+            "description": "Update the configuration for an adapter.",
+            "options": [
+                {
+                    "name": "--adapter-id",
+                    "description": "A string containing a unique ID for the adapter that will be updated",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "The new description to be applied to the adapter",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--adapter-name",
+                    "description": "The new name to be applied to the adapter",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--auto-update",
+                    "description": "The new auto-update status to be applied to the adapter",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

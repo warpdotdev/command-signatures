@@ -1,0 +1,1376 @@
+{
+    "name": "efs",
+    "description": "Amazon Elastic File System Amazon Elastic File System (Amazon EFS) provides simple, scalable file storage for use with Amazon EC2 Linux and Mac instances in the Amazon Web Services Cloud.",
+    "subcommands": [
+        {
+            "name": "create-access-point",
+            "description": "Creates an EFS access point.",
+            "options": [
+                {
+                    "name": "--client-token",
+                    "description": "A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Creates tags associated with the access point.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the EFS file system that the access point provides access to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--posix-user",
+                    "description": "The operating system user and group applied to all file system requests made using the access point",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--root-directory",
+                    "description": "Specifies the directory on the EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-file-system",
+            "description": "Creates a new, empty file system.",
+            "options": [
+                {
+                    "name": "--creation-token",
+                    "description": "A string of up to 64 ASCII characters.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--performance-mode",
+                    "description": "The performance mode of the file system.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--encrypted",
+                    "description": "A Boolean value that, if true, creates an encrypted file system."
+                },
+                {
+                    "name": "--no-encrypted",
+                    "description": "A Boolean value that, if true, creates an encrypted file system."
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The ID of the KMS key that you want to use to protect the encrypted file system.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--throughput-mode",
+                    "description": "Specifies the throughput mode for the file system.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--provisioned-throughput-in-mibps",
+                    "description": "The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating.",
+                    "args": {
+                        "name": "double"
+                    }
+                },
+                {
+                    "name": "--availability-zone-name",
+                    "description": "For One Zone file systems, specify the Amazon Web Services Availability Zone in which to create the file system.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup",
+                    "description": "Specifies whether automatic backups are enabled on the file system that you are creating."
+                },
+                {
+                    "name": "--no-backup",
+                    "description": "Specifies whether automatic backups are enabled on the file system that you are creating."
+                },
+                {
+                    "name": "--tags",
+                    "description": "Use to create one or more tags associated with the file system.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-mount-target",
+            "description": "Creates a mount target for a file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system for which to create the mount target",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--subnet-id",
+                    "description": "The ID of the subnet to add the mount target in.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ip-address",
+                    "description": "Valid IPv4 address within the address range of the specified subnet",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--security-groups",
+                    "description": "Up to five VPC security group IDs, of the form sg-xxxxxxxx.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-replication-configuration",
+            "description": "Creates a replication conﬁguration to either a new or existing EFS file system.",
+            "options": [
+                {
+                    "name": "--source-file-system-id",
+                    "description": "Specifies the Amazon EFS file system that you want to replicate.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destinations",
+                    "description": "An array of destination configuration objects.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-tags",
+            "description": "DEPRECATED - CreateTags is deprecated and not maintained.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system whose tags you want to modify (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of Tag objects to add.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-access-point",
+            "description": "Deletes the specified access point.",
+            "options": [
+                {
+                    "name": "--access-point-id",
+                    "description": "The ID of the access point that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-file-system",
+            "description": "Deletes a file system, permanently severing access to its contents.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-file-system-policy",
+            "description": "Deletes the FileSystemPolicy for the specified file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "Specifies the EFS file system for which to delete the FileSystemPolicy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-mount-target",
+            "description": "Deletes the specified mount target.",
+            "options": [
+                {
+                    "name": "--mount-target-id",
+                    "description": "The ID of the mount target to delete (String)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-replication-configuration",
+            "description": "Deletes a replication configuration.",
+            "options": [
+                {
+                    "name": "--source-file-system-id",
+                    "description": "The ID of the source file system in the replication configuration",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deletion-mode",
+                    "description": "When replicating across Amazon Web Services accounts or across Amazon Web Services Regions, Amazon EFS deletes the replication configuration from both the source and destination account or Region (ALL_CONFIGURATIONS) by default.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-tags",
+            "description": "DEPRECATED - DeleteTags is deprecated and not maintained.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system whose tags you want to delete (String)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "A list of tag keys to delete",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-access-points",
+            "description": "Returns the description of a specific Amazon EFS access point if the AccessPointId is provided.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "(Optional) When retrieving all access points for a file system, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "NextToken is present if the response is paginated.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--access-point-id",
+                    "description": "(Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--file-system-id",
+                    "description": "(Optional) If you provide a FileSystemId, EFS returns all access points for that file system; mutually exclusive with AccessPointId",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-account-preferences",
+            "description": "Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "(Optional) You can use NextToken in a subsequent request to fetch the next page of Amazon Web Services account preferences if the response payload was paginated",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "(Optional) When retrieving account preferences, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-backup-policy",
+            "description": "Returns the backup policy for the specified EFS file system",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "Specifies which EFS file system for which to retrieve the BackupPolicy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-file-system-policy",
+            "description": "Returns the FileSystemPolicy for the specified EFS file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "Specifies which EFS file system to retrieve the FileSystemPolicy for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-file-systems",
+            "description": "Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided.",
+            "options": [
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--marker",
+                    "description": "(Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--creation-token",
+                    "description": "(Optional) Restricts the list to the file system with this creation token (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--file-system-id",
+                    "description": "(Optional) ID of the file system whose description you want to retrieve (String)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-lifecycle-configuration",
+            "description": "Returns the current LifecycleConfiguration object for the specified Amazon EFS file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system whose LifecycleConfiguration object you want to retrieve (String)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-mount-target-security-groups",
+            "description": "Returns the security groups currently in effect for a mount target.",
+            "options": [
+                {
+                    "name": "--mount-target-id",
+                    "description": "The ID of the mount target whose security groups you want to retrieve",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-mount-targets",
+            "description": "Returns the descriptions of all the current mount targets, or a specific mount target, for a file system.",
+            "options": [
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--marker",
+                    "description": "(Optional) Opaque pagination token returned from a previous DescribeMountTargets operation (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--file-system-id",
+                    "description": "(Optional) ID of the file system whose mount targets you want to list (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--mount-target-id",
+                    "description": "(Optional) ID of the mount target that you want to have described (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--access-point-id",
+                    "description": "(Optional) The ID of the access point whose mount targets that you want to list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-replication-configurations",
+            "description": "Retrieves the replication configuration for a specific file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "You can retrieve the replication configuration for a specific file system by providing its file system ID.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "NextToken is present if the response is paginated.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "(Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-tags",
+            "description": "DEPRECATED - The DescribeTags action is deprecated and not maintained.",
+            "options": [
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--marker",
+                    "description": "(Optional) An opaque pagination token returned from a previous DescribeTags operation (String).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system whose tag set you want to retrieve",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists all tags for a top-level EFS resource.",
+            "options": [
+                {
+                    "name": "--resource-id",
+                    "description": "Specifies the EFS resource you want to retrieve tags for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "(Optional) Specifies the maximum number of tag objects to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "(Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "modify-mount-target-security-groups",
+            "description": "Modifies the set of security groups in effect for a mount target.",
+            "options": [
+                {
+                    "name": "--mount-target-id",
+                    "description": "The ID of the mount target whose security groups you want to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--security-groups",
+                    "description": "An array of up to five VPC security group IDs",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-account-preferences",
+            "description": "Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS file system and mount target resources.",
+            "options": [
+                {
+                    "name": "--resource-id-type",
+                    "description": "Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-backup-policy",
+            "description": "Updates the file system's backup policy.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "Specifies which EFS file system to update the backup policy for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-policy",
+                    "description": "The backup policy included in the PutBackupPolicy request",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-file-system-policy",
+            "description": "Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the EFS file system that you want to create or update the FileSystemPolicy for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy",
+                    "description": "The FileSystemPolicy that you're creating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--bypass-policy-lockout-safety-check",
+                    "description": "(Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check."
+                },
+                {
+                    "name": "--no-bypass-policy-lockout-safety-check",
+                    "description": "(Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-lifecycle-configuration",
+            "description": "Use this action to manage storage for your file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system for which you are creating the LifecycleConfiguration object (String)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lifecycle-policies",
+                    "description": "An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Creates a tag for an EFS resource.",
+            "options": [
+                {
+                    "name": "--resource-id",
+                    "description": "The ID specifying the EFS resource that you want to create a tag for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of Tag objects to add.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes tags from an EFS resource.",
+            "options": [
+                {
+                    "name": "--resource-id",
+                    "description": "Specifies the EFS resource that you want to remove tags from",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of the key-value tag pairs that you want to remove from the specified EFS resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-file-system",
+            "description": "Updates the throughput mode or the amount of provisioned throughput of an existing file system",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system that you want to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--throughput-mode",
+                    "description": "(Optional) Updates the file system's throughput mode.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--provisioned-throughput-in-mibps",
+                    "description": "(Optional) The throughput, measured in mebibytes per second (MiBps), that you want to provision for a file system that you're creating.",
+                    "args": {
+                        "name": "double"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-file-system-protection",
+            "description": "Updates protection on the file system.",
+            "options": [
+                {
+                    "name": "--file-system-id",
+                    "description": "The ID of the file system to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--replication-overwrite-protection",
+                    "description": "The status of the file system's replication overwrite protection.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

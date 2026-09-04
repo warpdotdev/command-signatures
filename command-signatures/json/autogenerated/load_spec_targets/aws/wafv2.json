@@ -1,0 +1,2672 @@
+{
+    "name": "wafv2",
+    "description": "WAF This is the latest version of the WAF API, released in November, 2019.",
+    "subcommands": [
+        {
+            "name": "associate-web-acl",
+            "description": "Associates a web ACL with a regional application resource, to protect the resource.",
+            "options": [
+                {
+                    "name": "--web-acl-arn",
+                    "description": "The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource to associate with the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "check-capacity",
+            "description": "Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rules",
+                    "description": "An array of Rule that you're configuring to use in a rule group or web ACL",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-api-key",
+            "description": "Creates an API key that contains a set of token domains.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--token-domains",
+                    "description": "The client application domains that you want to use this API key for.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-ip-set",
+            "description": "Creates an IPSet, which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the IP set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the IP set that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ip-address-version",
+                    "description": "The version of the IP addresses, either IPV4 or IPV6",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--addresses",
+                    "description": "Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of key:value pairs to associate with the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-regex-pattern-set",
+            "description": "Creates a RegexPatternSet, which you reference in a RegexPatternSetReferenceStatement, to have WAF inspect a web request component for the specified patterns",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the set that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--regular-expression-list",
+                    "description": "Array of regular expression strings",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of key:value pairs to associate with the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-rule-group",
+            "description": "Creates a RuleGroup per the specifications provided.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--capacity",
+                    "description": "The web ACL capacity units (WCUs) required for this rule group.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the rule group that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rules",
+                    "description": "The Rule statements used to identify the web requests that you want to manage.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--visibility-config",
+                    "description": "Defines and enables Amazon CloudWatch metrics and web request sample collection",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of key:value pairs to associate with the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--custom-response-bodies",
+                    "description": "A map of custom response keys and content bodies.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-web-acl",
+            "description": "Creates a WebACL per the specifications provided.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--default-action",
+                    "description": "The action to perform if none of the Rules contained in the WebACL match",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the web ACL that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rules",
+                    "description": "The Rule statements used to identify the web requests that you want to manage.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--visibility-config",
+                    "description": "Defines and enables Amazon CloudWatch metrics and web request sample collection",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of key:value pairs to associate with the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--custom-response-bodies",
+                    "description": "A map of custom response keys and content bodies.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--captcha-config",
+                    "description": "Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--challenge-config",
+                    "description": "Specifies how WAF should handle challenge evaluations for rules that don't have their own ChallengeConfig settings.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--token-domains",
+                    "description": "Specifies the domains that WAF should accept in a web request token.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--association-config",
+                    "description": "Specifies custom configurations for the associations between the web ACL and protected resources.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-api-key",
+            "description": "Deletes the specified API key.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--api-key",
+                    "description": "The encrypted API key that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-firewall-manager-rule-groups",
+            "description": "Deletes all rule groups that are managed by Firewall Manager from the specified WebACL.",
+            "options": [
+                {
+                    "name": "--web-acl-arn",
+                    "description": "The Amazon Resource Name (ARN) of the web ACL",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--web-acl-lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-ip-set",
+            "description": "Deletes the specified IPSet",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the IP set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-logging-configuration",
+            "description": "Deletes the LoggingConfiguration from the specified web ACL",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--log-type",
+                    "description": "Used to distinguish between various logging options.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--log-scope",
+                    "description": "The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-permission-policy",
+            "description": "Permanently deletes an IAM policy from the specified rule group.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the rule group from which you want to delete the policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-regex-pattern-set",
+            "description": "Deletes the specified RegexPatternSet",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-rule-group",
+            "description": "Deletes the specified RuleGroup",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-web-acl",
+            "description": "Deletes the specified WebACL.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "The unique identifier for the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-all-managed-products",
+            "description": "Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-managed-products-by-vendor",
+            "description": "Provides high-level information for the managed rule groups owned by a specific vendor",
+            "options": [
+                {
+                    "name": "--vendor-name",
+                    "description": "The name of the managed rule group vendor.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-managed-rule-group",
+            "description": "Provides high-level information for a managed rule group, including descriptions of the rules",
+            "options": [
+                {
+                    "name": "--vendor-name",
+                    "description": "The name of the managed rule group vendor.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the managed rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-name",
+                    "description": "The version of the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "disassociate-web-acl",
+            "description": "Disassociates the specified regional application resource from any existing web ACL association.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "generate-mobile-sdk-release-url",
+            "description": "Generates a presigned download URL for the specified release of the mobile SDK.",
+            "options": [
+                {
+                    "name": "--platform",
+                    "description": "The device platform",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--release-version",
+                    "description": "The release version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-decrypted-api-key",
+            "description": "Returns your API key in decrypted form.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--api-key",
+                    "description": "The encrypted API key",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-ip-set",
+            "description": "Retrieves the specified IPSet",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the IP set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-logging-configuration",
+            "description": "Returns the LoggingConfiguration for the specified web ACL",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--log-type",
+                    "description": "Used to distinguish between various logging options.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--log-scope",
+                    "description": "The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-managed-rule-set",
+            "description": "Retrieves the specified managed rule set.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-mobile-sdk-release",
+            "description": "Retrieves information for the specified mobile SDK release, including release notes and tags.",
+            "options": [
+                {
+                    "name": "--platform",
+                    "description": "The device platform",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--release-version",
+                    "description": "The release version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-permission-policy",
+            "description": "Returns the IAM policy that is attached to the specified rule group.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the rule group for which you want to get the policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-rate-based-statement-managed-keys",
+            "description": "Retrieves the IP addresses that are currently blocked by a rate-based rule instance.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--web-acl-name",
+                    "description": "The name of the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--web-acl-id",
+                    "description": "The unique identifier for the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rule-group-rule-name",
+                    "description": "The name of the rule group reference statement in your web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rule-name",
+                    "description": "The name of the rate-based rule to get the keys for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-regex-pattern-set",
+            "description": "Retrieves the specified RegexPatternSet",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-rule-group",
+            "description": "Retrieves the specified RuleGroup",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--arn",
+                    "description": "The Amazon Resource Name (ARN) of the entity",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-sampled-requests",
+            "description": "Gets detailed information about a specified number of requests--a sample--that WAF randomly selects from among the first 5,000 requests that your Amazon Web Services resource received during a time range that you choose.",
+            "options": [
+                {
+                    "name": "--web-acl-arn",
+                    "description": "The Amazon resource name (ARN) of the WebACL for which you want a sample of requests",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rule-metric-name",
+                    "description": "The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--time-window",
+                    "description": "The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The number of requests that you want WAF to return from among the first 5,000 requests that your Amazon Web Services resource received during the time range.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-web-acl",
+            "description": "Retrieves the specified WebACL",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "The unique identifier for the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-web-acl-for-resource",
+            "description": "Retrieves the WebACL for the specified resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-api-keys",
+            "description": "Retrieves a list of the API keys that you've defined for the specified scope.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-available-managed-rule-group-versions",
+            "description": "Returns a list of the available versions for the specified managed rule group",
+            "options": [
+                {
+                    "name": "--vendor-name",
+                    "description": "The name of the managed rule group vendor.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the managed rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-available-managed-rule-groups",
+            "description": "Retrieves an array of managed rule groups that are available for you to use.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-ip-sets",
+            "description": "Retrieves an array of IPSetSummary objects for the IP sets that you manage",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-logging-configurations",
+            "description": "Retrieves an array of your LoggingConfiguration objects",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--log-scope",
+                    "description": "The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-managed-rule-sets",
+            "description": "Retrieves the managed rule sets that you own.",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-mobile-sdk-releases",
+            "description": "Retrieves a list of the available releases for the mobile SDK and the specified device platform.",
+            "options": [
+                {
+                    "name": "--platform",
+                    "description": "The device platform to retrieve the list for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-regex-pattern-sets",
+            "description": "Retrieves an array of RegexPatternSetSummary objects for the regex pattern sets that you manage",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-resources-for-web-acl",
+            "description": "Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are associated with the specified web ACL.",
+            "options": [
+                {
+                    "name": "--web-acl-arn",
+                    "description": "The Amazon Resource Name (ARN) of the web ACL",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "Used for web ACLs that are scoped for regional applications.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-rule-groups",
+            "description": "Retrieves an array of RuleGroupSummary objects for the rule groups that you manage",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Retrieves the TagInfoForResource for the specified resource.",
+            "options": [
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-web-acls",
+            "description": "Retrieves an array of WebACLSummary objects for the web ACLs that you manage",
+            "options": [
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-marker",
+                    "description": "When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of objects that you want WAF to return for this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-logging-configuration",
+            "description": "Enables the specified LoggingConfiguration, to start logging from a web ACL, according to the configuration provided.",
+            "options": [
+                {
+                    "name": "--logging-configuration",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-managed-rule-set-versions",
+            "description": "Defines the versions of your managed rule set that you are offering to the customers.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recommended-version",
+                    "description": "The version of the named managed rule group that you'd like your customers to choose, from among your version offerings",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--versions-to-publish",
+                    "description": "The versions of the named managed rule group that you want to offer to your customers",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-permission-policy",
+            "description": "Use this to share a rule group with other accounts.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy",
+                    "description": "The policy to attach to the specified rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates tags with the specified Amazon Web Services resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "An array of key:value pairs to associate with the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Disassociates tags from an Amazon Web Services resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "An array of keys identifying the tags to disassociate from the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-ip-set",
+            "description": "Updates the specified IPSet.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the IP set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the IP set that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--addresses",
+                    "description": "Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-managed-rule-set-version-expiry-date",
+            "description": "Updates the expiration information for your managed rule set.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the managed rule set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-to-expire",
+                    "description": "The version that you want to remove from your list of offerings for the named managed rule group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--expiry-timestamp",
+                    "description": "The time that you want the version to expire.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-regex-pattern-set",
+            "description": "Updates the specified RegexPatternSet.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the set.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the set that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--regular-expression-list",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-rule-group",
+            "description": "Updates the specified RuleGroup.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "A unique identifier for the rule group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the rule group that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rules",
+                    "description": "The Rule statements used to identify the web requests that you want to manage.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--visibility-config",
+                    "description": "Defines and enables Amazon CloudWatch metrics and web request sample collection",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--custom-response-bodies",
+                    "description": "A map of custom response keys and content bodies.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-web-acl",
+            "description": "Updates the specified WebACL.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scope",
+                    "description": "Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--id",
+                    "description": "The unique identifier for the web ACL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--default-action",
+                    "description": "The action to perform if none of the Rules contained in the WebACL match",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the web ACL that helps with identification",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rules",
+                    "description": "The Rule statements used to identify the web requests that you want to manage.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--visibility-config",
+                    "description": "Defines and enables Amazon CloudWatch metrics and web request sample collection",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--lock-token",
+                    "description": "A token used for optimistic locking.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--custom-response-bodies",
+                    "description": "A map of custom response keys and content bodies.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--captcha-config",
+                    "description": "Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--challenge-config",
+                    "description": "Specifies how WAF should handle challenge evaluations for rules that don't have their own ChallengeConfig settings.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--token-domains",
+                    "description": "Specifies the domains that WAF should accept in a web request token.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--association-config",
+                    "description": "Specifies custom configurations for the associations between the web ACL and protected resources.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

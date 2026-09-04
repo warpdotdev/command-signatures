@@ -1,0 +1,4455 @@
+{
+    "name": "backup",
+    "description": "Backup Backup is a unified backup service designed to protect Amazon Web Services services and their associated data.",
+    "subcommands": [
+        {
+            "name": "cancel-legal-hold",
+            "description": "Removes the specified legal hold on a recovery point.",
+            "options": [
+                {
+                    "name": "--legal-hold-id",
+                    "description": "The ID of the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cancel-description",
+                    "description": "A string the describes the reason for removing the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--retain-record-in-days",
+                    "description": "The integer amount, in days, after which to remove legal hold",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-backup-plan",
+            "description": "Creates a backup plan using a backup plan name and backup rules.",
+            "options": [
+                {
+                    "name": "--backup-plan",
+                    "description": "The body of a backup plan.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--backup-plan-tags",
+                    "description": "The tags to assign to the backup plan",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--creator-request-id",
+                    "description": "Identifies the request and allows failed requests to be retried without the risk of running the operation twice.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-backup-selection",
+            "description": "Creates a JSON document that specifies a set of resources to assign to a backup plan.",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "The ID of the backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-selection",
+                    "description": "The body of a request to assign a set of resources to a backup plan",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--creator-request-id",
+                    "description": "A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-backup-vault",
+            "description": "Creates a logical container where backups are stored.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-tags",
+                    "description": "The tags to assign to the backup vault",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--encryption-key-arn",
+                    "description": "The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--creator-request-id",
+                    "description": "A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-framework",
+            "description": "Creates a framework with one or more controls.",
+            "options": [
+                {
+                    "name": "--framework-name",
+                    "description": "The unique name of the framework.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--framework-description",
+                    "description": "An optional description of the framework with a maximum of 1,024 characters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--framework-controls",
+                    "description": "The controls that make up the framework.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateFrameworkInput.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--framework-tags",
+                    "description": "The tags to assign to the framework",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-legal-hold",
+            "description": "Creates a legal hold on a recovery point (backup).",
+            "options": [
+                {
+                    "name": "--title",
+                    "description": "The title of the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "The description of the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "This is a user-chosen string used to distinguish between otherwise identical calls.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-selection",
+                    "description": "The criteria to assign a set of resources, such as resource types or backup vaults",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Optional tags to include.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-logically-air-gapped-backup-vault",
+            "description": "Creates a logical container to where backups may be copied.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-tags",
+                    "description": "The tags to assign to the vault",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--creator-request-id",
+                    "description": "The ID of the creation request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-retention-days",
+                    "description": "This setting specifies the minimum retention period that the vault retains its recovery points.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--max-retention-days",
+                    "description": "The maximum retention period that the vault retains its recovery points",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-report-plan",
+            "description": "Creates a report plan.",
+            "options": [
+                {
+                    "name": "--report-plan-name",
+                    "description": "The unique name of the report plan.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--report-plan-description",
+                    "description": "An optional description of the report plan with a maximum of 1,024 characters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--report-delivery-channel",
+                    "description": "A structure that contains information about where and how to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--report-setting",
+                    "description": "Identifies the report template for the report.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--report-plan-tags",
+                    "description": "The tags to assign to the report plan",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to CreateReportPlanInput.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-restore-testing-plan",
+            "description": "Creates a restore testing plan.",
+            "options": [
+                {
+                    "name": "--creator-request-id",
+                    "description": "This is a unique string that identifies the request and allows failed requests to be retriedwithout the risk of running the operation twice.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-plan",
+                    "description": "A restore testing plan must contain a unique RestoreTestingPlanName string you create and must contain a ScheduleExpression cron.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to assign to the restore testing plan",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-restore-testing-selection",
+            "description": "This request can be sent after CreateRestoreTestingPlan request returns successfully.",
+            "options": [
+                {
+                    "name": "--creator-request-id",
+                    "description": "This is an optional unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Input the restore testing plan name that was returned from the related CreateRestoreTestingPlan request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-selection",
+                    "description": "This consists of RestoreTestingSelectionName, ProtectedResourceType, and one of the following: ProtectedResourceArns ProtectedResourceConditions Each protected resource type can have one single value.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-plan",
+            "description": "Deletes a backup plan.",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-selection",
+            "description": "Deletes the resource selection associated with a backup plan that is specified by the SelectionId",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--selection-id",
+                    "description": "Uniquely identifies the body of a request to assign a set of resources to a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-vault",
+            "description": "Deletes the backup vault identified by its name.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-vault-access-policy",
+            "description": "Deletes the policy document that manages permissions on a backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-vault-lock-configuration",
+            "description": "Deletes Backup Vault Lock from a backup vault specified by a backup vault name.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of the backup vault from which to delete Backup Vault Lock",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-backup-vault-notifications",
+            "description": "Deletes event notifications for the specified backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-framework",
+            "description": "Deletes the framework specified by a framework name",
+            "options": [
+                {
+                    "name": "--framework-name",
+                    "description": "The unique name of a framework",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-recovery-point",
+            "description": "Deletes the recovery point specified by a recovery point ID.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-report-plan",
+            "description": "Deletes the report plan specified by a report plan name",
+            "options": [
+                {
+                    "name": "--report-plan-name",
+                    "description": "The unique name of a report plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-restore-testing-plan",
+            "description": "This request deletes the specified restore testing plan.",
+            "options": [
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Required unique name of the restore testing plan you wish to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-restore-testing-selection",
+            "description": "Input the Restore Testing Plan name and Restore Testing Selection name.",
+            "options": [
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Required unique name of the restore testing plan that contains the restore testing selection you wish to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-selection-name",
+                    "description": "Required unique name of the restore testing selection you wish to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-backup-job",
+            "description": "Returns backup job details for the specified BackupJobId",
+            "options": [
+                {
+                    "name": "--backup-job-id",
+                    "description": "Uniquely identifies a request to Backup to back up a resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-backup-vault",
+            "description": "Returns metadata about a backup vault specified by its name",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "The account ID of the specified backup vault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-copy-job",
+            "description": "Returns metadata associated with creating a copy of a resource",
+            "options": [
+                {
+                    "name": "--copy-job-id",
+                    "description": "Uniquely identifies a copy job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-framework",
+            "description": "Returns the framework details for the specified FrameworkName",
+            "options": [
+                {
+                    "name": "--framework-name",
+                    "description": "The unique name of a framework",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-global-settings",
+            "description": "Describes whether the Amazon Web Services account is opted in to cross-account backup.",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-protected-resource",
+            "description": "Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-recovery-point",
+            "description": "Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "The account ID of the specified backup vault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-region-settings",
+            "description": "Returns the current service opt-in settings for the Region.",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-report-job",
+            "description": "Returns the details associated with creating a report as specified by its ReportJobId",
+            "options": [
+                {
+                    "name": "--report-job-id",
+                    "description": "The identifier of the report job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-report-plan",
+            "description": "Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region",
+            "options": [
+                {
+                    "name": "--report-plan-name",
+                    "description": "The unique name of a report plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-restore-job",
+            "description": "Returns metadata associated with a restore job that is specified by a job ID",
+            "options": [
+                {
+                    "name": "--restore-job-id",
+                    "description": "Uniquely identifies the job that restores a recovery point",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "disassociate-recovery-point",
+            "description": "Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The unique name of an Backup vault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies an Backup recovery point",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "disassociate-recovery-point-from-parent",
+            "description": "This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where the child (nested) recovery point is stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "The Amazon Resource Name (ARN) that uniquely identifies the child (nested) recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "export-backup-plan-template",
+            "description": "Returns the backup plan that is specified by the plan ID as a backup template",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-plan",
+            "description": "Returns BackupPlan details for the specified BackupPlanId.",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-id",
+                    "description": "Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-plan-from-json",
+            "description": "Returns a valid JSON document specifying a backup plan or an error",
+            "options": [
+                {
+                    "name": "--backup-plan-template-json",
+                    "description": "A customer-supplied backup plan document in JSON format",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-plan-from-template",
+            "description": "Returns the template specified by its templateId as a backup plan",
+            "options": [
+                {
+                    "name": "--backup-plan-template-id",
+                    "description": "Uniquely identifies a stored backup plan template",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-selection",
+            "description": "Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--selection-id",
+                    "description": "Uniquely identifies the body of a request to assign a set of resources to a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-vault-access-policy",
+            "description": "Returns the access policy document that is associated with the named backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-backup-vault-notifications",
+            "description": "Returns event notifications for the specified backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-legal-hold",
+            "description": "This action returns details for a specified legal hold.",
+            "options": [
+                {
+                    "name": "--legal-hold-id",
+                    "description": "The ID of the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-recovery-point-restore-metadata",
+            "description": "Returns a set of metadata key-value pairs that were used to create the backup",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "The account ID of the specified backup vault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-restore-job-metadata",
+            "description": "This request returns the metadata for the specified restore job",
+            "options": [
+                {
+                    "name": "--restore-job-id",
+                    "description": "This is a unique identifier of a restore job within Backup",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-restore-testing-inferred-metadata",
+            "description": "This request returns the minimal required set of metadata needed to start a restore job with secure default settings.",
+            "options": [
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "The account ID of the specified backup vault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-restore-testing-plan",
+            "description": "Returns RestoreTestingPlan details for the specified RestoreTestingPlanName.",
+            "options": [
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Required unique name of the restore testing plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-restore-testing-selection",
+            "description": "Returns RestoreTestingSelection, which displays resources and elements of the restore testing plan",
+            "options": [
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Required unique name of the restore testing plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-selection-name",
+                    "description": "Required unique name of the restore testing selection",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-supported-resource-types",
+            "description": "Returns the Amazon Web Services resource types supported by Backup",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-job-summaries",
+            "description": "This is a request for a summary of backup jobs created or running within the most recent 30 days.",
+            "options": [
+                {
+                    "name": "--account-id",
+                    "description": "Returns the job count for the specified account.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "This parameter returns the job count for jobs with the specified state.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "Returns the job count for the specified resource type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message-category",
+                    "description": "This parameter returns the job count for the specified message category.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aggregation-period",
+                    "description": "The period for the returned results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned resources.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-jobs",
+            "description": "Returns a list of existing backup jobs for an authenticated account for the last 30 days.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--by-resource-arn",
+                    "description": "Returns only backup jobs that match the specified resource Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-state",
+                    "description": "Returns only backup jobs that are in the specified state.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-backup-vault-name",
+                    "description": "Returns only backup jobs that will be stored in the specified backup vault.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-created-before",
+                    "description": "Returns only backup jobs that were created before the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-created-after",
+                    "description": "Returns only backup jobs that were created after the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-resource-type",
+                    "description": "Returns only backup jobs for the specified resources: Aurora for Amazon Aurora CloudFormation for CloudFormation DocumentDB for Amazon DocumentDB (with MongoDB compatibility) DynamoDB for Amazon DynamoDB EBS for Amazon Elastic Block...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-account-id",
+                    "description": "The account ID to list the jobs from.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-complete-after",
+                    "description": "Returns only backup jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-complete-before",
+                    "description": "Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-parent-job-id",
+                    "description": "This is a filter to list child (nested) jobs based on parent job ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-message-category",
+                    "description": "This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-plan-templates",
+            "description": "Lists the backup plan templates",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-plan-versions",
+            "description": "Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-plans",
+            "description": "Lists the active backup plans for the account",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--include-deleted",
+                    "description": "A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE"
+                },
+                {
+                    "name": "--no-include-deleted",
+                    "description": "A Boolean value with a default value of FALSE that returns deleted backup plans when set to TRUE"
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-selections",
+            "description": "Returns an array containing metadata of the resources associated with the target backup plan",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "Uniquely identifies a backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-backup-vaults",
+            "description": "Returns a list of recovery point storage containers along with information about them",
+            "options": [
+                {
+                    "name": "--by-vault-type",
+                    "description": "This parameter will sort the list of vaults by vault type",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-shared",
+                    "description": "This parameter will sort the list of vaults by shared vaults"
+                },
+                {
+                    "name": "--no-by-shared",
+                    "description": "This parameter will sort the list of vaults by shared vaults"
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-copy-job-summaries",
+            "description": "This request obtains a list of copy jobs created or running within the the most recent 30 days.",
+            "options": [
+                {
+                    "name": "--account-id",
+                    "description": "Returns the job count for the specified account.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "This parameter returns the job count for jobs with the specified state.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "Returns the job count for the specified resource type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message-category",
+                    "description": "This parameter returns the job count for the specified message category.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aggregation-period",
+                    "description": "The period for the returned results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "This parameter sets the maximum number of items to be returned.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned resources.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-copy-jobs",
+            "description": "Returns metadata about your copy jobs",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--by-resource-arn",
+                    "description": "Returns only copy jobs that match the specified resource Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-state",
+                    "description": "Returns only copy jobs that are in the specified state",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-created-before",
+                    "description": "Returns only copy jobs that were created before the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-created-after",
+                    "description": "Returns only copy jobs that were created after the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-resource-type",
+                    "description": "Returns only backup jobs for the specified resources: Aurora for Amazon Aurora CloudFormation for CloudFormation DocumentDB for Amazon DocumentDB (with MongoDB compatibility) DynamoDB for Amazon DynamoDB EBS for Amazon Elastic Block...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-destination-vault-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a source backup vault to copy from; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-account-id",
+                    "description": "The account ID to list the jobs from.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-complete-before",
+                    "description": "Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-complete-after",
+                    "description": "Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-parent-job-id",
+                    "description": "This is a filter to list child (nested) jobs based on parent job ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-message-category",
+                    "description": "This is an optional parameter that can be used to filter out jobs with a MessageCategory which matches the value you input.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-frameworks",
+            "description": "Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The number of desired results from 1 to 1000.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-legal-holds",
+            "description": "This action returns metadata about active and previous legal holds",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned resources.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of resource list items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-protected-resources",
+            "description": "Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-protected-resources-by-backup-vault",
+            "description": "This request lists the protected resources corresponding to each backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The list of protected resources by backup vault within the vault(s) you specify by name",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "The list of protected resources by backup vault within the vault(s) you specify by account ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-recovery-points-by-backup-vault",
+            "description": "Returns detailed information about the recovery points stored in a backup vault",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-account-id",
+                    "description": "This parameter will sort the list of recovery points by account ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--by-resource-arn",
+                    "description": "Returns only recovery points that match the specified resource Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-resource-type",
+                    "description": "Returns only recovery points that match the specified resource type(s): Aurora for Amazon Aurora CloudFormation for CloudFormation DocumentDB for Amazon DocumentDB (with MongoDB compatibility) DynamoDB for Amazon DynamoDB EBS for Amazon...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-backup-plan-id",
+                    "description": "Returns only recovery points that match the specified backup plan ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-created-before",
+                    "description": "Returns only recovery points that were created before the specified timestamp",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-created-after",
+                    "description": "Returns only recovery points that were created after the specified timestamp",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-parent-recovery-point-arn",
+                    "description": "This returns only recovery points that match the specified parent (composite) recovery point Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-recovery-points-by-legal-hold",
+            "description": "This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold",
+            "options": [
+                {
+                    "name": "--legal-hold-id",
+                    "description": "The ID of the legal hold",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned resources.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of resource list items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-recovery-points-by-resource",
+            "description": "The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN).",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "An ARN that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--managed-by-aws-backup-only",
+                    "description": "This attribute filters recovery points based on ownership."
+                },
+                {
+                    "name": "--no-managed-by-aws-backup-only",
+                    "description": "This attribute filters recovery points based on ownership."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-report-jobs",
+            "description": "Returns details about your report jobs",
+            "options": [
+                {
+                    "name": "--by-report-plan-name",
+                    "description": "Returns only report jobs with the specified report plan name",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-creation-before",
+                    "description": "Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC).",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-creation-after",
+                    "description": "Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC).",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-status",
+                    "description": "Returns only report jobs that are in the specified status.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The number of desired results from 1 to 1000.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-report-plans",
+            "description": "Returns a list of your report plans.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The number of desired results from 1 to 1000.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-restore-job-summaries",
+            "description": "This request obtains a summary of restore jobs created or running within the the most recent 30 days.",
+            "options": [
+                {
+                    "name": "--account-id",
+                    "description": "Returns the job count for the specified account.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "This parameter returns the job count for jobs with the specified state.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "Returns the job count for the specified resource type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aggregation-period",
+                    "description": "The period for the returned results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "This parameter sets the maximum number of items to be returned.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned resources.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-restore-jobs",
+            "description": "Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--by-account-id",
+                    "description": "The account ID to list the jobs from.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-resource-type",
+                    "description": "Include this parameter to return only restore jobs for the specified resources: Aurora for Amazon Aurora CloudFormation for CloudFormation DocumentDB for Amazon DocumentDB (with MongoDB compatibility) DynamoDB for Amazon DynamoDB EBS...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-created-before",
+                    "description": "Returns only restore jobs that were created before the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-created-after",
+                    "description": "Returns only restore jobs that were created after the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-status",
+                    "description": "Returns only restore jobs associated with the specified job status",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-complete-before",
+                    "description": "Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-complete-after",
+                    "description": "Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC)",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-restore-testing-plan-arn",
+                    "description": "This returns only restore testing jobs that match the specified resource Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-restore-jobs-by-protected-resource",
+            "description": "This returns restore jobs that contain the specified protected resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "Returns only restore jobs that match the specified resource Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-status",
+                    "description": "Returns only restore jobs associated with the specified job status",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--by-recovery-point-creation-date-after",
+                    "description": "Returns only restore jobs of recovery points that were created after the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--by-recovery-point-creation-date-before",
+                    "description": "Returns only restore jobs of recovery points that were created before the specified date",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-restore-testing-plans",
+            "description": "Returns a list of restore testing plans",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-restore-testing-selections",
+            "description": "Returns a list of restore testing selections.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "Returns restore testing selections by the specified restore testing plan name",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags",
+            "description": "Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The next item following a partial list of returned items.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to be returned",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-backup-vault-access-policy",
+            "description": "Sets a resource-based policy that is used to manage access permissions on the target backup vault.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy",
+                    "description": "The backup vault access policy document in JSON format",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-backup-vault-lock-configuration",
+            "description": "Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The Backup Vault Lock configuration that specifies the name of the backup vault it protects",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-retention-days",
+                    "description": "The Backup Vault Lock configuration that specifies the minimum retention period that the vault retains its recovery points.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--max-retention-days",
+                    "description": "The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--changeable-for-days",
+                    "description": "The Backup Vault Lock configuration that specifies the number of days before the lock date.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-backup-vault-notifications",
+            "description": "Turns on notifications on a backup vault for the specified topic and events",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sns-topic-arn",
+                    "description": "The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-vault-events",
+                    "description": "An array of events that indicate the status of jobs to back up resources to the backup vault.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-restore-validation-result",
+            "description": "This request allows you to send your independent self-run restore test validation results.",
+            "options": [
+                {
+                    "name": "--restore-job-id",
+                    "description": "This is a unique identifier of a restore job within Backup",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--validation-status",
+                    "description": "The status of your restore validation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--validation-status-message",
+                    "description": "This is an optional message string you can input to describe the validation status for the restore test validation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-backup-job",
+            "description": "Starts an on-demand backup job for the specified resource",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--iam-role-arn",
+                    "description": "Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-window-minutes",
+                    "description": "A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--complete-window-minutes",
+                    "description": "A value in minutes during which a successfully started backup must complete, or else Backup will cancel the job.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--lifecycle",
+                    "description": "The lifecycle defines when a protected resource is transitioned to cold storage and when it expires.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--recovery-point-tags",
+                    "description": "The tags to assign to the resources",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--backup-options",
+                    "description": "The backup option for a selected resource.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-copy-job",
+            "description": "Starts a job to create a one-time copy of the specified resource.",
+            "options": [
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An ARN that uniquely identifies a recovery point to use for the copy job; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-backup-vault-name",
+                    "description": "The name of a logical source container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination-backup-vault-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a destination backup vault to copy to; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--iam-role-arn",
+                    "description": "Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to StartCopyJob.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lifecycle",
+                    "description": "Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-report-job",
+            "description": "Starts an on-demand report job for the specified report plan",
+            "options": [
+                {
+                    "name": "--report-plan-name",
+                    "description": "The unique name of a report plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to StartReportJobInput.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-restore-job",
+            "description": "Recovers the saved resource identified by an Amazon Resource Name (ARN)",
+            "options": [
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--metadata",
+                    "description": "A set of metadata key-value pairs.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--iam-role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the IAM role that Backup uses to create the target resource; for example: arn:aws:iam::123456789012:role/S3Access",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "Starts a job to restore a recovery point for one of the following resources: Aurora - Amazon Aurora DocumentDB - Amazon DocumentDB CloudFormation - CloudFormation DynamoDB - Amazon DynamoDB EBS - Amazon Elastic Block Store EC2 - Amazon...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--copy-source-tags-to-restored-resource",
+                    "description": "This is an optional parameter."
+                },
+                {
+                    "name": "--no-copy-source-tags-to-restored-resource",
+                    "description": "This is an optional parameter."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-backup-job",
+            "description": "Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services",
+            "options": [
+                {
+                    "name": "--backup-job-id",
+                    "description": "Uniquely identifies a request to Backup to back up a resource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "An ARN that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Key-value pairs that are used to help organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN) This API is not supported for recovery points for resource types including Aurora, Amazon DocumentDB.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "An ARN that uniquely identifies a resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-key-list",
+                    "description": "The keys to identify which key-value tags to remove from a resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-backup-plan",
+            "description": "Updates the specified backup plan.",
+            "options": [
+                {
+                    "name": "--backup-plan-id",
+                    "description": "The ID of the backup plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--backup-plan",
+                    "description": "The body of a backup plan.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-framework",
+            "description": "Updates the specified framework",
+            "options": [
+                {
+                    "name": "--framework-name",
+                    "description": "The unique name of a framework.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--framework-description",
+                    "description": "An optional description of the framework with a maximum 1,024 characters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--framework-controls",
+                    "description": "The controls that make up the framework.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateFrameworkInput.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-global-settings",
+            "description": "Updates whether the Amazon Web Services account is opted in to cross-account backup.",
+            "options": [
+                {
+                    "name": "--global-settings",
+                    "description": "A value for isCrossAccountBackupEnabled and a Region.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-recovery-point-lifecycle",
+            "description": "Sets the transition lifecycle of a recovery point.",
+            "options": [
+                {
+                    "name": "--backup-vault-name",
+                    "description": "The name of a logical container where backups are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recovery-point-arn",
+                    "description": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lifecycle",
+                    "description": "The lifecycle defines when a protected resource is transitioned to cold storage and when it expires.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-region-settings",
+            "description": "Updates the current service opt-in settings for the Region.",
+            "options": [
+                {
+                    "name": "--resource-type-opt-in-preference",
+                    "description": "Updates the list of services along with the opt-in preferences for the Region.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--resource-type-management-preference",
+                    "description": "Enables or disables full Backup management of backups for a resource type.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-report-plan",
+            "description": "Updates the specified report plan",
+            "options": [
+                {
+                    "name": "--report-plan-name",
+                    "description": "The unique name of the report plan.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--report-plan-description",
+                    "description": "An optional description of the report plan with a maximum 1,024 characters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--report-delivery-channel",
+                    "description": "The information about where to deliver your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of your reports",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--report-setting",
+                    "description": "The report template for the report.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "A customer-chosen string that you can use to distinguish between otherwise identical calls to UpdateReportPlanInput.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-restore-testing-plan",
+            "description": "This request will send changes to your specified restore testing plan.",
+            "options": [
+                {
+                    "name": "--restore-testing-plan",
+                    "description": "Specifies the body of a restore testing plan",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "The name of the restore testing plan name",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-restore-testing-selection",
+            "description": "Updates the specified restore testing selection.",
+            "options": [
+                {
+                    "name": "--restore-testing-plan-name",
+                    "description": "The restore testing plan name is required to update the indicated testing plan",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--restore-testing-selection",
+                    "description": "To update your restore testing selection, you can use either protected resource ARNs or conditions, but not both.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--restore-testing-selection-name",
+                    "description": "The required restore testing selection name of the restore testing selection you wish to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

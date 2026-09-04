@@ -1,0 +1,449 @@
+{
+    "name": "kinesis-video-archived-media",
+    "subcommands": [
+        {
+            "name": "get-clip",
+            "description": "Downloads an MP4 file (clip) containing the archived, on-demand media from the specified video stream over the specified time range.",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream for which to retrieve the media clip.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream for which to retrieve the media clip.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--clip-fragment-selector",
+                    "description": "The time range of the requested clip and the source of the timestamps",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-dash-streaming-session-url",
+            "description": "Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream.",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream for which to retrieve the MPEG-DASH manifest URL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream for which to retrieve the MPEG-DASH manifest URL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--playback-mode",
+                    "description": "Whether to retrieve live, live replay, or archived, on-demand data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--display-fragment-timestamp",
+                    "description": "Per the MPEG-DASH specification, the wall-clock time of fragments in the manifest file can be derived using attributes in the manifest itself.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--display-fragment-number",
+                    "description": "Fragments are identified in the manifest file based on their sequence number in the session.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dash-fragment-selector",
+                    "description": "The time range of the requested fragment and the source of the timestamps.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--expires",
+                    "description": "The time in seconds until the requested session expires.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-manifest-fragment-results",
+                    "description": "The maximum number of fragments that are returned in the MPEG-DASH manifest.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-hls-streaming-session-url",
+            "description": "Retrieves an HTTP Live Streaming (HLS) URL for the stream.",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream for which to retrieve the HLS master playlist URL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS master playlist URL.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--playback-mode",
+                    "description": "Whether to retrieve live, live replay, or archived, on-demand data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--hls-fragment-selector",
+                    "description": "The time range of the requested fragment and the source of the timestamps.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--container-format",
+                    "description": "Specifies which format should be used for packaging the media.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--discontinuity-mode",
+                    "description": "Specifies when flags marking discontinuities between fragments are added to the media playlists.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--display-fragment-timestamp",
+                    "description": "Specifies when the fragment start timestamps should be included in the HLS media playlist.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--expires",
+                    "description": "The time in seconds until the requested session expires.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-media-playlist-fragment-results",
+                    "description": "The maximum number of fragments that are returned in the HLS media playlists.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-images",
+            "description": "Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream from which to retrieve the images.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream from which to retrieve the images.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-selector-type",
+                    "description": "The origin of the Server or Producer timestamps to use to generate the images",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-timestamp",
+                    "description": "The starting point from which the images should be generated.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--end-timestamp",
+                    "description": "The end timestamp for the range of images to be generated.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--sampling-interval",
+                    "description": "The time interval in milliseconds (ms) at which the images need to be generated from the stream.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "The format that will be used to encode the image",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--format-config",
+                    "description": "The list of a key-value pair structure that contains extra parameters that can be applied when the image is generated.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--width-pixels",
+                    "description": "The width of the output image that is used in conjunction with the HeightPixels parameter.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--height-pixels",
+                    "description": "The height of the output image that is used in conjunction with the WidthPixels parameter.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of images to be returned by the API.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token that specifies where to start paginating the next set of Images.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-media-for-fragment-list",
+            "description": "Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream.",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream from which to retrieve fragment media.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream from which to retrieve fragment media.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--fragments",
+                    "description": "A list of the numbers of fragments for which to retrieve media.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-fragments",
+            "description": "Returns a list of Fragment objects from the specified stream and timestamp range within the archived data.",
+            "options": [
+                {
+                    "name": "--stream-name",
+                    "description": "The name of the stream from which to retrieve a fragment list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--stream-arn",
+                    "description": "The Amazon Resource Name (ARN) of the stream from which to retrieve a fragment list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The total number of fragments to return.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--fragment-selector",
+                    "description": "Describes the timestamp range and timestamp origin for the range of fragments to return.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

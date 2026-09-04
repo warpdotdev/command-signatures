@@ -1,0 +1,364 @@
+{
+    "name": "ebs",
+    "description": "You can use the Amazon Elastic Block Store (Amazon EBS) direct APIs to create Amazon EBS snapshots, write data directly to your snapshots, read data on your snapshots, and identify the differences or changes between two snapshots.",
+    "subcommands": [
+        {
+            "name": "complete-snapshot",
+            "description": "Seals and completes the snapshot after all of the required blocks of data have been written to it.",
+            "options": [
+                {
+                    "name": "--snapshot-id",
+                    "description": "The ID of the snapshot",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--changed-blocks-count",
+                    "description": "The number of blocks that were written to the snapshot",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--checksum",
+                    "description": "An aggregated Base-64 SHA256 checksum based on the checksums of each written block.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--checksum-algorithm",
+                    "description": "The algorithm used to generate the checksum.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--checksum-aggregation-method",
+                    "description": "The aggregation method used to generate the checksum.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-snapshot-block",
+            "description": "Returns the data in a block in an Amazon Elastic Block Store snapshot.",
+            "options": [
+                {
+                    "name": "--snapshot-id",
+                    "description": "The ID of the snapshot containing the block from which to get data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--block-index",
+                    "description": "The block index of the block in which to read the data.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--block-token",
+                    "description": "The block token of the block from which to get data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-changed-blocks",
+            "description": "Returns information about the blocks that are different between two Amazon Elastic Block Store snapshots of the same volume/snapshot lineage.",
+            "options": [
+                {
+                    "name": "--first-snapshot-id",
+                    "description": "The ID of the first snapshot to use for the comparison.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--second-snapshot-id",
+                    "description": "The ID of the second snapshot to use for the comparison.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token to request the next page of results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of blocks to be returned by the request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--starting-block-index",
+                    "description": "The block index from which the comparison should start.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-snapshot-blocks",
+            "description": "Returns information about the blocks in an Amazon Elastic Block Store snapshot.",
+            "options": [
+                {
+                    "name": "--snapshot-id",
+                    "description": "The ID of the snapshot from which to get block indexes and block tokens",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token to request the next page of results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of blocks to be returned by the request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--starting-block-index",
+                    "description": "The block index from which the list should start.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-snapshot-block",
+            "description": "Writes a block of data to a snapshot.",
+            "options": [
+                {
+                    "name": "--snapshot-id",
+                    "description": "The ID of the snapshot.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--block-index",
+                    "description": "The block index of the block in which to write the data.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--block-data",
+                    "description": "The data to write to the block.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--data-length",
+                    "description": "The size of the data to write to the block, in bytes.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--progress",
+                    "description": "The progress of the write process, as a percentage",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--checksum",
+                    "description": "A Base64-encoded SHA256 checksum of the data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--checksum-algorithm",
+                    "description": "The algorithm used to generate the checksum.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-snapshot",
+            "description": "Creates a new Amazon EBS snapshot.",
+            "options": [
+                {
+                    "name": "--volume-size",
+                    "description": "The size of the volume, in GiB.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--parent-snapshot-id",
+                    "description": "The ID of the parent snapshot.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to apply to the snapshot",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description for the snapshot",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-token",
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--encrypted",
+                    "description": "Indicates whether to encrypt the snapshot."
+                },
+                {
+                    "name": "--no-encrypted",
+                    "description": "Indicates whether to encrypt the snapshot."
+                },
+                {
+                    "name": "--kms-key-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--timeout",
+                    "description": "The amount of time (in minutes) after which the snapshot is automatically cancelled if: No blocks are written to the snapshot.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

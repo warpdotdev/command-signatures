@@ -1,0 +1,770 @@
+{
+    "name": "mwaa",
+    "description": "Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation.",
+    "subcommands": [
+        {
+            "name": "create-cli-token",
+            "description": "Creates a CLI token for the Airflow CLI.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-environment",
+            "description": "Creates an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--execution-role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the execution role for your environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-bucket-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dag-s3-path",
+                    "description": "The relative path to the DAGs folder on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--network-configuration",
+                    "description": "The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--plugins-s3-path",
+                    "description": "The relative path to the plugins.zip file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--plugins-s3-object-version",
+                    "description": "The version of the plugins.zip file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--requirements-s3-path",
+                    "description": "The relative path to the requirements.txt file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--requirements-s3-object-version",
+                    "description": "The version of the requirements.txt file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--startup-script-s3-path",
+                    "description": "The relative path to the startup shell script in your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--startup-script-s3-object-version",
+                    "description": "The version of the startup shell script in your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--airflow-configuration-options",
+                    "description": "A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--environment-class",
+                    "description": "The environment class type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-workers",
+                    "description": "The maximum number of workers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--kms-key",
+                    "description": "The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--airflow-version",
+                    "description": "The Apache Airflow version for your environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--logging-configuration",
+                    "description": "Defines the Apache Airflow logs to send to CloudWatch Logs",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--weekly-maintenance-window-start",
+                    "description": "The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The key-value tag pairs you want to associate to your environment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--webserver-access-mode",
+                    "description": "Defines the access mode for the Apache Airflow web server.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-workers",
+                    "description": "The minimum number of workers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--schedulers",
+                    "description": "The number of Apache Airflow schedulers to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--endpoint-management",
+                    "description": "Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-webservers",
+                    "description": "The minimum number of web servers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-webservers",
+                    "description": "The maximum number of web servers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-web-login-token",
+            "description": "Creates a web login token for the Airflow Web UI.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-environment",
+            "description": "Deletes an Amazon Managed Workflows for Apache Airflow (Amazon MWAA) environment",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-environment",
+            "description": "Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "invoke-rest-api",
+            "description": "Invokes the Apache Airflow REST API on the webserver with the specified inputs.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--path",
+                    "description": "The Apache Airflow REST API endpoint path to be called.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--method",
+                    "description": "The HTTP method used for making Airflow REST API calls.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--query-parameters",
+                    "description": "Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--body",
+                    "description": "The request body for the Apache Airflow REST API call, provided as a JSON object",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-environments",
+            "description": "Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Retrieves the next page of the results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to retrieve per page.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow (MWAA) environment.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "publish-metrics",
+            "description": "Internal only.",
+            "options": [
+                {
+                    "name": "--environment-name",
+                    "description": "Internal only.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--metric-data",
+                    "description": "Internal only.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA) environment",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The key-value tag pairs you want to associate to your environment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow (MWAA) environment.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The key-value tag pair you want to remove.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-environment",
+            "description": "Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of your Amazon MWAA environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--execution-role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--airflow-version",
+                    "description": "The Apache Airflow version for your environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-bucket-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dag-s3-path",
+                    "description": "The relative path to the DAGs folder on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--plugins-s3-path",
+                    "description": "The relative path to the plugins.zip file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--plugins-s3-object-version",
+                    "description": "The version of the plugins.zip file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--requirements-s3-path",
+                    "description": "The relative path to the requirements.txt file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--requirements-s3-object-version",
+                    "description": "The version of the requirements.txt file on your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--startup-script-s3-path",
+                    "description": "The relative path to the startup shell script in your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--startup-script-s3-object-version",
+                    "description": "The version of the startup shell script in your Amazon S3 bucket.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--airflow-configuration-options",
+                    "description": "A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--environment-class",
+                    "description": "The environment class type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-workers",
+                    "description": "The maximum number of workers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--network-configuration",
+                    "description": "The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--logging-configuration",
+                    "description": "The Apache Airflow log types to send to CloudWatch Logs",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--weekly-maintenance-window-start",
+                    "description": "The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--webserver-access-mode",
+                    "description": "The Apache Airflow Web server access mode.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-workers",
+                    "description": "The minimum number of workers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--schedulers",
+                    "description": "The number of Apache Airflow schedulers to run in your Amazon MWAA environment",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--min-webservers",
+                    "description": "The minimum number of web servers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-webservers",
+                    "description": "The maximum number of web servers that you want to run in your environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
