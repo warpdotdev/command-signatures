@@ -38,11 +38,15 @@ pub fn trivy_pkg_types_remaining(tokens: &[&str], _: bool, _: &[String]) -> Comm
 }
 
 pub fn docker_from_as(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
-    let file = dockerfile_from_tokens(tokens);
-    CommandBuilder::single_command(format!(
-        r#"grep -iE 'FROM.*AS' {} 2>/dev/null"#,
-        shell_single_quote(&file)
-    ))
+    if let Some(i) = tokens.iter().position(|t| *t == "-f" || *t == "--file") {
+        if let Some(file) = tokens.get(i + 1) {
+            return CommandBuilder::single_command(format!(
+                r#"grep -iE 'FROM.*AS' {} 2>/dev/null"#,
+                shell_single_quote(file),
+            ));
+        }
+    }
+    CommandBuilder::single_command(r#"grep -iE 'FROM.*AS' "$PWD/Dockerfile" 2>/dev/null"#)
 }
 
 pub fn docker_search(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
@@ -82,8 +86,17 @@ pub fn apt_list_prefix(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder
     }
 }
 
-pub fn cargo_test_list(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder {
-    let token = last_token(tokens);
+pub fn cargo_test_list(
+    tokens: &[&str],
+    has_trailing_whitespace: bool,
+    _: &[String],
+) -> CommandBuilder {
+    let token = if has_trailing_whitespace {
+        ""
+    } else {
+        last_token(tokens)
+    };
+    let token = if token.starts_with('-') { "" } else { token };
     let depth = token.split("::").filter(|s| !s.is_empty()).count().max(1);
     let last = token.split("::").last().unwrap_or("");
     CommandBuilder::single_command(format!(
@@ -418,15 +431,6 @@ fn remaining_delimited(tokens: &[&str], options: &[&str], delimiter: char) -> Co
         .map(|option| format!("{already}{option}"))
         .collect();
     CommandBuilder::single_command(format!("printf '%s\\n' {}", rendered.join(" ")))
-}
-
-fn dockerfile_from_tokens(tokens: &[&str]) -> String {
-    if let Some(i) = tokens.iter().position(|t| *t == "-f" || *t == "--file") {
-        if i + 1 < tokens.len() {
-            return tokens[i + 1].to_string();
-        }
-    }
-    "$PWD/Dockerfile".to_string()
 }
 
 fn user_at_prefix(token: &str) -> String {
