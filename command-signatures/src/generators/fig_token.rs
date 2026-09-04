@@ -371,7 +371,7 @@ pub fn esbuild_loader(tokens: &[&str], _: bool, _: &[String]) -> CommandBuilder 
         )
     } else {
         CommandBuilder::single_command(
-            "find . -maxdepth 3 -type f -name '*.*' ! -path '*/node_modules/*' | sed 's/.*\\.//' | sort -u",
+            "find . -type f -name '*.*' ! -path '*/node_modules/*' | sed 's/.*\\.//' | sort -u",
         )
     }
 }
