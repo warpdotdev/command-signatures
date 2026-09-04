@@ -270,7 +270,7 @@ mod tests {
 #[cfg(test)]
 mod duplicate_short_flags {
     use crate::fig_types::Command;
-    use crate::validation::find_short_flag_conflicts;
+    use crate::validation::{find_short_flag_conflicts, ShortFlagClaimant, ShortFlagConflict};
     use std::collections::BTreeMap;
     use std::fs;
     use std::path::{Path, PathBuf};
@@ -646,8 +646,29 @@ mod duplicate_short_flags {
         actual
     }
 
+    /// Builds the same `ShortFlagConflict` the validator itself produces from a `(key,
+    /// claimants)` record, so baseline-diff diagnostics go through the shared
+    /// `ShortFlagConflict::describe` formatter (canonical space-delimited path, quoted flag, raw
+    /// JSON name arrays, one-based positions) instead of a bespoke, zero-based debug rendering.
+    fn describe_record(key: &ConflictKey, claimants: &Claimants) -> String {
+        let (file, command_path, flag) = key;
+        let conflict = ShortFlagConflict {
+            command_path: command_path.clone(),
+            flag: flag.clone(),
+            claimants: claimants
+                .iter()
+                .map(|(index, names)| ShortFlagClaimant {
+                    index: *index,
+                    names: names.clone(),
+                })
+                .collect(),
+        };
+        conflict.describe(file)
+    }
+
     /// Compares collected conflicts against the baseline as complete records. Returns one
-    /// human-readable failure message per problem found:
+    /// human-readable failure message per problem found, each rendered with the shared
+    /// `ShortFlagConflict::describe` diagnostic format:
     /// - a collected conflict whose key is absent from the baseline (a new conflict);
     /// - a collected conflict whose ordered claimant list differs from the baseline's (the
     ///   claimant identity changed even though the key is unchanged);
@@ -660,23 +681,25 @@ mod duplicate_short_flags {
         let mut failures = Vec::new();
 
         for (key, claimants) in actual {
-            let (file, command_path, flag) = key;
             match baseline.get(key) {
                 None => failures.push(format!(
-                    "new duplicate short flag conflict not in baseline: {file}: command {command_path:?}: duplicate short flag {flag:?} is used by options {claimants:?}"
+                    "new duplicate short flag conflict not in baseline:\n  {}",
+                    describe_record(key, claimants)
                 )),
                 Some(expected_claimants) if expected_claimants != claimants => failures.push(format!(
-                    "claimant identity changed for baselined conflict {file}: command {command_path:?}: duplicate short flag {flag:?}\n  expected claimants: {expected_claimants:?}\n  actual claimants:   {claimants:?}"
+                    "claimant identity changed for baselined conflict:\n  expected: {}\n  actual:   {}",
+                    describe_record(key, expected_claimants),
+                    describe_record(key, claimants)
                 )),
                 _ => {}
             }
         }
 
-        for key in baseline.keys() {
+        for (key, expected_claimants) in baseline {
             if !actual.contains_key(key) {
-                let (file, command_path, flag) = key;
                 failures.push(format!(
-                    "stale baseline entry, remove it: {file}: command {command_path:?}: duplicate short flag {flag:?}"
+                    "stale baseline entry, remove it:\n  {}",
+                    describe_record(key, expected_claimants)
                 ));
             }
         }
@@ -820,5 +843,71 @@ mod duplicate_short_flags {
         let failures = diff_against_baseline(&actual, &baseline);
         assert_eq!(failures.len(), 1);
         assert!(failures[0].contains("stale baseline entry"));
+    }
+
+    /// Pins the exact, one-based, source-actionable diagnostic text (matching
+    /// `ShortFlagConflict::describe`) for all three failure modes, so a future change cannot
+    /// silently regress to a bare zero-based debug rendering of the claimant records.
+    #[test]
+    fn diff_messages_use_the_shared_one_based_diagnostic_format() {
+        let key: ConflictKey = (
+            "tool.json".to_string(),
+            vec!["tool".to_string()],
+            "-t".to_string(),
+        );
+        let expected_text = "tool.json: command \"tool\": duplicate short flag \"-t\" is used by options #1 [\"-t\", \"--type-a\"] and #2 [\"-t\", \"--type-b\"]";
+        let changed_text = "tool.json: command \"tool\": duplicate short flag \"-t\" is used by options #1 [\"-t\", \"--type-a\"] and #2 [\"-t\", \"--type-c\"]";
+        let baselined_claimants = vec![
+            (0, vec!["-t".to_string(), "--type-a".to_string()]),
+            (1, vec!["-t".to_string(), "--type-b".to_string()]),
+        ];
+        let changed_claimants = vec![
+            (0, vec!["-t".to_string(), "--type-a".to_string()]),
+            (1, vec!["-t".to_string(), "--type-c".to_string()]),
+        ];
+
+        // New conflict: not present in the baseline at all.
+        let mut actual = BTreeMap::new();
+        actual.insert(key.clone(), baselined_claimants.clone());
+        let failures = diff_against_baseline(&actual, &BTreeMap::new());
+        assert_eq!(failures.len(), 1);
+        assert!(
+            failures[0].contains(expected_text),
+            "expected {:?} to contain {:?}",
+            failures[0],
+            expected_text
+        );
+
+        // Claimant identity changed: both the expected and actual one-based diagnostics appear.
+        let mut baseline = BTreeMap::new();
+        baseline.insert(key.clone(), baselined_claimants.clone());
+        let mut actual = BTreeMap::new();
+        actual.insert(key.clone(), changed_claimants);
+        let failures = diff_against_baseline(&actual, &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(
+            failures[0].contains(expected_text),
+            "expected {:?} to contain {:?}",
+            failures[0],
+            expected_text
+        );
+        assert!(
+            failures[0].contains(changed_text),
+            "expected {:?} to contain {:?}",
+            failures[0],
+            changed_text
+        );
+
+        // Stale baseline entry: no longer produced, but still described with the shared format.
+        let mut baseline = BTreeMap::new();
+        baseline.insert(key, baselined_claimants);
+        let failures = diff_against_baseline(&BTreeMap::new(), &baseline);
+        assert_eq!(failures.len(), 1);
+        assert!(
+            failures[0].contains(expected_text),
+            "expected {:?} to contain {:?}",
+            failures[0],
+            expected_text
+        );
     }
 }
