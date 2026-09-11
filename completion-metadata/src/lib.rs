@@ -1,5 +1,6 @@
 mod command_builder;
 pub mod fig_types;
+mod load_spec;
 mod signature;
 
 use serde::{Deserialize, Serialize};
@@ -9,6 +10,7 @@ use std::collections::HashMap;
 use std::hash::{Hash, Hasher};
 
 pub use command_builder::CommandBuilder;
+pub use load_spec::{collect_load_spec_issues, LoadSpecError, SpecLookup};
 
 const MIN_ORDER_VAL: u32 = 1;
 const MAX_ORDER_VAL: u32 = 100;

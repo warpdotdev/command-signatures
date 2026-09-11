@@ -1,0 +1,1406 @@
+{
+    "name": "batch",
+    "description": "Batch Using Batch, you can run batch computing workloads on the Amazon Web Services Cloud.",
+    "subcommands": [
+        {
+            "name": "cancel-job",
+            "description": "Cancels a job in an Batch job queue.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The Batch job ID of the job to cancel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--reason",
+                    "description": "A message to attach to the job that explains the reason for canceling it.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-compute-environment",
+            "description": "Creates an Batch compute environment.",
+            "options": [
+                {
+                    "name": "--compute-environment-name",
+                    "description": "The name for your compute environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--type",
+                    "description": "The type of the compute environment: MANAGED or UNMANAGED.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The state of the compute environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--unmanagedv-cpus",
+                    "description": "The maximum number of vCPUs for an unmanaged compute environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--compute-resources",
+                    "description": "Details about the compute resources managed by the compute environment.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--service-role",
+                    "description": "The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the compute environment to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--eks-configuration",
+                    "description": "The details for the Amazon EKS cluster that supports the compute environment",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--context",
+                    "description": "Reserved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-job-queue",
+            "description": "Creates an Batch job queue.",
+            "options": [
+                {
+                    "name": "--job-queue-name",
+                    "description": "The name of the job queue.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The state of the job queue.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scheduling-policy-arn",
+                    "description": "The Amazon Resource Name (ARN) of the fair share scheduling policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--priority",
+                    "description": "The priority of the job queue.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--compute-environment-order",
+                    "description": "The set of compute environments mapped to a job queue and their order relative to each other.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the job queue to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--job-state-time-limit-actions",
+                    "description": "The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-scheduling-policy",
+            "description": "Creates an Batch scheduling policy",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the scheduling policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--fairshare-policy",
+                    "description": "The fair share policy of the scheduling policy",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the scheduling policy to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-compute-environment",
+            "description": "Deletes an Batch compute environment.",
+            "options": [
+                {
+                    "name": "--compute-environment",
+                    "description": "The name or Amazon Resource Name (ARN) of the compute environment to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-job-queue",
+            "description": "Deletes the specified job queue.",
+            "options": [
+                {
+                    "name": "--job-queue",
+                    "description": "The short name or full Amazon Resource Name (ARN) of the queue to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-scheduling-policy",
+            "description": "Deletes the specified scheduling policy.",
+            "options": [
+                {
+                    "name": "--arn",
+                    "description": "The Amazon Resource Name (ARN) of the scheduling policy to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "deregister-job-definition",
+            "description": "Deregisters an Batch job definition.",
+            "options": [
+                {
+                    "name": "--job-definition",
+                    "description": "The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-compute-environments",
+            "description": "Describes one or more of your compute environments.",
+            "options": [
+                {
+                    "name": "--compute-environments",
+                    "description": "A list of up to 100 compute environment names or full Amazon Resource Name (ARN) entries",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of cluster results returned by DescribeComputeEnvironments in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated DescribeComputeEnvironments request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-job-definitions",
+            "description": "Describes a list of job definitions.",
+            "options": [
+                {
+                    "name": "--job-definitions",
+                    "description": "A list of up to 100 job definitions.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results returned by DescribeJobDefinitions in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--job-definition-name",
+                    "description": "The name of the job definition to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status",
+                    "description": "The status used to filter job definitions",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated DescribeJobDefinitions request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-job-queues",
+            "description": "Describes one or more of your job queues",
+            "options": [
+                {
+                    "name": "--job-queues",
+                    "description": "A list of up to 100 queue names or full queue Amazon Resource Name (ARN) entries",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results returned by DescribeJobQueues in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated DescribeJobQueues request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-jobs",
+            "description": "Describes a list of Batch jobs",
+            "options": [
+                {
+                    "name": "--jobs",
+                    "description": "A list of up to 100 job IDs",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-scheduling-policies",
+            "description": "Describes one or more of your scheduling policies",
+            "options": [
+                {
+                    "name": "--arns",
+                    "description": "A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-job-queue-snapshot",
+            "description": "Provides a list of the first 100 RUNNABLE jobs associated to a single job queue",
+            "options": [
+                {
+                    "name": "--job-queue",
+                    "description": "The job queue’s name or full queue Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-jobs",
+            "description": "Returns a list of Batch jobs.",
+            "options": [
+                {
+                    "name": "--job-queue",
+                    "description": "The name or full Amazon Resource Name (ARN) of the job queue used to list jobs",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--array-job-id",
+                    "description": "The job ID for an array job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--multi-node-job-id",
+                    "description": "The job ID for a multi-node parallel job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-status",
+                    "description": "The job status used to filter jobs in the specified queue.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results returned by ListJobs in a paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated ListJobs request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "The filter to apply to the query.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-scheduling-policies",
+            "description": "Returns a list of Batch scheduling policies",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results that's returned by ListSchedulingPolicies in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value that's returned from a previous paginated ListSchedulingPolicies request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists the tags for an Batch resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource that tags are listed for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "register-job-definition",
+            "description": "Registers an Batch job definition",
+            "options": [
+                {
+                    "name": "--job-definition-name",
+                    "description": "The name of the job definition to register.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--type",
+                    "description": "The type of job definition.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "Default parameter substitution placeholders to set in the job definition.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--scheduling-priority",
+                    "description": "The scheduling priority for jobs that are submitted with this job definition.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--container-properties",
+                    "description": "An object with properties specific to Amazon ECS-based single-node container-based jobs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--node-properties",
+                    "description": "An object with properties specific to multi-node parallel jobs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--retry-strategy",
+                    "description": "The retry strategy to use for failed jobs that are submitted with this job definition.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--propagate-tags",
+                    "description": "Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task."
+                },
+                {
+                    "name": "--no-propagate-tags",
+                    "description": "Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task."
+                },
+                {
+                    "name": "--timeout",
+                    "description": "The timeout configuration for jobs that are submitted with this job definition, after which Batch terminates your jobs if they have not finished.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the job definition to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--platform-capabilities",
+                    "description": "The platform capabilities required by the job definition.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--eks-properties",
+                    "description": "An object with properties that are specific to Amazon EKS-based jobs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--ecs-properties",
+                    "description": "An object with properties that are specific to Amazon ECS-based jobs.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "submit-job",
+            "description": "Submits an Batch job from a job definition.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name of the job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-queue",
+                    "description": "The job queue where the job is submitted.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--share-identifier",
+                    "description": "The share identifier for the job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scheduling-priority-override",
+                    "description": "The scheduling priority for the job.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--array-properties",
+                    "description": "The array properties for the submitted job, such as the size of the array.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--depends-on",
+                    "description": "A list of dependencies for the job.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--job-definition",
+                    "description": "The job definition used by this job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "Additional parameters passed to the job that replace parameter substitution placeholders that are set in the job definition.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--container-overrides",
+                    "description": "An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--node-overrides",
+                    "description": "A list of node overrides in JSON format that specify the node range to target and the container overrides for that node range.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--retry-strategy",
+                    "description": "The retry strategy to use for failed jobs from this SubmitJob operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--propagate-tags",
+                    "description": "Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task."
+                },
+                {
+                    "name": "--no-propagate-tags",
+                    "description": "Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task."
+                },
+                {
+                    "name": "--timeout",
+                    "description": "The timeout configuration for this SubmitJob operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the job request to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--eks-properties-override",
+                    "description": "An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon EKS resources",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--ecs-properties-override",
+                    "description": "An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon ECS resources",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates the specified tags to a resource with the specified resourceArn.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource that tags are added to.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags that you apply to the resource to help you categorize and organize your resources.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "terminate-job",
+            "description": "Terminates a job in a job queue.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The Batch job ID of the job to terminate",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--reason",
+                    "description": "A message to attach to the job that explains the reason for canceling it.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Deletes specified tags from an Batch resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource from which to delete tags.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of the tags to be removed",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-compute-environment",
+            "description": "Updates an Batch compute environment",
+            "options": [
+                {
+                    "name": "--compute-environment",
+                    "description": "The name or full Amazon Resource Name (ARN) of the compute environment to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "The state of the compute environment.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--unmanagedv-cpus",
+                    "description": "The maximum number of vCPUs expected to be used for an unmanaged compute environment.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--compute-resources",
+                    "description": "Details of the compute resources managed by the compute environment.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--service-role",
+                    "description": "The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--update-policy",
+                    "description": "Specifies the updated infrastructure update policy for the compute environment.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--context",
+                    "description": "Reserved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-job-queue",
+            "description": "Updates a job queue",
+            "options": [
+                {
+                    "name": "--job-queue",
+                    "description": "The name or the Amazon Resource Name (ARN) of the job queue",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--state",
+                    "description": "Describes the queue's ability to accept new jobs.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--scheduling-policy-arn",
+                    "description": "Amazon Resource Name (ARN) of the fair share scheduling policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--priority",
+                    "description": "The priority of the job queue.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--compute-environment-order",
+                    "description": "Details the set of compute environments mapped to a job queue and their order relative to each other.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--job-state-time-limit-actions",
+                    "description": "The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-scheduling-policy",
+            "description": "Updates a scheduling policy",
+            "options": [
+                {
+                    "name": "--arn",
+                    "description": "The Amazon Resource Name (ARN) of the scheduling policy to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--fairshare-policy",
+                    "description": "The fair share policy",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

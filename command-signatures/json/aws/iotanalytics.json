@@ -1,0 +1,1531 @@
+{
+    "name": "iotanalytics",
+    "description": "IoT Analytics allows you to collect large amounts of device data, process messages, and store them.",
+    "subcommands": [
+        {
+            "name": "batch-put-message",
+            "description": "Sends messages to a channel",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel where the messages are sent",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--messages",
+                    "description": "The list of messages to be sent.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "cancel-pipeline-reprocessing",
+            "description": "Cancels the reprocessing of data through the pipeline",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of pipeline for which data reprocessing is canceled",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--reprocessing-id",
+                    "description": "The ID of the reprocessing task (returned by StartPipelineReprocessing)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-channel",
+            "description": "Used to create a channel.",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--channel-storage",
+                    "description": "Where channel data is stored.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "How long, in days, message data is kept for the channel.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata which can be used to manage the channel",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset",
+            "description": "Used to create a dataset.",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--actions",
+                    "description": "A list of actions that create the dataset contents",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--triggers",
+                    "description": "A list of triggers.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--content-delivery-rules",
+                    "description": "When dataset contents are created, they are delivered to destinations specified here",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--versioning-configuration",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata which can be used to manage the dataset",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--late-data-rules",
+                    "description": "A list of data rules that send notifications to CloudWatch, when data arrives late.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-content",
+            "description": "Creates the content of a dataset by applying a queryAction (a SQL query) or a containerAction (executing a containerized application)",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-id",
+                    "description": "The version ID of the dataset content.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-datastore",
+            "description": "Creates a data store, which is a repository for messages",
+            "options": [
+                {
+                    "name": "--datastore-name",
+                    "description": "The name of the data store",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--datastore-storage",
+                    "description": "Where data in a data store is stored..",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "How long, in days, message data is kept for the data store.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata which can be used to manage the data store",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--file-format-configuration",
+                    "description": "Contains the configuration information of file formats.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--datastore-partitions",
+                    "description": "Contains information about the partition dimensions in a data store",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-pipeline",
+            "description": "Creates a pipeline.",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of the pipeline",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--pipeline-activities",
+                    "description": "A list of PipelineActivity objects.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata which can be used to manage the pipeline",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-channel",
+            "description": "Deletes the specified channel",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset",
+            "description": "Deletes the specified dataset.",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset-content",
+            "description": "Deletes the content of the specified dataset",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset whose content is deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-id",
+                    "description": "The version of the dataset whose content is deleted.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-datastore",
+            "description": "Deletes the specified data store",
+            "options": [
+                {
+                    "name": "--datastore-name",
+                    "description": "The name of the data store to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-pipeline",
+            "description": "Deletes the specified pipeline",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of the pipeline to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-channel",
+            "description": "Retrieves information about a channel",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel whose information is retrieved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--include-statistics",
+                    "description": "If true, additional statistical information about the channel is included in the response."
+                },
+                {
+                    "name": "--no-include-statistics",
+                    "description": "If true, additional statistical information about the channel is included in the response."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset",
+            "description": "Retrieves information about a dataset",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset whose information is retrieved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-datastore",
+            "description": "Retrieves information about a data store",
+            "options": [
+                {
+                    "name": "--datastore-name",
+                    "description": "The name of the data store",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--include-statistics",
+                    "description": "If true, additional statistical information about the data store is included in the response."
+                },
+                {
+                    "name": "--no-include-statistics",
+                    "description": "If true, additional statistical information about the data store is included in the response."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-logging-options",
+            "description": "Retrieves the current settings of the IoT Analytics logging options",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-pipeline",
+            "description": "Retrieves information about a pipeline",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of the pipeline whose information is retrieved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-dataset-content",
+            "description": "Retrieves the contents of a dataset as presigned URIs",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset whose contents are retrieved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-id",
+                    "description": "The version of the dataset whose contents are retrieved.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-channels",
+            "description": "Retrieves a list of channels",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The token for the next set of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return in this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-contents",
+            "description": "Lists information about dataset contents that have been created",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset whose contents information you want to list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token for the next set of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return in this request",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--scheduled-on-or-after",
+                    "description": "A filter to limit results to those dataset contents whose creation is scheduled on or after the given time.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--scheduled-before",
+                    "description": "A filter to limit results to those dataset contents whose creation is scheduled before the given time.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-datasets",
+            "description": "Retrieves information about datasets",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The token for the next set of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return in this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-datastores",
+            "description": "Retrieves a list of data stores",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The token for the next set of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return in this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-pipelines",
+            "description": "Retrieves a list of pipelines",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The token for the next set of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return in this request.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Lists the tags (metadata) that you have assigned to the resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the resource whose tags you want to list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-logging-options",
+            "description": "Sets or updates the IoT Analytics logging options.",
+            "options": [
+                {
+                    "name": "--logging-options",
+                    "description": "The new values of the IoT Analytics logging options",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "run-pipeline-activity",
+            "description": "Simulates the results of running a pipeline activity on a message payload",
+            "options": [
+                {
+                    "name": "--pipeline-activity",
+                    "description": "The pipeline activity that is run.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--payloads",
+                    "description": "The sample message payloads on which the pipeline activity is run",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "sample-channel-data",
+            "description": "Retrieves a sample of messages from the specified channel ingested during the specified timeframe.",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel whose message samples are retrieved",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-messages",
+                    "description": "The number of sample messages to be retrieved.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start of the time window from which sample messages are retrieved",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--end-time",
+                    "description": "The end of the time window from which sample messages are retrieved",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-pipeline-reprocessing",
+            "description": "Starts the reprocessing of raw message data through the pipeline",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of the pipeline on which to start reprocessing",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start time (inclusive) of raw message data that is reprocessed.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--end-time",
+                    "description": "The end time (exclusive) of raw message data that is reprocessed.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--channel-messages",
+                    "description": "Specifies one or more sets of channel messages that you want to reprocess.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Adds to or modifies the tags of the given resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the resource whose tags you want to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The new or modified tags for the resource",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes the given tags (metadata) from the resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the resource whose tags you want to remove",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of those tags which you want to remove",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-channel",
+            "description": "Used to update the settings of a channel",
+            "options": [
+                {
+                    "name": "--channel-name",
+                    "description": "The name of the channel to be updated",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--channel-storage",
+                    "description": "Where channel data is stored.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "How long, in days, message data is kept for the channel.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-dataset",
+            "description": "Updates the settings of a dataset",
+            "options": [
+                {
+                    "name": "--dataset-name",
+                    "description": "The name of the dataset to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--actions",
+                    "description": "A list of DatasetAction objects",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--triggers",
+                    "description": "A list of DatasetTrigger objects.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--content-delivery-rules",
+                    "description": "When dataset contents are created, they are delivered to destinations specified here",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "How long, in days, dataset contents are kept for the dataset",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--versioning-configuration",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--late-data-rules",
+                    "description": "A list of data rules that send notifications to CloudWatch, when data arrives late.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-datastore",
+            "description": "Used to update the settings of a data store",
+            "options": [
+                {
+                    "name": "--datastore-name",
+                    "description": "The name of the data store to be updated",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--retention-period",
+                    "description": "How long, in days, message data is kept for the data store.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--datastore-storage",
+                    "description": "Where data in a data store is stored..",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--file-format-configuration",
+                    "description": "Contains the configuration information of file formats.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-pipeline",
+            "description": "Updates the settings of a pipeline.",
+            "options": [
+                {
+                    "name": "--pipeline-name",
+                    "description": "The name of the pipeline to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--pipeline-activities",
+                    "description": "A list of PipelineActivity objects.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

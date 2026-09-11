@@ -1,0 +1,2307 @@
+{
+    "name": "appconfig",
+    "description": "AppConfig feature flags and dynamic configurations help software builders quickly and securely adjust application behavior in production environments without full code deployments.",
+    "subcommands": [
+        {
+            "name": "create-application",
+            "description": "Creates an application.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "A name for the application",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the application",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata to assign to the application.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-configuration-profile",
+            "description": "Creates a configuration profile, which is information that enables AppConfig to access the configuration source.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "A name for the configuration profile",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the configuration profile",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--location-uri",
+                    "description": "A URI to locate the configuration.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--retrieval-role-arn",
+                    "description": "The ARN of an IAM role with permission to access the configuration at the specified LocationUri.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--validators",
+                    "description": "A list of methods for validating the configuration",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata to assign to the configuration profile.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--type",
+                    "description": "The type of configurations contained in the profile. AppConfig supports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to...",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--kms-key-identifier",
+                    "description": "The identifier for an Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-deployment-strategy",
+            "description": "Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "A name for the deployment strategy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the deployment strategy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deployment-duration-in-minutes",
+                    "description": "Total amount of time for a deployment to last",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--final-bake-time-in-minutes",
+                    "description": "Specifies the amount of time AppConfig monitors for Amazon CloudWatch alarms after the configuration has been deployed to 100% of its targets, before considering the deployment to be complete.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--growth-factor",
+                    "description": "The percentage of targets to receive a deployed configuration during each interval",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--growth-type",
+                    "description": "The algorithm used to define how percentage grows over time.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--replicate-to",
+                    "description": "Save the deployment strategy to a Systems Manager (SSM) document",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata to assign to the deployment strategy.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-environment",
+            "description": "Creates an environment.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "A name for the environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--monitors",
+                    "description": "Amazon CloudWatch alarms to monitor during the deployment process",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata to assign to the environment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-extension",
+            "description": "Creates an AppConfig extension.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "A name for the extension.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "Information about the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--actions",
+                    "description": "The actions defined in the extension",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "The parameters accepted by the extension.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Adds one or more tags for the specified extension.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--latest-version-number",
+                    "description": "You can omit this field when you create an extension.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-extension-association",
+            "description": "When you create an extension or configure an Amazon Web Services authored extension, you associate the extension with an AppConfig application, environment, or configuration profile.",
+            "options": [
+                {
+                    "name": "--extension-identifier",
+                    "description": "The name, the ID, or the Amazon Resource Name (ARN) of the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--extension-version-number",
+                    "description": "The version number of the extension.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--resource-identifier",
+                    "description": "The ARN of an application, configuration profile, or environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "The parameter names and values defined in the extensions.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Adds one or more tags for the specified extension association.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-hosted-configuration-version",
+            "description": "Creates a new configuration in the AppConfig hosted configuration store.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the configuration",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--content",
+                    "description": "The configuration data, as bytes.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--content-type",
+                    "description": "A standard MIME type describing the format of the configuration content.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--latest-version-number",
+                    "description": "An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--version-label",
+                    "description": "An optional, user-defined label for the AppConfig hosted configuration version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-application",
+            "description": "Deletes an application",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The ID of the application to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-configuration-profile",
+            "description": "Deletes a configuration profile.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID that includes the configuration profile you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The ID of the configuration profile you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deletion-protection-check",
+                    "description": "A parameter to configure deletion protection.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-deployment-strategy",
+            "description": "Deletes a deployment strategy",
+            "options": [
+                {
+                    "name": "--deployment-strategy-id",
+                    "description": "The ID of the deployment strategy you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-environment",
+            "description": "Deletes an environment.",
+            "options": [
+                {
+                    "name": "--environment-id",
+                    "description": "The ID of the environment that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--application-id",
+                    "description": "The application ID that includes the environment that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deletion-protection-check",
+                    "description": "A parameter to configure deletion protection.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-extension",
+            "description": "Deletes an AppConfig extension.",
+            "options": [
+                {
+                    "name": "--extension-identifier",
+                    "description": "The name, ID, or Amazon Resource Name (ARN) of the extension you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-number",
+                    "description": "A specific version of an extension to delete.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-extension-association",
+            "description": "Deletes an extension association.",
+            "options": [
+                {
+                    "name": "--extension-association-id",
+                    "description": "The ID of the extension association to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-hosted-configuration-version",
+            "description": "Deletes a version of a configuration from the AppConfig hosted configuration store",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-number",
+                    "description": "The versions number to delete",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-account-settings",
+            "description": "Returns information about the status of the DeletionProtection parameter",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-application",
+            "description": "Retrieves information about an application",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The ID of the application you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-configuration",
+            "description": "(Deprecated) Retrieves the latest deployed configuration.",
+            "options": [
+                {
+                    "name": "--application",
+                    "description": "The application to get.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment",
+                    "description": "The environment to get.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to get.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-id",
+                    "description": "The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-configuration-version",
+                    "description": "The configuration version returned in the most recent GetConfiguration response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-configuration-profile",
+            "description": "Retrieves information about a configuration profile",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The ID of the application that includes the configuration profile you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The ID of the configuration profile that you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-deployment",
+            "description": "Retrieves information about a configuration deployment",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The ID of the application that includes the deployment you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The ID of the environment that includes the deployment you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deployment-number",
+                    "description": "The sequence number of the deployment",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-deployment-strategy",
+            "description": "Retrieves information about a deployment strategy.",
+            "options": [
+                {
+                    "name": "--deployment-strategy-id",
+                    "description": "The ID of the deployment strategy to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-environment",
+            "description": "Retrieves information about an environment.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The ID of the application that includes the environment you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The ID of the environment that you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-extension",
+            "description": "Returns information about an AppConfig extension",
+            "options": [
+                {
+                    "name": "--extension-identifier",
+                    "description": "The name, the ID, or the Amazon Resource Name (ARN) of the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-number",
+                    "description": "The extension version number.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-extension-association",
+            "description": "Returns information about an AppConfig extension association.",
+            "options": [
+                {
+                    "name": "--extension-association-id",
+                    "description": "The extension association ID to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-hosted-configuration-version",
+            "description": "Retrieves information about a specific configuration version",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-number",
+                    "description": "The version",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-applications",
+            "description": "Lists all applications in your Amazon Web Services account",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-configuration-profiles",
+            "description": "Lists the configuration profiles for an application",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--type",
+                    "description": "A filter based on the type of configurations that the configuration profile contains.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-deployment-strategies",
+            "description": "Lists deployment strategies",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-deployments",
+            "description": "Lists the deployments for an environment in descending deployment number order",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The environment ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items that may be returned for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token returned by a prior call to this operation indicating the next set of results to be returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-environments",
+            "description": "Lists the environments for an application",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-extension-associations",
+            "description": "Lists all AppConfig extension associations in the account.",
+            "options": [
+                {
+                    "name": "--resource-identifier",
+                    "description": "The ARN of an application, configuration profile, or environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--extension-identifier",
+                    "description": "The name, the ID, or the Amazon Resource Name (ARN) of the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--extension-version-number",
+                    "description": "The version number for the extension defined in the association",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-extensions",
+            "description": "Lists all custom and Amazon Web Services authored AppConfig extensions in the account.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The extension name",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-hosted-configuration-versions",
+            "description": "Lists configurations stored in the AppConfig hosted configuration store by version",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of items to return for this call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token to start the list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-label",
+                    "description": "An optional filter that can be used to specify the version label of an AppConfig hosted configuration version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Retrieves the list of key-value tags assigned to the resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The resource ARN",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-deployment",
+            "description": "Starts a deployment",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The environment ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deployment-strategy-id",
+                    "description": "The deployment strategy ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-version",
+                    "description": "The configuration version to deploy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the deployment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Metadata to assign to the deployment.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--kms-key-identifier",
+                    "description": "The KMS key identifier (key ID, key alias, or key ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dynamic-extension-parameters",
+                    "description": "A map of dynamic extension parameter names to values to pass to associated extensions with PRE_START_DEPLOYMENT actions",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-deployment",
+            "description": "Stops a deployment.",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The environment ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deployment-number",
+                    "description": "The sequence number of the deployment",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--allow-revert",
+                    "description": "A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version."
+                },
+                {
+                    "name": "--no-allow-revert",
+                    "description": "A Boolean that enables AppConfig to rollback a COMPLETED deployment to the previous configuration version."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Assigns metadata to an AppConfig resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the resource for which to retrieve tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The key-value string map.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Deletes a tag key and value from an AppConfig resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the resource for which to remove tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The tag keys to delete",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-account-settings",
+            "description": "Updates the value of the DeletionProtection parameter",
+            "options": [
+                {
+                    "name": "--deletion-protection",
+                    "description": "A parameter to configure deletion protection.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-application",
+            "description": "Updates an application",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the application",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the application",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-configuration-profile",
+            "description": "Updates a configuration profile",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The ID of the configuration profile",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the configuration profile",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the configuration profile",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--retrieval-role-arn",
+                    "description": "The ARN of an IAM role with permission to access the configuration at the specified LocationUri",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--validators",
+                    "description": "A list of methods for validating the configuration",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--kms-key-identifier",
+                    "description": "The identifier for a Key Management Service key to encrypt new configuration data versions in the AppConfig hosted configuration store.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-deployment-strategy",
+            "description": "Updates a deployment strategy",
+            "options": [
+                {
+                    "name": "--deployment-strategy-id",
+                    "description": "The deployment strategy ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the deployment strategy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--deployment-duration-in-minutes",
+                    "description": "Total amount of time for a deployment to last",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--final-bake-time-in-minutes",
+                    "description": "The amount of time that AppConfig monitors for alarms before considering the deployment to be complete and no longer eligible for automatic rollback",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--growth-factor",
+                    "description": "The percentage of targets to receive a deployed configuration during each interval",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--growth-type",
+                    "description": "The algorithm used to define how percentage grows over time.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-environment",
+            "description": "Updates an environment",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--environment-id",
+                    "description": "The environment ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "The name of the environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "A description of the environment",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--monitors",
+                    "description": "Amazon CloudWatch alarms to monitor during the deployment process",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-extension",
+            "description": "Updates an AppConfig extension.",
+            "options": [
+                {
+                    "name": "--extension-identifier",
+                    "description": "The name, the ID, or the Amazon Resource Name (ARN) of the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--description",
+                    "description": "Information about the extension",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--actions",
+                    "description": "The actions defined in the extension",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "One or more parameters for the actions called by the extension",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--version-number",
+                    "description": "The extension version number",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-extension-association",
+            "description": "Updates an association.",
+            "options": [
+                {
+                    "name": "--extension-association-id",
+                    "description": "The system-generated ID for the association",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "The parameter names and values defined in the extension",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "validate-configuration",
+            "description": "Uses the validators in a configuration profile to validate a configuration",
+            "options": [
+                {
+                    "name": "--application-id",
+                    "description": "The application ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-profile-id",
+                    "description": "The configuration profile ID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--configuration-version",
+                    "description": "The version of the configuration to validate",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

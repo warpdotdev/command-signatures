@@ -1,0 +1,2535 @@
+{
+    "name": "scheduler",
+    "description": "Manage Cloud Scheduler jobs and schedules",
+    "subcommands": [
+        {
+            "name": "jobs",
+            "description": "Manage Cloud Scheduler jobs",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create Cloud Scheduler jobs for various types of targets",
+                    "subcommands": [
+                        {
+                            "name": "app-engine",
+                            "description": "Create a Cloud Scheduler job with an App Engine target",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--attempt-deadline",
+                                    "description": "The deadline for job attempts.",
+                                    "args": {
+                                        "name": "ATTEMPT_DEADLINE",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--headers",
+                                    "description": "KEY=VALUE pairs of HTTP headers to include in the request.",
+                                    "args": {
+                                        "name": "HEADERS",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.yaml_command_schema_util:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--http-method",
+                                    "description": "HTTP method to use for the request.",
+                                    "args": {
+                                        "name": "HTTP_METHOD",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.arg_utils:EnumNameToChoice",
+                                        "suggestions": [
+                                            "delete",
+                                            "get",
+                                            "head",
+                                            "post",
+                                            "put"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY",
+                                        "description": "Googlecloudsdk.core.util.http_encoding:Encode"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to file containing the data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--relative-url",
+                                    "description": "Relative URL to use for the request (beginning with \"/\")",
+                                    "args": {
+                                        "name": "RELATIVE_URL",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--service",
+                                    "description": "ID of the App Engine service to send the request to",
+                                    "args": {
+                                        "name": "SERVICE"
+                                    }
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        },
+                        {
+                            "name": "http",
+                            "description": "Create a Cloud Scheduler job that triggers an action via HTTP",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--attempt-deadline",
+                                    "description": "The deadline for job attempts.",
+                                    "args": {
+                                        "name": "ATTEMPT_DEADLINE",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--headers",
+                                    "description": "KEY=VALUE pairs of HTTP headers to include in the request.",
+                                    "args": {
+                                        "name": "HEADERS",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.yaml_command_schema_util:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--http-method",
+                                    "description": "HTTP method to use for the request.",
+                                    "args": {
+                                        "name": "HTTP_METHOD",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.arg_utils:EnumNameToChoice",
+                                        "suggestions": [
+                                            "delete",
+                                            "get",
+                                            "head",
+                                            "post",
+                                            "put"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY",
+                                        "description": "Googlecloudsdk.core.util.http_encoding:Encode"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to file containing the data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--oauth-service-account-email",
+                                    "description": "The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OAUTH_SERVICE_ACCOUNT_EMAIL"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--oauth-token-scope",
+                                    "description": "The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OAUTH_TOKEN_SCOPE"
+                                    }
+                                },
+                                {
+                                    "name": "--oidc-service-account-email",
+                                    "description": "The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OIDC_SERVICE_ACCOUNT_EMAIL"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--oidc-token-audience",
+                                    "description": "The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OIDC_TOKEN_AUDIENCE"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--uri",
+                                    "description": "The full URI path that the request will be sent to.",
+                                    "args": {
+                                        "name": "URI",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        },
+                        {
+                            "name": "pubsub",
+                            "description": "Create a Cloud Scheduler job with a Pub/Sub target",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--attributes",
+                                    "description": "Comma-separated list of attributes.",
+                                    "args": {
+                                        "name": "ATTRIBUTES",
+                                        "description": "Googlecloudsdk.command_lib.scheduler.util:ParseAttributes"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Body of the message",
+                                    "args": {
+                                        "name": "MESSAGE_BODY"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to a file containing the body of the message",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--topic",
+                                    "description": "Name of the Google Cloud Pub/Sub topic to publish to when the job runs",
+                                    "args": {
+                                        "name": "TOPIC",
+                                        "description": "Googlecloudsdk.command_lib.util.hooks.types:Parse"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a job",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "JOB",
+                        "description": "ID of the job or fully qualified identifier for the job"
+                    }
+                },
+                {
+                    "name": "describe",
+                    "description": "Show details about a job",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "JOB",
+                        "description": "ID of the job or fully qualified identifier for the job"
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List jobs",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--filter",
+                            "description": "Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.",
+                            "args": {
+                                "name": "EXPRESSION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "Maximum number of resources to list.",
+                            "args": {
+                                "name": "LIMIT",
+                                "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "Some services group resource list output into pages.",
+                            "args": {
+                                "name": "PAGE_SIZE",
+                                "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                            }
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--sort-by",
+                            "description": "Comma-separated list of resource field key names to sort by.",
+                            "args": {
+                                "name": "FIELD"
+                            }
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--uri",
+                            "description": "Print a list of resource URIs instead of the default output"
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "pause",
+                    "description": "Pause the execution of a job",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "JOB",
+                        "description": "ID of the job or fully qualified identifier for the job"
+                    }
+                },
+                {
+                    "name": "resume",
+                    "description": "Resume execution of a paused job",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "JOB",
+                        "description": "ID of the job or fully qualified identifier for the job"
+                    }
+                },
+                {
+                    "name": "run",
+                    "description": "Trigger an on-demand execution of a job",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "JOB",
+                        "description": "ID of the job or fully qualified identifier for the job"
+                    }
+                },
+                {
+                    "name": "update",
+                    "description": "Update Cloud Scheduler jobs for various types of targets",
+                    "subcommands": [
+                        {
+                            "name": "app-engine",
+                            "description": "Update a Cloud Scheduler job with an App Engine target",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--attempt-deadline",
+                                    "description": "The deadline for job attempts.",
+                                    "args": {
+                                        "name": "ATTEMPT_DEADLINE",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--clear-headers",
+                                    "description": "Clear the list of HTTP headers"
+                                },
+                                {
+                                    "name": "--clear-max-backoff",
+                                    "description": "Clear the field corresponding to `--max-backoff`"
+                                },
+                                {
+                                    "name": "--clear-max-doublings",
+                                    "description": "Clear the field corresponding to `--max-doublings`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-attempts",
+                                    "description": "Clear the field corresponding to `--max-retry-attempts`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-duration",
+                                    "description": "Clear the field corresponding to `--max-retry-duration`"
+                                },
+                                {
+                                    "name": "--clear-message-body",
+                                    "description": "Clear the field corresponding to `--message-body` or `--message-body-from-file`"
+                                },
+                                {
+                                    "name": "--clear-min-backoff",
+                                    "description": "Clear the field corresponding to `--min-backoff`"
+                                },
+                                {
+                                    "name": "--clear-relative-url",
+                                    "description": "Clear the field corresponding to `--relative-url`"
+                                },
+                                {
+                                    "name": "--clear-service",
+                                    "description": "Clear the field corresponding to `--service`"
+                                },
+                                {
+                                    "name": "--clear-time-zone",
+                                    "description": "Clear the field corresponding to `--time-zone`"
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--http-method",
+                                    "description": "HTTP method to use for the request.",
+                                    "args": {
+                                        "name": "HTTP_METHOD",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.arg_utils:EnumNameToChoice",
+                                        "suggestions": [
+                                            "delete",
+                                            "get",
+                                            "head",
+                                            "post",
+                                            "put"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY",
+                                        "description": "Googlecloudsdk.core.util.http_encoding:Encode"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to file containing the data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--relative-url",
+                                    "description": "Relative URL to use for the request (beginning with \"/\")",
+                                    "args": {
+                                        "name": "RELATIVE_URL",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--remove-headers",
+                                    "description": "KEY1,KEY2 list of HTTP headers to remove from the request.",
+                                    "args": {
+                                        "name": "REMOVE_HEADERS"
+                                    }
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    }
+                                },
+                                {
+                                    "name": "--service",
+                                    "description": "ID of the App Engine service to send the request to",
+                                    "args": {
+                                        "name": "SERVICE"
+                                    }
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--update-headers",
+                                    "description": "KEY=VALUE pairs of HTTP headers to include in the request.",
+                                    "args": {
+                                        "name": "UPDATE_HEADERS"
+                                    }
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        },
+                        {
+                            "name": "http",
+                            "description": "Update a Cloud Scheduler job that triggers an action via HTTP",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--attempt-deadline",
+                                    "description": "The deadline for job attempts.",
+                                    "args": {
+                                        "name": "ATTEMPT_DEADLINE",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--clear-auth-token",
+                                    "description": "Clear the auth token fields: `--oidc-service-account-email`, `--oidc-token-audience`, `--oauth-service-account-email`, and `--oauth-token-scope`"
+                                },
+                                {
+                                    "name": "--clear-headers",
+                                    "description": "Clear the list of HTTP headers"
+                                },
+                                {
+                                    "name": "--clear-max-backoff",
+                                    "description": "Clear the field corresponding to `--max-backoff`"
+                                },
+                                {
+                                    "name": "--clear-max-doublings",
+                                    "description": "Clear the field corresponding to `--max-doublings`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-attempts",
+                                    "description": "Clear the field corresponding to `--max-retry-attempts`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-duration",
+                                    "description": "Clear the field corresponding to `--max-retry-duration`"
+                                },
+                                {
+                                    "name": "--clear-message-body",
+                                    "description": "Clear the field corresponding to `--message-body` or `--message-body-from-file`"
+                                },
+                                {
+                                    "name": "--clear-min-backoff",
+                                    "description": "Clear the field corresponding to `--min-backoff`"
+                                },
+                                {
+                                    "name": "--clear-time-zone",
+                                    "description": "Clear the field corresponding to `--time-zone`"
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--http-method",
+                                    "description": "HTTP method to use for the request.",
+                                    "args": {
+                                        "name": "HTTP_METHOD",
+                                        "description": "Googlecloudsdk.command_lib.util.apis.arg_utils:EnumNameToChoice",
+                                        "suggestions": [
+                                            "delete",
+                                            "get",
+                                            "head",
+                                            "post",
+                                            "put"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY",
+                                        "description": "Googlecloudsdk.core.util.http_encoding:Encode"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to file containing the data payload to be included as the body of the HTTP request.",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--oauth-service-account-email",
+                                    "description": "The service account email to be used for generating an OAuth2 access token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OAUTH_SERVICE_ACCOUNT_EMAIL"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--oauth-token-scope",
+                                    "description": "The scope to be used when generating an OAuth2 access token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OAUTH_TOKEN_SCOPE"
+                                    }
+                                },
+                                {
+                                    "name": "--oidc-service-account-email",
+                                    "description": "The service account email to be used for generating an OpenId Connect token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OIDC_SERVICE_ACCOUNT_EMAIL"
+                                    },
+                                    "priority": 100
+                                },
+                                {
+                                    "name": "--oidc-token-audience",
+                                    "description": "The audience to be used when generating an OpenId Connect token to be included in the request sent to the target when executing the job.",
+                                    "args": {
+                                        "name": "OIDC_TOKEN_AUDIENCE"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--remove-headers",
+                                    "description": "KEY1,KEY2 list of HTTP headers to remove from the request.",
+                                    "args": {
+                                        "name": "REMOVE_HEADERS"
+                                    }
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    }
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--update-headers",
+                                    "description": "KEY=VALUE pairs of HTTP headers to include in the request.",
+                                    "args": {
+                                        "name": "UPDATE_HEADERS"
+                                    }
+                                },
+                                {
+                                    "name": "--uri",
+                                    "description": "The full URI path that the request will be sent to.",
+                                    "args": {
+                                        "name": "URI",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        },
+                        {
+                            "name": "pubsub",
+                            "description": "Update a Cloud Scheduler job with a Pub/Sub target",
+                            "options": [
+                                {
+                                    "name": "--account",
+                                    "description": "Google Cloud Platform user account to use for invocation.",
+                                    "args": {
+                                        "name": "ACCOUNT"
+                                    }
+                                },
+                                {
+                                    "name": "--billing-project",
+                                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                                    "args": {
+                                        "name": "BILLING_PROJECT"
+                                    }
+                                },
+                                {
+                                    "name": "--clear-attributes",
+                                    "description": "Clear the field corresponding to `--attributes`"
+                                },
+                                {
+                                    "name": "--clear-max-backoff",
+                                    "description": "Clear the field corresponding to `--max-backoff`"
+                                },
+                                {
+                                    "name": "--clear-max-doublings",
+                                    "description": "Clear the field corresponding to `--max-doublings`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-attempts",
+                                    "description": "Clear the field corresponding to `--max-retry-attempts`"
+                                },
+                                {
+                                    "name": "--clear-max-retry-duration",
+                                    "description": "Clear the field corresponding to `--max-retry-duration`"
+                                },
+                                {
+                                    "name": "--clear-min-backoff",
+                                    "description": "Clear the field corresponding to `--min-backoff`"
+                                },
+                                {
+                                    "name": "--clear-time-zone",
+                                    "description": "Clear the field corresponding to `--time-zone`"
+                                },
+                                {
+                                    "name": "--configuration",
+                                    "description": "The configuration to use for this command invocation.",
+                                    "args": {
+                                        "name": "CONFIGURATION"
+                                    }
+                                },
+                                {
+                                    "name": "--description",
+                                    "description": "Human-readable description of the job",
+                                    "args": {
+                                        "name": "DESCRIPTION"
+                                    }
+                                },
+                                {
+                                    "name": "--flags-file",
+                                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                                    "args": {
+                                        "name": "YAML_FILE"
+                                    }
+                                },
+                                {
+                                    "name": "--flatten",
+                                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                                    "args": {
+                                        "name": "KEY"
+                                    }
+                                },
+                                {
+                                    "name": "--format",
+                                    "description": "Set the format for printing command output resources.",
+                                    "args": {
+                                        "name": "FORMAT"
+                                    }
+                                },
+                                {
+                                    "name": "--help",
+                                    "description": "Display detailed help"
+                                },
+                                {
+                                    "name": "--impersonate-service-account",
+                                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                                    "args": {
+                                        "name": "SERVICE_ACCOUNT_EMAIL"
+                                    }
+                                },
+                                {
+                                    "name": "--log-http",
+                                    "description": "Log all HTTP server requests and responses to stderr."
+                                },
+                                {
+                                    "name": "--max-backoff",
+                                    "description": "Maximum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MAX_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--max-doublings",
+                                    "description": "Maximum number of times that the interval between failed job retries will be doubled before the increase becomes constant",
+                                    "args": {
+                                        "name": "MAX_DOUBLINGS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-attempts",
+                                    "description": "Number of times to retry the request if it fails or times out.",
+                                    "args": {
+                                        "name": "MAX_RETRY_ATTEMPTS",
+                                        "description": "Int"
+                                    }
+                                },
+                                {
+                                    "name": "--max-retry-duration",
+                                    "description": "Time limit for retrying a failed task, measured from when the task was first run.",
+                                    "args": {
+                                        "name": "MAX_RETRY_DURATION",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body",
+                                    "description": "Body of the message",
+                                    "args": {
+                                        "name": "MESSAGE_BODY"
+                                    }
+                                },
+                                {
+                                    "name": "--message-body-from-file",
+                                    "description": "Path to a file containing the body of the message",
+                                    "args": {
+                                        "name": "MESSAGE_BODY_FROM_FILE",
+                                        "description": "Googlecloudsdk.calliope.arg_parsers:FileContents"
+                                    }
+                                },
+                                {
+                                    "name": "--min-backoff",
+                                    "description": "Minimum amount of time to wait before retrying a task after it fails.",
+                                    "args": {
+                                        "name": "MIN_BACKOFF",
+                                        "description": "Googlecloudsdk.core.util.times:ParseDuration"
+                                    }
+                                },
+                                {
+                                    "name": "--project",
+                                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                                    "args": {
+                                        "name": "PROJECT_ID"
+                                    }
+                                },
+                                {
+                                    "name": "--quiet",
+                                    "description": "Disable all interactive prompts when running gcloud commands."
+                                },
+                                {
+                                    "name": "--remove-attributes",
+                                    "description": "Comma-separated list of attribute keys to remove with the form \"KEY1,KEY2\"",
+                                    "args": {
+                                        "name": "REMOVE_ATTRIBUTES"
+                                    }
+                                },
+                                {
+                                    "name": "--schedule",
+                                    "description": "Schedule on which the job will be executed.",
+                                    "args": {
+                                        "name": "SCHEDULE"
+                                    }
+                                },
+                                {
+                                    "name": "--time-zone",
+                                    "description": "Specifies the time zone to be used in interpreting --schedule.",
+                                    "args": {
+                                        "name": "TIME_ZONE"
+                                    }
+                                },
+                                {
+                                    "name": "--topic",
+                                    "description": "Name of the Google Cloud Pub/Sub topic to publish to when the job runs",
+                                    "args": {
+                                        "name": "TOPIC",
+                                        "description": "Googlecloudsdk.command_lib.util.hooks.types:Parse"
+                                    }
+                                },
+                                {
+                                    "name": "--trace-token",
+                                    "description": "Token used to route traces of service requests for investigation of issues.",
+                                    "args": {
+                                        "name": "TRACE_TOKEN"
+                                    }
+                                },
+                                {
+                                    "name": "--update-attributes",
+                                    "description": "Comma-separated list of attributes.",
+                                    "args": {
+                                        "name": "UPDATE_ATTRIBUTES"
+                                    }
+                                },
+                                {
+                                    "name": "--user-output-enabled",
+                                    "description": "Print user intended output to the console."
+                                },
+                                {
+                                    "name": "--verbosity",
+                                    "description": "Override the default verbosity for this command.",
+                                    "args": {
+                                        "name": "VERBOSITY",
+                                        "suggestions": [
+                                            "debug",
+                                            "info",
+                                            "warning",
+                                            "error",
+                                            "critical",
+                                            "none"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "args": {
+                                "name": "JOB",
+                                "description": "ID of the job or fully qualified identifier for the job"
+                            }
+                        }
+                    ],
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--project",
+                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                    "args": {
+                        "name": "PROJECT_ID"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "options": [
+        {
+            "name": "--account",
+            "description": "Google Cloud Platform user account to use for invocation.",
+            "args": {
+                "name": "ACCOUNT"
+            }
+        },
+        {
+            "name": "--billing-project",
+            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+            "args": {
+                "name": "BILLING_PROJECT"
+            }
+        },
+        {
+            "name": "--configuration",
+            "description": "The configuration to use for this command invocation.",
+            "args": {
+                "name": "CONFIGURATION"
+            }
+        },
+        {
+            "name": "--flags-file",
+            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+            "args": {
+                "name": "YAML_FILE"
+            }
+        },
+        {
+            "name": "--flatten",
+            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+            "args": {
+                "name": "KEY"
+            }
+        },
+        {
+            "name": "--format",
+            "description": "Set the format for printing command output resources.",
+            "args": {
+                "name": "FORMAT"
+            }
+        },
+        {
+            "name": "--help",
+            "description": "Display detailed help"
+        },
+        {
+            "name": "--impersonate-service-account",
+            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+            "args": {
+                "name": "SERVICE_ACCOUNT_EMAIL"
+            }
+        },
+        {
+            "name": "--log-http",
+            "description": "Log all HTTP server requests and responses to stderr."
+        },
+        {
+            "name": "--project",
+            "description": "The Google Cloud Platform project ID to use for this invocation.",
+            "args": {
+                "name": "PROJECT_ID"
+            }
+        },
+        {
+            "name": "--quiet",
+            "description": "Disable all interactive prompts when running gcloud commands."
+        },
+        {
+            "name": "--trace-token",
+            "description": "Token used to route traces of service requests for investigation of issues.",
+            "args": {
+                "name": "TRACE_TOKEN"
+            }
+        },
+        {
+            "name": "--user-output-enabled",
+            "description": "Print user intended output to the console."
+        },
+        {
+            "name": "--verbosity",
+            "description": "Override the default verbosity for this command.",
+            "args": {
+                "name": "VERBOSITY",
+                "suggestions": [
+                    "debug",
+                    "info",
+                    "warning",
+                    "error",
+                    "critical",
+                    "none"
+                ]
+            }
+        }
+    ]
+}

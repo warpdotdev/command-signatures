@@ -1,0 +1,46 @@
+{
+    "name": "history",
+    "description": "Commands to interact with the history of AWS CLI commands ran over time.",
+    "subcommands": [
+        {
+            "name": "show",
+            "description": "Shows the various events related to running a specific CLI command.",
+            "options": [
+                {
+                    "name": "--include",
+                    "description": "Specifies which events to **only** include when showing the CLI command.",
+                    "args": {
+                        "name": "string",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--exclude",
+                    "description": "Specifies which events to exclude when showing the CLI command.",
+                    "args": {
+                        "name": "string",
+                        "isVariadic": true
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Specifies which format to use in showing the events for the specified CLI command.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "detailed"
+                        ]
+                    }
+                }
+            ],
+            "args": {
+                "name": "command_id",
+                "description": "The ID of the CLI command to show."
+            }
+        },
+        {
+            "name": "list",
+            "description": "Shows a list of previously run commands and their command_ids."
+        }
+    ]
+}

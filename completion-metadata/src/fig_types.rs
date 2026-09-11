@@ -2,7 +2,7 @@ use crate::{
     AliasGeneratorName, Argument, ArgumentType, FilterTemplateSuggestion, GeneratorName,
     Importance, IsArgumentOptional, Opt, Order, Priority, Signature,
 };
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use serde_with::formats::{PreferMany, PreferOne};
 use serde_with::{serde_as, NoneAsEmptyString, OneOrMany};
 use std::borrow::Cow;
@@ -70,7 +70,7 @@ pub struct Suggestion {
 
 #[serde_as]
 #[serde_with::skip_serializing_none]
-#[derive(Deserialize, Serialize, Debug, PartialEq)]
+#[derive(Deserialize, Serialize, Debug, Default, PartialEq, Clone)]
 pub struct Command {
     #[serde_as(as = "OneOrMany<_, PreferOne>")]
     pub name: Vec<String>,
@@ -111,6 +111,32 @@ pub struct Command {
         skip_serializing_if = "ParserDirectives::is_default"
     )]
     pub parser_directives: ParserDirectives,
+
+    /// Static `loadSpec` reference to another command spec by name.
+    /// Non-string / function-style values are ignored.
+    #[serde(
+        default,
+        rename = "loadSpec",
+        deserialize_with = "deserialize_static_load_spec",
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub load_spec: Option<String>,
+}
+
+fn deserialize_static_load_spec<'de, D>(deserializer: D) -> Result<Option<String>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = Option::<serde_json::Value>::deserialize(deserializer)?;
+    Ok(match value {
+        // Embedded specs serialize JS functions with the `_NuFrRa_` prefix.
+        Some(serde_json::Value::String(target))
+            if !target.is_empty() && !target.starts_with("_NuFrRa_") =>
+        {
+            Some(target)
+        }
+        _ => None,
+    })
 }
 
 /// Configure how the completion engine will map raw tokens to options/flags in the spec.
@@ -388,6 +414,7 @@ impl From<Command> for Vec<Signature> {
                 options: options.clone(),
                 priority: command.priority.map_or_else(Priority::default, Into::into),
                 parser_directives: command.parser_directives.clone().into(),
+                load_spec: command.load_spec.clone(),
             })
             .collect()
     }
@@ -663,6 +690,7 @@ mod tests {
                 name: vec!["defaults".into()],
                 description: Some("Command line interface to a user's defaults.".into()),
                 alias_generator: None,
+                load_spec: None,
                 is_dangerous: false,
                 priority: None,
                 hidden: false,
@@ -671,6 +699,7 @@ mod tests {
                         name: vec!["read".into()],
                         description: Some("shows defaults".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -734,6 +763,7 @@ mod tests {
                         name: vec!["write".into()],
                         description: Some("writes key for domain".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -811,6 +841,7 @@ mod tests {
                         name: vec!["delete".into()],
                         description: Some("deletes domain or key in domain".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -874,6 +905,7 @@ mod tests {
                         name: vec!["rename".into()],
                         description: Some("renames old_key to new_key".into()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,
@@ -951,6 +983,7 @@ mod tests {
                         name: vec!["domains".into()],
                         description: Some("lists all domains".to_string()),
                         alias_generator: None,
+                        load_spec: None,
                         is_dangerous: false,
                         priority: None,
                         hidden: false,

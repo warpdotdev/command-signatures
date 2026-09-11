@@ -1,0 +1,1082 @@
+{
+    "name": "codeguruprofiler",
+    "description": "This section provides documentation for the Amazon CodeGuru Profiler API operations.",
+    "subcommands": [
+        {
+            "name": "add-notification-channels",
+            "description": "Add up to 2 anomaly notifications channels for a profiling group",
+            "options": [
+                {
+                    "name": "--channels",
+                    "description": "One or 2 channels to report to when anomalies are detected",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group that we are setting up notifications for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "batch-get-frame-metric-data",
+            "description": "Returns the time series of values for a requested list of frame metrics from a time period",
+            "options": [
+                {
+                    "name": "--end-time",
+                    "description": "The end time of the time period for the returned time series values.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--frame-metrics",
+                    "description": "The details of the metrics that are used to request a time series of values.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--period",
+                    "description": "The duration of the frame metrics used to return the time series values.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group associated with the the frame metrics used to return the time series values",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start time of the time period for the frame metrics used to return the time series values.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--target-resolution",
+                    "description": "The requested resolution of time steps for the returned time series of values.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "configure-agent",
+            "description": "Used by profiler agents to report their current state and to receive remote configuration updates.",
+            "options": [
+                {
+                    "name": "--fleet-instance-id",
+                    "description": "A universally unique identifier (UUID) for a profiling instance.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--metadata",
+                    "description": "Metadata captured about the compute platform the agent is running on.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group for which the configured agent is collecting profiling data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-profiling-group",
+            "description": "Creates a profiling group",
+            "options": [
+                {
+                    "name": "--agent-orchestration-config",
+                    "description": "Specifies whether profiling is enabled or disabled for the created profiling group",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-token",
+                    "description": "Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental creation of duplicate profiling groups if there are failures and retries",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--compute-platform",
+                    "description": "The compute platform of the profiling group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to create",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to add to the created profiling group",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-profiling-group",
+            "description": "Deletes a profiling group",
+            "options": [
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-profiling-group",
+            "description": "Returns a ProfilingGroupDescription object that contains information about the requested profiling group",
+            "options": [
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to get information about",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-findings-report-account-summary",
+            "description": "Returns a list of FindingsReportSummary objects that contain analysis results for all profiling groups in your AWS account",
+            "options": [
+                {
+                    "name": "--daily-reports-only",
+                    "description": "A Boolean value indicating whether to only return reports from daily profiles."
+                },
+                {
+                    "name": "--no-daily-reports-only",
+                    "description": "A Boolean value indicating whether to only return reports from daily profiles."
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results returned by GetFindingsReportAccountSummary in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated GetFindingsReportAccountSummary request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-notification-configuration",
+            "description": "Get the current configuration for anomaly notifications for a profiling group",
+            "options": [
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group we want to get the notification configuration for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-policy",
+            "description": "Returns the JSON-formatted resource-based policy on a profiling group",
+            "options": [
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-profile",
+            "description": "Gets the aggregated profile of a profiling group for a specified time range.",
+            "options": [
+                {
+                    "name": "--accept",
+                    "description": "The format of the returned profiling data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--end-time",
+                    "description": "The end time of the requested profile.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--max-depth",
+                    "description": "The maximum depth of the stacks in the code that is represented in the aggregated profile.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--period",
+                    "description": "Used with startTime or endTime to specify the time range for the returned aggregated profile.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start time of the profile to get.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "outfile",
+                    "description": "Filename where the content will be saved",
+                    "args": {
+                        "name": "string"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-recommendations",
+            "description": "Returns a list of Recommendation objects that contain recommendations for a profiling group for a given time period.",
+            "options": [
+                {
+                    "name": "--end-time",
+                    "description": "The start time of the profile to get analysis data about.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--locale",
+                    "description": "The language used to provide analysis.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to get analysis data about",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The end time of the profile to get analysis data about.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-findings-reports",
+            "description": "List the available reports for a given profiling group and time range",
+            "options": [
+                {
+                    "name": "--daily-reports-only",
+                    "description": "A Boolean value indicating whether to only return reports from daily profiles."
+                },
+                {
+                    "name": "--no-daily-reports-only",
+                    "description": "A Boolean value indicating whether to only return reports from daily profiles."
+                },
+                {
+                    "name": "--end-time",
+                    "description": "The end time of the profile to get analysis data about.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of report results returned by ListFindingsReports in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated ListFindingsReportsRequest request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group from which to search for analysis data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start time of the profile to get analysis data about.",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-profile-times",
+            "description": "Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range",
+            "options": [
+                {
+                    "name": "--end-time",
+                    "description": "The end time of the time range from which to list the profiles",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of profile time results returned by ListProfileTimes in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--order-by",
+                    "description": "The order (ascending or descending by start time of the profile) to use when listing profiles.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--period",
+                    "description": "The aggregation period.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-time",
+                    "description": "The start time of the time range from which to list the profiles",
+                    "args": {
+                        "name": "timestamp"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-profiling-groups",
+            "description": "Returns a list of profiling groups.",
+            "options": [
+                {
+                    "name": "--include-description",
+                    "description": "A Boolean value indicating whether to include a description."
+                },
+                {
+                    "name": "--no-include-description",
+                    "description": "A Boolean value indicating whether to include a description."
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of profiling groups results returned by ListProfilingGroups in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value returned from a previous paginated ListProfilingGroups request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Returns a list of the tags that are assigned to a specified resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource that contains the tags to return",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "post-agent-profile",
+            "description": "Submits profiling data to an aggregated profile of a profiling group.",
+            "options": [
+                {
+                    "name": "--agent-profile",
+                    "description": "The submitted profiling data",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--content-type",
+                    "description": "The format of the submitted profiling data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profile-token",
+                    "description": "Amazon CodeGuru Profiler uses this universally unique identifier (UUID) to prevent the accidental submission of duplicate profiling data if there are failures and retries",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group with the aggregated profile that receives the submitted profiling data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-permission",
+            "description": "Adds permissions to a profiling group's resource-based policy that are provided using an action group.",
+            "options": [
+                {
+                    "name": "--action-group",
+                    "description": "Specifies an action group that contains permissions to add to a profiling group resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--principals",
+                    "description": "A list ARNs for the roles and users you want to grant access to the profiling group.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to grant access to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--revision-id",
+                    "description": "A universally unique identifier (UUID) for the revision of the policy you are adding to the profiling group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "remove-notification-channel",
+            "description": "Remove one anomaly notifications channel for a profiling group",
+            "options": [
+                {
+                    "name": "--channel-id",
+                    "description": "The id of the channel that we want to stop receiving notifications",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group we want to change notification configuration for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "remove-permission",
+            "description": "Removes permissions from a profiling group's resource-based policy that are provided using an action group.",
+            "options": [
+                {
+                    "name": "--action-group",
+                    "description": "Specifies an action group that contains the permissions to remove from a profiling group's resource-based policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--revision-id",
+                    "description": "A universally unique identifier (UUID) for the revision of the resource-based policy from which you want to remove permissions",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "submit-feedback",
+            "description": "Sends feedback to CodeGuru Profiler about whether the anomaly detected by the analysis is useful or not",
+            "options": [
+                {
+                    "name": "--anomaly-instance-id",
+                    "description": "The universally unique identifier (UUID) of the AnomalyInstance object that is included in the analysis data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--comment",
+                    "description": "Optional feedback about this anomaly",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group that is associated with the analysis data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--type",
+                    "description": "The feedback tpye.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Use to assign one or more tags to a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource that the tags are added to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The list of tags that are added to the specified resource",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Use to remove one or more tags from a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource that contains the tags to remove",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "A list of tag keys.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-profiling-group",
+            "description": "Updates a profiling group",
+            "options": [
+                {
+                    "name": "--agent-orchestration-config",
+                    "description": "Specifies whether profiling is enabled or disabled for a profiling group",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--profiling-group-name",
+                    "description": "The name of the profiling group to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

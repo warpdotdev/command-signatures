@@ -1,0 +1,659 @@
+{
+    "name": "firehose",
+    "description": "Amazon Data Firehose Amazon Data Firehose was previously known as Amazon Kinesis Data Firehose.",
+    "subcommands": [
+        {
+            "name": "create-delivery-stream",
+            "description": "Creates a Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--delivery-stream-type",
+                    "description": "The Firehose stream type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--kinesis-stream-source-configuration",
+                    "description": "When a Kinesis data stream is used as the source for the Firehose stream, a KinesisStreamSourceConfiguration containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--delivery-stream-encryption-configuration-input",
+                    "description": "Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE)",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--s3-destination-configuration",
+                    "description": "[Deprecated] The destination in Amazon S3.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--extended-s3-destination-configuration",
+                    "description": "The destination in Amazon S3.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--redshift-destination-configuration",
+                    "description": "The destination in Amazon Redshift.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--elasticsearch-destination-configuration",
+                    "description": "The destination in Amazon ES.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--amazonopensearchservice-destination-configuration",
+                    "description": "The destination in Amazon OpenSearch Service.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--splunk-destination-configuration",
+                    "description": "The destination in Splunk.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--http-endpoint-destination-configuration",
+                    "description": "Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint destination.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags to assign to the Firehose stream.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--amazon-open-search-serverless-destination-configuration",
+                    "description": "The destination in the Serverless offering for Amazon OpenSearch Service.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--msk-source-configuration",
+                    "description": "The configuration for the Amazon MSK cluster to be used as the source for a delivery stream",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--snowflake-destination-configuration",
+                    "description": "Configure Snowflake destination",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--iceberg-destination-configuration",
+                    "description": "Configure Apache Iceberg Tables destination",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--database-source-configuration",
+                    "description": "Amazon Data Firehose is in preview release and is subject to change",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-delivery-stream",
+            "description": "Deletes a Firehose stream and its data.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--allow-force-delete",
+                    "description": "Set this to true if you want to delete the Firehose stream even if Firehose is unable to retire the grant for the CMK."
+                },
+                {
+                    "name": "--no-allow-force-delete",
+                    "description": "Set this to true if you want to delete the Firehose stream even if Firehose is unable to retire the grant for the CMK."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-delivery-stream",
+            "description": "Describes the specified Firehose stream and its status.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The limit on the number of destinations to return.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--exclusive-start-destination-id",
+                    "description": "The ID of the destination to start returning the destination information.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-delivery-streams",
+            "description": "Lists your Firehose streams in alphabetical order of their names.",
+            "options": [
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of Firehose streams to list.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--delivery-stream-type",
+                    "description": "The Firehose stream type.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--exclusive-start-delivery-stream-name",
+                    "description": "The list of Firehose streams returned by this call to ListDeliveryStreams will start with the Firehose stream whose name comes alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-delivery-stream",
+            "description": "Lists the tags for the specified Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream whose tags you want to list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--exclusive-start-tag-key",
+                    "description": "The key to use as the starting point for the list of tags.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The number of tags to return.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-record",
+            "description": "Writes a single data record into an Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--record",
+                    "description": "The record",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-record-batch",
+            "description": "Writes multiple data records into a Firehose stream in a single call, which can achieve higher throughput per producer than when writing single records.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--records",
+                    "description": "One or more records",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-delivery-stream-encryption",
+            "description": "Enables server-side encryption (SSE) for the Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream for which you want to enable server-side encryption (SSE)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--delivery-stream-encryption-configuration-input",
+                    "description": "Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE)",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-delivery-stream-encryption",
+            "description": "Disables server-side encryption (SSE) for the Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream for which you want to disable server-side encryption (SSE)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-delivery-stream",
+            "description": "Adds or updates tags for the specified Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream to which you want to add the tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of key-value pairs to use to create the tags",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-delivery-stream",
+            "description": "Removes tags from the specified Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "A list of tag keys.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-destination",
+            "description": "Updates the specified destination of the specified Firehose stream.",
+            "options": [
+                {
+                    "name": "--delivery-stream-name",
+                    "description": "The name of the Firehose stream",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--current-delivery-stream-version-id",
+                    "description": "Obtain this value from the VersionId result of DeliveryStreamDescription.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination-id",
+                    "description": "The ID of the destination",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--s3-destination-update",
+                    "description": "[Deprecated] Describes an update for a destination in Amazon S3",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--extended-s3-destination-update",
+                    "description": "Describes an update for a destination in Amazon S3",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--redshift-destination-update",
+                    "description": "Describes an update for a destination in Amazon Redshift",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--elasticsearch-destination-update",
+                    "description": "Describes an update for a destination in Amazon ES",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--amazonopensearchservice-destination-update",
+                    "description": "Describes an update for a destination in Amazon OpenSearch Service",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--splunk-destination-update",
+                    "description": "Describes an update for a destination in Splunk",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--http-endpoint-destination-update",
+                    "description": "Describes an update to the specified HTTP endpoint destination",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--amazon-open-search-serverless-destination-update",
+                    "description": "Describes an update for a destination in the Serverless offering for Amazon OpenSearch Service",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--snowflake-destination-update",
+                    "description": "Update to the Snowflake destination configuration settings",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--iceberg-destination-update",
+                    "description": "Describes an update for a destination in Apache Iceberg Tables",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

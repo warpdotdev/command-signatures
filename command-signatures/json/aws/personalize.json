@@ -1,0 +1,3346 @@
+{
+    "name": "personalize",
+    "description": "Amazon Personalize is a machine learning service that makes it easy to add individualized recommendations to customers",
+    "subcommands": [
+        {
+            "name": "create-batch-inference-job",
+            "description": "Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name of the batch inference job to create",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filter-arn",
+                    "description": "The ARN of the filter to apply to the batch inference job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--num-results",
+                    "description": "The number of recommendations to retrieve",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--job-input",
+                    "description": "The Amazon S3 path that leads to the input file to base your recommendations on.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-output",
+                    "description": "The path to the Amazon S3 bucket where the job's output will be stored",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--batch-inference-job-config",
+                    "description": "The configuration details of a batch inference job",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the batch inference job",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--batch-inference-job-mode",
+                    "description": "The mode of the batch inference job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--theme-generation-config",
+                    "description": "For theme generation jobs, specify the name of the column in your Items dataset that contains each item's name",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-batch-segment-job",
+            "description": "Creates a batch segment job.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name of the batch segment job to create",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filter-arn",
+                    "description": "The ARN of the filter to apply to the batch segment job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--num-results",
+                    "description": "The number of predicted users generated by the batch segment job for each line of input data.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--job-input",
+                    "description": "The Amazon S3 path for the input data used to generate the batch segment job",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-output",
+                    "description": "The Amazon S3 path for the bucket where the job's output will be stored",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the batch segment job",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-campaign",
+            "description": "You incur campaign costs while it is active.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "A name for the new campaign.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the trained model to deploy with the campaign.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-provisioned-tps",
+                    "description": "Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--campaign-config",
+                    "description": "The configuration details of a campaign",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the campaign",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-data-deletion-job",
+            "description": "Creates a batch job that deletes all references to specific users from an Amazon Personalize dataset group in batches.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name for the data deletion job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group that has the datasets you want to delete records from",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source",
+                    "description": "The Amazon S3 bucket that contains the list of userIds of the users to delete",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the IAM role that has permissions to read from the Amazon S3 data source",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the data deletion job",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset",
+            "description": "Creates an empty dataset and adds it to the specified dataset group.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name for the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema-arn",
+                    "description": "The ARN of the schema to associate with the dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group to add the dataset to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-type",
+                    "description": "The type of dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the dataset",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-export-job",
+            "description": "Creates a job that exports data from your dataset to an Amazon S3 bucket.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name for the dataset export job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset that contains the data to export",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ingestion-mode",
+                    "description": "The data to export, based on how you imported the data.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-output",
+                    "description": "The path to the Amazon S3 bucket where the job's output is stored",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the dataset export job",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-group",
+            "description": "Creates an empty dataset group.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name for the new dataset group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The ARN of the Identity and Access Management (IAM) role that has permissions to access the Key Management Service (KMS) key.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--kms-key-arn",
+                    "description": "The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used to encrypt the datasets",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--domain",
+                    "description": "The domain of the dataset group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the dataset group",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset-import-job",
+            "description": "Creates a job that imports training data from your data source (an Amazon S3 bucket) to an Amazon Personalize dataset.",
+            "options": [
+                {
+                    "name": "--job-name",
+                    "description": "The name for the dataset import job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-arn",
+                    "description": "The ARN of the dataset that receives the imported data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source",
+                    "description": "The Amazon S3 bucket that contains the training data to import",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The ARN of the IAM role that has permissions to read from the Amazon S3 data source",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the dataset import job",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--import-mode",
+                    "description": "Specify how to add the new records to an existing dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--publish-attribution-metrics-to-s3",
+                    "description": "If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3"
+                },
+                {
+                    "name": "--no-publish-attribution-metrics-to-s3",
+                    "description": "If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3"
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-event-tracker",
+            "description": "Creates an event tracker that you use when adding event data to a specified dataset group using the PutEvents API.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name for the event tracker",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group that receives the event data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the event tracker",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-filter",
+            "description": "Creates a recommendation filter.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the filter to create",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The ARN of the dataset group that the filter will belong to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filter-expression",
+                    "description": "The filter expression defines which items are included or excluded from recommendations.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the filter",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-metric-attribution",
+            "description": "Creates a metric attribution.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "A name for the metric attribution",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--metrics",
+                    "description": "A list of metric attributes for the metric attribution.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--metrics-output-config",
+                    "description": "The output configuration details for the metric attribution",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-recommender",
+            "description": "Creates a recommender with the recipe (a Domain dataset group use case) you specify.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the recommender",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recipe-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recipe that the recommender will use.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recommender-config",
+                    "description": "The configuration details of the recommender",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the recommender",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-schema",
+            "description": "Creates an Amazon Personalize schema from the specified schema string.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name for the schema",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema",
+                    "description": "A schema in Avro JSON format",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--domain",
+                    "description": "The domain for the schema.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-solution",
+            "description": "By default, all new solutions use automatic training.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name for the solution",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--perform-hpo",
+                    "description": "Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe."
+                },
+                {
+                    "name": "--no-perform-hpo",
+                    "description": "Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe."
+                },
+                {
+                    "name": "--perform-auto-ml",
+                    "description": "We don't recommend enabling automated machine learning."
+                },
+                {
+                    "name": "--no-perform-auto-ml",
+                    "description": "We don't recommend enabling automated machine learning."
+                },
+                {
+                    "name": "--perform-auto-training",
+                    "description": "Whether the solution uses automatic training to create new solution versions (trained models)."
+                },
+                {
+                    "name": "--no-perform-auto-training",
+                    "description": "Whether the solution uses automatic training to create new solution versions (trained models)."
+                },
+                {
+                    "name": "--recipe-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recipe to use for model training.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group that provides the training data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--event-type",
+                    "description": "When your have multiple event types (using an EVENT_TYPE schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-config",
+                    "description": "The configuration properties for the solution.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the solution",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-solution-version",
+            "description": "Trains or retrains an active solution in a Custom dataset group.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the solution version",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution containing the training configuration information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--training-mode",
+                    "description": "The scope of training to be performed when creating the solution version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A list of tags to apply to the solution version",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-campaign",
+            "description": "Removes a campaign by deleting the solution deployment.",
+            "options": [
+                {
+                    "name": "--campaign-arn",
+                    "description": "The Amazon Resource Name (ARN) of the campaign to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset",
+            "description": "Deletes a dataset.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset-group",
+            "description": "Deletes a dataset group.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The ARN of the dataset group to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-event-tracker",
+            "description": "Deletes the event tracker.",
+            "options": [
+                {
+                    "name": "--event-tracker-arn",
+                    "description": "The Amazon Resource Name (ARN) of the event tracker to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-filter",
+            "description": "Deletes a filter",
+            "options": [
+                {
+                    "name": "--filter-arn",
+                    "description": "The ARN of the filter to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-metric-attribution",
+            "description": "Deletes a metric attribution",
+            "options": [
+                {
+                    "name": "--metric-attribution-arn",
+                    "description": "The metric attribution's Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-recommender",
+            "description": "Deactivates and removes a recommender.",
+            "options": [
+                {
+                    "name": "--recommender-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recommender to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-schema",
+            "description": "Deletes a schema.",
+            "options": [
+                {
+                    "name": "--schema-arn",
+                    "description": "The Amazon Resource Name (ARN) of the schema to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-solution",
+            "description": "Deletes all versions of a solution and the Solution object itself.",
+            "options": [
+                {
+                    "name": "--solution-arn",
+                    "description": "The ARN of the solution to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-algorithm",
+            "description": "Describes the given algorithm",
+            "options": [
+                {
+                    "name": "--algorithm-arn",
+                    "description": "The Amazon Resource Name (ARN) of the algorithm to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-batch-inference-job",
+            "description": "Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations",
+            "options": [
+                {
+                    "name": "--batch-inference-job-arn",
+                    "description": "The ARN of the batch inference job to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-batch-segment-job",
+            "description": "Gets the properties of a batch segment job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate segments",
+            "options": [
+                {
+                    "name": "--batch-segment-job-arn",
+                    "description": "The ARN of the batch segment job to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-campaign",
+            "description": "Describes the given campaign, including its status.",
+            "options": [
+                {
+                    "name": "--campaign-arn",
+                    "description": "The Amazon Resource Name (ARN) of the campaign",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-data-deletion-job",
+            "description": "Describes the data deletion job created by CreateDataDeletionJob, including the job status",
+            "options": [
+                {
+                    "name": "--data-deletion-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the data deletion job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset",
+            "description": "Describes the given dataset.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset-export-job",
+            "description": "Describes the dataset export job created by CreateDatasetExportJob, including the export job status",
+            "options": [
+                {
+                    "name": "--dataset-export-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset export job to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset-group",
+            "description": "Describes the given dataset group.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset-import-job",
+            "description": "Describes the dataset import job created by CreateDatasetImportJob, including the import job status",
+            "options": [
+                {
+                    "name": "--dataset-import-job-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset import job to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-event-tracker",
+            "description": "Describes an event tracker.",
+            "options": [
+                {
+                    "name": "--event-tracker-arn",
+                    "description": "The Amazon Resource Name (ARN) of the event tracker to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-feature-transformation",
+            "description": "Describes the given feature transformation",
+            "options": [
+                {
+                    "name": "--feature-transformation-arn",
+                    "description": "The Amazon Resource Name (ARN) of the feature transformation to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-filter",
+            "description": "Describes a filter's properties",
+            "options": [
+                {
+                    "name": "--filter-arn",
+                    "description": "The ARN of the filter to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-metric-attribution",
+            "description": "Describes a metric attribution",
+            "options": [
+                {
+                    "name": "--metric-attribution-arn",
+                    "description": "The metric attribution's Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-recipe",
+            "description": "Describes a recipe.",
+            "options": [
+                {
+                    "name": "--recipe-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recipe to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-recommender",
+            "description": "Describes the given recommender, including its status.",
+            "options": [
+                {
+                    "name": "--recommender-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recommender to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-schema",
+            "description": "Describes a schema.",
+            "options": [
+                {
+                    "name": "--schema-arn",
+                    "description": "The Amazon Resource Name (ARN) of the schema to retrieve",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-solution",
+            "description": "Describes a solution.",
+            "options": [
+                {
+                    "name": "--solution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-solution-version",
+            "description": "Describes a specific version of a solution.",
+            "options": [
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-solution-metrics",
+            "description": "Gets the metrics for the specified solution version",
+            "options": [
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version for which to get metrics",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-batch-inference-jobs",
+            "description": "Gets a list of the batch inference jobs that have been performed off of a solution version",
+            "options": [
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version from which the batch inference jobs were created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token to request the next page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of batch inference job results to return in each page.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-batch-segment-jobs",
+            "description": "Gets a list of the batch segment jobs that have been performed off of a solution version that you specify",
+            "options": [
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version that the batch segment jobs used to generate batch segments",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The token to request the next page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of batch segment job results to return in each page.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-campaigns",
+            "description": "Returns a list of campaigns that use the given solution.",
+            "options": [
+                {
+                    "name": "--solution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution to list the campaigns for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListCampaigns for getting the next set of campaigns (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of campaigns to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-data-deletion-jobs",
+            "description": "Returns a list of data deletion jobs for a dataset group ordered by creation time, with the most recent first.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group to list data deletion jobs for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListDataDeletionJobs for getting the next set of jobs (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of data deletion jobs to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-export-jobs",
+            "description": "Returns a list of dataset export jobs that use the given dataset.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset to list the dataset export jobs for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListDatasetExportJobs for getting the next set of dataset export jobs (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of dataset export jobs to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-groups",
+            "description": "Returns a list of dataset groups.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of dataset groups to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-import-jobs",
+            "description": "Returns a list of dataset import jobs that use the given dataset.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of dataset import jobs to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-datasets",
+            "description": "Returns the list of datasets contained in the given dataset group.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListDatasets for getting the next set of dataset import jobs (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of datasets to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-event-trackers",
+            "description": "Returns the list of event trackers associated with the account.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The ARN of a dataset group used to filter the response",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListEventTrackers for getting the next set of event trackers (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of event trackers to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-filters",
+            "description": "Lists all filters that belong to a given dataset group",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The ARN of the dataset group that contains the filters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListFilters for getting the next set of filters (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of filters to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-metric-attribution-metrics",
+            "description": "Lists the metrics for the metric attribution",
+            "options": [
+                {
+                    "name": "--metric-attribution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the metric attribution to retrieve attributes for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Specify the pagination token from a previous request to retrieve the next page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of metrics to return in one page of results",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-metric-attributions",
+            "description": "Lists metric attributions",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The metric attributions' dataset group Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Specify the pagination token from a previous request to retrieve the next page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of metric attributions to return in one page of results",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-recipes",
+            "description": "Returns a list of available recipes.",
+            "options": [
+                {
+                    "name": "--recipe-provider",
+                    "description": "The default is SERVICE",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListRecipes for getting the next set of recipes (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of recipes to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--domain",
+                    "description": "Filters returned recipes by domain for a Domain dataset group.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-recommenders",
+            "description": "Returns a list of recommenders in a given Domain dataset group.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the Domain dataset group to list the recommenders for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListRecommenders for getting the next set of recommenders (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of recommenders to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-schemas",
+            "description": "Returns the list of schemas associated with the account.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of schemas to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-solution-versions",
+            "description": "Returns a list of solution versions for the given solution.",
+            "options": [
+                {
+                    "name": "--solution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of solution versions to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-solutions",
+            "description": "Returns a list of solutions in a given dataset group.",
+            "options": [
+                {
+                    "name": "--dataset-group-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset group",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A token returned from the previous call to ListSolutions for getting the next set of solutions (if they exist)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of solutions to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Get a list of tags attached to a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The resource's Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-recommender",
+            "description": "Starts a recommender that is INACTIVE.",
+            "options": [
+                {
+                    "name": "--recommender-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recommender to start",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-recommender",
+            "description": "Stops a recommender that is ACTIVE.",
+            "options": [
+                {
+                    "name": "--recommender-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recommender to stop",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-solution-version-creation",
+            "description": "Stops creating a solution version that is in a state of CREATE_PENDING or CREATE IN_PROGRESS.",
+            "options": [
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution version you want to stop creating",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Add a list of tags to a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The resource's Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Tags to apply to the resource.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes the specified tags that are attached to a resource.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The resource's Amazon Resource Name (ARN)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of the tags to be removed",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-campaign",
+            "description": "Updates a campaign to deploy a retrained solution version with an existing campaign, change your campaign's minProvisionedTPS, or modify your campaign's configuration.",
+            "options": [
+                {
+                    "name": "--campaign-arn",
+                    "description": "The Amazon Resource Name (ARN) of the campaign",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--solution-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of a new model to deploy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-provisioned-tps",
+                    "description": "Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--campaign-config",
+                    "description": "The configuration details of a campaign",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-dataset",
+            "description": "Update a dataset to replace its schema with a new or existing one.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset that you want to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema-arn",
+                    "description": "The Amazon Resource Name (ARN) of the new schema you want use",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-metric-attribution",
+            "description": "Updates a metric attribution",
+            "options": [
+                {
+                    "name": "--add-metrics",
+                    "description": "Add new metric attributes to the metric attribution",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--remove-metrics",
+                    "description": "Remove metric attributes from the metric attribution",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--metrics-output-config",
+                    "description": "An output config for the metric attribution",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--metric-attribution-arn",
+                    "description": "The Amazon Resource Name (ARN) for the metric attribution to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-recommender",
+            "description": "Updates the recommender to modify the recommender configuration.",
+            "options": [
+                {
+                    "name": "--recommender-arn",
+                    "description": "The Amazon Resource Name (ARN) of the recommender to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recommender-config",
+                    "description": "The configuration details of the recommender",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-solution",
+            "description": "Updates an Amazon Personalize solution to use a different automatic training configuration.",
+            "options": [
+                {
+                    "name": "--solution-arn",
+                    "description": "The Amazon Resource Name (ARN) of the solution to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--perform-auto-training",
+                    "description": "Whether the solution uses automatic training to create new solution versions (trained models)."
+                },
+                {
+                    "name": "--no-perform-auto-training",
+                    "description": "Whether the solution uses automatic training to create new solution versions (trained models)."
+                },
+                {
+                    "name": "--solution-update-config",
+                    "description": "The new configuration details of the solution",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

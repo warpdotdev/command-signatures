@@ -1,0 +1,1096 @@
+{
+    "name": "ecr-public",
+    "description": "Amazon Elastic Container Registry Public Amazon Elastic Container Registry Public (Amazon ECR Public) is a managed container image registry service.",
+    "subcommands": [
+        {
+            "name": "batch-check-layer-availability",
+            "description": "Checks the availability of one or more image layers that are within a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, associated with the public registry that contains the image layers to check.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository that's associated with the image layers to check",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--layer-digests",
+                    "description": "The digests of the image layers to check",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "batch-delete-image",
+            "description": "Deletes a list of specified images that are within a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, that's associated with the registry that contains the image to delete.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The repository in a public registry that contains the image to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-ids",
+                    "description": "A list of image ID references that correspond to images to delete.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "complete-layer-upload",
+            "description": "Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, associated with the registry where layers are uploaded.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository in a public registry to associate with the image layer",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--upload-id",
+                    "description": "The upload ID from a previous InitiateLayerUpload operation to associate with the image layer",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--layer-digests",
+                    "description": "The sha256 digest of the image layer",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-repository",
+            "description": "Creates a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--repository-name",
+                    "description": "The name to use for the repository.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--catalog-data",
+                    "description": "The details about the repository that are publicly visible in the Amazon ECR Public Gallery",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The metadata that you apply to each repository to help categorize and organize your repositories.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-repository",
+            "description": "Deletes a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry that contains the repository to delete.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--force",
+                    "description": "The force option can be used to delete a repository that contains images."
+                },
+                {
+                    "name": "--no-force",
+                    "description": "The force option can be used to delete a repository that contains images."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-repository-policy",
+            "description": "Deletes the repository policy that's associated with the specified repository",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry that contains the repository policy to delete.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository that's associated with the repository policy to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-image-tags",
+            "description": "Returns the image tag details for a repository in a public registry",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry that contains the repository where images are described.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository that contains the image tag details to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value that's returned from a previous paginated DescribeImageTags request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of repository results that's returned by DescribeImageTags in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-images",
+            "description": "Returns metadata that's related to the images in a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry that contains the repository where images are described.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The repository that contains the images to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-ids",
+                    "description": "The list of image IDs for the requested repository",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value that's returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of repository results that's returned by DescribeImages in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-registries",
+            "description": "Returns details for a public registry",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value that's returned from a previous paginated DescribeRegistries request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of repository results that's returned by DescribeRegistries in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-repositories",
+            "description": "Describes repositories that are in a public registry",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the registry that contains the repositories to be described.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-names",
+                    "description": "A list of repositories to describe.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The nextToken value that's returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of repository results that's returned by DescribeRepositories in paginated output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-authorization-token",
+            "description": "Retrieves an authorization token.",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-registry-catalog-data",
+            "description": "Retrieves catalog metadata for a public registry",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-repository-catalog-data",
+            "description": "Retrieve catalog metadata for a repository in a public registry.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the registry that contains the repositories to be described.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository to retrieve the catalog metadata for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-repository-policy",
+            "description": "Retrieves the repository policy for the specified repository",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry that contains the repository.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository with the policy to retrieve",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "initiate-layer-upload",
+            "description": "Notifies Amazon ECR that you intend to upload an image layer.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, that's associated with the registry to which you intend to upload layers.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository that you want to upload layers to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "List the tags for an Amazon ECR Public resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) that identifies the resource to list the tags for.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-image",
+            "description": "Creates or updates the image manifest and tags that are associated with an image.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, that's associated with the public registry that contains the repository where the image is put.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository where the image is put",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-manifest",
+                    "description": "The image manifest that corresponds to the image to be uploaded",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-manifest-media-type",
+                    "description": "The media type of the image manifest.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-tag",
+                    "description": "The tag to associate with the image.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-digest",
+                    "description": "The image digest of the image manifest that corresponds to the image",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-registry-catalog-data",
+            "description": "Create or update the catalog data for a public registry",
+            "options": [
+                {
+                    "name": "--display-name",
+                    "description": "The display name for a public registry.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-repository-catalog-data",
+            "description": "Creates or updates the catalog data for a repository in a public registry",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the public registry the repository is in.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository to create or update the catalog data for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--catalog-data",
+                    "description": "An object containing the catalog data for a repository.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-repository-policy",
+            "description": "Applies a repository policy to the specified public repository to control access permissions.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID that's associated with the registry that contains the repository.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository to receive the policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-text",
+                    "description": "The JSON repository policy text to apply to the repository.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--force",
+                    "description": "If the policy that you want to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation."
+                },
+                {
+                    "name": "--no-force",
+                    "description": "If the policy that you want to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Associates the specified tags to a resource with the specified resourceArn.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource to add tags to.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to add to the resource.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Deletes specified tags from a resource",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Name (ARN) of the resource to delete tags from.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The keys of the tags to be removed",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "upload-layer-part",
+            "description": "Uploads an image layer part to Amazon ECR.",
+            "options": [
+                {
+                    "name": "--registry-id",
+                    "description": "The Amazon Web Services account ID, or registry alias, that's associated with the registry that you're uploading layer parts to.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--repository-name",
+                    "description": "The name of the repository that you're uploading layer parts to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--upload-id",
+                    "description": "The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--part-first-byte",
+                    "description": "The position of the first byte of the layer part witin the overall image layer",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--part-last-byte",
+                    "description": "The position of the last byte of the layer part within the overall image layer",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--layer-part-blob",
+                    "description": "The base64-encoded layer part payload",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-login-password",
+            "description": "**To log in to an Amazon ECR public registry** Retrieves and displays an authentication token using the GetAuthorizationToken API that you can use to authenticate to an Amazon ECR public registry."
+        }
+    ]
+}

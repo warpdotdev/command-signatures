@@ -1,0 +1,4039 @@
+{
+    "name": "rekognition",
+    "description": "This is the API Reference for Amazon Rekognition Image, Amazon Rekognition Custom Labels, Amazon Rekognition Stored Video, Amazon Rekognition Streaming Video.",
+    "subcommands": [
+        {
+            "name": "associate-faces",
+            "description": "Associates one or more faces with an existing UserID.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection containing the UserID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "The ID for the existing UserID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-ids",
+                    "description": "An array of FaceIDs to associate with the UserID",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--user-match-threshold",
+                    "description": "An optional value specifying the minimum confidence in the UserID match to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the request to AssociateFaces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "compare-faces",
+            "description": "Compares a face in the source input image with each of the 100 largest faces detected in the target input image.",
+            "options": [
+                {
+                    "name": "--source-image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--target-image",
+                    "description": "The target image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--similarity-threshold",
+                    "description": "The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--quality-filter",
+                    "description": "A filter that specifies a quality bar for how much filtering is done to identify faces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--target-image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "copy-project-version",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--source-project-arn",
+                    "description": "The ARN of the source project in the trusting AWS account",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-project-version-arn",
+                    "description": "The ARN of the model version in the source project that you want to copy to a destination project",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--destination-project-arn",
+                    "description": "The ARN of the project in the trusted AWS account that you want to copy the model version to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-name",
+                    "description": "A name for the version of the model that's copied to the destination project",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "The S3 bucket and folder location where the training output for the source model version is placed",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The key-value tags to assign to the model version",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier for your AWS Key Management Service key (AWS KMS key).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-collection",
+            "description": "Creates a collection in an AWS Region.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "ID for the collection that you are creating",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the collection",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-dataset",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-source",
+                    "description": "The source files for the dataset.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--dataset-type",
+                    "description": "The type of the dataset.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--project-arn",
+                    "description": "The ARN of the Amazon Rekognition Custom Labels project to which you want to asssign the dataset",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the dataset",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-face-liveness-session",
+            "description": "This API operation initiates a Face Liveness session.",
+            "options": [
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier for your AWS Key Management Service key (AWS KMS key).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--settings",
+                    "description": "A session settings object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token is used to recognize the Face Liveness request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-project",
+            "description": "Creates a new Amazon Rekognition project.",
+            "options": [
+                {
+                    "name": "--project-name",
+                    "description": "The name of the project to create",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--feature",
+                    "description": "Specifies feature that is being customized.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--auto-update",
+                    "description": "Specifies whether automatic retraining should be attempted for the versions of the project.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the project",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-project-version",
+            "description": "Creates a new version of Amazon Rekognition project (like a Custom Labels model or a custom adapter) and begins training.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The ARN of the Amazon Rekognition project that will manage the project version you want to train",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-name",
+                    "description": "A name for the version of the project version.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "The Amazon S3 bucket location to store the results of training.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--training-data",
+                    "description": "Specifies an external manifest that the services uses to train the project version.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--testing-data",
+                    "description": "Specifies an external manifest that the service uses to test the project version.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the project version",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier for your AWS Key Management Service key (AWS KMS key).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-description",
+                    "description": "A description applied to the project version being created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--feature-config",
+                    "description": "Feature-specific configuration of the training job.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-stream-processor",
+            "description": "Creates an Amazon Rekognition stream processor that you can use to detect and recognize faces or to detect labels in a streaming video.",
+            "options": [
+                {
+                    "name": "--input",
+                    "description": "Kinesis video stream stream that provides the source streaming video.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--name",
+                    "description": "An identifier you assign to the stream processor.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--settings",
+                    "description": "Input parameters used in a streaming video analyzed by a stream processor.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The Amazon Resource Number (ARN) of the IAM role that allows access to the stream processor.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "A set of tags (key-value pairs) that you want to attach to the stream processor",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon Simple Notification Service topic to which Amazon Rekognition publishes the object detection results and completion status of a video analysis operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier for your AWS Key Management Service key (AWS KMS key).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--regions-of-interest",
+                    "description": "Specifies locations in the frames where Amazon Rekognition checks for objects or people.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--data-sharing-preference",
+                    "description": "Shows whether you are sharing data with Rekognition to improve model performance.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--stream-processor-output",
+                    "description": "Kinesis data stream stream or Amazon S3 bucket location to which Amazon Rekognition Video puts the analysis results.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-user",
+            "description": "Creates a new User within a collection specified by CollectionId.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection to which the new UserID needs to be created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "ID for the UserID to be created.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the request to CreateUser.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-collection",
+            "description": "Deletes the specified collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "ID of the collection to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-dataset",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The ARN of the Amazon Rekognition Custom Labels dataset that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-faces",
+            "description": "Deletes faces from a collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "Collection from which to remove the specific faces",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-ids",
+                    "description": "An array of face IDs to delete",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-project",
+            "description": "Deletes a Amazon Rekognition project.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The Amazon Resource Name (ARN) of the project that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-project-policy",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The Amazon Resource Name (ARN) of the project that the project policy you want to delete is attached to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-name",
+                    "description": "The name of the policy that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-revision-id",
+                    "description": "The ID of the project policy revision that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-project-version",
+            "description": "Deletes a Rekognition project model or project version, like a Amazon Rekognition Custom Labels model or a custom adapter.",
+            "options": [
+                {
+                    "name": "--project-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the project version that you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-stream-processor",
+            "description": "Deletes the stream processor identified by Name.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the stream processor you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-user",
+            "description": "Deletes the specified UserID within the collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection from which the UserID needs to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "ID for the UserID to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the request to DeleteUser.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-collection",
+            "description": "Describes the specified collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of the collection to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-dataset",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset that you want to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-project-versions",
+            "description": "Lists and describes the versions of an Amazon Rekognition project.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The Amazon Resource Name (ARN) of the project that contains the model/adapter you want to describe",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--version-names",
+                    "description": "A list of model or project version names that you want to describe.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-projects",
+            "description": "Gets information about your Rekognition projects.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more results to retrieve), Rekognition returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--project-names",
+                    "description": "A list of the projects that you want Rekognition to describe.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--features",
+                    "description": "Specifies the type of customization to filter projects by.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-stream-processor",
+            "description": "Provides information about a stream processor created by CreateStreamProcessor.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "Name of the stream processor for which you want information",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-custom-labels",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-version-arn",
+                    "description": "The ARN of the model version that you want to use.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image",
+                    "description": "Provides the input image either as bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results you want the service to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--min-confidence",
+                    "description": "Specifies the minimum confidence level for the labels to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-faces",
+            "description": "Detects faces within an image that is provided as input.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "An array of facial attributes you want to be returned.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-labels",
+            "description": "Detects instances of real-world entities within an image (JPEG or PNG) provided as input.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--max-labels",
+                    "description": "Maximum number of labels you want the service to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--min-confidence",
+                    "description": "Specifies the minimum confidence level for the labels to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--features",
+                    "description": "A list of the types of analysis to perform.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--settings",
+                    "description": "A list of the filters to be applied to returned detected labels and image properties.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-moderation-labels",
+            "description": "Detects unsafe content in a specified JPEG or PNG format image.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--min-confidence",
+                    "description": "Specifies the minimum confidence level for the labels to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--human-loop-config",
+                    "description": "Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--project-version",
+                    "description": "Identifier for the custom adapter.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-protective-equipment",
+            "description": "Detects Personal Protective Equipment (PPE) worn by people detected in an image.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The image in which you want to detect PPE on detected persons.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--summarization-attributes",
+                    "description": "An array of PPE types that you want to summarize",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "detect-text",
+            "description": "Detects text in the input image and converts it into machine-readable text.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an Amazon S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "Optional parameters that let you set the criteria that the text must meet to be included in your response",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "disassociate-faces",
+            "description": "Removes the association between a Face supplied in an array of FaceIds and the User.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection containing the UserID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "ID for the existing UserID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the request to DisassociateFaces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-ids",
+                    "description": "An array of face IDs to disassociate from the UserID",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "distribute-dataset-entries",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--datasets",
+                    "description": "The ARNS for the training dataset and test dataset that you want to use.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-celebrity-info",
+            "description": "Gets the name and additional information about a celebrity based on their Amazon Rekognition ID.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The ID for the celebrity.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-celebrity-recognition",
+            "description": "Gets the celebrity recognition results for a Amazon Rekognition Video analysis started by StartCelebrityRecognition.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Job identifier for the required celebrity recognition analysis.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more recognized celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort to use for celebrities returned in Celebrities field.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-content-moderation",
+            "description": "Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon Rekognition Video analysis started by StartContentModeration.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The identifier for the inappropriate, unwanted, or offensive content moderation job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort to use for elements in the ModerationLabelDetections array.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aggregate-by",
+                    "description": "Defines how to aggregate results of the StartContentModeration request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-face-detection",
+            "description": "Gets face detection results for a Amazon Rekognition Video analysis started by StartFaceDetection.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Unique identifier for the face detection job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more faces to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-face-liveness-session-results",
+            "description": "Retrieves the results of a specific Face Liveness session.",
+            "options": [
+                {
+                    "name": "--session-id",
+                    "description": "A unique 128-bit UUID.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-face-search",
+            "description": "Gets the face search results for Amazon Rekognition Video face search started by StartFaceSearch.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The job identifer for the search request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort to use for grouping faces in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-label-detection",
+            "description": "Gets the label detection results of a Amazon Rekognition Video analysis started by StartLabelDetection.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Job identifier for the label detection operation for which you want results returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort to use for elements in the Labels array.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aggregate-by",
+                    "description": "Defines how to aggregate the returned results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-media-analysis-job",
+            "description": "Retrieves the results for a given media analysis job.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Unique identifier for the media analysis job for which you want to retrieve results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-person-tracking",
+            "description": "Gets the path tracking results of a Amazon Rekognition Video analysis started by StartPersonTracking.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The identifier for a job that tracks persons in a video.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Sort to use for elements in the Persons array.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-segment-detection",
+            "description": "Gets the segment detection results of a Amazon Rekognition Video analysis started by StartSegmentDetection.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Job identifier for the text detection operation for which you want results returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-text-detection",
+            "description": "Gets the text detection results of a Amazon Rekognition Video analysis started by StartTextDetection.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "Job identifier for the text detection operation for which you want results returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "index-faces",
+            "description": "Detects faces in the input image and adds them to the specified collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection to which you want to add the faces that are detected in the input images",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--external-image-id",
+                    "description": "The ID you want to assign to all the faces detected in the image",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--detection-attributes",
+                    "description": "An array of facial attributes you want to be returned.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--max-faces",
+                    "description": "The maximum number of faces to index.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--quality-filter",
+                    "description": "A filter that specifies a quality bar for how much filtering is done to identify faces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-collections",
+            "description": "Returns list of collection IDs in your account.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Pagination token from the previous response",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of collection IDs to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-entries",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) for the dataset that you want to use",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--contains-labels",
+                    "description": "Specifies a label filter for the response.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--labeled",
+                    "description": "Specify true to get only the JSON Lines where the image is labeled."
+                },
+                {
+                    "name": "--no-labeled",
+                    "description": "Specify true to get only the JSON Lines where the image is labeled."
+                },
+                {
+                    "name": "--source-ref-contains",
+                    "description": "If specified, ListDatasetEntries only returns JSON Lines where the value of SourceRefContains is part of the source-ref field.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--has-errors",
+                    "description": "Specifies an error filter for the response."
+                },
+                {
+                    "name": "--no-has-errors",
+                    "description": "Specifies an error filter for the response."
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-dataset-labels",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset that you want to use",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-faces",
+            "description": "Returns metadata for faces in the specified collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "ID of the collection from which to list the faces",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more data to retrieve), Amazon Rekognition returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of faces to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "An array of user IDs to filter results with when listing faces in a collection",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-ids",
+                    "description": "An array of face IDs to filter results with when listing faces in a collection",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-media-analysis-jobs",
+            "description": "Returns a list of media analysis jobs.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Pagination token, if the previous response was incomplete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-project-policies",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The ARN of the project for which you want to list the project policies",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of results to return per paginated call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-stream-processors",
+            "description": "Gets a list of stream processors that you have created with CreateStreamProcessor",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of stream processors you want Amazon Rekognition Video to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom Labels model.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "Amazon Resource Name (ARN) of the model, collection, or stream processor that contains the tags that you want a list of",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-users",
+            "description": "Returns metadata of the User such as UserID in the specified collection.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "Maximum number of UsersID to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Pagingation token to receive the next set of UsersID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-project-policy",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-arn",
+                    "description": "The Amazon Resource Name (ARN) of the project that the project policy is attached to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-name",
+                    "description": "A name for the policy",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-revision-id",
+                    "description": "The revision ID for the Project Policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy-document",
+                    "description": "A resource policy to add to the model.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "recognize-celebrities",
+            "description": "Returns an array of celebrities recognized in the input image.",
+            "options": [
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-faces",
+            "description": "For a given input face ID, searches for matching faces in the collection the face belongs to.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "ID of the collection the face belongs to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-id",
+                    "description": "ID of a face to find matches for in the collection",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-faces",
+                    "description": "Maximum number of faces to return.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--face-match-threshold",
+                    "description": "Optional value specifying the minimum confidence in the face match to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-faces-by-image",
+            "description": "For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "ID of the collection to search",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image",
+                    "description": "The input image as base64-encoded bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--max-faces",
+                    "description": "Maximum number of faces to return.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--face-match-threshold",
+                    "description": "(Optional) Specifies the minimum confidence in the face match to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--quality-filter",
+                    "description": "A filter that specifies a quality bar for how much filtering is done to identify faces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-users",
+            "description": "Searches for UserIDs within a collection based on a FaceId or UserId.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection containing the UserID, used with a UserId or FaceId.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-id",
+                    "description": "ID for the existing User",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-id",
+                    "description": "ID for the existing face",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--user-match-threshold",
+                    "description": "Optional value that specifies the minimum confidence in the matched UserID to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--max-users",
+                    "description": "Maximum number of identities to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-users-by-image",
+            "description": "Searches for UserIDs using a supplied image.",
+            "options": [
+                {
+                    "name": "--collection-id",
+                    "description": "The ID of an existing collection containing the UserID",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image",
+                    "description": "Provides the input image either as bytes or an S3 object.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--user-match-threshold",
+                    "description": "Specifies the minimum confidence in the UserID match to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--max-users",
+                    "description": "Maximum number of UserIDs to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--quality-filter",
+                    "description": "A filter that specifies a quality bar for how much filtering is done to identify faces.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--image-bytes",
+                    "description": "The content of the image to be uploaded.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-celebrity-recognition",
+            "description": "Starts asynchronous recognition of celebrities in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video in which you want to recognize celebrities.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the celebrity recognition analysis to.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-content-moderation",
+            "description": "Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video in which you want to detect inappropriate, unwanted, or offensive content.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--min-confidence",
+                    "description": "Specifies the minimum confidence that Amazon Rekognition must have in order to return a moderated content label.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN that you want Amazon Rekognition Video to publish the completion status of the content analysis to.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-face-detection",
+            "description": "Starts asynchronous detection of faces in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video in which you want to detect faces.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the face detection operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--face-attributes",
+                    "description": "The face attributes you want returned.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-face-search",
+            "description": "Starts the asynchronous search for faces in a collection that match the faces of persons detected in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video you want to search.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--face-match-threshold",
+                    "description": "The minimum confidence in the person match to return.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--collection-id",
+                    "description": "ID of the collection that contains the faces you want to search for",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-label-detection",
+            "description": "Starts asynchronous detection of labels in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video in which you want to detect labels.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-confidence",
+                    "description": "Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--features",
+                    "description": "The features to return after video analysis.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--settings",
+                    "description": "The settings for a StartLabelDetection request.Contains the specified parameters for the label detection request of an asynchronous label analysis operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-media-analysis-job",
+            "description": "Initiates a new media analysis job.",
+            "options": [
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotency token used to prevent the accidental creation of duplicate versions.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--job-name",
+                    "description": "The name of the job.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--operations-config",
+                    "description": "Configuration options for the media analysis job to be created",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--input",
+                    "description": "Input data to be analyzed by the job",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--output-config",
+                    "description": "The Amazon S3 bucket location to store the results",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--kms-key-id",
+                    "description": "The identifier of customer managed AWS KMS key (name or ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-person-tracking",
+            "description": "Starts the asynchronous tracking of a person's path in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "The video in which you want to detect people.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the people detection operation to.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-project-version",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-version-arn",
+                    "description": "The Amazon Resource Name(ARN) of the model version that you want to start",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--min-inference-units",
+                    "description": "The minimum number of inference units to use.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-inference-units",
+                    "description": "The maximum number of inference units to use for auto-scaling the model.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-segment-detection",
+            "description": "Starts asynchronous detection of segment detection in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "Video file stored in an Amazon S3 bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the segment detection operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "Filters for technical cue or shot detection",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--segment-types",
+                    "description": "An array of segment types to detect in the video.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-stream-processor",
+            "description": "Starts processing a stream processor.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the stream processor to start processing",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--start-selector",
+                    "description": "Specifies the starting point in the Kinesis stream to start processing.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--stop-selector",
+                    "description": "Specifies when to stop processing the stream.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-text-detection",
+            "description": "Starts asynchronous detection of text in a stored video.",
+            "options": [
+                {
+                    "name": "--video",
+                    "description": "Video file stored in an Amazon S3 bucket.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--client-request-token",
+                    "description": "Idempotent token used to identify the start request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--notification-channel",
+                    "description": "The Amazon Simple Notification Service topic to which Amazon Rekognition publishes the completion status of a video analysis operation.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--job-tag",
+                    "description": "An identifier returned in the completion status published by your Amazon Simple Notification Service topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--filters",
+                    "description": "Optional parameters that let you set criteria the text must meet to be included in your response",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-project-version",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--project-version-arn",
+                    "description": "The Amazon Resource Name (ARN) of the model version that you want to stop.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "stop-stream-processor",
+            "description": "Stops a running stream processor that was created by CreateStreamProcessor",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of a stream processor created by CreateStreamProcessor",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or Custom Labels model.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to assign the tags to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The key-value tags to assign to the resource",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Removes one or more tags from an Amazon Rekognition collection, stream processor, or Custom Labels model.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "Amazon Resource Name (ARN) of the model, collection, or stream processor that you want to remove the tags from",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "A list of the tags that you want to remove",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-dataset-entries",
+            "description": "This operation applies only to Amazon Rekognition Custom Labels.",
+            "options": [
+                {
+                    "name": "--dataset-arn",
+                    "description": "The Amazon Resource Name (ARN) of the dataset that you want to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--changes",
+                    "description": "The changes that you want to make to the dataset",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-stream-processor",
+            "description": "Allows you to update a stream processor.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "Name of the stream processor that you want to update",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--settings-for-update",
+                    "description": "The stream processor settings that you want to update.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--regions-of-interest-for-update",
+                    "description": "Specifies locations in the frames where Amazon Rekognition checks for objects or people.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--data-sharing-preference-for-update",
+                    "description": "Shows whether you are sharing data with Rekognition to improve model performance.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--parameters-to-delete",
+                    "description": "A list of parameters you want to delete from the stream processor",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "wait",
+            "description": "Wait until a particular condition is satisfied.",
+            "subcommands": [
+                {
+                    "name": "project-version-running",
+                    "description": "Wait until the ProjectVersion is running.",
+                    "options": [
+                        {
+                            "name": "--project-arn",
+                            "description": "The Amazon Resource Name (ARN) of the project that contains the model/adapter you want to describe",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--version-names",
+                            "description": "A list of model or project version names that you want to describe.",
+                            "args": {
+                                "name": "list"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--max-results",
+                            "description": "The maximum number of results to return per paginated call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "project-version-training-completed",
+                    "description": "Wait until the ProjectVersion training completes.",
+                    "options": [
+                        {
+                            "name": "--project-arn",
+                            "description": "The Amazon Resource Name (ARN) of the project that contains the model/adapter you want to describe",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--version-names",
+                            "description": "A list of model or project version names that you want to describe.",
+                            "args": {
+                                "name": "list"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition returns a pagination token in the response.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--max-results",
+                            "description": "The maximum number of results to return per paginated call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

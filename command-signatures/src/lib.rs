@@ -39,6 +39,7 @@ pub fn commands() -> Vec<Signature> {
     use rayon::prelude::*;
 
     Assets::iter()
+        .filter(|path| !path.contains('/'))
         .collect_vec()
         .into_par_iter()
         .map(|path| Assets::get(&path))
@@ -155,6 +156,124 @@ mod tests {
         for name in all_signature_names() {
             signature_by_name(name).unwrap_or_else(|| panic!("{} failed to deserialize", name));
         }
+    }
+
+    fn command_from_embedded_asset(
+        name: &str,
+    ) -> Option<warp_completion_metadata::fig_types::Command> {
+        let file_path = format!("{name}.json");
+        Assets::get(&file_path).and_then(|embedded_file| {
+            let json_content = std::str::from_utf8(&embedded_file.data).ok()?;
+            serde_json::from_str(json_content).ok()
+        })
+    }
+
+    #[test]
+    fn nested_embedded_assets_match_source_json() {
+        let manifest = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        for name in ["aws/iam", "gcloud/auth"] {
+            let embedded = Assets::get(&format!("{name}.json"))
+                .unwrap_or_else(|| panic!("missing embedded asset {name}"));
+            let source = std::fs::read(manifest.join("json").join(format!("{name}.json")))
+                .unwrap_or_else(|err| panic!("read {name}: {err}"));
+            assert_eq!(
+                embedded.data.as_ref(),
+                source.as_slice(),
+                "embedded {name} must match source JSON after rust-embed compression"
+            );
+        }
+    }
+
+    fn assert_descriptions_bounded(
+        command: &warp_completion_metadata::fig_types::Command,
+        max: usize,
+        asset: &str,
+    ) {
+        if let Some(description) = &command.description {
+            assert!(
+                !description.trim().is_empty(),
+                "{asset} command description is empty"
+            );
+            assert!(
+                description.chars().count() <= max,
+                "{asset} command description exceeds {max} characters"
+            );
+        }
+        for arg in &command.args {
+            if let Some(description) = &arg.description {
+                assert!(
+                    !description.trim().is_empty() && description.chars().count() <= max,
+                    "{asset} argument description invalid"
+                );
+            }
+        }
+        for option in &command.options {
+            if let Some(description) = &option.description {
+                assert!(
+                    !description.trim().is_empty() && description.chars().count() <= max,
+                    "{asset} option description invalid"
+                );
+            }
+            for arg in &option.args {
+                if let Some(description) = &arg.description {
+                    assert!(
+                        !description.trim().is_empty() && description.chars().count() <= max,
+                        "{asset} option argument description invalid"
+                    );
+                }
+            }
+        }
+        for subcommand in &command.subcommands {
+            assert_descriptions_bounded(subcommand, max, asset);
+        }
+    }
+
+    #[test]
+    fn nested_generated_descriptions_are_bounded() {
+        const MAX: usize = 240;
+        let nested = all_signature_names()
+            .filter(|name| name.starts_with("aws/") || name.starts_with("gcloud/"))
+            .collect_vec();
+        assert!(!nested.is_empty());
+        for name in nested {
+            let command = command_from_embedded_asset(name)
+                .unwrap_or_else(|| panic!("{name} failed to deserialize"));
+            assert_descriptions_bounded(&command, MAX, name);
+        }
+    }
+
+    #[test]
+    fn nested_load_spec_assets_are_looked_up_by_slash_path() {
+        let nested = all_signature_names()
+            .filter(|name| name.contains('/'))
+            .collect_vec();
+        assert!(
+            !nested.is_empty(),
+            "expected nested loadSpec assets such as aws/* and gcloud/*"
+        );
+        for name in nested {
+            assert!(
+                signature_by_name(name).is_some(),
+                "nested loadSpec asset {name} failed to deserialize"
+            );
+        }
+    }
+
+    #[test]
+    fn all_embedded_load_spec_references_resolve() {
+        let mut issues = Vec::new();
+        for name in all_signature_names() {
+            let Some(command) = command_from_embedded_asset(name) else {
+                continue;
+            };
+            issues.extend(collect_load_spec_issues(&command, &|target: &str| {
+                command_from_embedded_asset(target)
+            }));
+        }
+        assert!(
+            issues.is_empty(),
+            "embedded loadSpec graph must have no missing targets or cycles: {issues:?}"
+        );
     }
 
     /// Ensures no unquoted '\n' can be found.

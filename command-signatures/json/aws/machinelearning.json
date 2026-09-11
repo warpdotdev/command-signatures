@@ -1,0 +1,2002 @@
+{
+    "name": "machinelearning",
+    "description": "Definition of the public APIs exposed by Amazon Machine Learning",
+    "subcommands": [
+        {
+            "name": "add-tags",
+            "description": "Adds one or more tags to an object, up to a limit of 10.",
+            "options": [
+                {
+                    "name": "--tags",
+                    "description": "The key-value pairs to use to create tags.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--resource-id",
+                    "description": "The ID of the ML object to tag.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "The type of the ML object to tag",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-batch-prediction",
+            "description": "Generates predictions for a group of observations.",
+            "options": [
+                {
+                    "name": "--batch-prediction-id",
+                    "description": "A user-supplied ID that uniquely identifies the BatchPrediction",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--batch-prediction-name",
+                    "description": "A user-supplied name or description of the BatchPrediction.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID of the MLModel that will generate predictions for the group of observations",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--batch-prediction-data-source-id",
+                    "description": "The ID of the DataSource that points to the group of observations to predict",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--output-uri",
+                    "description": "The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-data-source-from-rds",
+            "description": "Creates a DataSource object from an Amazon Relational Database Service (Amazon RDS).",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "A user-supplied ID that uniquely identifies the DataSource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source-name",
+                    "description": "A user-supplied name or description of the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--rds-data",
+                    "description": "The data specification of an Amazon RDS DataSource: DatabaseInformation - DatabaseName - The name of the Amazon RDS database.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--no-compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-data-source-from-redshift",
+            "description": "Creates a DataSource from a database hosted on an Amazon Redshift cluster.",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "A user-supplied ID that uniquely identifies the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source-name",
+                    "description": "A user-supplied name or description of the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-spec",
+                    "description": "The data specification of an Amazon Redshift DataSource: DatabaseInformation - DatabaseName - The name of the Amazon Redshift database.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--role-arn",
+                    "description": "A fully specified role Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--no-compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-data-source-from-s3",
+            "description": "Creates a DataSource object.",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "A user-supplied identifier that uniquely identifies the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source-name",
+                    "description": "A user-supplied name or description of the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-spec",
+                    "description": "The data specification of a DataSource: DataLocationS3 - The Amazon S3 location of the observation data.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--no-compute-statistics",
+                    "description": "The compute statistics for a DataSource."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-evaluation",
+            "description": "Creates a new Evaluation of an MLModel.",
+            "options": [
+                {
+                    "name": "--evaluation-id",
+                    "description": "A user-supplied ID that uniquely identifies the Evaluation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--evaluation-name",
+                    "description": "A user-supplied name or description of the Evaluation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID of the MLModel to evaluate.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--evaluation-data-source-id",
+                    "description": "The ID of the DataSource for the evaluation.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-ml-model",
+            "description": "Creates a new MLModel using the DataSource and the recipe as information sources.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "A user-supplied ID that uniquely identifies the MLModel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ml-model-name",
+                    "description": "A user-supplied name or description of the MLModel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ml-model-type",
+                    "description": "The category of supervised learning that this MLModel will address.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "A list of the training parameters in the MLModel.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--training-data-source-id",
+                    "description": "The DataSource that points to the training data",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recipe",
+                    "description": "The data recipe for creating the MLModel.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--recipe-uri",
+                    "description": "The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-realtime-endpoint",
+            "description": "Creates a real-time endpoint for the MLModel.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID assigned to the MLModel during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-batch-prediction",
+            "description": "Assigns the DELETED status to a BatchPrediction, rendering it unusable.",
+            "options": [
+                {
+                    "name": "--batch-prediction-id",
+                    "description": "A user-supplied ID that uniquely identifies the BatchPrediction",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-data-source",
+            "description": "Assigns the DELETED status to a DataSource, rendering it unusable.",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "A user-supplied ID that uniquely identifies the DataSource",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-evaluation",
+            "description": "Assigns the DELETED status to an Evaluation, rendering it unusable.",
+            "options": [
+                {
+                    "name": "--evaluation-id",
+                    "description": "A user-supplied ID that uniquely identifies the Evaluation to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-ml-model",
+            "description": "Assigns the DELETED status to an MLModel, rendering it unusable.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "A user-supplied ID that uniquely identifies the MLModel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-realtime-endpoint",
+            "description": "Deletes a real time endpoint of an MLModel",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID assigned to the MLModel during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-tags",
+            "description": "Deletes the specified tags associated with an ML object.",
+            "options": [
+                {
+                    "name": "--tag-keys",
+                    "description": "One or more tags to delete",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--resource-id",
+                    "description": "The ID of the tagged ML object.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "The type of the tagged ML object",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-batch-predictions",
+            "description": "Returns a list of BatchPrediction operations that match the search criteria in the request",
+            "options": [
+                {
+                    "name": "--filter-variable",
+                    "description": "Use one of the following variables to filter a list of BatchPrediction: CreatedAt - Sets the search criteria to the BatchPrediction creation date.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--eq",
+                    "description": "The equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--gt",
+                    "description": "The greater than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lt",
+                    "description": "The less than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ge",
+                    "description": "The greater than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--le",
+                    "description": "The less than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ne",
+                    "description": "The not equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--prefix",
+                    "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-order",
+                    "description": "A two-value parameter that determines the sequence of the resulting list of MLModels.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "An ID of the page in the paginated results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The number of pages of information to include in the result.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-data-sources",
+            "description": "Returns a list of DataSource that match the search criteria in the request",
+            "options": [
+                {
+                    "name": "--filter-variable",
+                    "description": "Use one of the following variables to filter a list of DataSource: CreatedAt - Sets the search criteria to DataSource creation dates.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--eq",
+                    "description": "The equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--gt",
+                    "description": "The greater than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lt",
+                    "description": "The less than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ge",
+                    "description": "The greater than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--le",
+                    "description": "The less than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ne",
+                    "description": "The not equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--prefix",
+                    "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-order",
+                    "description": "A two-value parameter that determines the sequence of the resulting list of DataSource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The ID of the page in the paginated results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of DataSource to include in the result",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-evaluations",
+            "description": "Returns a list of DescribeEvaluations that match the search criteria in the request",
+            "options": [
+                {
+                    "name": "--filter-variable",
+                    "description": "Use one of the following variable to filter a list of Evaluation objects: CreatedAt - Sets the search criteria to the Evaluation creation date.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--eq",
+                    "description": "The equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--gt",
+                    "description": "The greater than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lt",
+                    "description": "The less than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ge",
+                    "description": "The greater than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--le",
+                    "description": "The less than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ne",
+                    "description": "The not equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--prefix",
+                    "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-order",
+                    "description": "A two-value parameter that determines the sequence of the resulting list of Evaluation.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The ID of the page in the paginated results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The maximum number of Evaluation to include in the result",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-ml-models",
+            "description": "Returns a list of MLModel that match the search criteria in the request",
+            "options": [
+                {
+                    "name": "--filter-variable",
+                    "description": "Use one of the following variables to filter a list of MLModel: CreatedAt - Sets the search criteria to MLModel creation date.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--eq",
+                    "description": "The equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--gt",
+                    "description": "The greater than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--lt",
+                    "description": "The less than operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ge",
+                    "description": "The greater than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--le",
+                    "description": "The less than or equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ne",
+                    "description": "The not equal to operator.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--prefix",
+                    "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--sort-order",
+                    "description": "A two-value parameter that determines the sequence of the resulting list of MLModel.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "The ID of the page in the paginated results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "The number of pages of information to include in the result.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-tags",
+            "description": "Describes one or more of the tags for your Amazon ML object",
+            "options": [
+                {
+                    "name": "--resource-id",
+                    "description": "The ID of the ML object.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-type",
+                    "description": "The type of the ML object",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-batch-prediction",
+            "description": "Returns a BatchPrediction that includes detailed metadata, status, and data file information for a Batch Prediction request",
+            "options": [
+                {
+                    "name": "--batch-prediction-id",
+                    "description": "An ID assigned to the BatchPrediction at creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-data-source",
+            "description": "Returns a DataSource that includes metadata and data file information, as well as the current status of the DataSource.",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "The ID assigned to the DataSource at creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--verbose",
+                    "description": "Specifies whether the GetDataSource operation should return DataSourceSchema."
+                },
+                {
+                    "name": "--no-verbose",
+                    "description": "Specifies whether the GetDataSource operation should return DataSourceSchema."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-evaluation",
+            "description": "Returns an Evaluation that includes metadata as well as the current status of the Evaluation",
+            "options": [
+                {
+                    "name": "--evaluation-id",
+                    "description": "The ID of the Evaluation to retrieve.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-ml-model",
+            "description": "Returns an MLModel that includes detailed metadata, data source information, and the current status of the MLModel.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID assigned to the MLModel at creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--verbose",
+                    "description": "Specifies whether the GetMLModel operation should return Recipe."
+                },
+                {
+                    "name": "--no-verbose",
+                    "description": "Specifies whether the GetMLModel operation should return Recipe."
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "predict",
+            "description": "Generates a prediction for the observation using the specified ML Model.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "A unique identifier of the MLModel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--record",
+                    "description": "A map of variable name-value pairs that represent an observation",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--predict-endpoint",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-batch-prediction",
+            "description": "Updates the BatchPredictionName of a BatchPrediction.",
+            "options": [
+                {
+                    "name": "--batch-prediction-id",
+                    "description": "The ID assigned to the BatchPrediction during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--batch-prediction-name",
+                    "description": "A new user-supplied name or description of the BatchPrediction",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-data-source",
+            "description": "Updates the DataSourceName of a DataSource.",
+            "options": [
+                {
+                    "name": "--data-source-id",
+                    "description": "The ID assigned to the DataSource during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-source-name",
+                    "description": "A new user-supplied name or description of the DataSource that will replace the current description",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-evaluation",
+            "description": "Updates the EvaluationName of an Evaluation.",
+            "options": [
+                {
+                    "name": "--evaluation-id",
+                    "description": "The ID assigned to the Evaluation during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--evaluation-name",
+                    "description": "A new user-supplied name or description of the Evaluation that will replace the current content",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-ml-model",
+            "description": "Updates the MLModelName and the ScoreThreshold of an MLModel.",
+            "options": [
+                {
+                    "name": "--ml-model-id",
+                    "description": "The ID assigned to the MLModel during creation",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--ml-model-name",
+                    "description": "A user-supplied name or description of the MLModel",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--score-threshold",
+                    "description": "The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction.",
+                    "args": {
+                        "name": "float"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "wait",
+            "description": "Wait until a particular condition is satisfied.",
+            "subcommands": [
+                {
+                    "name": "batch-prediction-available",
+                    "description": "Wait until JMESPath query Results[].Status returns COMPLETED for all elements when polling with ``describe-batch-predictions``.",
+                    "options": [
+                        {
+                            "name": "--filter-variable",
+                            "description": "Use one of the following variables to filter a list of BatchPrediction: CreatedAt - Sets the search criteria to the BatchPrediction creation date.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--eq",
+                            "description": "The equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--gt",
+                            "description": "The greater than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--lt",
+                            "description": "The less than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ge",
+                            "description": "The greater than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--le",
+                            "description": "The less than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ne",
+                            "description": "The not equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--prefix",
+                            "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--sort-order",
+                            "description": "A two-value parameter that determines the sequence of the resulting list of MLModels.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "An ID of the page in the paginated results",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "The number of pages of information to include in the result.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "data-source-available",
+                    "description": "Wait until JMESPath query Results[].Status returns COMPLETED for all elements when polling with ``describe-data-sources``.",
+                    "options": [
+                        {
+                            "name": "--filter-variable",
+                            "description": "Use one of the following variables to filter a list of DataSource: CreatedAt - Sets the search criteria to DataSource creation dates.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--eq",
+                            "description": "The equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--gt",
+                            "description": "The greater than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--lt",
+                            "description": "The less than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ge",
+                            "description": "The greater than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--le",
+                            "description": "The less than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ne",
+                            "description": "The not equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--prefix",
+                            "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--sort-order",
+                            "description": "A two-value parameter that determines the sequence of the resulting list of DataSource.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "The ID of the page in the paginated results",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "The maximum number of DataSource to include in the result",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "evaluation-available",
+                    "description": "Wait until JMESPath query Results[].Status returns COMPLETED for all elements when polling with ``describe-evaluations``.",
+                    "options": [
+                        {
+                            "name": "--filter-variable",
+                            "description": "Use one of the following variable to filter a list of Evaluation objects: CreatedAt - Sets the search criteria to the Evaluation creation date.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--eq",
+                            "description": "The equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--gt",
+                            "description": "The greater than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--lt",
+                            "description": "The less than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ge",
+                            "description": "The greater than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--le",
+                            "description": "The less than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ne",
+                            "description": "The not equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--prefix",
+                            "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--sort-order",
+                            "description": "A two-value parameter that determines the sequence of the resulting list of Evaluation.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "The ID of the page in the paginated results",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "The maximum number of Evaluation to include in the result",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ml-model-available",
+                    "description": "Wait until JMESPath query Results[].Status returns COMPLETED for all elements when polling with ``describe-ml-models``.",
+                    "options": [
+                        {
+                            "name": "--filter-variable",
+                            "description": "Use one of the following variables to filter a list of MLModel: CreatedAt - Sets the search criteria to MLModel creation date.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--eq",
+                            "description": "The equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--gt",
+                            "description": "The greater than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--lt",
+                            "description": "The less than operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ge",
+                            "description": "The greater than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--le",
+                            "description": "The less than or equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--ne",
+                            "description": "The not equal to operator.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--prefix",
+                            "description": "A string that is found at the beginning of a variable, such as Name or Id.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--sort-order",
+                            "description": "A two-value parameter that determines the sequence of the resulting list of MLModel.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--next-token",
+                            "description": "The ID of the page in the paginated results",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--limit",
+                            "description": "The number of pages of information to include in the result.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--starting-token",
+                            "description": "A token to specify where to start paginating.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--page-size",
+                            "description": "The size of each page to get in the AWS service call.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--max-items",
+                            "description": "The total number of items to return in the command's output.",
+                            "args": {
+                                "name": "integer"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

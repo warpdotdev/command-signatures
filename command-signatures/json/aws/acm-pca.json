@@ -1,0 +1,1161 @@
+{
+    "name": "acm-pca",
+    "description": "This is the Amazon Web Services Private Certificate Authority API Reference.",
+    "subcommands": [
+        {
+            "name": "create-certificate-authority",
+            "description": "Creates a root or subordinate private certificate authority (CA).",
+            "options": [
+                {
+                    "name": "--certificate-authority-configuration",
+                    "description": "Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--revocation-configuration",
+                    "description": "Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--certificate-authority-type",
+                    "description": "The type of the certificate authority",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--key-storage-security-standard",
+                    "description": "Specifies a cryptographic key management compliance standard used for handling CA keys.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "Key-value pairs that will be attached to the new private CA.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--usage-mode",
+                    "description": "Specifies whether the CA issues general-purpose certificates that typically require a revocation mechanism, or short-lived certificates that may optionally omit revocation because they expire quickly.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-certificate-authority-audit-report",
+            "description": "Creates an audit report that lists every time that your CA private key is used to issue a certificate.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) of the CA to be audited.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--s3-bucket-name",
+                    "description": "The name of the S3 bucket that will contain the audit report",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--audit-report-response-format",
+                    "description": "The format in which to create the report.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-permission",
+            "description": "Grants one or more permissions on a private CA to the Certificate Manager (ACM) service principal (acm.amazonaws.com).",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) of the CA that grants the permissions.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--principal",
+                    "description": "The Amazon Web Services service or identity that receives the permission.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-account",
+                    "description": "The ID of the calling account",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--actions",
+                    "description": "The actions that the specified Amazon Web Services service principal can use.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-certificate-authority",
+            "description": "Deletes a private certificate authority (CA).",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--permanent-deletion-time-in-days",
+                    "description": "The number of days to make a CA restorable after it has been deleted.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-permission",
+            "description": "Revokes permissions on a private CA granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Number (ARN) of the private CA that issued the permissions.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--principal",
+                    "description": "The Amazon Web Services service or identity that will have its CA permissions revoked.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--source-account",
+                    "description": "The Amazon Web Services account that calls this action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-policy",
+            "description": "Deletes the resource-based policy attached to a private CA.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Number (ARN) of the private CA that will have its policy deleted.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-certificate-authority",
+            "description": "Lists information about your private certificate authority (CA) or one that has been shared with you.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-certificate-authority-audit-report",
+            "description": "Lists information about a specific audit report created by calling the CreateCertificateAuthorityAuditReport action.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) of the private CA.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--audit-report-id",
+                    "description": "The report ID returned by calling the CreateCertificateAuthorityAuditReport action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-certificate",
+            "description": "Retrieves a certificate from your private CA or one that has been shared with you.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--certificate-arn",
+                    "description": "The ARN of the issued certificate.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-certificate-authority-certificate",
+            "description": "Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) of your private CA.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-certificate-authority-csr",
+            "description": "Retrieves the certificate signing request (CSR) for your private certificate authority (CA).",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-policy",
+            "description": "Retrieves the resource-based policy attached to a private CA.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Number (ARN) of the private CA that will have its policy retrieved.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "import-certificate-authority-certificate",
+            "description": "Imports a signed private CA certificate into Amazon Web Services Private CA.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--certificate",
+                    "description": "The PEM-encoded certificate for a private CA.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--certificate-chain",
+                    "description": "A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "issue-certificate",
+            "description": "Uses your private certificate authority (CA), or one that has been shared with you, to issue a client certificate.",
+            "options": [
+                {
+                    "name": "--api-passthrough",
+                    "description": "Specifies X.509 certificate information to be included in the issued certificate.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--csr",
+                    "description": "The certificate signing request (CSR) for the certificate you want to issue.",
+                    "args": {
+                        "name": "blob"
+                    }
+                },
+                {
+                    "name": "--signing-algorithm",
+                    "description": "The name of the algorithm that will be used to sign the certificate to be issued.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--template-arn",
+                    "description": "Specifies a custom configuration template to use when issuing a certificate.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--validity",
+                    "description": "Information describing the end of the validity period of the certificate.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--validity-not-before",
+                    "description": "Information describing the start of the validity period of the certificate.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--idempotency-token",
+                    "description": "Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-certificate-authorities",
+            "description": "Lists the private certificate authorities that you created by using the CreateCertificateAuthority action",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "Use this parameter when paginating results to specify the maximum number of items to return in the response on each page.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Use this parameter when paginating results in a subsequent request after you receive a response with truncated results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--resource-owner",
+                    "description": "Use this parameter to filter the returned set of certificate authorities based on their owner.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-permissions",
+            "description": "List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service principal (acm.amazonaws.com).",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "When paginating results, use this parameter to specify the maximum number of items to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "When paginating results, use this parameter in a subsequent request after you receive a response with truncated results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Number (ARN) of the private CA to inspect.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags",
+            "description": "Lists the tags, if any, that are associated with your private CA or one that has been shared with you.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "Use this parameter when paginating results to specify the maximum number of items to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Use this parameter when paginating results in a subsequent request after you receive a response with truncated results.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-policy",
+            "description": "Attaches a resource-based policy to a private CA.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The Amazon Resource Number (ARN) of the private CA to associate with the policy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--policy",
+                    "description": "The path and file name of a JSON-formatted IAM policy to attach to the specified private CA resource.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "restore-certificate-authority",
+            "description": "Restores a certificate authority (CA) that is in the DELETED state.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "revoke-certificate",
+            "description": "Revokes a certificate that was issued inside Amazon Web Services Private CA.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--certificate-serial",
+                    "description": "Serial number of the certificate to be revoked.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--revocation-reason",
+                    "description": "Specifies why you revoked the certificate",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-certificate-authority",
+            "description": "Adds one or more tags to your private CA.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "List of tags to be associated with the CA",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-certificate-authority",
+            "description": "Remove one or more tags from your private CA.",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "List of tags to be removed from the CA",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-certificate-authority",
+            "description": "Updates the status or configuration of a private certificate authority (CA).",
+            "options": [
+                {
+                    "name": "--certificate-authority-arn",
+                    "description": "Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--revocation-configuration",
+                    "description": "Contains information to enable support for Online Certificate Status Protocol (OCSP), certificate revocation list (CRL), both protocols, or neither.",
+                    "args": {
+                        "name": "structure"
+                    }
+                },
+                {
+                    "name": "--status",
+                    "description": "Status of your private CA",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "wait",
+            "description": "Wait until a particular condition is satisfied.",
+            "subcommands": [
+                {
+                    "name": "audit-report-created",
+                    "description": "Wait until a Audit Report is created It will poll every 3 seconds until a successful state has been reached.",
+                    "options": [
+                        {
+                            "name": "--certificate-authority-arn",
+                            "description": "The Amazon Resource Name (ARN) of the private CA.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--audit-report-id",
+                            "description": "The report ID returned by calling the CreateCertificateAuthorityAuditReport action",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "certificate-authority-csr-created",
+                    "description": "Wait until a Certificate Authority CSR is created It will poll every 3 seconds until a successful state has been reached.",
+                    "options": [
+                        {
+                            "name": "--certificate-authority-arn",
+                            "description": "The Amazon Resource Name (ARN) that was returned when you called the CreateCertificateAuthority action.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "certificate-issued",
+                    "description": "Wait until a certificate is issued It will poll every 1 seconds until a successful state has been reached.",
+                    "options": [
+                        {
+                            "name": "--certificate-authority-arn",
+                            "description": "The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--certificate-arn",
+                            "description": "The ARN of the issued certificate.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--cli-input-json",
+                            "description": "Performs service operation based on the JSON string provided.",
+                            "args": {
+                                "name": "string"
+                            }
+                        },
+                        {
+                            "name": "--generate-cli-skeleton",
+                            "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                            "args": {
+                                "name": "string",
+                                "suggestions": [
+                                    "input",
+                                    "output"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,2115 @@
+{
+    "name": "asset",
+    "description": "Manage the Cloud Asset Inventory",
+    "subcommands": [
+        {
+            "name": "analyze-iam-policy",
+            "description": "Analyzes IAM policies that match a request",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--analyze-service-account-impersonation",
+                    "description": "If true, the response will include access analysis from identities to resources via service account impersonation."
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--execution-timeout",
+                    "description": "The amount of time the executable has to complete.",
+                    "args": {
+                        "name": "EXECUTION_TIMEOUT",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:ParseWithBoundsChecking"
+                    }
+                },
+                {
+                    "name": "--expand-groups",
+                    "description": "If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding."
+                },
+                {
+                    "name": "--expand-resources",
+                    "description": "If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy."
+                },
+                {
+                    "name": "--expand-roles",
+                    "description": "If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions."
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--folder",
+                    "description": "The folder ID to perform the analysis",
+                    "args": {
+                        "name": "FOLDER_ID"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--full-resource-name",
+                    "description": "The full resource name",
+                    "args": {
+                        "name": "FULL_RESOURCE_NAME"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--identity",
+                    "description": "The identity appearing in the form of members in the IAM policy binding",
+                    "args": {
+                        "name": "IDENTITY"
+                    }
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--organization",
+                    "description": "The organization ID to perform the analysis",
+                    "args": {
+                        "name": "ORGANIZATION_ID"
+                    }
+                },
+                {
+                    "name": "--output-group-edges",
+                    "description": "If true, the result will output group identity edges, starting from the binding's group members, to any expanded identities."
+                },
+                {
+                    "name": "--output-resource-edges",
+                    "description": "If true, the result will output resource edges, starting from the policy attached resource, to any expanded resources."
+                },
+                {
+                    "name": "--permissions",
+                    "description": "The permissions to appear in the result",
+                    "args": {
+                        "name": "PERMISSIONS"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--roles",
+                    "description": "The roles to appear in the result",
+                    "args": {
+                        "name": "ROLES"
+                    }
+                },
+                {
+                    "name": "--show-response",
+                    "description": "If true, the response will be showed as-is in the command output"
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "analyze-iam-policy-longrunning",
+            "description": "Analyzes IAM policies that match a request asynchronously and writes the analysis results to Google Cloud Storage or BigQuery destination",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--analyze-service-account-impersonation",
+                    "description": "If true, the response will include access analysis from identities to resources via service account impersonation."
+                },
+                {
+                    "name": "--bigquery-dataset",
+                    "description": "BigQuery dataset where the results will be written.",
+                    "args": {
+                        "name": "BIGQUERY_DATASET",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--bigquery-partition-key",
+                    "description": "This enum determines the partition key column for the bigquery tables.",
+                    "args": {
+                        "name": "BIGQUERY_PARTITION_KEY",
+                        "suggestions": [
+                            "PARTITION_KEY_UNSPECIFIED",
+                            "REQUEST_TIME"
+                        ]
+                    }
+                },
+                {
+                    "name": "--bigquery-table-prefix",
+                    "description": "The prefix of the BigQuery tables to which the analysis results will be written.",
+                    "args": {
+                        "name": "BIGQUERY_TABLE_PREFIX",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--bigquery-write-disposition",
+                    "description": "Specifies the action that occurs if the destination table or partition already exists.",
+                    "args": {
+                        "name": "BIGQUERY_WRITE_DISPOSITION"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--expand-groups",
+                    "description": "If true, the identities section of the result will expand any Google groups appearing in an IAM policy binding."
+                },
+                {
+                    "name": "--expand-resources",
+                    "description": "If true, the resource section of the result will expand any resource attached to an IAM policy to include resources lower in the resource hierarchy."
+                },
+                {
+                    "name": "--expand-roles",
+                    "description": "If true, the access section of result will expand any roles appearing in IAM policy bindings to include their permissions."
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--folder",
+                    "description": "The folder ID to perform the analysis",
+                    "args": {
+                        "name": "FOLDER_ID"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--full-resource-name",
+                    "description": "The full resource name",
+                    "args": {
+                        "name": "FULL_RESOURCE_NAME"
+                    }
+                },
+                {
+                    "name": "--gcs-output-path",
+                    "description": "Google Cloud Storage URI where the results will be written.",
+                    "args": {
+                        "name": "GCS_OUTPUT_PATH",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--identity",
+                    "description": "The identity appearing in the form of members in the IAM policy binding",
+                    "args": {
+                        "name": "IDENTITY"
+                    }
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--organization",
+                    "description": "The organization ID to perform the analysis",
+                    "args": {
+                        "name": "ORGANIZATION_ID"
+                    }
+                },
+                {
+                    "name": "--output-group-edges",
+                    "description": "If true, the result will output group identity edges, starting from the binding's group members, to any expanded identities."
+                },
+                {
+                    "name": "--output-resource-edges",
+                    "description": "If true, the result will output resource edges, starting from the policy attached resource, to any expanded resources."
+                },
+                {
+                    "name": "--permissions",
+                    "description": "The permissions to appear in the result",
+                    "args": {
+                        "name": "PERMISSIONS"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--roles",
+                    "description": "The roles to appear in the result",
+                    "args": {
+                        "name": "ROLES"
+                    }
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "export",
+            "description": "Export the cloud assets to Google Cloud Storage",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--asset-types",
+                    "description": "A list of asset types (i.e., \"compute.googleapis.com/Disk\") to take a snapshot.",
+                    "args": {
+                        "name": "ASSET_TYPES"
+                    }
+                },
+                {
+                    "name": "--bigquery-dataset",
+                    "description": "The id of the BigQuery dataset",
+                    "args": {
+                        "name": "BIGQUERY_DATASET"
+                    }
+                },
+                {
+                    "name": "--bigquery-table",
+                    "description": "ID of the table or fully qualified identifier for the table",
+                    "args": {
+                        "name": "BIGQUERY_TABLE"
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--content-type",
+                    "description": "Asset content type.",
+                    "args": {
+                        "name": "CONTENT_TYPE",
+                        "suggestions": [
+                            "resource",
+                            "iam-policy",
+                            "org-policy",
+                            "access-policy",
+                            "os-inventory"
+                        ]
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--folder",
+                    "description": "The ID of the folder which is the root asset",
+                    "args": {
+                        "name": "FOLDER_ID"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--organization",
+                    "description": "The ID of the organization which is the root asset",
+                    "args": {
+                        "name": "ORGANIZATION_ID"
+                    }
+                },
+                {
+                    "name": "--output-bigquery-force",
+                    "description": "If the destination table already exists and this flag is specified, the table will be overwritten by the contents of assets snapshot."
+                },
+                {
+                    "name": "--output-path",
+                    "description": "Google Cloud Storage URI where the results will go.",
+                    "args": {
+                        "name": "OUTPUT_PATH",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--output-path-prefix",
+                    "description": "Google Cloud Storage URI where the results will go.",
+                    "args": {
+                        "name": "OUTPUT_PATH_PREFIX",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--partition-key",
+                    "description": "If specified.",
+                    "args": {
+                        "name": "PARTITION_KEY",
+                        "description": "Googlecloudsdk.calliope.base:_ChoiceValueType",
+                        "suggestions": [
+                            "read-time",
+                            "request-time"
+                        ]
+                    }
+                },
+                {
+                    "name": "--per-asset-type",
+                    "description": "If the flag is specified, the snapshot results will be written to one or more tables, each of which contains results of one asset type"
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--snapshot-time",
+                    "description": "Timestamp to take a snapshot on assets.",
+                    "args": {
+                        "name": "SNAPSHOT_TIME",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "feeds",
+            "description": "Manage Cloud Asset Inventory feeds",
+            "subcommands": [
+                {
+                    "name": "create",
+                    "description": "Create a Cloud Asset Inventory Feed",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--asset-names",
+                            "description": "A comma-separated list of the full names of the assets to receive updates.",
+                            "args": {
+                                "name": "ASSET_NAMES"
+                            }
+                        },
+                        {
+                            "name": "--asset-types",
+                            "description": "A comma-separated list of types of the assets types to receive updates.",
+                            "args": {
+                                "name": "ASSET_TYPES"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--condition-description",
+                            "description": "Description of the feed condition.",
+                            "args": {
+                                "name": "CONDITION_DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--condition-expression",
+                            "description": "Feed condition expression.",
+                            "args": {
+                                "name": "CONDITION_EXPRESSION"
+                            }
+                        },
+                        {
+                            "name": "--condition-title",
+                            "description": "Title of the feed condition.",
+                            "args": {
+                                "name": "CONDITION_TITLE"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--content-type",
+                            "description": "Asset content type.",
+                            "args": {
+                                "name": "CONTENT_TYPE",
+                                "suggestions": [
+                                    "resource",
+                                    "iam-policy",
+                                    "org-policy",
+                                    "access-policy",
+                                    "os-inventory"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--folder",
+                            "description": "Folder of the feed",
+                            "args": {
+                                "name": "FOLDER_ID"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--organization",
+                            "description": "Organization of the feed",
+                            "args": {
+                                "name": "ORGANIZATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--pubsub-topic",
+                            "description": "Name of the Cloud Pub/Sub topic to publish to, of the form `projects/PROJECT_ID/topics/TOPIC_ID`.",
+                            "args": {
+                                "name": "PUBSUB_TOPIC"
+                            },
+                            "priority": 100
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "FEED_ID",
+                        "description": "Asset feed identifier being created, it must be unique under the specified parent resource project/folder/organization"
+                    }
+                },
+                {
+                    "name": "delete",
+                    "description": "Delete a Cloud Asset Inventory Feed",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--folder",
+                            "description": "Folder of the feed",
+                            "args": {
+                                "name": "FOLDER_ID"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--organization",
+                            "description": "Organization of the feed",
+                            "args": {
+                                "name": "ORGANIZATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "FEED_ID",
+                        "description": "Asset feed identifier to delete"
+                    }
+                },
+                {
+                    "name": "describe",
+                    "description": "Describe a Cloud Asset Inventory Feed",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--folder",
+                            "description": "Folder of the feed",
+                            "args": {
+                                "name": "FOLDER_ID"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--organization",
+                            "description": "Organization of the feed",
+                            "args": {
+                                "name": "ORGANIZATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "FEED_ID",
+                        "description": "Asset feed identifier to describe"
+                    }
+                },
+                {
+                    "name": "list",
+                    "description": "List Cloud Asset Inventory Feeds",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--folder",
+                            "description": "Folder of the feed",
+                            "args": {
+                                "name": "FOLDER_ID"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--organization",
+                            "description": "Organization of the feed",
+                            "args": {
+                                "name": "ORGANIZATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "update",
+                    "description": "Update an existing Cloud Asset Inventory Feed",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--add-asset-names",
+                            "description": "Append the given values to the current assetNames",
+                            "args": {
+                                "name": "ASSET-NAMES"
+                            }
+                        },
+                        {
+                            "name": "--add-asset-types",
+                            "description": "Append the given values to the current assetTypes",
+                            "args": {
+                                "name": "ASSET-TYPES"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--clear-asset-names",
+                            "description": "Empty the current assetNames"
+                        },
+                        {
+                            "name": "--clear-asset-types",
+                            "description": "Empty the current assetTypes"
+                        },
+                        {
+                            "name": "--clear-condition-description",
+                            "description": "Clear any existing condition description setting on the feed."
+                        },
+                        {
+                            "name": "--clear-condition-expression",
+                            "description": "Clear any existing condition expression setting on the feed."
+                        },
+                        {
+                            "name": "--clear-condition-title",
+                            "description": "Clear any existing condition title setting on the feed."
+                        },
+                        {
+                            "name": "--clear-content-type",
+                            "description": "Clear any existing content type setting on the feed."
+                        },
+                        {
+                            "name": "--condition-description",
+                            "description": "Condition description to overwrite the existing one",
+                            "args": {
+                                "name": "CONDITION_DESCRIPTION"
+                            }
+                        },
+                        {
+                            "name": "--condition-expression",
+                            "description": "Condition expression to overwrite the existing one.",
+                            "args": {
+                                "name": "CONDITION_EXPRESSION"
+                            }
+                        },
+                        {
+                            "name": "--condition-title",
+                            "description": "Condition title to overwrite the existing one",
+                            "args": {
+                                "name": "CONDITION_TITLE"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--content-type",
+                            "description": "Asset content type to overwrite the existing one.",
+                            "args": {
+                                "name": "CONTENT_TYPE",
+                                "suggestions": [
+                                    "resource",
+                                    "iam-policy",
+                                    "org-policy",
+                                    "access-policy",
+                                    "os-inventory"
+                                ]
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--folder",
+                            "description": "Folder of the feed",
+                            "args": {
+                                "name": "FOLDER_ID"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--organization",
+                            "description": "Organization of the feed",
+                            "args": {
+                                "name": "ORGANIZATION_ID"
+                            }
+                        },
+                        {
+                            "name": "--pubsub-topic",
+                            "description": "Name of the Cloud Pub/Sub topic to publish to, of the form `projects/PROJECT_ID/topics/TOPIC_ID`.",
+                            "args": {
+                                "name": "PUBSUB_TOPIC"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--remove-asset-names",
+                            "description": "Remove the given values from the current assetNames",
+                            "args": {
+                                "name": "ASSET-NAMES"
+                            }
+                        },
+                        {
+                            "name": "--remove-asset-types",
+                            "description": "Remove the given values from the current assetTypes",
+                            "args": {
+                                "name": "ASSET-TYPES"
+                            }
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "FEED_ID",
+                        "description": "Identifier of the asset feed to update, which must be unique in its parent resource."
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--project",
+                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                    "args": {
+                        "name": "PROJECT_ID"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-history",
+            "description": "Get the update history of assets that overlaps a time window",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--asset-names",
+                    "description": "A list of full names of the assets to get the history for.",
+                    "args": {
+                        "name": "ASSET_NAMES"
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--content-type",
+                    "description": "Asset content type.",
+                    "args": {
+                        "name": "CONTENT_TYPE",
+                        "suggestions": [
+                            "resource",
+                            "iam-policy",
+                            "org-policy",
+                            "access-policy",
+                            "os-inventory"
+                        ]
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--end-time",
+                    "description": "End time of the time window (exclusive) for the asset history.",
+                    "args": {
+                        "name": "END_TIME",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--organization",
+                    "description": "The ID of the organization which is the root asset",
+                    "args": {
+                        "name": "ORGANIZATION_ID"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--start-time",
+                    "description": "Start time of the time window (inclusive) for the asset history.",
+                    "args": {
+                        "name": "START_TIME",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    },
+                    "priority": 100
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "operations",
+            "description": "Manage Cloud Asset Inventory operations",
+            "subcommands": [
+                {
+                    "name": "describe",
+                    "description": "Describe a Cloud Asset Inventory operation",
+                    "options": [
+                        {
+                            "name": "--account",
+                            "description": "Google Cloud Platform user account to use for invocation.",
+                            "args": {
+                                "name": "ACCOUNT"
+                            }
+                        },
+                        {
+                            "name": "--billing-project",
+                            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                            "args": {
+                                "name": "BILLING_PROJECT"
+                            }
+                        },
+                        {
+                            "name": "--configuration",
+                            "description": "The configuration to use for this command invocation.",
+                            "args": {
+                                "name": "CONFIGURATION"
+                            }
+                        },
+                        {
+                            "name": "--flags-file",
+                            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                            "args": {
+                                "name": "YAML_FILE"
+                            }
+                        },
+                        {
+                            "name": "--flatten",
+                            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                            "args": {
+                                "name": "KEY"
+                            }
+                        },
+                        {
+                            "name": "--format",
+                            "description": "Set the format for printing command output resources.",
+                            "args": {
+                                "name": "FORMAT"
+                            }
+                        },
+                        {
+                            "name": "--help",
+                            "description": "Display detailed help"
+                        },
+                        {
+                            "name": "--impersonate-service-account",
+                            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                            "args": {
+                                "name": "SERVICE_ACCOUNT_EMAIL"
+                            }
+                        },
+                        {
+                            "name": "--log-http",
+                            "description": "Log all HTTP server requests and responses to stderr."
+                        },
+                        {
+                            "name": "--project",
+                            "description": "The Google Cloud Platform project ID to use for this invocation.",
+                            "args": {
+                                "name": "PROJECT_ID"
+                            }
+                        },
+                        {
+                            "name": "--quiet",
+                            "description": "Disable all interactive prompts when running gcloud commands."
+                        },
+                        {
+                            "name": "--trace-token",
+                            "description": "Token used to route traces of service requests for investigation of issues.",
+                            "args": {
+                                "name": "TRACE_TOKEN"
+                            }
+                        },
+                        {
+                            "name": "--user-output-enabled",
+                            "description": "Print user intended output to the console."
+                        },
+                        {
+                            "name": "--verbosity",
+                            "description": "Override the default verbosity for this command.",
+                            "args": {
+                                "name": "VERBOSITY",
+                                "suggestions": [
+                                    "debug",
+                                    "info",
+                                    "warning",
+                                    "error",
+                                    "critical",
+                                    "none"
+                                ]
+                            }
+                        }
+                    ],
+                    "args": {
+                        "name": "OPERATION_NAME",
+                        "description": "Name of the operation to describe"
+                    }
+                }
+            ],
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--project",
+                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                    "args": {
+                        "name": "PROJECT_ID"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-all-iam-policies",
+            "description": "Searches all IAM policies within the specified accessible scope, such as a project, folder or organization",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--filter",
+                    "description": "Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.",
+                    "args": {
+                        "name": "EXPRESSION"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "Maximum number of resources to list.",
+                    "args": {
+                        "name": "LIMIT",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--page-size",
+                    "description": "Some services group resource list output into pages.",
+                    "args": {
+                        "name": "PAGE_SIZE",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--project",
+                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                    "args": {
+                        "name": "PROJECT_ID"
+                    }
+                },
+                {
+                    "name": "--query",
+                    "description": "The query statement.",
+                    "args": {
+                        "name": "QUERY"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--scope",
+                    "description": "A scope can be a project, a folder, or an organization.",
+                    "args": {
+                        "name": "SCOPE"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Comma-separated list of resource field key names to sort by.",
+                    "args": {
+                        "name": "FIELD"
+                    }
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "search-all-resources",
+            "description": "Searches all Cloud resources within the specified accessible scope, such as a project, folder or organization",
+            "options": [
+                {
+                    "name": "--account",
+                    "description": "Google Cloud Platform user account to use for invocation.",
+                    "args": {
+                        "name": "ACCOUNT"
+                    }
+                },
+                {
+                    "name": "--asset-types",
+                    "description": "A list of asset types to search.",
+                    "args": {
+                        "name": "ASSET_TYPES"
+                    }
+                },
+                {
+                    "name": "--billing-project",
+                    "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+                    "args": {
+                        "name": "BILLING_PROJECT"
+                    }
+                },
+                {
+                    "name": "--configuration",
+                    "description": "The configuration to use for this command invocation.",
+                    "args": {
+                        "name": "CONFIGURATION"
+                    }
+                },
+                {
+                    "name": "--filter",
+                    "description": "Apply a Boolean filter _EXPRESSION_ to each resource item to be listed.",
+                    "args": {
+                        "name": "EXPRESSION"
+                    }
+                },
+                {
+                    "name": "--flags-file",
+                    "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+                    "args": {
+                        "name": "YAML_FILE"
+                    }
+                },
+                {
+                    "name": "--flatten",
+                    "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+                    "args": {
+                        "name": "KEY"
+                    }
+                },
+                {
+                    "name": "--format",
+                    "description": "Set the format for printing command output resources.",
+                    "args": {
+                        "name": "FORMAT"
+                    }
+                },
+                {
+                    "name": "--help",
+                    "description": "Display detailed help"
+                },
+                {
+                    "name": "--impersonate-service-account",
+                    "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+                    "args": {
+                        "name": "SERVICE_ACCOUNT_EMAIL"
+                    }
+                },
+                {
+                    "name": "--limit",
+                    "description": "Maximum number of resources to list.",
+                    "args": {
+                        "name": "LIMIT",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--log-http",
+                    "description": "Log all HTTP server requests and responses to stderr."
+                },
+                {
+                    "name": "--order-by",
+                    "description": "A comma-separated list of fields specifying the sorting order of the results.",
+                    "args": {
+                        "name": "ORDER_BY"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "Some services group resource list output into pages.",
+                    "args": {
+                        "name": "PAGE_SIZE",
+                        "description": "Googlecloudsdk.calliope.arg_parsers:Parse"
+                    }
+                },
+                {
+                    "name": "--project",
+                    "description": "The Google Cloud Platform project ID to use for this invocation.",
+                    "args": {
+                        "name": "PROJECT_ID"
+                    }
+                },
+                {
+                    "name": "--query",
+                    "description": "The query statement.",
+                    "args": {
+                        "name": "QUERY"
+                    }
+                },
+                {
+                    "name": "--quiet",
+                    "description": "Disable all interactive prompts when running gcloud commands."
+                },
+                {
+                    "name": "--scope",
+                    "description": "A scope can be a project, a folder, or an organization.",
+                    "args": {
+                        "name": "SCOPE"
+                    }
+                },
+                {
+                    "name": "--sort-by",
+                    "description": "Comma-separated list of resource field key names to sort by.",
+                    "args": {
+                        "name": "FIELD"
+                    }
+                },
+                {
+                    "name": "--trace-token",
+                    "description": "Token used to route traces of service requests for investigation of issues.",
+                    "args": {
+                        "name": "TRACE_TOKEN"
+                    }
+                },
+                {
+                    "name": "--user-output-enabled",
+                    "description": "Print user intended output to the console."
+                },
+                {
+                    "name": "--verbosity",
+                    "description": "Override the default verbosity for this command.",
+                    "args": {
+                        "name": "VERBOSITY",
+                        "suggestions": [
+                            "debug",
+                            "info",
+                            "warning",
+                            "error",
+                            "critical",
+                            "none"
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "options": [
+        {
+            "name": "--account",
+            "description": "Google Cloud Platform user account to use for invocation.",
+            "args": {
+                "name": "ACCOUNT"
+            }
+        },
+        {
+            "name": "--billing-project",
+            "description": "The Google Cloud Platform project that will be charged quota for operations performed in gcloud.",
+            "args": {
+                "name": "BILLING_PROJECT"
+            }
+        },
+        {
+            "name": "--configuration",
+            "description": "The configuration to use for this command invocation.",
+            "args": {
+                "name": "CONFIGURATION"
+            }
+        },
+        {
+            "name": "--flags-file",
+            "description": "A YAML or JSON file that specifies a *--flag*:*value* dictionary.",
+            "args": {
+                "name": "YAML_FILE"
+            }
+        },
+        {
+            "name": "--flatten",
+            "description": "Flatten _name_[] output resource slices in _KEY_ into separate records for each item in each slice.",
+            "args": {
+                "name": "KEY"
+            }
+        },
+        {
+            "name": "--format",
+            "description": "Set the format for printing command output resources.",
+            "args": {
+                "name": "FORMAT"
+            }
+        },
+        {
+            "name": "--help",
+            "description": "Display detailed help"
+        },
+        {
+            "name": "--impersonate-service-account",
+            "description": "For this gcloud invocation, all API requests will be made as the given service account instead of the currently selected account.",
+            "args": {
+                "name": "SERVICE_ACCOUNT_EMAIL"
+            }
+        },
+        {
+            "name": "--log-http",
+            "description": "Log all HTTP server requests and responses to stderr."
+        },
+        {
+            "name": "--project",
+            "description": "The Google Cloud Platform project ID to use for this invocation.",
+            "args": {
+                "name": "PROJECT_ID"
+            }
+        },
+        {
+            "name": "--quiet",
+            "description": "Disable all interactive prompts when running gcloud commands."
+        },
+        {
+            "name": "--trace-token",
+            "description": "Token used to route traces of service requests for investigation of issues.",
+            "args": {
+                "name": "TRACE_TOKEN"
+            }
+        },
+        {
+            "name": "--user-output-enabled",
+            "description": "Print user intended output to the console."
+        },
+        {
+            "name": "--verbosity",
+            "description": "Override the default verbosity for this command.",
+            "args": {
+                "name": "VERBOSITY",
+                "suggestions": [
+                    "debug",
+                    "info",
+                    "warning",
+                    "error",
+                    "critical",
+                    "none"
+                ]
+            }
+        }
+    ]
+}

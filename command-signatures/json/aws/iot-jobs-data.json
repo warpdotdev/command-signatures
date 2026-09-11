@@ -1,0 +1,283 @@
+{
+    "name": "iot-jobs-data",
+    "description": "IoT Jobs is a service that allows you to define a set of jobs — remote operations that are sent to and executed on one or more devices connected to Amazon Web Services IoT Core.",
+    "subcommands": [
+        {
+            "name": "describe-job-execution",
+            "description": "Gets details of a job execution.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The unique identifier assigned to this job when it was created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--thing-name",
+                    "description": "The thing name associated with the device the job execution is running on",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--include-job-document",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--no-include-job-document",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--execution-number",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-pending-job-executions",
+            "description": "Gets the list of all jobs for a thing that are not in a terminal status.",
+            "options": [
+                {
+                    "name": "--thing-name",
+                    "description": "The name of the thing that is executing the job",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-command-execution",
+            "description": "Using the command created with the CreateCommand API, start a command execution on a specific device",
+            "options": [
+                {
+                    "name": "--target-arn",
+                    "description": "The Amazon Resource Number (ARN) of the device where the command execution is occurring",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--command-arn",
+                    "description": "The Amazon Resource Number (ARN) of the command.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "A list of parameters that are required by the StartCommandExecution API when performing the command on a device",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--execution-timeout-seconds",
+                    "description": "Specifies the amount of time in second the device has to finish the command execution.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--client-token",
+                    "description": "The client token is used to implement idempotency.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "start-next-pending-job-execution",
+            "description": "Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.",
+            "options": [
+                {
+                    "name": "--thing-name",
+                    "description": "The name of the thing associated with the device",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status-details",
+                    "description": "A collection of name/value pairs that describe the status of the job execution.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--step-timeout-in-minutes",
+                    "description": "Specifies the amount of time this device has to finish execution of this job.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "update-job-execution",
+            "description": "Updates the status of a job execution.",
+            "options": [
+                {
+                    "name": "--job-id",
+                    "description": "The unique identifier assigned to this job when it was created",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--thing-name",
+                    "description": "The name of the thing associated with the device",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status",
+                    "description": "The new status for the job execution (IN_PROGRESS, FAILED, SUCCESS, or REJECTED).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status-details",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--step-timeout-in-minutes",
+                    "description": "Specifies the amount of time this device has to finish execution of this job.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--expected-version",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--include-job-execution-state",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--no-include-job-execution-state",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--include-job-document",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--no-include-job-document",
+                    "description": "Optional."
+                },
+                {
+                    "name": "--execution-number",
+                    "description": "Optional.",
+                    "args": {
+                        "name": "long"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

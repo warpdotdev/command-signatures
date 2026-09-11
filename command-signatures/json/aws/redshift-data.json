@@ -1,0 +1,910 @@
+{
+    "name": "redshift-data",
+    "description": "You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables.",
+    "subcommands": [
+        {
+            "name": "batch-execute-statement",
+            "description": "Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL).",
+            "options": [
+                {
+                    "name": "--client-token",
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--result-format",
+                    "description": "The data format of the result of the SQL statement.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--session-id",
+                    "description": "The session identifier of the query",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--session-keep-alive-seconds",
+                    "description": "The number of seconds to keep the session alive after the query finishes.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--sqls",
+                    "description": "One or more SQL statements to run.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--statement-name",
+                    "description": "The name of the SQL statements.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--with-event",
+                    "description": "A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run"
+                },
+                {
+                    "name": "--no-with-event",
+                    "description": "A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run"
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "cancel-statement",
+            "description": "Cancels a running query.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the SQL statement to cancel.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-statement",
+            "description": "Describes the details about a specific instance when a query was run by the Amazon Redshift Data API.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the SQL statement to describe.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "describe-table",
+            "description": "Describes the detailed information about a table from metadata in the cluster.",
+            "options": [
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--connected-database",
+                    "description": "A database name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database that contains the tables to be described.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of tables to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema",
+                    "description": "The schema that contains the table.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--table",
+                    "description": "The table name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "execute-statement",
+            "description": "Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL).",
+            "options": [
+                {
+                    "name": "--client-token",
+                    "description": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--parameters",
+                    "description": "The parameters for the SQL statement",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--result-format",
+                    "description": "The data format of the result of the SQL statement.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--session-id",
+                    "description": "The session identifier of the query",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--session-keep-alive-seconds",
+                    "description": "The number of seconds to keep the session alive after the query finishes.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--sql",
+                    "description": "The SQL statement text to run",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--statement-name",
+                    "description": "The name of the SQL statement.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--with-event",
+                    "description": "A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs"
+                },
+                {
+                    "name": "--no-with-event",
+                    "description": "A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs"
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-statement-result",
+            "description": "Fetches the temporarily cached result of an SQL statement in JSON format.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the SQL statement whose results are to be fetched.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-statement-result-v2",
+            "description": "Fetches the temporarily cached result of an SQL statement in CSV format.",
+            "options": [
+                {
+                    "name": "--id",
+                    "description": "The identifier of the SQL statement whose results are to be fetched.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-databases",
+            "description": "List the databases in a cluster.",
+            "options": [
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of databases to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-schemas",
+            "description": "Lists the schemas in a database.",
+            "options": [
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--connected-database",
+                    "description": "A database name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database that contains the schemas to list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of schemas to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema-pattern",
+                    "description": "A pattern to filter results by schema name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-statements",
+            "description": "List of SQL statements.",
+            "options": [
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of SQL statements to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--role-level",
+                    "description": "A value that filters which statements to return in the response."
+                },
+                {
+                    "name": "--no-role-level",
+                    "description": "A value that filters which statements to return in the response."
+                },
+                {
+                    "name": "--statement-name",
+                    "description": "The name of the SQL statement specified as input to BatchExecuteStatement or ExecuteStatement to identify the query.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--status",
+                    "description": "The status of the SQL statement to list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tables",
+            "description": "List the tables in a database.",
+            "options": [
+                {
+                    "name": "--cluster-identifier",
+                    "description": "The cluster identifier.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--connected-database",
+                    "description": "A database name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--database",
+                    "description": "The name of the database that contains the tables to list.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--db-user",
+                    "description": "The database user name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of tables to return in the response.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "A value that indicates the starting point for the next set of response records in a subsequent request.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--schema-pattern",
+                    "description": "A pattern to filter results by schema name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--secret-arn",
+                    "description": "The name or ARN of the secret that enables access to the database.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--table-pattern",
+                    "description": "A pattern to filter results by table name.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--workgroup-name",
+                    "description": "The serverless workgroup name or Amazon Resource Name (ARN).",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

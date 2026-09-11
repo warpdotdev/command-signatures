@@ -66,6 +66,9 @@ pub struct Signature {
     pub options: Option<Vec<Opt>>,
     pub priority: Priority,
     pub parser_directives: ParserDirectives,
+    /// Unresolved `loadSpec` target name, if this command's body lives in another spec.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub load_spec: Option<String>,
 }
 
 impl Signature {

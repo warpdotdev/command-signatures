@@ -191,6 +191,7 @@ impl CmdletHelp {
                 flags_match_unique_prefix: true,
                 always_case_insensitive: true,
             },
+            load_spec: None,
         }
     }
 }

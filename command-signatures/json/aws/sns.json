@@ -1,0 +1,1722 @@
+{
+    "name": "sns",
+    "description": "Amazon Simple Notification Service Amazon Simple Notification Service (Amazon SNS) is a web service that enables you to build distributed web-enabled applications.",
+    "subcommands": [
+        {
+            "name": "add-permission",
+            "description": "Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic whose access control policy you wish to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--label",
+                    "description": "A unique identifier for the new policy statement",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--aws-account-id",
+                    "description": "The Amazon Web Services account IDs of the users (principals) who will be given access to the specified actions.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--action-name",
+                    "description": "The action you want to allow for the specified principal(s).",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "check-if-phone-number-is-opted-out",
+            "description": "Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your Amazon Web Services account.",
+            "options": [
+                {
+                    "name": "--phone-number",
+                    "description": "The phone number for which you want to check the opt out status",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "confirm-subscription",
+            "description": "Verifies an endpoint owner's intent to receive messages by validating the token sent to the endpoint by an earlier Subscribe action.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic for which you wish to confirm a subscription",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--token",
+                    "description": "Short-lived token sent to an endpoint during the Subscribe action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--authenticate-on-unsubscribe",
+                    "description": "Disallows unauthenticated unsubscribes of the subscription.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-platform-application",
+            "description": "Creates a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile apps may register.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--platform",
+                    "description": "The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging)",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "For a list of attributes, see SetPlatformApplicationAttributes",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-platform-endpoint",
+            "description": "Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS.",
+            "options": [
+                {
+                    "name": "--platform-application-arn",
+                    "description": "PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--token",
+                    "description": "Unique identifier created by the notification service for an app on a device.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--custom-user-data",
+                    "description": "Arbitrary user data to associate with the endpoint.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "For a list of attributes, see SetEndpointAttributes",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-sms-sandbox-phone-number",
+            "description": "Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone number.",
+            "options": [
+                {
+                    "name": "--phone-number",
+                    "description": "The destination phone number to verify.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--language-code",
+                    "description": "The language to use for sending the OTP.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "create-topic",
+            "description": "Creates a topic to which notifications can be published.",
+            "options": [
+                {
+                    "name": "--name",
+                    "description": "The name of the topic you want to create.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "A map of attributes with their corresponding values.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The list of tags to add to a new topic.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--data-protection-policy",
+                    "description": "The body of the policy document you want to use for this topic.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-endpoint",
+            "description": "Deletes the endpoint for a device and mobile app from Amazon SNS.",
+            "options": [
+                {
+                    "name": "--endpoint-arn",
+                    "description": "EndpointArn of endpoint to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-platform-application",
+            "description": "Deletes a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging).",
+            "options": [
+                {
+                    "name": "--platform-application-arn",
+                    "description": "PlatformApplicationArn of platform application object to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-sms-sandbox-phone-number",
+            "description": "Deletes an Amazon Web Services account's verified or pending phone number from the SMS sandbox.",
+            "options": [
+                {
+                    "name": "--phone-number",
+                    "description": "The destination phone number to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "delete-topic",
+            "description": "Deletes a topic and all its subscriptions.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic you want to delete",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-data-protection-policy",
+            "description": "Retrieves the specified inline DataProtectionPolicy document that is stored in the specified Amazon SNS topic",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the topic whose DataProtectionPolicy you want to get.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-endpoint-attributes",
+            "description": "Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS.",
+            "options": [
+                {
+                    "name": "--endpoint-arn",
+                    "description": "EndpointArn for GetEndpointAttributes input",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-platform-application-attributes",
+            "description": "Retrieves the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging).",
+            "options": [
+                {
+                    "name": "--platform-application-arn",
+                    "description": "PlatformApplicationArn for GetPlatformApplicationAttributesInput",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-sms-attributes",
+            "description": "Returns the settings for sending SMS messages from your Amazon Web Services account.",
+            "options": [
+                {
+                    "name": "--attributes",
+                    "description": "A list of the individual attribute names, such as MonthlySpendLimit, for which you want values.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-sms-sandbox-account-status",
+            "description": "Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region.",
+            "options": [
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-subscription-attributes",
+            "description": "Returns all of the properties of a subscription",
+            "options": [
+                {
+                    "name": "--subscription-arn",
+                    "description": "The ARN of the subscription whose properties you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "get-topic-attributes",
+            "description": "Returns all of the properties of a topic.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic whose properties you want to get",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-endpoints-by-platform-application",
+            "description": "Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS.",
+            "options": [
+                {
+                    "name": "--platform-application-arn",
+                    "description": "PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-origination-numbers",
+            "description": "Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Token that the previous ListOriginationNumbers request returns",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of origination numbers to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-phone-numbers-opted-out",
+            "description": "Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-platform-applications",
+            "description": "Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging).",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-sms-sandbox-phone-numbers",
+            "description": "Lists the calling Amazon Web Services account's current verified and pending destination phone numbers in the SMS sandbox.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Token that the previous ListSMSSandboxPhoneNumbersInput request returns",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-results",
+                    "description": "The maximum number of phone numbers to return",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--page-size",
+                    "description": "The size of each page to get in the AWS service call.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-subscriptions",
+            "description": "Returns a list of the requester's subscriptions.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Token returned by the previous ListSubscriptions request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-subscriptions-by-topic",
+            "description": "Returns a list of the subscriptions to a specific topic.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic for which you wish to find subscriptions",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--next-token",
+                    "description": "Token returned by the previous ListSubscriptionsByTopic request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-tags-for-resource",
+            "description": "List all tags added to the specified Amazon SNS topic.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the topic for which to list tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "list-topics",
+            "description": "Returns a list of the requester's topics.",
+            "options": [
+                {
+                    "name": "--next-token",
+                    "description": "Token returned by the previous ListTopics request",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--starting-token",
+                    "description": "A token to specify where to start paginating.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--max-items",
+                    "description": "The total number of items to return in the command's output.",
+                    "args": {
+                        "name": "integer"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "opt-in-phone-number",
+            "description": "Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number.",
+            "options": [
+                {
+                    "name": "--phone-number",
+                    "description": "The phone number to opt in.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "publish",
+            "description": "Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn).",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The topic you want to publish to.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--target-arn",
+                    "description": "If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--phone-number",
+                    "description": "The phone number to which you want to deliver an SMS message.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message",
+                    "description": "The message you want to send.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--subject",
+                    "description": "Optional parameter to be used as the \"Subject\" line when the message is delivered to email endpoints.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message-structure",
+                    "description": "Set MessageStructure to json if you want to send a different message for each protocol.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message-attributes",
+                    "description": "Message attributes for Publish action",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--message-deduplication-id",
+                    "description": "This parameter applies only to FIFO (first-in-first-out) topics.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--message-group-id",
+                    "description": "This parameter applies only to FIFO (first-in-first-out) topics.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "publish-batch",
+            "description": "Publishes up to ten messages to the specified topic.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The Amazon resource name (ARN) of the topic you want to batch publish to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--publish-batch-request-entries",
+                    "description": "A list of PublishBatch request entries to be sent to the SNS topic",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "put-data-protection-policy",
+            "description": "Adds or updates an inline policy document that is stored in the specified Amazon SNS topic",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the topic whose DataProtectionPolicy you want to add or update.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--data-protection-policy",
+                    "description": "The JSON serialization of the topic's DataProtectionPolicy.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "remove-permission",
+            "description": "Removes a statement from a topic's access control policy.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic whose access control policy you wish to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--label",
+                    "description": "The unique label of the statement you want to remove",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-endpoint-attributes",
+            "description": "Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS.",
+            "options": [
+                {
+                    "name": "--endpoint-arn",
+                    "description": "EndpointArn used for SetEndpointAttributes action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "A map of the endpoint attributes.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-platform-application-attributes",
+            "description": "Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging).",
+            "options": [
+                {
+                    "name": "--platform-application-arn",
+                    "description": "PlatformApplicationArn for SetPlatformApplicationAttributes action",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "A map of the platform application attributes.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-sms-attributes",
+            "description": "Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports.",
+            "options": [
+                {
+                    "name": "--attributes",
+                    "description": "The default settings for sending SMS messages from your Amazon Web Services account.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-subscription-attributes",
+            "description": "Allows a subscription owner to set an attribute of the subscription to a new value",
+            "options": [
+                {
+                    "name": "--subscription-arn",
+                    "description": "The ARN of the subscription to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attribute-name",
+                    "description": "A map of attributes with their corresponding values.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attribute-value",
+                    "description": "The new value for the attribute in JSON format",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "set-topic-attributes",
+            "description": "Allows a topic owner to set an attribute of the topic to a new value.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic to modify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attribute-name",
+                    "description": "A map of attributes with their corresponding values.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attribute-value",
+                    "description": "The new value for the attribute",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "subscribe",
+            "description": "Subscribes an endpoint to an Amazon SNS topic.",
+            "options": [
+                {
+                    "name": "--topic-arn",
+                    "description": "The ARN of the topic you want to subscribe to",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--protocol",
+                    "description": "The protocol that you want to use.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--attributes",
+                    "description": "A map of attributes with their corresponding values.",
+                    "args": {
+                        "name": "map"
+                    }
+                },
+                {
+                    "name": "--return-subscription-arn",
+                    "description": "Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed."
+                },
+                {
+                    "name": "--no-return-subscription-arn",
+                    "description": "Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed."
+                },
+                {
+                    "name": "--notification-endpoint",
+                    "description": "The endpoint that you want to receive notifications.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "tag-resource",
+            "description": "Add tags to the specified Amazon SNS topic.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the topic to which to add tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tags",
+                    "description": "The tags to be added to the specified topic.",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "unsubscribe",
+            "description": "Deletes a subscription.",
+            "options": [
+                {
+                    "name": "--subscription-arn",
+                    "description": "The ARN of the subscription to be deleted",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "untag-resource",
+            "description": "Remove tags from the specified Amazon SNS topic.",
+            "options": [
+                {
+                    "name": "--resource-arn",
+                    "description": "The ARN of the topic from which to remove tags",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--tag-keys",
+                    "description": "The list of tag keys to remove from the specified topic",
+                    "args": {
+                        "name": "list"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "verify-sms-sandbox-phone-number",
+            "description": "Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account.",
+            "options": [
+                {
+                    "name": "--phone-number",
+                    "description": "The destination phone number to verify",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--one-time-password",
+                    "description": "The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--cli-input-json",
+                    "description": "Performs service operation based on the JSON string provided.",
+                    "args": {
+                        "name": "string"
+                    }
+                },
+                {
+                    "name": "--generate-cli-skeleton",
+                    "description": "Prints a JSON skeleton to standard output without sending an API request.",
+                    "args": {
+                        "name": "string",
+                        "suggestions": [
+                            "input",
+                            "output"
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
