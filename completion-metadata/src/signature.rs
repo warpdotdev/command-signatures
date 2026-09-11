@@ -91,7 +91,7 @@ impl Signature {
 /// * A single dash followed by a single character (`-h`, `-v`, etc.) is short-hand, unless the second character is also a dash.
 /// * A single dash followed by multiple characters (`-version`) is long-hand
 /// * Two dashes followed by 0 or more characters is long-hand
-fn is_short_hand_flag(name: &str) -> bool {
+pub(crate) fn is_short_hand_flag(name: &str) -> bool {
     name.len() == 2 && name.starts_with('-') && name != "--"
 }
 

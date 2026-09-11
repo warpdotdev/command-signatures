@@ -528,7 +528,7 @@ impl From<ParserDirectives> for crate::ParserDirectives {
 }
 
 /// Unescape HTML entities that Fig allows in `name` or `description` fields.
-fn html_unescape(input: String) -> String {
+pub(crate) fn html_unescape(input: String) -> String {
     match html_escape::decode_html_entities(&input) {
         // If the input is returned as-is, it contains no HTML entities so we can reuse the owned String.
         Cow::Borrowed(_) => input,
