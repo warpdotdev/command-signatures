@@ -175,6 +175,9 @@ mod pip;
 mod pkill;
 #[cfg(test)]
 mod pkill_tests;
+mod podman;
+#[cfg(test)]
+mod podman_tests;
 mod powershell;
 mod pprof;
 mod pyenv;
@@ -244,6 +247,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         pip::generator(),
         pip::pip3_generator(),
         pkill::generator(),
+        podman::generator(),
         npm::pnpm_generators(),
         pprof::generator(),
         pyenv::generator(),
