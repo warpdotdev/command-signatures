@@ -17,7 +17,7 @@ pub fn generator() -> CommandSignatureGenerators {
         )
         .add_generator(
             "get_conda_environments",
-            Generator::script(CommandBuilder::single_command("conva env list"), |output| {
+            Generator::script(CommandBuilder::single_command("conda env list"), |output| {
                 output
                     .trim()
                     .split('\n')
@@ -41,3 +41,7 @@ pub fn generator() -> CommandSignatureGenerators {
             ),
         )
 }
+
+#[cfg(test)]
+#[path = "conda_tests.rs"]
+mod tests;
