@@ -1621,6 +1621,46 @@ mod tests {
         );
     }
 
+    /// `git checkout <commit>` detaches HEAD at a commit, so the first argument must offer
+    /// commits alongside branches and tags (warpdotdev/warp#691).
+    #[cfg(feature = "embed-signatures")]
+    #[test]
+    fn test_checkout_first_argument_completes_commits() {
+        use warp_completion_metadata::ArgumentType;
+
+        let git = crate::signature_by_name("git").expect("git signature should be bundled");
+        let checkout = git
+            .subcommands()
+            .iter()
+            .find(|subcommand| subcommand.name == "checkout")
+            .expect("git should have a checkout subcommand");
+        let target = checkout
+            .arguments()
+            .first()
+            .expect("git checkout should accept a positional argument");
+
+        let generator_names: Vec<&str> = target
+            .argument_types
+            .iter()
+            .filter_map(|argument_type| match argument_type {
+                ArgumentType::Generator(name) => Some(name.0.as_str()),
+                _ => None,
+            })
+            .collect();
+        for expected in [
+            "local_branches",
+            "remote_branches",
+            "refs_remote_branches",
+            "tags",
+            "commits",
+        ] {
+            assert!(
+                generator_names.contains(&expected),
+                "git checkout's first argument should use the {expected} generator, got {generator_names:?}"
+            );
+        }
+    }
+
     #[test]
     fn test_push_refspec_tags_with_colon_prefix() {
         let command_output = "__REFSPEC_PREFIX__:\nv1.0.0\nv2.0.0";
