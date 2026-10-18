@@ -42,7 +42,7 @@ The Fig autocomplete repo at https://github.com/withfig/autocomplete/tree/master
 
 ## Step 2: Implement the Spec
 
-1. **Create the JSON spec**: `command-signatures/json/<command>.json` following Fig's completion spec schema and the reference examples.
+1. **Create the JSON spec**: `command-signatures/json/<command>.json` following Fig's completion spec schema and the reference examples. Before writing option `name` or `exclusiveOn` fields, read the ["Option aliases and exclusivity" convention](../../../README.md#option-aliases-and-exclusivity) in the root README — it defines when to group spellings into one option and how to reference aliases from `exclusiveOn`.
 2. **Create generators** (if needed): Add `command-signatures/src/generators/<command>.rs`, define a `generator()` function returning `CommandSignatureGenerators`, and register it in `generators/mod.rs`
 
 ### Platform Compatibility
