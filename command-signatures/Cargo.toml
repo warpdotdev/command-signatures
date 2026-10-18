@@ -8,6 +8,7 @@ license.workspace = true
 
 [dependencies]
 cfg-if = "1.0.0"
+clap = { version = "4", features = ["derive"] }
 itertools = "0.10.0"
 lazy_static = "1.4.0"
 log = "0.4"
@@ -19,6 +20,14 @@ serde_json = "1.0"
 serde_with = "^3.21"
 warp-completion-metadata = {path = "../completion-metadata"}
 
+[dev-dependencies]
+tempfile = "3"
+
 [features]
 default = ["embed-signatures"]
 embed-signatures = ["rayon", "rust-embed"]
+
+[[bin]]
+name = "command-signatures"
+path = "src/bin/command-signatures.rs"
+required-features = ["embed-signatures"]

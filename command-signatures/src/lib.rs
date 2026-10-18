@@ -1,10 +1,14 @@
 #[cfg(feature = "embed-signatures")]
 mod assets;
 mod generators;
+#[cfg(feature = "embed-signatures")]
+pub mod listing;
 pub mod overrides;
 pub mod powershell_autogenerator;
 
 pub use generators::dynamic_command_signature_data;
+#[cfg(feature = "embed-signatures")]
+pub use listing::{list_signatures, ListSignaturesError, SignatureSource, SignatureSummary};
 
 #[cfg(feature = "embed-signatures")]
 use assets::Assets;
