@@ -92,6 +92,7 @@ mod shortcuts;
 mod softwareupdate;
 mod sqlite3;
 mod st2;
+mod starship;
 mod stepzen;
 mod subl;
 mod sysctl;
@@ -362,6 +363,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         shortcuts::generator(),
         softwareupdate::generator(),
         st2::generator(),
+        starship::generator(),
         stepzen::generator(),
         sysctl::generator(),
         tailscale::generator(),

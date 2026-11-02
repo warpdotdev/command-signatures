@@ -1,0 +1,817 @@
+{
+    "name": "starship",
+    "description": "The cross-shell prompt for astronauts",
+    "subcommands": [
+        {
+            "name": "bug-report",
+            "description": "Create a pre-populated GitHub issue with configuration information",
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "completions",
+            "description": "Generate shell completions",
+            "args": {
+                "name": "SHELL",
+                "suggestions": [
+                    "bash",
+                    "elvish",
+                    "fish",
+                    "nushell",
+                    "powershell",
+                    "zsh"
+                ]
+            },
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "config",
+            "description": "Edit the Starship configuration",
+            "args": [
+                {
+                    "name": "NAME",
+                    "description": "Configuration key to edit",
+                    "isOptional": true
+                },
+                {
+                    "name": "VALUE",
+                    "description": "Value to set for the configuration key",
+                    "isOptional": true
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "explain",
+            "description": "Explain the currently displayed modules",
+            "options": [
+                {
+                    "name": [
+                        "-s",
+                        "--status"
+                    ],
+                    "description": "Status code of the previous command",
+                    "args": {
+                        "name": "STATUS_CODE",
+                        "description": "Signed or unsigned 32-bit integer"
+                    }
+                },
+                {
+                    "name": "--pipestatus",
+                    "description": "Exit codes of commands in the previous pipeline",
+                    "args": {
+                        "name": "PIPESTATUS"
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--terminal-width"
+                    ],
+                    "description": "Width of the interactive terminal",
+                    "args": {
+                        "name": "TERMINAL_WIDTH"
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--path"
+                    ],
+                    "description": "Path to render the prompt for",
+                    "args": {
+                        "name": "PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--logical-path"
+                    ],
+                    "description": "Logical path to render the prompt for",
+                    "args": {
+                        "name": "LOGICAL_PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--cmd-duration"
+                    ],
+                    "description": "Execution duration of the previous command in milliseconds",
+                    "args": {
+                        "name": "CMD_DURATION"
+                    }
+                },
+                {
+                    "name": [
+                        "-k",
+                        "--keymap"
+                    ],
+                    "description": "Keymap of fish, zsh, or cmd",
+                    "args": {
+                        "name": "KEYMAP"
+                    }
+                },
+                {
+                    "name": [
+                        "-j",
+                        "--jobs"
+                    ],
+                    "description": "Number of currently running jobs",
+                    "args": {
+                        "name": "JOBS"
+                    }
+                },
+                {
+                    "name": "--shlvl",
+                    "description": "Current shell nesting level",
+                    "args": {
+                        "name": "SHLVL"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "init",
+            "description": "Print the shell function used to execute Starship",
+            "args": {
+                "name": "SHELL",
+                "suggestions": [
+                    "bash",
+                    "cmd",
+                    "elvish",
+                    "fish",
+                    "ion",
+                    "nu",
+                    "powershell",
+                    "tcsh",
+                    "xonsh",
+                    "zsh"
+                ]
+            },
+            "options": [
+                {
+                    "name": "--print-full-init",
+                    "description": "Print the full shell initialization script"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "module",
+            "description": "Print a specific prompt module",
+            "args": {
+                "name": "NAME",
+                "description": "Built-in module name, or a custom module such as custom.example",
+                "isOptional": true,
+                "generatorName": "modules",
+                "skipGeneratorValidation": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-l",
+                        "--list"
+                    ],
+                    "description": "List all supported modules"
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--status"
+                    ],
+                    "description": "Status code of the previous command",
+                    "args": {
+                        "name": "STATUS_CODE",
+                        "description": "Signed or unsigned 32-bit integer"
+                    }
+                },
+                {
+                    "name": "--pipestatus",
+                    "description": "Exit codes of commands in the previous pipeline",
+                    "args": {
+                        "name": "PIPESTATUS"
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--terminal-width"
+                    ],
+                    "description": "Width of the interactive terminal",
+                    "args": {
+                        "name": "TERMINAL_WIDTH"
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--path"
+                    ],
+                    "description": "Path to render the prompt for",
+                    "args": {
+                        "name": "PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--logical-path"
+                    ],
+                    "description": "Logical path to render the prompt for",
+                    "args": {
+                        "name": "LOGICAL_PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--cmd-duration"
+                    ],
+                    "description": "Execution duration of the previous command in milliseconds",
+                    "args": {
+                        "name": "CMD_DURATION"
+                    }
+                },
+                {
+                    "name": [
+                        "-k",
+                        "--keymap"
+                    ],
+                    "description": "Keymap of fish, zsh, or cmd",
+                    "args": {
+                        "name": "KEYMAP"
+                    }
+                },
+                {
+                    "name": [
+                        "-j",
+                        "--jobs"
+                    ],
+                    "description": "Number of currently running jobs",
+                    "args": {
+                        "name": "JOBS"
+                    }
+                },
+                {
+                    "name": "--shlvl",
+                    "description": "Current shell nesting level",
+                    "args": {
+                        "name": "SHLVL"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "preset",
+            "description": "Print a preset configuration",
+            "args": {
+                "name": "NAME",
+                "description": "Preset to print",
+                "isOptional": true,
+                "generatorName": "presets"
+            },
+            "options": [
+                {
+                    "name": [
+                        "-o",
+                        "--output"
+                    ],
+                    "description": "Write the preset to a file instead of stdout",
+                    "args": {
+                        "name": "OUTPUT",
+                        "template": "filepaths"
+                    },
+                    "exclusiveOn": [
+                        "--list",
+                        "-l"
+                    ]
+                },
+                {
+                    "name": [
+                        "-f",
+                        "--force"
+                    ],
+                    "description": "Overwrite an existing output file",
+                    "dependsOn": [
+                        "--output"
+                    ]
+                },
+                {
+                    "name": [
+                        "-l",
+                        "--list"
+                    ],
+                    "description": "List all preset names",
+                    "exclusiveOn": [
+                        "--output",
+                        "-o"
+                    ]
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "print-config",
+            "description": "Print the computed Starship configuration",
+            "args": {
+                "name": "NAME",
+                "description": "Configuration keys to print",
+                "isOptional": true,
+                "isVariadic": true
+            },
+            "options": [
+                {
+                    "name": [
+                        "-d",
+                        "--default"
+                    ],
+                    "description": "Print the default configuration"
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "prompt",
+            "description": "Print the full Starship prompt",
+            "options": [
+                {
+                    "name": "--right",
+                    "description": "Print the right prompt",
+                    "exclusiveOn": [
+                        "--profile",
+                        "--continuation"
+                    ]
+                },
+                {
+                    "name": "--profile",
+                    "description": "Print the prompt for a named profile",
+                    "args": {
+                        "name": "PROFILE"
+                    },
+                    "exclusiveOn": [
+                        "--right",
+                        "--continuation"
+                    ]
+                },
+                {
+                    "name": "--continuation",
+                    "description": "Print the continuation prompt",
+                    "exclusiveOn": [
+                        "--right",
+                        "--profile"
+                    ]
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--status"
+                    ],
+                    "description": "Status code of the previous command",
+                    "args": {
+                        "name": "STATUS_CODE",
+                        "description": "Signed or unsigned 32-bit integer"
+                    }
+                },
+                {
+                    "name": "--pipestatus",
+                    "description": "Exit codes of commands in the previous pipeline",
+                    "args": {
+                        "name": "PIPESTATUS"
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--terminal-width"
+                    ],
+                    "description": "Width of the interactive terminal",
+                    "args": {
+                        "name": "TERMINAL_WIDTH"
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--path"
+                    ],
+                    "description": "Path to render the prompt for",
+                    "args": {
+                        "name": "PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--logical-path"
+                    ],
+                    "description": "Logical path to render the prompt for",
+                    "args": {
+                        "name": "LOGICAL_PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--cmd-duration"
+                    ],
+                    "description": "Execution duration of the previous command in milliseconds",
+                    "args": {
+                        "name": "CMD_DURATION"
+                    }
+                },
+                {
+                    "name": [
+                        "-k",
+                        "--keymap"
+                    ],
+                    "description": "Keymap of fish, zsh, or cmd",
+                    "args": {
+                        "name": "KEYMAP"
+                    }
+                },
+                {
+                    "name": [
+                        "-j",
+                        "--jobs"
+                    ],
+                    "description": "Number of currently running jobs",
+                    "args": {
+                        "name": "JOBS"
+                    }
+                },
+                {
+                    "name": "--shlvl",
+                    "description": "Current shell nesting level",
+                    "args": {
+                        "name": "SHLVL"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "session",
+            "description": "Generate a random session key",
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "statusline",
+            "description": "Print a statusline for a provider",
+            "args": {
+                "name": "PROVIDER",
+                "suggestions": [
+                    "claude-code"
+                ]
+            },
+            "options": [
+                {
+                    "name": "--profile",
+                    "description": "Use a named profile",
+                    "args": {
+                        "name": "PROFILE"
+                    }
+                },
+                {
+                    "name": [
+                        "-s",
+                        "--status"
+                    ],
+                    "description": "Status code of the previous command",
+                    "args": {
+                        "name": "STATUS_CODE",
+                        "description": "Signed or unsigned 32-bit integer"
+                    }
+                },
+                {
+                    "name": "--pipestatus",
+                    "description": "Exit codes of commands in the previous pipeline",
+                    "args": {
+                        "name": "PIPESTATUS"
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--terminal-width"
+                    ],
+                    "description": "Width of the interactive terminal",
+                    "args": {
+                        "name": "TERMINAL_WIDTH"
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--path"
+                    ],
+                    "description": "Path to render the prompt for",
+                    "args": {
+                        "name": "PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--logical-path"
+                    ],
+                    "description": "Logical path to render the prompt for",
+                    "args": {
+                        "name": "LOGICAL_PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--cmd-duration"
+                    ],
+                    "description": "Execution duration of the previous command in milliseconds",
+                    "args": {
+                        "name": "CMD_DURATION"
+                    }
+                },
+                {
+                    "name": [
+                        "-k",
+                        "--keymap"
+                    ],
+                    "description": "Keymap of fish, zsh, or cmd",
+                    "args": {
+                        "name": "KEYMAP"
+                    }
+                },
+                {
+                    "name": [
+                        "-j",
+                        "--jobs"
+                    ],
+                    "description": "Number of currently running jobs",
+                    "args": {
+                        "name": "JOBS"
+                    }
+                },
+                {
+                    "name": "--shlvl",
+                    "description": "Current shell nesting level",
+                    "args": {
+                        "name": "SHLVL"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "timings",
+            "description": "Print timings of all active modules",
+            "options": [
+                {
+                    "name": [
+                        "-s",
+                        "--status"
+                    ],
+                    "description": "Status code of the previous command",
+                    "args": {
+                        "name": "STATUS_CODE",
+                        "description": "Signed or unsigned 32-bit integer"
+                    }
+                },
+                {
+                    "name": "--pipestatus",
+                    "description": "Exit codes of commands in the previous pipeline",
+                    "args": {
+                        "name": "PIPESTATUS"
+                    }
+                },
+                {
+                    "name": [
+                        "-w",
+                        "--terminal-width"
+                    ],
+                    "description": "Width of the interactive terminal",
+                    "args": {
+                        "name": "TERMINAL_WIDTH"
+                    }
+                },
+                {
+                    "name": [
+                        "-p",
+                        "--path"
+                    ],
+                    "description": "Path to render the prompt for",
+                    "args": {
+                        "name": "PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-P",
+                        "--logical-path"
+                    ],
+                    "description": "Logical path to render the prompt for",
+                    "args": {
+                        "name": "LOGICAL_PATH",
+                        "template": "folders"
+                    }
+                },
+                {
+                    "name": [
+                        "-d",
+                        "--cmd-duration"
+                    ],
+                    "description": "Execution duration of the previous command in milliseconds",
+                    "args": {
+                        "name": "CMD_DURATION"
+                    }
+                },
+                {
+                    "name": [
+                        "-k",
+                        "--keymap"
+                    ],
+                    "description": "Keymap of fish, zsh, or cmd",
+                    "args": {
+                        "name": "KEYMAP"
+                    }
+                },
+                {
+                    "name": [
+                        "-j",
+                        "--jobs"
+                    ],
+                    "description": "Number of currently running jobs",
+                    "args": {
+                        "name": "JOBS"
+                    }
+                },
+                {
+                    "name": "--shlvl",
+                    "description": "Current shell nesting level",
+                    "args": {
+                        "name": "SHLVL"
+                    }
+                },
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "toggle",
+            "description": "Toggle a Starship module configuration key",
+            "args": [
+                {
+                    "name": "NAME",
+                    "description": "Name of the module to toggle",
+                    "generatorName": "modules",
+                    "skipGeneratorValidation": true
+                },
+                {
+                    "name": "VALUE",
+                    "description": "Boolean configuration key to toggle (default: disabled)",
+                    "isOptional": true,
+                    "suggestions": [
+                        "disabled"
+                    ]
+                }
+            ],
+            "options": [
+                {
+                    "name": [
+                        "-h",
+                        "--help"
+                    ],
+                    "description": "Print help"
+                }
+            ]
+        },
+        {
+            "name": "help",
+            "description": "Print help for a command",
+            "args": {
+                "name": "COMMAND",
+                "isOptional": true,
+                "isVariadic": true,
+                "suggestions": [
+                    "bug-report",
+                    "completions",
+                    "config",
+                    "explain",
+                    "init",
+                    "module",
+                    "preset",
+                    "print-config",
+                    "prompt",
+                    "session",
+                    "statusline",
+                    "timings",
+                    "toggle"
+                ]
+            }
+        }
+    ],
+    "options": [
+        {
+            "name": [
+                "-h",
+                "--help"
+            ],
+            "description": "Print help"
+        },
+        {
+            "name": [
+                "-V",
+                "--version"
+            ],
+            "description": "Print version"
+        }
+    ]
+}
