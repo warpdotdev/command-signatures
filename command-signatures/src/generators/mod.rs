@@ -194,6 +194,7 @@ mod tmuxinator;
 mod tsh;
 mod uv;
 mod vagrant;
+mod vp;
 mod yay;
 mod yc;
 
@@ -287,6 +288,7 @@ pub fn dynamic_command_signature_data() -> HashMap<String, DynamicCompletionData
         powershell::remove_variable_generator(),
         uv::generator(),
         vagrant::generator(),
+        vp::generator(),
         gcloud::gcloud_generators(),
         gcloud::gsutil_generators(),
         yay::generator(),
